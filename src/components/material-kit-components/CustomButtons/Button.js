@@ -29,10 +29,12 @@ const RegularButton = React.forwardRef((props, ref) => {
     link,
     justIcon,
     className,
+    active,
     ...rest
   } = props;
 
   const classes = makeComponentStyles();
+  const activeColor = active ? 'blue': '';
 
   const btnClasses = classNames({
     [classes.button]: true,
@@ -48,7 +50,7 @@ const RegularButton = React.forwardRef((props, ref) => {
     [className]: className
   });
   return (
-    <Button {...rest} ref={ref} className={btnClasses}>
+    <Button {...rest} ref={ref} className={btnClasses} style={{color:activeColor}}>
       {children}
     </Button>
   );
@@ -67,7 +69,8 @@ RegularButton.propTypes = {
     "twitter",
     "google",
     "github",
-    "transparent"
+    "transparent",
+    "vcColor"
   ]),
   size: PropTypes.oneOf(["sm", "lg"]),
   simple: PropTypes.bool,

@@ -3,5 +3,17 @@
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
+const sampleData = require('./src/assets/sampleData');
 
-// You can delete this file if you're not using it
+exports.createPages = ({ actions }) => {
+  const { createPage } = actions;
+  const covidResourceSubTemplate = require.resolve('./src/components/covid-resources-sub-template.js');
+  const covidResourceSubData = sampleData.sampleAppData;
+  covidResourceSubData.forEach(element => {
+    createPage({
+      path: '/covid-resources/'+element.id,
+      component: covidResourceSubTemplate,
+      context: element
+    })
+  })
+};
