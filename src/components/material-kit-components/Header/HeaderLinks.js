@@ -23,11 +23,14 @@ import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
 import Button from "../CustomButtons/Button.js";
 
+const rootPage = typeof window !== 'undefined' ? window.location.href.split('/')[3].trim().toLowerCase() : '';
+
 import styles from "../../../assets/material-kit-assets/jss/material-kit-react/components/headerLinksStyle.js";
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
+  console.log(rootPage);
   const classes = useStyles();
   return (
     <List className={classes.list}>
@@ -36,6 +39,7 @@ export default function HeaderLinks(props) {
           href="/"
           color="transparent"
           className={classes.navLink}
+          active={rootPage===''}
         >
           <HomeIcon className={classes.icons} /> Home
         </Button>
@@ -46,6 +50,7 @@ export default function HeaderLinks(props) {
           color="transparent"
           target="_blank"
           className={classes.navLink}
+          active={rootPage==='social'}
         >
           <PeopleIcon className={classes.icons} /> Social
         </Button>
@@ -55,6 +60,7 @@ export default function HeaderLinks(props) {
           href="/covid-resources"
           color="transparent"
           className={classes.navLink}
+          active={rootPage==='covid-resources'}
         >
           <LocalHospitalIcon className={classes.icons} /> COVID Resources
         </Button>
@@ -65,6 +71,7 @@ export default function HeaderLinks(props) {
           color="transparent"
           target="_blank"
           className={classes.navLink}
+          active={rootPage==='mental-health'}
         >
           <FavoriteIcon className={classes.icons} /> Mental Health
         </Button>
@@ -74,6 +81,7 @@ export default function HeaderLinks(props) {
           href="/about-us"
           color="transparent"
           className={classes.navLink}
+          active={rootPage==='about-us'}
         >
           <InfoIcon className={classes.icons} /> About Us
         </Button>
@@ -83,6 +91,7 @@ export default function HeaderLinks(props) {
           href="/contact-us"
           color="transparent"
           className={classes.navLink}
+          active={rootPage==='contact-us'}
         >
           <ContactMailIcon className={classes.icons} /> Contact Us
         </Button>

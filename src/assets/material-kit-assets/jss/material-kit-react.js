@@ -76,6 +76,7 @@ const successColor = "#4caf50";
 const infoColor = "#00acc1";
 const roseColor = "#e91e63";
 const grayColor = "#999999";
+const vcColor = "#fff8f2";
 
 const primaryBoxShadow = {
   boxShadow:
@@ -101,7 +102,6 @@ const roseBoxShadow = {
   boxShadow:
     "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(233, 30, 99, 0.4)"
 };
-
 const warningCardHeader = {
   color: "#fff",
   background: "linear-gradient(60deg, #ffa726, #fb8c00)",
@@ -195,6 +195,7 @@ export {
   infoColor,
   roseColor,
   grayColor,
+  vcColor,
   primaryBoxShadow,
   infoBoxShadow,
   successBoxShadow,
