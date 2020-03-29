@@ -6,4 +6,5 @@ const IndexPage = () => (
   <Template/>
 );
 
+
 export default IndexPage
