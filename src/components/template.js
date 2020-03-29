@@ -43,9 +43,9 @@ export default function Template(props) {
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
           {children}
+          <div style={{marginBottom: "50px"}}/>
         </div>
       </div>
-
     </div>
   );
 }
