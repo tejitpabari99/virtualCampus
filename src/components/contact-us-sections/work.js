@@ -5,10 +5,10 @@ import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 
 // core components
-import GridContainer from "../../components/material-kit-components/Grid/GridContainer.js";
-import GridItem from "../../components/material-kit-components/Grid/GridItem.js";
-import CustomInput from "../../components/material-kit-components/CustomInput/CustomInput.js";
-import Button from "../../components/material-kit-components/CustomButtons/Button.js";
+import GridContainer from "../material-kit-components/Grid/GridContainer.js";
+import GridItem from "../material-kit-components/Grid/GridItem.js";
+import CustomInput from "../material-kit-components/CustomInput/CustomInput.js";
+import Button from "../material-kit-components/CustomButtons/Button.js";
 
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 

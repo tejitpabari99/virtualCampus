@@ -29,8 +29,6 @@ export default function IndexPage() {
                 <div style={{minHeight: '30px'}}/>
             </Card>
             <div style={{minHeight: '60px'}}/>
-
-
         </Template>
     );
 }
