@@ -10,6 +10,7 @@ import { useN04TextInfoContentStyles } from '../assets/mui-treasury-assets/style
 import { useOverShadowStyles } from '../assets/mui-treasury-assets/styles/shadow/over';
 
 import Button from './material-kit-components/CustomButtons/Button.js';
+import { grayColor } from "../assets/material-kit-assets/jss/material-kit-react";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,6 +22,21 @@ const useStyles = makeStyles(() => ({
   media: {
     borderRadius: 6,
   },
+  btnStyle: {
+    display: 'inline-block', padding:7, paddingLeft: 10, paddingRight: 10, fontSize: "9px", textTransform: "uppercase",
+     backgroundColor:'#EFEFEF', margin:2, elevation:"None", boxShadow:"None",
+    "&:hover,&:focus":{
+      backgroundColor: "#d6d6d6",
+    }
+  },
+  moreBtnStyle: {
+    display: 'inline-block', padding:7, paddingLeft: 10, paddingRight: 10, fontSize: "9px", textTransform: "uppercase",
+    backgroundColor:'#EFEFEF', margin:2, elevation:"None", boxShadow:"None", color:'blue',
+    "&:hover,&:focus":{
+      backgroundColor: "#d6d6d6",
+      color:'blue'
+    }
+  }
 }));
 
 const WebCard = (props) => {
@@ -49,22 +65,12 @@ const WebCard = (props) => {
       {
         tag && (
           <div style={{display: 'inline-block', marginTop: 10}}>
-            <Button round
-                    style={{display: 'inline-block', padding:7, paddingLeft: 13,
-                      paddingRight: 13, backgroundColor:'#EFEFEF', margin:5, elevation:"None", boxShadow:"None"
-                    }}>Tag2</Button>
-            <Button round
-                    style={{display: 'inline-block', padding:7, paddingLeft: 13,
-                      paddingRight: 13, backgroundColor:'#EFEFEF', margin:5, elevation:"None", boxShadow:"None"
-                    }}>Tag2</Button>
-            <Button round
-                    style={{display: 'inline-block', padding:7, paddingLeft: 13,
-                      paddingRight: 13, backgroundColor:'#EFEFEF', margin:5, elevation:"None", boxShadow:"None"
-                    }}>Tag2</Button>
-            <Button round
-                    style={{display: 'inline-block', padding:7, paddingLeft: 13, color:'blue',
-                      paddingRight: 13, backgroundColor:'#EFEFEF', margin:5, elevation:"None", boxShadow:"None"
-                    }}>More...</Button>
+            <Button round className={styles.btnStyle}>New</Button>
+            <Button round className={styles.btnStyle}>Yord</Button>
+            <Button round className={styles.btnStyle}>Tasd</Button>
+            <Button round className={styles.btnStyle}>Hel</Button>
+            <Button round className={styles.btnStyle}>Groc</Button>
+            <Button round size={'sm'} className={styles.moreBtnStyle}>More...</Button>
           </div>
         )
       }
