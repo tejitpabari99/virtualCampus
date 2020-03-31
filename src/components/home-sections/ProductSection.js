@@ -9,12 +9,12 @@ import InfoIcon from '@material-ui/icons/Info';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 // core components
-import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
-import GridItem from "../components/material-kit-components/Grid/GridItem.js";
-import InfoArea from "../components/material-kit-components/InfoArea/InfoArea.js";
-import Button from "../components/material-kit-components/CustomButtons/Button.js";
+import GridContainer from "../material-kit-components/Grid/GridContainer.js";
+import GridItem from "../material-kit-components/Grid/GridItem.js";
+import InfoArea from "../material-kit-components/InfoArea/InfoArea.js";
+import Button from "../material-kit-components/CustomButtons/Button.js";
 
-import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPageSections/productStyle.js";
+import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPageSections/productStyle.js";
 
 const useStyles = makeStyles(styles);
 

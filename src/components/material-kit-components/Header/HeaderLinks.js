@@ -41,18 +41,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           active={rootPage===''}
         >
-          <HomeIcon className={classes.icons} /> Home
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Button
-          href="https://www.creative-tim.com/product/material-kit-react?ref=mkr-navbar"
-          color="transparent"
-          target="_blank"
-          className={classes.navLink}
-          active={rootPage==='social'}
-        >
-          <PeopleIcon className={classes.icons} /> Social
+          <HomeIcon className={classes.icons} /> Campus
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -63,17 +52,6 @@ export default function HeaderLinks(props) {
           active={rootPage==='covid-resources'}
         >
           <LocalHospitalIcon className={classes.icons} /> COVID Resources
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Button
-          href="https://www.creative-tim.com/product/material-kit-react?ref=mkr-navbar"
-          color="transparent"
-          target="_blank"
-          className={classes.navLink}
-          active={rootPage==='mental-health'}
-        >
-          <FavoriteIcon className={classes.icons} /> Mental Health
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
