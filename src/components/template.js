@@ -28,18 +28,20 @@ export default function Template(props) {
   const classes = useStyles();
   const { children } = props;
   return (
-    <div>
-      <Parallax small image={require("../assets/img/virtual-campus-graphic3.png")}></Parallax>
+    <div style={{backgroundColor:"white"}}>
+      
       <Header
-        color="white"
+        color="transparent"
         routes={dashboardRoutes}
-        leftLinks={<HeaderLinks />}
-        static
+        brand="VIRTUAL CAMPUS"
+        rightLinks={<HeaderLinks />}
+        fixed
         changeColorOnScroll={{
-          height: 400,
+          height: 100,
           color: "white"
         }}
       />
+      <Toolbar/>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
           {children}
