@@ -17,22 +17,28 @@ import HeaderLinks from "./material-kit-components/Header/HeaderLinks.js";
 
 import Card from "./material-kit-components/Card/Card.js";
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-
+const customStyle = makeStyles(() => ({
+  parallax: {
+    height: "250px",
+    backgroundPosition: "50% 25%"
+  },
+  container: {
+    padding: "50px"
+  },
+}));
 // Sections for this page
 
-const dashboardRoutes = [];
 
 const useStyles = makeStyles(styles);
 
 export default function Template(props) {
   const classes = useStyles();
+  const custStyle = customStyle();
   const { children } = props;
   return (
     <div style={{backgroundColor:"white"}}>
-      
       <Header
         color="transparent"
-        routes={dashboardRoutes}
         brand="VIRTUAL CAMPUS"
         rightLinks={<HeaderLinks />}
         fixed
@@ -41,9 +47,11 @@ export default function Template(props) {
           color: "white"
         }}
       />
-      <Toolbar/>
+      <Parallax className={custStyle.parallax} small image={require("../assets/img/columbia_night.jpg")}>
+        <div style={{height:"250px", width:"100%", backgroundColor:"#00000080"}}/>
+      </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <div className={classes.container}>
+        <div className={classNames(classes.container)} style={{paddingTop: "50px"}}>
           {children}
           <div style={{marginBottom: "50px"}}/>
         </div>

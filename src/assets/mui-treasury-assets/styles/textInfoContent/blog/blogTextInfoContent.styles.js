@@ -12,11 +12,11 @@ export default ({ spacing }) => {
     heading: {
       fontSize: 20,
       fontWeight: 'bold',
-      marginBottom: '0.35em',
+      // marginBottom: '0.35em',
       fontFamily: family,
     },
     body: {
-      marginBottom: spacing(2),
+      // marginBottom: spacing(2),
       fontSize: '0.8rem',
       letterSpacing: '0.00938em',
       fontFamily: family,
