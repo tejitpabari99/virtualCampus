@@ -7,6 +7,7 @@ import GridContainer from "../components/material-kit-components/Grid/GridContai
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import im from "../assets/img/samaritan-temp.png"
 import sampleAppData from "../assets/sampleData.js";
+import CustomCard1 from "../components/CustomCard1";
 
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import {makeStyles} from "@material-ui/core/styles";
@@ -28,15 +29,12 @@ export default function CovidResource() {
     <Template>
       <div className={classNames(classes.section, contStyle.container)}>
         <GridContainer>
-          {sampleAppData.sampleShortAppData.map((d) => {
+          {sampleAppData.sampleCOVIDresourcesData.map((ele) => {
             return (
               <GridItem xs={12} sm={6} md={4} className={contStyle.gridEle}>
-                <WebCard
-                  imageURL={d.imageURL}
-                  title={d.title}
-                  description={d.blurb}
-                  btnText={'Read More'}
-                  btnID={d.id}
+                <CustomCard1 imgURL={ele.imgURL}
+                             title={ele.id}
+                             linkURL={'/covid-resources/'+ele.id.toString().toLowerCase()}
                 />
               </GridItem>
             )
@@ -47,3 +45,17 @@ export default function CovidResource() {
     </Template>
     )
 };
+
+// {sampleAppData.sampleShortAppData.map((d) => {
+//   return (
+//     <GridItem xs={12} sm={6} md={4} className={contStyle.gridEle}>
+//       <WebCard
+//         imageURL={d.imageURL}
+//         title={d.title}
+//         description={d.blurb}
+//         btnText={'Read More'}
+//         btnID={d.id}
+//       />
+//     </GridItem>
+//   )
+// })}

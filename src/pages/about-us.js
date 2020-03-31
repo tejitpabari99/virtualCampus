@@ -8,8 +8,7 @@ import CardBody from "../components/material-kit-components/Card/CardBody.js";
 
 import lionbase from "../assets/img/lionbase.png";
 
-import TeamSection from "./about-us-sections/team.js";
-import CardFooter from "../components/material-kit-components/Card/CardFooter";
+import TeamSection from "../components/about-us-sections/team.js";
 
 export default function IndexPage() {
     return (
