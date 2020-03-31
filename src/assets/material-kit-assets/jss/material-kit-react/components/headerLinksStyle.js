@@ -12,7 +12,6 @@ const headerLinksStyle = theme => ({
     paddingTop: "0",
     paddingBottom: "0",
     color: "inherit",
-    justifyContent : 'space-between'
   },
   listItem: {
     float: "left",
@@ -21,8 +20,7 @@ const headerLinksStyle = theme => ({
     display: "block",
     width: "auto",
     margin: "0",
-    paddingLeft: "15px",
-    paddingRight: "15px",
+    padding:"0",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       "&:after": {
