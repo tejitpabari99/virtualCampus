@@ -58,15 +58,8 @@ export default function WorkSection() {
               />
               <div className="form-group form-file-upload form-file-multiple">
                 <input type="file" multiple="" className="inputFileHidden"/>
-                  <div className="input-group">
-                    <input type="text" className="form-control inputFileVisible" placeholder="Single File"/>
-                    <span className="input-group-btn">
-                      <button type="button" className="btn btn-fab btn-round btn-primary">
-                        <i className="material-icons">attach_file</i>
-                      </button>
-                    </span>
-                  </div>
               </div>
+
               <GridContainer justify="center">
                 <GridItem xs={12} sm={12} md={4} className={classes.textCenter}>
                   <Button color="primary">Send Message</Button>
