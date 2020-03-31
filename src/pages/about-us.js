@@ -1,15 +1,11 @@
 import React from "react"
 import Template from "../components/template";
-import Timeline from "@material-ui/icons/Timeline";
-import Info from "@material-ui/icons/Info";
-import InfoArea from "../components/material-kit-components/InfoArea/InfoArea.js";
 import Card from "../components/material-kit-components/Card/Card.js";
 import CardBody from "../components/material-kit-components/Card/CardBody.js";
 
 import lionbase from "../assets/img/lionbase.png";
 
 import TeamSection from "./about-us-sections/team.js";
-import CardFooter from "../components/material-kit-components/Card/CardFooter";
 
 export default function IndexPage() {
     return (
@@ -20,7 +16,6 @@ export default function IndexPage() {
                     <h3><strong>About Us</strong></h3>
                     <div style={{minHeight: '10px'}}/>
                     <div>
-                        <i className = "fab fa-twitter"/>
                         Virtual Campus is an inclusive, vibrant hub of Columbia student voices designed to address the
                         need for community during the COVID-19 pandemic. <br/><br/>
 
@@ -60,17 +55,13 @@ export default function IndexPage() {
                     <div style={{minHeight: '10px'}}/>
                     <div>
                         Join us April 4-6 for a three-day design challenge to discover, design, and build solutions for
-                        the
-                        challenges of remote living. Being remote poses big challenges to mental health, motivation,
-                        concentration,
-                        and seeking help. Many of us worry about the present as well as the near and far-term
-                        future.<br/><br/>
+                        the challenges of remote living. Being remote poses big challenges to mental health, motivation,
+                        concentration, and seeking help. Many of us worry about the present as well as the near and
+                        far-term future.<br/><br/>
 
                         Students from all majors are welcome to participate. No experience necessary. We have faculty
-                        and student
-                        mentors to help you get your ideas off the ground. If you have an idea for an app, we can
-                        connect you to
-                        students eager to build things.<br/><br/>
+                        and student mentors to help you get your ideas off the ground. If you have an idea for an app,
+                        we can connect you to students eager to build things.<br/><br/>
 
                         To learn more about the website, check out our group: <a
                         href="https://bit.ly/virtual-campus-group">https://bit.ly/virtual-campus-group</a><br/>
