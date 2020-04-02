@@ -5,8 +5,7 @@ import Button from "../components/material-kit-components/CustomButtons/Button.j
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import Parallax from "../components/material-kit-components/Parallax/Parallax.js";
-
-import ProductSection from "../components/home-sections/ProductSection.js";
+import HomeDescription from '../components/home-sections/HomeDescription'
 import CustomHeader from "../components/CustomHeader";
 import CategoriesSection from '../components/home-sections/CategoriesSection'
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
@@ -57,8 +56,14 @@ export default function IndexPage() {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container} id="explore">
-          <ProductSection/>
+          <HomeDescription/>
           <CategoriesSection />
+            <h5 className={classes.description}>
+              Look out for the Virtual Campus Design Challenge 2020 coming up online from April 4th to April 6th, 2020 open to all Columbia/Barnard students.
+              To learn more about it and join, visit our <a href="https://www.facebook.com/events/1020511525011664/">Facebook group</a> and join our <a href=" http://bit.ly/virtual-campus-resources ">Slack channel</a>.
+              Please contact us if you have any more questions.
+              We expect to have many more amazing projects and resources on the website after that time.
+            </h5>
           <div style={{marginBottom: "50px"}}/>
         </div>
       </div>

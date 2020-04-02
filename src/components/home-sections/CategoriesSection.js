@@ -35,5 +35,6 @@ export default function CategoriesSection() {
         )
       })}
     </GridContainer>
+
   )
 }
