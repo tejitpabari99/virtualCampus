@@ -23,7 +23,7 @@ import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
 import Button from "../CustomButtons/Button.js";
 
-const rootPage = typeof window !== 'undefined' ? window.location.href.split('/')[3].trim().toLowerCase() : '';
+const rootPage = typeof window !== 'undefined' ? window.location.href.split('/')[3].split('#')[0].trim().toLowerCase() : '';
 
 import styles from "../../../assets/material-kit-assets/jss/material-kit-react/components/headerLinksStyle.js";
 
@@ -42,16 +42,6 @@ export default function HeaderLinks(props) {
           active={rootPage===''}
         >
           <HomeIcon className={classes.icons} /> Campus
-        </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Button
-          href="/covid-resources"
-          color="transparent"
-          className={classes.navLink}
-          active={rootPage==='covid-resources'}
-        >
-          <LocalHospitalIcon className={classes.icons} /> COVID Resources
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>

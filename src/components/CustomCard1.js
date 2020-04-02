@@ -15,7 +15,6 @@ const styles = {
     padding: 0,
     borderRadius: 0,
     height: '40vh',
-    minHeight: '40vh',
     [theme.breakpoints.down('sm')]: {
       width: '100% !important',
       height: 100,
