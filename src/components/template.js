@@ -36,7 +36,7 @@ export default function Template(props) {
   const custStyle = customStyle();
   const { children } = props;
   return (
-    <div style={{backgroundColor:"white"}}>
+    <div style={{backgroundColor:"white", minHeight: window.innerHeight}}>
       <Header
         color="transparent"
         brand="VIRTUAL CAMPUS"

@@ -8,7 +8,7 @@ import Parallax from "../components/material-kit-components/Parallax/Parallax.js
 
 import ProductSection from "../components/home-sections/ProductSection.js";
 import CustomHeader from "../components/CustomHeader";
-
+import CategoriesSection from '../components/home-sections/CategoriesSection'
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import {makeStyles} from "@material-ui/core/styles";
 if (typeof window !== "undefined") {require("smooth-scroll")('a[href*="#"]')}
@@ -58,6 +58,7 @@ export default function IndexPage() {
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container} id="explore">
           <ProductSection/>
+          <CategoriesSection />
           <div style={{marginBottom: "50px"}}/>
         </div>
       </div>
