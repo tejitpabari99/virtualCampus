@@ -7,41 +7,75 @@ import CustomCard2 from "./CustomCard2";
 
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/profilePage.js";
 import {makeStyles} from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "gatsby";
 const useStyles = makeStyles(styles);
 const containerStyles = makeStyles(() => ({
   container: {
     paddingTop: "20px"
   },
   gridEle: {
-    marginBottom: "30px"
-  }
+    marginBottom: "40px",
+    marginTop: 5
+  },
+  title: {
+    textTransform: "capitalize",
+    display: 'inline-block'
+  },
 }));
 
-export default function CovidResource({pageContext}) {
-  const data = pageContext[0];
-  const classes = useStyles();
+const resolveData = function(data) {
   const contStyle = containerStyles();
   return (
+    <GridItem xs={6} sm={4} md={3} className={contStyle.gridEle}>
+      <CustomCard2
+        website={data.website || data.facebook || data.instagram }
+        imgURL={data.imgURL}
+        title={data.title}
+        description={data.description}
+        iosLink={data.iosLink}
+        androidLink={data.androidLink}
+        share
+      />
+    </GridItem>
+  )
+};
+
+export default function CovidResource({pageContext}) {
+  const contStyle = containerStyles();
+  let check=true;
+  for(let key of Object.keys(pageContext)){
+    if(pageContext[key].hasOwnProperty('data')){check=false}
+    break;
+  }
+  return (
     <Template>
-      <GridContainer>
-        {data.map(ele => {
-          return(
-            <GridItem xs={6} sm={4} md={3} className={contStyle.gridEle}>
-              <CustomCard2
-                website={ele.website || ele.facebook || ele.instagram }
-                imgURL={ele.imgURL}
-                title={ele.title}
-                description={ele.description}
-                iosLink={ele.iosLink}
-                androidLink={ele.androidLink}
-                headerTitle={ele.headerTitle}
-                headerColor={ele.headerColor}
-                share
-              />
-            </GridItem>
-          )
+      {check &&
+        <GridContainer>
+        {Object.keys(pageContext).map((key, index) => {
+          let d = pageContext[key];
+          return (resolveData(d))
         })}
-      </GridContainer>
+        </GridContainer>
+      }
+      {!check &&
+        <div>
+          {Object.keys(pageContext).map((key, index) => {
+            let d1 = pageContext[key];
+            return (
+              <div>
+                <Typography variant="h6" component="h2" className={contStyle.title}>{d1['title']}</Typography>
+                <GridContainer>
+                  {Object.keys(d1['data']).map((key2, index2) => {
+                    let d2 = d1['data'][key2];
+                    return (resolveData(d2))
+                  })}
+                </GridContainer>
+              </div>
+            )
+          })}
+        </div>
+      }
     </Template>
   )
 };
