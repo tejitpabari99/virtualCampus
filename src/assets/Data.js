@@ -31,10 +31,10 @@ const boardGamesPic = 'https://images.pexels.com/photos/776654/pexels-photo-7766
 */
 
 const IndexCampusData = {
-  'social': ['groups/virtual-campus', 'groups/corona-creation-challenge', 'games/tabletopia', 'games/qurantine-board-games'],
+  'social': ['facebook-groups/corona-creation-challenge', 'facebook-groups/isolating-together', 'games/tabletopia', 'games/qurantine-board-games'],
   'mental-health': ['surveys/quarantine-well-being-survey','columbia-resources/cps-virtual-support', 'external-resources/7-cups-of-tea', 'external-resources/coping-tools-list'],
   'housing': ['housing-covid-faq', 'housing-ra-numbers'],
-  'covid': ['connecting-people/samaritan', 'connecting-people/hearts-over-heads', 'resource-list/gssc-covid-resources', 'resource-list/columbia-covid-resources1'],
+  'covid': ['connecting-people/samaritan', 'connecting-people/hearts-over-heads', 'resource-list/gssc-covid-resources', 'information/cu-campus-covid-website'],
   'international-students': ['isso-covid-faq', 'isso-maintaining-status', 'register-travel-columbia'],
 };
 
@@ -44,8 +44,8 @@ const CampusData = {
     imgURL: 'https://lernerhall.columbia.edu/files/lerner/content/columbia-31.gif',
     pageURL: SocialURL,
     data: {
-      'groups': {
-        title: 'groups',
+      'facebook-groups': {
+        title: 'Facebook Groups',
         imgURL: 'https://lernerhall.columbia.edu/files/lerner/content/columbia-31.gif',
         pageURL: SocialURL+'groups',
         data: {
@@ -108,7 +108,7 @@ const CampusData = {
           'cps-virtual-support': {
             title: 'CPS Virtual Support',
             description: 'CPS is offering virtual support groups for students. Sign up here!',
-            imgURL: mentalHealthPic,
+            imgURL: 'http://i.imgur.com/7tGEGVo.jpg',
             website: 'https://health.columbia.edu/content/support-groups-spring-2020',
             headerTitle: 'CPS',
             headerColor: 'warning'
@@ -204,7 +204,7 @@ const CampusData = {
           'gssc-covid-resources': {
             title: 'GSSC Covid Resources',
             description: 'A list of resources compiled by GSSC',
-            imgURL: covidResourcesPic,
+            imgURL: 'https://cdn.pixabay.com/photo/2020/03/16/14/58/coronavirus-4937226_1280.jpg',
             website: 'http://bit.ly/gssc-covid-resources'
           },
           'columbia-covid-resources1': {
@@ -215,12 +215,6 @@ const CampusData = {
           }
         }
       },
-      'medical-supplies': {
-        title: 'Medical Supplies',
-        imgURL: 'https://images.unsplash.com/photo-1584744982491-665216d95f8b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-        pageURL: COVIDURL+'medical-supplies',
-        data: {}
-      },
       'information': {
         title: 'Information',
         imgURL: 'https://images.unsplash.com/photo-1560416313-414b33c856a9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1334&q=80',
@@ -229,19 +223,19 @@ const CampusData = {
           'cu-campus-covid-website': {
             title: 'CU Campus COVID Website',
             description: 'FAQ by Columbia Campus on COVID-19',
-            imgURL: covidInfoPic,
+            imgURL: 'https://i.imgur.com/S7E7wzo.jpg',
             website: 'https://www.columbia.edu/content/coronavirus',
           },
           'cu-campus-health-service-website': {
             title: 'CU Health COVID Website',
             description: 'FAQ by Columbia Health on COVID-19',
-            imgURL: covidInfoPic,
+            imgURL: 'https://images.unsplash.com/photo-1560416313-414b33c856a9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1334&q=80',
             website: 'https://preparedness.columbia.edu/news/2019-novel-coronavirus-frequently-asked-questions',
           },
           'cuimc-campus-health-service-website': {
             title: 'CUIMC Health COVID Website',
             description: 'FAQ by Columbia University Irving Medical Center on COVID-19',
-            imgURL: covidInfoPic,
+            imgURL: 'https://images.pexels.com/photos/3952248/pexels-photo-3952248.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
             website: 'https://www.cumc.columbia.edu/student-health/',
           }
         }
@@ -262,13 +256,13 @@ const CampusData = {
       'isso-maintaining-status': {
         title: 'Maintaining status',
         description: 'Check out ISSO\'s maintaining status page for international students worried about their status in US. ',
-        imgURL: internationalStudentsPic,
+        imgURL: 'https://images.unsplash.com/photo-1518544866330-4e716499f800?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1334&q=80',
         website: 'https://isso.columbia.edu/content/guidelines-maintaining-status-students'
       },
       'register-travel-columbia': {
         title: 'Register Travel',
         description: 'All Columbia students are required to register their travels here.',
-        imgURL: internationalStudentsPic,
+        imgURL: 'https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
         website: 'https://globaltravel.columbia.edu/content/register-trip',
       }
     }
