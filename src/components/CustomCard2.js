@@ -38,7 +38,7 @@ const colorMapping = {
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 245,
+    maxWidth: 280,
     boxShadow:
       "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
   },
@@ -61,7 +61,7 @@ const useStyles = makeStyles({
     padding: "7px",
     paddingRight: 10,
     marginLeft: "auto",
-    marginRight: "15px",
+    marginRight: "4px",
     marginTop: "-15px",
     border: "0",
     marginBottom: "0",
