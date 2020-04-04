@@ -23,7 +23,18 @@ import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
 import Button from "../CustomButtons/Button.js";
 
-const rootPage = typeof window !== 'undefined' ? window.location.href.split('/')[3].split('#')[0].trim().toLowerCase() : '';
+let rootPage = null;
+if (typeof window !== 'undefined'){
+  if(window.location.href.includes('.com')){
+    rootPage = window.location.href.split('.com')[1].split('/')[1].split('#')[0].trim().toLowerCase()
+  }
+  else{
+    rootPage = window.location.href.split('/')[3].split('#')[0].trim().toLowerCase()
+  }
+}
+else{
+  rootPage = ''
+}
 
 import styles from "../../../assets/material-kit-assets/jss/material-kit-react/components/headerLinksStyle.js";
 
