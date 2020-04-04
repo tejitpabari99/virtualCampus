@@ -50,9 +50,9 @@ export default function HeaderLinks(props) {
           href="/"
           color="transparent"
           className={classes.navLink}
-          active={rootPage===''}
+          style={{color:rootPage===''?'#00acc1':''}}
         >
-          <HomeIcon className={classes.icons} /> Campus
+          <HomeIcon className={classes.icons}/> Campus
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -60,9 +60,9 @@ export default function HeaderLinks(props) {
           href="/about-us"
           color="transparent"
           className={classes.navLink}
-          active={rootPage==='about-us'}
+          style={{color:rootPage==='about-us'?'#00acc1':''}}
         >
-          <InfoIcon className={classes.icons} /> About Us
+          <InfoIcon className={classes.icons}/> About Us
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -71,8 +71,9 @@ export default function HeaderLinks(props) {
           color="transparent"
           className={classes.navLink}
           active={rootPage==='contact-us'}
+          style={{color:rootPage==='contact-us'?'#00acc1':''}}
         >
-          <ContactMailIcon className={classes.icons} /> Contact Us
+          <ContactMailIcon className={classes.icons}/> Contact Us
         </Button>
       </ListItem>
     </List>
