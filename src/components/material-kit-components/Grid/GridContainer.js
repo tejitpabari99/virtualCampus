@@ -5,14 +5,20 @@ import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import theme from "../../../assets/material-kit-assets/jss/material-kit-react/theme";
 
-const styles = {
+const styles = theme => ({
   grid: {
     marginRight: "-15px",
     marginLeft: "-15px",
-    width: "auto"
-  }
-};
+    width: "auto",
+    [theme.breakpoints.down('sm')]:{
+      marginTop: 25,
+      marginBottom: 25
+    }
+  },
+
+});
 
 const useStyles = makeStyles(styles);
 

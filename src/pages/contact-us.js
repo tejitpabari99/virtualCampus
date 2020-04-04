@@ -11,7 +11,7 @@ export default function IndexPage() {
                     <h3><strong>Contribute Your Project!</strong></h3>
                     <iframe
                         src="https://docs.google.com/forms/d/e/1FAIpQLSd-EgoZRBqIgJ2P1tHtPQjT9Kz6y0r7eenkJHLcJcSpsOdrFA/viewform?embedded=true"
-                        width="640" height="571" frameBorder="0" marginHeight="0" marginWidth="0">Loading…
+                        width='100%' height="571" frameBorder="0" marginHeight="0" marginWidth="0">Loading…
                     </iframe>
                 </CardBody>
             </Card>
