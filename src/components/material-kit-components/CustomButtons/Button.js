@@ -34,6 +34,16 @@ const RegularButton = React.forwardRef((props, ref) => {
   } = props;
 
   const classes = makeComponentStyles();
+  const activeColor = active ? '#00acc1': '';
+  const activeClass = makeStyles((theme) => ({
+    active: {
+      color: activeColor,
+      "&:active": {
+        color: activeColor
+      }
+    }
+  }));
+  const activeStyle = activeClass();
 
   const btnClasses = classNames({
     [classes.button]: true,
@@ -48,8 +58,9 @@ const RegularButton = React.forwardRef((props, ref) => {
     [classes.justIcon]: justIcon,
     [className]: className
   });
+  console.log(activeColor);
   return (
-    <Button {...rest} ref={ref} className={btnClasses}>
+    <Button {...rest} ref={ref} className={classNames(btnClasses, activeStyle.active)} style={{color:activeColor}}>
       {children}
     </Button>
   );
