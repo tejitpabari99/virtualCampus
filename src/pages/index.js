@@ -20,20 +20,14 @@ const scrollTo = (id) => () => {
   return false
 };
 
-const containerStyles = makeStyles(() => ({
-  parallax:{
-    backgroundPosition: "50% 30%",
-  }
-}));
 
 export default function IndexPage() {
   const classes = useStyles();
   const myRef = React.createRef();
-  const contStyle = containerStyles();
   return (
     <div style={{background: "#FFFFFF"}}>
       <CustomHeader></CustomHeader>
-      <Parallax small image={require("../assets/img/campus_graphic.png")} className={contStyle.parallax}>
+      <Parallax small image={require("../assets/img/campus_graphic.png")} style={{backgroundPosition: "50% 30%"}}>
         {/*<div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>*/}
           <div className={classes.container} style={{textAlign:'center', marginTop:'30%'}}>
                 <h1 style={{color:"#f57d20", alignText:'center'}}><strong>Virtual Campus</strong></h1>

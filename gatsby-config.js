@@ -6,15 +6,18 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: 'gatsby-plugin-material-ui',
+      options: {
+        stylesProvider: {
+          injectFirst: true,
+        },
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `src`,
         path: `${__dirname}/src/`,
-      },
-    },
-    {
-      resolve: 'gatsby-plugin-material-ui',
-      options: {
       },
     },
     `gatsby-plugin-react-helmet`,
