@@ -13,6 +13,7 @@ import "../assets/material-kit-assets/scss/material-kit-react.scss?v=1.8.0";
 import Parallax from "./material-kit-components/Parallax/Parallax.js";
 import Header from "./material-kit-components/Header/Header.js";
 import HeaderLinks from "./material-kit-components/Header/HeaderLinks.js";
+import CustomHeader from "./CustomHeader";
 
 
 import Card from "./material-kit-components/Card/Card.js";
@@ -20,11 +21,14 @@ import styles from "../assets/material-kit-assets/jss/material-kit-react/views/l
 const customStyle = makeStyles(() => ({
   parallax: {
     height: "250px",
-    backgroundPosition: "50% 25%"
+    backgroundPosition: "50% 30%"
   },
   container: {
     padding: "50px"
   },
+  main: {
+    marginTop:50
+  }
 }));
 // Sections for this page
 
@@ -36,21 +40,12 @@ export default function Template(props) {
   const custStyle = customStyle();
   const { children } = props;
   return (
-    <div style={{backgroundColor:"white", minHeight: window.innerHeight}}>
-      <Header
-        color="transparent"
-        brand="VIRTUAL CAMPUS"
-        rightLinks={<HeaderLinks />}
-        fixed
-        changeColorOnScroll={{
-          height: 100,
-          color: "white"
-        }}
-      />
-      <Parallax className={custStyle.parallax} small image={require("../assets/img/columbia_night.jpg")}>
-        <div style={{height:"250px", width:"100%", backgroundColor:"#00000080"}}/>
-      </Parallax>
-      <div className={classNames(classes.main, classes.mainRaised)}>
+    <div style={{minHeight: window.innerHeight}}>
+      <CustomHeader></CustomHeader>
+      {/*<Parallax className={custStyle.parallax} small image={require("../assets/img/campus_graphic.png")}>*/}
+      {/*  /!*<div style={{height:"250px", width:"100%", backgroundColor:"#00000080"}}/>*!/*/}
+      {/*</Parallax>*/}
+      <div className={classNames(classes.main, custStyle.main)}>
         <div className={classNames(classes.container)} style={{paddingTop: "50px"}}>
           {children}
           <div style={{marginBottom: "50px"}}/>
