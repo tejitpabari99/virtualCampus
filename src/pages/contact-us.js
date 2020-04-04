@@ -18,7 +18,7 @@ export default function IndexPage() {
             <Card>
                 <CardBody>
                     <h3><strong>Contact Us</strong></h3><br/>
-                    Our email: <a href={'mailto:virtualcampuscovid@gmail.com'}>virtualcampuscovid@gmail.com</a>
+                    Our email: <a href={'mailto:columbiavirtualcampus@gmail.com'}>virtualcampuscovid@gmail.com</a>
                     <br/><br/>
                     Our Facebook: <a href='https://bit.ly/virtual-campus-group'>https://bit.ly/virtual-campus-group</a>
                     <br/><br/>
