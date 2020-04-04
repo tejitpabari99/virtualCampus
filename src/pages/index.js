@@ -16,9 +16,8 @@ const useStyles = makeStyles(styles);
 
 export default function IndexPage() {
   const classes = useStyles();
-  const myRef = React.createRef();
   return (
-    <div style={{background: "#FFFFFF"}}>
+    <div style={{background: "#FFFFFF", fontFamily: "Roboto Helvetica Arial sans-serif", fontWeight: 300, lineHeight: '1.5em'}}>
       <CustomHeader></CustomHeader>
       <Parallax small image={require("../assets/img/campus_graphic.png")} style={{backgroundPosition: "50% 30%"}}>
         {/*<div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>*/}
