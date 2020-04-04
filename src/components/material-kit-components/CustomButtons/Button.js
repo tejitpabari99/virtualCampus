@@ -58,7 +58,6 @@ const RegularButton = React.forwardRef((props, ref) => {
     [classes.justIcon]: justIcon,
     [className]: className
   });
-  console.log(activeColor);
   return (
     <Button {...rest} ref={ref} className={classNames(btnClasses, activeStyle.active)} style={{color:activeColor}}>
       {children}
