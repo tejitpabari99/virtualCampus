@@ -20,39 +20,25 @@ const scrollTo = (id) => () => {
   return false
 };
 
+const containerStyles = makeStyles(() => ({
+  parallax:{
+    backgroundPosition: "50% 30%",
+  }
+}));
+
 export default function IndexPage() {
   const classes = useStyles();
   const myRef = React.createRef();
-
+  const contStyle = containerStyles();
   return (
-    <div>
+    <div style={{background: "#FFFFFF"}}>
       <CustomHeader></CustomHeader>
-      <Parallax small image={require("../assets/img/columbia_night.jpg")}>
-        <div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>
-          <div className={classes.container} style={{marginTop:"200px"}}>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={6} >
-                <h1 style={{color:"white"}}><strong>Virtual Campus</strong></h1>
-                <h3 style={{color:"white"}}>
-                  A one-stop shop for everything you miss about campus - your friends, the buzz, a stream of resources, and much more.
-                </h3>
-                <br/>
-                <Link to="/#explore">
-                  <Button
-                    color="danger"
-                    variant="outlined"
-                    size="lg"
-                    href={scrollTo('#explore')}
-                    rel="noopener noreferrer"
-                  >
-                    <i className="fas fa-play" />
-                      Explore
-                  </Button>
-                </Link>
-              </GridItem>
-            </GridContainer>
+      <Parallax small image={require("../assets/img/campus_graphic.png")} className={contStyle.parallax}>
+        {/*<div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>*/}
+          <div className={classes.container} style={{textAlign:'center', marginTop:'30%'}}>
+                <h1 style={{color:"#f57d20", alignText:'center'}}><strong>Virtual Campus</strong></h1>
           </div>
-        </div>
+        {/*</div>*/}
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container} id="explore">

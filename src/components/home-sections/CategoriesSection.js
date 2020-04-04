@@ -61,7 +61,7 @@ export default function CategoriesSection() {
                 let data = CampusData[key];
                 for (let k of splt){ data = data['data'][k]}
                 return (
-                  <GridItem xs={6} sm={4} md={3} className={contStyle.gridEle}>
+                  <GridItem xs={12} sm={6} md={3} className={contStyle.gridEle}>
                     <CustomCard2
                       website={data.website || data.facebook || data.instagram }
                       imgURL={data.imgURL}

@@ -75,12 +75,6 @@ export default function IndexPage() {
             </Card>
             <Card>
                 <CardBody>
-                    <h3><strong>The Team Behind the Scenes</strong></h3>
-                    <TeamSection/>
-                </CardBody>
-            </Card>
-            <Card>
-                <CardBody>
                     <h3><strong>Our Sponsors</strong></h3>
                     <div style={{minHeight: '30px'}}/>
                     <a href='https://www.lionbase.nyc/' target="_blank">
