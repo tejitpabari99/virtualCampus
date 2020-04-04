@@ -12,6 +12,11 @@ module.exports = {
         path: `${__dirname}/src/`,
       },
     },
+    {
+      resolve: 'gatsby-plugin-material-ui',
+      options: {
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
