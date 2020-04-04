@@ -10,15 +10,8 @@ import CustomHeader from "../components/CustomHeader";
 import CategoriesSection from '../components/home-sections/CategoriesSection'
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import {makeStyles} from "@material-ui/core/styles";
-if (typeof window !== "undefined") {require("smooth-scroll")('a[href*="#"]')}
 
 const useStyles = makeStyles(styles);
-
-const scrollTo = (id) => () => {
-  const el = document.querySelector(id);
-  if (el) return window.scrollTo(0, el.offsetTop - 20);
-  return false
-};
 
 
 export default function IndexPage() {
