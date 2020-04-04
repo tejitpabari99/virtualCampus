@@ -39,8 +39,9 @@ export default function Template(props) {
   const classes = useStyles();
   const custStyle = customStyle();
   const { children } = props;
+  let minH = typeof window !== 'undefined' && window.pageYOffset ? window.innerHeight : 700;
   return (
-    <div style={{minHeight: window.innerHeight}}>
+    <div style={{minHeight: minH}}>
       <CustomHeader></CustomHeader>
       {/*<Parallax className={custStyle.parallax} small image={require("../assets/img/campus_graphic.png")}>*/}
       {/*  /!*<div style={{height:"250px", width:"100%", backgroundColor:"#00000080"}}/>*!/*/}
