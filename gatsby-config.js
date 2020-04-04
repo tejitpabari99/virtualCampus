@@ -1,8 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: `Virtual Campus`,
-    description: `Virtual Campus`,
-    author: `@virtualCampus`,
+    title: `Columbia Virtual Campus`,
+    siteUrl: `https://columbiavirtualcampus.com/`,
+    description: `Columbia Virtual Campus, a one stop shop for Columbia Activities`,
+    author: `@ColumbiaVirtualCampus`,
   },
   plugins: [
     {
