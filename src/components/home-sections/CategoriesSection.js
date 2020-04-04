@@ -39,8 +39,7 @@ const containerStyles = makeStyles(() => ({
       textDecoration: 'underline'
     },
     float:'right',
-    display: 'inline-block',
-    textDecoration: 'underline'
+    textDecoration: 'underline',
   }
 }));
 
@@ -53,8 +52,10 @@ export default function CategoriesSection() {
       {Object.keys(IndexCampusData).map(key => {
         return (
           <div>
+            <div>
             <Typography variant="h6" component="h2" className={contStyle.title}>{CampusData[key]['title']}</Typography>
             <Link to={CampusData[key]['pageURL']} className={contStyle.seeAllLink}>See All</Link>
+            </div>
             <GridContainer>
               {IndexCampusData[key].map(ele => {
                 let splt = ele.split('/');
