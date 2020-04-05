@@ -50,7 +50,7 @@ export default function IndexPage() {
   console.log(theme.breakpoints.up('sm'));
   return (
     <div style={{background: "#FFFFFF"}} className={manual.toAll}>
-      <CustomHeader></CustomHeader>
+      <CustomHeader active={''}></CustomHeader>
       <Parallax small image={require("../assets/img/campus_graphic.png")} className={manual.par}>
         {/*<div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>*/}
           <div className={classes.container} style={{textAlign:'center', marginTop:'30%'}}>

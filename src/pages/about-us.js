@@ -9,7 +9,7 @@ import TeamSection from "../components/about-us-sections/team.js";
 
 export default function IndexPage() {
     return (
-        <Template>
+        <Template active={'about-us'}>
             <link href="../assets/material-kit-assets/css/material-kit-react.css.map" rel="stylesheet"/>
             <Card>
                 <CardBody>
