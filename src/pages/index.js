@@ -29,7 +29,7 @@ export default function IndexPage() {
       <CustomHeader></CustomHeader>
       <Parallax small image={require("../assets/img/campus_graphic.png")} style={{backgroundPosition: "50% 30%"}}>
         {/*<div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>*/}
-          <div className={classes.container} style={{textAlign:'center', marginTop:'30%'}}>
+          <div className={classes.container} style={{textAlign:'center', marginTop:'30%', marginLeft: 30, marginRight: 30}}>
                 <h1 style={{color:"#f57d20", alignText:'center', fontSize: '3.3125rem', lineHeight: '1.15em', }} className={manual.toAll}>
                   <strong>Virtual Campus</strong>
                 </h1>
