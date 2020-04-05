@@ -34,13 +34,11 @@ const productStyle = makeStyles(() => ({
     fontSize: '1.0625rem',
     marginTop: '10px',
     marginBotton: '10px',
-    paddingLeft: '20px',
     paddingRight: '20px'
   },
   toAll: {
     fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 300, lineHeight: '1.5em',
     WebkitFontSmoothing:"antialiased", boxSizing: 'inherit',
-    marginLeft: 30,
     marginRigh: 30
   }
 }));
