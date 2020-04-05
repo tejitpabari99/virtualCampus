@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Columbia Virtual Campus`,
-    siteUrl: `https://columbiavirtualcampus.com/`,
+    // siteUrl: `https://columbiavirtualcampus.com/`,
     description: `Columbia Virtual Campus, a one stop shop for Columbia Activities`,
     author: `@ColumbiaVirtualCampus`,
   },
@@ -40,14 +40,22 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `Columbia Virtual Campus`,
+        short_name: `Columbia Virtual Campus`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/assets/img/logo.png`, // This path is relative to the root of the site.
       },
+    },
+    {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: ['Poppins:400']
+        }
+      }
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
