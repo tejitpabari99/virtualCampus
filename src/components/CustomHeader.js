@@ -5,7 +5,7 @@ import React from "react";
 export default function CustomHeader(props) {
   return (
     <Header
-      color="white"
+      color="transparent"
       brand="VIRTUAL CAMPUS"
       rightLinks={<HeaderLinks active={props.active}/>}
       fixed
