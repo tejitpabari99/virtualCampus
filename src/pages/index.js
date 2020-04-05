@@ -8,7 +8,6 @@ import Parallax from "../components/material-kit-components/Parallax/Parallax.js
 import HomeDescription from '../components/home-sections/HomeDescription'
 import CustomHeader from "../components/CustomHeader";
 import CategoriesSection from '../components/home-sections/CategoriesSection'
-import DesignChallengeDescription from "../components/home-sections/DesignChallengeDescription";
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import {makeStyles} from "@material-ui/core/styles";
 
