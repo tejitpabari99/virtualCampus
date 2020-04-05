@@ -24,7 +24,7 @@ const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
 
 const manualSt = makeStyles(() => ({
   toAll: {
-    fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 300, lineHeight: '1.5em',
+    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.5em',
     WebkitFontSmoothing:"antialiased", boxSizing: 'inherit'
   },
   par: {
@@ -38,7 +38,7 @@ const manualSt = makeStyles(() => ({
       height: 600,
     },
     [theme.breakpoints.up('lg')]:{
-      height: 700,
+      height: 1000,
     }
   }
 }));
@@ -53,9 +53,12 @@ export default function IndexPage() {
       <CustomHeader active={''}></CustomHeader>
       <Parallax small image={require("../assets/img/campus_graphic.png")} className={manual.par}>
         {/*<div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>*/}
-          <div className={classes.container} style={{textAlign:'center', marginTop:'30%'}}>
-                <h1 style={{color:"#f57d20", alignText:'center', fontSize: '3.3125rem', lineHeight: '1.15em', fontWeight: 400, fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'}} className={manual.toAll}>
-                  Virtual Campus
+          <div className={classes.container} style={{textAlign:'center', marginTop:'29%'}}>
+                <h1 style={{color:"#f57d20", alignText:'center', fontSize: '3rem', lineHeight: '1.15em', fontWeight: 400, fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'}} className={manual.toAll}>
+                  VIRTUAL CAMPUS
+                </h1>
+                <h1 style={{color:'#246a6d', alignText:'center', fontSize: '2.9rem', lineHeight: '1.15em', fontWeight: 300, fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'}} className={manual.toAll}>
+                  Columbia University
                 </h1>
           </div>
         {/*</div>*/}
@@ -64,12 +67,6 @@ export default function IndexPage() {
         <div className={classes.container} id="explore">
           <HomeDescription/>
           <CategoriesSection />
-            <h5 className={classes.description}>
-              Look out for the Virtual Campus Design Challenge 2020 coming up online from April 4th to April 6th, 2020 open to all Columbia/Barnard students.
-              To learn more about it and join, visit our <a href="https://www.facebook.com/events/1020511525011664/">Facebook group</a> and join our <a href=" http://bit.ly/virtual-campus-resources ">Slack channel</a>.
-              Please contact us if you have any more questions.
-              We expect to have many more amazing projects and resources on the website after that time.
-            </h5>
           <div style={{marginBottom: "50px"}}/>
         </div>
       </div>

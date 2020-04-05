@@ -13,9 +13,9 @@ export default function IndexPage() {
             <link href="../assets/material-kit-assets/css/material-kit-react.css.map" rel="stylesheet"/>
             <Card>
                 <CardBody>
-                    <h3><strong>About Us</strong></h3>
+                    <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>About Us</strong></h3>
                     <div style={{minHeight: '10px'}}/>
-                    <div>
+                    <div style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}>
                         Virtual Campus is an inclusive, vibrant hub of Columbia student voices designed to address the
                         need for community during the COVID-19 pandemic. <br/><br/>
 
@@ -33,9 +33,9 @@ export default function IndexPage() {
             </Card>
             <Card>
                 <CardBody>
-                    <h3><strong>Our Mission</strong></h3>
+                    <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>Our Mission</strong></h3>
                     <div style={{minHeight: '10px'}}/>
-                    <div>
+                    <div style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}>
                         Let’s come together to:
                         <ol>
                             <li>Help students cope with social isolation (eg. fun activities, communication portals,
@@ -51,9 +51,9 @@ export default function IndexPage() {
             </Card>
             <Card>
                 <CardBody>
-                    <h3><strong>COVID-19 Design Challenge</strong></h3>
+                    <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>COVID-19 Design Challenge</strong></h3>
                     <div style={{minHeight: '10px'}}/>
-                    <div>
+                    <div style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}>
                         Join us April 4-6 for a three-day design challenge to discover, design, and build solutions for
                         the challenges of remote living. Being remote poses big challenges to mental health, motivation,
                         concentration, and seeking help. Many of us worry about the present as well as the near and
@@ -75,7 +75,7 @@ export default function IndexPage() {
             </Card>
             <Card>
                 <CardBody>
-                    <h3><strong>Our Sponsors</strong></h3>
+                    <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>Our Sponsors</strong></h3>
                     <div style={{minHeight: '30px'}}/>
                     <a href='https://www.lionbase.nyc/' target="_blank">
                         <img alt="LionBase" src={lionbase} width={'30%'}/>
@@ -87,5 +87,3 @@ export default function IndexPage() {
         </Template>
     );
 }
-
-

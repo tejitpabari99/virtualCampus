@@ -27,7 +27,8 @@ const customStyle = makeStyles(() => ({
     padding: "50px"
   },
   main: {
-    marginTop:50
+    // marginTop:50
+    paddingTop:50
   }
 }));
 

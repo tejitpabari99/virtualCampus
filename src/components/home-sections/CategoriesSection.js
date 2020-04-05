@@ -103,12 +103,7 @@ export default function CategoriesSection() {
           </div>
         )
       })}
-<<<<<<< HEAD
-    </GridContainer>
-
-=======
     </div>
     </MuiThemeProvider>
->>>>>>> upstream/master
   )
 }
