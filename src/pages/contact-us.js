@@ -5,7 +5,7 @@ import CardBody from "../components/material-kit-components/Card/CardBody.js";
 
 export default function IndexPage() {
     return (
-        <Template>
+        <Template active={'contact-us'}>
             <Card>
                 <CardBody>
                     <h3><strong>Contribute Your Project!</strong></h3>
