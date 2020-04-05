@@ -2,7 +2,7 @@ import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
 import {Toolbar} from "@material-ui/core";
 // import vcg from "../assets/img/virtual-campus-graphic.png";
 import im from "../assets/img/virtual-campus-graphic3.png";
@@ -13,6 +13,7 @@ import "../assets/material-kit-assets/scss/material-kit-react.scss?v=1.8.0";
 import Parallax from "./material-kit-components/Parallax/Parallax.js";
 import Header from "./material-kit-components/Header/Header.js";
 import HeaderLinks from "./material-kit-components/Header/HeaderLinks.js";
+import CustomHeader from "./CustomHeader";
 
 
 import Card from "./material-kit-components/Card/Card.js";
@@ -20,12 +21,25 @@ import styles from "../assets/material-kit-assets/jss/material-kit-react/views/l
 const customStyle = makeStyles(() => ({
   parallax: {
     height: "250px",
-    backgroundPosition: "50% 25%"
+    backgroundPosition: "50% 30%"
   },
   container: {
     padding: "50px"
   },
+  main: {
+    marginTop:50
+  }
 }));
+
+
+const breakpointValues = {
+  xs: 0,
+  sm: 650,
+  md: 1200,
+  lg: 1400,
+  xl: 1400,
+};
+const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
 // Sections for this page
 
 
@@ -36,26 +50,19 @@ export default function Template(props) {
   const custStyle = customStyle();
   const { children } = props;
   return (
-    <div style={{backgroundColor:"white", minHeight: window.innerHeight}}>
-      <Header
-        color="transparent"
-        brand="VIRTUAL CAMPUS"
-        rightLinks={<HeaderLinks />}
-        fixed
-        changeColorOnScroll={{
-          height: 100,
-          color: "white"
-        }}
-      />
-      <Parallax className={custStyle.parallax} small image={require("../assets/img/columbia_night.jpg")}>
-        <div style={{height:"250px", width:"100%", backgroundColor:"#00000080"}}/>
-      </Parallax>
-      <div className={classNames(classes.main, classes.mainRaised)}>
+    <MuiThemeProvider theme={theme}>
+    <div style={{minHeight: 700}}>
+      <CustomHeader active={props.active}></CustomHeader>
+      {/*<Parallax className={custStyle.parallax} small image={require("../assets/img/campus_graphic.png")}>*/}
+      {/*  /!*<div style={{height:"250px", width:"100%", backgroundColor:"#00000080"}}/>*!/*/}
+      {/*</Parallax>*/}
+      <div className={classNames(classes.main, custStyle.main)}>
         <div className={classNames(classes.container)} style={{paddingTop: "50px"}}>
           {children}
           <div style={{marginBottom: "50px"}}/>
         </div>
       </div>
     </div>
+    </MuiThemeProvider>
   );
 }

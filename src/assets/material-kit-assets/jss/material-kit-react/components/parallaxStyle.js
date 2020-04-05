@@ -1,16 +1,21 @@
+import { createMuiTheme } from "@material-ui/core/styles";
+
 const parallaxStyle = {
   parallax: {
     height: "90vh",
     maxHeight: "700px",
     overflow: "hidden",
     position: "relative",
-    backgroundPosition: "50% 70%",
-    backgroundSize: "cover",
+    backgroundPosition: "50% 30%",
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '50%',
+    // backgroundSize: "cover",
     margin: "0",
     padding: "0",
     border: "0",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: 'white'
   },
   filter: {
     "&:before": {

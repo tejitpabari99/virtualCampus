@@ -1,24 +1,30 @@
 {
-  "name": "virtualCampus",
+  "name": "ColumbiaVirtualCampus",
   "private": true,
-  "description": "virtualCampus",
+  "description": "ColumbiaVirtualCampus",
   "version": "0.1.0",
-  "author": "virtualCampus",
+  "author": "ColumbiaVirtualCampus",
   "dependencies": {
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "^4.9.6",
     "@mui-treasury/styles": "latest",
+    "babel-plugin-styled-components": "^1.10.7",
     "classnames": "^2.2.6",
     "gatsby": "^2.20.8",
     "gatsby-image": "^2.2.44",
+    "gatsby-plugin-layout": "^1.2.1",
     "gatsby-plugin-manifest": "^2.2.48",
+    "gatsby-plugin-material-ui": "^2.1.6",
     "gatsby-plugin-nprogress": "^2.2.1",
     "gatsby-plugin-offline": "^3.0.41",
     "gatsby-plugin-react-helmet": "^3.1.24",
     "gatsby-plugin-sass": "^2.2.1",
     "gatsby-plugin-sharp": "^2.4.13",
+    "gatsby-plugin-styled-components": "^3.2.1",
+    "gatsby-plugin-web-font-loader": "^1.0.4",
     "gatsby-source-filesystem": "^2.2.2",
+    "gatsby-theme-material-ui": "^1.0.8",
     "gatsby-transformer-sharp": "^2.3.19",
     "markdown-to-jsx": "^6.11.0",
     "node-sass": "^4.13.1",
@@ -27,13 +33,17 @@
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
     "react-share": "^4.1.0",
-    "smooth-scroll": "^16.1.3"
+    "smooth-scroll": "^16.1.3",
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "prettier": "^1.19.1"
   },
   "keywords": [
-    "gatsby"
+    "Columbia",
+    "Virtual Campus",
+    "Campus",
+    "Columbia Virtual Campus"
   ],
   "scripts": {
     "build": "gatsby build",

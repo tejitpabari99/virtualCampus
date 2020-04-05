@@ -9,50 +9,56 @@ import HomeDescription from '../components/home-sections/HomeDescription'
 import CustomHeader from "../components/CustomHeader";
 import CategoriesSection from '../components/home-sections/CategoriesSection'
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import {makeStyles} from "@material-ui/core/styles";
-if (typeof window !== "undefined") {require("smooth-scroll")('a[href*="#"]')}
+import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(styles);
 
-const scrollTo = (id) => () => {
-  const el = document.querySelector(id);
-  if (el) return window.scrollTo(0, el.offsetTop - 20);
-  return false
+const breakpointValues = {
+  xs: 0,
+  sm: 700,
+  md: 900,
+  lg: 1200,
+  xl: 1400,
 };
+const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
+
+const manualSt = makeStyles(() => ({
+  toAll: {
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 300, lineHeight: '1.5em',
+    WebkitFontSmoothing:"antialiased", boxSizing: 'inherit'
+  },
+  par: {
+    [theme.breakpoints.up('xs')]:{
+      height: 500,
+    },
+    [theme.breakpoints.up('sm')]:{
+      height: 550,
+    },
+    [theme.breakpoints.up('md')]:{
+      height: 600,
+    },
+    [theme.breakpoints.up('lg')]:{
+      height: 700,
+    }
+  }
+}));
+
 
 export default function IndexPage() {
   const classes = useStyles();
-  const myRef = React.createRef();
-
+  const manual = manualSt();
+  console.log(theme.breakpoints.up('sm'));
   return (
-    <div>
-      <CustomHeader></CustomHeader>
-      <Parallax small image={require("../assets/img/columbia_night.jpg")}>
-        <div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>
-          <div className={classes.container} style={{marginTop:"200px"}}>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={6} >
-                <h1 style={{color:"white"}}><strong>Virtual Campus</strong></h1>
-                <h3 style={{color:"white"}}>
-                  A one-stop shop for everything you miss about campus - your friends, the buzz, a stream of resources, and much more.
-                </h3>
-                <br/>
-                <Link to="/#explore">
-                  <Button
-                    color="danger"
-                    variant="outlined"
-                    size="lg"
-                    href={scrollTo('#explore')}
-                    rel="noopener noreferrer"
-                  >
-                    <i className="fas fa-play" />
-                      Explore
-                  </Button>
-                </Link>
-              </GridItem>
-            </GridContainer>
+    <div style={{background: "#FFFFFF"}} className={manual.toAll}>
+      <CustomHeader active={''}></CustomHeader>
+      <Parallax small image={require("../assets/img/campus_graphic.png")} className={manual.par}>
+        {/*<div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>*/}
+          <div className={classes.container} style={{textAlign:'center', marginTop:'30%'}}>
+                <h1 style={{color:"#f57d20", alignText:'center', fontSize: '3.3125rem', lineHeight: '1.15em', fontWeight: 400, fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'}} className={manual.toAll}>
+                  Virtual Campus
+                </h1>
           </div>
-        </div>
+        {/*</div>*/}
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container} id="explore">
