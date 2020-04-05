@@ -2,7 +2,7 @@ import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
 import {Toolbar} from "@material-ui/core";
 // import vcg from "../assets/img/virtual-campus-graphic.png";
 import im from "../assets/img/virtual-campus-graphic3.png";
@@ -30,6 +30,16 @@ const customStyle = makeStyles(() => ({
     marginTop:50
   }
 }));
+
+
+const breakpointValues = {
+  xs: 0,
+  sm: 650,
+  md: 1200,
+  lg: 1400,
+  xl: 1400,
+};
+const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
 // Sections for this page
 
 
@@ -41,6 +51,7 @@ export default function Template(props) {
   const { children } = props;
   let minH = typeof window !== 'undefined' && window.pageYOffset ? window.innerHeight : 700;
   return (
+    <MuiThemeProvider theme={theme}>
     <div style={{minHeight: minH}}>
       <CustomHeader></CustomHeader>
       {/*<Parallax className={custStyle.parallax} small image={require("../assets/img/campus_graphic.png")}>*/}
@@ -53,5 +64,6 @@ export default function Template(props) {
         </div>
       </div>
     </div>
+    </MuiThemeProvider>
   );
 }

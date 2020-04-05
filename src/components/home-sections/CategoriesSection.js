@@ -1,4 +1,5 @@
 import GridItem from "../material-kit-components/Grid/GridItem";
+import classNames from "classnames";
 import CustomCard1 from "../CustomCard1";
 import GridContainer from "../material-kit-components/Grid/GridContainer";
 import Typography from "@material-ui/core/Typography";
@@ -6,6 +7,7 @@ import React from "react";
 import {Link} from "gatsby";
 import Card from "../material-kit-components/Card/Card.js";
 import CardBody from "../material-kit-components/Card/CardBody.js";
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
 
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import {makeStyles} from "@material-ui/core/styles";
@@ -14,8 +16,17 @@ import CustomCard2 from "../CustomCard2";
 const CampusData = Data.CampusData;
 const IndexCampusData = Data.IndexCampusData;
 
+const breakpointValues = {
+  xs: 0,
+  sm: 650,
+  md: 1200,
+  lg: 1400,
+  xl: 1400,
+};
+const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
+
 const useStyles = makeStyles(styles);
-const containerStyles = makeStyles(() => ({
+const containerStyles = makeStyles((theme) => ({
   container: {
     paddingTop: "20px"
   },
@@ -40,6 +51,18 @@ const containerStyles = makeStyles(() => ({
     },
     float:'right',
     textDecoration: 'underline',
+  },
+  toAll: {
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 300, lineHeight: '1.5em',
+    WebkitFontSmoothing:"antialiased", boxSizing: 'inherit'
+  },
+  gridCont: {
+    boxSizing: 'border-box',
+    display: 'block'
+  },
+  mainGrid: {
+    marginLeft: 30,
+    marginRight: 30
   }
 }));
 
@@ -48,10 +71,11 @@ export default function CategoriesSection() {
   const contStyle = containerStyles();
   const classes = useStyles();
   return (
-    <div>
+    <MuiThemeProvider theme={theme}>
+    <div className={classNames(contStyle.toAll, contStyle.mainGrid)}>
       {Object.keys(IndexCampusData).map(key => {
         return (
-          <div>
+          <div className={contStyle.gridCont}>
             <div>
             <Typography variant="h6" component="h2" className={contStyle.title}>{CampusData[key]['title']}</Typography>
             <Link to={CampusData[key]['pageURL']} className={contStyle.seeAllLink}>See All</Link>
@@ -80,5 +104,6 @@ export default function CategoriesSection() {
         )
       })}
     </div>
+    </MuiThemeProvider>
   )
 }
