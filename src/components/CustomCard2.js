@@ -38,7 +38,7 @@ const colorMapping = {
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 245,
+    maxWidth: 280,
     boxShadow:
       "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
   },
@@ -61,7 +61,7 @@ const useStyles = makeStyles({
     padding: "7px",
     paddingRight: 10,
     marginLeft: "auto",
-    marginRight: "15px",
+    marginRight: "4px",
     marginTop: "-15px",
     border: "0",
     marginBottom: "0",
@@ -78,6 +78,10 @@ const useStyles = makeStyles({
     padding: 0,
     flex: 1,
     justifyContent:'right'
+  },
+  icons:{
+    marginRight: 0,
+    marginLeft: 0
   }
 });
 
@@ -128,40 +132,40 @@ export default function CustomCard2(props) {
       <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0}}>
         <div style={{float: 'left'}}>
           {share &&
-            <div style={{display:'inline-block'}}>
-            <IconButton aria-describedby={id} onClick={handleClick}>
-              <ShareIcon />
-            </IconButton>
-            <Popover
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              transformOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}>
-                <div style={{display: 'inline-block', paddingLeft: 5, paddingTop: 5, width: '100%'}}>
-                  <FacebookShareButton url={website} children={<FacebookIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <TwitterShareButton url={website} children={<TwitterIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <WhatsappShareButton url={website} children={<WhatsappIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <LinkedinShareButton url={website} children={<LinkedinIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <EmailShareButton url={website} children={<EmailIcon round size={24} style={{marginRight: 5}}/>}/>
-                </div>
+            <div style={{display:'inline-block'}} className={classes.icons}>
+              <IconButton aria-describedby={id} onClick={handleClick} size={'small'}>
+                <ShareIcon fontSize={'small'}/>
+              </IconButton>
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}>
+                  <div style={{display: 'inline-block', paddingLeft: 5, paddingTop: 5, width: '100%'}}>
+                    <FacebookShareButton url={website} children={<FacebookIcon round size={24} style={{marginRight: 5}}/>}/>
+                    <TwitterShareButton url={website} children={<TwitterIcon round size={24} style={{marginRight: 5}}/>}/>
+                    <WhatsappShareButton url={website} children={<WhatsappIcon round size={24} style={{marginRight: 5}}/>}/>
+                    <LinkedinShareButton url={website} children={<LinkedinIcon round size={24} style={{marginRight: 5}}/>}/>
+                    <EmailShareButton url={website} children={<EmailIcon round size={24} style={{marginRight: 5}}/>}/>
+                  </div>
               </Popover>
             </div>
           }
           {iosLink &&
-          <IconButton href={iosLink} target={'_blank'} rel="noopener noreferrer">
-            <AppleIcon />
+          <IconButton href={iosLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
+            <AppleIcon fontSize={'small'}/>
           </IconButton>}
           {androidLink &&
-          <IconButton href={androidLink} target={'_blank'} rel="noopener noreferrer">
-            <AndroidIcon />
+          <IconButton href={androidLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
+            <AndroidIcon fontSize={'small'}/>
           </IconButton>}
         </div>
         <div style={{float: 'right', marginLeft: 'auto'}}>

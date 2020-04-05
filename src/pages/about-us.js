@@ -9,7 +9,7 @@ import TeamSection from "../components/about-us-sections/team.js";
 
 export default function IndexPage() {
     return (
-        <Template>
+        <Template active={'about-us'}>
             <link href="../assets/material-kit-assets/css/material-kit-react.css.map" rel="stylesheet"/>
             <Card>
                 <CardBody>
@@ -71,12 +71,6 @@ export default function IndexPage() {
                         href="https://bit.ly/virtual-campus-slack">https://bit.ly/virtual-campus-slack</a>
                     </div>
                     <div style={{minHeight: '30px'}}/>
-                </CardBody>
-            </Card>
-            <Card>
-                <CardBody>
-                    <h3><strong>The Team Behind the Scenes</strong></h3>
-                    <TeamSection/>
                 </CardBody>
             </Card>
             <Card>
