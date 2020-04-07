@@ -3,7 +3,7 @@ import Template from "../components/template";
 import Card from "../components/material-kit-components/Card/Card.js";
 import CardBody from "../components/material-kit-components/Card/CardBody.js";
 
-import lionbase from "../assets/img/lionbase.png";
+import dsi from "../assets/img/dsi.png";
 
 import TeamSection from "../components/about-us-sections/team.js";
 
@@ -77,8 +77,8 @@ export default function IndexPage() {
                 <CardBody>
                     <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>Our Sponsors</strong></h3>
                     <div style={{minHeight: '30px'}}/>
-                    <a href='https://www.lionbase.nyc/' target="_blank">
-                        <img alt="LionBase" src={lionbase} width={'30%'}/>
+                    <a href='https://datascience.columbia.edu/' target="_blank">
+                        <img alt="Data Science Institute" src={dsi} width={'30%'}/>
                     </a>
                     <div style={{minHeight: '50px'}}/>
                 </CardBody>

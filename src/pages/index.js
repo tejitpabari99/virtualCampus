@@ -38,7 +38,21 @@ const manualSt = makeStyles(() => ({
       height: 600,
     },
     [theme.breakpoints.up('lg')]:{
-      height: 1000,
+      height: 900,
+    }
+  },
+  text:{
+    [theme.breakpoints.up('xs')]:{
+      marginTop:'35%'
+    },
+    [theme.breakpoints.up('sm')]:{
+      marginTop:'35%'
+    },
+    [theme.breakpoints.up('md')]:{
+      marginTop:'38%'
+    },
+    [theme.breakpoints.up('lg')]:{
+      marginTop:'29%'
     }
   }
 }));
@@ -53,7 +67,7 @@ export default function IndexPage() {
       <CustomHeader active={''}></CustomHeader>
       <Parallax small image={require("../assets/img/campus_graphic.png")} className={manual.par}>
         {/*<div style={{height:"100%", width:"100%", backgroundColor:"#00000080"}}>*/}
-          <div className={classes.container} style={{textAlign:'center', marginTop:'29%'}}>
+          <div className={classNames(classes.container, manual.text)} style={{textAlign:'center'}}>
                 <h1 style={{color:"#f57d20", alignText:'center', fontSize: '3rem', lineHeight: '1.15em', fontWeight: 400, fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'}} className={manual.toAll}>
                   VIRTUAL CAMPUS
                 </h1>
