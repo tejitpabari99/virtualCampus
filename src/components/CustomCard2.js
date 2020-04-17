@@ -52,11 +52,11 @@ const useStyles = makeStyles({
   },
   title: {
     textTransform: "capitalize",
-    height: 45,
+    height: 55,
     fontSize: '1.25rem'
   },
   description: {
-    display: 'none',
+    // display: 'none',
     height: 60,
     overflow: 'hidden'
   },
@@ -129,7 +129,7 @@ export default function CustomCard2(props) {
       </div>
 
       <CardContent style={{marginBottom: 0}}>
-        <Typography gutterBottom variant="h5" component="h2" className={classes.title} style={{marginBottom: '0.1rem'}}>
+        <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
           {title}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
