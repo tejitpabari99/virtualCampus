@@ -18,8 +18,15 @@ import styles from "../../../assets/material-kit-assets/jss/material-kit-react/c
 
 const useStyles = makeStyles(styles);
 
+const customClass = makeStyles(() => ({
+  navbarToggle: {
+    color: '#246a6d'
+  }
+}));
+
 export default function Header(props) {
   const classes = useStyles();
+  const customStyle = customClass();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   React.useEffect(() => {
     if (props.changeColorOnScroll) {
@@ -79,7 +86,8 @@ export default function Header(props) {
         </Hidden>
         <Hidden mdUp>
           <IconButton
-            color="inherit"
+            color='inherit'
+            className={customStyle.navbarToggle}
             aria-label="open drawer"
             onClick={handleDrawerToggle}
           >

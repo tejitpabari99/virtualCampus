@@ -6,11 +6,11 @@ export default function CustomHeader(props) {
   return (
     <Header
       color="transparent"
-      brand="VIRTUAL CAMPUS"
+      brand={props.brand}
       rightLinks={<HeaderLinks active={props.active}/>}
       fixed
       changeColorOnScroll={{
-        height: 150,
+        height: 50,
         color: "white"
       }}
     />

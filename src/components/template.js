@@ -28,7 +28,8 @@ const customStyle = makeStyles(() => ({
   },
   main: {
     // marginTop:50
-    paddingTop:50
+    paddingTop:50,
+    height: '100%'
   }
 }));
 
@@ -52,12 +53,9 @@ export default function Template(props) {
   const { children } = props;
   return (
     <MuiThemeProvider theme={theme}>
-    <div style={{minHeight: 700}}>
-      <CustomHeader active={props.active}></CustomHeader>
-      {/*<Parallax className={custStyle.parallax} small image={require("../assets/img/campus_graphic.png")}>*/}
-      {/*  /!*<div style={{height:"250px", width:"100%", backgroundColor:"#00000080"}}/>*!/*/}
-      {/*</Parallax>*/}
-      <div className={classNames(classes.main, custStyle.main)}>
+    <div>
+      <CustomHeader active={props.active} brand={'VIRTUAL CAMPUS'}></CustomHeader>
+      <div className={classNames(classes.mainOther, custStyle.main)}>
         <div className={classNames(classes.container)} style={{paddingTop: "50px"}}>
           {children}
           <div style={{marginBottom: "50px"}}/>
