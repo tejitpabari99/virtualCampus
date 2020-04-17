@@ -47,9 +47,7 @@ const headerStyle = {
     alignItems: "center",
     justifyContent: "space-between",
     display: "flex",
-    flexWrap: "nowrap",
-    maringRight: 0,
-    paddingRight: 0
+    flexWrap: "nowrap"
   },
   flex: {
     flex: 1

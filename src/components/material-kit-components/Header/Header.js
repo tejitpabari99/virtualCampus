@@ -21,6 +21,10 @@ const useStyles = makeStyles(styles);
 const customClass = makeStyles(() => ({
   navbarToggle: {
     color: '#246a6d'
+  },
+  conainer: {
+    marginRight:0,
+    paddingRight: '3%',
   }
 }));
 
@@ -70,7 +74,7 @@ export default function Header(props) {
   const brandComponent = <Button color="transparent" className={classes.title} href={'/'}><strong>{brand}</strong></Button>;
   return (
     <AppBar className={appBarClasses}>
-      <Toolbar className={classes.container}>
+      <Toolbar className={classNames(customStyle.container, classes.container)} style={{marginRight:0, paddingRight: '3%',}}>
         {leftLinks !== undefined ? brandComponent : null}
         <div className={classes.flex}>
           {leftLinks !== undefined ? (
