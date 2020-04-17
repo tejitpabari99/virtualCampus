@@ -41,6 +41,7 @@ const useStyles = makeStyles({
     maxWidth: 330,
     boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
     transition: 'all 0.3s',
+    borderBottom: '5px solid #4284C8',
     
     "&:hover": {
       boxShadow: "0 10px 10px 0 rgba(0, 0, 0, 0.14), 0 15px 5px -10px rgba(0, 0, 0, 0.2), 0 5px 25px 0 rgba(0, 0, 0, 0.12)"
@@ -76,8 +77,7 @@ const useStyles = makeStyles({
     position: 'absolute',
     width:'75%',
     right: 10,
-    boxShadow:
-      "0 10px 20px -12px rgba(0, 0, 0, 0.42), 0 3px 20px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+    
   },
   container: {
     position: 'relative',
