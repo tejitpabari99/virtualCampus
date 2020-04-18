@@ -61,7 +61,7 @@ export default function Events() {
       <a href="">
       <Card className={manual.card} style={{display:"flex", flexDirection:"row"}}>
         
-        <img style={{height: "160px", width:"160px"}} src={require("../../assets/img/boardgame_pexels.jpg")} />
+        <img style={{height: "160px", width:"160px", borderTopLeftRadius: 6, borderBottomLeftRadius: 6}} src={require("../../assets/img/boardgame_pexels.jpg")} />
 
         <CardBody className={manual.cardbody}>
 
