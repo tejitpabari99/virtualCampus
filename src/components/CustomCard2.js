@@ -38,27 +38,34 @@ const colorMapping = {
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 280,
-    boxShadow:
-      "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
+    maxWidth: 330,
+    boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
+    transition: 'all 0.3s',
+    borderBottom: '5px solid #4284C8',
+    
+    "&:hover": {
+      boxShadow: "0 10px 10px 0 rgba(0, 0, 0, 0.14), 0 15px 5px -10px rgba(0, 0, 0, 0.2), 0 5px 25px 0 rgba(0, 0, 0, 0.12)"
+    }
   },
   media: {
-    height: 140,
+    height: 150,
     padding: 0
   },
   title: {
     textTransform: "capitalize",
-    height: 60
+    height: 55,
+    fontSize: '1.25rem'
   },
   description: {
-    height: 100,
+    // display: 'none',
+    height: 60,
     overflow: 'hidden'
   },
   cardHeader:{
     textTransform: 'capitalize',
     height: 35,
     borderRadius: "3px",
-    padding: "7px",
+    padding: "0px",
     paddingRight: 10,
     marginLeft: "auto",
     marginRight: "4px",
@@ -70,8 +77,7 @@ const useStyles = makeStyles({
     position: 'absolute',
     width:'75%',
     right: 10,
-    boxShadow:
-      "0 10px 20px -12px rgba(0, 0, 0, 0.42), 0 3px 20px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+    
   },
   container: {
     position: 'relative',
@@ -86,8 +92,8 @@ const useStyles = makeStyles({
 });
 
 const trimDescription = function(description) {
-  if(description.length > 145) {
-    description = description.substr(0, description.lastIndexOf(' ', 145)) + ' ...'
+  if(description.length > 75) {
+    description = description.substr(0, description.lastIndexOf(' ', 75)) + ' ...'
   }
   return description
 };
@@ -112,6 +118,7 @@ export default function CustomCard2(props) {
 
   return (
     <Card className={classes.root}>
+      <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
       <div className={classes.mediaContainer}>
         {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor}}>{headerTitle}</div>}
         <CardMedia
@@ -122,14 +129,14 @@ export default function CustomCard2(props) {
       </div>
 
       <CardContent style={{marginBottom: 0}}>
-        <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
+        <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
           {title}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
           {trimDescription(description)}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0}}>
+      <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
         <div style={{float: 'left'}}>
           {share &&
             <div style={{display:'inline-block'}} className={classes.icons}>
@@ -174,6 +181,7 @@ export default function CustomCard2(props) {
           </Button>
         </div>
       </CardActions>
+      </a>
     </Card>
   );
 }
