@@ -30,7 +30,6 @@ import styles from "../../../assets/material-kit-assets/jss/material-kit-react/c
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
-  console.log(rootPage);
   const classes = useStyles();
   return (
     <List className={classes.list}>
@@ -40,8 +39,29 @@ export default function HeaderLinks(props) {
           color="transparent"
           className={classes.navLink}
           active={props.active===''}
+
         >
-          <HomeIcon className={classes.icons}/> Campus
+          Campus
+        </Button>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Button
+          href="/events"
+          color="transparent"
+          className={classes.navLink}
+          active={props.active==='schedule'}
+        >
+          Events
+        </Button>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Button
+          href="/resources"
+          color="transparent"
+          className={classes.navLink}
+          active={props.active==='resources'}
+        >
+          Resources
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -51,7 +71,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           active={props.active==='about-us'}
         >
-          <InfoIcon className={classes.icons}/> About Us
+          About Us
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -61,7 +81,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           active={props.active==='contact-us'}
         >
-          <ContactMailIcon className={classes.icons} /> Contact Us
+          Contact Us
         </Button>
       </ListItem>
     </List>

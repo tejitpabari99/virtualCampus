@@ -18,8 +18,19 @@ import styles from "../../../assets/material-kit-assets/jss/material-kit-react/c
 
 const useStyles = makeStyles(styles);
 
+const customClass = makeStyles(() => ({
+  navbarToggle: {
+    color: '#246a6d'
+  },
+  conainer: {
+    marginRight:0,
+    paddingRight: '3%',
+  }
+}));
+
 export default function Header(props) {
   const classes = useStyles();
+  const customStyle = customClass();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   React.useEffect(() => {
     if (props.changeColorOnScroll) {
@@ -63,7 +74,8 @@ export default function Header(props) {
   const brandComponent = <Button color="transparent" className={classes.title} href={'/'}><strong>{brand}</strong></Button>;
   return (
     <AppBar className={appBarClasses}>
-      <Toolbar className={classes.container}>
+      <Toolbar className={classNames(customStyle.container, classes.container)}
+               style={{marginRight:0, paddingRight: '3%', marginLeft:0, paddingLeft: '3%', maxWidth: '100%'}}>
         {leftLinks !== undefined ? brandComponent : null}
         <div className={classes.flex}>
           {leftLinks !== undefined ? (
@@ -79,7 +91,8 @@ export default function Header(props) {
         </Hidden>
         <Hidden mdUp>
           <IconButton
-            color="inherit"
+            color='inherit'
+            className={customStyle.navbarToggle}
             aria-label="open drawer"
             onClick={handleDrawerToggle}
           >

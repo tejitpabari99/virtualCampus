@@ -24,8 +24,14 @@ const landingPageStyle = {
   },
   main: {
     background: "#FFFFFF",
+    position: "absolute",
+    top:"100%",
+    width: '100%',
+    // zIndex: "3"
+  },
+  mainOther: {
+    background: "#FFFFFF",
     position: "relative",
-    zIndex: "3"
   },
   mainRaised: {
     margin: "10px 30px 0px 30px",
@@ -34,7 +40,25 @@ const landingPageStyle = {
       "0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)"
   },
   cardTitle: {...cardTitle},
-  imagesStyles: {...imagesStyles}
+  imagesStyles: {...imagesStyles},
+  navLink: {
+    color: "inherit",
+    position: "relative",
+    padding: "0.9375rem",
+    fontWeight: "400",
+    fontSize: "20px",
+    textTransform: "uppercase",
+    borderRadius: "3px",
+    lineHeight: "20px",
+    textDecoration: "none",
+    margin: "0px",
+    marginTop: "20px",
+    display: "inline-flex",
+    "&:hover,&:focus": {
+      color: "inherit",
+      background: "rgba(200, 200, 200, 0.2)"
+    }
+  },
 };
 
 export default landingPageStyle;
