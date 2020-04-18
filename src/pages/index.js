@@ -103,7 +103,7 @@ export default function IndexPage() {
               VIRTUAL CAMPUS
             </h1>
             <Button
-              href="/contact-us"
+              href="/events"
               className={classNames(manual.button)}
               // active={true}
             >
