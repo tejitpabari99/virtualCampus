@@ -48,9 +48,6 @@ const manualSt = makeStyles(() => ({
     fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.5em',
     WebkitFontSmoothing:"antialiased", boxSizing: 'inherit', height: '100%',
     color:'#F1945B',
-    
-    fontWeight: 300,
-    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'
   },
   toAllLeft: {
     [theme.breakpoints.up('xs')]:{
@@ -165,7 +162,7 @@ export default function IndexPage() {
             </Button>
           </div>
         </div>
-      <div className={classNames(classes.main)}>
+      <div className={classNames(classes.main)} style={{textAlign:'left'}}>
         <div className={classes.container} id="explore">
           <HomeEvents/>
           <div style={{marginBottom: "100px"}}/>
