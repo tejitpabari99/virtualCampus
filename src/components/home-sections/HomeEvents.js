@@ -49,6 +49,27 @@ const manualSt = makeStyles(() => ({
     margin:"15px",
     marginLeft:"0px"
   },
+  button4:{
+    boxShadow: 'none',
+    borderRadius: 30,
+    fontSize: '1.1rem',
+    width: 150,
+    border: '1px solid #F1945B',
+    backgroundColor: 'white',
+    paddingTop: 10,
+    paddingBottom: 10,
+    "&:hover": {
+      backgroundColor: '#F1945B',
+      color: 'white'
+    },
+
+    "&:hover .makeStyles-buttonSpan-13": {
+      color: 'white'
+    }
+  },
+    buttonSpan:{
+      color: '#F1945B'
+    },
 
 }));
 
@@ -60,7 +81,7 @@ export default function Events() {
       <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={manual.toAll}> UPCOMING EVENTS </h3>
       <a href="">
       <Card className={manual.card} style={{display:"flex", flexDirection:"row"}}>
-        
+
         <img style={{height: "160px", width:"160px", borderTopLeftRadius: 6, borderBottomLeftRadius: 6}} src={require("../../assets/img/boardgame_pexels.jpg")} />
 
         <CardBody className={manual.cardbody}>
@@ -95,8 +116,11 @@ export default function Events() {
           <p style={{color:"#4284C8"}} className={manual.toAll}>Do you miss Hex? Does the word "Catan" bring back fond memories? Join us every week starting next Friday evening to play online games with friends and form this new virtual community.</p>
 
         </CardBody>
-        {/* <Button color="vcColor" size="sm" className={manual.button2} active={true}> Learn More </Button> */}
+        <Button color="vcColor" size="sm" className={manual.button2} active={true}> Attend </Button>
       </Card>
+      <div style={{width:"100%", justifyContent:"center", textAlign:"center"}}>
+        <Button href="/events" round className={manual.button4}> <span className={manual.buttonSpan}>See More</span> </Button>
+      </div>
       </a>
       </div>
     );
