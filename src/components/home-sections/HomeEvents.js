@@ -139,6 +139,7 @@ export default function Events() {
     return (
       <div style={{marginTop:"100px"}}>
       <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={manual.toAll}> UPCOMING EVENTS </h3>
+        <div>
         {myEventsList.map((ele) => {
           return(
             <a href={ele.location}>
@@ -189,11 +190,11 @@ export default function Events() {
             </a>
           )
         })}
+        </div>
 
-      <div style={{width:"100%", justifyContent:"center", textAlign:"center"}}>
-        <Link to={'/events'}><Button round className={manual.button4}
+      <div style={{textAlign:"center"}}>
+        <Button round className={manual.button4} href={'/events'}
               style={{color:'#F1945B'}}> See More </Button>
-        </Link>
       </div>
       </div>
     );
