@@ -165,7 +165,7 @@ class Events extends React.Component{
     return (
       <Template active={'schedule'}>
         <Helmet>
-          <title>Events @ Columbia Virtual Campus</title>
+          <title>Events</title>
         </Helmet>
         <div style={{marginTop:"0px"}}>
           <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={classes.toAll}> ALL EVENTS </h3>
