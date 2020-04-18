@@ -105,7 +105,8 @@ const manualSt = makeStyles(() => ({
     },
   },
   image:{
-    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,
+    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"180px",
+    height: "180px",
     [theme.breakpoints.up('xs')]:{
       width:'0',
       height: "0",
@@ -115,12 +116,12 @@ const manualSt = makeStyles(() => ({
       height: "0",
     },
     [theme.breakpoints.up('md')]:{
-      width:"160px",
-      height: "160px",
+      width:"180px",
+      height: "180px",
     },
     [theme.breakpoints.up('lg')]:{
-      width:"160px",
-      height: "160px",
+      width:"180px",
+      height: "180px",
     }
   }
 
@@ -142,10 +143,10 @@ export default function Events() {
         <div>
         {myEventsList.map((ele) => {
           return(
-            <a href={ele.location}>
+            <a href={ele.location} target={'_blank'} rel="noopener noreferrer">
             <Card className={manual.card}>
 
-              <img className={manual.image} src={require("../../assets/img/boardgame_pexels.jpg")} />
+              <img className={manual.image} src={ele.imgLink} />
 
               <CardBody className={manual.cardbody}>
 

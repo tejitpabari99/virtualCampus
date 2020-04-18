@@ -111,7 +111,8 @@ const useStyles = () => ({
     fontSize: 15,
   },
   image:{
-    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,
+    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"180px",
+    height: "180px",
     [theme.breakpoints.up('xs')]:{
       width:'0',
       height: "0",
@@ -121,12 +122,12 @@ const useStyles = () => ({
       height: "0",
     },
     [theme.breakpoints.up('md')]:{
-      width:"160px",
-      height: "160px",
+      width:"180px",
+      height: "180px",
     },
     [theme.breakpoints.up('lg')]:{
-      width:"160px",
-      height: "160px",
+      width:"180px",
+      height: "180px",
     }
   }
 });
@@ -261,7 +262,7 @@ class Events extends React.Component{
           }}/>
           {myEventsList.map((ele) => {
             return(
-              <a href={ele.location}>
+              <a href={ele.location} target={'_blank'} rel="noopener noreferrer">
               <Card className={classes.card}>
                 <img className={classes.image} src={ele.imgLink} />
 
