@@ -6,12 +6,35 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Toolbar from "@material-ui/core/Toolbar";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import moment from 'moment';
+import classNames from "classnames";
+import Card from "../components/material-kit-components/Card/Card.js";
+import CardBody from "../components/material-kit-components/Card/CardBody.js";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import myEventsList from '../assets/events'
 import { createMuiTheme } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
+import Button from "../components/material-kit-components/CustomButtons/Button.js";
+import { cardTitle } from "../assets/material-kit-assets/jss/material-kit-react.js";
+import { Helmet } from 'react-helmet'
+import AddIcon from '@material-ui/icons/Add';
+
+const TITLE = 'Events @ Columbia Virtual Campus';
 const theme = createMuiTheme();
+
+const months = {
+  0: 'January',
+  1: 'February',
+  2: 'March',
+  3: 'April',
+  4: 'May',
+  5: 'June',
+  6: 'July',
+  7: 'August',
+  8: 'September',
+  9: 'October',
+  10: 'November',
+  11: 'December'
+}
 
 
 const localizer = momentLocalizer(moment);
@@ -26,7 +49,47 @@ const useStyles = () => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    maxWidth: 500
   },
+  cardTitle,
+  textMuted: {
+    color: "#6c757d"
+  },
+  toAll: {
+    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.5em',
+    WebkitFontSmoothing:"antialiased", boxSizing: 'inherit', margin:"0px"
+  },
+  button:{
+    boxShadow:"none",
+  },
+  button2:{
+    boxShadow:"none",
+    height:"50px",
+    margin:"0px",
+    float:"right",
+    right:0,
+    top:0,
+    position:"absolute",
+    borderBottomLeftRadius:"15px"
+  },
+  cardbody:{
+    position:"relatives"
+  },
+  button3:{
+    boxShadow:"none",
+    backgroundColor:"#BFD8E950",
+    margin:"15px",
+    marginLeft:"0px"
+  },
+  addNewButton:{
+    float:'right',
+    boxShadow:"none",
+    fontSize: 15,
+  },
+  learnMoreModal: {
+    boxShadow:"none",
+    fontSize: 15,
+  }
 });
 
 class Events extends React.Component{
@@ -55,7 +118,17 @@ class Events extends React.Component{
     const {classes} = this.props;
     return (
       <Template active={'schedule'}>
-        <Button style={{float:'right', marginBottom:15}}>Add New Event</Button>
+        <Helmet>
+          <title>Events @ Columbia Virtual Campus</title>
+        </Helmet>
+        <div style={{marginTop:"0px"}}>
+          <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={classes.toAll}> ALL EVENTS </h3>
+        </div>
+
+        <Button color="vcColor" size="sm" className={classes.addNewButton}
+                active={true} target={'_blank'} rel="noopener noreferrer"
+                href={'https://forms.gle/fzKvSZqkAVNN6cHY6'}> <AddIcon/> Add New Event
+        </Button>
         <Toolbar/>
         <Calendar
           views={['week', 'day']}
@@ -63,8 +136,8 @@ class Events extends React.Component{
           scrollToTime={new Date()}
           events={myEventsList}
           defaultView={'week'}
-          startAccessor="start"
-          endAccessor="end"
+          startAccessor="startTime"
+          endAccessor="endTime"
           allDayAccessor="allDay"
           style={{ height: 500 }}
           onSelectEvent={(event) => {this.setState({open:true, event})}}
@@ -84,13 +157,114 @@ class Events extends React.Component{
         >
           <Fade in={this.state.open}>
             <div className={classes.paper}>
-              <h2 id="transition-smodal-title">Transition modal</h2>
-              <p id="transition-modal-description">react-transition-group animates me.</p>
+
+              <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, classes.toAll)}>{this.state.event.title}</h4>
+              <Button
+                className={classNames(classes.navLink, classes.button3)}
+                size="sm"
+                round
+                disabled
+              >
+                {months[this.state.event.startTime.getMonth()].toUpperCase()} {this.state.event.startTime.getDate()}, {this.state.event.startTime.getFullYear()}
+              </Button>
+              <Button
+                className={classNames(classes.navLink, classes.button3)}
+                size="sm"
+                round
+                disabled
+              >
+                {this.state.event.startTime.getHours()} EST
+              </Button>
+              {this.state.event.tags.map((ele) => {
+               return (
+                 <Button
+                   color="vcColor"
+                   className={classNames(classes.navLink, classes.button)}
+                   size="sm"
+                   round
+                   disabled
+                   active={true}
+                 >
+                   {ele}
+                 </Button>
+               )
+              })}
+              <p style={{color:"#4284C8"}} className={classes.toAll}>{this.state.event.description}</p>
+              <div style={{textAlign:'center'}}>
+                <Button
+                  color="vcColor"
+                  className={classes.learnMoreModal}
+                  size="sm"
+                  active={true}
+                  href={this.state.event.location}
+                  target={'_blank'} rel="noopener noreferrer"
+                >
+                  Learn More
+                </Button>
+              </div>
+
             </div>
           </Fade>
         </Modal>}
+        <Toolbar />
+        <div>
+          <h3 className={classes.toAll} style={{textAlign:"left", color:'#F1945B', fontSize:"20px", fontWeight: 100}} > APRIL 2020</h3>
+          <div style={{
+            color: '#F1945B',
+            backgroundColor: '#F1945B',
+            height: 3
+          }}/>
+          {myEventsList.map((ele) => {
+            return(
+              <Card style={{display:"flex", flexDirection:"row"}}>
+                <img style={{height: "160px", width:"160px"}} src={ele.imgLink} />
+
+                <CardBody className={classes.cardbody}>
+
+                  <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, classes.toAll)}>{ele.title}</h4>
+                  <Button
+                    className={classNames(classes.navLink, classes.button3)}
+                    size="sm"
+                    round
+                    disabled
+                  >
+                    {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
+                  </Button>
+                  <Button
+                    className={classNames(classes.navLink, classes.button3)}
+                    size="sm"
+                    round
+                    disabled
+                  >
+                    {ele.startTime.getHours()} EST
+                  </Button>
+                  {ele.tags.map((ta) => {
+                    return (
+                      <Button
+                        color="vcColor"
+                        className={classNames(classes.navLink, classes.button)}
+                        size="sm"
+                        round
+                        disabled
+                        active={true}
+                      >
+                        {ta}
+                      </Button>
+                    )
+                  })}
+                  <p style={{color:"#4284C8"}} className={classes.toAll}>{ele.description}</p>
+                </CardBody>
+                <Button color="vcColor" size="sm" className={classes.button2}
+                        active={true} href={ele.location}
+                        target={'_blank'} rel="noopener noreferrer"
+                > Learn More </Button>
+              </Card>
+            )
+          })}
+
+        </div>
       </Template>
-    );
+    )
   }
 }
 
