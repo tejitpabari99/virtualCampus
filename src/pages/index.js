@@ -114,7 +114,7 @@ export default function IndexPage() {
       <div className={classNames(classes.main)}>
         <div className={classes.container} id="explore">
           <HomeEvents/>
-          <div style={{marginBottom: "50px"}}/>
+          <div style={{marginBottom: "100px"}}/>
         </div>
       </div>
     </div>
