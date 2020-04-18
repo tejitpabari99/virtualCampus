@@ -105,8 +105,8 @@ const manualSt = makeStyles(() => ({
     },
   },
   image:{
-    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"180px",
-    height: "180px",
+    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"200px",
+    height: "200px",
     [theme.breakpoints.up('xs')]:{
       width:'0',
       height: "0",
@@ -116,12 +116,12 @@ const manualSt = makeStyles(() => ({
       height: "0",
     },
     [theme.breakpoints.up('md')]:{
-      width:"180px",
-      height: "180px",
+      width:"200px",
+      height: "200px",
     },
     [theme.breakpoints.up('lg')]:{
-      width:"180px",
-      height: "180px",
+      width:"200px",
+      height: "200px",
     }
   }
 
