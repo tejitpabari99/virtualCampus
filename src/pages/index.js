@@ -1,16 +1,20 @@
 import React from "react"
 import classNames from "classnames";
-import {Link} from "gatsby"
+// import {Link} from "gatsby"
 import Button from "../components/material-kit-components/CustomButtons/Button.js";
-import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
-import GridItem from "../components/material-kit-components/Grid/GridItem.js";
-import Parallax from "../components/material-kit-components/Parallax/Parallax.js";
+// import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
+// import GridItem from "../components/material-kit-components/Grid/GridItem.js";
+// import Parallax from "../components/material-kit-components/Parallax/Parallax.js";
 import HomeDescription from '../components/home-sections/HomeDescription'
 import CustomHeader from "../components/CustomHeader";
 import CategoriesSection from '../components/home-sections/CategoriesSection'
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
+// import Toolbar from "@material-ui/core/Toolbar";
+import landingImage from "../assets/img/graphic.png";
+import { Helmet } from 'react-helmet'
+
+const TITLE = 'Columbia Virtual Campus'
 
 const useStyles = makeStyles(styles);
 
@@ -50,19 +54,9 @@ const manualSt = makeStyles(() => ({
       float:'right', marginRight: '3%', marginTop: '10%'
     }
   },
-  parallax:{
-    [theme.breakpoints.up('xs')]:{
-      backgroundSize: '80%',
-    },
-    [theme.breakpoints.up('sm')]:{
-      backgroundSize: '80%'
-    },
-    [theme.breakpoints.up('md')]:{
-      backgroundSize: '65%',
-    },
-    [theme.breakpoints.up('lg')]:{
-      backgroundSize: '80%',
-    }
+  landing: {
+    backgroundImage: `url(${landingImage})`,
+    backgroundSize: 'cover'
   }
 }));
 
@@ -73,9 +67,11 @@ export default function IndexPage() {
   console.log(theme.breakpoints.up('sm'));
   return (
     <div style={{background: "white"}} className={manual.toAll}>
+      <Helmet>
+          <title>{ TITLE }</title>
+      </Helmet>
       <CustomHeader active={''} brand={''}></CustomHeader>
-      <Parallax image={require("../assets/img/graphic.png")} className={manual.parallax}>
-        <div style={{height:"100%", width:"100%"}}>
+        <div className={classNames(manual.landing)} style={{height:"100vh", width:"100%"}}>
           <div className={classNames(manual.text)} style={{textAlign:'right'}}>
             <h1 style={{color:"#2984ce", alignText:'center', fontSize: '3rem', lineHeight: '1.15em', fontWeight: 400, fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'}} className={manual.toAll}>
               COLUMBIA UNIVERSITY
@@ -93,7 +89,6 @@ export default function IndexPage() {
             </Button>
           </div>
         </div>
-      </Parallax>
       <div className={classNames(classes.main)}>
         <div className={classes.container} id="explore">
           <HomeDescription/>
