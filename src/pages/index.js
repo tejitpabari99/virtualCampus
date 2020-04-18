@@ -8,6 +8,7 @@ import Parallax from "../components/material-kit-components/Parallax/Parallax.js
 import HomeDescription from '../components/home-sections/HomeDescription'
 import CustomHeader from "../components/CustomHeader";
 import CategoriesSection from '../components/home-sections/CategoriesSection'
+import HomeEvents from '../components/home-sections/HomeEvents'
 import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -96,8 +97,7 @@ export default function IndexPage() {
       </Parallax>
       <div className={classNames(classes.main)}>
         <div className={classes.container} id="explore">
-          <HomeDescription/>
-          <CategoriesSection />
+          <HomeEvents/>
           <div style={{marginBottom: "50px"}}/>
         </div>
       </div>

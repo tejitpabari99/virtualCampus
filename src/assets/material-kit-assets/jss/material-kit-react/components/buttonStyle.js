@@ -266,7 +266,6 @@ const buttonStyle = {
     }
   },
   disabled: {
-    opacity: "0.65",
     pointerEvents: "none"
   },
   lg: {
