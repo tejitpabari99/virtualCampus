@@ -2,10 +2,15 @@ import React from "react"
 import Template from "../components/template";
 import Card from "../components/material-kit-components/Card/Card.js";
 import CardBody from "../components/material-kit-components/Card/CardBody.js";
+import { Helmet } from 'react-helmet'
 
+const TITLE = 'Contact Us'
 export default function IndexPage() {
     return (
         <Template active={'contact-us'}>
+            <Helmet>
+                <title>{TITLE}</title>
+            </Helmet>
             <Card>
                 <CardBody>
                     <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>Contribute Your Project!</strong></h3>

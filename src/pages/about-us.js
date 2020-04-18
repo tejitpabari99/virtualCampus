@@ -7,9 +7,16 @@ import lionbase from "../assets/img/lionbase.png";
 
 import TeamSection from "../components/about-us-sections/team.js";
 
+import { Helmet } from 'react-helmet'
+
+const TITLE = 'About Us'
+
 export default function IndexPage() {
     return (
         <Template active={'about-us'}>
+            <Helmet>
+                <title>{TITLE}</title>
+            </Helmet>
             <link href="../assets/material-kit-assets/css/material-kit-react.css.map" rel="stylesheet"/>
             <Card>
                 <CardBody>
