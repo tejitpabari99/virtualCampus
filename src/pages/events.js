@@ -220,7 +220,6 @@ class Events extends React.Component{
                 <img style={{height: "160px", width:"160px"}} src={ele.imgLink} />
 
                 <CardBody className={classes.cardbody}>
-
                   <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, classes.toAll)}>{ele.title}</h4>
                   <Button
                     className={classNames(classes.navLink, classes.button3)}
