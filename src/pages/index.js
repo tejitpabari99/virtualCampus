@@ -30,12 +30,41 @@ const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
 
 const manualSt = makeStyles(() => ({
   toAll: {
+    [theme.breakpoints.up('xs')]:{
+      fontSize: '2.5rem',
+      lineHeight: '1.00em',
+      textAlign:'center',
+    },
+    [theme.breakpoints.up('sm')]:{
+      fontSize: '4rem',
+      lineHeight: '1.15em',
+      textAlign:'right',
+    },
+    [theme.breakpoints.up('lg')]:{
+      fontSize: '4rem',
+      lineHeight: '1.15em',
+      textAlign:'right',
+    },
     fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.5em',
-    WebkitFontSmoothing:"antialiased", boxSizing: 'inherit', height: '100%'
+    WebkitFontSmoothing:"antialiased", boxSizing: 'inherit', height: '100%',
+    color:'#F1945B',
+    
+    fontWeight: 300,
+    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'
   },
   toAllLeft: {
-    textAlign: 'left',
-    marginLeft: '-8rem'
+    [theme.breakpoints.up('xs')]:{
+      marginTop: '30%',
+      marginLeft: 0,
+      textAlign:'center',
+    },
+    [theme.breakpoints.up('sm')]:{
+      marginTop: 'auto',
+      textAlign: 'left',
+      marginLeft: '-8rem',
+    },
+    color:"#BFD8E9",
+    fontWeight: 400,
   },
   button:{
     boxShadow: 'none',
@@ -50,36 +79,61 @@ const manualSt = makeStyles(() => ({
       backgroundColor: '#4284C8',
     },
 
-    "&:hover .makeStyles-buttonSpan-13": {
-      color: 'white'
-    }
+    "&:hover span": {
+      color: 'white !important',
+    },
   },
   buttonSpan:{
-    color: '#4284C8'
+    color: '#4284C8',
   },
   text:{
     [theme.breakpoints.up('xs')]:{
-      margin:0,
-      marginTop: '55%'
+      marginTop: '0',
+      float:'right',
+      width: '100%'
     },
-    [theme.breakpoints.up('sm')]:{
-      margin:0,
-      marginTop: '55%'
+    [theme.breakpoints.up('sm')]: {
+      margin: '0',
+      float:'right',
+      marginRight: '3%',
+      marginTop: "10%" ,
+      textAlign:'right',
+      width: 'auto'
     },
     [theme.breakpoints.up('md')]:{
-      margin:0,
-      marginTop: '40%'
+      margin: 0,
+      float:'right',
+      marginRight: '3%',
+      marginTop: "10%" ,
+      textAlign:'right'
     },
     [theme.breakpoints.up('lg')]:{
-      margin:0,
-      float:'right', marginRight: '3%', marginTop: '10%'
+      margin: 0,
+      float:'right',
+      marginRight: '3%',
+      marginTop: "10%" ,
+      textAlign:'right'
     }
   },
   landing: {
-    backgroundImage: `url(${landingImage})`,
-    backgroundSize: '70%',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'left center'
+    [theme.breakpoints.up('xs')]:{
+      backgroundImage: `url(${landingImage})`,
+      backgroundSize: '200%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: '80% 100%',
+    },
+    [theme.breakpoints.up('md')]:{
+      backgroundImage: `url(${landingImage})`,
+      backgroundSize: '120%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: '80% 80%',
+    },
+    [theme.breakpoints.up('lg')]: {
+      backgroundImage: `url(${landingImage})`,
+      backgroundSize: '70%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'left center',
+    },
   }
 }));
 
@@ -95,11 +149,11 @@ export default function IndexPage() {
       </Helmet>
       <CustomHeader active={''} brand={''}></CustomHeader>
         <div className={classNames(manual.landing)} style={{height:"100vh", width:"100%"}}>
-          <div className={classNames(manual.text)} style={{textAlign:'right'}}>
-            <h1 style={{color:"#BFD8E9", alignText:'center', fontSize: '4rem', lineHeight: '1.15em', fontWeight: 400, fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'}} className={classNames(manual.toAll, manual.toAllLeft)}>
+          <div className={classNames(manual.text)}>
+            <h1 className={classNames(manual.toAll, manual.toAllLeft)}>
               COLUMBIA
             </h1>
-            <h1 style={{color:'#F1945B', alignText:'center', fontSize: '4rem', lineHeight: '1.15em', fontWeight: 300, fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif'}} className={manual.toAll}>
+            <h1 className={manual.toAll}>
               VIRTUAL CAMPUS
             </h1>
             <Button
