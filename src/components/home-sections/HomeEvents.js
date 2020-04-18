@@ -32,7 +32,7 @@ const manualSt = makeStyles(() => ({
     right:0,
     top:0,
     position:"absolute",
-    borderBottomLeftRadius:"20px"
+    borderBottomLeftRadius:"15px"
   },
   cardbody:{
     position:"relatives"
@@ -53,7 +53,7 @@ export default function Events() {
       <div style={{marginTop:"100px"}}>
       <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={manual.toAll}> UPCOMING EVENTS </h3>
       <Card style={{display:"flex", flexDirection:"row"}}>
-        <img style={{height: "160px", width:"160px"}} src={require("../../assets/img/logoMain.png")} />
+        <img style={{height: "160px", width:"160px"}} src={require("../../assets/img/boardgame_pexels.jpg")} />
 
         <CardBody className={manual.cardbody}>
 
@@ -64,7 +64,7 @@ export default function Events() {
             round
             disabled
           >
-            April 17, 2020
+            April 24, 2020
           </Button>
           <Button
             className={classNames(classes.navLink, manual.button3)}
@@ -72,7 +72,7 @@ export default function Events() {
             round
             disabled
           >
-            4:00pm EST
+            5:00pm EST
           </Button>
           <Button
             color="vcColor"
@@ -84,7 +84,7 @@ export default function Events() {
           >
             events
           </Button>
-          <p style={{color:"#4284C8"}} className={manual.toAll}>Do you miss Hex? Does the word "Catan" bring back fond memories? Join the board game club every week on Friday evenings to play online games with friends and the supportive and friendly board game club members.</p>
+          <p style={{color:"#4284C8"}} className={manual.toAll}>Do you miss Hex? Does the word "Catan" bring back fond memories? Join us every week starting next Friday evening to play online games with friends and form this new virtual community.</p>
 
         </CardBody>
         <Button color="vcColor" size="sm" className={manual.button2} active={true}> Learn More </Button>
