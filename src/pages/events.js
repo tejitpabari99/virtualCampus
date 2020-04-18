@@ -6,6 +6,9 @@ import CardBody from "../components/material-kit-components/Card/CardBody.js";
 import Button from "../components/material-kit-components/CustomButtons/Button.js";
 import { makeStyles } from "@material-ui/core/styles";
 import { cardTitle } from "../assets/material-kit-assets/jss/material-kit-react.js";
+import { Helmet } from 'react-helmet'
+
+const TITLE = 'Events @ Columbia Virtual Campus'
 
 const styles = {
   cardTitle,
@@ -51,6 +54,9 @@ export default function Events() {
     const manual = manualSt();
     return (
         <Template active={'schedule'}>
+          <Helmet>
+            <title>{ TITLE }</title>
+          </Helmet>
         <div style={{marginTop:"0px"}}>
           <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={manual.toAll}> ALL EVENTS </h3>
         </div>
