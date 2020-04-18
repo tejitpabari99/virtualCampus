@@ -44,6 +44,26 @@ const useStyles = () => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  card: {
+    transition: 'all 0.3s',
+    "&:hover": {
+      boxShadow: '0 6px 6px 0 rgba(0, 0, 0, 0.14), 0 9px 3px -6px rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.12)'
+    },
+    [theme.breakpoints.up('xs')]:{
+      display:'block',
+      flexDirection: 'none'
+    },
+    [theme.breakpoints.up('sm')]:{
+      display:'block',
+      flexDirection: 'none'
+    },
+    [theme.breakpoints.up('md')]:{
+      display:"flex", flexDirection:"row",
+    },
+    [theme.breakpoints.up('lg')]:{
+      display:"flex", flexDirection:"row",
+    }
+  },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
@@ -89,6 +109,25 @@ const useStyles = () => ({
   learnMoreModal: {
     boxShadow:"none",
     fontSize: 15,
+  },
+  image:{
+    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,
+    [theme.breakpoints.up('xs')]:{
+      width:'0',
+      height: "0",
+    },
+    [theme.breakpoints.up('sm')]:{
+      width:'0',
+      height: "0",
+    },
+    [theme.breakpoints.up('md')]:{
+      width:"160px",
+      height: "160px",
+    },
+    [theme.breakpoints.up('lg')]:{
+      width:"160px",
+      height: "160px",
+    }
   }
 });
 
@@ -100,6 +139,13 @@ class Events extends React.Component{
       event:null,
     };
     this.closeDo = this.closeDo.bind(this);
+  }
+
+  formatTime(hours, min) {
+    let h = hours>12?hours-12:hours;
+    let m = min<10?'0'+min.toString():min.toString();
+    let add = hours>12?'PM':'AM';
+    return h + ':' + m + add
   }
 
   closeDo() {
@@ -173,7 +219,7 @@ class Events extends React.Component{
                 round
                 disabled
               >
-                {this.state.event.startTime.getHours()} EST
+                {this.formatTime(this.state.event.startTime.getHours(),this.state.event.startTime.getMinutes())} EST
               </Button>
               {this.state.event.tags.map((ele) => {
                return (
@@ -202,7 +248,6 @@ class Events extends React.Component{
                   Learn More
                 </Button>
               </div>
-
             </div>
           </Fade>
         </Modal>}
@@ -216,8 +261,9 @@ class Events extends React.Component{
           }}/>
           {myEventsList.map((ele) => {
             return(
-              <Card style={{display:"flex", flexDirection:"row"}}>
-                <img style={{height: "160px", width:"160px"}} src={ele.imgLink} />
+              <a href={ele.location}>
+              <Card className={classes.card}>
+                <img className={classes.image} src={ele.imgLink} />
 
                 <CardBody className={classes.cardbody}>
                   <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, classes.toAll)}>{ele.title}</h4>
@@ -235,7 +281,7 @@ class Events extends React.Component{
                     round
                     disabled
                   >
-                    {ele.startTime.getHours()} EST
+                    {this.formatTime(ele.startTime.getHours(),ele.startTime.getMinutes())} EST
                   </Button>
                   {ele.tags.map((ta) => {
                     return (
@@ -256,8 +302,9 @@ class Events extends React.Component{
                 <Button color="vcColor" size="sm" className={classes.button2}
                         active={true} href={ele.location}
                         target={'_blank'} rel="noopener noreferrer"
-                > Learn More </Button>
+                > Attend </Button>
               </Card>
+              </a>
             )
           })}
 

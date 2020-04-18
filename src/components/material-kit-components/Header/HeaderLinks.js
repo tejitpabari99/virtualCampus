@@ -30,7 +30,6 @@ import styles from "../../../assets/material-kit-assets/jss/material-kit-react/c
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
-  console.log(rootPage);
   const classes = useStyles();
   return (
     <List className={classes.list}>
@@ -40,6 +39,7 @@ export default function HeaderLinks(props) {
           color="transparent"
           className={classes.navLink}
           active={props.active===''}
+
         >
           Campus
         </Button>
