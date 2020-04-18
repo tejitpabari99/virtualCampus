@@ -96,12 +96,12 @@ export default function Events() {
               disabled
               active={true}
             >
-              events
+              games
             </Button>
             <p style={{color:"#4284C8"}} className={manual.toAll}>Do you miss Hex? Does the word "Catan" bring back fond memories? Join us every week starting next Friday evening to play online games with friends and form this new virtual community.</p>
 
           </CardBody>
-          <Button color="vcColor" size="sm" className={manual.button2} active={true}> Learn More </Button>
+          <Button color="vcColor" size="sm" className={manual.button2} active={true}> Attend </Button>
         </Card>
         </Template>
     );
