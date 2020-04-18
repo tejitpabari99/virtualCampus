@@ -4,8 +4,11 @@ import classNames from "classnames";
 import Card from "../material-kit-components/Card/Card.js";
 import CardBody from "../material-kit-components/Card/CardBody.js";
 import Button from "../material-kit-components/CustomButtons/Button.js";
-import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react.js";
+
+import myEventsList from '../../assets/events'
+import { Link } from "gatsby";
 
 const styles = {
   cardTitle,
@@ -14,13 +17,50 @@ const styles = {
   },
 };
 
+const months = {
+  0: 'January',
+  1: 'February',
+  2: 'March',
+  3: 'April',
+  4: 'May',
+  5: 'June',
+  6: 'July',
+  7: 'August',
+  8: 'September',
+  9: 'October',
+  10: 'November',
+  11: 'December'
+}
+
+const breakpointValues = {
+  xs: 0,
+  sm: 200,
+  md: 770,
+  lg: 1200,
+  xl: 1900,
+};
 const useStyles = makeStyles(styles);
+const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
 
 const manualSt = makeStyles(() => ({
   card: {
     transition: 'all 0.3s',
     "&:hover": {
       boxShadow: '0 6px 6px 0 rgba(0, 0, 0, 0.14), 0 9px 3px -6px rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.12)'
+    },
+    [theme.breakpoints.up('xs')]:{
+      display:'block',
+      flexDirection: 'none'
+    },
+    [theme.breakpoints.up('sm')]:{
+      display:'block',
+      flexDirection: 'none'
+    },
+    [theme.breakpoints.up('md')]:{
+      display:"flex", flexDirection:"row",
+    },
+    [theme.breakpoints.up('lg')]:{
+      display:"flex", flexDirection:"row",
     }
   },
   toAll: {
@@ -49,7 +89,7 @@ const manualSt = makeStyles(() => ({
     margin:"15px",
     marginLeft:"0px"
   },
-  button4:{
+  button4: {
     boxShadow: 'none',
     borderRadius: 30,
     fontSize: '1.1rem',
@@ -58,20 +98,40 @@ const manualSt = makeStyles(() => ({
     backgroundColor: 'white',
     paddingTop: 10,
     paddingBottom: 10,
-    "&:hover": {
+    // color: '#F1945B',
+    "&:hover,&:focus": {
       backgroundColor: '#F1945B',
       color: 'white'
     },
-
-    "&:hover .makeStyles-buttonSpan-13": {
-      color: 'white'
-    }
   },
-    buttonSpan:{
-      color: '#F1945B'
+  image:{
+    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,
+    [theme.breakpoints.up('xs')]:{
+      width:'0',
+      height: "0",
     },
+    [theme.breakpoints.up('sm')]:{
+      width:'0',
+      height: "0",
+    },
+    [theme.breakpoints.up('md')]:{
+      width:"160px",
+      height: "160px",
+    },
+    [theme.breakpoints.up('lg')]:{
+      width:"160px",
+      height: "160px",
+    }
+  }
 
 }));
+
+const formatTime = function(hours, min) {
+  let h = hours>12?hours-12:hours;
+  let m = min<10?'0'+min.toString():min.toString();
+  let add = hours>12?'PM':'AM';
+  return h + ':' + m + add
+}
 
 export default function Events() {
     const classes = useStyles();
@@ -79,49 +139,62 @@ export default function Events() {
     return (
       <div style={{marginTop:"100px"}}>
       <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={manual.toAll}> UPCOMING EVENTS </h3>
-      <a href="">
-      <Card className={manual.card} style={{display:"flex", flexDirection:"row"}}>
+        {myEventsList.map((ele) => {
+          return(
+            <a href={ele.location}>
+            <Card className={manual.card}>
 
-        <img style={{height: "160px", width:"160px", borderTopLeftRadius: 6, borderBottomLeftRadius: 6}} src={require("../../assets/img/boardgame_pexels.jpg")} />
+              <img className={manual.image} src={require("../../assets/img/boardgame_pexels.jpg")} />
 
-        <CardBody className={manual.cardbody}>
+              <CardBody className={manual.cardbody}>
 
-          <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, manual.toAll)}>Weekly Board Game Nights</h4>
-          <Button
-            className={classNames(classes.navLink, manual.button3)}
-            size="sm"
-            round
-            disabled
-          >
-            April 24, 2020
-          </Button>
-          <Button
-            className={classNames(classes.navLink, manual.button3)}
-            size="sm"
-            round
-            disabled
-          >
-            5:00pm EST
-          </Button>
-          <Button
-            color="vcColor"
-            className={classNames(classes.navLink, manual.button)}
-            size="sm"
-            round
-            disabled
-            active={true}
-          >
-            events
-          </Button>
-          <p style={{color:"#4284C8"}} className={manual.toAll}>Do you miss Hex? Does the word "Catan" bring back fond memories? Join us every week starting next Friday evening to play online games with friends and form this new virtual community.</p>
+                <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, manual.toAll)}>{ele.title}</h4>
+                <Button
+                  className={classNames(classes.navLink, manual.button3)}
+                  size="sm"
+                  round
+                  disabled
+                >
+                  {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
+                </Button>
+                <Button
+                  className={classNames(classes.navLink, manual.button3)}
+                  size="sm"
+                  round
+                  disabled
+                >
+                  {formatTime(ele.startTime.getHours(),ele.startTime.getMinutes())} EST
+                </Button>
+                {ele.tags.map((ta) => {
+                  return (
+                    <Button
+                      color="vcColor"
+                      className={classNames(classes.navLink, manual.button)}
+                      size="sm"
+                      round
+                      disabled
+                      active={true}
+                    >
+                      {ta}
+                    </Button>
+                  )
+                })}
+                <p style={{color:"#4284C8"}} className={manual.toAll}>{ele.description}</p>
 
-        </CardBody>
-        <Button color="vcColor" size="sm" className={manual.button2} active={true}> Attend </Button>
-      </Card>
+              </CardBody>
+              <Button color="vcColor" size="sm" className={manual.button2} active={true}
+                      href={ele.location}
+                      target={'_blank'} rel="noopener noreferrer"> Attend </Button>
+            </Card>
+            </a>
+          )
+        })}
+
       <div style={{width:"100%", justifyContent:"center", textAlign:"center"}}>
-        <Button href="/events" round className={manual.button4}> <span className={manual.buttonSpan}>See More</span> </Button>
+        <Link to={'/events'}><Button round className={manual.button4}
+              style={{color:'#F1945B'}}> See More </Button>
+        </Link>
       </div>
-      </a>
       </div>
     );
 }
