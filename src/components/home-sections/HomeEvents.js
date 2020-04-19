@@ -30,14 +30,7 @@ const months = {
   11: 'December'
 }
 
-const breakpointValues = {
-  xs: 0,
-  sm: 200,
-  md: 770,
-  lg: 1200,
-  xl: 1900,
-};
-const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
+const theme = createMuiTheme();
 
 const useStyles = () => ({
   modal: {
