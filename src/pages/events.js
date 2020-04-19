@@ -171,12 +171,30 @@ class Events extends React.Component{
     return {style:style}
   }
 
+   EventDisplay = ({ event }) => (
+    <div>
+      <div style={{fontSize: 15, marginBottom: 3}}>{event.title}</div>
+      <div style={{fontSize: 13}}>{this.formatTime(event.startTime.getHours(),event.startTime.getMinutes())} -
+        {this.formatTime(event.endTime.getHours(),event.endTime.getMinutes())}</div>
+    </div>
+  );
+
   render() {
     const {classes} = this.props;
     return (
       <Template active={'schedule'}>
         <Helmet>
           <title>Events</title>
+          <meta name="description" content="Virtual Campus for the Columbia Community" />
+          <link rel="canonical" href="https://columbiavirtualcampus.com/" />
+          <meta name="robots" content="index, follow" />
+          <meta property="og:title" content="Columbia Virtual Campus" />
+          <meta property="og:description" content="Virtual Campus for the Columbia Community" />
+          <meta property="og:image" content='https://columbiavirtualcampus.com/static/graphic-7d5b8765ceb0dc19c9fa39db23824216.png' />
+          <meta property="og:image:type" content="image/jpeg" />
+          <meta property="og:image:alt" content="Columbia Virtual Campus" />
+          <meta property="og:image:width" content="200" />
+          <meta property="og:image:height" content="200" />
         </Helmet>
         <div style={{marginTop:"0px"}}>
           <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={classes.toAll}> ALL EVENTS (IN EST) </h3>
@@ -199,6 +217,10 @@ class Events extends React.Component{
           style={{ height: 500 }}
           onSelectEvent={(event) => {this.setState({open:true, event})}}
           eventPropGetter={this.eventPropStyles}
+          components={{
+            event: this.EventDisplay,
+          }}
+          formats={{ eventTimeRangeFormat: () => null }}
         />
         {this.state.open && <Modal
           aria-labelledby="transition-modal-title"
