@@ -9,13 +9,10 @@ import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-rea
 
 import myEventsList from '../../assets/events'
 import { Link } from "gatsby";
-
-const styles = {
-  cardTitle,
-  textMuted: {
-    color: "#6c757d"
-  },
-};
+import { withStyles } from "@material-ui/styles";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 
 const months = {
   0: 'January',
@@ -39,15 +36,16 @@ const breakpointValues = {
   lg: 1200,
   xl: 1900,
 };
-const useStyles = makeStyles(styles);
 const theme = createMuiTheme({ breakpoints: { values: breakpointValues } });
 
-const manualSt = makeStyles(() => ({
+const useStyles = () => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   card: {
     transition: 'all 0.3s',
-    "&:hover": {
-      boxShadow: '0 6px 6px 0 rgba(0, 0, 0, 0.14), 0 9px 3px -6px rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.12)'
-    },
     [theme.breakpoints.up('xs')]:{
       display:'block',
       flexDirection: 'none'
@@ -63,12 +61,25 @@ const manualSt = makeStyles(() => ({
       display:"flex", flexDirection:"row",
     }
   },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    maxWidth: 500
+  },
+  cardTitle,
+  textMuted: {
+    color: "#6c757d"
+  },
   toAll: {
-    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.5em',
+    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.25em',
     WebkitFontSmoothing:"antialiased", boxSizing: 'inherit', margin:"0px"
   },
   button:{
     boxShadow:"none",
+    marginTop: 10,
+    marginBottom: 10,
   },
   button2:{
     boxShadow:"none",
@@ -76,33 +87,38 @@ const manualSt = makeStyles(() => ({
     margin:"0px",
     float:"right",
     right:0,
+    fontSize:15,
     top:0,
     position:"absolute",
-    borderBottomLeftRadius:"15px"
+    borderBottomLeftRadius:"15px",
+    backgroundColor: '#F1945B',
+    color:'white !important',
+    "&:hover,&:focus": {
+      backgroundColor: 'white',
+      color: '#F1945B !important'
+    },
   },
   cardbody:{
-    position:"relatives",
+    padding: 10,
+    paddingLeft: 20,
+    paddnigRight: 20
   },
   button3:{
     boxShadow:"none",
     backgroundColor:"#BFD8E950",
-    margin:"15px",
-    marginLeft:"0px"
+    marginLeft:"0px",
+    margin:'15px',
+    marginTop: 10,
+    marginBottom: 10
   },
-  button4: {
-    boxShadow: 'none',
-    borderRadius: 30,
-    fontSize: '1.1rem',
-    width: 150,
-    border: '1px solid #F1945B',
-    backgroundColor: 'white',
-    paddingTop: 10,
-    paddingBottom: 10,
-    // color: '#F1945B',
-    "&:hover,&:focus": {
-      backgroundColor: '#F1945B',
-      color: 'white'
-    },
+  addNewButton:{
+    float:'right',
+    boxShadow:"none",
+    fontSize: 15,
+  },
+  learnMoreModal: {
+    boxShadow:"none",
+    fontSize: 15,
   },
   image:{
     borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"200px",
@@ -123,80 +139,185 @@ const manualSt = makeStyles(() => ({
       width:"200px",
       height: "200px",
     }
+  },
+  button4: {
+    boxShadow: 'none',
+    borderRadius: 30,
+    fontSize: '1.1rem',
+    width: 150,
+    border: '1px solid #F1945B',
+    backgroundColor: 'white',
+    paddingTop: 10,
+    paddingBottom: 10,
+    color: '#F1945B !important',
+    "&:hover,&:focus": {
+      backgroundColor: '#F1945B',
+      color: 'white !important'
+    },
+  },
+});
+
+class Events extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state={
+      open:false,
+      event:null,
+    };
+    this.closeDo = this.closeDo.bind(this);
   }
 
-}));
+  formatTime(hours, min) {
+    let h = hours>12?hours-12:hours;
+    let m = min<10?'0'+min.toString():min.toString();
+    let add = hours>12?'PM':'AM';
+    return h + ':' + m + add
+  }
 
-const formatTime = function(hours, min) {
-  let h = hours>12?hours-12:hours;
-  let m = min<10?'0'+min.toString():min.toString();
-  let add = hours>12?'PM':'AM';
-  return h + ':' + m + add
-}
+  closeDo() {
+    console.log('here');
+    this.setState({open: false})
+  }
 
-export default function Events() {
-    const classes = useStyles();
-    const manual = manualSt();
+  eventPropStyles(event, start, end, isSelected){
+    let style={
+      backgroundColor: '#2984ce'
+    };
+    return {style:style}
+  }
+
+  render() {
+    const { classes } = this.props;
     return (
-      <div style={{marginTop:"100px"}}>
-      <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={manual.toAll}> UPCOMING EVENTS </h3>
+      <div style={{ marginTop: "100px" }}>
+        <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}
+            className={classes.toAll}> UPCOMING EVENTS </h3>
         <div>
-        {myEventsList.map((ele) => {
-          return(
-            <a href={ele.location} target={'_blank'} rel="noopener noreferrer">
-            <Card className={manual.card}>
-
-              <img className={manual.image} src={ele.imgLink} />
-
-              <CardBody className={manual.cardbody}>
-
-                <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, manual.toAll)}>{ele.title}</h4>
+          {this.state.open && <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={this.state.open}
+            onClose={this.closeDo}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={this.state.open}>
+              <div className={classes.paper}>
+                <h4 style={{ color: "#4284C8"}}
+                    className={classNames(classes.cardTitle, classes.toAll)}>{this.state.event.title}</h4>
                 <Button
-                  className={classNames(classes.navLink, manual.button3)}
+                  className={classNames(classes.navLink, classes.button3)}
                   size="sm"
                   round
                   disabled
                 >
-                  {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
+                  {months[this.state.event.startTime.getMonth()].toUpperCase()} {this.state.event.startTime.getDate()}, {this.state.event.startTime.getFullYear()}
                 </Button>
                 <Button
-                  className={classNames(classes.navLink, manual.button3)}
+                  className={classNames(classes.navLink, classes.button3)}
                   size="sm"
                   round
                   disabled
                 >
-                  {formatTime(ele.startTime.getHours(),ele.startTime.getMinutes())} EST
+                  {this.formatTime(this.state.event.startTime.getHours(), this.state.event.startTime.getMinutes())} EST
                 </Button>
-                {ele.tags.map((ta) => {
+                {this.state.event.tags.map((ele) => {
                   return (
                     <Button
                       color="vcColor"
-                      className={classNames(classes.navLink, manual.button)}
+                      className={classNames(classes.navLink, classes.button)}
                       size="sm"
                       round
                       disabled
                       active={true}
                     >
-                      {ta}
+                      {ele}
                     </Button>
                   )
                 })}
-                <p style={{color:"#4284C8"}} className={manual.toAll}>{ele.description}</p>
+                <p style={{ color: "#4284C8", marginBottom: 5 }} className={classNames(classes.toAll)}>
+                  <strong>Website: </strong>
+                  {this.state.event.website &&
+                  <a href={this.state.event.website} target={'_blank'} rel="noopener noreferrer"
+                     style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.website}</a>
+                  }
+                  {!this.state.event.website && <span>TBA</span>}
+                </p>
+                <p style={{ color: "#4284C8", marginBottom: 5 }} className={classNames(classes.toAll)}>
+                  <strong>Event Link: </strong>
+                  {this.state.event.eventLink &&
+                  <a href={this.state.event.eventLink} target={'_blank'} rel="noopener noreferrer"
+                     style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.eventLink}</a>
+                  }
+                  {!this.state.event.eventLink && <span>TBA</span>}
+                </p>
+                <p style={{ color: "#4284C8" }} className={classes.toAll}>{this.state.event.description}</p>
+                <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
+                  <strong>Hosted By: </strong> {this.state.event.hostedBy}
+                </p>
+              </div>
+            </Fade>
+          </Modal>}
+          {myEventsList.map((ele) => {
+            return(
+              <Card className={classes.card}>
+                <img className={classes.image} src={ele.imgLink} />
 
-              </CardBody>
-              <Button color="vcColor" size="sm" className={manual.button2} active={true}
-                      href={ele.location}
-                      target={'_blank'} rel="noopener noreferrer"> Attend </Button>
-            </Card>
-            </a>
-          )
-        })}
+                <CardBody className={classes.cardbody}>
+                  <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, classes.toAll)}>{ele.title}</h4>
+                  <Button
+                    className={classNames(classes.navLink, classes.button3)}
+                    size="sm"
+                    round
+                    disabled
+                  >
+                    {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
+                  </Button>
+                  <Button
+                    className={classNames(classes.navLink, classes.button3)}
+                    size="sm"
+                    round
+                    disabled
+                  >
+                    {this.formatTime(ele.startTime.getHours(),ele.startTime.getMinutes())} EST
+                  </Button>
+                  {ele.tags.map((ta) => {
+                    return (
+                      <Button
+                        color="vcColor"
+                        className={classNames(classes.navLink, classes.button)}
+                        size="sm"
+                        round
+                        disabled
+                        active={true}
+                      >
+                        {ta}
+                      </Button>
+                    )
+                  })}
+                  <p style={{color:"#4284C8"}} className={classes.toAll}>{ele.description}</p>
+                  <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
+                    <strong>Hosted By: </strong> {ele.hostedBy}
+                  </p>
+                </CardBody>
+                <Button color="vcColor" size="sm" className={classes.button2}
+                        style={{color:'#F1945B'}} onClick={() => {this.setState({open: true, event:ele})}}
+                        target={'_blank'} rel="noopener noreferrer"
+                > Attend </Button>
+              </Card>
+            )
+          })}
         </div>
-
-      <div style={{textAlign:"center"}}>
-        <Button round className={manual.button4} href={'/events'}
-              style={{color:'#F1945B'}}> See More </Button>
+        <div style={{textAlign:"center"}}>
+          <Button round className={classes.button4} href={'/events'}
+                  style={{color:'white'}}> See More </Button>
+        </div>
       </div>
-      </div>
-    );
+    )
+  }
 }
+export default withStyles(useStyles)(Events);
