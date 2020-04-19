@@ -46,9 +46,6 @@ const useStyles = () => ({
   },
   card: {
     transition: 'all 0.3s',
-    "&:hover": {
-      boxShadow: '0 6px 6px 0 rgba(0, 0, 0, 0.14), 0 9px 3px -6px rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.12)'
-    },
     [theme.breakpoints.up('xs')]:{
       display:'block',
       flexDirection: 'none'
@@ -81,6 +78,8 @@ const useStyles = () => ({
   },
   button:{
     boxShadow:"none",
+    marginTop: 10,
+    marginBottom: 10
   },
   button2:{
     boxShadow:"none",
@@ -88,18 +87,29 @@ const useStyles = () => ({
     margin:"0px",
     float:"right",
     right:0,
+    fontSize:15,
     top:0,
     position:"absolute",
-    borderBottomLeftRadius:"15px"
+    borderBottomLeftRadius:"15px",
+    backgroundColor: '#F1945B',
+    color:'white !important',
+    "&:hover,&:focus": {
+      backgroundColor: 'white',
+      color: '#F1945B !important'
+    },
   },
   cardbody:{
-    position:"relatives"
+    padding: 10,
+    paddingLeft: 20,
+    paddnigRight: 20
   },
   button3:{
     boxShadow:"none",
     backgroundColor:"#BFD8E950",
     margin:"15px",
-    marginLeft:"0px"
+    marginLeft:"0px",
+    marginTop: 10,
+    marginBottom: 10
   },
   addNewButton:{
     float:'right',
@@ -111,8 +121,8 @@ const useStyles = () => ({
     fontSize: 15,
   },
   image:{
-    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"180px",
-    height: "180px",
+    borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"200px",
+    height: "200px",
     [theme.breakpoints.up('xs')]:{
       width:'0',
       height: "0",
@@ -122,12 +132,12 @@ const useStyles = () => ({
       height: "0",
     },
     [theme.breakpoints.up('md')]:{
-      width:"180px",
-      height: "180px",
+      width:"200px",
+      height: "200px",
     },
     [theme.breakpoints.up('lg')]:{
-      width:"180px",
-      height: "180px",
+      width:"200px",
+      height: "200px",
     }
   }
 });
@@ -169,7 +179,7 @@ class Events extends React.Component{
           <title>Events</title>
         </Helmet>
         <div style={{marginTop:"0px"}}>
-          <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={classes.toAll}> ALL EVENTS </h3>
+          <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={classes.toAll}> ALL EVENTS (IN EST) </h3>
         </div>
 
         <Button color="vcColor" size="sm" className={classes.addNewButton}
@@ -204,7 +214,6 @@ class Events extends React.Component{
         >
           <Fade in={this.state.open}>
             <div className={classes.paper}>
-
               <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, classes.toAll)}>{this.state.event.title}</h4>
               <Button
                 className={classNames(classes.navLink, classes.button3)}
@@ -236,19 +245,26 @@ class Events extends React.Component{
                  </Button>
                )
               })}
+              <p style={{color:"#4284C8", marginBottom: 5}} className={classNames(classes.toAll)}>
+                <strong>Website: </strong>
+                {this.state.event.website &&
+                  <a href={this.state.event.website} target={'_blank'} rel="noopener noreferrer"
+                     style={{color:"#4284C8", textDecoration:'underline'}}>{this.state.event.website}</a>
+                }
+                {!this.state.event.website && <span>TBA</span>}
+              </p>
+              <p style={{color:"#4284C8", marginBottom: 5}} className={classNames(classes.toAll)}>
+                <strong>Event Link: </strong>
+                {this.state.event.eventLink &&
+                <a href={this.state.event.eventLink} target={'_blank'} rel="noopener noreferrer"
+                   style={{color:"#4284C8", textDecoration:'underline'}}>{this.state.event.eventLink}</a>
+                }
+                {!this.state.event.eventLink && <span>TBA</span>}
+              </p>
               <p style={{color:"#4284C8"}} className={classes.toAll}>{this.state.event.description}</p>
-              <div style={{textAlign:'center'}}>
-                <Button
-                  color="vcColor"
-                  className={classes.learnMoreModal}
-                  size="sm"
-                  active={true}
-                  href={this.state.event.location}
-                  target={'_blank'} rel="noopener noreferrer"
-                >
-                  Learn More
-                </Button>
-              </div>
+              <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
+                <strong>Hosted By: </strong> {this.state.event.hostedBy}
+              </p>
             </div>
           </Fade>
         </Modal>}
@@ -262,7 +278,6 @@ class Events extends React.Component{
           }}/>
           {myEventsList.map((ele) => {
             return(
-              <a href={ele.location} target={'_blank'} rel="noopener noreferrer">
               <Card className={classes.card}>
                 <img className={classes.image} src={ele.imgLink} />
 
@@ -299,13 +314,15 @@ class Events extends React.Component{
                     )
                   })}
                   <p style={{color:"#4284C8"}} className={classes.toAll}>{ele.description}</p>
+                  <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
+                    <strong>Hosted By: </strong> {ele.hostedBy}
+                  </p>
                 </CardBody>
                 <Button color="vcColor" size="sm" className={classes.button2}
-                        active={true} href={ele.location}
+                        active={true} onClick={() => {this.setState({open: true, event:ele})}}
                         target={'_blank'} rel="noopener noreferrer"
                 > Attend </Button>
               </Card>
-              </a>
             )
           })}
 
