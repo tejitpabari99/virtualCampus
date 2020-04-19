@@ -5,20 +5,6 @@ const eventLinkUnavailable = 'TBA';
 export default [
   {
     id: 0,
-    title: 'Yom HaShoah Webinar with Sami Steigmann',
-    startTime: new Date(2020, 3, 20, 15),
-    endTime: new Date(2020, 3, 20, 16),
-    description: 'April 20-21 is the Holocaust Memorial Day in Israel. We are hosting a webinar called ""Yom Hashoah with Sami Steigmann". ' +
-      'He is a Holocaust survivor and Motivational Speaker. In the event, he delves into the importance of History, terminology, ' +
-      'Israel, and prosperity. ',
-    tags: ['Social'],
-    website: 'https://www.ssimovement.org/lectures.html',
-    imgLink: 'https://i.imgur.com/ThrrIKY.jpg',
-    eventLink: '',
-    hostedBy: 'Students Supporting Israel at Columbia University',
-  },
-  {
-    id: 1,
     title: 'Lioncraft Barnard Launch',
     startTime: new Date(2020, 3, 19, 17),
     endTime: new Date(2020, 3, 19, 19),
@@ -30,6 +16,20 @@ export default [
     imgLink: 'http://lioncraft.nyc/assets/img/home.png',
     eventLink: '',
     hostedBy: 'Lioncraft'
+  },
+  {
+    id: 1,
+    title: 'Yom HaShoah Webinar with Sami Steigmann',
+    startTime: new Date(2020, 3, 20, 15),
+    endTime: new Date(2020, 3, 20, 16),
+    description: 'April 20-21 is the Holocaust Memorial Day in Israel. We are hosting a webinar called ""Yom Hashoah with Sami Steigmann". ' +
+      'He is a Holocaust survivor and Motivational Speaker. In the event, he delves into the importance of History, terminology, ' +
+      'Israel, and prosperity. ',
+    tags: ['Social'],
+    website: 'https://www.ssimovement.org/lectures.html',
+    imgLink: 'https://i.imgur.com/ThrrIKY.jpg',
+    eventLink: '',
+    hostedBy: 'Students Supporting Israel at Columbia University',
   },
   {
     id: 2,
@@ -59,3 +59,4 @@ export default [
     weekly: true
   }
 ]
+
