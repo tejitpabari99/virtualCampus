@@ -32,20 +32,20 @@ const manualSt = makeStyles(() => ({
   toAll: {
     [theme.breakpoints.up('xs')]:{
       fontSize: '2.5rem',
-      lineHeight: '1.00em',
+      lineHeight: '1.25em',
       textAlign:'center',
     },
     [theme.breakpoints.up('sm')]:{
       fontSize: '4rem',
-      lineHeight: '1.15em',
+      lineHeight: '1.25em',
       textAlign:'right',
     },
     [theme.breakpoints.up('lg')]:{
       fontSize: '4rem',
-      lineHeight: '1.15em',
+      lineHeight: '1em',
       textAlign:'right',
     },
-    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.5em',
+    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1em',
     WebkitFontSmoothing:"antialiased", boxSizing: 'inherit', height: '100%',
     color:'#F1945B',
   },
