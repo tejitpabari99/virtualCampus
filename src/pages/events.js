@@ -252,7 +252,7 @@ class Events extends React.Component{
                 round
                 disabled
               >
-                {this.formatTime(this.state.event.startTime.getHours(),this.state.event.startTime.getMinutes())}
+                {this.formatTime(this.state.event.startTime.getHours(),this.state.event.startTime.getMinutes())} EST
               </Button>
               {this.state.event.tags.map((ele) => {
                return (
@@ -322,7 +322,7 @@ class Events extends React.Component{
                       round
                       disabled
                     >
-                      {this.formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())}
+                      {this.formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} EST
                     </Button>
                     {ele.tags.map((ta) => {
                       return (
