@@ -160,7 +160,7 @@ class Events extends React.Component{
       open:false,
       event:null,
     };
-    this.closeDo = this.closeDo.bind(this);
+    this.closeDo = this.closeDo.bind(this); 
   }
 
   formatTime(hours, min) {
