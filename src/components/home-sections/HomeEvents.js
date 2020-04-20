@@ -159,7 +159,6 @@ class Events extends React.Component{
     this.state={
       open:false,
       event:null,
-      compareTime: DateTime.fromISO(DateTime.local().toString(), { zone: 'America/New_York' }).toJSDate()
     };
     this.closeDo = this.closeDo.bind(this);
   }
