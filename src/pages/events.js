@@ -151,10 +151,6 @@ class Events extends React.Component{
       open:false,
       event:null,
     };
-    for(const event in myEventsList){
-      myEventsList[event].startTime = myEventsList[event].startTime.toLocal().toJSDate();
-      myEventsList[event].endTime = myEventsList[event].endTime.toLocal().toJSDate()
-    }
     this.closeDo = this.closeDo.bind(this);
   }
 
@@ -304,7 +300,7 @@ class Events extends React.Component{
             height: 3
           }}/>
           {myEventsList.map((ele) => {
-            if(ele.endTime>new Date()) {
+            if(ele.display) {
               return (
                 <Card className={classes.card}>
                   <img className={classes.image} src={ele.imgLink}/>
