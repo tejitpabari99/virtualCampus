@@ -14,6 +14,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { Helmet } from "react-helmet";
+const { DateTime } = require("luxon");
 
 const months = {
   0: 'January',
@@ -158,11 +159,8 @@ class Events extends React.Component{
     this.state={
       open:false,
       event:null,
+      compareTime: DateTime.fromISO(DateTime.local().toString(), { zone: 'America/New_York' }).toJSDate()
     };
-    for(const event in myEventsList){
-      myEventsList[event].startTime = myEventsList[event].startTime.toLocal().toJSDate();
-      myEventsList[event].endTime = myEventsList[event].endTime.toLocal().toJSDate()
-    }
     this.closeDo = this.closeDo.bind(this);
   }
 
@@ -186,6 +184,7 @@ class Events extends React.Component{
   }
 
   render() {
+    console.log(this.compareTime);
     const { classes } = this.props;
     return (
       <div style={{ marginTop: "100px" }}>
@@ -274,7 +273,7 @@ class Events extends React.Component{
             </Fade>
           </Modal>}
           {myEventsList.map((ele) => {
-            if(ele.endTime>new Date()) {
+            if(ele.display) {
               return (
                 <Card className={classes.card}>
                   <img className={classes.image} src={ele.imgLink}/>
