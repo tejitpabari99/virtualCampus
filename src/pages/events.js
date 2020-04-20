@@ -143,7 +143,6 @@ const useStyles = () => ({
   }
 });
 
-let count = 0;
 
 class Events extends React.Component{
   constructor(props) {
@@ -152,6 +151,10 @@ class Events extends React.Component{
       open:false,
       event:null,
     };
+    for(const event in myEventsList){
+      myEventsList[event].startTime = myEventsList[event].startTime.toLocal().toJSDate();
+      myEventsList[event].endTime = myEventsList[event].endTime.toLocal().toJSDate()
+    }
     this.closeDo = this.closeDo.bind(this);
   }
 
@@ -163,7 +166,6 @@ class Events extends React.Component{
   }
 
   closeDo() {
-    console.log('here');
     this.setState({open: false})
   }
 
@@ -220,7 +222,6 @@ class Events extends React.Component{
           style={{ height: 500 }}
           onSelectEvent={(event) => {this.setState({open:true, event})}}
           eventPropGetter={this.eventPropStyles}
-          showMultiDayTimes
           components={{
             event: this.EventDisplay,
           }}
@@ -303,8 +304,7 @@ class Events extends React.Component{
             height: 3
           }}/>
           {myEventsList.map((ele) => {
-            if(ele.endTime>new Date() && count<5) {
-              count+=1;
+            if(ele.endTime>new Date()) {
               return (
                 <Card className={classes.card}>
                   <img className={classes.image} src={ele.imgLink}/>
