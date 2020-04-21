@@ -312,8 +312,8 @@ class Events extends React.Component{
           }}/>
           {myEventsList.map((ele) => {
             if(ele.display) {
-              this.state.count+=1;
-              if (this.state.count<5) {
+              // this.state.count+=1;
+              // if (this.state.count<5) {
                 return (
                   <Card className={classes.card}>
                     <img className={classes.image} src={ele.imgLink}/>
@@ -366,7 +366,7 @@ class Events extends React.Component{
                   </Card>
                 )
               }
-            }
+            // }
           })}
 
         </div>
