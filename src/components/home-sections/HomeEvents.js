@@ -13,6 +13,8 @@ import { withStyles } from "@material-ui/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import { Helmet } from "react-helmet";
+const { DateTime } = require("luxon");
 
 const months = {
   0: 'January',
@@ -59,7 +61,8 @@ const useStyles = () => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    maxWidth: 500
+    maxWidth: 500,
+    margin: 25
   },
   cardTitle,
   textMuted: {
@@ -115,6 +118,7 @@ const useStyles = () => ({
   },
   image:{
     borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"200px",
+    objectFit: 'cover',
     height: "200px",
     [theme.breakpoints.up('xs')]:{
       width:'0',
@@ -183,6 +187,18 @@ class Events extends React.Component{
     const { classes } = this.props;
     return (
       <div style={{ marginTop: "100px" }}>
+        <Helmet>
+          <meta name="description" content="Virtual Campus for the Columbia Community" />
+          <link rel="canonical" href="https://columbiavirtualcampus.com/" />
+          <meta name="robots" content="index, follow" />
+          <meta property="og:title" content="Columbia Virtual Campus" />
+          <meta property="og:description" content="Virtual Campus for the Columbia Community" />
+          <meta property="og:image" content='https://columbiavirtualcampus.com/static/graphic-7d5b8765ceb0dc19c9fa39db23824216.png' />
+          <meta property="og:image:type" content="image/jpeg" />
+          <meta property="og:image:alt" content="Columbia Virtual Campus" />
+          <meta property="og:image:width" content="200" />
+          <meta property="og:image:height" content="200" />
+        </Helmet>
         <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}
             className={classes.toAll}> UPCOMING EVENTS </h3>
         <div>
@@ -232,23 +248,31 @@ class Events extends React.Component{
                     </Button>
                   )
                 })}
-                <p style={{ color: "#4284C8", marginBottom: 5 }} className={classNames(classes.toAll)}>
-                  <strong>Website: </strong>
+                <div style={{ color: "#4284C8", marginBottom: 5,flexDirection: 'row', display:'flex' }} className={classNames(classes.toAll)}>
+                  <div style={{fontSize:15}}><strong>Website: </strong></div>
                   {this.state.event.website &&
-                  <a href={this.state.event.website} target={'_blank'} rel="noopener noreferrer"
-                     style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.website}</a>
+                  <div style={{marginLeft:5}}>
+                    <a href={this.state.event.website} target={'_blank'} rel="noopener noreferrer"
+                       style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.hostedBy}</a>
+                  </div>
                   }
-                  {!this.state.event.website && <span>TBA</span>}
-                </p>
-                <p style={{ color: "#4284C8", marginBottom: 5 }} className={classNames(classes.toAll)}>
-                  <strong>Event Link: </strong>
-                  {this.state.event.eventLink &&
-                  <a href={this.state.event.eventLink} target={'_blank'} rel="noopener noreferrer"
-                     style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.eventLink}</a>
+                  {!this.state.event.website && <div style={{marginLeft:5}}>TBA</div>}
+                </div>
+                <div style={{ color: "#4284C8", marginBottom: 5, flexDirection: 'row', display:'flex' }} className={classNames(classes.toAll)}>
+                  <div style={{fontSize:15}}><strong>Event Link: </strong></div>
+                  {this.state.event.eventLink.length>0 &&
+                  <div style={{marginLeft:5}}>
+                    {this.state.event.eventLink.map((link, ind) => {
+                      return (
+                        <div><a href={link} target={'_blank'} rel="noopener noreferrer"
+                           style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.eventLinkHeader[ind]}</a></div>
+                      )
+                    })}
+                  </div>
                   }
-                  {!this.state.event.eventLink && <span>TBA</span>}
-                </p>
-                <p style={{ color: "#4284C8" }} className={classes.toAll}>{this.state.event.description}</p>
+                  {this.state.event.eventLink.length===0 && <div style={{marginLeft:5}}>TBA</div>}
+                </div>
+                <p style={{ color: "#4284C8" }} className={classes.toAll}>{this.state.event.longDescription || this.state.event.shortDescription}</p>
                 <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
                   <strong>Hosted By: </strong> {this.state.event.hostedBy}
                 </p>
@@ -256,53 +280,59 @@ class Events extends React.Component{
             </Fade>
           </Modal>}
           {myEventsList.map((ele) => {
-            return(
-              <Card className={classes.card}>
-                <img className={classes.image} src={ele.imgLink} />
+            if(ele.display) {
+              return (
+                <Card className={classes.card}>
+                  <img className={classes.image} src={ele.imgLink}/>
 
-                <CardBody className={classes.cardbody}>
-                  <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, classes.toAll)}>{ele.title}</h4>
-                  <Button
-                    className={classNames(classes.navLink, classes.button3)}
-                    size="sm"
-                    round
-                    disabled
-                  >
-                    {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
-                  </Button>
-                  <Button
-                    className={classNames(classes.navLink, classes.button3)}
-                    size="sm"
-                    round
-                    disabled
-                  >
-                    {this.formatTime(ele.startTime.getHours(),ele.startTime.getMinutes())} EST
-                  </Button>
-                  {ele.tags.map((ta) => {
-                    return (
-                      <Button
-                        color="vcColor"
-                        className={classNames(classes.navLink, classes.button)}
-                        size="sm"
-                        round
-                        disabled
-                        active={true}
-                      >
-                        {ta}
-                      </Button>
-                    )
-                  })}
-                  <p style={{color:"#4284C8"}} className={classes.toAll}>{ele.description}</p>
-                  <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
-                    <strong>Hosted By: </strong> {ele.hostedBy}
-                  </p>
-                </CardBody>
-                <Button color="vcColor" size="sm" className={classes.button2}
-                        style={{color:'#F1945B'}} onClick={() => {this.setState({open: true, event:ele})}}
-                        target={'_blank'} rel="noopener noreferrer"
-                > Attend </Button>
-              </Card>
-            )
+                  <CardBody className={classes.cardbody}>
+                    <h4 style={{ color: "#4284C8", marginRight:90 }}
+                        className={classNames(classes.cardTitle, classes.toAll)}>{ele.title}</h4>
+                    <Button
+                      className={classNames(classes.navLink, classes.button3)}
+                      size="sm"
+                      round
+                      disabled
+                    >
+                      {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
+                    </Button>
+                    <Button
+                      className={classNames(classes.navLink, classes.button3)}
+                      size="sm"
+                      round
+                      disabled
+                    >
+                      {this.formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} EST
+                    </Button>
+                    {ele.tags.map((ta) => {
+                      return (
+                        <Button
+                          color="vcColor"
+                          className={classNames(classes.navLink, classes.button)}
+                          size="sm"
+                          round
+                          disabled
+                          active={true}
+                        >
+                          {ta}
+                        </Button>
+                      )
+                    })}
+                    <p style={{ color: "#4284C8", minHeight: 60 }} className={classes.toAll}>{ele.shortDescription}</p>
+                    <p style={{ color: "#4284C8", marginBottom: 5, marginTop: 10 }}
+                       className={classNames(classes.toAll)}>
+                      <strong>Hosted By: </strong> {ele.hostedBy}
+                    </p>
+                  </CardBody>
+                  <Button color="vcColor" size="sm" className={classes.button2}
+                          style={{ color: '#F1945B' }} onClick={() => {
+                    this.setState({ open: true, event: ele })
+                  }}
+                          target={'_blank'} rel="noopener noreferrer"
+                  > Attend </Button>
+                </Card>
+              )
+            }
           })}
         </div>
         <div style={{textAlign:"center"}}>

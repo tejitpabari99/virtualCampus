@@ -66,7 +66,8 @@ const useStyles = () => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    maxWidth: 500
+    maxWidth: 500,
+    margin: 25
   },
   cardTitle,
   textMuted: {
@@ -123,6 +124,7 @@ const useStyles = () => ({
   image:{
     borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"200px",
     height: "200px",
+    objectFit: 'cover',
     [theme.breakpoints.up('xs')]:{
       width:'0',
       height: "0",
@@ -142,6 +144,7 @@ const useStyles = () => ({
   }
 });
 
+
 class Events extends React.Component{
   constructor(props) {
     super(props);
@@ -160,7 +163,6 @@ class Events extends React.Component{
   }
 
   closeDo() {
-    console.log('here');
     this.setState({open: false})
   }
 
@@ -171,12 +173,30 @@ class Events extends React.Component{
     return {style:style}
   }
 
+   EventDisplay = ({ event }) => (
+    <div>
+      <div style={{fontSize: 15, marginBottom: 3}}>{event.title}</div>
+      <div style={{fontSize: 13}}>{this.formatTime(event.startTime.getHours(),event.startTime.getMinutes())} -
+        {this.formatTime(event.endTime.getHours(),event.endTime.getMinutes())}</div>
+    </div>
+  );
+
   render() {
     const {classes} = this.props;
     return (
       <Template active={'schedule'}>
         <Helmet>
           <title>Events</title>
+          <meta name="description" content="Virtual Campus for the Columbia Community" />
+          <link rel="canonical" href="https://columbiavirtualcampus.com/" />
+          <meta name="robots" content="index, follow" />
+          <meta property="og:title" content="Columbia Virtual Campus" />
+          <meta property="og:description" content="Virtual Campus for the Columbia Community" />
+          <meta property="og:image" content='https://columbiavirtualcampus.com/static/graphic-7d5b8765ceb0dc19c9fa39db23824216.png' />
+          <meta property="og:image:type" content="image/jpeg" />
+          <meta property="og:image:alt" content="Columbia Virtual Campus" />
+          <meta property="og:image:width" content="200" />
+          <meta property="og:image:height" content="200" />
         </Helmet>
         <div style={{marginTop:"0px"}}>
           <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={classes.toAll}> ALL EVENTS (IN EST) </h3>
@@ -196,9 +216,14 @@ class Events extends React.Component{
           startAccessor="startTime"
           endAccessor="endTime"
           allDayAccessor="allDay"
+          showMultiDayTimes
           style={{ height: 500 }}
           onSelectEvent={(event) => {this.setState({open:true, event})}}
           eventPropGetter={this.eventPropStyles}
+          components={{
+            event: this.EventDisplay,
+          }}
+          formats={{ eventTimeRangeFormat: () => null }}
         />
         {this.state.open && <Modal
           aria-labelledby="transition-modal-title"
@@ -245,23 +270,31 @@ class Events extends React.Component{
                  </Button>
                )
               })}
-              <p style={{color:"#4284C8", marginBottom: 5}} className={classNames(classes.toAll)}>
-                <strong>Website: </strong>
+              <div style={{ color: "#4284C8", marginBottom: 5,flexDirection: 'row', display:'flex' }} className={classNames(classes.toAll)}>
+                <div style={{fontSize:15}}><strong>Website: </strong></div>
                 {this.state.event.website &&
+                <div style={{marginLeft:5}}>
                   <a href={this.state.event.website} target={'_blank'} rel="noopener noreferrer"
-                     style={{color:"#4284C8", textDecoration:'underline'}}>{this.state.event.website}</a>
+                     style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.hostedBy}</a>
+                </div>
                 }
-                {!this.state.event.website && <span>TBA</span>}
-              </p>
-              <p style={{color:"#4284C8", marginBottom: 5}} className={classNames(classes.toAll)}>
-                <strong>Event Link: </strong>
-                {this.state.event.eventLink &&
-                <a href={this.state.event.eventLink} target={'_blank'} rel="noopener noreferrer"
-                   style={{color:"#4284C8", textDecoration:'underline'}}>{this.state.event.eventLink}</a>
+                {!this.state.event.website && <div style={{marginLeft:5}}>TBA</div>}
+              </div>
+              <div style={{ color: "#4284C8", marginBottom: 5, flexDirection: 'row', display:'flex' }} className={classNames(classes.toAll)}>
+                <div style={{fontSize:15}}><strong>Event Link: </strong></div>
+                {this.state.event.eventLink.length>0 &&
+                <div style={{marginLeft:5}}>
+                  {this.state.event.eventLink.map((link, ind) => {
+                    return (
+                      <div><a href={link} target={'_blank'} rel="noopener noreferrer"
+                              style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.eventLinkHeader[ind]}</a></div>
+                    )
+                  })}
+                </div>
                 }
-                {!this.state.event.eventLink && <span>TBA</span>}
-              </p>
-              <p style={{color:"#4284C8"}} className={classes.toAll}>{this.state.event.description}</p>
+                {this.state.event.eventLink.length===0 && <div style={{marginLeft:5}}>TBA</div>}
+              </div>
+              <p style={{color:"#4284C8"}} className={classes.toAll}>{this.state.event.longDescription || this.state.event.shortDescription}</p>
               <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
                 <strong>Hosted By: </strong> {this.state.event.hostedBy}
               </p>
@@ -277,53 +310,59 @@ class Events extends React.Component{
             height: 3
           }}/>
           {myEventsList.map((ele) => {
-            return(
-              <Card className={classes.card}>
-                <img className={classes.image} src={ele.imgLink} />
+            if(ele.display) {
+              return (
+                <Card className={classes.card}>
+                  <img className={classes.image} src={ele.imgLink}/>
 
-                <CardBody className={classes.cardbody}>
-                  <h4 style={{color:"#4284C8"}} className={classNames(classes.cardTitle, classes.toAll)}>{ele.title}</h4>
-                  <Button
-                    className={classNames(classes.navLink, classes.button3)}
-                    size="sm"
-                    round
-                    disabled
-                  >
-                    {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
-                  </Button>
-                  <Button
-                    className={classNames(classes.navLink, classes.button3)}
-                    size="sm"
-                    round
-                    disabled
-                  >
-                    {this.formatTime(ele.startTime.getHours(),ele.startTime.getMinutes())} EST
-                  </Button>
-                  {ele.tags.map((ta) => {
-                    return (
-                      <Button
-                        color="vcColor"
-                        className={classNames(classes.navLink, classes.button)}
-                        size="sm"
-                        round
-                        disabled
-                        active={true}
-                      >
-                        {ta}
-                      </Button>
-                    )
-                  })}
-                  <p style={{color:"#4284C8"}} className={classes.toAll}>{ele.description}</p>
-                  <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
-                    <strong>Hosted By: </strong> {ele.hostedBy}
-                  </p>
-                </CardBody>
-                <Button color="vcColor" size="sm" className={classes.button2}
-                        active={true} onClick={() => {this.setState({open: true, event:ele})}}
-                        target={'_blank'} rel="noopener noreferrer"
-                > Attend </Button>
-              </Card>
-            )
+                  <CardBody className={classes.cardbody}>
+                    <h4 style={{ color: "#4284C8", marginRight:90 }}
+                        className={classNames(classes.cardTitle, classes.toAll)}>{ele.title}</h4>
+                    <Button
+                      className={classNames(classes.navLink, classes.button3)}
+                      size="sm"
+                      round
+                      disabled
+                    >
+                      {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
+                    </Button>
+                    <Button
+                      className={classNames(classes.navLink, classes.button3)}
+                      size="sm"
+                      round
+                      disabled
+                    >
+                      {this.formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} EST
+                    </Button>
+                    {ele.tags.map((ta) => {
+                      return (
+                        <Button
+                          color="vcColor"
+                          className={classNames(classes.navLink, classes.button)}
+                          size="sm"
+                          round
+                          disabled
+                          active={true}
+                        >
+                          {ta}
+                        </Button>
+                      )
+                    })}
+                    <p style={{ color: "#4284C8", minHeight: 75 }} className={classes.toAll}>{ele.shortDescription}</p>
+                    <p style={{ color: "#4284C8", marginBottom: 0, marginTop: 5 }}
+                       className={classNames(classes.toAll)}>
+                      <strong>Hosted By: </strong> {ele.hostedBy}
+                    </p>
+                  </CardBody>
+                  <Button color="vcColor" size="sm" className={classes.button2}
+                          active={true} onClick={() => {
+                    this.setState({ open: true, event: ele })
+                  }}
+                          target={'_blank'} rel="noopener noreferrer"
+                  > Attend </Button>
+                </Card>
+              )
+            }
           })}
 
         </div>

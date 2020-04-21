@@ -16,6 +16,7 @@ import GridItem from "../../components/material-kit-components/Grid/GridItem.js"
 import InfoArea from "../../components/material-kit-components/InfoArea/InfoArea.js";
 import Button from "../../components/material-kit-components/CustomButtons/Button.js";
 import { title } from "../../assets/material-kit-assets/jss/material-kit-react";
+import { Helmet } from "react-helmet";
 
 const productStyle = makeStyles(() => ({
   section: {
@@ -47,6 +48,18 @@ export default function HomeDescription() {
   const classes = productStyle();
   return (
     <div className={classNames(classes.section, classes.toAll)}>
+      <Helmet>
+        <meta name="description" content="Virtual Campus for the Columbia Community" />
+        <link rel="canonical" href="https://columbiavirtualcampus.com/" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Columbia Virtual Campus" />
+        <meta property="og:description" content="Virtual Campus for the Columbia Community" />
+        <meta property="og:image" content='https://columbiavirtualcampus.com/static/graphic-7d5b8765ceb0dc19c9fa39db23824216.png' />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:alt" content="Columbia Virtual Campus" />
+        <meta property="og:image:width" content="200" />
+        <meta property="og:image:height" content="200" />
+      </Helmet>
       <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={8}>
           <h2 style={{fontSize: '2.25rem', lineHeight: '1.15em', marginTop: 20, marginBottom: 10,color: 'inherit'}} className={classes.toAll}>
