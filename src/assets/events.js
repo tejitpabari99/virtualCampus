@@ -13,10 +13,9 @@ let events = [
     title: 'Lioncraft Barnard Launch',
     startTime: new Date(2020, 3, 19, 17),
     endTime: new Date(2020, 3, 19, 19),
-    shortDescription: 'Our goal is to provide current and former Columbia students with a virtual campus to reunite with ' +
+    description: 'Our goal is to provide current and former Columbia students with a virtual campus to reunite with ' +
       'classmates and professors in the Minecraft Virtual World. By working together as a community, ' +
       'users can help rebuild Columbia in all of its glory, block by block.',
-    longDescription:'',
     tags: ['Education'],
     website: 'http://lioncraft.nyc/',
     imgLink: 'http://lioncraft.nyc/assets/img/home.png',
@@ -29,10 +28,9 @@ let events = [
     title: 'Yom HaShoah Webinar with Sami Steigmann',
     startTime: new Date(2020, 3, 20, 15),
     endTime: new Date(2020, 3, 20, 16),
-    shortDescription: 'April 20-21 is the Holocaust Memorial Day in Israel. We are hosting a webinar called ""Yom Hashoah with Sami Steigmann". ' +
+    description: 'April 20-21 is the Holocaust Memorial Day in Israel. We are hosting a webinar called ""Yom Hashoah with Sami Steigmann". ' +
       'He is a Holocaust survivor and Motivational Speaker. In the event, he delves into the importance of History, terminology, ' +
       'Israel, and prosperity. ',
-    longDescription:'',
     tags: ['Social'],
     website: 'https://www.ssimovement.org/lectures.html',
     imgLink: 'https://i.imgur.com/ThrrIKY.jpg',
@@ -45,10 +43,9 @@ let events = [
     title: 'Talking Israel on Campus',
     startTime: new Date(2020, 3, 20, 20),
     endTime: new Date(2020, 3, 20, 21),
-    shortDescription: 'We plan to host a webinar with Dalia Zahger (GS \'19); she is an SSI Columbia President Alumna. ' +
+    description: 'We plan to host a webinar with Dalia Zahger (GS \'19); she is an SSI Columbia President Alumna. ' +
       'She going to reflect on her own experience as a former SSI president and going to discuss how to address and ' +
       'respond to questions about Israel on campus.',
-    longDescription:'',
     tags: ['Activism'],
     website: 'https://www.ssimovement.org/lectures.html',
     imgLink: 'https://i.imgur.com/ThrrIKY.jpg',
@@ -61,8 +58,7 @@ let events = [
     title: 'Genderev Social Network Launch',
     startTime: new Date(2020, 3, 22, 19),
     endTime: new Date(2020, 3, 22, 21),
-    shortDescription: 'genderev.com is the new social network for members of Genderev at Columbia. ',
-    longDescription:'',
+    description: 'genderev.com is the new social network for members of Genderev at Columbia. ',
     tags: ['Social'],
     website: 'https://genderev.com/',
     imgLink: 'https://imgur.com/hn6bJ4R.jpg',
@@ -76,25 +72,35 @@ let events = [
     title: 'The Ivy League+ vs Covid-19 12 Hour Charity Stream',
     startTime: new Date(2020, 3, 25, 13),
     endTime: new Date(2020, 3, 26, 13),
-    shortDescription: 'Columbia Esports is proud to announce that we will be participating in a League of Legends Charity Tournament with ' +
+    description: 'Columbia Esports is proud to announce that we will be participating in a League of Legends Charity Tournament with ' +
       'The Ivy League, MIT, and Stanford to support the hard efforts of workers combating COVID-19. ' +
       'All donations will be donated to the WHO Covid-19 Solidarity Fund.',
-    longDescription:'Columbia Esports is proud to announce that we will be participating in a League of Legends Charity ' +
-      'Tournament with The Ivy League, MIT, and Stanford to support the hard efforts of workers combating COVID-19. ' +
-      'All donations will be donated to the WHO Covid-19 Solidarity Fund. We are partnering up with esports organizations TSM, ' +
-      'Team Liquid, and FlyQuest to raise funds in this 12-hour charity stream tournament. The school with the highest total ' +
-      'donation will be graciously matched by TSM up to $5000, and they will also be providing limited edition jerseys and ' +
-      'mouse pads to donors! Invite your friends and family to come watch the stream and support the World Health Organization!',
     tags: ['Games'],
     website: '',
     imgLink: 'https://cdn.images.express.co.uk/img/dynamic/143/590x/League-of-Legends-servers-down-1259147.jpg?r=1585327760984',
     eventLink: ['https://discord.gg/5YVfC4a', 'https://discord.gg/5YVfC4a'],
     eventLinkHeader:['Discord', 'Discord'],
     hostedBy: 'Columbia Esports',
+  },
+  {
+    display:true,
+    title: 'ColumbiaVotes Town Hall',
+    startTime: new Date(2020, 3, 28, 19),
+    endTime: new Date(2020, 3, 28, 20),
+    description: "It's up to all of us to slow the spread of COVID-19. Everyone, including young and healthy people, " +
+      "should avoid large gatherings during this time. Stay up-to-date with public health guidelines from cdc.gov.",
+    tags: ['Activism'],
+    website: 'https://www.facebook.com/events/639134516813684',
+    imgLink: 'https://scontent.fstv6-1.fna.fbcdn.net/v/t1.0-9/51794275_242634223342669_8609539717546901504_o.png?_nc_cat=100&_nc_sid=85a577&_nc_ohc=Oqpz5--3wk0AX_SC3C-&_nc_ht=scontent.fstv6-1.fna&oh=f17acf3a981d29feaf8cffe81e2494ba&oe=5EC50AFF',
+    eventLink: ['https://columbiauniversity.zoom.us/j/9653202444'],
+    eventLinkHeader:['Zoom Link'],
+    hostedBy: 'ColumbiaVotes',
   }
 ];
 
-
+events.sort(function(a,b){
+  return new Date(a.startTime) - new Date(b.startTime);
+});
 
 function addDays(date, days) {
   var result = new Date(date);
@@ -102,9 +108,25 @@ function addDays(date, days) {
   return result;
 }
 
+// let new_arr = [];
+// for (const i in events){
+//   if(events[i].hasOwnProperty('repeat')){
+//     if (events[i].repeat === 'weekly'){
+//       for(let i=1; i<11; i+=1){
+//         let new_event = events;
+//         new_event.startTime = addDays(events.startTime,i*7);
+//         new_event.endTime = addDays(events.endTime,i*7);
+//         new_arr.push(new_event)
+//       }
+//     }
+//   }
+// }
+// events.push(...new_arr);
+
 for (const i in events){
   events[i]['id'] = i+1;
 }
+
 
 export default events
 
