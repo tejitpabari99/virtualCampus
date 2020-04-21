@@ -118,6 +118,7 @@ const useStyles = () => ({
   },
   image:{
     borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"200px",
+    objectFit: 'cover',
     height: "200px",
     [theme.breakpoints.up('xs')]:{
       width:'0',
@@ -183,7 +184,6 @@ class Events extends React.Component{
   }
 
   render() {
-    console.log(this.compareTime);
     const { classes } = this.props;
     return (
       <div style={{ marginTop: "100px" }}>
@@ -248,23 +248,31 @@ class Events extends React.Component{
                     </Button>
                   )
                 })}
-                <p style={{ color: "#4284C8", marginBottom: 5 }} className={classNames(classes.toAll)}>
-                  <strong>Website: </strong>
+                <div style={{ color: "#4284C8", marginBottom: 5,flexDirection: 'row', display:'flex' }} className={classNames(classes.toAll)}>
+                  <div style={{fontSize:15}}><strong>Website: </strong></div>
                   {this.state.event.website &&
-                  <a href={this.state.event.website} target={'_blank'} rel="noopener noreferrer"
-                     style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.hostedBy}</a>
+                  <div style={{marginLeft:5}}>
+                    <a href={this.state.event.website} target={'_blank'} rel="noopener noreferrer"
+                       style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.hostedBy}</a>
+                  </div>
                   }
-                  {!this.state.event.website && <span>TBA</span>}
-                </p>
-                <p style={{ color: "#4284C8", marginBottom: 5 }} className={classNames(classes.toAll)}>
-                  <strong>Event Link: </strong>
-                  {this.state.event.eventLink &&
-                  <a href={this.state.event.eventLink} target={'_blank'} rel="noopener noreferrer"
-                     style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.eventLinkHeader}</a>
+                  {!this.state.event.website && <div style={{marginLeft:5}}>TBA</div>}
+                </div>
+                <div style={{ color: "#4284C8", marginBottom: 5, flexDirection: 'row', display:'flex' }} className={classNames(classes.toAll)}>
+                  <div style={{fontSize:15}}><strong>Event Link: </strong></div>
+                  {this.state.event.eventLink.length>0 &&
+                  <div style={{marginLeft:5}}>
+                    {this.state.event.eventLink.map((link, ind) => {
+                      return (
+                        <div><a href={link} target={'_blank'} rel="noopener noreferrer"
+                           style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.eventLinkHeader[ind]}</a></div>
+                      )
+                    })}
+                  </div>
                   }
-                  {!this.state.event.eventLink && <span>TBA</span>}
-                </p>
-                <p style={{ color: "#4284C8" }} className={classes.toAll}>{this.state.event.description}</p>
+                  {this.state.event.eventLink.length===0 && <div style={{marginLeft:5}}>TBA</div>}
+                </div>
+                <p style={{ color: "#4284C8" }} className={classes.toAll}>{this.state.event.longDescription || this.state.event.shortDescription}</p>
                 <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
                   <strong>Hosted By: </strong> {this.state.event.hostedBy}
                 </p>
@@ -278,7 +286,7 @@ class Events extends React.Component{
                   <img className={classes.image} src={ele.imgLink}/>
 
                   <CardBody className={classes.cardbody}>
-                    <h4 style={{ color: "#4284C8" }}
+                    <h4 style={{ color: "#4284C8", marginRight:90 }}
                         className={classNames(classes.cardTitle, classes.toAll)}>{ele.title}</h4>
                     <Button
                       className={classNames(classes.navLink, classes.button3)}
@@ -310,7 +318,7 @@ class Events extends React.Component{
                         </Button>
                       )
                     })}
-                    <p style={{ color: "#4284C8" }} className={classes.toAll}>{ele.description}</p>
+                    <p style={{ color: "#4284C8", minHeight: 60 }} className={classes.toAll}>{ele.shortDescription}</p>
                     <p style={{ color: "#4284C8", marginBottom: 5, marginTop: 10 }}
                        className={classNames(classes.toAll)}>
                       <strong>Hosted By: </strong> {ele.hostedBy}
