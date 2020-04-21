@@ -65,9 +65,9 @@ let events = [
     longDescription:'',
     tags: ['Social'],
     website: 'https://genderev.com/',
-    imgLink: 'https://i.imgur.com/jdjf6vY.jpg',
-    eventLink: [],
-    eventLinkHeader:[],
+    imgLink: 'https://imgur.com/hn6bJ4R.jpg',
+    eventLink: ['http://meet.jit.si/genderev'],
+    eventLinkHeader:['Event'],
     hostedBy: 'Genderev',
     repeat: 'weekly'
   },
