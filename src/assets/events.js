@@ -59,8 +59,8 @@ let events = [
   {
     display:true,
     title: 'Genderev Social Network Launch',
-    startTime: new Date(2020, 3, 22, 13),
-    endTime: new Date(2020, 3, 22, 15),
+    startTime: new Date(2020, 3, 22, 19),
+    endTime: new Date(2020, 3, 22, 21),
     shortDescription: 'genderev.com is the new social network for members of Genderev at Columbia. ',
     longDescription:'',
     tags: ['Social'],
