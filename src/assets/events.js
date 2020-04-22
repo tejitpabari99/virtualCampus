@@ -54,7 +54,7 @@ let events = [
     hostedBy: 'Students Supporting Israel at Columbia University',
   },
   {
-    display:true,
+    display:false,
     title: 'Genderev Social Network Launch',
     startTime: new Date(2020, 3, 22, 19),
     endTime: new Date(2020, 3, 22, 21),
@@ -78,8 +78,20 @@ let events = [
     tags: ['Games'],
     website: '',
     imgLink: 'https://cdn.images.express.co.uk/img/dynamic/143/590x/League-of-Legends-servers-down-1259147.jpg?r=1585327760984',
-    eventLink: ['https://discord.gg/5YVfC4a', 'https://discord.gg/5YVfC4a'],
-    eventLinkHeader:['Discord', 'Discord'],
+    eventLinks: [
+      {
+        title: 'Discord',
+        link: 'https://discord.gg/5YVfC4a'
+      },
+      {
+        title: 'Twitch',
+        link: 'twitch.tv/yaleesports'
+      },
+      {
+        title: 'Twitch',
+        link: 'twitch.tv/ColumbiaUniversityEsports'
+      },
+    ],
     hostedBy: 'Columbia Esports',
   },
   {
@@ -92,10 +104,33 @@ let events = [
     tags: ['Activism'],
     website: 'https://www.facebook.com/events/639134516813684',
     imgLink: 'https://scontent.fstv6-1.fna.fbcdn.net/v/t1.0-9/51794275_242634223342669_8609539717546901504_o.png?_nc_cat=100&_nc_sid=85a577&_nc_ohc=Oqpz5--3wk0AX_SC3C-&_nc_ht=scontent.fstv6-1.fna&oh=f17acf3a981d29feaf8cffe81e2494ba&oe=5EC50AFF',
-    eventLink: ['https://columbiauniversity.zoom.us/j/9653202444'],
-    eventLinkHeader:['Zoom Link'],
+    eventLink: [
+      {
+        title: 'Zoom',
+        link: 'https://columbiauniversity.zoom.us/j/9653202444'
+      }
+    ],
     hostedBy: 'ColumbiaVotes',
-  }
+  },
+  {
+    display:true,
+    title: 'Zionist Aesthetics in Pre-State Israel',
+    startTime: new Date(2020, 3, 27, 20),
+    endTime: new Date(2020, 3, 27, 21, 15),
+    description: 'We will delve into how Zionism was interpreted and fused in different art movements ' +
+      'when envisioning the new Hebrew society in Eretz Israel.',
+    tags: ['Education'],
+    website: 'https://www.ssimovement.org/lectures.html',
+    imgLink: 'https://imgur.com/VenjFsK.jpg',
+    eventLink: [
+      {
+        title: 'Zoom',
+        link: 'https://us04web.zoom.us/j/750012737?pwd=bkJqYjFSNXNIY0p5eWp1YTZpL3hXQT09',
+        pass: 'SSI2012'
+      }
+    ],
+    hostedBy: 'Students Supporting Israel at Columbia University',
+  },
 ];
 
 events.sort(function(a,b){
