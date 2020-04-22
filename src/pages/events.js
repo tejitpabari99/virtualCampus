@@ -287,8 +287,8 @@ class Events extends React.Component{
                 <div style={{marginLeft:5}}>
                   {this.state.event.eventLink.map((link, ind) => {
                     return (
-                      <div><a href={link} target={'_blank'} rel="noopener noreferrer"
-                              style={{ color: "#4284C8", textDecoration: 'underline' }}>{this.state.event.eventLinkHeader[ind]}</a></div>
+                      <div><a href={link.link} target={'_blank'} rel="noopener noreferrer"
+                              style={{ color: "#4284C8", textDecoration: 'underline' }}>{link.title}</a>{link.hasOwnProperty('pass') && <span> ({link.pass})</span>}</div>
                     )
                   })}
                 </div>
