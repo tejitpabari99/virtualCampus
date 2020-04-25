@@ -3,6 +3,10 @@ const { DateTime } = require("luxon");
 const boardGamesImage = require('./img/boardgame_pexels.jpg');
 const eventLinkUnavailable = 'TBA';
 
+const imageLinks = {
+  csi:'https://i.imgur.com/xgW2gTv.jpg'
+}
+
 let convertDate = function(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes())
 };
@@ -132,6 +136,24 @@ let events = [
       }
     ],
     hostedBy: 'Students Supporting Israel at Columbia University',
+  },
+  {
+    display:true,
+    title: 'Dr. Dana Levin: Medicine in Space',
+    startTime: new Date(2020, 4, 1, 15),
+    endTime: new Date(2020, 4, 1, 16),
+    description: 'Join us over Zoom to learn about medicine in extreme environments with flight surgeon & researcher ' +
+        'Dr. Dana Levin. From Antarctica to outer space - learn how doctors keep people healthy in the harshest of conditions.',
+    tags: ['Engineering', 'Medicine'],
+    website: 'https://www.facebook.com/events/703319930207112/',
+    imgLink: imageLinks.csi,
+    eventLink: [
+      {
+        title: 'Zoom',
+        link: 'https://columbiauniversity.zoom.us/j/418057536?pwd=T1kzZ1FLd1hLWTRpc0t6TzcwRlZpUT09'
+      }
+    ],
+    hostedBy: 'Columbia Space Initiative',
   },
 ];
 
