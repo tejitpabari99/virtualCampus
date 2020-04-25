@@ -23,17 +23,8 @@ export default function IndexPage() {
             </Helmet>
             <Card>
                 <CardBody>
-                    <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>Contribute Your Project!</strong></h3>
-                    <iframe
-                        src="https://docs.google.com/forms/d/e/1FAIpQLSd-EgoZRBqIgJ2P1tHtPQjT9Kz6y0r7eenkJHLcJcSpsOdrFA/viewform?embedded=true"
-                        width='100%' height="571" frameBorder="0" marginHeight="0" marginWidth="0">Loading…
-                    </iframe>
-                </CardBody>
-            </Card>
-            <Card>
-                <CardBody>
                     <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>Contact Us</strong></h3><br/>
-                    Our email: <a style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}} href={'mailto:columbiavirtualcampus@gmail.com'}>virtualcampuscovid@gmail.com</a>
+                    Our email: <a style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}} href={'mailto:columbiavirtualcampus@gmail.com'}>columbiavirtualcampus@gmail.com</a>
                     <br/><br/>
                     Our Facebook: <a style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}} href='https://bit.ly/virtual-campus-group'>https://bit.ly/virtual-campus-group</a>
                     <br/><br/>
