@@ -17,9 +17,10 @@ let events = [
     title: 'Lioncraft Barnard Launch',
     startTime: new Date(2020, 3, 19, 17),
     endTime: new Date(2020, 3, 19, 19),
-    description: 'Our goal is to provide current and former Columbia students with a virtual campus to reunite with ' +
+    shortDescription: 'Our goal is to provide current and former Columbia students with a virtual campus to reunite with ' +
       'classmates and professors in the Minecraft Virtual World. By working together as a community, ' +
       'users can help rebuild Columbia in all of its glory, block by block.',
+    longDescription:'',
     tags: ['Education'],
     website: 'http://lioncraft.nyc/',
     imgLink: 'http://lioncraft.nyc/assets/img/home.png',
@@ -47,9 +48,10 @@ let events = [
     title: 'Talking Israel on Campus',
     startTime: new Date(2020, 3, 20, 20),
     endTime: new Date(2020, 3, 20, 21),
-    description: 'We plan to host a webinar with Dalia Zahger (GS \'19); she is an SSI Columbia President Alumna. ' +
+    shortDescription: 'We plan to host a webinar with Dalia Zahger (GS \'19); she is an SSI Columbia President Alumna. ' +
       'She going to reflect on her own experience as a former SSI president and going to discuss how to address and ' +
       'respond to questions about Israel on campus.',
+    longDescription:'',
     tags: ['Activism'],
     website: 'https://www.ssimovement.org/lectures.html',
     imgLink: 'https://i.imgur.com/ThrrIKY.jpg',
@@ -178,11 +180,8 @@ function addDays(date, days) {
 //   }
 // }
 // events.push(...new_arr);
-
 for (const i in events){
   events[i]['id'] = i+1;
 }
 
-
 export default events
-
