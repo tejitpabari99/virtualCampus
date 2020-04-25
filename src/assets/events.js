@@ -140,8 +140,8 @@ let events = [
   {
     display:true,
     title: 'Dr. Dana Levin: Medicine in Space',
-    startTime: new Date(2020, 5, 1, 25),
-    endTime: new Date(2020, 5, 1, 16),
+    startTime: new Date(2020, 4, 1, 25),
+    endTime: new Date(2020, 4, 1, 16),
     description: '"Join us over Zoom to learn about medicine in extreme environments with flight surgeon & researcher Dr. Dana Levin. From Antarctica to outer space - learn how doctors keep people healthy in the harshest of conditions.',
     tags: ['Engineering', 'Medicine'],
     website: 'https://www.facebook.com/events/703319930207112/',
