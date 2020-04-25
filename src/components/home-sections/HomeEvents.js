@@ -187,7 +187,7 @@ class Events extends React.Component{
   render() {
     const { classes } = this.props;
     return (
-      <div style={{ marginTop: "100px" }}>
+      <div>
         <Helmet>
           <meta name="description" content="Virtual Campus for the Columbia Community" />
           <link rel="canonical" href="https://columbiavirtualcampus.com/" />
@@ -200,8 +200,6 @@ class Events extends React.Component{
           <meta property="og:image:width" content="200" />
           <meta property="og:image:height" content="200" />
         </Helmet>
-        <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}
-            className={classes.toAll}> UPCOMING EVENTS </h3>
         <div>
           {this.state.open && <Modal
             aria-labelledby="transition-modal-title"

@@ -14,6 +14,7 @@ import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 // import Toolbar from "@material-ui/core/Toolbar";
 import landingImage from "../assets/img/graphic.png";
 import { Helmet } from 'react-helmet'
+import AddIcon from "@material-ui/icons/Add";
 
 const TITLE = 'Columbia Virtual Campus'
 
@@ -62,6 +63,10 @@ const manualSt = makeStyles(() => ({
     },
     color:"#BFD8E9",
     fontWeight: 400,
+  },
+  toAll2:{
+    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.25em',
+    WebkitFontSmoothing:"antialiased", boxSizing: 'inherit', margin:"0px"
   },
   button:{
     boxShadow: 'none',
@@ -131,7 +136,12 @@ const manualSt = makeStyles(() => ({
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'left center',
     },
-  }
+  },
+  addNewButton:{
+    // float:'right',
+    boxShadow:"none",
+    fontSize: 20,
+  },
 }));
 
 
@@ -174,7 +184,18 @@ export default function IndexPage() {
         </div>
       <div className={classNames(classes.main)} style={{textAlign:'left'}}>
         <div className={classes.container} id="explore">
+          <div style={{ marginTop: "100px" }}>
+          <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}
+              className={classes.toAll2}> UPCOMING EVENTS </h3>
+          <div style={{textAlign:'center'}}>
+            <Button color="vcColor" size="sm" className={manual.addNewButton}
+                    style={{marginTop: 20}}
+                    active={true} target={'_blank'} rel="noopener noreferrer"
+                    href={'https://forms.gle/fzKvSZqkAVNN6cHY6'}> <AddIcon/> Add New Event
+            </Button>
+          </div>
           <HomeEvents/>
+          </div>
           <div style={{marginBottom: "100px"}}/>
         </div>
       </div>
