@@ -18,7 +18,6 @@ import { cardTitle } from "../assets/material-kit-assets/jss/material-kit-react.
 import { Helmet } from 'react-helmet'
 import AddIcon from '@material-ui/icons/Add';
 
-const TITLE = 'Events @ Columbia Virtual Campus';
 const theme = createMuiTheme();
 
 const months = {
@@ -113,9 +112,9 @@ const useStyles = () => ({
     marginBottom: 10
   },
   addNewButton:{
-    float:'right',
+    // float:'right',
     boxShadow:"none",
-    fontSize: 15,
+    fontSize: 20,
   },
   learnMoreModal: {
     boxShadow:"none",
@@ -202,12 +201,14 @@ class Events extends React.Component{
         <div style={{marginTop:"0px"}}>
           <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}} className={classes.toAll}> ALL EVENTS (IN EST) </h3>
         </div>
-
+        <div style={{textAlign:'center'}}>
         <Button color="vcColor" size="sm" className={classes.addNewButton}
+                style={{marginTop: 20, marginBottom: 15}}
                 active={true} target={'_blank'} rel="noopener noreferrer"
                 href={'https://forms.gle/fzKvSZqkAVNN6cHY6'}> <AddIcon/> Add New Event
         </Button>
-        <Toolbar/>
+        </div>
+        {/*<Toolbar/>*/}
         <Calendar
           views={['week', 'day']}
           localizer={localizer}
@@ -218,7 +219,7 @@ class Events extends React.Component{
           endAccessor="endTime"
           allDayAccessor="allDay"
           showMultiDayTimes
-          style={{ height: 500 }}
+          style={{ height: 550 }}
           onSelectEvent={(event) => {this.setState({open:true, event})}}
           eventPropGetter={this.eventPropStyles}
           components={{

@@ -1,17 +1,23 @@
 import React from "react"
 import Template from "../components/template";
-import Card from "../components/material-kit-components/Card/Card.js";
-import CardBody from "../components/material-kit-components/Card/CardBody.js";
 
-import dsi from "../assets/img/dsi.png";
-
-import TeamSection from "../components/about-us-sections/team.js";
+import TeamSection from "../components/about-us-sections/TeamSection.js";
 
 import { Helmet } from 'react-helmet'
+import { makeStyles } from "@material-ui/core/styles";
+// <link href="../assets/material-kit-assets/css/material-kit-react.css.map" rel="stylesheet"/>
 
-const TITLE = 'About Us'
+const custClass = makeStyles(() => ({
+    toAll:{
+        fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.25em',
+        WebkitFontSmoothing:"antialiased", boxSizing: 'inherit', margin:"0px"
+    }
+}));
 
+const TITLE = 'About Us';
 export default function IndexPage() {
+
+    const custStyle = custClass();
     return (
         <Template active={'about-us'}>
             <Helmet>
@@ -27,47 +33,27 @@ export default function IndexPage() {
                 <meta property="og:image:width" content="200" />
                 <meta property="og:image:height" content="200" />
             </Helmet>
-            <link href="../assets/material-kit-assets/css/material-kit-react.css.map" rel="stylesheet"/>
-            <Card>
-                <CardBody>
-                    <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>About Us</strong></h3>
-                    <div style={{minHeight: '10px'}}/>
-                    <div style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}>
-                        Virtual Campus is an inclusive, vibrant hub of Columbia student voices designed to address the
-                        need for community during the COVID-19 pandemic. <br/><br/>
-
-                        Even though Columbia and Barnard students are now spread out all over the world, we are still a
-                        community - here to support, engage, and enrich each other’s lives. In light of recent events,
-                        most of the normal campus activities have been suspended, but we can still maintain our community
-                        through virtual campus experiences. <br/><br/>
-
-                        We welcome any and all creative contributions by the student body to be proudly displayed on our
-                        landing page. Please feel free to shoot any of the founders a message, or submit your project
-                        here.
+            <div style={{textAlign:'center', width:'60%', marginLeft:'auto', marginRight:'auto', marginTop:'5%'}}>
+                <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}
+                    className={custStyle.toAll}> ABOUT US
+                </h3>
+                <div>
+                    <div style={{minHeight: '20px'}}/>
+                    <div style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif', textAlign:'center', color:"#999"}}>
+                        We created Columbia Virtual Campus at time when remote living posed challenges for many students across
+                        the world who no longer had access to the resources and liveliness that one finds on campus.
+                        Through this website, we hope to recreate a sense of community, purpose, and normalcy for students
+                        that are now spread across the world.
                     </div>
-                    <div style={{minHeight: '30px'}}/>
-                </CardBody>
-            </Card>
-            <Card>
-                <CardBody>
-                    <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>Our Mission</strong></h3>
-                    <div style={{minHeight: '10px'}}/>
-                    <div style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}>
-                        Let’s come together to:
-                        <ol>
-                            <li>Help students cope with social isolation (eg. fun activities, communication portals,
-                                articles,
-                                videos, etc)
-                            </li>
-                            <li>Help students continue to learn, work and live to the best of their abilities.</li>
-                            <li>Maintain and adapt campus activities that support the community.</li>
-                        </ol>
-                    </div>
-                    <div style={{minHeight: '30px'}}/>
-                </CardBody>
-            </Card>
-
+                </div>
+            </div>
             <div style={{minHeight: '80px'}}/>
+
+            <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}
+                className={custStyle.toAll}> OUR TEAM
+            </h3>
+            <TeamSection ></TeamSection>
+            <div style={{minHeight: '60px'}}/>
         </Template>
     );
 }
