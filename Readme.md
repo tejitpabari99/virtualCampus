@@ -10,7 +10,7 @@ It is developed using [Gatsby](https://www.gatsbyjs.org/docs/, "Gatsby"), a stat
 
 
 ### Requirements:
-1. [Node](https://nodejs.org/en/download/, "Node") (Npm comes installed with it) 
+1. [Node](https://nodejs.org/en/download/, "Node") (Npm comes installed with it)
 
 
 ### Running:
