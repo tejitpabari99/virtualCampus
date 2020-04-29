@@ -58,14 +58,14 @@ export default function TeamMember({image, name, position, description, linkedin
       <GridItem xs={8} sm={8} md={8} className={classes.itemGrid}>
         <img src={image} alt="..." className={imageClasses} />
       </GridItem>}
-      <h4 className={classNames(classes.cardTitle, custStyle.title)}>
+      <h4 className={classNames(classes.cardTitle, custStyle.title, custClass.toAll)}>
         {name}
         <br />
-        <small className={classNames(classes.smallTitle, custStyle.position)}>{position}</small>
+        <small className={classNames(classes.smallTitle, custStyle.position, custClass.toAll)}>{position}</small>
       </h4>
       {!noDescription &&
       <CardBody>
-        <p className={classNames(classes.description, custStyle.description)}>
+        <p className={classNames(classes.description, custStyle.description, custClass.toAll)}>
           {description}
         </p>
       </CardBody>}
