@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Template from "../components/template";
 import { withStyles } from '@material-ui/styles';
 import Modal from '@material-ui/core/Modal';
@@ -11,12 +11,17 @@ import classNames from "classnames";
 import Card from "../components/material-kit-components/Card/Card.js";
 import CardBody from "../components/material-kit-components/Card/CardBody.js";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import myEventsList from '../assets/events'
+// import myEventsList from '../assets/events'
 import { createMuiTheme } from "@material-ui/core/styles";
 import Button from "../components/material-kit-components/CustomButtons/Button.js";
 import { cardTitle } from "../assets/material-kit-assets/jss/material-kit-react.js";
 import { Helmet } from 'react-helmet'
 import AddIcon from '@material-ui/icons/Add';
+
+// import * as firebase from "firebase/app";
+// import "firebase/auth";
+// import "firebase/firestore";
+import firebase from '../firebase';
 
 const theme = createMuiTheme();
 
@@ -151,8 +156,26 @@ class Events extends React.Component{
       open:false,
       event:null,
       count:0,
+      myEventsList: []
     };
     this.closeDo = this.closeDo.bind(this);
+  }
+
+  async componentDidMount() {
+    var db = await firebase.firestore();
+    var docs = await db.collection('events').get();
+    docs.forEach((doc) => {
+      console.log(doc);
+    })
+    var events = [];
+    docs.forEach((doc) => {
+      var event = doc.data();
+      event.startTime = event.startTime.toDate();
+      event.endTime = event.endTime.toDate();
+      events.push(event);
+    });
+    console.log(events);
+    this.setState({myEventsList:events})
   }
 
   formatTime(hours, min) {
@@ -213,7 +236,7 @@ class Events extends React.Component{
           views={['week', 'day']}
           localizer={localizer}
           scrollToTime={new Date()}
-          events={myEventsList}
+          events={this.state.myEventsList}
           defaultView={'week'}
           startAccessor="startTime"
           endAccessor="endTime"
@@ -311,7 +334,7 @@ class Events extends React.Component{
             backgroundColor: '#F1945B',
             height: 3
           }}/>
-          {myEventsList.map((ele) => {
+          {this.state.myEventsList.map((ele) => {
             if(ele.display) {
               // this.state.count+=1;
               // if (this.state.count<5) {
