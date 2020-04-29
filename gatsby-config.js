@@ -62,7 +62,13 @@ module.exports = {
       options: {
         trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'null'
       }
-    }
+    },
+    {
+      resolve: 'gatsby-source-firestore',
+      options: {
+        credential: require("./firebase.json"),
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
