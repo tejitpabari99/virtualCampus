@@ -19,6 +19,8 @@ import { Helmet } from 'react-helmet'
 import AddIcon from '@material-ui/icons/Add';
 import AddToCalendar from 'react-add-to-calendar';
 
+const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
 const theme = createMuiTheme();
 
 const months = {
@@ -151,7 +153,21 @@ class Events extends React.Component{
     this.state={
       open:false,
       event:null,
-      count:0,
+      count: 0,
+      // non-mobile calendar items: actual websites
+      calItems:[
+        //{ windows: "Windows"}
+        //{ outlookcom: 'Outlook' },
+        //{ yahoo: 'Yahoo' },
+        { google: 'Google' },
+        ],
+      // mobile calendar items: apps (ex outlook)
+      mobileCalItems: [
+        { apple: 'Apple Calendar' },
+        { google: 'Google' },
+        { outlook: 'Outlook' },
+        { yahoo: 'Yahoo' },
+        ],
     };
     this.closeDo = this.closeDo.bind(this);
   }
@@ -302,9 +318,14 @@ class Events extends React.Component{
               <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
                 <strong>Hosted By: </strong> {this.state.event.hostedBy}
               </p>
-              <Button color="vcColor" size="sm">
-                <AddToCalendar event={this.state.event} button={this.icon} />
-              </Button>
+
+                <Button color="vcColor" size="sm">
+                <AddToCalendar 
+                            optionsOpen={true}
+                            event={this.state.event}
+                            button={this.icon}
+                            dropdownClass={"MuiList-root"}
+                            listItems={isiOS ? this.state.calItemsMobile : this.state.calItems} /> </Button>
             </div>
           </Fade>
         </Modal>}
