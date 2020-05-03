@@ -100,7 +100,15 @@ export default function TeamSection() {
                         linkedin={"https://www.linkedin.com/in/lydia-chilton-15495427/"}
             />
           </GridItem>
-
+          <GridItem xs={12} sm={6} md={4}>
+            <TeamMember position={'COMS Lead'} name={'Canfer'}
+                        image={lydia}
+                        description={'Lydia is a Professor at Columbia University in the City of New York'}
+                        github={"https://github.com/hmslydia"}
+                        facebook={"https://www.facebook.com/hmslydia"}
+                        linkedin={"https://www.linkedin.com/in/lydia-chilton-15495427/"}
+            />
+          </GridItem>
         </GridContainer>
       </div>
   );
