@@ -156,9 +156,9 @@ class Events extends React.Component{
       count: 0,
       // non-mobile calendar items: actual websites
       calItems:[
-        //{ windows: "Windows"}
-        //{ outlookcom: 'Outlook' },
-        //{ yahoo: 'Yahoo' },
+        { windows: "Windows"},
+        { outlookcom: 'Outlook' },
+        { yahoo: 'Yahoo' },
         { google: 'Google' },
         ],
       // mobile calendar items: apps (ex outlook)
@@ -319,13 +319,10 @@ class Events extends React.Component{
                 <strong>Hosted By: </strong> {this.state.event.hostedBy}
               </p>
 
-                <Button color="vcColor" size="sm">
                 <AddToCalendar 
-                            optionsOpen={true}
                             event={this.state.event}
                             button={this.icon}
-                            dropdownClass={"MuiList-root"}
-                            listItems={isiOS ? this.state.calItemsMobile : this.state.calItems} /> </Button>
+                            listItems={isiOS ? this.state.calItemsMobile : this.state.calItems} />
             </div>
           </Fade>
         </Modal>}
