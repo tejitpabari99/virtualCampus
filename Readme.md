@@ -10,7 +10,7 @@ It is developed using [Gatsby](https://www.gatsbyjs.org/docs/, "Gatsby"), a stat
 
 
 ### Requirements:
-1. Npm
+1. [Node](https://nodejs.org/en/download/, "Node") (Npm comes installed with it)
 
 
 ### Running:
@@ -22,7 +22,7 @@ It is developed using [Gatsby](https://www.gatsbyjs.org/docs/, "Gatsby"), a stat
 
 ### Before Submitting:
 1. Before submitting code, please run: `gatsby build && gatsby deploy`. See the output on http://localhost:9000/ and verify that it is exactly what you want.
-2. Make a pull request and inform your Project lead about it. Ask for review on github.
+2. Make a pull request and inform your Project lead about it. Ask for review on github. 
 
 
 
