@@ -156,7 +156,6 @@ class Events extends React.Component{
       count: 0,
       // non-mobile calendar items: actual websites
       calItems:[
-        { windows: "Windows"},
         { outlookcom: 'Outlook' },
         { yahoo: 'Yahoo' },
         { google: 'Google' },
@@ -319,10 +318,12 @@ class Events extends React.Component{
                 <strong>Hosted By: </strong> {this.state.event.hostedBy}
               </p>
 
-                <AddToCalendar 
-                            event={this.state.event}
-                            button={this.icon}
-                            listItems={isiOS ? this.state.calItemsMobile : this.state.calItems} />
+                <Button color="vcColor" size="sm">
+                    <AddToCalendar 
+                                event={this.state.event}
+                                button={this.icon}
+                                listItems={isiOS ? this.state.calItemsMobile : this.state.calItems} />
+                </Button>
             </div>
           </Fade>
         </Modal>}

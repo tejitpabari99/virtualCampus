@@ -138,15 +138,6 @@ form {
     }
 
     &__button {
-        padding: 10px;
-        background-color: #f9f9f9;
-        border: 1px solid #aab9d4;
-        border-radius: 3px;
-        color: #000;
-
-        &--light {
-            background-color: #fff;
-        }
     }
 
     &__icon {
@@ -161,23 +152,31 @@ form {
 
     &__dropdown {
         position: absolute;
-        top: 30px;
-        left: 1px;
+        top: 23px;
         width: 93%;
-        padding: 5px 0 5px 8px;
-        box-shadow: 1px 3px 6px rgba(0, 0, 0, .15);
-        border: 1px solid #a8a8a8;
-        background-color: #fff;
         text-align: left;
+        box-shadow: 0 2px 2px 0 rgba(233, 30, 99, 0.14), 0 3px 1px -2px rgba(233, 30, 99, 0.2), 0 1px 5px 0 rgba(233, 30, 99, 0.12);
+        background-color: #fff8f2;
 
         ul {
             list-style: none;
             margin: 0;
+            padding-top:5px;
 
             li {
+                width: 100%;
+                display: flex;
+                position: relative;
+                box-sizing: border-box;
+                text-align: left;
+                align-items: center;
+                padding-bottom: 8px;
+                justify-content: flex-start;
+                text-decoration: none;
 
                 a {
-                    color: #000;
+                    font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
+                    color: rgb(66, 132, 200);
                     text-decoration: none;
 
                     i {
