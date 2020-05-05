@@ -17,9 +17,8 @@ import Button from "../components/material-kit-components/CustomButtons/Button.j
 import { cardTitle } from "../assets/material-kit-assets/jss/material-kit-react.js";
 import { Helmet } from 'react-helmet'
 import AddIcon from '@material-ui/icons/Add';
-import AddToCalendar from 'react-add-to-calendar';
+import AddCalendar from '../components/events-sections/AddCalendar.js';
 
-const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 const theme = createMuiTheme();
 
@@ -144,6 +143,7 @@ const useStyles = () => ({
       height: "200px",
     }
   }
+
 });
 
 
@@ -154,19 +154,6 @@ class Events extends React.Component{
       open:false,
       event:null,
       count: 0,
-      // non-mobile calendar items: actual websites
-      calItems:[
-        { outlookcom: 'Outlook' },
-        { yahoo: 'Yahoo' },
-        { google: 'Google' },
-        ],
-      // mobile calendar items: apps (ex outlook)
-      mobileCalItems: [
-        { apple: 'Apple Calendar' },
-        { google: 'Google' },
-        { outlook: 'Outlook' },
-        { yahoo: 'Yahoo' },
-        ],
     };
     this.closeDo = this.closeDo.bind(this);
   }
@@ -318,12 +305,8 @@ class Events extends React.Component{
                 <strong>Hosted By: </strong> {this.state.event.hostedBy}
               </p>
 
-                <Button color="vcColor" size="sm">
-                    <AddToCalendar 
-                                event={this.state.event}
-                                button={this.icon}
-                                listItems={isiOS ? this.state.calItemsMobile : this.state.calItems} />
-                </Button>
+                <AddCalendar info={this.state.event} />
+
             </div>
           </Fade>
         </Modal>}
