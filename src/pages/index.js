@@ -144,7 +144,6 @@ const manualSt = makeStyles(() => ({
   },
 }));
 
-
 export default function IndexPage() {
   const classes = useStyles();
   const manual = manualSt();
