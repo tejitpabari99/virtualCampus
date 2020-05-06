@@ -1,72 +1,9 @@
 import React from "react";
 import AddToCalendar from "react-add-to-calendar";
 import Button from "../material-kit-components/CustomButtons/Button";
-import {withStyles} from "@material-ui/styles";
+import "./AddCalendarStyles.scss";
 
-/*
-.react-add-to-calendar {
-    -webkit-font-smoothing: antialiased;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .004);
-    position: relative;
-    display: inline-block;
-    margin: 0 auto;
-
-    &__wrapper {
-         zoom: 1;
-         cursor: pointer;
-     }
-
-    &__button {
-     }
-
-    &__icon {
-    &--right {
-         padding-left: 5px;
-     }
-
-    &--left {
-         padding-right: 5px;
-     }
-    }
-
-    &__dropdown {
-         position: absolute;
-         top: 20px;
-         width: 100%;
-         text-align: left;
-         box-shadow: 0 2px 2px 0 rgba(233, 30, 99, 0.14), 0 3px 1px -2px rgba(233, 30, 99, 0.2), 0 1px 5px 0 rgba(233, 30, 99, 0.12);
-         background-color: #fff8f2;
-         z-index: 200;
-
-        ul {
-                list-style: none;
-                margin: 0;
-                padding-top:5px;
-
-            li {
-                display: flex;
-                position: relative;
-                box-sizing: border-box;
-                text-align: left;
-                align-items: center;
-                padding-bottom: 8px;
-                justify-content: flex-start;
-                text-decoration: none;
-
-                a {
-                    font-family: Poppins, Roboto, Helvetica, Arial, sans-serif;
-                    color: rgb(66, 132, 200);
-                    text-decoration: none;
-
-                    i {
-                        padding-right: 0px;
-                    }
-                }
-            }
-        }
-    }
-}
- */
+import calIcon from "../../assets/img/add-event.png";
 
 export default class AddCalendar extends React.Component {
     constructor(props) {
@@ -94,6 +31,7 @@ export default class AddCalendar extends React.Component {
                                 ];
         return (
             <div>
+                <img src={calIcon} title={"Add Event to Your Calendar"} />
                 <Button color="vcColor" size="sm" round>
                     <AddToCalendar
                         event={this.props.info}
@@ -102,6 +40,7 @@ export default class AddCalendar extends React.Component {
                         listItems={isiOS ? calItemsMobile : calItems}
                     />
                 </Button>
-            </div>)
+            </div>
+            )
     }
 }
