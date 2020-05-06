@@ -1,9 +1,6 @@
 import React from "react";
 import AddToCalendar from "react-add-to-calendar";
-import Button from "../material-kit-components/CustomButtons/Button";
 import "./AddCalendarStyles.scss";
-
-import calIcon from "../../assets/img/add-event.png";
 
 export default class AddCalendar extends React.Component {
     constructor(props) {
@@ -16,30 +13,39 @@ export default class AddCalendar extends React.Component {
         const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
         // non-mobile calendar items: actual websites
-        const calItems =        [
-                                    { outlookcom: 'Outlook' },
-                                    { yahoo: 'Yahoo' },
-                                    { google: 'Google' },
-                                ];
+        const GoogleCalItems =          [
+                                        { google: '' }
+                                        ];
 
         // mobile calendar items: apps (ex outlook)
-        const calItemsMobile =  [
-                                    { apple: 'Apple Calendar' },
-                                    { google: 'Google' },
-                                    { outlook: 'Outlook' },
-                                    { yahoo: 'Yahoo' },
-                                ];
+        const GoogleCalItemsMobile =    [
+                                        { google: '' }
+                                        ];
         return (
             <div>
-                <img src={calIcon} title={"Add Event to Your Calendar"} />
-                <Button color="vcColor" size="sm" round>
-                    <AddToCalendar
-                        event={this.props.info}
-                        //button={this.icon}
-                        buttonLabel={"Add to Calendar"}
-                        listItems={isiOS ? calItemsMobile : calItems}
-                    />
-                </Button>
+                <AddToCalendar
+                    id={"cal"}
+                    event={this.props.info}
+                    optionsOpen={true}
+                    buttonLabel={""}
+                    buttonClassOpen={"buttonClassOthers"}
+                    buttonClassClosed={"buttonClassOthers"}
+                    buttonWrapperClass={"buttonClassOthers"}
+                    dropdownClass={"buttonClassDrop"}
+                    rootClass={"myCal"}
+                    listItems={isiOS ? GoogleCalItemsMobile : GoogleCalItems}/>
+
+                <AddToCalendar
+                    id={"cal"}
+                    event={this.props.info}
+                    optionsOpen={true}
+                    buttonLabel={""}
+                    buttonClassOpen={"buttonClassOthers"}
+                    buttonClassClosed={"buttonClassOthers"}
+                    buttonWrapperClass={"buttonClassOthers"}
+                    dropdownClass={"buttonClassDrop"}
+                    rootClass={"myCal2"}
+                    listItems={isiOS ? GoogleCalItemsMobile : GoogleCalItems}/>
             </div>
             )
     }

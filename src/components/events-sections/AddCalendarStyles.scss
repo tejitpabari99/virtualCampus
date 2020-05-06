@@ -11,12 +11,147 @@ img {
   height:18px;
 }
 
+.myCal2 {
+  display:inline-block;
+  top: -5px;
+  height: 0px;
+
+  .buttonClassOthers {
+    display: none;
+    padding: 0px;
+    margin: 0px;
+    height: 0px;
+    width: 0px;
+  }
+
+  .buttonClassDrop {
+
+    ul {
+      list-style: none;
+      padding: 0px 5px 0px 0px;
+      height: 19px;
+      margin: 0px;
+      display:inline-block;
+
+      li {
+        position: relative;
+        text-decoration: none;
+        display:inline-block;
+
+        a {
+          left: 0%;
+          right: 0%;
+          top: 2.82%;
+          bottom: 2.82%;
+
+          background: #FFFFFF;
+          width: 19px;
+          height: 18px;
+
+        }
+
+        a::before {
+
+          content: url(../../assets/img/apple_icon.png);
+          left: 0%;
+          right: 0%;
+          top: 2.82%;
+          bottom: 2.82%;
+
+          background: #FFFFFF;
+
+        }
+      }
+    }
+  }
+}
+
+.myCal {
+  display:inline-block;
+  top: -5px;
+  height: 0px;
+
+  .buttonClassOthers {
+    display:inline-block;
+    padding:0px;
+    margin:0px;
+    height:0px;
+    width:0px;
+  }
+  .buttonClassDrop {
+
+    ul {
+      list-style: none;
+      padding: 0px 5px 0px 0px;
+      margin: 0px;
+      height: 19px;
+      display:inline-block;
+      li {
+        position: relative;
+        text-decoration: none;
+        display:inline-block;
+        a {
+          left: 0%;
+          right: 0%;
+          top: 2.82%;
+          bottom: 2.82%;
+
+          background: #FFFFFF;
+
+        }
+
+        a::before {
+
+          content: url(../../assets/img/add-event.png);
+          left: 0%;
+          right: 0%;
+          top: 2.82%;
+          bottom: 2.82%;
+
+          background: #FFFFFF;
+
+        }
+      }
+    }
+  }
+
+  .buttonClassDrop {
+
+    ul {
+      list-style: none;
+      padding: 0px 5px 0px 0px;
+      li {
+        position: relative;
+        text-decoration: none;
+        a {
+          left: 0%;
+          right: 0%;
+          top: 2.82%;
+          bottom: 2.82%;
+
+          background: #FFFFFF;
+
+        }
+
+        a::before {
+
+          content: url(../../assets/img/add-event.png);
+          left: 0%;
+          right: 0%;
+          top: 2.82%;
+          bottom: 2.82%;
+
+          background: #FFFFFF;
+        }
+      }
+    }
+  }
+}
+
 .react-add-to-calendar {
-  -webkit-font-smoothing: antialiased;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, .004);
-  position: relative;
-  display: inline-block;
-  margin: 0 auto;
+  display: none;
+  height: 0px;
+  width: 0px;
 
   &__wrapper {
     zoom: 1;
