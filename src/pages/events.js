@@ -305,7 +305,7 @@ class Events extends React.Component{
                 <strong>Hosted By: </strong> {this.state.event.hostedBy}
               </p>
 
-                <AddCalendar info={this.state.event} />
+                <AddCalendar info={this.state.event}/>
 
             </div>
           </Fade>
