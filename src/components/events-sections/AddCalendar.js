@@ -62,13 +62,16 @@ export default class AddCalendar extends React.Component {
             <div>
                 <img src={calIcon} title={"Add Event to Your Calendar"} />
 
-                <a href="#" onClick={() => this.download(icGenName, icGenText)}>
-                    <img src={appleIcon} title={"Add to Apple calendar"} />
+                <a href="#"
+                   onClick={() => this.download(icGenName, icGenText)}
+                >
+                    <img src={appleIcon} title={"Add to Apple Calendar"} />
                 </a>
 
                 <a href={googleLink}
-                   target="_blank" rel="nofollow">
-                    <img src={googleIcon} title={"Add to Google calendar"} />
+                   target="_blank"
+                   rel="nofollow">
+                    <img src={googleIcon} title={"Add to Google Calendar"} />
                 </a>
             </div>
             )
@@ -79,12 +82,9 @@ export default class AddCalendar extends React.Component {
         var element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         element.setAttribute('download', filename);
-
         element.style.display = 'none';
         document.body.appendChild(element);
-
         element.click();
-
         document.body.removeChild(element);
     }
 
