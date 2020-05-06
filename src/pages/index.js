@@ -16,7 +16,7 @@ import landingImage from "../assets/img/graphic.png";
 import { Helmet } from 'react-helmet'
 import AddIcon from "@material-ui/icons/Add";
 
-const TITLE = 'Columbia Virtual Campus'
+const TITLE = 'Columbia Virtual Campus';
 
 const useStyles = makeStyles(styles);
 
@@ -143,7 +143,6 @@ const manualSt = makeStyles(() => ({
     fontSize: 20,
   },
 }));
-
 
 export default function IndexPage() {
   const classes = useStyles();

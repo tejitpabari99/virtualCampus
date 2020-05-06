@@ -11,6 +11,7 @@
     "@mui-treasury/styles": "latest",
     "babel-plugin-styled-components": "^1.10.7",
     "classnames": "^2.2.6",
+    "firebase": "^7.14.2",
     "gatsby": "^2.20.8",
     "gatsby-image": "^2.2.44",
     "gatsby-plugin-google-analytics": "^2.2.2",
@@ -25,8 +26,10 @@
     "gatsby-plugin-styled-components": "^3.2.1",
     "gatsby-plugin-web-font-loader": "^1.0.4",
     "gatsby-source-filesystem": "^2.2.2",
+    "gatsby-source-firestore": "^1.0.3",
     "gatsby-theme-material-ui": "^1.0.8",
     "gatsby-transformer-sharp": "^2.3.19",
+    "jquery": "^3.5.1",
     "luxon": "^1.23.0",
     "markdown-to-jsx": "^6.11.0",
     "moment": "^2.24.0",
@@ -41,7 +44,8 @@
     "react-share": "^4.1.0",
     "reactstrap": "^8.4.1",
     "smooth-scroll": "^16.1.3",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "survey-react": "^1.7.4"
   },
   "devDependencies": {
     "prettier": "^1.19.1"
