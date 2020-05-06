@@ -5,7 +5,9 @@ const MentalHealthURL = CampusURL + 'mental-health/';
 const COVIDURL = CampusURL + 'covid/';
 const JobsInternshipsURL = CampusURL + 'jobs-internships/';
 const HousingURL = CampusURL + 'housing/';
-const InternationalStudentsURL = CampusURL + 'international-students/'
+const InternationalStudentsURL = CampusURL + 'international-students/';
+
+const NewResourceURL = CampusURL + 'add-resource/';
 
 const facebookGroupPic = 'https://engineering.fb.com/wp-content/uploads/2017/05/fb-hero-image-001.jpeg';
 const instagramGroupPic = 'https://colorlib.com/wp/wp-content/uploads/sites/2/instagram-image-size.jpg';
@@ -36,6 +38,7 @@ const IndexCampusData = {
   'housing': ['housing-covid-faq', 'housing-ra-numbers'],
   'covid': ['connecting-people/samaritan', 'connecting-people/hearts-over-heads', 'resource-list/gssc-covid-resources', 'information/cu-campus-covid-website'],
   'international-students': ['isso-covid-faq', 'isso-maintaining-status', 'register-travel-columbia'],
+  'add_resource':['housing-covid-faq', 'housing-ra-numbers']
 };
 
 const CampusData = {
@@ -65,7 +68,7 @@ const CampusData = {
           },
           'isolating-together': {
             title: 'Isolating Together',
-            description: 'Share what people are upto',
+            description: 'Share what people are up to',
             imgURL: 'https://scontent.famd1-2.fna.fbcdn.net/v/t1.0-9/90316730_904758936632997_768721162262806528_o.jpg?_nc_cat=105&_nc_sid=825194&_nc_ohc=9Hc-Ly1CC38AX-IKSTP&_nc_ht=scontent.famd1-2.fna&oh=fcaaaac4e4b87697b58670c4dedf0c09&oe=5EAB8F40',
             facebook: 'https://www.facebook.com/groups/621455138412555/'
           }
@@ -86,7 +89,7 @@ const CampusData = {
           },
           'qurantine-board-games': {
             id: 'qurantine-board-games',
-            title: 'Qurantine Games',
+            title: 'Quarantine Games',
             description: 'List of 100+ qurantine games you can play with your friends. Including Board games, Card games, Puzzles, Social Deduction games and more!',
             imgURL: boardGamesPic,
             website: 'https://docs.google.com/document/d/10iOD7Wy_YU4NmkPU7ZH7YTrq11qJAANjZZ0PAotKhR8/preview?fbclid=IwAR22HvSlHktWxHC6Lw4nMVkAcR7gmP0QxoFoDkdvpONJbhEbpj3jvBQ0mNU#heading=h.l0jngib9zs61'
@@ -155,6 +158,25 @@ const CampusData = {
     title: 'Housing',
     imgURL: 'https://i.ytimg.com/vi/ZdkJJOWG05g/maxresdefault.jpg',
     pageURL: HousingURL,
+    data: {
+      'housing-covid-faq': {
+        title: 'Columbia Housing COVID FAQ',
+        description: 'Columbia Housing\'s FAQ for COVID',
+        imgURL: covidInfoPic,
+        website: 'https://preparedness.columbia.edu/content/housing/checkout2020',
+      },
+      'housing-ra-numbers': {
+        title: 'RA on duty numbers',
+        description: 'Numbers for RA on Duty for all current dorms',
+        imgURL: housingPic,
+        website: 'https://housing.columbia.edu/housing-options/residences/ra-duty',
+      }
+    }
+  },
+  'add_resource': {
+    title: 'Add Resource',
+    imgURL: 'https://i.ytimg.com/vi/ZdkJJOWG05g/maxresdefault.jpg',
+    pageURL: NewResourceURL,
     data: {
       'housing-covid-faq': {
         title: 'Columbia Housing COVID FAQ',
@@ -288,8 +310,9 @@ const CampusData = {
   }
 };
 
+console.log("logged!");
+
 module.exports = {
   CampusData: CampusData,
   IndexCampusData: IndexCampusData
 };
-

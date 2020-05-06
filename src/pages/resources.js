@@ -22,6 +22,7 @@ const useStyles = () => ({
 
 export default function Resources() {
     const classes = useStyles();
+    console.log("logged!");
     return (
         <Template active={'resources'}>
             <Helmet>
@@ -47,7 +48,6 @@ export default function Resources() {
                         href={'https://forms.gle/WWjyroMcnMsyp7Lv9'}> <AddIcon/> Add New Resource
                 </Button>
             </div>
-
             <CategoriesSection />
 
         </Template>
