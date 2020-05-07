@@ -38,7 +38,7 @@ const IndexCampusData = {
   'housing': ['housing-covid-faq', 'housing-ra-numbers'],
   'covid': ['connecting-people/samaritan', 'connecting-people/hearts-over-heads', 'resource-list/gssc-covid-resources', 'information/cu-campus-covid-website'],
   'international-students': ['isso-covid-faq', 'isso-maintaining-status', 'register-travel-columbia'],
-  'add_resource':['housing-covid-faq', 'housing-ra-numbers']
+  'jobs-internships':[]
 };
 
 const CampusData = {
@@ -293,20 +293,7 @@ const CampusData = {
     title: 'Jobs and Internships',
     imgURL: 'https://www.mailman.columbia.edu/sites/default/files/styles/hero_1500x632/public/jpg/career-1500x632-4.jpg?itok=rCvHZwm5',
     pageURL: JobsInternshipsURL,
-    data: {
-      'jobs': {
-        title: 'Jobs',
-        imgURL: 'https://images.unsplash.com/photo-1459499362902-55a20553e082?ixlib=rb-1.2.1&auto=format&fit=crop&w=1498&q=80',
-        pageURL: JobsInternshipsURL + 'jobs',
-        data: {}
-      },
-      'internships': {
-        title: 'Internships',
-        imgURL: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-        pageURL: JobsInternshipsURL + 'internships',
-        data:{}
-      }
-    }
+    data: {}
   }
 };
 

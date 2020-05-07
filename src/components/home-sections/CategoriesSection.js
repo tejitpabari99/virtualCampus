@@ -8,6 +8,7 @@ import {Link} from "gatsby";
 import Card from "../material-kit-components/Card/Card.js";
 import CardBody from "../material-kit-components/Card/CardBody.js";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
+import "../../css/resources/categories-sections.css"
 
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import {makeStyles} from "@material-ui/core/styles";
@@ -90,8 +91,9 @@ export default function CategoriesSection() {
         return (
           <div className={contStyle.gridCont}>
             <div>
-            <Typography variant="h6" component="h2" className={contStyle.title}>{CampusData[key]['title']}</Typography>
-            <Link to={CampusData[key]['pageURL']} className={contStyle.seeAllLink}>See All</Link>
+            <Typography style={{ textAlign: "center", color: "#4284C8", fontSize: "30px", }} variant="h5" component="h2" className={contStyle.title}>{CampusData[key]['title']}</Typography>
+            <button formAction={contStyle.seeAllLink} className="button1">See All</button>
+            <!-- <Link to={CampusData[key]['pageURL']} className={contStyle.seeAllLink}>See All</Link> -->
             </div>
             <GridContainer>
               {IndexCampusData[key].map(ele => {
