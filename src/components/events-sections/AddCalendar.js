@@ -65,7 +65,7 @@ export default class AddCalendar extends React.Component {
                 </a>
 
 
-                <a href="#outlookICS"
+                <a href="#"
                    onClick={() => this.download(icGenName, icGenText)}
 
                 >
@@ -74,7 +74,7 @@ export default class AddCalendar extends React.Component {
                 </a>
 
 
-                <a href="#appleICS"
+                <a href="#"
                    onClick={() => this.download(icGenName, icGenText)}
                 >
                     <img title={"Add to Apple Calendar"}
