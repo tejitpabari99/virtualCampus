@@ -1,8 +1,7 @@
 #!/bin/sh
 
-# This script stops all running docker containers before
-# rebuilding them and running them again.
+sudo docker build -t hello .
+sudo docker run -d --name cvc -v ~/Desktop/virtualCampus:/app -p 9000:9000 hello
 
-sudo docker-compose down
-sudo docker-compose build
-sudo docker-compose up
+sudo docker exec -it cvc /bin/bash
+

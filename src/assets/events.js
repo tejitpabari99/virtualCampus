@@ -74,7 +74,7 @@ let events = [
     repeat: 'weekly'
   },
   {
-    display:true,
+    display:false,
     title: 'The Ivy League+ vs Covid-19 12 Hour Charity Stream',
     startTime: new Date(2020, 3, 25, 13),
     endTime: new Date(2020, 3, 26, 13),
@@ -139,7 +139,7 @@ let events = [
   },
   {
     display:true,
-    title: 'Dr. Dana Levin: Medicine in Space',
+    title: '1',
     startTime: new Date(2020, 4, 1, 15),
     endTime: new Date(2020, 4, 1, 16),
     description: 'Join us over Zoom to learn about medicine in extreme environments with flight surgeon & researcher ' +
@@ -154,6 +154,21 @@ let events = [
       }
     ],
     hostedBy: 'Columbia Space Initiative',
+  },
+  {
+    display:true,
+    title: 'Columbia/Barnard Theatre Producing Workshop and Q&A',
+    startTime: new Date(2020, 4, 2, 13),
+    endTime: new Date(2020, 4, 2, 15),
+    description: 'Join a group of on-campus producers with experience covering productions with BTE, CMTS, CUP, KCST, NOMADS, ' +
+        'The Varsity Show, and XMAS! for an informal Zoom workshop and Q&A this Saturday (May 2) at 1PM EST on producing ' +
+        'student theatre at Barnumbia!',
+    tags: ['Theatre'],
+    website: 'https://www.facebook.com/events/235908647824143/?notif_t=plan_user_joined&notif_id=1588103328461127',
+    imgLink: 'https://imgur.com/yMupSqA.jpg',
+    eventLink: [
+    ],
+    hostedBy: 'Nakiri Gallagher-Cave',
   },
 ];
 

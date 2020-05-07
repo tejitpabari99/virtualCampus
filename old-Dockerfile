@@ -1,0 +1,52 @@
+#FROM ubuntu:latest
+
+#RUN apt-get install -y nodejs
+#RUN apt-get install -y build-essential
+
+#RUN apt --no-cache add --virtual native-deps \
+#  g++ gcc libgcc libstdc++ linux-headers make python3 npm && \
+#  npm install --quiet node-gyp -g &&\
+#  npm install --quiet && \
+#  apk del native-deps
+
+#RUN apk add util-linux
+
+#RUN npm install -g gatsby-cli
+
+#WORKDIR /app
+#COPY ./package.json .
+#COPY ./package-lock.json .
+#RUN yarn install && yarn cache clean
+#COPY . .
+#CMD ["tail", "-f", "/dev/null"]
+#CMD ["gatsby", "develop", "-H", "0.0.0.0", "-p", "9000" ]
+
+
+FROM debian:jessie
+
+RUN apt-get update -q && apt-get install -q -y \
+        curl apt-transport-https apt-utils dialog make python3 npm libvips-dev 
+
+
+WORKDIR /home/download
+ARG NODEREPO="node_6.x"
+ARG DISTRO="jessie"
+# Only newest package kept in nodesource repo. Cannot pin to version using apt!
+# See https://github.com/nodesource/distributions/issues/33
+RUN curl -sSO https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+RUN apt-key add nodesource.gpg.key
+RUN echo "deb https://deb.nodesource.com/${NODEREPO} ${DISTRO} main" > /etc/apt/sources.list.d/nodesource.list
+RUN echo "deb-src https://deb.nodesource.com/${NODEREPO} ${DISTRO} main" >> /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update -q && apt-get install -y nodejs 
+#&& npm i -g npm@5
+
+RUN npm --version
+
+RUN npm install -g gatsby-cli
+
+WORKDIR /app
+COPY ./package.json .
+#COPY ./package-lock.json .
+RUN npm install
+COPY . .
+CMD ["tail", "-f", "/dev/null"]
