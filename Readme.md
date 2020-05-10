@@ -1,7 +1,5 @@
 # Columbia Virtual Campus
 
----
-
 Welcome to Columbia Virtual Campus.
 
 CVC is a static website (with certain dynamic components) build using 
@@ -11,6 +9,7 @@ It is developed using [Gatsby](https://www.gatsbyjs.org/docs/, "Gatsby"), a stat
 
 ### Requirements:
 1. [Node](https://nodejs.org/en/download/, "Node") (Npm comes installed with it)
+2. Gatsby CLI. Install it with `npm i gatsby-cli`
 
 
 ### Running:
@@ -21,8 +20,8 @@ It is developed using [Gatsby](https://www.gatsbyjs.org/docs/, "Gatsby"), a stat
 5. Any changes made to the code get reflected automatically on the website. If not, the refresh
 
 ### Before Submitting:
-1. Before submitting code, please run: `gatsby build && gatsby deploy`. See the output on http://localhost:9000/ and verify that it is exactly what you want.
-2. Make a pull request and inform your Project lead about it. Ask for review on github. 
+1. Before submitting code, please run: `gatsby build && gatsby serve`. See the output on http://localhost:9000/ and verify that it is exactly what you want.
+2. Make a pull request and inform your Project lead about it. Ask for review on github.
 
 
 
