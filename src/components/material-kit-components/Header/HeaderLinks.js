@@ -39,7 +39,6 @@ export default function HeaderLinks(props) {
           color="transparent"
           className={classes.navLink}
           active={props.active===''}
-
         >
           Campus
         </Button>
