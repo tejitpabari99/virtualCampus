@@ -68,3 +68,9 @@ yarn-error.log
 .pnp.js
 # Yarn Integrity file
 .yarn-integrity
+
+# Firebase Config
+firebaseConfig.js
+
+# Visual Studios
+.vs

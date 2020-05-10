@@ -1,26 +1,13 @@
 import React from "react"
-import Template from "../components/template";
+import Template from "../components/all/Template";
 import Card from "../components/material-kit-components/Card/Card.js";
 import CardBody from "../components/material-kit-components/Card/CardBody.js";
-import { Helmet } from 'react-helmet'
+import {MetaData} from '../components'
 
-const TITLE = 'Contact Us'
 export default function IndexPage() {
     return (
         <Template active={'contact-us'}>
-            <Helmet>
-              <title>{TITLE}</title>
-              <meta name="description" content="Virtual Campus for the Columbia Community" />
-              <link rel="canonical" href="https://columbiavirtualcampus.com/" />
-              <meta name="robots" content="index, follow" />
-              <meta property="og:title" content="Columbia Virtual Campus" />
-              <meta property="og:description" content="Virtual Campus for the Columbia Community" />
-              <meta property="og:image" content='https://columbiavirtualcampus.com/static/graphic-7d5b8765ceb0dc19c9fa39db23824216.png' />
-              <meta property="og:image:type" content="image/jpeg" />
-              <meta property="og:image:alt" content="Columbia Virtual Campus" />
-              <meta property="og:image:width" content="200" />
-              <meta property="og:image:height" content="200" />
-            </Helmet>
+            <MetaData title={'Contact Us'}/>
             <Card>
                 <CardBody>
                     <h3 style={{fontFamily:'Poppins, Roboto, Helvetica, Arial, sans-serif'}}><strong>Contact Us</strong></h3><br/>
@@ -34,7 +21,7 @@ export default function IndexPage() {
                 </CardBody>
                 <div style={{minHeight: '30px'}}/>
             </Card>
-            <div style={{minHeight: '60px'}}/>
+            <div style={{minHeight: '400px'}}/>
         </Template>
     );
 }
