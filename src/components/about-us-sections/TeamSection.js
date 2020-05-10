@@ -100,7 +100,6 @@ export default function TeamSection() {
                         linkedin={"https://www.linkedin.com/in/lydia-chilton-15495427/"}
             />
           </GridItem>
-
         </GridContainer>
       </div>
   );

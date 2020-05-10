@@ -17,6 +17,8 @@ import Button from "../components/material-kit-components/CustomButtons/Button.j
 import { cardTitle } from "../assets/material-kit-assets/jss/material-kit-react.js";
 import { Helmet } from 'react-helmet'
 import AddIcon from '@material-ui/icons/Add';
+import AddCalendar from '../components/events-sections/AddCalendar.js';
+
 
 // import * as firebase from "firebase/app";
 // import "firebase/auth";
@@ -146,6 +148,7 @@ const useStyles = () => ({
       height: "200px",
     }
   }
+
 });
 
 
@@ -310,6 +313,7 @@ class Events extends React.Component{
                 {this.state.event.eventLink.length>0 &&
                 <div style={{marginLeft:5}}>
                   {this.state.event.eventLink.map((link, ind) => {
+                    this.state.event.location = link.link;
                     return (
                       <div><a href={link.link} target={'_blank'} rel="noopener noreferrer"
                               style={{ color: "#4284C8", textDecoration: 'underline' }}>{link.title}</a>{link.hasOwnProperty('pass') && <span> ({link.pass})</span>}</div>
@@ -323,6 +327,11 @@ class Events extends React.Component{
               <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
                 <strong>Hosted By: </strong> {this.state.event.hostedBy}
               </p>
+
+              <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}} className={classNames(classes.toAll)}>
+                <strong><AddCalendar info={this.state.event}/> </strong>
+              </p>
+
             </div>
           </Fade>
         </Modal>}
