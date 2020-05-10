@@ -8,7 +8,8 @@ import EventCard from "./cards/EventCard";
 import EventModal from "./cards/EventModal";
 import ResourcesList from "./resources/ResourcesList";
 import ResourcesCard from "./cards/ResourcesCard";
+import AddCalendar from "./events/AddCalendar";
 
 export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
-        EventCard, EventModal,
+        EventCard, EventModal, AddCalendar,
         ResourcesList, ResourcesCard}

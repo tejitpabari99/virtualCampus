@@ -27,7 +27,7 @@ export default function TeamMember({image, name, position, description, linkedin
     <Card plain>
       {!noDescription &&
       <GridItem xs={6} sm={6} md={6} className={classes.itemGrid}>
-        <img src={image} alt="..." className={imageClasses}/>
+        <img src={image} alt="..." className={imageClasses} style={{width: '100%', height: '100%', paddingBottom:0}}/>
       </GridItem>}
       {noDescription &&
       <GridItem xs={8} sm={8} md={8} className={classes.itemGrid}>

@@ -86,6 +86,7 @@ const useStyles = makeStyles(() => ({
     },
     image:{
         borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"200px",
+        paddingBottom:0, marginLeft:0,
         height: "200px",
         [theme.breakpoints.up('xs')]:{
             display:'none'

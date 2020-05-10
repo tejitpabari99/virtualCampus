@@ -5,7 +5,7 @@ import Button from "../material-kit-components/CustomButtons/Button";
 import Modal from "@material-ui/core/Modal";
 import React from "react";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
-import CustomTheme from "../all/CustomTheme";
+import {CustomTheme, AddCalendar} from "../";
 const theme = CustomTheme;
 
 const formatTime = function(hours, min) {
@@ -159,6 +159,9 @@ export default function EventModal({open, closeDo, event}) {
                     <p style={{color:"#4284C8"}}>{event.description}</p>
                     <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
                         <strong>Hosted By: </strong> {event.hostedBy}
+                    </p>
+                    <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
+                        <strong><AddCalendar info={event}/> </strong>
                     </p>
                 </div>
             </Fade>

@@ -9,6 +9,12 @@ import myEventsList from '../assets/EventsData'
 import Button from "../components/material-kit-components/CustomButtons/Button.js";
 import AddIcon from '@material-ui/icons/Add';
 
+
+// import * as firebase from "firebase/app";
+// import "firebase/auth";
+// import "firebase/firestore";
+import firebase from '../firebase';
+
 import {MetaData, EventCard, EventModal} from '../components'
 
 // import firebase from '../components/all/firebase';
@@ -20,6 +26,7 @@ const useStyles = () => ({
     boxShadow:"none",
     fontSize: 20,
   }
+
 });
 
 
@@ -62,6 +69,23 @@ class Events extends React.Component{
   //   });
   //   this.setState({myEventsList:eventsData})
   // }
+
+  async componentDidMount() {
+    var db = await firebase.firestore();
+    var docs = await db.collection('events').get();
+    docs.forEach((doc) => {
+      console.log(doc);
+    })
+    var events = [];
+    docs.forEach((doc) => {
+      var event = doc.data();
+      event.startTime = event.startTime.toDate();
+      event.endTime = event.endTime.toDate();
+      events.push(event);
+    });
+    console.log(events);
+    this.setState({myEventsList:events})
+  }
 
   formatTime(hours, min) {
     let h = hours>12?hours-12:hours;
