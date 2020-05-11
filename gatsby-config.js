@@ -66,8 +66,5 @@ module.exports = {
         precachePages: [`/`,`/events/`, `/resources/*`, `/about-us`, `/contact-us`],
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
   ],
 };
