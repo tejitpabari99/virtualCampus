@@ -70,23 +70,6 @@ class Events extends React.Component{
   //   this.setState({myEventsList:eventsData})
   // }
 
-  async componentDidMount() {
-    var db = await firebase.firestore();
-    var docs = await db.collection('events').get();
-    docs.forEach((doc) => {
-      console.log(doc);
-    })
-    var events = [];
-    docs.forEach((doc) => {
-      var event = doc.data();
-      event.startTime = event.startTime.toDate();
-      event.endTime = event.endTime.toDate();
-      events.push(event);
-    });
-    console.log(events);
-    this.setState({myEventsList:events})
-  }
-
   formatTime(hours, min) {
     let h = hours>12?hours-12:hours;
     let m = min<10?'0'+min.toString():min.toString();
@@ -159,6 +142,7 @@ class Events extends React.Component{
               if(ele.display) {
                 return(<EventCard ele={ele} onClick={() => this.attendEvent(ele)}/>)
               }
+              return null
             })}
         </div>}
       </Template>

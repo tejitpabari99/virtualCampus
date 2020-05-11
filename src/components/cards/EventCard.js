@@ -66,9 +66,13 @@ const useStyles = makeStyles(() => ({
         borderBottomLeftRadius:"15px",
         backgroundColor: '#F1945B',
         color:'white !important',
-        "&:hover,&:focus": {
+        "&:hover": {
             backgroundColor: 'white',
             color: '#F1945B !important'
+        },
+        "&:focus": {
+            backgroundColor: '#F1945B',
+            color: 'white !important',
         },
     },
     cardbody:{
@@ -116,7 +120,7 @@ export default function EventCard({ele, onClick}) {
                 <h4 style={{ color: "#4284C8", marginRight: 90, marginTop:0  }}
                     >{ele.title}</h4>
                 <Button
-                    className={classNames(classes.navLink, classes.button3)}
+                    className={classes.button3}
                     size="sm"
                     round
                     disabled
@@ -124,7 +128,7 @@ export default function EventCard({ele, onClick}) {
                     {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
                 </Button>
                 <Button
-                    className={classNames(classes.navLink, classes.button3)}
+                    className={classes.button3}
                     size="sm"
                     round
                     disabled

@@ -7,19 +7,19 @@ const JobsInternshipsURL = CampusURL + 'jobs-internships/';
 const HousingURL = CampusURL + 'housing/';
 const InternationalStudentsURL = CampusURL + 'international-students/'
 
-const facebookGroupPic = 'https://engineering.fb.com/wp-content/uploads/2017/05/fb-hero-image-001.jpeg';
-const instagramGroupPic = 'https://colorlib.com/wp/wp-content/uploads/sites/2/instagram-image-size.jpg';
-const googleSeetsPic = 'https://helpdeskgeek.com/wp-content/pictures/2020/01/google-sheets.png';
-const surveyPic = 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1504&q=80';
-const covidResourcesPic = 'https://images.unsplash.com/photo-1418669112725-fb499fb61127?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80';
-const covidInfoPic = 'https://images.unsplash.com/photo-1584265549884-cb8ea486a613?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80';
-const jobsPic = 'https://images.unsplash.com/photo-1568598035424-7070b67317d2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1498&q=80';
-const internshipPic = 'https://images.unsplash.com/photo-1524749292158-7540c2494485?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80';
-const medicalSuppliesPic = 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80';
-const mentalHealthPic = 'https://images.pexels.com/photos/2821823/pexels-photo-2821823.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500';
-const housingPic = 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/John_Jay_Hall_Columbia_University.jpg/1384px-John_Jay_Hall_Columbia_University.jpg';
+// const facebookGroupPic = 'https://engineering.fb.com/wp-content/uploads/2017/05/fb-hero-image-001.jpeg';
+// const instagramGroupPic = 'https://colorlib.com/wp/wp-content/uploads/sites/2/instagram-image-size.jpg';
+// const googleSeetsPic = 'https://helpdeskgeek.com/wp-content/pictures/2020/01/google-sheets.png';
+const surveyPic = 'https://imgur.com/fwMQ75E.jpg';
+const covidResourcesPic = 'https://imgur.com/OSw7HmK.jpg';
+const covidInfoPic = 'https://imgur.com/AJy6GJz.jpg';
+// const jobsPic = 'https://images.unsplash.com/photo-1568598035424-7070b67317d2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1498&q=80';
+// const internshipPic = 'https://images.unsplash.com/photo-1524749292158-7540c2494485?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80';
+// const medicalSuppliesPic = 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80';
+const mentalHealthPic = 'https://imgur.com/pwGrd8f.jpg';
+const housingPic = 'https://imgur.com/LkYpJR9.jpg';
 const internationalStudentsPic = 'https://i.imgur.com/xOA11BT.jpg';
-const boardGamesPic = 'https://images.pexels.com/photos/776654/pexels-photo-776654.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';
+const boardGamesPic = 'https://imgur.com/ocFCBAf.jpg';
 // const medicalSuppliesMainImage = 'https://images.unsplash.com/photo-1584744982491-665216d95f8b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80';
 
 /*
@@ -79,7 +79,7 @@ const CampusData = {
           'tabletopia': {
             title: 'Table Topia',
             description: 'Play 800+ board games online with your friends! Make your own games, schedule games to play with others and have an amazing time! Premium users only for $4 per month.',
-            imgURL: 'https://ksr-ugc.imgix.net/assets/012/050/844/0c442edb3fa8aace39db5d36e411e285_original.jpg?ixlib=rb-2.1.0&crop=faces&w=1552&h=873&fit=crop&v=1463727462&auto=format&frame=1&q=92&s=4a08b1c274c2355fb047ead6dc5e2f8c',
+            imgURL: 'https://imgur.com/51FxBbO.jpg',
             website: 'https://tabletopia.com/',
             iosLink: 'https://apps.apple.com/app/apple-store/id1274379679',
             androidLink: 'https://play.google.com/store/apps/details?id=com.Tabletopia.TabletopiaApp'

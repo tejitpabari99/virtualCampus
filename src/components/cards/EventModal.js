@@ -1,4 +1,5 @@
 import Backdrop from "@material-ui/core/Backdrop";
+import { makeStyles } from '@material-ui/core/styles';
 import Fade from "@material-ui/core/Fade";
 import classNames from "classnames";
 import Button from "../material-kit-components/CustomButtons/Button";
@@ -15,7 +16,7 @@ const formatTime = function(hours, min) {
     return h + ':' + m + add
 };
 
-const useStyles = () => ({
+const useStyles = makeStyles ({
     modal: {
         display: 'flex',
         alignItems: 'center',
@@ -35,7 +36,7 @@ const useStyles = () => ({
     },
     button:{
         boxShadow:"none",
-        marginTop: 10,
+        marginTop: 0,
         marginBottom: 10
     },
     button3:{
@@ -43,7 +44,7 @@ const useStyles = () => ({
         backgroundColor:"#BFD8E950",
         margin:"15px",
         marginLeft:"0px",
-        marginTop: 10,
+        marginTop: 0,
         marginBottom: 10
     },
     addNewButton:{
@@ -99,7 +100,7 @@ export default function EventModal({open, closeDo, event}) {
                     margin: 25}}>
                     <h4 style={{color:"#4284C8"}} className={classes.cardTitle}>{event.title}</h4>
                     <Button
-                        className={classNames(classes.navLink, classes.button3)}
+                        className={classes.button3}
                         size="sm"
                         round
                         disabled
@@ -107,7 +108,7 @@ export default function EventModal({open, closeDo, event}) {
                         {months[event.startTime.getMonth()].toUpperCase()} {event.startTime.getDate()}, {event.startTime.getFullYear()}
                     </Button>
                     <Button
-                        className={classNames(classes.navLink, classes.button3)}
+                        className={classes.button3}
                         size="sm"
                         round
                         disabled
@@ -117,7 +118,7 @@ export default function EventModal({open, closeDo, event}) {
                     {event.tags.map((ele, ind) => {
                         return (
                             <Button
-                                id={ind}
+                                key={ind}
                                 color="vcColor"
                                 className={classNames(classes.navLink, classes.button)}
                                 size="sm"
@@ -145,7 +146,7 @@ export default function EventModal({open, closeDo, event}) {
                         <div style={{marginLeft:5}}>
                             {event.eventLink.map((link, ind) => {
                                 return (
-                                    <div>
+                                    <div key={ind}>
                                         <a href={link.link} target={'_blank'} rel="noopener noreferrer"
                                             style={{ color: "#4284C8", textDecoration: 'underline' }}>{link.title}</a>
                                         {link.hasOwnProperty('pass') && <span> ({link.pass})</span>}
@@ -160,9 +161,9 @@ export default function EventModal({open, closeDo, event}) {
                     <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
                         <strong>Hosted By: </strong> {event.hostedBy}
                     </p>
-                    <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
+                    <div style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
                         <strong><AddCalendar info={event}/> </strong>
-                    </p>
+                    </div>
                 </div>
             </Fade>
         </Modal>
