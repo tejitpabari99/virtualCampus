@@ -6,5 +6,10 @@
   "storageBucket": "columbia-virtual-campus.appspot.com",
   "messagingSenderId": "1009798395114",
   "appId": "1:1009798395114:web:637a7a702f089a34771393",
-  "measurementId": "G-7ERZ40CVT3"
+  "measurementId": "G-7ERZ40CVT3",
+  "functions": {
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint"
+    ]
+  }
 }

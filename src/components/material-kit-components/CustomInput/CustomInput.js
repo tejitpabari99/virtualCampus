@@ -24,7 +24,9 @@ export default function CustomInput(props) {
     error,
     white,
     inputRootCustomClasses,
-    success
+    success,
+    onChange,
+    multiline
   } = props;
 
   const labelClasses = classNames({
@@ -73,6 +75,8 @@ export default function CustomInput(props) {
         }}
         id={id}
         {...inputProps}
+        onChange={onChange}
+        multiline={multiline}
       />
     </FormControl>
   );
