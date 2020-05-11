@@ -48,7 +48,7 @@ module.exports = {
       options: {
         trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'null'
       }
-    }
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
