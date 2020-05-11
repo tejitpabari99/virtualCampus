@@ -48,24 +48,24 @@ module.exports = {
       options: {
         trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'null'
       }
-    },
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `Columbia Virtual Campus`,
-        short_name: `CVC`,
-        start_url: `/`,
-        background_color: `#F1945B`,
-        theme_color: `#4284C8`,
-        display: `standalone`,
-      },
-    },
-    {
-      resolve: `gatsby-plugin-offline`,
-      options: {
-        precachePages: [`/`,`/events/`, `/resources/*`, `/about-us`, `/contact-us`],
-      },
-    },
+    }
+    // {
+    //   resolve: `gatsby-plugin-manifest`,
+    //   options: {
+    //     name: `Columbia Virtual Campus`,
+    //     short_name: `CVC`,
+    //     start_url: `/`,
+    //     background_color: `#F1945B`,
+    //     theme_color: `#4284C8`,
+    //     display: `standalone`,
+    //   },
+    // },
+    // {
+    //   resolve: `gatsby-plugin-offline`,
+    //   options: {
+    //     precachePages: [`/`,`/events/`, `/resources/*`, `/about-us`, `/contact-us`],
+    //   },
+    // },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
