@@ -97,25 +97,25 @@ const manualSt = makeStyles(() => ({
   },
   landing: {
     [theme.breakpoints.up('xs')]:{
-      backgroundImage: `url(${landingImage})`,
+      background: `url(${landingImage})`,
       backgroundSize: '200%',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: '80% 100%',
     },
     [theme.breakpoints.up('sm')]:{
-      backgroundImage: `url(${landingImage})`,
+      background: `url(${landingImage})`,
       backgroundSize: '100%',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'left bottom',
     },
     [theme.breakpoints.up('md')]:{
-      backgroundImage: `url(${landingImage})`,
+      background: `url(${landingImage})`,
       backgroundSize: '70%',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'left center',
     },
     [theme.breakpoints.up('lg')]: {
-      backgroundImage: `url(${landingImage})`,
+      background: `url(${landingImage})`,
       backgroundSize: '70%',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'left center',
