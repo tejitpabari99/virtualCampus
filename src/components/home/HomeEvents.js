@@ -37,7 +37,7 @@ class Events extends React.Component{
 
     makeDisplayEvents(events){
         let arr = [];
-        events.map((ele) => {
+        events.forEach((ele) => {
             if(ele.display){arr.push(ele)}
         });
         this.state.displayEvents = arr;
@@ -71,10 +71,11 @@ class Events extends React.Component{
             <div>
                 <div>
                     {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
-                    {this.state.displayEvents.map((ele) => {
+                    {this.state.displayEvents.map((ele, ind) => {
                         if(ele.display) {
-                            return(<EventCard ele={ele} onClick={() => this.attendEvent(ele)}/>)
+                            return(<EventCard key={ind} ele={ele} onClick={() => this.attendEvent(ele)}/>)
                         }
+                        return null
                     })}
                 </div>
                 {this.state.displayEvents.length>0 && <div style={{textAlign:"center"}}>
