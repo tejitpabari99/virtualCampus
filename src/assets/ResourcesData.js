@@ -31,7 +31,7 @@ const boardGamesPic = 'https://imgur.com/ocFCBAf.jpg';
 */
 
 const IndexCampusData = {
-  'social': ['facebook-groups/corona-creation-challenge', 'facebook-groups/isolating-together', 'games/tabletopia', 'games/qurantine-board-games'],
+  'social': ['facebook-groups/corona-creation-challenge', 'facebook-groups/isolating-together', 'games/tabletopia', 'games/quarantine-board-games'],
   'mental-health': ['surveys/quarantine-well-being-survey','columbia-resources/cps-virtual-support', 'external-resources/7-cups-of-tea', 'external-resources/coping-tools-list'],
   'housing': ['housing-covid-faq', 'housing-ra-numbers'],
   'covid': ['connecting-people/samaritan', 'connecting-people/hearts-over-heads', 'resource-list/gssc-covid-resources', 'information/cu-campus-covid-website'],
@@ -57,7 +57,7 @@ const CampusData = {
           },
           'virtual-campus': {
             title: 'Virtual Campus',
-            description: 'Virtual Campus group to mimick campus. Organizing a design challenge next weekend!',
+            description: 'Virtual Campus group to mimic campus. Organizing a design challenge next weekend!',
             imgURL: 'https://scontent.fbom26-1.fna.fbcdn.net/v/t1.0-9/94481910_3496984410327957_3655923926686498816_o.jpg?_nc_cat=108&_nc_sid=825194&_nc_ohc=HO-nujUoyo0AX9Vbqzh&_nc_ht=scontent.fbom26-1.fna&oh=a751596f98c8f7b05d86424bfe547b23&oe=5ED823BC',
             facebook: 'https://www.facebook.com/groups/1037607879987462/',
             headerTitle: 'Trending Group',
@@ -65,7 +65,7 @@ const CampusData = {
           },
           'isolating-together': {
             title: 'Isolating Together',
-            description: 'Share what people are upto',
+            description: 'Share what people are up to',
             imgURL: 'https://scontent.fbom26-1.fna.fbcdn.net/v/t1.0-9/90316730_904758936632997_768721162262806528_o.jpg?_nc_cat=105&_nc_sid=825194&_nc_ohc=D9-S5ldX77oAX9RU9j5&_nc_ht=scontent.fbom26-1.fna&oh=ae6793395bcf86e23b2d1c9c83e02f34&oe=5EDB0540',
             facebook: 'https://www.facebook.com/groups/621455138412555/'
           }
@@ -84,10 +84,10 @@ const CampusData = {
             iosLink: 'https://apps.apple.com/app/apple-store/id1274379679',
             androidLink: 'https://play.google.com/store/apps/details?id=com.Tabletopia.TabletopiaApp'
           },
-          'qurantine-board-games': {
-            id: 'qurantine-board-games',
-            title: 'Qurantine Games',
-            description: 'List of 100+ qurantine games you can play with your friends. Including Board games, Card games, Puzzles, Social Deduction games and more!',
+          'quarantine-board-games': {
+            id: 'quarantine-board-games',
+            title: 'Quarantine Games',
+            description: 'List of 100+ quarantine games you can play with your friends. Including Board games, Card games, Puzzles, Social Deduction games and more!',
             imgURL: boardGamesPic,
             website: 'https://docs.google.com/document/d/10iOD7Wy_YU4NmkPU7ZH7YTrq11qJAANjZZ0PAotKhR8/preview?fbclid=IwAR22HvSlHktWxHC6Lw4nMVkAcR7gmP0QxoFoDkdvpONJbhEbpj3jvBQ0mNU#heading=h.l0jngib9zs61'
           }

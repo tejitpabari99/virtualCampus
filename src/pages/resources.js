@@ -23,9 +23,14 @@ export default function Resources() {
                 <Button color="vcColor" size="sm" className={classes.addNewButton}
                         style={{fontSize: 20, boxShadow:'none', marginLeft:'auto', marginRight:'auto', marginTop: 20, marginBottom: 20}}
                         active={true} target={'_blank'} rel="noopener noreferrer"
-                        href={'https://forms.gle/WWjyroMcnMsyp7Lv9'}> <AddIcon/> Add New Resource
+                        href={'resources-form'}> <AddIcon/> Add New Resource
                 </Button>
             </div>
+            <h3 style={{ textAlign: "center", fontSize: "15px" }}
+                className={classes.toAll}>
+                We have compiled the following resources to help during these tough times!<br/>
+                Resources are updated weekly.<br/><br/>
+            </h3>
             <ResourcesList />
         </Template>
     );
