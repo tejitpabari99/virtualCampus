@@ -7,7 +7,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
-    "@material-ui/styles": "^4.9.6",
+    "@material-ui/styles": "^4.9.14",
     "@mui-treasury/styles": "latest",
     "@types/react-add-to-calendar": "^0.1.0",
     "babel-plugin-styled-components": "^1.10.7",
