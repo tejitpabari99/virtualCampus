@@ -1,6 +1,6 @@
 import React from "react"
 import Template from "../components/all/Template";
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Toolbar from "@material-ui/core/Toolbar";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment';
