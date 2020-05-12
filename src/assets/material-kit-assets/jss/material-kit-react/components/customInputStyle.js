@@ -2,8 +2,6 @@ import {
   primaryColor,
   dangerColor,
   successColor,
-  cvcPrimaryColor,
-  cvcSecondaryColor,
   defaultFont
 } from "../../material-kit-react.js";
 
@@ -19,7 +17,7 @@ const customInputStyle = {
       borderWidth: "1px !important"
     },
     "&:after": {
-      borderColor: cvcSecondaryColor
+      borderColor: primaryColor
     }
   },
   underlineError: {

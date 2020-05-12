@@ -130,13 +130,13 @@ export default function AddCalendar({info}) {
             </a>
 
 
-            <a href="#"
+            <s href="#"
                onClick={() => download(icGenName, icGenText)}
             >
                 <img title={"Add to Apple Calendar"} alt={"Add to Appled Calender"}
                      className={classNames(classes.smaller, classes.img)}
                      src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMjEuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB3aWR0aD0iNTEycHgiIGhlaWdodD0iNTEycHgiPgo8Zz4KCTxwYXRoIGQ9Ik0xODUuMjU1LDUxMmMtNzYuMjAxLTAuNDM5LTEzOS4yMzMtMTU1Ljk5MS0xMzkuMjMzLTIzNS4yMWMwLTEyOS40MDQsOTcuMDc1LTE1Ny43MzQsMTM0LjQ4Ny0xNTcuNzM0ICAgYzE2Ljg2LDAsMzQuODYzLDYuNjIxLDUwLjc0MiwxMi40OGMxMS4xMDQsNC4wODcsMjIuNTg4LDguMzA2LDI4Ljk3NSw4LjMwNmMzLjgyMywwLDEyLjgzMi0zLjU4OSwyMC43ODYtNi43MzggICBjMTYuOTYzLTYuNzUzLDM4LjA3MS0xNS4xNDYsNjIuNjUxLTE1LjE0NmMwLjA0NCwwLDAuMTAzLDAsMC4xNDYsMGMxOC4zNTQsMCw3NC4wMDQsNC4wMjgsMTA3LjQ2MSw1NC4yNzJsNy44MzcsMTEuNzc3ICAgbC0xMS4yNzksOC41MTFjLTE2LjExMywxMi4xNTgtNDUuNTEzLDM0LjMzNi00NS41MTMsNzguMjY3YzAsNTIuMDMxLDMzLjI5Niw3Mi4wNDEsNDkuMjkyLDgxLjY2NSAgIGM3LjA2MSw0LjI0OCwxNC4zNyw4LjYyOCwxNC4zNywxOC4yMDhjMCw2LjI1NS00OS45MjIsMTQwLjU2Ni0xMjIuNDE3LDE0MC41NjZjLTE3LjczOSwwLTMwLjI3OC01LjMzMi00MS4zMzgtMTAuMDM0ICAgYy0xMS4xOTEtNC43NjEtMjAuODQ1LTguODYyLTM2Ljc5Ny04Ljg2MmMtOC4wODYsMC0xOC4zMTEsMy44MjMtMjkuMTM2LDcuODgxQzIyMS40OTYsNTA1LjczLDIwNC43NTIsNTEyLDE4NS43NTMsNTEySDE4NS4yNTV6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMzUxLjM0MywwYzEuODg4LDY4LjA3Ni00Ni43OTcsMTE1LjMwNC05NS40MjUsMTEyLjM0MkMyNDcuOTA1LDU4LjAxNSwzMDQuNTQsMCwzNTEuMzQzLDB6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KCgoKCgoKCgoKCgoKCgoKPC9zdmc+Cg=="/>
-            </a>
+            </s>
         </div>
         )
     
