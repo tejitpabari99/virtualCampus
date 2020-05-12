@@ -1,18 +1,14 @@
 import React from "react"
-import Template from "../components/all/Template";
-import {MetaData} from '../components'
+import {MetaData, Template} from '../components'
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import CustomInput from "../components/material-kit-components/CustomInput/CustomInput.js";
 import Button from "../components/material-kit-components/CustomButtons/Button.js";
-import { Helmet } from 'react-helmet'
 import PersonIcon from "@material-ui/icons/Person";
 import EmailIcon from "@material-ui/icons/Email";
 import MessageIcon from "@material-ui/icons/Message";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Input from '@material-ui/core/Input';
-
-const Axios = require('axios');
+import Axios from "axios";
 
 class contactUs extends React.Component{
   constructor(props) {
@@ -49,7 +45,7 @@ class contactUs extends React.Component{
   }
 
   render() {
-    if (this.state.feedbackSubmit==false) {
+    if (this.state.feedbackSubmit===false) {
       return (
           <Template active={'contact-us'}>
               <MetaData title={'Contact Us'}/>
