@@ -5,7 +5,7 @@ import Card from "../material-kit-components/Card/Card";
 import React from "react";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
 import CustomTheme from "../all/CustomTheme";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 const theme = CustomTheme;
 
 const months = {
