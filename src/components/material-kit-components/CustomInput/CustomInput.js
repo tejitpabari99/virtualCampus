@@ -24,10 +24,7 @@ export default function CustomInput(props) {
     error,
     white,
     inputRootCustomClasses,
-    success,
-    onChange,
-    multiline,
-    ...rest
+    success
   } = props;
 
   const labelClasses = classNames({
@@ -68,7 +65,6 @@ export default function CustomInput(props) {
         </InputLabel>
       ) : null}
       <Input
-        {...rest}
         classes={{
           input: inputClasses,
           root: marginTop,
@@ -76,8 +72,6 @@ export default function CustomInput(props) {
           underline: underlineClasses
         }}
         id={id}
-        onChange={onChange}
-        multiline={multiline}
         {...inputProps}
       />
     </FormControl>
