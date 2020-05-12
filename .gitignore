@@ -34,6 +34,7 @@ build/Release
 
 # Dependency directories
 node_modules/
+functions/node_modules/
 jspm_packages/
 .idea/
 
@@ -69,5 +70,8 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 
-# Service Key Firebase
-ServiceKey.json
+# Firebase Config
+firebaseConfig.js
+
+# Visual Studios
+.vs
