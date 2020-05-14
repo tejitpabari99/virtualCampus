@@ -220,9 +220,9 @@ const manualSt = makeStyles(() => ({
     // iPhone/Smart Phone size:
     [theme.breakpoints.up('xs')]:{
       background: `url(${landingImage})`,
-      backgroundSize: '110% auto',
+      backgroundSize: '115% auto',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% 70%',
+      backgroundPosition: '98% 55%',
     },
     // iPad/Tablet size:
     [theme.breakpoints.up('sm')]:{
@@ -241,16 +241,16 @@ const manualSt = makeStyles(() => ({
     //Desktop
     [theme.breakpoints.up('lg')]: {
       background: `url(${landingImage})`,
-      backgroundSize: '74% auto',
+      backgroundSize: '71% auto',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'right bottom',
+      backgroundPosition: 'right 75%',
     },
     //Desktop, bigger monitor
     [theme.breakpoints.up('xl')]: {
       background: `url(${landingImage})`,
-      backgroundSize: '70% auto',
+      backgroundSize: '71% auto',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'right bottom',
+      backgroundPosition: 'right 75%',
     },
   },
   addNewButton:{
@@ -263,6 +263,38 @@ const manualSt = makeStyles(() => ({
     boxSizing: "border-box",
     borderRadius: "10px",
   },
+
+  // Move events section up a little
+  eventsSection: {
+    position:'relative',
+    left:'0px',
+    backgroundColor:'transparent',
+
+    //iPhone
+    [theme.breakpoints.up('xs')]: {
+      top: '-13rem',
+    },
+
+    //Desktop
+    [theme.breakpoints.up('sm')]: {
+      top: '-3.5rem',
+    },
+
+    //Desktop
+    [theme.breakpoints.up('md')]: {
+      top: '-4rem',
+    },
+
+    //Desktop
+    [theme.breakpoints.up('lg')]: {
+      top: '-4rem',
+    },
+    //Desktop, bigger monitor
+    [theme.breakpoints.up('xl')]: {
+      top: '-4rem',
+    },
+  },
+
 }));
 
 
@@ -292,7 +324,7 @@ export default function IndexPage() {
         </div>
       </div>
 
-      <div className={classNames(classes.main)} style={{textAlign:'left'}}>
+      <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign:'left'}}>
           <div className={classes.container} id="explore">
             <h1 style={{ textAlign: "center"}}
                 className={manual.toAll}> Upcoming Events
