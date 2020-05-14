@@ -132,14 +132,46 @@ const manualSt = makeStyles(() => ({
       color: 'white !important',
     },
   },
-  buttonSpan:{
+  marginBottomDynamic:{
     [theme.breakpoints.up('lg')]: {
-      paddingLeft: "30px",
-      paddingRight: "30px",
+      marginTop: "10px"
     },
     [theme.breakpoints.up('xs')]: {
-      paddingLeft: "5px",
-      paddingRight: "5px",
+      marginTop: "50px"
+    },
+    color: '#FB750D',
+  },
+  buttonSpan1:{
+    [theme.breakpoints.up('lg')]: {
+      width: "120px",
+    },
+    [theme.breakpoints.up('md')]: {
+      width: "100px",
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: "1px",
+      paddingRight: "1px",
+    },
+    [theme.breakpoints.up('xs')]: {
+      paddingLeft: "1px",
+      paddingRight: "1px",
+    },
+    color: '#FB750D',
+  },
+  buttonSpan2:{
+    [theme.breakpoints.up('lg')]: {
+      width: "200px",
+    },
+    [theme.breakpoints.up('md')]: {
+      width: "180px",
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: "1px",
+      paddingRight: "1px",
+    },
+    [theme.breakpoints.up('xs')]: {
+      paddingLeft: "1px",
+      paddingRight: "1px",
     },
     color: '#FB750D',
   },
@@ -180,7 +212,7 @@ const manualSt = makeStyles(() => ({
       background: `url(${landingImage})`,
       backgroundSize: '105% 50%',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% 78%',
+      backgroundPosition: '100% 70%',
     },
     [theme.breakpoints.up('sm')]:{
       background: `url(${landingImage})`,
@@ -235,13 +267,13 @@ export default function IndexPage() {
           <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
             href="/events"
           >
-            <span className={classNames(manual.buttonSpan)}> EXPLORE </span>
+            <span className={classNames(manual.buttonSpan1)}> EXPLORE </span>
           </Button>
         </div>
       </div>
 
       <div className={classNames(classes.main)} style={{textAlign:'left'}}>
-        <div style={{ marginTop: "50px" }}>
+        <div className={classNames(manual.marginBottomDynamic)}/>
           <div className={classes.container} id="explore">
             <h1 style={{ textAlign: "center"}}
                 className={manual.toAll}> Upcoming Events
@@ -255,13 +287,13 @@ export default function IndexPage() {
               <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
                       active={true} target={'_blank'} rel="noopener noreferrer"
                       href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} >
-                <span className={classNames(manual.buttonSpan)}>HOST A NEW EVENT</span>
+                <span className={classNames(manual.buttonSpan2)}>HOST A NEW EVENT</span>
               </Button>
+              <div className={classNames(manual.marginBottomDynamic)}/>
             </div>
             <HomeEvents/>
             <div style={{marginBottom: "100px"}}/>
           </div>
-        </div>
       </div>
     </div>
     )
