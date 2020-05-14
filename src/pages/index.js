@@ -45,6 +45,7 @@ const manualSt = makeStyles(() => ({
       maxWidth: '69%',
       marginTop: "1.5rem",
       marginBottom: "1.5rem",
+      lineHeight: '18px',
     },
     [theme.breakpoints.up('sm')]:{
       fontFamily: 'Poppins',
@@ -54,6 +55,7 @@ const manualSt = makeStyles(() => ({
       maxWidth: '58%',
       marginTop: ".75rem",
       marginBottom: "1.5rem",
+      lineHeight: '21px',
     },
     [theme.breakpoints.up('lg')]:{
       fontFamily: 'Poppins',
@@ -63,7 +65,40 @@ const manualSt = makeStyles(() => ({
       maxWidth: '58%',
       marginTop: ".75rem",
       marginBottom: "1.5rem",
+      lineHeight: '21px',
     },
+    color:'#000000',
+  },
+  toAllSubHeadingModified: {
+    [theme.breakpoints.up('xs')]:{
+      fontFamily: 'Poppins',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '.84rem',
+      marginTop: "1rem",
+      marginBottom: "1.5rem",
+      maxWidth: '93%',
+    },
+    [theme.breakpoints.up('sm')]:{
+      fontFamily: 'Poppins',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '1rem',
+      marginTop: ".75rem",
+      marginBottom: "1.5rem",
+      maxWidth: '86%',
+    },
+    [theme.breakpoints.up('lg')]:{
+      fontFamily: 'Poppins',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '20px',
+      marginTop: ".75rem",
+      marginBottom: "1.5rem",
+      maxWidth: '75%',
+      lineHeight: "30px",
+    },
+    margin: "auto",
     color:'#000000',
   },
   toAllSecondary: {
@@ -98,6 +133,14 @@ const manualSt = makeStyles(() => ({
     },
   },
   buttonSpan:{
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: "30px",
+      paddingRight: "30px",
+    },
+    [theme.breakpoints.up('xs')]: {
+      paddingLeft: "5px",
+      paddingRight: "5px",
+    },
     color: '#FB750D',
   },
   text:{
@@ -135,9 +178,9 @@ const manualSt = makeStyles(() => ({
   landing: {
     [theme.breakpoints.up('xs')]:{
       background: `url(${landingImage})`,
-      backgroundSize: '110% 53%',
+      backgroundSize: '105% 50%',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% 82%',
+      backgroundPosition: '100% 78%',
     },
     [theme.breakpoints.up('sm')]:{
       background: `url(${landingImage})`,
@@ -153,7 +196,7 @@ const manualSt = makeStyles(() => ({
     },
     [theme.breakpoints.up('lg')]: {
       background: `url(${landingImage})`,
-      backgroundSize: '85% 90%',
+      backgroundSize: '95% 90%',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: '100% 90%',
     },
@@ -192,27 +235,32 @@ export default function IndexPage() {
           <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
             href="/events"
           >
-            <span className={classNames(manual.buttonSpan)}>Explore</span>
+            <span className={classNames(manual.buttonSpan)}> EXPLORE </span>
           </Button>
         </div>
       </div>
 
-
       <div className={classNames(classes.main)} style={{textAlign:'left'}}>
-        <div className={classes.container} id="explore">
-          <div style={{ marginTop: "100px" }}>
-          <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}
-              className={classes.toAll2}> UPCOMING EVENTS </h3>
-          <div style={{textAlign:'center'}}>
-            <Button color="vcColor" size="sm" className={manual.addNewButton}
-                    style={{marginTop: 20}}
-                    active={true} target={'_blank'} rel="noopener noreferrer"
-                    href={'https://forms.gle/fzKvSZqkAVNN6cHY6'}> <AddIcon/> Add New Event
-            </Button>
+        <div style={{ marginTop: "50px" }}>
+          <div className={classes.container} id="explore">
+            <h1 style={{ textAlign: "center"}}
+                className={manual.toAll}> Upcoming Events
+            </h1>
+            <div style={{textAlign: "center"}}>
+              <h1 className={classNames(manual.toAllSubHeadingModified)}>
+                Do you or your club want to host your own event on Columbia Virtual Campus? Answer some short questions to get started!
+              </h1>
+            </div>
+            <div style={{textAlign:'center'}}>
+              <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
+                      active={true} target={'_blank'} rel="noopener noreferrer"
+                      href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} >
+                <span className={classNames(manual.buttonSpan)}>HOST A NEW EVENT</span>
+              </Button>
+            </div>
+            <HomeEvents/>
+            <div style={{marginBottom: "100px"}}/>
           </div>
-          <HomeEvents/>
-          </div>
-          <div style={{marginBottom: "100px"}}/>
         </div>
       </div>
     </div>
