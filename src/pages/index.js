@@ -43,6 +43,8 @@ const manualSt = makeStyles(() => ({
       fontWeight: 'normal',
       fontSize: '.75rem',
       maxWidth: '69%',
+      marginTop: "1.5rem",
+      marginBottom: "1.5rem",
     },
     [theme.breakpoints.up('sm')]:{
       fontFamily: 'Poppins',
@@ -50,6 +52,8 @@ const manualSt = makeStyles(() => ({
       fontWeight: 'normal',
       fontSize: '.75rem',
       maxWidth: '58%',
+      marginTop: ".75rem",
+      marginBottom: "1.5rem",
     },
     [theme.breakpoints.up('lg')]:{
       fontFamily: 'Poppins',
@@ -57,6 +61,8 @@ const manualSt = makeStyles(() => ({
       fontWeight: 'normal',
       fontSize: '.75rem',
       maxWidth: '58%',
+      marginTop: ".75rem",
+      marginBottom: "1.5rem",
     },
     color:'#000000',
   },
@@ -129,9 +135,9 @@ const manualSt = makeStyles(() => ({
   landing: {
     [theme.breakpoints.up('xs')]:{
       background: `url(${landingImage})`,
-      backgroundSize: '110% 50%',
+      backgroundSize: '110% 53%',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% 80%',
+      backgroundPosition: '100% 82%',
     },
     [theme.breakpoints.up('sm')]:{
       background: `url(${landingImage})`,
@@ -180,7 +186,7 @@ export default function IndexPage() {
           <h1 className={manual.toAll}>
             Columbia Virtual Campus
           </h1>
-          <h1 className={classNames(manual.toAllSubHeading)} style={{marginBottom: '30px'}}>
+          <h1 className={classNames(manual.toAllSubHeading)}>
             Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
           </h1>
           <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
