@@ -46,9 +46,14 @@ const manualSt = makeStyles(() => ({
   },
   toAllPrimary: {
     color: "#0072CE",
+    marginTop: '0px',
+    marginBottom: '0px',
+    position: 'relative',
+    top: '-10px'
   },
   toAllSecondary: {
     color: "#BFD8E9",
+    marginBottom: '0px',
   },
   toAll2:{
     margin:"0px"
@@ -125,11 +130,10 @@ export default function HomeDesktop() {
       <CustomHeader active={''} brand={''}></CustomHeader>
       <div className={classNames(manual.landing)} style={{height:"100vh", width:"100%"}}>
         <div className={classNames(manual.text)}>
-          <h1 className={classNames(manual.toAll, manual.toAllSecondary)}  style={{marginBottom: '0px'}}>
+          <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
             Stay connected through
           </h1>
-          <h1 className={manual.toAll, manual.toAllPrimary} style={{marginTop: '0px', marginBottom: '0px',
-            position: 'relative', top: '-10px'}}>
+          <h1 className={manual.toAll, manual.toAllPrimary}>
             Columbia Virtual Campus
           </h1>
           <h1 className={classNames(manual.toAllSubHeading)}>
