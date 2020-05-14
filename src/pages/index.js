@@ -134,10 +134,19 @@ const manualSt = makeStyles(() => ({
   },
   marginBottomDynamic:{
     [theme.breakpoints.up('lg')]: {
-      marginTop: "10px"
+      marginTop: "30px"
+    },
+    [theme.breakpoints.up('xl')]: {
+      marginTop: "30px"
+    },
+    [theme.breakpoints.up('md')]: {
+      marginTop: "30px"
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginTop: "30px"
     },
     [theme.breakpoints.up('xs')]: {
-      marginTop: "50px"
+      marginTop: "30px"
     },
     color: '#FB750D',
   },
@@ -208,29 +217,40 @@ const manualSt = makeStyles(() => ({
     }
   },
   landing: {
+    // iPhone/Smart Phone size:
     [theme.breakpoints.up('xs')]:{
       background: `url(${landingImage})`,
-      backgroundSize: '105% 50%',
+      backgroundSize: '110% auto',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: '100% 70%',
     },
+    // iPad/Tablet size:
     [theme.breakpoints.up('sm')]:{
       background: `url(${landingImage})`,
-      backgroundSize: '85% 70%',
+      backgroundSize: '100% auto',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% center',
+      backgroundPosition: '100% 80%',
     },
+    //Desktop, small screen
     [theme.breakpoints.up('md')]:{
       background: `url(${landingImage})`,
-      backgroundSize: '70% 70%',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% bottom',
-    },
-    [theme.breakpoints.up('lg')]: {
-      background: `url(${landingImage})`,
-      backgroundSize: '95% 90%',
+      backgroundSize: '90% auto',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: '100% 90%',
+    },
+    //Desktop
+    [theme.breakpoints.up('lg')]: {
+      background: `url(${landingImage})`,
+      backgroundSize: '74% auto',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right bottom',
+    },
+    //Desktop, bigger monitor
+    [theme.breakpoints.up('xl')]: {
+      background: `url(${landingImage})`,
+      backgroundSize: '70% auto',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right bottom',
     },
   },
   addNewButton:{
@@ -273,7 +293,6 @@ export default function IndexPage() {
       </div>
 
       <div className={classNames(classes.main)} style={{textAlign:'left'}}>
-        <div className={classNames(manual.marginBottomDynamic)}/>
           <div className={classes.container} id="explore">
             <h1 style={{ textAlign: "center"}}
                 className={manual.toAll}> Upcoming Events
@@ -289,7 +308,7 @@ export default function IndexPage() {
                       href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} >
                 <span className={classNames(manual.buttonSpan2)}>HOST A NEW EVENT</span>
               </Button>
-              <div className={classNames(manual.marginBottomDynamic)}/>
+              <div style={{marginBottom: "40px"}}/>
             </div>
             <HomeEvents/>
             <div style={{marginBottom: "100px"}}/>
