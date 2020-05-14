@@ -13,28 +13,26 @@ const useStyles = makeStyles(styles);
 
 const manualSt = makeStyles(() => ({
   toAll: {
-    marginTop: "0px",
-
     [theme.breakpoints.up('xs')]:{
       fontFamily: 'Poppins',
       fontStyle: 'normal',
       fontWeight: 'normal',
-      lineHeight: '72px',
-      fontSize: '44px',
+      lineHeight: '1.2rem',
+      fontSize: '1.5rem',
     },
     [theme.breakpoints.up('sm')]:{
       fontFamily: 'Poppins',
       fontStyle: 'normal',
       fontWeight: 'normal',
-      lineHeight: '72px',
-      fontSize: '44px',
+      lineHeight: '3.9rem',
+      fontSize: '2.5rem',
     },
     [theme.breakpoints.up('lg')]:{
       fontFamily: 'Poppins',
       fontStyle: 'normal',
       fontWeight: 'normal',
-      lineHeight: '72px',
-      fontSize: '44px',
+      lineHeight: '4rem',
+      fontSize: '3rem',
     },
     color:'#0072CE',
   },
@@ -43,38 +41,36 @@ const manualSt = makeStyles(() => ({
       fontFamily: 'Poppins',
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontSize: '14px',
+      fontSize: '.75rem',
+      maxWidth: '69%',
     },
     [theme.breakpoints.up('sm')]:{
       fontFamily: 'Poppins',
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontSize: '14px',
+      fontSize: '.75rem',
+      maxWidth: '58%',
     },
     [theme.breakpoints.up('lg')]:{
       fontFamily: 'Poppins',
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontSize: '14px',
+      fontSize: '.75rem',
+      maxWidth: '58%',
     },
     color:'#000000',
   },
-  toAllLeft: {
-    marginBottom: "0px",
-
-    [theme.breakpoints.up('xs')]:{
-      marginTop: '30%',
-      marginLeft: 0,
-      lineHeight: '0px',
-      textAlign:'center',
+  toAllSecondary: {
+    color: "#BFD8E9",
+    [theme.breakpoints.up('lg')]: {
+      lineHeight: "1rem",
     },
-    [theme.breakpoints.up('sm')]:{
-      marginTop: 'auto',
-      textAlign: 'left',
-      lineHeight: '0px',
-      marginLeft: '-8rem',
+    [theme.breakpoints.up('sm')]: {
+      lineHeight: "1rem",
     },
-    color:"#BFD8E9",
+    [theme.breakpoints.up('xs')]: {
+      lineHeight: ".2rem",
+    },
   },
   toAll2:{
     margin:"0px"
@@ -100,10 +96,12 @@ const manualSt = makeStyles(() => ({
   },
   text:{
     [theme.breakpoints.up('xs')]:{
-      marginTop: '0',
+      margin: '0',
       float:'left',
-      width: '100%',
-      textAlign:'center'
+      marginLeft: '5%',
+      marginTop: "20%" ,
+      textAlign:'left',
+      width: 'auto'
     },
     [theme.breakpoints.up('sm')]: {
       margin: '0',
@@ -117,41 +115,41 @@ const manualSt = makeStyles(() => ({
       margin: 0,
       float:'left',
       marginLeft: '5%',
-      marginTop: "10%" ,
+      marginTop: "9%" ,
       textAlign:'left',
     },
     [theme.breakpoints.up('lg')]:{
       margin: 0,
       float:'left',
       marginLeft: '5%',
-      marginTop: "10%" ,
+      marginTop: "7%" ,
       textAlign:'left',
     }
   },
   landing: {
     [theme.breakpoints.up('xs')]:{
       background: `url(${landingImage})`,
-      backgroundSize: '200%',
+      backgroundSize: '110% 50%',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% 10%',
+      backgroundPosition: '100% 80%',
     },
     [theme.breakpoints.up('sm')]:{
       background: `url(${landingImage})`,
-      backgroundSize: '100%',
+      backgroundSize: '85% 70%',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% 20%',
+      backgroundPosition: '100% center',
     },
     [theme.breakpoints.up('md')]:{
       background: `url(${landingImage})`,
       backgroundSize: '70% 70%',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% 25%',
+      backgroundPosition: '100% bottom',
     },
     [theme.breakpoints.up('lg')]: {
       background: `url(${landingImage})`,
-      backgroundSize: '70% 70%',
+      backgroundSize: '85% 90%',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '100% 25%',
+      backgroundPosition: '100% 90%',
     },
   },
   addNewButton:{
@@ -176,14 +174,14 @@ export default function IndexPage() {
       <CustomHeader active={''} brand={''}></CustomHeader>
       <div className={classNames(manual.landing)} style={{height:"100vh", width:"100%"}}>
         <div className={classNames(manual.text)}>
-          <h1 className={classNames(manual.toAll)} style={{color: "#BFD8E9", lineHeight:"0px"}}>
+          <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
             Stay connected through
           </h1>
           <h1 className={manual.toAll}>
             Columbia Virtual Campus
           </h1>
-          <h1 className={classNames(manual.toAllSubHeading)}>
-            Navigate Columbia and Barnard by keeping track of upcoming<br />virtual events and online resources
+          <h1 className={classNames(manual.toAllSubHeading)} style={{marginBottom: '30px'}}>
+            Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
           </h1>
           <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
             href="/events"
