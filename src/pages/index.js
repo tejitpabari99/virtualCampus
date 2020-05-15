@@ -27,7 +27,11 @@ class Index extends React.Component {
     }
 
     render() {
+
+        {/* For mobile's screen orientation */}
         const isLandscape = this.state.width > this.state.height ? true : false;
+
+        {/* If Tablet, do mobile component if in portrait, else render desktop */}
         if (isTablet) {
             if (isLandscape) {
                 return (
@@ -42,19 +46,25 @@ class Index extends React.Component {
                     </div>
                 );
             }
+
+
+        {/* For mobile component */}
         } else if (isMobile) {
                 return (
                     <div>
                         <HomeMobile isLandscape={isLandscape}/>
                     </div>
                 );
-            } else {
-                return (
-                    <div>
-                        <HomeDesktop/>
-                    </div>
-                );
-            }
+
+
+        {/* Else: desktop: isBrowser */}
+        } else {
+            return (
+                <div>
+                    <HomeDesktop/>
+                </div>
+            );
+        }
     }
 }
 
