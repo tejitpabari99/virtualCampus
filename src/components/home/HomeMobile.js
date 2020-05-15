@@ -90,9 +90,9 @@ const manualPortrait = makeStyles(() => ({
   },
   landing: {
     background: `url(${landingImage})`,
-    backgroundSize: '112% auto',
+    backgroundSize: '110% auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '97% 50%',
+    backgroundPosition: '97% 57%',
   },
   addNewButton:{
     boxShadow:"none",
@@ -187,8 +187,8 @@ const manualLandscape = makeStyles(() => ({
   text:{
     margin: '0',
     float:'left',
-    marginLeft: '12%',
-    marginTop: "8%" ,
+    marginLeft: '19%',
+    marginTop: "3%" ,
     textAlign:'left',
     width: 'auto'
   },
