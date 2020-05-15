@@ -31,7 +31,8 @@ class Index extends React.Component {
 
         {/* If Tablet:
             If in portrait, do mobile component
-            else render desktop */}
+            else render desktop
+            */}
         if (isTablet) {
             if (isLandscape) {
                 return (
@@ -57,7 +58,10 @@ class Index extends React.Component {
                 );
 
 
-        {/* Else: desktop: isBrowser */}
+        {/* Else: desktop: isBrowser
+            If screen is full size and not weirdly shape: render desktop version
+            Else render mobile version
+            */}
         } else {
             if (isLandscape) {
                 return (
