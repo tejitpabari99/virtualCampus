@@ -9,19 +9,43 @@ import myEventsList from "../assets/EventsData";
 class Index extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { width: 0, height: 0 };
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
     render() {
+        const isLandscape = this.state.width > this.state.height ? true : false;
         if (isTablet) {
-            return (
+            if (isLandscape) {
+                return (
                 <div>
-                    <HomeMobile />
+                    <HomeDesktop/>
                 </div>
-            );
+                );
+            } else {
+                return (
+                    <div>
+                        <HomeMobile isLandscape={isLandscape}/>
+                    </div>
+                );
+            }
         } else if (isMobile) {
                 return (
                     <div>
-                        <HomeMobile/>
+                        <HomeMobile isLandscape={isLandscape}/>
                     </div>
                 );
             } else {

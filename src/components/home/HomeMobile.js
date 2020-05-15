@@ -12,7 +12,7 @@ const theme = CustomTheme;
 
 const useStyles = makeStyles(styles);
 
-const manualSt = makeStyles(() => ({
+const manualPortrait = makeStyles(() => ({
   toAll: {
     fontFamily: 'Poppins',
     fontStyle: 'normal',
@@ -116,9 +116,116 @@ const manualSt = makeStyles(() => ({
 }));
 
 
-export default function HomeMobile() {
+const manualLandscape = makeStyles(() => ({
+  toAll: {
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    lineHeight: '1.2rem',
+    fontSize: '1.5rem',
+    color:'#0072CE',
+  },
+  toAllSubHeading: {
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '.75rem',
+    maxWidth: '50%',
+    marginTop: "1.5rem",
+    marginBottom: "1.5rem",
+    lineHeight: '18px',
+    color:'#000000',
+  },
+  toAllSubHeadingModified: {
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '.84rem',
+    marginTop: "1rem",
+    marginBottom: "1.5rem",
+    maxWidth: '93%',
+    margin: "auto",
+    color:'#000000',
+  },
+  toAllSecondary: {
+    color: "#BFD8E9",
+    lineHeight: ".2rem",
+  },
+  toAll2:{
+    margin:"0px"
+  },
+  button:{
+    boxShadow: 'none',
+    borderRadius: 30,
+    fontSize: '1.1rem',
+    width: 200,
+    border: '1px solid #4284C8',
+    backgroundColor: 'white',
+    paddingTop: 10,
+    paddingBottom: 10,
+    "&:hover": {
+      backgroundColor: '#4284C8',
+    },
+    "&:hover span": {
+      color: 'white !important',
+    },
+  },
+  marginBottomDynamic:{
+    marginTop: "30px",
+    color: '#FB750D',
+  },
+  buttonSpan1:{
+    paddingLeft: "1px",
+    paddingRight: "1px",
+    color: '#FB750D',
+  },
+  buttonSpan2:{
+    paddingLeft: "1px",
+    paddingRight: "1px",
+    color: '#FB750D',
+  },
+  text:{
+    margin: '0',
+    float:'left',
+    marginLeft: '12%',
+    marginTop: "8%" ,
+    textAlign:'left',
+    width: 'auto'
+  },
+  landing: {
+    background: `url(${landingImage})`,
+    backgroundSize: '52% auto',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: '100% 58%',
+  },
+  addNewButton:{
+    boxShadow:"none",
+    fontSize: 20,
+  },
+  buttonExplore:{
+    background: "#FFFFFF",
+    border: "1px solid #FB750D",
+    boxSizing: "border-box",
+    borderRadius: "10px",
+  },
+
+  // Move events section up a little
+  eventsSection: {
+    position:'relative',
+    left:'0px',
+    backgroundColor:'transparent',
+    top: '-18vh',
+  },
+
+}));
+export default function HomeMobile({isLandscape}) {
   const classes = useStyles();
-  const manual = manualSt();
+  var manual;
+  if (isLandscape) {
+    manual = manualLandscape();
+  } else {
+    manual = manualPortrait();
+  }
   return (
     <div style={{background: "white"}}>
       <MetaData title={'Columbia Virtual Campus'}/>
