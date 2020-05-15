@@ -90,9 +90,9 @@ const manualSt = makeStyles(() => ({
   },
   landing: {
     background: `url(${landingImage})`,
-    backgroundSize: '110% auto',
+    backgroundSize: '112% auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '97% 60%',
+    backgroundPosition: '97% 50%',
   },
   addNewButton:{
     boxShadow:"none",
@@ -110,7 +110,7 @@ const manualSt = makeStyles(() => ({
     position:'relative',
     left:'0px',
     backgroundColor:'transparent',
-    top: '-8rem',
+    top: '-12rem',
   },
 
 }));

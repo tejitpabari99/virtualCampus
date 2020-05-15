@@ -115,7 +115,7 @@ const manualSt = makeStyles(() => ({
     position:'relative',
     left:'0px',
     backgroundColor:'transparent',
-    top: '-10rem',
+    top: '-8.2rem',
   },
 
 }));
