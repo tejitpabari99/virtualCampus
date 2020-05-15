@@ -59,11 +59,19 @@ class Index extends React.Component {
 
         {/* Else: desktop: isBrowser */}
         } else {
-            return (
-                <div>
-                    <HomeDesktop/>
-                </div>
-            );
+            if (isLandscape) {
+                return (
+                    <div>
+                        <HomeDesktop/>
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <HomeMobile isLandscape={isLandscape}/>
+                    </div>
+                );
+            }
         }
     }
 }
