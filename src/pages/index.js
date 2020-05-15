@@ -1,10 +1,7 @@
 import React from "react"
 import HomeDesktop from "../components/home/HomeDesktop";
 import HomeMobile from "../components/home/HomeMobile";
-import {withOrientationChange, isBrowser, isMobile, isTablet} from "react-device-detect";
-import {withStyles} from "@material-ui/core/styles";
-import myEventsList from "../assets/EventsData";
-
+import {isMobile, isTablet} from "react-device-detect";
 
 class Index extends React.Component {
     constructor(props) {
@@ -68,4 +65,4 @@ class Index extends React.Component {
     }
 }
 
-export default withOrientationChange(Index);
+export default Index;
