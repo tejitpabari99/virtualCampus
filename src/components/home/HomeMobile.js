@@ -222,10 +222,17 @@ export default function HomeMobile({isLandscape}) {
   const classes = useStyles();
   var manual;
   if (isLandscape) {
+
+    // Process the landscape style
+    // NOTE: This only works on mobile devices
+    // Tablets will go to desktop component in landscape
     manual = manualLandscape();
   } else {
+
+    // Process the portrait style
     manual = manualPortrait();
   }
+
   return (
     <div style={{background: "white"}}>
       <MetaData title={'Columbia Virtual Campus'}/>

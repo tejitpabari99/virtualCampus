@@ -4,6 +4,7 @@ import HomeMobile from "../components/home/HomeMobile";
 import {isMobile, isTablet} from "react-device-detect";
 
 class Index extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = { width: 0, height: 0 };
@@ -25,10 +26,12 @@ class Index extends React.Component {
 
     render() {
 
-        {/* For mobile's screen orientation */}
+        {/* For mobile's screen orientation update */}
         const isLandscape = this.state.width > this.state.height ? true : false;
 
-        {/* If Tablet, do mobile component if in portrait, else render desktop */}
+        {/* If Tablet:
+            If in portrait, do mobile component
+            else render desktop */}
         if (isTablet) {
             if (isLandscape) {
                 return (
