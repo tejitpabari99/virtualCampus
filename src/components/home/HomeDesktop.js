@@ -22,9 +22,6 @@ const manualSt = makeStyles(() => ({
     color:'#0072CE',
   },
   toAllSubHeading: {
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
     fontSize: '.75rem',
     maxWidth: '58%',
     marginTop: ".2rem",
@@ -33,9 +30,6 @@ const manualSt = makeStyles(() => ({
     color:'#000000',
   },
   toAllSubHeadingModified: {
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
     fontSize: '20px',
     marginTop: ".75rem",
     marginBottom: "1.5rem",
@@ -54,29 +48,6 @@ const manualSt = makeStyles(() => ({
   toAllSecondary: {
     color: "#BFD8E9",
     marginBottom: '0px',
-  },
-  toAll2:{
-    margin:"0px"
-  },
-  button:{
-    boxShadow: 'none',
-    borderRadius: 30,
-    fontSize: '1.1rem',
-    width: 200,
-    border: '1px solid #4284C8',
-    backgroundColor: 'white',
-    paddingTop: 10,
-    paddingBottom: 10,
-    "&:hover": {
-      backgroundColor: '#4284C8',
-    },
-    "&:hover span": {
-      color: 'white !important',
-    },
-  },
-  marginBottomDynamic:{
-    marginTop: "30px",
-    color: '#FB750D',
   },
   buttonSpan1:{
     width: "120px",

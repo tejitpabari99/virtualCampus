@@ -50,7 +50,7 @@ class Index extends React.Component {
 
 
         {/* For mobile component */}
-        } else if (isMobile) {
+        } else if (isMobile || isLandscape == false) {
                 return (
                     <div>
                         <HomeMobile isLandscape={isLandscape}/>
@@ -60,22 +60,14 @@ class Index extends React.Component {
 
         {/* Else: desktop: isBrowser
             If screen is full size and not weirdly shape: render desktop version
-            Else render mobile version
+            Else render mobile version (see above)
             */}
         } else {
-            if (isLandscape) {
-                return (
-                    <div>
-                        <HomeDesktop/>
-                    </div>
-                );
-            } else {
-                return (
-                    <div>
-                        <HomeMobile isLandscape={isLandscape}/>
-                    </div>
-                );
-            }
+            return (
+                <div>
+                    <HomeDesktop/>
+                </div>
+            );
         }
     }
 }
