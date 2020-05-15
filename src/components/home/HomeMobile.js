@@ -110,7 +110,7 @@ const manualPortrait = makeStyles(() => ({
     position:'relative',
     left:'0px',
     backgroundColor:'transparent',
-    top: '-12rem',
+    top: '-10rem',
   },
 
 }));
