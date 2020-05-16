@@ -24,6 +24,7 @@ class Index extends React.Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
+    // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
     render() {
 
         {/* For mobile's screen orientation update */}
