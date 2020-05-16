@@ -7,6 +7,7 @@ import styles from "../../assets/material-kit-assets/jss/material-kit-react/view
 import Button from "./../material-kit-components/CustomButtons/Button.js";
 import AddIcon from "@material-ui/icons/Add";
 import {MetaData, CustomTheme, CustomHeader} from "./../../components"
+import {isEdge} from "react-device-detect";
 
 const theme = CustomTheme;
 
@@ -86,8 +87,12 @@ const manualSt = makeStyles(() => ({
 
 export default function HomeDesktop() {
   const classes = useStyles();
-  const manual = manualSt();
-
+  var manual;
+  if (isEdge) {
+    manual = manualSt();
+  } else {
+    manual = manualSt();
+  }
     return (
         <div style={{background: "white"}}>
           <MetaData title={'Columbia Virtual Campus'}/>
