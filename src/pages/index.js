@@ -1,7 +1,7 @@
 import React from "react"
 import HomeDesktop from "../components/home/HomeDesktop";
 import HomeMobile from "../components/home/HomeMobile";
-import {isMobile, isTablet} from "react-device-detect";
+import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
 
 class Index extends React.Component {
 
@@ -50,8 +50,8 @@ class Index extends React.Component {
             }
 
 
-        {/* For mobile component */}
-        } else if (isMobile || (isLandscape === false && this.state.height > 700)) {
+        {/* For mobile component : IE or Edge must go to mobile since they do not support all css */}
+        } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
                 return (
                     <div>
                         <HomeMobile isLandscape={isLandscape}/>

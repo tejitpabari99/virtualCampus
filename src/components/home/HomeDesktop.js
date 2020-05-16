@@ -5,9 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import landingImage from "../../assets/images/home/graphic.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import Button from "./../material-kit-components/CustomButtons/Button.js";
-import AddIcon from "@material-ui/icons/Add";
 import {MetaData, CustomTheme, CustomHeader} from "./../../components"
-import {isEdge, isExplorer} from "react-device-detect";
 
 const theme = CustomTheme;
 
@@ -86,91 +84,10 @@ const manualSt = makeStyles(() => ({
 }));
 
 
-const manualDepreciated = makeStyles(() => ({
-    toAll: {
-      fontFamily: 'Poppins',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      lineHeight: '4rem',
-      fontSize: '3rem',
-      color:'#0072CE',
-    },
-    toAllSubHeading: {
-      fontFamily: 'Poppins',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: '.75rem',
-      maxWidth: '58%',
-      marginTop: ".2rem",
-      marginBottom: "1.5rem",
-      lineHeight: '21px',
-      color:'#000000',
-    },
-  toAllSubHeadingUpEvents: {
-      fontFamily: 'Poppins',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: '20px',
-      marginTop: ".75rem",
-      marginBottom: "1.5rem",
-      maxWidth: '75%',
-      lineHeight: "30px",
-      margin: "auto",
-      color:'#000000',
-    },
-    toAllPrimary: {
-      color: "#0072CE",
-    },
-    toAllSecondary: {
-      color: "#BFD8E9",
-    },
-    buttonSpan:{
-      width: "120px",
-      color: '#FB750D',
-    },
-    landingText:{
-      margin: 0,
-      float: 'left',
-      marginLeft: '12%',
-      marginTop: "8%",
-      textAlign: 'left',
-    },
-    landing: {
-      background: `url(${landingImage})`,
-      backgroundSize: '64% auto',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'right 38%',
-      width: "100%",
-      height: "100vh",
-    },
-    addNewButton:{
-      boxShadow:"none",
-      fontSize: 20,
-    },
-    button:{
-      background: "#FFFFFF",
-      border: "1px solid #FB750D",
-      boxSizing: "border-box",
-      borderRadius: "10px",
-    },
-    // Move events section up a little
-    eventsSection: {
-      position:'relative',
-      left:'0px',
-      backgroundColor:'transparent',
-      top: '-10rem',
-    },
-}));
-
-
 export default function HomeDesktop() {
   const classes = useStyles();
   var manual;
-  if (isEdge || isExplorer) {
-    manual = manualDepreciated();
-  } else {
-    manual = manualSt();
-  }
+  manual = manualSt();
     return (
         <div style={{background: "white"}}>
           <MetaData title={'Columbia Virtual Campus'}/>
