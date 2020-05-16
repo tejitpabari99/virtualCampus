@@ -17,12 +17,12 @@ const manualSt = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    lineHeight: 'min(4rem, 5.5vw)',
-    fontSize: 'min(3.8rem, 4vw)',
+    lineHeight: 'min(3.1rem, 5vw)',
+    fontSize: 'min(3.6rem, 3.9vw)',
     color:'#0072CE',
   },
   toAllSubHeading: {
-    fontSize: 'min(1rem, 1.4vw)',
+    fontSize: 'min(.95rem, 1.35vw)',
     maxWidth: '58%',
     marginTop: "min(.7rem, 1.3vw)",
     marginBottom: "min(1.5rem, 2vw)",
@@ -31,8 +31,8 @@ const manualSt = makeStyles(() => ({
   },
   toAllSubHeadingUpEvents: {
     fontSize: 'min(1.5em, 1.7vw)',
-    marginTop: ".75rem",
-    marginBottom: "1.5rem",
+    marginTop: ".5rem",
+    marginBottom: "1.25rem",
     maxWidth: 'min(60rem, 72vw)',
     lineHeight: "min(2em, 2.1vw)",
     margin: "auto",
@@ -40,7 +40,7 @@ const manualSt = makeStyles(() => ({
   },
   toAllPrimary: {
     color: "#0072CE",
-    fontSize: 'min(4rem, 4vw)',
+    fontSize: 'min(3.6rem, 3.9vw)',
     marginTop: '0px',
     marginBottom: '0px',
     position: 'relative',
@@ -57,16 +57,16 @@ const manualSt = makeStyles(() => ({
   landingText:{
     margin: 0,
     float: 'left',
-    marginLeft: 'min(10%, 20vw)',
-    marginTop: "min(6%, 12vh)",
+    marginLeft: 'min(9%, 15vw)',
+    marginTop: "min(9%, 15vh)",
     textAlign: 'left',
   },
   landing: {
     background: `url(${landingImage})`,
-    backgroundSize: 'max(min(70vw, 110vh), 250px) auto',
+    backgroundSize: 'max(min(90vw, 160vh), 250px) max(76vh, 100px)',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right max(100%, 50px)',
-    height: "max(80vh, 25vw)",
+    backgroundPosition: 'right max(100%, 75px)',
+    height: "max(84vh, 25vw)",
     width: "100%",
   },
   button:{
@@ -92,7 +92,7 @@ export default function HomeDesktop() {
         <div style={{background: "white"}}>
           <MetaData title={'Columbia Virtual Campus'}/>
           <CustomHeader active={''} brand={''}></CustomHeader>
-          <div className={classNames(manual.landing)} style={{}}>
+          <div className={classNames(manual.landing)}>
             <div className={classNames(manual.landingText)}>
               <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
                 Stay connected through
@@ -111,6 +111,7 @@ export default function HomeDesktop() {
             </div>
           </div>
 
+          <div style={{marginBottom: "2.5vh", background: "transparent"}}/>
           <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign: 'left'}}>
             <div className={classes.container} id="explore">
               <h1 style={{textAlign: "center"}}
