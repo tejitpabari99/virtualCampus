@@ -29,7 +29,7 @@ const manualSt = makeStyles(() => ({
     lineHeight: 'min(1.4rem, 1.9vw)',
     color:'#000000',
   },
-  toAllSubHeadingModified: {
+  toAllSubHeadingUpEvents: {
     fontSize: 'min(1.5em, 1.7vw)',
     marginTop: ".75rem",
     marginBottom: "1.5rem",
@@ -49,12 +49,12 @@ const manualSt = makeStyles(() => ({
     color: "#BFD8E9",
     marginBottom: '0px',
   },
-  buttonSpan1:{
+  buttonSpan:{
     marginLeft: '1vw',
     marginRight: '1vw',
     color: '#FB750D',
   },
-  text:{
+  landingText:{
     margin: 0,
     float: 'left',
     marginLeft: 'min(10%, 20vw)',
@@ -69,14 +69,12 @@ const manualSt = makeStyles(() => ({
     height: "max(80vh, 25vw)",
     width: "100%",
   },
-  buttonExplore:{
+  button:{
     background: "#FFFFFF",
     border: "1px solid #FB750D",
     boxSizing: "border-box",
     borderRadius: "10px",
   },
-
-  // Move events section up a little
   eventsSection: {
     position:'relative',
     left:'0px',
@@ -86,7 +84,7 @@ const manualSt = makeStyles(() => ({
 }));
 
 
-export default function HomeDesktop({height}) {
+export default function HomeDesktop() {
   const classes = useStyles();
   const manual = manualSt();
 
@@ -95,7 +93,7 @@ export default function HomeDesktop({height}) {
           <MetaData title={'Columbia Virtual Campus'}/>
           <CustomHeader active={''} brand={''}></CustomHeader>
           <div className={classNames(manual.landing)} style={{}}>
-            <div className={classNames(manual.text)}>
+            <div className={classNames(manual.landingText)}>
               <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
                 Stay connected through
               </h1>
@@ -105,10 +103,10 @@ export default function HomeDesktop({height}) {
               <h1 className={classNames(manual.toAllSubHeading)}>
                 Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
               </h1>
-              <Button color="vcColor" size="lg" className={classNames(manual.buttonExplore)}
+              <Button color="vcColor" size="lg" className={classNames(manual.button)}
                       href="/events"
               >
-                <span className={classNames(manual.buttonSpan1)}> EXPLORE </span>
+                <span className={classNames(manual.buttonSpan)}> EXPLORE </span>
               </Button>
             </div>
           </div>
@@ -119,16 +117,16 @@ export default function HomeDesktop({height}) {
                   className={manual.toAll}> Upcoming Events
               </h1>
               <div style={{textAlign: "center"}}>
-                <h1 className={classNames(manual.toAllSubHeadingModified)}>
+                <h1 className={classNames(manual.toAllSubHeadingUpEvents)}>
                   Do you or your club want to host your own event on Columbia Virtual Campus? Answer some short
                   questions to get started!
                 </h1>
               </div>
               <div style={{textAlign: 'center'}}>
-                <Button color="vcColor" size="lg" className={classNames(manual.buttonExplore)}
+                <Button color="vcColor" size="lg" className={classNames(manual.button)}
                         active={true} target={'_blank'} rel="noopener noreferrer"
                         href={'https://forms.gle/fzKvSZqkAVNN6cHY6'}>
-                  <span className={classNames(manual.buttonSpan1)}>HOST A NEW EVENT</span>
+                  <span className={classNames(manual.buttonSpan)}>HOST A NEW EVENT</span>
                 </Button>
                 <div style={{marginBottom: "40px"}}/>
               </div>

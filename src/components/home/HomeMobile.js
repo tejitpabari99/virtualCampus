@@ -235,7 +235,7 @@ export default function HomeMobile({isLandscape}) {
     <div style={{background: "white"}}>
       <MetaData title={'Columbia Virtual Campus'}/>
       <CustomHeader active={''} brand={''}></CustomHeader>
-      <div className={classNames(manual.landing)} style={{height: "70vh", width: "100%"}}>
+      <div className={classNames(manual.landing)} style={{height: "65vh", width: "100%"}}>
         <div className={classNames(manual.text)}>
           <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
             Stay connected through

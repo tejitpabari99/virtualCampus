@@ -65,7 +65,7 @@ class Index extends React.Component {
         } else {
             return (
                 <div>
-                    <HomeDesktop height={this.state.height}/>
+                    <HomeDesktop />
                 </div>
             );
         }
