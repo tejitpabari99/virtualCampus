@@ -50,7 +50,7 @@ class Index extends React.Component {
 
 
         {/* For mobile component */}
-        } else if (isMobile || isLandscape == false) {
+        } else if (isMobile || (isLandscape === false && this.state.height > 700)) {
                 return (
                     <div>
                         <HomeMobile isLandscape={isLandscape}/>
@@ -65,7 +65,7 @@ class Index extends React.Component {
         } else {
             return (
                 <div>
-                    <HomeDesktop/>
+                    <HomeDesktop height={this.state.height}/>
                 </div>
             );
         }

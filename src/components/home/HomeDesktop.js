@@ -17,62 +17,57 @@ const manualSt = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    lineHeight: '4rem',
-    fontSize: '3rem',
+    lineHeight: 'min(4rem, 5.5vw)',
+    fontSize: 'min(3.8rem, 4vw)',
     color:'#0072CE',
   },
   toAllSubHeading: {
-    fontSize: '.75rem',
+    fontSize: 'min(1rem, 1.4vw)',
     maxWidth: '58%',
-    marginTop: ".2rem",
-    marginBottom: "1.5rem",
-    lineHeight: '21px',
+    marginTop: "min(.7rem, 1.3vw)",
+    marginBottom: "min(1.5rem, 2vw)",
+    lineHeight: 'min(1.4rem, 1.9vw)',
     color:'#000000',
   },
   toAllSubHeadingModified: {
-    fontSize: '20px',
+    fontSize: 'min(1.5em, 1.7vw)',
     marginTop: ".75rem",
     marginBottom: "1.5rem",
-    maxWidth: '75%',
-    lineHeight: "30px",
+    maxWidth: 'min(60rem, 72vw)',
+    lineHeight: "min(2em, 2.1vw)",
     margin: "auto",
     color:'#000000',
   },
   toAllPrimary: {
     color: "#0072CE",
+    fontSize: 'min(4rem, 4vw)',
     marginTop: '0px',
     marginBottom: '0px',
     position: 'relative',
-    top: '-10px'
   },
   toAllSecondary: {
     color: "#BFD8E9",
     marginBottom: '0px',
   },
   buttonSpan1:{
-    width: "120px",
-    color: '#FB750D',
-  },
-  buttonSpan2:{
-    width: "200px",
+    marginLeft: '1vw',
+    marginRight: '1vw',
     color: '#FB750D',
   },
   text:{
     margin: 0,
     float: 'left',
-    marginLeft: '12%',
-    marginTop: "8%",
+    marginLeft: 'min(10%, 20vw)',
+    marginTop: "min(6%, 12vh)",
     textAlign: 'left',
   },
   landing: {
     background: `url(${landingImage})`,
-    backgroundSize: '60% auto',
+    backgroundSize: 'max(min(70vw, 110vh), 250px) auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right 34%',
-  },
-  addNewButton:{
-    boxShadow:"none",
-    fontSize: 20,
+    backgroundPosition: 'right max(100%, 50px)',
+    height: "max(80vh, 25vw)",
+    width: "100%",
   },
   buttonExplore:{
     background: "#FFFFFF",
@@ -85,61 +80,62 @@ const manualSt = makeStyles(() => ({
   eventsSection: {
     position:'relative',
     left:'0px',
-    backgroundColor:'transparent',
-    top: '-8rem',
+    background:'transparent',
   },
 
 }));
 
 
-export default function HomeDesktop() {
+export default function HomeDesktop({height}) {
   const classes = useStyles();
   const manual = manualSt();
-  return (
-    <div style={{background: "white"}}>
-      <MetaData title={'Columbia Virtual Campus'}/>
-      <CustomHeader active={''} brand={''}></CustomHeader>
-      <div className={classNames(manual.landing)} style={{height:"100vh", width:"100%"}}>
-        <div className={classNames(manual.text)}>
-          <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
-            Stay connected through
-          </h1>
-          <h1 className={manual.toAll, manual.toAllPrimary}>
-            Columbia Virtual Campus
-          </h1>
-          <h1 className={classNames(manual.toAllSubHeading)}>
-            Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
-          </h1>
-          <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
-            href="/events"
-          >
-            <span className={classNames(manual.buttonSpan1)}> EXPLORE </span>
-          </Button>
-        </div>
-      </div>
 
-      <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign:'left'}}>
-          <div className={classes.container} id="explore">
-            <h1 style={{ textAlign: "center"}}
-                className={manual.toAll}> Upcoming Events
-            </h1>
-            <div style={{textAlign: "center"}}>
-              <h1 className={classNames(manual.toAllSubHeadingModified)}>
-                Do you or your club want to host your own event on Columbia Virtual Campus? Answer some short questions to get started!
+    return (
+        <div style={{background: "white"}}>
+          <MetaData title={'Columbia Virtual Campus'}/>
+          <CustomHeader active={''} brand={''}></CustomHeader>
+          <div className={classNames(manual.landing)} style={{}}>
+            <div className={classNames(manual.text)}>
+              <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
+                Stay connected through
               </h1>
-            </div>
-            <div style={{textAlign:'center'}}>
-              <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
-                      active={true} target={'_blank'} rel="noopener noreferrer"
-                      href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} >
-                <span className={classNames(manual.buttonSpan2)}>HOST A NEW EVENT</span>
+              <h1 className={manual.toAll, manual.toAllPrimary}>
+                Columbia Virtual Campus
+              </h1>
+              <h1 className={classNames(manual.toAllSubHeading)}>
+                Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
+              </h1>
+              <Button color="vcColor" size="lg" className={classNames(manual.buttonExplore)}
+                      href="/events"
+              >
+                <span className={classNames(manual.buttonSpan1)}> EXPLORE </span>
               </Button>
-              <div style={{marginBottom: "40px"}}/>
             </div>
-            <HomeEvents/>
-            <div style={{marginBottom: "100px"}}/>
           </div>
-      </div>
-    </div>
+
+          <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign: 'left'}}>
+            <div className={classes.container} id="explore">
+              <h1 style={{textAlign: "center"}}
+                  className={manual.toAll}> Upcoming Events
+              </h1>
+              <div style={{textAlign: "center"}}>
+                <h1 className={classNames(manual.toAllSubHeadingModified)}>
+                  Do you or your club want to host your own event on Columbia Virtual Campus? Answer some short
+                  questions to get started!
+                </h1>
+              </div>
+              <div style={{textAlign: 'center'}}>
+                <Button color="vcColor" size="lg" className={classNames(manual.buttonExplore)}
+                        active={true} target={'_blank'} rel="noopener noreferrer"
+                        href={'https://forms.gle/fzKvSZqkAVNN6cHY6'}>
+                  <span className={classNames(manual.buttonSpan1)}>HOST A NEW EVENT</span>
+                </Button>
+                <div style={{marginBottom: "40px"}}/>
+              </div>
+              <HomeEvents/>
+              <div style={{marginBottom: "100px"}}/>
+            </div>
+          </div>
+        </div>
     )
 };

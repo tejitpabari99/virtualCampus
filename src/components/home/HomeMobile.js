@@ -92,7 +92,7 @@ const manualPortrait = makeStyles(() => ({
     background: `url(${landingImage})`,
     backgroundSize: '110% auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '97% 57%',
+    backgroundPosition: '97% bottom',
   },
   addNewButton:{
     boxShadow:"none",
@@ -110,7 +110,6 @@ const manualPortrait = makeStyles(() => ({
     position:'relative',
     left:'0px',
     backgroundColor:'transparent',
-    top: '-10rem',
   },
 
 }));
@@ -196,7 +195,7 @@ const manualLandscape = makeStyles(() => ({
     background: `url(${landingImage})`,
     backgroundSize: '52% auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '100% 58%',
+    backgroundPosition: '100% bottom',
   },
   addNewButton:{
     boxShadow:"none",
@@ -214,7 +213,6 @@ const manualLandscape = makeStyles(() => ({
     position:'relative',
     left:'0px',
     backgroundColor:'transparent',
-    top: '-18vh',
   },
 
 }));
@@ -237,7 +235,7 @@ export default function HomeMobile({isLandscape}) {
     <div style={{background: "white"}}>
       <MetaData title={'Columbia Virtual Campus'}/>
       <CustomHeader active={''} brand={''}></CustomHeader>
-      <div className={classNames(manual.landing)} style={{height:"100vh", width:"100%"}}>
+      <div className={classNames(manual.landing)} style={{height: "70vh", width: "100%"}}>
         <div className={classNames(manual.text)}>
           <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
             Stay connected through
@@ -248,14 +246,14 @@ export default function HomeMobile({isLandscape}) {
           <h1 className={classNames(manual.toAllSubHeading)}>
             Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
           </h1>
-          <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
+          <Button color="vcColor"  size="md" className={classNames(manual.buttonExplore)}
             href="/events"
           >
             <span className={classNames(manual.buttonSpan1)}> EXPLORE </span>
           </Button>
         </div>
       </div>
-
+      <div style={{marginBottom: "10vh"}}/>
       <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign:'left'}}>
           <div className={classes.container} id="explore">
             <h1 style={{ textAlign: "center"}}
@@ -267,7 +265,7 @@ export default function HomeMobile({isLandscape}) {
               </h1>
             </div>
             <div style={{textAlign:'center'}}>
-              <Button color="vcColor"  size="lg" className={classNames(manual.buttonExplore)}
+              <Button color="vcColor"  size="md" className={classNames(manual.buttonExplore)}
                       active={true} target={'_blank'} rel="noopener noreferrer"
                       href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} >
                 <span className={classNames(manual.buttonSpan2)}>HOST A NEW EVENT</span>
