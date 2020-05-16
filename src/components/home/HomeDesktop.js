@@ -7,7 +7,7 @@ import styles from "../../assets/material-kit-assets/jss/material-kit-react/view
 import Button from "./../material-kit-components/CustomButtons/Button.js";
 import AddIcon from "@material-ui/icons/Add";
 import {MetaData, CustomTheme, CustomHeader} from "./../../components"
-import {isEdge} from "react-device-detect";
+import {isEdge, isExplorer} from "react-device-detect";
 
 const theme = CustomTheme;
 
@@ -123,35 +123,8 @@ const manualDepreciated = makeStyles(() => ({
     toAllSecondary: {
       color: "#BFD8E9",
     },
-    toAll2:{
-      margin:"0px"
-    },
-    button:{
-      boxShadow: 'none',
-      borderRadius: 30,
-      fontSize: '1.1rem',
-      width: 200,
-      border: '1px solid #4284C8',
-      backgroundColor: 'white',
-      paddingTop: 10,
-      paddingBottom: 10,
-      "&:hover": {
-        backgroundColor: '#4284C8',
-      },
-      "&:hover span": {
-        color: 'white !important',
-      },
-    },
-    marginBottomDynamic:{
-      marginTop: "30px",
-      color: '#FB750D',
-    },
-    buttonSpan1:{
+    buttonSpan:{
       width: "120px",
-      color: '#FB750D',
-    },
-    buttonSpan2:{
-      width: "200px",
       color: '#FB750D',
     },
     landingText:{
@@ -173,13 +146,12 @@ const manualDepreciated = makeStyles(() => ({
       boxShadow:"none",
       fontSize: 20,
     },
-    buttonExplore:{
+    button:{
       background: "#FFFFFF",
       border: "1px solid #FB750D",
       boxSizing: "border-box",
       borderRadius: "10px",
     },
-
     // Move events section up a little
     eventsSection: {
       position:'relative',
@@ -193,7 +165,7 @@ const manualDepreciated = makeStyles(() => ({
 export default function HomeDesktop() {
   const classes = useStyles();
   var manual;
-  if (isEdge) {
+  if (isEdge || isExplorer) {
     manual = manualDepreciated();
   } else {
     manual = manualSt();
