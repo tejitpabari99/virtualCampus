@@ -85,11 +85,92 @@ const manualSt = makeStyles(() => ({
 }));
 
 
+const manualDepreciated = makeStyles(() => ({
+  toAll: {
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    lineHeight: '4rem',
+    fontSize: '3rem',
+    color:'#0072CE',
+  },
+  toAllSubHeading: {
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '.75rem',
+    maxWidth: '58%',
+    marginTop: ".2rem",
+    marginBottom: "1.5rem",
+    lineHeight: '21px',
+    color:'#000000',
+  },
+  toAllSubHeadingUpEvents: {
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '20px',
+    marginTop: ".75rem",
+    marginBottom: "1.5rem",
+    maxWidth: '75%',
+    lineHeight: "30px",
+    margin: "auto",
+    color:'#000000',
+  },
+  toAllPrimary: {
+    color: "#0072CE",
+    marginTop: '0px',
+    marginBottom: '0px',
+    position: 'relative',
+    top: '-10px'
+  },
+  toAllSecondary: {
+    color: "#BFD8E9",
+    marginBottom: '0px',
+  },
+  buttonSpan:{
+    width: "120px",
+    color: '#FB750D',
+  },
+  landingText:{
+    margin: 0,
+    float: 'left',
+    marginLeft: '12%',
+    marginTop: "8%",
+    textAlign: 'left',
+  },
+  landing: {
+    background: `url(${landingImage})`,
+    backgroundSize: '60% auto',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right 34%',
+  },
+  addNewButton:{
+    boxShadow:"none",
+    fontSize: 20,
+  },
+  buttonExplore:{
+    background: "#FFFFFF",
+    border: "1px solid #FB750D",
+    boxSizing: "border-box",
+    borderRadius: "10px",
+  },
+
+  eventsSection: {
+    position:'relative',
+    left:'0px',
+    backgroundColor:'transparent',
+    top: '-8rem',
+  },
+
+}));
+
+
 export default function HomeDesktop() {
   const classes = useStyles();
   var manual;
   if (isEdge) {
-    manual = manualSt();
+    manual = manualDepreciated();
   } else {
     manual = manualSt();
   }
