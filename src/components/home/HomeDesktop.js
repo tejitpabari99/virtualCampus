@@ -64,7 +64,8 @@ const manualSt = makeStyles(() => ({
   },
   landing: {
     background: `url(${landingImage})`,
-    backgroundSize: 'max(min(90vw, 160vh), 250px) max(76vh, 100px)',
+    //backgroundSize: 'max(min(90vw, 160vh), 250px) max(76vh, 100px)',
+    backgroundSize: 'max(min(80vw, 120vh), 250px) auto',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right max(100%, 75px)',
     height: "max(84vh, 25vw)",
