@@ -26,7 +26,7 @@ class contactUs extends React.Component{
   }
 
   handleClick() {
-    console.log(this.state.from)
+    console.log(this.state.from);
     const data = {
       from: this.state.from,
       subject: this.state.subject,
