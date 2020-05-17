@@ -97,7 +97,7 @@ export default function HomeDesktop() {
               <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
                 Stay connected through
               </h1>
-              <h1 className={manual.toAll, manual.toAllPrimary}>
+              <h1 className={classNames(manual.toAll, manual.toAllPrimary)}>
                 Columbia Virtual Campus
               </h1>
               <h1 className={classNames(manual.toAllSubHeading)}>

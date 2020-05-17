@@ -7,7 +7,7 @@ class Index extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { width: 0, height: 0 };
+        this.state = { width: 0, height: -1 };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
@@ -27,6 +27,13 @@ class Index extends React.Component {
     // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
     render() {
 
+        if (this.state.height === -1) {
+            return (
+                <div>
+                    <HomeDesktop/>
+                </div>
+            );
+        }
         {/* For mobile's screen orientation update */}
         const isLandscape = this.state.width > this.state.height ? true : false;
 

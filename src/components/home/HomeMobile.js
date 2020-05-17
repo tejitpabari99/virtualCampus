@@ -68,11 +68,7 @@ const manualPortrait = makeStyles(() => ({
     height: "70vh",
     width: "100%"
   },
-  addNewButton:{
-    boxShadow:"none",
-    fontSize: 20,
-  },
-  buttonExplore:{
+  button:{
     background: "#FFFFFF",
     border: "1px solid #FB750D",
     boxSizing: "border-box",
@@ -143,11 +139,7 @@ const manualLandscape = makeStyles(() => ({
     height: "80vh",
     width: "100%"
   },
-  addNewButton:{
-    boxShadow:"none",
-    fontSize: 20,
-  },
-  buttonExplore:{
+  button:{
     background: "#FFFFFF",
     border: "1px solid #FB750D",
     boxSizing: "border-box",
@@ -190,7 +182,7 @@ export default function HomeMobile({isLandscape}) {
           <h1 className={classNames(manual.toAllSubHeading)}>
             Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
           </h1>
-          <Button color="vcColor"  size="md" className={classNames(manual.buttonExplore)}
+          <Button color="vcColor"  size="md" className={classNames(manual.button)}
             href="/events"
           >
             <span className={classNames(manual.buttonSpan)}> EXPLORE </span>
@@ -198,7 +190,7 @@ export default function HomeMobile({isLandscape}) {
         </div>
       </div>
 
-      <div style={{marginBottom: "5vh", background: "transparent"}}/>
+      <div style={{marginBottom: "5px", background: "transparent"}}/>
       <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign:'left',  background: "transparent"}}>
           <div className={classes.container} id="explore">
             <h1 style={{ textAlign: "center"}}
@@ -210,7 +202,7 @@ export default function HomeMobile({isLandscape}) {
               </h1>
             </div>
             <div style={{textAlign:'center'}}>
-              <Button color="vcColor"  size="md" className={classNames(manual.buttonExplore)}
+              <Button color="vcColor"  size="md" className={classNames(manual.button)}
                       active={true} target={'_blank'} rel="noopener noreferrer"
                       href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} >
                 <span className={classNames(manual.buttonSpan)}>HOST A NEW EVENT</span>
