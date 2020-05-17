@@ -42,6 +42,7 @@
     "react-add-to-calendar": "^0.1.5",
     "react-add-to-calendar-hoc": "^1.0.9",
     "react-big-calendar": "^0.24.4",
+    "react-device-detect": "^1.12.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^5.2.1",
     "react-share": "^4.1.0",
