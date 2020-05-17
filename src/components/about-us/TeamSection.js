@@ -28,6 +28,7 @@ import caroline from "../../assets/images/about-us/TeamMembers/caroline.jpg";
 import brendan from "../../assets/images/about-us/TeamMembers/brendan.jpg";
 import daniella from "../../assets/images/about-us/TeamMembers/daniella.jpeg";
 import luiz from "../../assets/images/about-us/TeamMembers/luiz.jpeg";
+import kevin from "../../assets/images/about-us/TeamMembers/kevin.jpg";
 
 
 const useStyles = makeStyles(styles);
@@ -160,7 +161,7 @@ export default function TeamSection() {
       <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> Study Spaces Team</h3>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
-        <GridItem xs={0} sm={0} md={2}/>
+        <GridItem xs={0} sm={0} md={1}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'22'} name={'Caitlyn Chen'} image={caitlyn} noDescription/>
         </GridItem>
@@ -170,9 +171,11 @@ export default function TeamSection() {
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'GS \'22'} name={'Ainur Kaishibayeva'} image={ainur} noDescription/>
         </GridItem>
-
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'Barnard \'21'} name={'Jacqueline Wang'} image={jacqueline} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'SEAS \'21'} name={'Kevin Mao'} image={kevin} noDescription/>
         </GridItem>
       </GridContainer>
       <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> Design Team</h3>
