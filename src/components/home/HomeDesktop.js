@@ -17,7 +17,7 @@ const manualSt = makeStyles(() => ({
     fontStyle: 'normal',
     fontWeight: 'normal',
     lineHeight: 'min(3.1rem, 5vw)',
-    fontSize: 'min(3.6rem, 3.9vw)',
+    fontSize: 'min(3.0rem, 3.3vw)',
     color:'#0072CE',
   },
   toAllSubHeading: {
@@ -29,7 +29,7 @@ const manualSt = makeStyles(() => ({
     color:'#000000',
   },
   toAllSubHeadingUpEvents: {
-    fontSize: 'min(1.5em, 1.7vw)',
+    fontSize: 'min(1.1em, 1.3vw)',
     marginTop: ".5rem",
     marginBottom: "1.25rem",
     maxWidth: 'min(60rem, 72vw)',
@@ -39,7 +39,7 @@ const manualSt = makeStyles(() => ({
   },
   toAllPrimary: {
     color: "#0072CE",
-    fontSize: 'min(3.6rem, 3.9vw)',
+    fontSize: 'min(3.0rem, 3.3vw)',
     marginTop: '0px',
     marginBottom: '0px',
     position: 'relative',
@@ -63,10 +63,11 @@ const manualSt = makeStyles(() => ({
   landing: {
     background: `url(${landingImage})`,
     //backgroundSize: 'max(min(90vw, 160vh), 250px) max(76vh, 100px)',
-    backgroundSize: 'max(min(80vw, 120vh), 250px) auto',
+    // backgroundSize: 'max(min(80vw, 120vh), 250px) auto',
+    backgroundSize: 'max(min(92vw, 132vh), 262px) auto',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right max(100%, 75px)',
-    height: "max(84vh, 25vw)",
+    height: "max(90vh, 31vw)",
     width: "100%",
   },
   button:{
@@ -119,8 +120,9 @@ export default function HomeDesktop() {
               </h1>
               <div style={{textAlign: "center"}}>
                 <h1 className={classNames(manual.toAllSubHeadingUpEvents)}>
-                  Do you or your club want to host your own event on Columbia Virtual Campus? Answer some short
-                  questions to get started!
+                  Do you or your club want to host your own event on Columbia Virtual Campus?
+                  <br/>
+                  Answer some short questions to get started!
                 </h1>
               </div>
               <div style={{textAlign: 'center'}}>
