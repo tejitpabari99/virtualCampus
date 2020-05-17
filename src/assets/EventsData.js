@@ -161,7 +161,7 @@ let eventsData = [
     hostedBy: 'Nakiri Gallagher-Cave',
   },
   {
-    display:true,
+    display:false,
     title: 'Columbia Virtual Campus Study Break',
     startTime: new Date(2020, 4, 12, 18),
     endTime: new Date(2020, 4, 12, 19),
