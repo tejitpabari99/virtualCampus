@@ -30,9 +30,8 @@ export default function TeamMember({image, name, position, description, linkedin
         <img src={image} alt="..." className={imageClasses} style={{width: '100%', height: '100%', paddingBottom:0}}/>
       </GridItem>}
       {noDescription &&
-      <GridItem xs={8} sm={8} md={8} className={classes.itemGrid}>
-        <img src={image} alt="..." className={imageClasses} />
-      </GridItem>}
+        <img src={image} alt="..." className={imageClasses} style={{width:'120px', height:'120px', marginLeft:'auto', marginRight:'auto', paddingBottom:0}}/>
+      }
       <h4 className={classNames(classes.cardTitle)} style={{fontSize: '20px'}}>
         {name}
         <br />
