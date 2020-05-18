@@ -1,7 +1,6 @@
 import React from "react"
-import HomeDesktop from "../components/home/HomeDesktop";
-import HomeMobile from "../components/home/HomeMobile";
 import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
+import {HomeDesktop, HomeMobile} from '../components'
 
 class Index extends React.Component {
 

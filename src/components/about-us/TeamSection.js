@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "../material-kit-components/Grid/GridContainer.js";
 import GridItem from "../material-kit-components/Grid/GridItem.js";
-import TeamMember from "./TeamMember";
+import {TeamMember, Heading} from '../'
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPageSections/teamStyle.js";
 
 import gitika from "../../assets/images/about-us/leads/gitika.jpg";
@@ -124,7 +124,8 @@ export default function TeamSection() {
         </GridItem>
       </GridContainer>
       <div style={{minHeight: '80px'}}/>
-      <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> Events Team</h3>
+
+      <Heading color={'blue'}>Events Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
         <GridItem xs={0} sm={0} md={2}/>
@@ -141,7 +142,8 @@ export default function TeamSection() {
           <TeamMember position={'CC \'21'} name={'Brendan Lim'} image={brendan} noDescription/>
         </GridItem>
       </GridContainer>
-      <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> Resources Team</h3>
+
+      <Heading color={'blue'}>Resources Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
         <GridItem xs={0} sm={0} md={2}/>
@@ -158,7 +160,8 @@ export default function TeamSection() {
           <TeamMember position={'SEAS \'23'} name={'Luiz do Valle'} image={luiz} noDescription/>
         </GridItem>
       </GridContainer>
-      <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> Study Spaces Team</h3>
+
+      <Heading color={'blue'}>Study Spaces Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
         <GridItem xs={0} sm={0} md={1}/>
@@ -178,7 +181,8 @@ export default function TeamSection() {
           <TeamMember position={'SEAS \'21'} name={'Kevin Mao'} image={kevin} noDescription/>
         </GridItem>
       </GridContainer>
-      <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> Design Team</h3>
+
+      <Heading color={'blue'}>Design Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
         <GridItem xs={0} sm={0} md={2}/>
@@ -190,10 +194,6 @@ export default function TeamSection() {
           <TeamMember position={'SEAS \'21'} name={'Hayun Chong'} image={hayun} noDescription/>
         </GridItem>
       </GridContainer>
-      {/*<h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> Communications Team</h3>*/}
-      {/*<GridContainer className={classes.section}*/}
-      {/*               style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>*/}
-      {/*</GridContainer>*/}
     </div>
   );
 }

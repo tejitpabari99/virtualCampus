@@ -4,10 +4,8 @@ import HomeEvents from './HomeEvents';
 import { makeStyles } from "@material-ui/core/styles";
 import landingImage from "../../assets/images/home/graphic.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import Button from "./../material-kit-components/CustomButtons/Button.js";
-import {MetaData, CustomTheme, CustomHeader} from "./../../components"
+import {MetaData, CustomHeader, CustomButton, Title, Subtitle} from "./../../components"
 
-const theme = CustomTheme;
 
 const useStyles = makeStyles(styles);
 
@@ -29,11 +27,9 @@ const manualSt = makeStyles(() => ({
     color:'#000000',
   },
   toAllSubHeadingUpEvents: {
-    fontSize: 'min(1.1em, 1.3vw)',
     marginTop: ".5rem",
     marginBottom: "1.25rem",
     maxWidth: 'min(60rem, 72vw)',
-    lineHeight: "min(2em, 2.1vw)",
     margin: "auto",
     color:'#000000',
   },
@@ -51,7 +47,7 @@ const manualSt = makeStyles(() => ({
   buttonSpan:{
     marginLeft: '1vw',
     marginRight: '1vw',
-    color: '#FB750D',
+    fontSize: '20px'
   },
   landingText:{
     margin: 0,
@@ -72,9 +68,14 @@ const manualSt = makeStyles(() => ({
   },
   button:{
     background: "#FFFFFF",
+    color: '#FB750D !important',
     border: "1px solid #FB750D",
     boxSizing: "border-box",
     borderRadius: "10px",
+    "&:hover,&:focus": {
+      color: 'white !important',
+      backgroundColor: '#FB750D',
+    },
   },
   eventsSection: {
     position:'relative',
@@ -104,33 +105,23 @@ export default function HomeDesktop() {
               <h1 className={classNames(manual.toAllSubHeading)}>
                 Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
               </h1>
-              <Button color="vcColor" size="lg" className={classNames(manual.button)}
-                      href="/events"
-              >
-                <span className={classNames(manual.buttonSpan)}> EXPLORE </span>
-              </Button>
+              <CustomButton href={"/events"} text={'EXPLORE'} color={"orange"} size={"large"}/>
             </div>
           </div>
 
           <div style={{marginBottom: "2.5vh", background: "transparent"}}/>
           <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign: 'left'}}>
             <div className={classes.container} id="explore">
-              <h1 style={{textAlign: "center"}}
-                  className={manual.toAll}> Upcoming Events
-              </h1>
+              <Title color={"blue"}>Upcoming Events</Title>
               <div style={{textAlign: "center"}}>
-                <h1 className={classNames(manual.toAllSubHeadingUpEvents)}>
+                <Subtitle color={'black'} className={manual.toAllSubHeadingUpEvents}>
                   Do you or your club want to host your own event on Columbia Virtual Campus?
-                  <br/>
-                  Answer some short questions to get started!
-                </h1>
+                  <br/> Answer some short questions to get started!
+                </Subtitle>
               </div>
               <div style={{textAlign: 'center'}}>
-                <Button color="vcColor" size="lg" className={classNames(manual.button)}
-                        active={true} target={'_blank'} rel="noopener noreferrer"
-                        href={'https://forms.gle/fzKvSZqkAVNN6cHY6'}>
-                  <span className={classNames(manual.buttonSpan)}>HOST A NEW EVENT</span>
-                </Button>
+                <CustomButton href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} text={'HOST A NEW EVENT'}
+                              color={"orange"} size={"large"}/>
                 <div style={{marginBottom: "40px"}}/>
               </div>
               <HomeEvents/>

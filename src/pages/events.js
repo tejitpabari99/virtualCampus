@@ -1,12 +1,10 @@
 import React from "react"
-import Template from "../components/all/Template";
 import { withStyles } from '@material-ui/core/styles';
-import Toolbar from "@material-ui/core/Toolbar";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import myEventsList from '../assets/EventsData'
-import Button from "../components/material-kit-components/CustomButtons/Button.js";
+import {MetaData, EventCard, EventModal, Template, CustomButton, Title} from '../components'
 import AddIcon from '@material-ui/icons/Add';
 
 
@@ -15,7 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 // import "firebase/firestore";
 import firebase from '../firebase';
 
-import {MetaData, EventCard, EventModal} from '../components'
+
 
 // import firebase from '../components/all/firebase';
 
@@ -105,16 +103,22 @@ class Events extends React.Component{
     return (
       <Template active={'schedule'}>
         <MetaData title={'Events'}/>
-        <div style={{marginTop:"0px"}}>
-          <h3 style={{textAlign:"center", color:"#4284C8", fontSize:"30px"}}> ALL EVENTS (IN EST) </h3>
-        </div>
+        <Title color={'blue'}>ALL EVENTS</Title>
         <div style={{textAlign:'center'}}>
-        <Button color="vcColor" size="sm" className={classes.addNewButton}
-                style={{marginTop: 20, marginBottom: 15}}
-                active={true} target={'_blank'} rel="noopener noreferrer"
-                href={'https://forms.gle/fzKvSZqkAVNN6cHY6'}> <AddIcon/> Add New Event
-        </Button>
+          <CustomButton href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} text={'ADD NEW EVENT'}
+                        style={{marginTop: 20, marginBottom: 25}} color={"orange"} size={"large"}/>
         </div>
+        {this.state.displayEvents.length>0 &&
+        <div style={{marginBottom:'5%'}}>
+        <h3 style={{textAlign:"left", color:'#F1945B', fontSize:"20px", fontWeight: 100}} > MAY 2020</h3>
+        <div style={{ color: '#F1945B', backgroundColor: '#F1945B', height: 3 }}/>
+          {this.state.displayEvents.map((ele) => {
+            if(ele.display) {
+              return(<EventCard ele={ele} onClick={() => this.attendEvent(ele)}/>)
+            }
+            return null
+          })}
+        </div>}
         <Calendar
           views={['week', 'day']}
           localizer={localizer}
@@ -134,17 +138,6 @@ class Events extends React.Component{
           formats={{ eventTimeRangeFormat: () => null }}
         />
         {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/> }
-        <Toolbar />
-          {this.state.displayEvents.length>0 && <div>
-          <h3 style={{textAlign:"left", color:'#F1945B', fontSize:"20px", fontWeight: 100}} > MAY 2020</h3>
-          <div style={{ color: '#F1945B', backgroundColor: '#F1945B', height: 3 }}/>
-            {this.state.displayEvents.map((ele) => {
-              if(ele.display) {
-                return(<EventCard ele={ele} onClick={() => this.attendEvent(ele)}/>)
-              }
-              return null
-            })}
-        </div>}
       </Template>
     )
   }
