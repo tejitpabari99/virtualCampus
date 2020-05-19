@@ -6,18 +6,23 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
+def log(message):
+    print(message, file=sys.stderr, flush=True)
+
 if __name__ == "__main__":
     
     argv = sys.argv
 
-    if len(argv) != 2:
-        print("usage: ./firebase.py <filepath>", file=sys.stderr, flush=True)
+    if len(argv) != 3:
+        log("usage: ./firebase.py <filepath> <servicekey>")
         sys.exit()
 
     # Parse command line arguments
     filepath = argv[1]
+    service_key = argv[2]
 
     # Read CSV file into a Pandas DataFrame
+    log("\nReading data from " + filepath)
     resources_df = pd.read_csv(filepath)
 
     # Clean dataframe
@@ -28,13 +33,18 @@ if __name__ == "__main__":
     resources_df = resources_df.applymap(str)
     resources_df["category"] = resources_df["category"].str.lower()
     resources_df["subcategory"] = resources_df["subcategory"].str.lower()
+    resources_df["reviewed"] = resources_df["reviewed"].str.lower()
+    resources_df["reviewed"] = resources_df["reviewed"].map({"true": True, "false": False})
 
     # Initailize Cloud Firestore
-    cred = credentials.Certificate("ServiceKey.json")
+    log("\nInitializing Cloud Firestore with key " + service_key)
+    cred = credentials.Certificate(service_key)
     firebase_admin.initialize_app(cred)
     db = firestore.client()
 
     # Add data to Firestore
+    log("\nAdding data to firestore...")
+    added = 0
     for index, row in resources_df.iterrows():
         data = {
             "category": {
@@ -42,13 +52,21 @@ if __name__ == "__main__":
                 "subcategory": row["subcategory"],
             },
             "description": row["description"],
+            "reviewed": row["reviewed"],
             "img": row["image link"],
             "links": {
                 "androidLink": row["android link"],
+                "cardLink": row["card link"],
                 "facebook": row["facebook"],
                 "iosLink": row["ios link"],
                 "website": row["website"],
             },
-            "title": row["resource name"]
+            "title": row["resource name"],
         }
-        db.document("resources/" + row["category"] + "/" + row["resource name"] + "/" + row["resource name"]).set(data)
+        path = "resources/" + row["category"] + "/" + row["resource name"] + "/" + row["resource name"]
+        db.document(path).set(data)
+        added += 1
+        log("\tAdded " + row["resource name"] + " to " + path)
+    
+    log("\nAdded " + str(added) + " entries to Firestore")
+    
