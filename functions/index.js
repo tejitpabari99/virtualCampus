@@ -32,18 +32,51 @@ exports.contactUs = functions.https.onRequest((req, res) => {
       from: req.body.from,
       replyTo: req.body.from,
       to: 'columbiavirtualcampus@gmail.com',
-      subject: "CONTACT US: "+req.body.subject,
+      subject: "CONTACT US: " + req.body.subject,
       text: req.body.text,
       html: `<p>${req.body.text}</p>`
     };
 
     mailTransport.sendMail(mailOptions)
-      .then(()=>{
+      .then(() => {
         return res.status(200).send("sucess");
-      }).catch((err)=>{
-      return res.status(500).send(err);
-    });
+      }).catch((err) => {
+        return res.status(500).send(err);
+      });
 
   });
 
 });
+
+// exports.approveEvent = functions.https.onRequest((req, res) => {
+//   cors(req, res, () => {
+//     if (req.method !== 'GET') {
+//       return;
+//     }
+
+//     // var existingEvent = db.collection('events').doc(req);
+//     var approvedEvent = db.collection('approvedEvents').doc();
+
+//     approvedEvent.set(req)
+//       .then(() => {
+//         console.log("Document written", ref)
+//         return;
+
+//         // Axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/contactUs', emailData)
+//         //   .then(res => {
+//         //     this.setState({ feedbackSubmit: true })
+//         //     console.log(res)
+//         //   })
+//         //   .catch(error => {
+//         //     console.log(error);
+//         //   });
+//       })
+//       .catch(function (error) {
+//         console.error("Error adding document: ", error);
+//         return
+//       });
+
+//   })
+// });
+
+
