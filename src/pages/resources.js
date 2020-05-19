@@ -20,7 +20,7 @@ export default function Resources() {
             <MetaData title={'Resources'}/>
           <Title color={'blue'}>RESOURCES</Title>
             <div style={{textAlign:'center'}}>
-              <CustomButton text={"ADD NEW RESOURCES"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
+              <CustomButton text={"ADD NEW RESOURCES"} href={"resources-form"}
                             color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
             </div>
             <ResourcesList />
