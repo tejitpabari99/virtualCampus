@@ -38,7 +38,11 @@ class contactUs extends React.Component {
 
         var emailData = {
             from: this.state.from,
+<<<<<<< HEAD
             subject: this.state.subject
+=======
+            subject: this.state.subjects
+>>>>>>> 810326e1287350d2aca43480154d37323f919133
         }
 
 
