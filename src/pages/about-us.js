@@ -1,13 +1,12 @@
 import React from "react"
-import {MetaData, TeamSection, Template} from "../components";
+import {MetaData, TeamSection, Template, Title} from "../components";
 
 export default function IndexPage() {
     return (
         <Template active={'about-us'}>
             <MetaData title={'About Us'}/>
             <div style={{textAlign:'center', width:'60%', marginLeft:'auto', marginRight:'auto', marginTop:'5%'}}>
-                <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> ABOUT US
-                </h3>
+              <Title>ABOUT US</Title>
                 <div>
                     <div style={{minHeight: '20px'}}/>
                     <h6 style={{textAlign:'center', color:"#999", fontSize: "18px", textTransform:"none"}}>
@@ -21,8 +20,8 @@ export default function IndexPage() {
 
             <div style={{minHeight: '80px'}}/>
 
-            <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> OUR TEAM</h3>
-            <TeamSection ></TeamSection>
+          <Title>Our Team</Title>
+            <TeamSection />
             <div style={{minHeight: '60px'}}/>
         </Template>
     );

@@ -2,7 +2,7 @@ import React from "react"
 import Button from "../material-kit-components/CustomButtons/Button.js";
 import myEventsList from '../../assets/EventsData'
 import { withStyles } from "@material-ui/core/styles";
-import {EventCard, EventModal} from '../'
+import {EventCard, EventModal, CustomButton} from '../'
 
 const useStyles = () => ({
     button4: {
@@ -79,8 +79,7 @@ class Events extends React.Component{
                     })}
                 </div>
                 {this.state.displayEvents.length>0 && <div style={{textAlign:"center"}}>
-                    <Button round className={classes.button4} href={'/events'}
-                            style={{color:'white'}}> See More </Button>
+                    <CustomButton text={'SEE MORE'} href={'/events'} size={"small"} color={"orange"} rounded/>
                 </div>}
             </div>
         )
