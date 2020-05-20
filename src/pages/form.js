@@ -21,7 +21,9 @@ class contactUs extends React.Component {
             subject: '',
             from: '',
             text: '',
-            feedbackSubmit: false
+            feedbackSubmit: false,
+            //approvalUrl: 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent/'
+            approvalUrl: 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/addEvent/'
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -38,7 +40,8 @@ class contactUs extends React.Component {
 
         var emailData = {
             from: this.state.from,
-            subject: this.state.subject
+            subject: "NEW EVENT: " + this.state.subject,
+            text: this.state.text
         }
 
 
@@ -46,7 +49,7 @@ class contactUs extends React.Component {
         var newEventRef = db.collection('events').doc();
 
         console.log('newEventRef id:', newEventRef.id);
-        emailData['text'] = String(newEventRef.id);
+        emailData['text'] = emailData['text'].concat('Click here to approve this event: ', this.state.approvalUrl.concat(newEventRef.id)) //+ String(newEventRef.id);
 
         newEventRef.set(data)
             .then(ref => {
