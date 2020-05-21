@@ -23,7 +23,7 @@ class contactUs extends React.Component {
             text: '',
             feedbackSubmit: false,
             //approvalUrl: 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent/'
-            approvalUrl: 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/addEvent/'
+            approvalUrl: 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId='
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -35,7 +35,8 @@ class contactUs extends React.Component {
             // TODO this should be all the fields in the form
             from: this.state.from,
             subject: this.state.subject,
-            text: this.state.text
+            text: this.state.text,
+            approved: false
         }
 
         var emailData = {
@@ -47,9 +48,9 @@ class contactUs extends React.Component {
 
         var db = firebase.firestore();
         var newEventRef = db.collection('events').doc();
+        console.log('new event ref id:', newEventRef.id);
 
-        console.log('newEventRef id:', newEventRef.id);
-        emailData['text'] = emailData['text'].concat('Click here to approve this event: ', this.state.approvalUrl.concat(newEventRef.id)) //+ String(newEventRef.id);
+        emailData['text'] = emailData['text'].concat('Click here to approve this event: ', this.state.approvalUrl.concat(newEventRef.id))
 
         newEventRef.set(data)
             .then(ref => {
