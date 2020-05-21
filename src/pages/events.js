@@ -54,32 +54,16 @@ class Events extends React.Component {
     this.state.displayEvents = arr;
   }
 
-  async componentDidMount() {
+  async getApprovedEvents() {
     var db = firebase.firestore();
-    var approvedEvents = await db.collection('approvedEvents').get();
 
-    var approvedEventsMap = approvedEvents.docs.map(doc => doc.data()['id'])
+    var approvedEvents = await db.collection('events').where("approved", "==", true).get();
+    var approvedEventsMap = approvedEvents.docs.map(doc => doc.data())
     var eventsData = [];
 
-    for (const eventId of approvedEventsMap) {
-      console.log(eventId);
+    eventsData.push(approvedEventsMap);
 
-      await db.collection('events').doc(eventId)
-        .get().then(function (doc) {
-          if (doc.exists) {
-            var eventData = doc.data();
-            console.log(eventData.toString());
-
-            eventsData.push(eventData);
-          } else {
-            console.log("Error: No such document!")
-          }
-        }).catch(function (error) {
-          console.log("Error getting document:", error)
-        });
-
-    };
-    this.setState({ eventsData: eventsData })
+    this.setState({ eventsData: JSON.stringify(eventsData) })
   }
 
   formatTime(hours, min) {
@@ -117,9 +101,6 @@ class Events extends React.Component {
     return (
       <Template active={'schedule'}>
         <MetaData title={'Events'} />
-        <div>
-          <p>{JSON.stringify(this.state.eventsData)}</p>
-        </div>
         <div style={{ marginTop: "0px" }}>
           <h3 style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }}> ALL EVENTS (IN EST) </h3>
         </div>
