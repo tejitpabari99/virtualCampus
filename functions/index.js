@@ -49,22 +49,17 @@ exports.contactUs = functions.https.onRequest((req, res) => {
 });
 
 exports.approveEvent = functions.https.onRequest((req, res) => {
-  cors(req, res, () => {
-    if (req.method !== 'GET') {
-      return;
-    }
-
-    // var existingEvent = db.collection('events').doc(req);
-    var approvedEvent = db.collection('approvedEvents').doc();
-
-    approvedEvent.set(req)
-      .then(() => {
-        console.log("Document written", ref)
+  cors(req,
+    res, () => {
+      if (req.method !== 'GET') {
         return;
-      })
-      .catch(error => error)
-  });
-
+      }
+      var db = admin.firestore();
+      db.collection('events').doc(req.query.eventId).update({ approved: true })
+        .then(() => {
+          return res.status(200).send("sucess");
+        }).catch((err) => {
+          return res.status(500).send(err);
+        });
+    });
 });
-
-
