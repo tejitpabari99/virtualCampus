@@ -109,9 +109,9 @@ class Events extends React.Component{
                         style={{marginTop: 20, marginBottom: 25}} color={"orange"} size={"large"}/>
         </div>
         {this.state.displayEvents.length>0 &&
-        <div style={{marginBottom:'5%'}}>
+        <div style={{marginBottom:'5%', marginLeft: '-75px'}}>
         <h3 style={{textAlign:"left", color:'#F1945B', fontSize:"20px", fontWeight: 100}} > MAY 2020</h3>
-        <div style={{ color: '#F1945B', backgroundColor: '#F1945B', height: 3 }}/>
+        <div style={{ color: '#F1945B', backgroundColor: '#F1945B', height: 3,  width: "1250px"}}/>
           {this.state.displayEvents.map((ele) => {
             if(ele.display) {
               return(<EventCard ele={ele} onClick={() => this.attendEvent(ele)}/>)

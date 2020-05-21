@@ -6,6 +6,9 @@ import React from "react";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
 import CustomTheme from "../all/CustomTheme";
 import { makeStyles } from "@material-ui/core/styles";
+import CustomButton from '../buttons/CustomButton';
+import AddCalendar from "../events/AddCalendar";
+import Circle from 'react-simple-shapes';
 const theme = CustomTheme;
 
 const months = {
@@ -46,51 +49,100 @@ const useStyles = makeStyles(() => ({
         },
         [theme.breakpoints.up('lg')]:{
             display:"flex", flexDirection:"row",
-        }
+        },
+        boxShadow: "none",
+        marginTop: "0px",
+        marginBottom: "5px"
     },
     cardTitle,
-    button:{
-        boxShadow:"none",
-        marginTop: 0,
-        marginBottom: 0
+    eventTitle: {
+        color: 'black',
+        position: "relative",
+        marginLeft: "4.32px",
+        marginRight: "6.56px",
+        marginTop: "1.79px",
+        marginBottom: "11.204px",
+        fontSize:25,
+        width: "700px",
     },
-    button2:{
-        boxShadow:"none",
-        height:"50px",
-        margin:"0px",
-        float:"right",
-        right:0,
-        fontSize:15,
-        top:0,
-        position:"absolute",
-        borderBottomLeftRadius:"15px",
-        backgroundColor: '#F1945B',
-        color:'white !important',
-        "&:hover": {
-            backgroundColor: 'white',
-            color: '#F1945B !important'
-        },
-        "&:focus": {
-            backgroundColor: '#F1945B',
-            color: 'white !important',
-        },
+    eventHost: {
+        color: '#0072CE',
+        position: "relative",
+        marginLeft: "9.11px",
+        marginRight: "5.02px",
+        marginTop: "2.34px",
+        marginBottom: "11.51px",
+        fontSize:20,
+        display: "inline",
+        width: "700px"
     },
-    cardbody:{
+    timeInfo: {
+        color: 'gray',
+        position: "absolute",
+        marginLeft: "4.32px",
+        marginRight: "9.61px",
+        marginTop: "4.68px",
+        marginBottom: "9.82px",
+        flexDirection: 'row'
+    },
+    middleDot: {
+      height: "5px",
+      width: "5px",
+      marginLeft: "145px",
+      backgroundColor: 'gray',
+      borderRadius: "50%",
+      display: "inline-block",
+      flexDirection: 'row'
+    },
+    tagInfo: {
+        color: 'gray',
+        position: "absolute",
+        marginLeft: "10px",
+        marginTop: "3px",
+        flexDirection: 'row'
+    },
+    cardbody: {
         padding: 10,
         paddingLeft: 20,
-        paddnigRight: 20
+        paddingRight: 20
     },
-    button3:{
-        boxShadow:"none",
-        backgroundColor:"#BFD8E950",
-        margin:"15px",
-        marginLeft:"0px",
-        marginTop: 0,
-        marginBottom: 0
+    flexBox: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     },
-    image:{
-        borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"200px",
-        paddingBottom:0, marginLeft:0,
+    flexBox2: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        padding: 10,
+        paddingLeft: 20,
+        paddingRight: 20
+    },
+    imageBox: {
+        position: "absolute",
+        top: "40px",
+        left: "40px",
+        backgroundColor: '#F2F9FD',
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        borderRadius: "5.51px",
+        height: "95px",
+        width: "95px"
+    },
+    dateText: {
+      color: '#0072CE',
+      fontSize: 31,
+      textAlign: "center"
+    },
+    monthText: {
+      color: '#0072CE',
+      fontSize: 17.62,
+      textAlign: "center"
+    },
+    image: {
+        borderRadius: "11px",
+        width:"300px",
+        paddingBottom:0,
+        margin:15,
         height: "200px",
         [theme.breakpoints.up('xs')]:{
             display:'none'
@@ -99,65 +151,78 @@ const useStyles = makeStyles(() => ({
             display:'none'
         },
         [theme.breakpoints.up('md')]:{
-            width:"200px",
+            width:"300px",
             height: "200px",
             display:'block'
         },
         [theme.breakpoints.up('lg')]:{
-            width:"200px",
+            width:"300px",
             height: "200px",
             display:'block'
-        }
+        },
+        objectFit: "cover",
     }
 }));
 
 export default function EventCard({ele, onClick}) {
     const classes = useStyles();
     return(
-        <Card className={classes.card}>
-            <img className={classes.image} src={ele.imgLink}/>
-            <CardBody className={classes.cardbody}>
-                <h4 style={{ color: "#4284C8", marginRight: 90, marginTop:0  }}
-                    >{ele.title}</h4>
-                <Button
-                    className={classes.button3}
-                    size="sm"
-                    round
-                    disabled
-                >
-                    {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
-                </Button>
-                <Button
-                    className={classes.button3}
-                    size="sm"
-                    round
-                    disabled
-                >
-                    {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} EST
-                </Button>
-                {ele.tags.map((ta, ind) => {
-                    return (
-                        <Button
-                            key={ind}
-                            color="vcColor"
-                            className={classNames(classes.navLink, classes.button)}
-                            size="sm"
-                            round
-                            disabled
-                            active={true}
-                        >
-                            {ta}
-                        </Button>
-                    )
-                })}
-                <p style={{ color: "#4284C8", minHeight: 75, marginBottom:0, marginTop: 10 }}>{ele.description}</p>
-                <p style={{ color: "#4284C8", marginBottom: 0, marginTop: 5 }}>
-                    <strong>Hosted By: </strong> {ele.hostedBy}
-                </p>
-            </CardBody>
-            <Button color="vcColor" size="sm" className={classes.button2}
-                    active={true} onClick={onClick}
-                    target={'_blank'} rel="noopener noreferrer"> Attend </Button>
-        </Card>
+
+        <div style={{margin:"10px", marginLeft: "0px", width: "1250px"}}>
+            <Card className={classes.card}>
+
+                <div className={classes.flexBox}>
+                    <img className={classes.image} src={ele.imgLink} />
+                    <div className={classes.imageBox}>
+                      <p className={classes.dateText}>{ele.startTime.getDate()}</p>
+                      <p className={classes.monthText}>{months[ele.startTime.getMonth()]}</p>
+                    </div>
+                </div>
+
+                <div className={classes.flexBox2}>
+                    <p className={classes.eventTitle}>
+                        {ele.title}
+                        <span className={classes.eventHost}>{ele.hostedBy}</span>
+                    </p>
+
+                    <div style={{marginTop: "-10px"}}>
+                        <div className={classes.timeInfo}>
+                            {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} -
+                            {formatTime(ele.endTime.getHours(), ele.endTime.getMinutes())} EST
+                        </div>
+                        <span className={classes.middleDot}></span>
+                        <span className={classes.tagInfo}>
+                            {ele.tags.map((ta, ind) => {
+                                return (
+                                  <div>
+                                    {ta}
+                                  </div>
+                                )
+                            })}
+                        </span>
+                    </div>
+                    <div style={{margin:"15px"}}> </div>
+                    <p style={{color: "black", minHeight: 75, marginBottom: 0, marginTop: 5, marginLeft: 4.32, maxWidth: 600}}>{ele.description}</p>
+
+                    <div style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
+                        <strong><AddCalendar info={ele}/></strong>
+                    </div>
+                </div>
+
+                <div className={classes.flexBox2}>
+                        <div style={{textAlign:'left'}}>
+                            <CustomButton href={ele.website} text={'WEBSITE'}
+                                          style={{position: "relative", marginTop: "80px", marginBottom: "10px", marginLeft: "-70px", width: 200}} color={"blue"} size={"medium"}/>
+                        </div>
+                        <div style={{textAlign:'left'}}>
+                            <CustomButton href={ele.eventLink[0].link} text={'CONNECT'}
+                                      style={{position: "relative", marginTop: "5px", marginBottom: "10px", marginLeft: "-70px", width: 200}} color={"blue"} size={"medium"}/>
+                        </div>
+                </div>
+                <div style={{marginBottom:"-20px"}}></div>
+            </Card>
+            <div style={{ color: '#4284C8', backgroundColor: '#4284C8', height: 3 }}></div>
+        </div>
+
     )
 }
