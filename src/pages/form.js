@@ -50,13 +50,13 @@ class contactUs extends React.Component {
         var newEventRef = db.collection('events').doc();
         console.log('new event ref id:', newEventRef.id);
 
-        emailData['text'] = emailData['text'].concat('Click here to approve this event: ', this.state.approvalUrl.concat(newEventRef.id))
+        emailData['text'] = emailData['text'].concat('\nClick here to approve this event: ', this.state.approvalUrl.concat(newEventRef.id))
 
         newEventRef.set(data)
             .then(ref => {
                 console.log("Document written", ref)
 
-                Axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/contactUs', emailData)
+                Axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail', emailData)
                     .then(res => {
                         this.setState({ feedbackSubmit: true })
                         console.log(res)

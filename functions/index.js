@@ -22,7 +22,7 @@ const mailTransport = nodemailer.createTransport({
   }
 });
 
-exports.contactUs = functions.https.onRequest((req, res) => {
+exports.sendEmail = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     if (req.method !== 'POST') {
       return;
@@ -32,14 +32,14 @@ exports.contactUs = functions.https.onRequest((req, res) => {
       from: req.body.from,
       replyTo: req.body.from,
       to: 'columbiavirtualcampus@gmail.com',
-      subject: "CONTACT US: " + req.body.subject,
+      subject: req.body.subject,
       text: req.body.text,
       html: `<p>${req.body.text}</p>`
     };
 
     mailTransport.sendMail(mailOptions)
       .then(() => {
-        return res.status(200).send("sucess");
+        return res.status(200).send("success");
       }).catch((err) => {
         return res.status(500).send(err);
       });
@@ -57,7 +57,7 @@ exports.approveEvent = functions.https.onRequest((req, res) => {
       var db = admin.firestore();
       db.collection('events').doc(req.query.eventId).update({ approved: true })
         .then(() => {
-          return res.status(200).send("sucess");
+          return res.status(200).send("success");
         }).catch((err) => {
           return res.status(500).send(err);
         });
