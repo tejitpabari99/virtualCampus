@@ -1,8 +1,9 @@
+import InputAdornment from "@material-ui/core/InputAdornment";
 import EmailIcon from "@material-ui/icons/Email";
 import MessageIcon from "@material-ui/icons/Message";
 import PersonIcon from "@material-ui/icons/Person";
 import Axios from "axios";
-import { default as React, default as React } from "react";
+import React from "react";
 import { CustomButton, MetaData, Template, Title } from "../components";
 import CustomInput from "../components/material-kit-components/CustomInput/CustomInput.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";

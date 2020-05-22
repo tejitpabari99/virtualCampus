@@ -1,13 +1,10 @@
 import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-import { default as React, default as React } from "react";
+import React from "react";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import myEventsList from '../assets/EventsData';
 import { CustomButton, EventCard, EventModal, MetaData, Template, Title } from '../components';
-// import * as firebase from "firebase/app";
-// import "firebase/auth";
-// import "firebase/firestore";
 import firebase from '../firebase';
 
 
@@ -51,14 +48,11 @@ class Events extends React.Component {
     this.state.displayEvents = arr;
   }
 
-  async getApprovedEvents() {
+  async componentDidMount() {
     var db = firebase.firestore();
 
     var approvedEvents = await db.collection('events').where("approved", "==", true).get();
     var approvedEventsMap = approvedEvents.docs.map(doc => doc.data())
-    var eventsData = [];
-
-    eventsData.push(approvedEventsMap);
 
     this.setState({ eventsData: approvedEventsMap })
   }
