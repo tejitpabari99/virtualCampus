@@ -1,14 +1,11 @@
-import React from "react"
-import classNames from "classnames";
-import HomeEvents from './HomeEvents';
 import { makeStyles } from "@material-ui/core/styles";
+import classNames from "classnames";
+import React from "react";
+import { CustomButton, CustomHeader, MetaData, Title } from "../";
 import landingImage from "../../assets/images/home/graphic.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import Button from "./../material-kit-components/CustomButtons/Button.js";
-import AddIcon from "@material-ui/icons/Add";
-import {MetaData, CustomTheme, CustomHeader} from "./../../components"
+import HomeEvents from './HomeEvents';
 
-const theme = CustomTheme;
 
 const useStyles = makeStyles(styles);
 
@@ -19,7 +16,7 @@ const manualPortrait = makeStyles(() => ({
     fontWeight: 'normal',
     lineHeight: '1.2rem',
     fontSize: '1.5rem',
-    color:'#0072CE',
+    color: '#0072CE',
   },
   toAllSubHeading: {
     fontFamily: 'Poppins',
@@ -30,7 +27,7 @@ const manualPortrait = makeStyles(() => ({
     marginTop: "1.5rem",
     marginBottom: "1.5rem",
     lineHeight: '18px',
-    color:'#000000',
+    color: '#000000',
   },
   toAllSubHeadingUpEvents: {
     fontFamily: 'Poppins',
@@ -41,24 +38,24 @@ const manualPortrait = makeStyles(() => ({
     marginBottom: "1.5rem",
     maxWidth: '93%',
     margin: "auto",
-    color:'#000000',
+    color: '#000000',
   },
   toAllSecondary: {
     color: "#BFD8E9",
     lineHeight: ".2rem",
   },
-  buttonSpan:{
+  buttonSpan: {
     paddingLeft: "1px",
     paddingRight: "1px",
     color: '#FB750D',
   },
-  landingText:{
+  landingText: {
     margin: '0',
-    float:'left',
+    float: 'left',
     marginLeft: '5%',
     marginTop: "20%" ,
     textAlign:'left',
-    width: 'auto'
+    width: 'au to'
   },
   landing: {
     background: `url(${landingImage})`,
@@ -69,16 +66,16 @@ const manualPortrait = makeStyles(() => ({
     width: "100%"
   },
   button:{
-    background: "#FFFFFF",
+    backg round: "#FFFFFF",
     border: "1px solid #FB750D",
     boxSizing: "border-box",
     borderRadius: "10px",
   },
   eventsSection: {
     position:'relative',
-    left:'0px',
-    backgroundColor:'transparent',
-  },
+    left:'0px ',
+    backg roundColor:'transparent',
+  }, 
 
 }));
 
@@ -91,7 +88,7 @@ const manualLandscape = makeStyles(() => ({
     lineHeight: '1.2rem',
     fontSize: '1.5rem',
     color:'#0072CE',
-  },
+  }, 
   toAllSubHeading: {
     fontFamily: 'Poppins',
     fontStyle: 'normal',
@@ -102,7 +99,7 @@ const manualLandscape = makeStyles(() => ({
     marginBottom: "1.5rem",
     lineHeight: '18px',
     color:'#000000',
-  },
+  }, 
   toAllSubHeadingUpEvents: {
     fontFamily: 'Poppins',
     fontStyle: 'normal',
@@ -113,24 +110,24 @@ const manualLandscape = makeStyles(() => ({
     maxWidth: '93%',
     margin: "auto",
     color:'#000000',
-  },
+  }, 
   toAllSecondary: {
     color: "#BFD8E9",
     lineHeight: ".2rem",
   },
   buttonSpan:{
-    paddingLeft: "1px",
+    paddingLe ft: "1px",
     paddingRight: "1px",
     color: '#FB750D',
   },
   landingText:{
-    margin: '0',
+    margin: '0 ',
     float:'left',
-    marginLeft: '12%',
+    margin Left: '12%',
     marginTop: "3%" ,
     textAlign:'left',
     width: 'auto'
-  },
+  }, 
   landing: {
     background: `url(${landingImage})`,
     backgroundSize: '52% auto',
@@ -141,20 +138,20 @@ const manualLandscape = makeStyles(() => ({
   },
   button:{
     background: "#FFFFFF",
-    border: "1px solid #FB750D",
+    borde r: "1px solid #FB750D",
     boxSizing: "border-box",
     borderRadius: "10px",
   },
   eventsSection: {
     position:'relative',
     left:'0px',
-    backgroundColor:'transparent',
-  },
-
+    backgroun dColor:'transparent',
+  }, 
+ 
 }));
 export default function HomeMobile({isLandscape}) {
   const classes = useStyles();
-  var manual;
+  var manual;  
   if (isLandscape) {
 
     // Process the landscape style
@@ -170,49 +167,41 @@ export default function HomeMobile({isLandscape}) {
   return (
     <div style={{background: "white"}}>
       <MetaData title={'Columbia Virtual Campus'}/>
-      <CustomHeader active={''} brand={''}></CustomHeader>
-      <div className={classNames(manual.landing)} >
-        <div className={classNames(manual.landingText)}>
+      <CustomHead er active={''} bran d={''}/>
+      <div className={classNames(manual.landing)}  >
+        <div className={classNames(manual. landingText)}>
           <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
             Stay connected through
           </h1>
-          <h1 className={manual.toAll}>
+            1 className={manual.toAll}>
             Columbia Virtual Campus
           </h1>
-          <h1 className={classNames(manual.toAllSubHeading)}>
+            1 className={classNames(manual.toAllSubHeading)}>
             Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
           </h1>
-          <Button color="vcColor"  size="md" className={classNames(manual.button)}
-            href="/events"
-          >
-            <span className={classNames(manual.buttonSpan)}> EXPLORE </span>
-          </Button>
+            ustomButton href={"/events"} text={'EXPLORE'} color={"orange"} size={"large"}/>
         </div>
-      </div>
+      </div> 
 
       <div style={{marginBottom: "5px", background: "transparent"}}/>
       <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign:'left',  background: "transparent"}}>
-          <div className={classes.container} id="explore">
-            <h1 style={{ textAlign: "center"}}
-                className={manual.toAll}> Upcoming Events
+          <div clas sName={classes.container} id="explore">  
+            <Title color={"blue"}>Upcoming Events</Title>    
+          <div style={{textAlign: "center"}}>
+            <h1 className={classNames(manual.toAllSubHeadingUpEvents)}>
+              Do you or  your club want to  host your own event on Columbia Virtual Campus? Answer some short questions to get started!
             </h1>
-            <div style={{textAlign: "center"}}>
-              <h1 className={classNames(manual.toAllSubHeadingUpEvents)}>
-                Do you or your club want to host your own event on Columbia Virtual Campus? Answer some short questions to get started!
-              </h1>
-            </div>
+              v>
             <div style={{textAlign:'center'}}>
-              <Button color="vcColor"  size="md" className={classNames(manual.button)}
-                      active={true} target={'_blank'} rel="noopener noreferrer"
-                      href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} >
-                <span className={classNames(manual.buttonSpan)}>HOST A NEW EVENT</span>
-              </Button>
-              <div style={{marginBottom: "40px"}}/>
-            </div>
-            <HomeEvents/>
-            <div style={{marginBottom: "100px"}}/>
-          </div>
-      </div>
-    </div>
-    )
+            <CustomButton href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} text={'HOST A NEW EVENT'}
+                           color={ "orange" } size={"large"}/>
+            <div style={{marginBottom: "40px"}}/>
+               
+            omeEvents/>   
+          <div style={{marginBottom: "100px"}}/>
+          div> 
+             
+        
+
+    return;
 };
