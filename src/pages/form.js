@@ -22,7 +22,6 @@ class contactUs extends React.Component {
             from: '',
             text: '',
             feedbackSubmit: false,
-            //approvalUrl: 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent/'
             approvalUrl: 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId='
         };
 
