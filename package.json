@@ -5,8 +5,10 @@
   "version": "0.1.0",
   "author": "ColumbiaVirtualCampus",
   "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.9.14",
     "@mui-treasury/styles": "latest",
     "@types/react-add-to-calendar": "^0.1.0",
@@ -14,6 +16,9 @@
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
     "firebase": "^7.14.2",
+    "formik": "^2.1.4",
+    "formik-material-ui": "^2.0.0-beta.1",
+    "formik-material-ui-pickers": "0.0.8",
     "gatsby": "^2.21.33",
     "gatsby-image": "^2.2.44",
     "gatsby-plugin-google-analytics": "^2.2.2",
@@ -33,6 +38,7 @@
     "gatsby-transformer-sharp": "^2.5.2",
     "luxon": "^1.23.0",
     "markdown-to-jsx": "^6.11.0",
+    "material-ui-formik-components": "^0.7.1",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.28",
     "node-sass": "^4.14.1",
@@ -49,7 +55,8 @@
     "reactstrap": "^8.4.1",
     "save": "^2.4.0",
     "smooth-scroll": "^16.1.3",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "yup": "^0.28.5"
   },
   "devDependencies": {
     "axios": "^0.19.2",
