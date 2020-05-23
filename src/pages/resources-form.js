@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as Survey from "survey-react";
 import "survey-react/survey.css";
-import "../components/app.css";
+// import "../components/app.css";
 import firebase from "../firebase";
 import "../components/form.css";
 import Template from "../components/all/Template";
@@ -16,18 +16,27 @@ Survey.StylesManager.applyTheme("default");
 
 class ResourcesForm extends Component {
  constructor(props) {
-  super(props)
-  this.state = {}
+  super(props);
+  this.state = {};
   this.onCompleteComponent = this.onCompleteComponent.bind(this)
  }
+
+ onComplete(result) {
+
+    // Save data to firestore
+    var db = firebase.firestore();
+    var path = result["valueHash"];
+    var newResourceRef = db.collection("resources");
+    console.log(result);
+  }
 
  onCompleteComponent = (result) => {
   this.setState({
    isCompleted: true
-  })
-  const resultAsString = JSON.stringify(result.data);
-  console.log(resultAsString);
- }
+  });
+  console.log(result)
+ };
+
 
  onValueChanged(result) {
   console.log("value changed!");
@@ -60,42 +69,94 @@ class ResourcesForm extends Component {
       },
       {
        type: "text",
-       name: "Provide a short description of your project (1-2 sentences). This will be displayed on the website along with your project.",
+       name: "Short description of your project (1-2 sentences). This will be displayed on the website along with your project.",
        hideNumber: true,
        isRequired: true
       },
       {
-       type: "checkbox",
+       type: "radiogroup",
        name: "question3",
-       title: "What category would you like your project to be tagged to?",
+       title: "Category:",
        description: "If a category is not selected, we will choose one.",
        hideNumber: true,
        hasOther: true,
+       isRequired: true,
        choices: [
-        {
-         value: "Social",
-         text: "Social"
-        },
-        {
-         value: "Mental Health",
-         text: "Mental Health"
-        },
-        {
-         value: "Housing",
-         text: "Housing"
-        },
-        {
-         value: "COVID- 19",
-         text: "COVID -19"
-        },
-        {
-         value: "International Students",
-         text: "International Students"
-        },
-        {
-         value: "item6",
-         text: "Jobs / Internships"
-        }
+        "Social",
+        "Jobs / Internships",
+        "Health",
+        "COVID- 19",
+        "Basic Needs"
+       ],
+       otherText: "Other"
+      },
+      {
+       type: "checkbox",
+       name: "social",
+       title: "Tags:",
+       visibleIf: "{question3}='Social'",
+       isRequired: true,
+       choices: [
+        "Recreation",
+        "Staying Connected",
+        "Columbia",
+        "International Students",
+        "Games"
+       ],
+       otherText: "Other"
+      },
+      {
+       type: "checkbox",
+       name: "jobs/internships",
+       title: "Tags:",
+       visibleIf: "{question3}='Jobs / Internships'",
+       isRequired: true,
+       choices: [
+        "Learning",
+        "Volunteer",
+        "Internship",
+        "Job",
+        "Columbia",
+        "International Students"
+       ],
+       otherText: "Other"
+      },
+      {
+       type: "checkbox",
+       name: "health",
+       title: "Tags:",
+       visibleIf: "{question3}='Health'",
+       isRequired: true,
+       choices: [
+        "Mental",
+        "Columbia",
+        "Physical"
+       ],
+       otherText: "Other"
+      },
+      {
+       type: "checkbox",
+       name: "covid",
+       title: "Tags:",
+       visibleIf: "{question3}='COVID- 19'",
+       isRequired: true,
+       choices: [
+        "Live Updates",
+        "Columbia"
+       ],
+       otherText: "Other"
+      },
+      {
+       type: "checkbox",
+       name: "needs",
+       title: "Tags:",
+       visibleIf: "{question3}='Basic Needs'",
+       isRequired: true,
+       choices: [
+        "Finances",
+        "Food",
+        "Columbia",
+        "International Students"
        ],
        otherText: "Other"
       },
@@ -147,14 +208,6 @@ class ResourcesForm extends Component {
       </div>
   ) : null;
 
-  onComplete(result) {
-
-    // Save data to firestore
-    var db = firebase.firestore();
-    var path = result["valueHash"][]
-    var newResourceRef = db.collection("resources");
-    console.log("Complete! " + result);
-  }
    
   const onSurveyCompletion = this.state.isCompleted ? (
       <div style={{textAlign: "center"}}>
