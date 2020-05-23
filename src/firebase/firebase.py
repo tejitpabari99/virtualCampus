@@ -32,7 +32,7 @@ if __name__ == "__main__":
     resources_df = resources_df.replace(np.nan, "", regex=True)
     resources_df = resources_df.applymap(str)
     resources_df["category"] = resources_df["category"].str.lower()
-    resources_df["subcategory"] = resources_df["subcategory"].str.lower()
+    resources_df["tags"] = resources_df["tags"].str.lower()
     resources_df["reviewed"] = resources_df["reviewed"].str.lower()
     resources_df["reviewed"] = resources_df["reviewed"].map({"true": True, "false": False})
 
@@ -49,7 +49,7 @@ if __name__ == "__main__":
         data = {
             "category": {
                 "category": row["category"],
-                "subcategory": row["subcategory"],
+                "tags": row["tags"].split(", ")
             },
             "description": row["description"],
             "reviewed": row["reviewed"],
