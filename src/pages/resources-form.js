@@ -3,32 +3,57 @@ import * as Survey from "survey-react";
 import "survey-react/survey.css";
 import "../components/app.css";
 import firebase from "../firebase";
+import "../components/form.css";
+import Template from "../components/all/Template";
 
 import $ from "jquery";
+import {CustomButton} from "../components";
 window["$"] = window["jQuery"] = $;
 
 export { MyQuestion } from "../components/MyQuestion.js";
 
 Survey.StylesManager.applyTheme("default");
 
-class App extends Component {
-  json = {
-   title: "Resource Submission Form",
-   // description: "This form will be used to create a new resource for the 'Resources' page on the CVC website. Please answer these questions to the best of your ability. Thank you!",
+class ResourcesForm extends Component {
+ constructor(props) {
+  super(props)
+  this.state = {}
+  this.onCompleteComponent = this.onCompleteComponent.bind(this)
+ }
+
+ onCompleteComponent = (result) => {
+  this.setState({
+   isCompleted: true
+  })
+  const resultAsString = JSON.stringify(result.data);
+  console.log(resultAsString);
+ }
+
+ onValueChanged(result) {
+  console.log("value changed!");
+ }
+
+ render() {
+  //var model = new Survey.Model(this.json);
+  const myCSS = {
+    navigationButton: "button btn-lg"
+  };
+
+  const json = {
    pages: [
     {
      name: "Resource Submission Form",
      elements: [
       {
        type: "text",
-       name: "question1",
+       name: "Name",
        title: "What is your name?",
        hideNumber: true,
        isRequired: true
       },
       {
        type: "text",
-       name: "question2",
+       name: "Email",
        title: "What is your email?",
        hideNumber: true,
        isRequired: true
@@ -66,9 +91,13 @@ class App extends Component {
         {
          value: "International Students",
          text: "International Students"
+        },
+        {
+         value: "item6",
+         text: "Jobs / Internships"
         }
        ],
-       otherText: "Jobs / Internships"
+       otherText: "Other"
       },
       {
        type: "text",
@@ -97,9 +126,26 @@ class App extends Component {
    ]
   };
 
-  onValueChanged(result) {
-    console.log("value changed!");
-  }
+  const surveyRender = !this.state.isCompleted ? (
+      <div>
+        <h3 style={{textAlign: "center", color: "#0072CE"}}>Add a New Resource</h3>
+        <div>
+         <a style={{textAlign: "left", color: "#0072CE"}}>Thank you for your interest in sharing your project through
+          CVC. Please fill out the following form so we can thoroughly promote your resource on our website!</a>
+        </div>
+       <div style={{ minHeight: "20px" }}/>
+       <Survey.Survey
+          showNavigationButtons={false}
+          //css={myCSS}
+          json={json}
+          showCompletedPage={false}
+          onComplete={this.onCompleteComponent}
+      />
+       <div style={{ textAlign: "center" }}>
+            <CustomButton text={"Submit"} color={"orange"} size={"medium"} onClick={this.onCompleteComponent}/>
+       </div>
+      </div>
+  ) : null;
 
   onComplete(result) {
 
@@ -109,21 +155,31 @@ class App extends Component {
     var newResourceRef = db.collection("resources");
     console.log("Complete! " + result);
   }
-
-  render() {
-    var model = new Survey.Model(this.json);
-    return (
-      <div className="App">
-        <div className="survey">
-          <Survey.Survey
-            model={model}
-            onComplete={this.onComplete}
-            onValueChanged={this.onValueChanged}
-          />
-        </div>
+   
+  const onSurveyCompletion = this.state.isCompleted ? (
+      <div style={{textAlign: "center"}}>
+       <div className="message">Thank you!</div>
+       <div className="blurb">
+        We look forward to promoting your resource on CVC! If there is anything that needs to be updated, please reach out to us.
+       </div>
+       <div className="contact">
+          Questions? Contact us at: <a style={{ textAlign: "center", color: "#4284C8" }}
+                        href={"mailto:columbiavirtualcampus@gmail.com"}>columbiavirtualcampus@gmail.com</a>
+       </div>
       </div>
-    );
-  }
+  ) : null;
+
+  return (
+      <Template active={'resources'}>
+       <div className="Form">
+        <div>
+         {surveyRender}
+         {onSurveyCompletion}
+        </div>
+       </div>
+      </Template>
+  );
+ }
 }
 
-export default App;
+export default ResourcesForm;
