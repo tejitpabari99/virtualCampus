@@ -114,11 +114,11 @@ export default function AddCalendar({info}) {
     const googleLink = "https://calendar.google.com/calendar/r/eventedit?"
         + "dates="+startTimeFmt+"/"+endTimeFmt+"&location="+loc
         +"&text="+info.title+"&details="+descGoogleCal;
-    const icGenText = "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:"+window.location.href+"\nDTSTART:"
+    const icGenText = "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:"+loc+"\nDTSTART:"
         +startTimeFmt+"\nDTEND:"+endTimeFmt+"\nSUMMARY:"
         +info.title+"\nDESCRIPTION:"+descOutlookCal
         +"\nLOCATION:"+loc+"\nEND:VEVENT\nEND:VCALENDAR";
-    const iCalGenText = "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:"+window.location.href+"\nDTSTART:"
+    const iCalGenText = "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:"+loc+"\nDTSTART:"
         +startTimeFmt+"\nDTEND:"+endTimeFmt+"\nSUMMARY:"
         +info.title+"\nDESCRIPTION:"+desciCal
         +"\nLOCATION:"+loc+"\nEND:VEVENT\nEND:VCALENDAR";
