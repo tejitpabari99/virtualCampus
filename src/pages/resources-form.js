@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import * as Survey from "survey-react";
 import "survey-react/survey.css";
+import "../components/app.css";
+import firebase from "../firebase";
 import "../components/form.css";
 import Template from "../components/all/Template";
 
@@ -71,23 +73,23 @@ class ResourcesForm extends Component {
        hasOther: true,
        choices: [
         {
-         value: "item1",
+         value: "Social",
          text: "Social"
         },
         {
-         value: "item2",
+         value: "Mental Health",
          text: "Mental Health"
         },
         {
-         value: "item3",
+         value: "Housing",
          text: "Housing"
         },
         {
-         value: "item4",
-         text: "COVID"
+         value: "COVID- 19",
+         text: "COVID -19"
         },
         {
-         value: "item5",
+         value: "International Students",
          text: "International Students"
         },
         {
@@ -145,6 +147,15 @@ class ResourcesForm extends Component {
       </div>
   ) : null;
 
+  onComplete(result) {
+
+    // Save data to firestore
+    var db = firebase.firestore();
+    var path = result["valueHash"][]
+    var newResourceRef = db.collection("resources");
+    console.log("Complete! " + result);
+  }
+   
   const onSurveyCompletion = this.state.isCompleted ? (
       <div style={{textAlign: "center"}}>
        <div className="message">Thank you!</div>
