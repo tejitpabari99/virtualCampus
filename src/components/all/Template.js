@@ -8,16 +8,21 @@ import styles from "../../assets/material-kit-assets/jss/material-kit-react/view
 
 const customStyle = makeStyles(() => ({
   container: {
-    padding: "50px"
+    paddingTop: "50px",
+    paddingLeft:'3%',
+    paddingRight:'3%',
+    marginLeft:0,
+    marginRight:0,
+    background: "#FFFFFF",
   },
   main: {
     paddingTop:50,
-    height: '100%'
+    height: '100%',
+    background: "#FFFFFF",
+    backgroundColor:"#FFFFFF",
+    position: "relative",
+    marginBottom:'100px'
   },
-  toAll:{
-    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', fontWeight: 300, lineHeight: '1.25em',
-    WebkitFontSmoothing:"antialiased", boxSizing: 'inherit', margin:"0px"
-  }
 }));
 const useStyles = makeStyles(styles);
 
@@ -28,11 +33,10 @@ export default function Template(props) {
   return (
     <MuiThemeProvider theme={CustomTheme}>
       <div >
-        <CustomHeader active={props.active} brand={'VIRTUAL CAMPUS'}></CustomHeader>
-        <div className={classNames(classes.mainOther, custStyle.main)}>
-          <div className={classNames(classes.container, custStyle.toAll)} style={{paddingTop: "50px"}}>
+        <CustomHeader active={props.active} brand={'VIRTUAL CAMPUS'}/>
+        <div className={custStyle.main}>
+          <div className={classNames(custStyle.container)} >
             {children}
-            <div style={{marginBottom: "50px"}}/>
           </div>
         </div>
       </div>

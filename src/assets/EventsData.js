@@ -180,11 +180,47 @@ let eventsData = [
     hostedBy: 'Columbia Virtual Campus',
   },
   {
-    display:true,
+    display:false,
     title: 'CVC Post Final Stress Relief',
     startTime: new Date(2020, 4, 21, 18),
     endTime: new Date(2020, 4, 21, 19),
     description: 'Kickback, relax and enjoy post final with the Columbia Virtual Campus Team. Lets watch something together!',
+    tags: ['Social'],
+    website: 'http://columbiavirtualcampus.com/',
+    imgLink: 'https://i.imgur.com/c7ZAMDS.jpg',
+    eventLink: [
+      {
+        title: 'Zoom',
+        link: 'https://us04web.zoom.us/j/71151367257?pwd=YmZJNUsrbVM3UU9yWXFaRFRLZkFuQT09',
+        pass: '4LvfDf'
+      }
+    ],
+    hostedBy: 'Columbia Virtual Campus',
+  },
+  {
+    display:true,
+    title: 'Summer Kickoff',
+    startTime: new Date(2020, 4, 27, 18),
+    endTime: new Date(2020, 4, 27, 19),
+    description: 'Kickback, relax and enjoy post finals with the Columbia Virtual Campus Team. Maybe even come up with a todo list for the summer? ',
+    tags: ['Social'],
+    website: 'http://columbiavirtualcampus.com/',
+    imgLink: 'https://i.imgur.com/c7ZAMDS.jpg',
+    eventLink: [
+      {
+        title: 'Zoom',
+        link: 'https://us04web.zoom.us/j/71151367257?pwd=YmZJNUsrbVM3UU9yWXFaRFRLZkFuQT09',
+        pass: '4LvfDf'
+      }
+    ],
+    hostedBy: 'Columbia Virtual Campus',
+  },
+  {
+    display:true,
+    title: 'Pet Therapy Series (Day 1)',
+    startTime: new Date(2020, 4, 31, 18),
+    endTime: new Date(2020, 4, 31, 19),
+    description: 'Meet Vanessa, CVC communication lead\'s cute and grumpy little cat for a short Q&A',
     tags: ['Social'],
     website: 'http://columbiavirtualcampus.com/',
     imgLink: 'https://i.imgur.com/c7ZAMDS.jpg',
