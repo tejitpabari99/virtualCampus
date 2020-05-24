@@ -5,6 +5,7 @@ import Template from "./all/Template";
 import TeamMember from "./about-us/TeamMember";
 import TeamSection from "./about-us/TeamSection";
 import EventCard from "./cards/EventCard";
+import EventCardMobile from "./cards/EventCardMobile";
 import EventModal from "./cards/EventModal";
 import ResourcesList from "./resources/ResourcesList";
 import ResourcesCard from "./cards/ResourcesCard";
@@ -18,7 +19,7 @@ import Subtitle from "./text/Subtitle";
 import Heading from "./text/Heading";
 
 export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
-        EventCard, EventModal, AddCalendar,
+        EventCard, EventCardMobile, EventModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton,
         Title, Subtitle, Heading,
