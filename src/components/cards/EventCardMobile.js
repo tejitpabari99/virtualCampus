@@ -183,16 +183,15 @@ export default function EventCardMobile({ele}) {
             </div>
 
             <div className={classes.cardbody}>
-
                 <h1 className={classes.heading1}> {ele.title} </h1>
                 <h1 className={classes.heading2}>{ele.hostedBy}</h1>
-
                 <div className={classes.timeInfo}>
                     {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} - {formatTime(ele.endTime.getHours(), ele.endTime.getMinutes())} EST
 
                     {ele.tags.map((ta, ind) => {
                         return (
                         <span>
+
                             <span className={classes.middleDot}/>
                           <p className={classes.tagInfo}>
                             {ta}
@@ -209,6 +208,7 @@ export default function EventCardMobile({ele}) {
 
 
                 {/* Button Formatting for putting one or two buttons */}
+
                 {ele.eventLink.length > 0 && ele.website !== '' ?
                     <div style={{textAlign:'center', width: "100%"}}>
                         <CustomButton href={ele.website} text={'WEBSITE'} newTab

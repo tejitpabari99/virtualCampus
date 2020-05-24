@@ -107,7 +107,7 @@ class Events extends React.Component {
       <Template active={"schedule"}>
         <MetaData title={"Events"}/>
         <div style={{paddingLeft:'5%', paddingRight: '5%'}}>
-        <Title color={"blue"}>ALL EVENTS</Title>
+        <Title color={"blue"}>All Events</Title>
         <div style={{ textAlign: "center" }}>
           <CustomButton href={"https://forms.gle/fzKvSZqkAVNN6cHY6"} text={"ADD NEW EVENT"}
                         style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>

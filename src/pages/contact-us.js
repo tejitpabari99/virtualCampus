@@ -47,7 +47,7 @@ class contactUs extends React.Component {
     return (
       <Template active={"contact-us"}>
         <MetaData title={"Contact Us"}/>
-        <Title color={'blue'}>CONTACT US</Title>
+        <Title color={'blue'}>Contact Us</Title>
         <div style={{ textAlign: "center" }}>
           Our Email: <a style={{ textAlign: "center", color: "#4284C8" }}
                         href={"mailto:columbiavirtualcampus@gmail.com"}>columbiavirtualcampus@gmail.com</a>
