@@ -44,6 +44,23 @@ const useStyles = makeStyles(() => ({
     paddingBottom:'15px',
     margin:0
   },
+  heading1: {
+    lineHeight: '3vw',
+    fontSize: 'min(2.2vw, 28px)',
+    color: '#000000 !important',
+    textAlign:'left',
+    margin: 0,
+    display:'inline-block'
+  },
+  heading2: {
+    lineHeight: '3vw',
+    fontSize: 'min(1.5vw, 20px)',
+    color: '#0072CE !important',
+    margin: 0,
+    textAlign:'left',
+    display:'inline-block',
+    marginLeft:'1vw'
+  },
   cardTitle,
   eventTitle: {
     color: "black",
@@ -142,12 +159,8 @@ export default function EventCardDesktop({ ele, onClick }) {
         </div>
         <div className={classes.flexBox} style={{width:'100%'}}>
           <div className={classes.flexBox} style={{padding:0, paddingLeft: '2vw'}}>
-            <Heading1 left color={"black"} style={{display:'inline-block'}}>
-              {ele.title}
-            </Heading1>
-            <Heading2 left color={"blue"} style={{display:'inline-block', marginLeft:'1vw'}}>
-              {ele.hostedBy}
-            </Heading2>
+            <h1 className={classes.heading1}> {ele.title} </h1>
+            <h1 className={classes.heading2}>{ele.hostedBy}</h1>
           </div>
           <CardBody style={{padding:0, paddingLeft: '2vw', display:'flex', flexDirection:'row', height: '80%'}}>
             <div style={{paddingRight: '1.5vw'}}>
@@ -169,32 +182,36 @@ export default function EventCardDesktop({ ele, onClick }) {
                 color: "black",
                 minHeight: 55,
                 marginBottom: 0,
-                height:"min(9vw, 100px)",
-                minWidth: '80%'
-                // marginTop: 5,
-                // marginLeft: 4.32,
-                // width:'70vw'
+                height:"min(9vw, 105px)",
               }}>{ele.description}</p>
               <div style={{ color: "#4284C8", marginBottom: 5, marginTop: 'auto' }}>
                 <strong> <AddCalendar info={ele}/></strong>
               </div>
             </div>
             <div className={classes.flexBox} style={{marginBottom: 5, marginTop: 'auto', marginLeft:'auto'}}>
-              <div style={{ textAlign: "left" }}>
-                <CustomButton href={ele.website} text={"WEBSITE"}
-                              newTab
-                              style={{
-                                position: "relative",
-                                // marginTop: "60%",
-                                marginBottom: "5%",
-                                width: "90%",
-                                height: "10%"
-                              }} color={"blue"} size={"medium"}/>
-              </div>
-              <div style={{ textAlign: "left" }}>
-                <CustomButton href={ele.eventLink[0].link} text={"CONNECT"} newTab
-                              style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
-              </div>
+              {ele.eventLink.length > 0 && ele.website !== '' ?
+                <div>
+                <div style={{textAlign:'left'}}>
+                    <CustomButton href={ele.website} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
+                                  style={{ position: "relative", marginBottom: "5%", width: "90%", height: "10%" }} />
+                </div>
+                <div style={{textAlign:'left'}}>
+                    <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
+                                  style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
+                </div>
+                </div>
+                : ele.eventLink.length === 0 && ele.website !== '' ?
+                  <div style={{textAlign:'left'}}>
+                  <CustomButton href={ele.website} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
+                                style={{ position: "relative", width: "90%", height: "10%" }} />
+                  </div>
+                  : ele.eventLink.length > 0 ?
+                    <div style={{textAlign:'left'}}>
+                    <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
+                                  style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
+                    </div>
+                    : null}
+
             </div>
           </CardBody>
 

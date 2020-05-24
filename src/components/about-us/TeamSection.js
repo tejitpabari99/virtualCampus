@@ -29,7 +29,9 @@ import brendan from "../../assets/images/about-us/TeamMembers/brendan.jpg";
 import daniella from "../../assets/images/about-us/TeamMembers/daniella.jpeg";
 import luiz from "../../assets/images/about-us/TeamMembers/luiz.jpeg";
 import kevin from "../../assets/images/about-us/TeamMembers/kevin.jpg";
-
+import rupal from "../../assets/images/about-us/TeamMembers/rupal.jpg";
+import saumya from "../../assets/images/about-us/TeamMembers/saumya.png";
+import bonnie from "../../assets/images/about-us/TeamMembers/bonnie.jpg";
 
 const useStyles = makeStyles(styles);
 
@@ -93,7 +95,7 @@ export default function TeamSection() {
                       'I\'m excited to be artistic director of CU Generation next fall and a product design intern ' +
                       'at MongoDB this summer.'}
                       facebook={"https://www.facebook.com/karen.lin.9847867"}
-                      github={"https://github.com/linkaren"}
+                      behance={"https://www.behance.net/karenlin3"}
                       linkedin={"https://www.linkedin.com/in/klin123/"}
           />
         </GridItem>
@@ -127,7 +129,7 @@ export default function TeamSection() {
       <Heading color={'blue'}>Events Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
-        <GridItem xs={0} sm={0} md={2}/>
+        <GridItem xs={0} sm={0} md={1}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'21'} name={'James Mastran'} image={james} noDescription/>
         </GridItem>
@@ -139,6 +141,9 @@ export default function TeamSection() {
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'CC \'21'} name={'Brendan Lim'} image={brendan} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'SEAS \'21'} name={'Bonnie Wang'} image={bonnie} noDescription/>
         </GridItem>
       </GridContainer>
 
@@ -163,7 +168,6 @@ export default function TeamSection() {
       <Heading color={'blue'}>Study Spaces Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
-        <GridItem xs={0} sm={0} md={1}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'22'} name={'Caitlyn Chen'} image={caitlyn} noDescription/>
         </GridItem>
@@ -179,18 +183,24 @@ export default function TeamSection() {
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'21'} name={'Kevin Mao'} image={kevin} noDescription/>
         </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'SEAS \'22'} name={'Saumya Agarwal'} image={saumya} noDescription/>
+        </GridItem>
       </GridContainer>
 
       <Heading color={'blue'}>Design Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
         <GridItem xs={0} sm={0} md={2}/>
-        <GridItem xs={2} sm={3} md={2}/>
+        <GridItem xs={0} sm={0} md={1}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'Barnard \'22'} name={'Caroline Mao'} image={caroline} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'21'} name={'Hayun Chong'} image={hayun} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'CC \'21'} name={'Rupal Gupta'} image={rupal} noDescription/>
         </GridItem>
       </GridContainer>
     </div>
