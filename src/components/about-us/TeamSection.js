@@ -45,9 +45,9 @@ export default function TeamSection() {
         <GridItem xs={12} sm={6} md={4}>
           <TeamMember position={'Co Founder'} name={'Gitika Bose'}
                       image={gitika}
-                      description={'I am a junior in SEAS studying CS, interested in the impact of data science and AI. This summer, ' +
+                      description={'I\'m a junior in SEAS studying CS, interested in the impact of data science and AI. This summer, ' +
                       'I am excited to intern at Microsoft. When free, I love to paint, ' +
-                      'cook, and recently, watch tons of anime.'}
+                      'cook, and watch tons of anime.'}
                       facebook={"https://www.facebook.com/gitika.bose"}
                       github={"https://github.com/gitika-bose"}
                       linkedin={"https://www.linkedin.com/in/gitikabose/"}
@@ -57,8 +57,7 @@ export default function TeamSection() {
           <TeamMember position={'Co Founder'} name={'Tejit Pabari'}
                       image={tejit}
                       description={'I am a junior studying CS in the Intelligence System track. ' +
-                      'My experience includes App-dev and Web-dev, along with a few AI/NLP projects.' +
-                      'I am currently working at the INCITE lab, exploring Liberal Arts Education index through NLP.' +
+                      'My experience includes App and Web dev, along with a few AI/NLP projects.' +
                       'Apart from coding, I love watching Anime and TV Shows!'}
                       facebook={"https://www.facebook.com/tejit.pabari"}
                       github={"https://github.com/tejitpabari99"}
@@ -80,8 +79,7 @@ export default function TeamSection() {
           <TeamMember position={'Study Spaces Lead'} name={'Archit Choudhury'}
                       image={archit}
                       description={'I am a Joint Degree student studying CS. I am currently a Software Engineer ' +
-                      'at FluentUp. I previously worked at Siemens in the Smart City sector where I led intern ' +
-                      'projects. I am also an avid soccer freak.'}
+                      'at FluentUp and previously led a project at Siemens in the Smart City sector. I am also an avid soccer freak.'}
                       github={"https://github.com/architchoudhury"}
                       facebook={"https://www.facebook.com/architchoudhury"}
                       linkedin={"https://www.linkedin.com/in/architchoudhury/"}
@@ -90,9 +88,9 @@ export default function TeamSection() {
         <GridItem xs={12} sm={6} md={4}>
           <TeamMember position={'Design Lead'} name={'Karen Lin'}
                       image={karen}
-                      description={'I\'m a Junior studying Computer Science and Visual Arts! My experiences include ' +
-                      'participating in design challenges, redesigning brands, and creating new user experiences. ' +
-                      'I\'m excited to be artistic director of CU Generation next fall and a product design intern ' +
+                      description={'I\'m a Junior studying CS and Visual Arts! My experiences include ' +
+                      'redesigning brands, and creating new user experiences. ' +
+                      'I\'m excited to be a product design intern ' +
                       'at MongoDB this summer.'}
                       facebook={"https://www.facebook.com/karen.lin.9847867"}
                       behance={"https://www.behance.net/karenlin3"}
@@ -102,10 +100,9 @@ export default function TeamSection() {
         <GridItem xs={12} sm={6} md={4}>
           <TeamMember position={'Outreach Lead'} name={'Canfer Akbulut'}
                       image={canfer}
-                      description={'I am a Junior in Columbia College ' +
+                      description={'I\'m am a Junior in CC ' +
                       'studying Psychology and Statistics. Currently, I work at two psychology labs focusing ' +
-                      'on clinical, developmental, and social research. I recently purchased a Nintendo Switch a few ' +
-                      'months ago and no one has been able to pry it out of my hands ever since.'}
+                      'on clinical, developmental, and social research. Talk to me about LoZ: Breath of the Wild!'}
                       facebook={"https://www.facebook.com/profile.php?id=100001279952259"}
                       linkedin={"https://www.linkedin.com/in/canfer-akbulut/"}
           />

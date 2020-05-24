@@ -32,7 +32,8 @@ export default function TeamMember({image, name, position, description, linkedin
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       {!noDescription &&
       <GridItem xs={6} sm={6} md={6} className={classes.itemGrid}>
-        <img src={image} alt="..." className={imageClasses} style={{width: '100%', height: '100%', paddingBottom:0}}/>
+        <img src={image} alt="..." className={imageClasses}
+             style={{maxWidth:"none", width: 'max(13vw, 180px)', height: 'max(13vw, 180px)', paddingBottom:0}}/>
       </GridItem>}
       {noDescription &&
         <img src={image} alt="..." className={imageClasses} style={{width:'120px', height:'120px', marginLeft:'auto', marginRight:'auto', paddingBottom:0}}/>
@@ -43,12 +44,12 @@ export default function TeamMember({image, name, position, description, linkedin
         <small className={classNames(classes.smallTitle)} style={{fotnSize: '16px'}}>{position}</small>
       </h4>
       {!noDescription &&
-      <CardBody style={{paddingBottom:0}}>
-        <p className={classNames(classes.description)} style={{minHeight: '200px'}}>
+      <CardBody style={{paddingBottom:0, paddingTop: 0, paddingLeft:'1.5vw', paddingRight:'1.5vw'}}>
+        <p className={classNames(classes.description)} style={{minHeight: '170px', marginBottom:0}}>
           {description}
         </p>
       </CardBody>}
-      <CardFooter className={classes.justifyCenter} style={{paddingTop:0}}>
+      <CardFooter className={classes.justifyCenter} style={{paddingTop:0, marginTop:-10}}>
         {github &&
         <Button
           justIcon
