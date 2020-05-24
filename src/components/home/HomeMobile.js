@@ -1,6 +1,6 @@
 import React from "react"
 import classNames from "classnames";
-import HomeEvents from './HomeEvents';
+import HomeEventsMobile from './HomeEvents';
 import { makeStyles } from "@material-ui/core/styles";
 import landingImage from "../../assets/images/home/graphic.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
@@ -198,7 +198,7 @@ export default function HomeMobile({isLandscape}) {
                             color={"orange"} size={"large"}/>
               <div style={{marginBottom: "40px"}}/>
             </div>
-            <HomeEvents/>
+            <HomeEventsMobile/>
             <div style={{marginBottom: "100px"}}/>
           </div>
       </div>

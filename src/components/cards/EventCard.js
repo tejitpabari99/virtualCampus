@@ -1,163 +1,84 @@
-import CardBody from "../material-kit-components/Card/CardBody";
-import classNames from "classnames";
-import Button from "../material-kit-components/CustomButtons/Button";
-import Card from "../material-kit-components/Card/Card";
-import React from "react";
-import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
-import CustomTheme from "../all/CustomTheme";
-import { makeStyles } from "@material-ui/core/styles";
-const theme = CustomTheme;
+import React from "react"
+import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
+import EventCardDesktop from './EventCardDesktop'
+import EventCardMobile from './EventCardMobile'
 
-const months = {
-    0: 'January',
-    1: 'February',
-    2: 'March',
-    3: 'April',
-    4: 'May',
-    5: 'June',
-    6: 'July',
-    7: 'August',
-    8: 'September',
-    9: 'October',
-    10: 'November',
-    11: 'December'
-}
+class EventCard extends React.Component {
 
-const formatTime = function(hours, min) {
-    let h = hours>12?hours-12:hours;
-    let m = min<10?'0'+min.toString():min.toString();
-    let add = hours>12?'PM':'AM';
-    return h + ':' + m + add
-};
+  constructor(props) {
+    super(props);
+    this.state = { width: 0, height: -1 };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
 
-const useStyles = makeStyles(() => ({
-    card: {
-        transition: 'all 0.3s',
-        [theme.breakpoints.up('xs')]:{
-            display:'block',
-            flexDirection: 'none'
-        },
-        [theme.breakpoints.up('sm')]:{
-            display:'block',
-            flexDirection: 'none'
-        },
-        [theme.breakpoints.up('md')]:{
-            display:"flex", flexDirection:"row",
-        },
-        [theme.breakpoints.up('lg')]:{
-            display:"flex", flexDirection:"row",
-        }
-    },
-    cardTitle,
-    button:{
-        boxShadow:"none",
-        marginTop: 0,
-        marginBottom: 0
-    },
-    button2:{
-        boxShadow:"none",
-        height:"50px",
-        margin:"0px",
-        float:"right",
-        right:0,
-        fontSize:15,
-        top:0,
-        position:"absolute",
-        borderBottomLeftRadius:"15px",
-        backgroundColor: '#F1945B',
-        color:'white !important',
-        "&:hover": {
-            backgroundColor: 'white',
-            color: '#F1945B !important'
-        },
-        "&:focus": {
-            backgroundColor: '#F1945B',
-            color: 'white !important',
-        },
-    },
-    cardbody:{
-        padding: 10,
-        paddingLeft: 20,
-        paddnigRight: 20
-    },
-    button3:{
-        boxShadow:"none",
-        backgroundColor:"#BFD8E950",
-        margin:"15px",
-        marginLeft:"0px",
-        marginTop: 0,
-        marginBottom: 0
-    },
-    image:{
-        borderTopLeftRadius: 6, borderBottomLeftRadius: 6,width:"200px",
-        paddingBottom:0, marginLeft:0,
-        height: "200px",
-        [theme.breakpoints.up('xs')]:{
-            display:'none'
-        },
-        [theme.breakpoints.up('sm')]:{
-            display:'none'
-        },
-        [theme.breakpoints.up('md')]:{
-            width:"200px",
-            height: "200px",
-            display:'block'
-        },
-        [theme.breakpoints.up('lg')]:{
-            width:"200px",
-            height: "200px",
-            display:'block'
-        }
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
+
+  // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
+  render() {
+    const {ele, onClick} = this.props;
+
+    if (this.state.height === -1) {
+      return (
+        <div>
+          <EventCardDesktop ele={ele} onClick={onClick}/>
+        </div>
+      );
     }
-}));
+    {/* For mobile's screen orientation update */}
+    const isLandscape = this.state.width > this.state.height ? true : false;
 
-export default function EventCard({ele, onClick}) {
-    const classes = useStyles();
-    return(
-        <Card className={classes.card}>
-            <img className={classes.image} src={ele.imgLink}/>
-            <CardBody className={classes.cardbody}>
-                <h4 style={{ color: "#4284C8", marginRight: 90, marginTop:0  }}
-                    >{ele.title}</h4>
-                <Button
-                    className={classes.button3}
-                    size="sm"
-                    round
-                    disabled
-                >
-                    {months[ele.startTime.getMonth()].toUpperCase()} {ele.startTime.getDate()}, {ele.startTime.getFullYear()}
-                </Button>
-                <Button
-                    className={classes.button3}
-                    size="sm"
-                    round
-                    disabled
-                >
-                    {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} EST
-                </Button>
-                {ele.tags.map((ta, ind) => {
-                    return (
-                        <Button
-                            key={ind}
-                            color="vcColor"
-                            className={classNames(classes.navLink, classes.button)}
-                            size="sm"
-                            round
-                            disabled
-                            active={true}
-                        >
-                            {ta}
-                        </Button>
-                    )
-                })}
-                <p style={{ color: "#4284C8", minHeight: 75, marginBottom:0, marginTop: 10 }}>{ele.description}</p>
-                <p style={{ color: "#4284C8", marginBottom: 0, marginTop: 5 }}>
-                    <strong>Hosted By: </strong> {ele.hostedBy}
-                </p>
-            </CardBody>
-            <Button color="vcColor" size="sm" className={classes.button2}
-                    active={true} onClick={onClick}
-                    target={'_blank'} rel="noopener noreferrer"> Attend </Button>
-        </Card>
-    )
+    {/* If Tablet:
+            If in portrait, do mobile component
+            else render desktop
+            */}
+    if (isTablet) {
+      if (isLandscape) {
+        return (
+          <div>
+            <EventCardDesktop ele={ele} onClick={onClick}/>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <EventCardMobile ele={ele} onClick={onClick}/>
+          </div>
+        );
+      }
+
+
+      {/* For mobile component : IE or Edge must go to mobile since they do not support all css */}
+    } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
+      return (
+        <div>
+          <EventCardMobile ele={ele} onClick={onClick}/>
+        </div>
+      );
+
+
+      {/* Else: desktop: isBrowser
+            If screen is full size and not weirdly shape: render desktop version
+            Else render mobile version (see above)
+            */}
+    } else {
+      return (
+        <div>
+          <EventCardDesktop ele={ele} onClick={onClick}/>
+        </div>
+      );
+    }
+  }
 }
+
+export default EventCard;
