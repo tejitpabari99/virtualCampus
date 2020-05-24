@@ -145,6 +145,19 @@ const useStyles = makeStyles(() => ({
         //     display:'block'
         // }
     },
+    heading1:{
+        lineHeight: '3vw',
+        fontSize: 'min(5.2vw, 28px)',
+        color:'#000000 !important',
+        margin: 0
+    },
+    heading2:{
+        lineHeight: '3vw',
+        fontSize: 'min(3.5vw, 20px)',
+        color:'#0072CE !important',
+        margin: 0,
+        marginTop:'10px'
+    },
     middleDot: {
         height: "3px",
         width: "3px",
@@ -171,8 +184,8 @@ export default function EventCardMobile({ele}) {
 
             <div className={classes.cardbody}>
 
-                <Heading1Mobile color={"black"} left >{ele.title}</Heading1Mobile>
-                <Heading2Mobile color={"blue"} style={{marginTop:'10px'}} left >{ele.hostedBy}</Heading2Mobile>
+                <h1 className={classes.heading1}> {ele.title} </h1>
+                <h1 className={classes.heading2}>{ele.hostedBy}</h1>
 
                 <div className={classes.timeInfo}>
                     {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} - {formatTime(ele.endTime.getHours(), ele.endTime.getMinutes())} EST
