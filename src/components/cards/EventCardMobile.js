@@ -167,7 +167,7 @@ const useStyles = makeStyles(() => ({
         display: "inline-block",
       },
 }));
- 
+
 export default function EventCardMobile({ele}) {
     const classes = useStyles();
 
@@ -183,10 +183,10 @@ export default function EventCardMobile({ele}) {
 
             <div className={classes.cardbody}>
 
-                <div className={classes.eventTitle}>{ele.title}</div> 
+                <div className={classes.eventTitle}>{ele.title}</div>
 
                 <div className={classes.eventHost}>{ele.hostedBy}</div>
-                
+
                 <div className={classes.timeInfo}>
                     {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} - {formatTime(ele.endTime.getHours(), ele.endTime.getMinutes())} EST
 
@@ -206,7 +206,7 @@ export default function EventCardMobile({ele}) {
                 <div style={{color:"#4284C8", marginBottom: 5, marginTop: 5}}>
                         <strong><AddCalendar info={ele}/> </strong>
                 </div>
-                
+
 
                 {/* Button Formatting for putting one or two buttons */}
                 {ele.eventLink.length > 0 && ele.website != '' ?
@@ -219,12 +219,12 @@ export default function EventCardMobile({ele}) {
                 : ele.eventLink.length === 0 && ele.website != '' ?
                     <CustomButton href={ele.website} text={'WEBSITE'}
                                 style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
-                        
+
                 : ele.eventLink.length > 0 ?
                     <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title}
                             style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
                 : null}
-                
+
 
             </div>
 
