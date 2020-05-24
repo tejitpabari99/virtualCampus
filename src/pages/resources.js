@@ -18,7 +18,7 @@ export default function Resources() {
     return (
         <Template active={'resources'}>
             <MetaData title={'Resources'}/>
-          <Title color={'blue'}>RESOURCES</Title>
+          <Title color={'blue'}>Resources</Title>
             <div style={{textAlign:'center'}}>
               <CustomButton text={"ADD NEW RESOURCES"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
                             color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
