@@ -71,6 +71,7 @@ class Events extends React.Component{
             <div>
                 <div >
                     {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
+                    <div style={{ color: "#4284C8", backgroundColor: "#4284C8", height: 1 }}/>
                     {this.state.displayEvents.map((ele, ind) => {
                         if(ele.display) {
                             return(<EventCard key={ind} ele={ele} onClick={() => this.attendEvent(ele)}/>)
@@ -78,7 +79,6 @@ class Events extends React.Component{
                         return null
                     })}
                 </div>
-                <div style={{width:'100%', color: '#4284C8', backgroundColor: '#4284C8', height: 1 }}></div>
                 {this.state.displayEvents.length>0 && <div style={{textAlign:"center", marginTop:"20px"}}>
                     <CustomButton text={'SEE MORE'} href={'/events'} size={"small"} color={"orange"} rounded/>
                 </div>}

@@ -82,7 +82,22 @@ const manualSt = makeStyles(() => ({
     left:'0px',
     background:'transparent',
   },
-
+  container: {
+    paddingTop: "50px",
+    paddingLeft:'3%',
+    paddingRight:'3%',
+    marginLeft:0,
+    marginRight:0,
+    background: "#FFFFFF",
+  },
+  main: {
+    paddingTop:50,
+    height: '100%',
+    background: "#FFFFFF",
+    backgroundColor:"#FFFFFF",
+    position: "relative",
+    marginBottom:'100px'
+  },
 }));
 
 
@@ -93,7 +108,7 @@ export default function HomeDesktop() {
     return (
         <div style={{background: "white"}}>
           <MetaData title={'Columbia Virtual Campus'}/>
-          <CustomHeader active={''} brand={''}></CustomHeader>
+          <CustomHeader active={''} brand={''}/>
           <div className={classNames(manual.landing)}>
             <div className={classNames(manual.landingText)}>
               <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
@@ -110,8 +125,9 @@ export default function HomeDesktop() {
           </div>
 
           <div style={{marginBottom: "2.5vh", background: "transparent"}}/>
-          <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign: 'left'}}>
-            <div className={classes.container} id="explore">
+          <div className={manual.main} style={{textAlign: 'left'}}>
+            <div className={manual.container} id="explore">
+              <div style={{paddingLeft:'5%', paddingRight: '5%'}}>
               <Title color={"blue"}>Upcoming Events</Title>
               <div style={{textAlign: "center"}}>
                 <Subtitle color={'black'} className={manual.toAllSubHeadingUpEvents}>
@@ -127,6 +143,7 @@ export default function HomeDesktop() {
 
               <HomeEvents/>
               <div style={{marginBottom: "100px"}}/>
+              </div>
             </div>
             
 

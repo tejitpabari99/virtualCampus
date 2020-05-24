@@ -5,7 +5,8 @@ import CustomTheme from "../all/CustomTheme";
 import { AddCalendar } from "../";
 import { makeStyles } from "@material-ui/core/styles";
 import CustomButton from '../buttons/CustomButton';
-
+import Heading1Mobile from "../text/Heading1Mobile";
+import Heading2Mobile from "../text/Heading2Mobile";
 const theme = CustomTheme;
 
 const months = {
@@ -31,37 +32,26 @@ const formatTime = function(hours, min) {
 };
 
 const useStyles = makeStyles(() => ({
-    card: {
-        // transition: 'all 0.3s',
-        // [theme.breakpoints.up('xs')]:{
-        //     display:'block',
-        //     flexDirection: 'none'
-        // },
-        // [theme.breakpoints.up('sm')]:{
-        //     display:'block',
-        //     flexDirection: 'none'
-        // },
-        // [theme.breakpoints.up('md')]:{
-        //     display:"flex", flexDirection:"row",
-        // },
-        // [theme.breakpoints.up('lg')]:{
-        //     display:"flex", flexDirection:"row",
-        // }
+    card:{
+        paddingLeft: "5vw",
+        paddingRight: "5vw",
     },
     cardTitle,
     eventTitle: {
         color: 'black',
         marginRight: "8px",
         fontSize:18,
+        display:'inline-block'
     },
     eventHost: {
         color: '#0072CE',
         marginTop: "2.34px",
         fontSize:12,
+        display:'inline-block'
     },
     timeInfo: {
         color: 'gray',
-        display: "inline",
+        display: "block",
         fontSize: 10,
     },
     tagInfo: {
@@ -97,8 +87,8 @@ const useStyles = makeStyles(() => ({
     },
     cardbody:{
         padding: 10,
-        paddingLeft: 20,
-        paddingRight: 20
+        paddingLeft: 0,
+        paddingRight: 0
     },
     button3:{
         boxShadow:"none",
@@ -133,13 +123,11 @@ const useStyles = makeStyles(() => ({
     },
     image:{
         borderRadius: 5,
-        width:"300px",
+        width:"100%",
         height: "102px",
         objectFit: "cover",
         marginTop: "32px",
         marginBottom: "11px",
-        marginLeft: "22px",
-        marginRight: "22px",
         // [theme.breakpoints.up('xs')]:{
         //     display:'none'
         // },
@@ -183,9 +171,8 @@ export default function EventCardMobile({ele}) {
 
             <div className={classes.cardbody}>
 
-                <div className={classes.eventTitle}>{ele.title}</div>
-
-                <div className={classes.eventHost}>{ele.hostedBy}</div>
+                <Heading1Mobile color={"black"} left >{ele.title}</Heading1Mobile>
+                <Heading2Mobile color={"blue"} style={{marginTop:'10px'}} left >{ele.hostedBy}</Heading2Mobile>
 
                 <div className={classes.timeInfo}>
                     {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} - {formatTime(ele.endTime.getHours(), ele.endTime.getMinutes())} EST
@@ -193,7 +180,7 @@ export default function EventCardMobile({ele}) {
                     {ele.tags.map((ta, ind) => {
                         return (
                         <span>
-                            <span className={classes.middleDot}></span>
+                            <span className={classes.middleDot}/>
                           <p className={classes.tagInfo}>
                             {ta}
                           </p>
@@ -209,22 +196,21 @@ export default function EventCardMobile({ele}) {
 
 
                 {/* Button Formatting for putting one or two buttons */}
-                {ele.eventLink.length > 0 && ele.website != '' ?
+                {ele.eventLink.length > 0 && ele.website !== '' ?
                     <div style={{textAlign:'center', width: "100%"}}>
-                        <CustomButton href={ele.website} text={'WEBSITE'}
+                        <CustomButton href={ele.website} text={'WEBSITE'} newTab
                                     style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginRight: 20, marginTop: 5}} color={'blue'}/>
-                        <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title}
+                        <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
                                 style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
                     </div>
-                : ele.eventLink.length === 0 && ele.website != '' ?
-                    <CustomButton href={ele.website} text={'WEBSITE'}
+                : ele.eventLink.length === 0 && ele.website !== '' ?
+                    <CustomButton href={ele.website} text={'WEBSITE'} newTab
                                 style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
 
                 : ele.eventLink.length > 0 ?
-                    <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title}
+                    <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
                             style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
                 : null}
-
 
             </div>
 
