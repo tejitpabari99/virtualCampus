@@ -189,21 +189,29 @@ export default function EventCardDesktop({ ele, onClick }) {
               </div>
             </div>
             <div className={classes.flexBox} style={{marginBottom: 5, marginTop: 'auto', marginLeft:'auto'}}>
-              <div style={{ textAlign: "left" }}>
-                <CustomButton href={ele.website} text={"WEBSITE"}
-                              newTab
-                              style={{
-                                position: "relative",
-                                // marginTop: "60%",
-                                marginBottom: "5%",
-                                width: "90%",
-                                height: "10%"
-                              }} color={"blue"} size={"medium"}/>
-              </div>
-              <div style={{ textAlign: "left" }}>
-                <CustomButton href={ele.eventLink[0].link} text={"CONNECT"} newTab
-                              style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
-              </div>
+              {ele.eventLink.length > 0 && ele.website !== '' ?
+                <div>
+                <div style={{textAlign:'left'}}>
+                    <CustomButton href={ele.website} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
+                                  style={{ position: "relative", marginBottom: "5%", width: "90%", height: "10%" }} />
+                </div>
+                <div style={{textAlign:'left'}}>
+                    <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
+                                  style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
+                </div>
+                </div>
+                : ele.eventLink.length === 0 && ele.website !== '' ?
+                  <div style={{textAlign:'left'}}>
+                  <CustomButton href={ele.website} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
+                                style={{ position: "relative", width: "90%", height: "10%" }} />
+                  </div>
+                  : ele.eventLink.length > 0 ?
+                    <div style={{textAlign:'left'}}>
+                    <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
+                                  style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
+                    </div>
+                    : null}
+
             </div>
           </CardBody>
 

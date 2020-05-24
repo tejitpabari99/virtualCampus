@@ -209,8 +209,8 @@ let eventsData = [
     eventLink: [
       {
         title: 'Zoom',
-        link: 'https://us04web.zoom.us/j/71151367257?pwd=YmZJNUsrbVM3UU9yWXFaRFRLZkFuQT09',
-        pass: '4LvfDf'
+        link: 'https://us04web.zoom.us/j/78063403140?pwd=R0NUaXhCWHlzWkdFeUkvZG9XYVY4QT09',
+        pass: '7QVccb'
       }
     ],
     hostedBy: 'Columbia Virtual Campus',
@@ -227,8 +227,8 @@ let eventsData = [
     eventLink: [
       {
         title: 'Zoom',
-        link: 'https://us04web.zoom.us/j/71151367257?pwd=YmZJNUsrbVM3UU9yWXFaRFRLZkFuQT09',
-        pass: '4LvfDf'
+        link: 'https://us04web.zoom.us/j/74252295412?pwd=T1VFK0FBejZBT0hTZnVUeGRBU016dz09',
+        pass: '0nkJp5'
       }
     ],
     hostedBy: 'Columbia Virtual Campus',
