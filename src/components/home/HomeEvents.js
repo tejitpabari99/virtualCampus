@@ -69,7 +69,7 @@ class Events extends React.Component{
         const { classes } = this.props;
         return (
             <div>
-                <div style={{marginLeft: '-75px'}}>
+                <div >
                     {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
                     {this.state.displayEvents.map((ele, ind) => {
                         if(ele.display) {
@@ -78,6 +78,7 @@ class Events extends React.Component{
                         return null
                     })}
                 </div>
+                <div style={{width:'100%', color: '#4284C8', backgroundColor: '#4284C8', height: 1 }}></div>
                 {this.state.displayEvents.length>0 && <div style={{textAlign:"center", marginTop:"20px"}}>
                     <CustomButton text={'SEE MORE'} href={'/events'} size={"small"} color={"orange"} rounded/>
                 </div>}

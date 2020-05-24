@@ -124,9 +124,12 @@ export default function HomeDesktop() {
                               color={"orange"} size={"large"}/>
                 <div style={{marginBottom: "40px"}}/>
               </div>
+
               <HomeEvents/>
               <div style={{marginBottom: "100px"}}/>
             </div>
+            
+
           </div>
         </div>
     )

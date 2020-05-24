@@ -35,21 +35,8 @@ const formatTime = function(hours, min) {
 
 const useStyles = makeStyles(() => ({
     card: {
-        transition: 'all 0.3s',
-        [theme.breakpoints.up('xs')]:{
-            display:'block',
-            flexDirection: 'none'
-        },
-        [theme.breakpoints.up('sm')]:{
-            display:'block',
-            flexDirection: 'none'
-        },
-        [theme.breakpoints.up('md')]:{
-            display:"flex", flexDirection:"row",
-        },
-        [theme.breakpoints.up('lg')]:{
-            display:"flex", flexDirection:"row",
-        },
+        display:"flex",
+        flexDirection:"row",
         boxShadow: "none",
         marginTop: "0px",
         marginBottom: "5px"
@@ -58,23 +45,13 @@ const useStyles = makeStyles(() => ({
     eventTitle: {
         color: 'black',
         position: "relative",
-        marginLeft: "4.32px",
-        marginRight: "6.56px",
-        marginTop: "1.79px",
-        marginBottom: "11.204px",
         fontSize:25,
-        width: "700px",
     },
     eventHost: {
         color: '#0072CE',
         position: "relative",
-        marginLeft: "9.11px",
-        marginRight: "5.02px",
-        marginTop: "2.34px",
-        marginBottom: "11.51px",
         fontSize:20,
         display: "inline",
-        width: "700px"
     },
     timeInfo: {
         color: 'gray',
@@ -107,26 +84,21 @@ const useStyles = makeStyles(() => ({
         paddingRight: 20
     },
     flexBox: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+        flexDirection: 'column'
     },
     flexBox2: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        padding: 10,
-        paddingLeft: 20,
-        paddingRight: 20
+        flexDirection: 'column',
     },
     imageBox: {
         position: "absolute",
         top: "40px",
         left: "40px",
         backgroundColor: '#F2F9FD',
-        paddingLeft: "20px",
-        paddingRight: "20px",
+        paddingLeft: "1%",
+        paddingRight: "1%",
         borderRadius: "5.51px",
-        height: "95px",
-        width: "95px"
+        height: "40%",
+        width: "8%"
     },
     dateText: {
       color: '#0072CE',
@@ -140,26 +112,11 @@ const useStyles = makeStyles(() => ({
     },
     image: {
         borderRadius: "11px",
+        height:"200px",
         width:"300px",
         paddingBottom:0,
-        margin:15,
-        height: "200px",
-        [theme.breakpoints.up('xs')]:{
-            display:'none'
-        },
-        [theme.breakpoints.up('sm')]:{
-            display:'none'
-        },
-        [theme.breakpoints.up('md')]:{
-            width:"300px",
-            height: "200px",
-            display:'block'
-        },
-        [theme.breakpoints.up('lg')]:{
-            width:"300px",
-            height: "200px",
-            display:'block'
-        },
+        marginTop:'5%',
+        display:'block',
         objectFit: "cover",
     }
 }));
@@ -168,24 +125,26 @@ export default function EventCard({ele, onClick}) {
     const classes = useStyles();
     return(
 
-        <div style={{margin:"10px", marginLeft: "0px", width: "1250px"}}>
+        <div style={{width: "100%"}}>
+          <div style={{ color: '#4284C8', backgroundColor: '#4284C8', height: 1 }}></div>
+
             <Card className={classes.card}>
+            <div className={classes.flexBox}>
+                <img className={classes.image} src={ele.imgLink} />
+                <div className={classes.imageBox}>
+                  <p className={classes.dateText}>{ele.startTime.getDate()}</p>
+                  <p className={classes.monthText}>{months[ele.startTime.getMonth()]}</p>
+                </div>
+            </div>
+                <CardBody>
+
 
                 <div className={classes.flexBox}>
-                    <img className={classes.image} src={ele.imgLink} />
-                    <div className={classes.imageBox}>
-                      <p className={classes.dateText}>{ele.startTime.getDate()}</p>
-                      <p className={classes.monthText}>{months[ele.startTime.getMonth()]}</p>
-                    </div>
-                </div>
-
-                <div className={classes.flexBox2}>
                     <p className={classes.eventTitle}>
-                        {ele.title}
-                        <span className={classes.eventHost}>{ele.hostedBy}</span>
+                        {ele.title} <span className={classes.eventHost}>{ele.hostedBy}</span>
                     </p>
 
-                    <div style={{marginTop: "-10px"}}>
+                    <div >
                         <div className={classes.timeInfo}>
                             {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} -
                             {formatTime(ele.endTime.getHours(), ele.endTime.getMinutes())} EST
@@ -201,27 +160,25 @@ export default function EventCard({ele, onClick}) {
                             })}
                         </span>
                     </div>
-                    <div style={{margin:"15px"}}> </div>
                     <p style={{color: "black", minHeight: 75, marginBottom: 0, marginTop: 5, marginLeft: 4.32, maxWidth: 600}}>{ele.description}</p>
 
                     <div style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
-                        <strong><AddCalendar info={ele}/></strong>
+                        <strong> <AddCalendar info={ele}/></strong>
                     </div>
                 </div>
-
+                </CardBody>
                 <div className={classes.flexBox2}>
                         <div style={{textAlign:'left'}}>
                             <CustomButton href={ele.website} text={'WEBSITE'}
-                                          style={{position: "relative", marginTop: "80px", marginBottom: "10px", marginLeft: "-70px", width: 200}} color={"blue"} size={"medium"}/>
+                                          style={{position: "relative", marginTop:'60%', marginBottom: '5%', width:'90%', height:'10%'}} color={"blue"} size={"medium"}/>
                         </div>
                         <div style={{textAlign:'left'}}>
                             <CustomButton href={ele.eventLink[0].link} text={'CONNECT'}
-                                      style={{position: "relative", marginTop: "5px", marginBottom: "10px", marginLeft: "-70px", width: 200}} color={"blue"} size={"medium"}/>
+                                      style={{position: "relative", width:'90%', height:'10%'}} color={"blue"} size={"medium"}/>
                         </div>
                 </div>
                 <div style={{marginBottom:"-20px"}}></div>
             </Card>
-            <div style={{ color: '#4284C8', backgroundColor: '#4284C8', height: 3 }}></div>
         </div>
 
     )

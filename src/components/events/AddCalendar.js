@@ -54,15 +54,15 @@ const useStyles = makeStyles({
         paddingBottom: 5,
         marginRight: 7,
         marginLeft: 3,
-        width: 19,
-        height:22,
+        width: 27,
+        height:30,
     },
     inline:{
         display: 'inline-block',
     },
     smaller: {
-        height:20,
-        width:19,
+        height:27,
+        width:24,
         paddingBottom: 6,
         marginLeft: 0,
     }
