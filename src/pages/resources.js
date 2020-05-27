@@ -4,7 +4,6 @@ import AddIcon from "@material-ui/icons/Add";
 import Button from "../components/material-kit-components/CustomButtons/Button.js";
 import {MetaData, CustomButton, Title, ResourcesList, ResourcesFeatured} from "../components";
 import {makeStyles} from "@material-ui/core/styles";
-import Data from "../assets/ResourcesData";
 
 
 const useStyles = () => ({

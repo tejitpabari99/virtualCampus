@@ -8,7 +8,7 @@ const NeedsURL = CampusURL + 'basic-needs/';
 
 // const facebookGroupPic = 'https://engineering.fb.com/wp-content/uploads/2017/05/fb-hero-image-001.jpeg';
 // const instagramGroupPic = 'https://colorlib.com/wp/wp-content/uploads/sites/2/instagram-image-size.jpg';
-// const googleSeetsPic = 'https://helpdeskgeek.com/wp-content/pictures/2020/01/google-sheets.png';
+// const googleSheetsPic = 'https://helpdeskgeek.com/wp-content/pictures/2020/01/google-sheets.png';
 const surveyPic = 'https://imgur.com/fwMQ75E.jpg';
 const covidResourcesPic = 'https://imgur.com/OSw7HmK.jpg';
 const covidInfoPic = 'https://imgur.com/AJy6GJz.jpg';
@@ -21,13 +21,6 @@ const internationalStudentsPic = 'https://i.imgur.com/xOA11BT.jpg';
 const boardGamesPic = 'https://imgur.com/ocFCBAf.jpg';
 // const medicalSuppliesMainImage = 'https://images.unsplash.com/photo-1584744982491-665216d95f8b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80';
 
-/*
-* Empty lists:
-*   COVID - Medical Supplies
-*   Jobs Internships - jobs
-*   Jobs Internships - internships
-*
-*/
 
 const IndexCampusData = {
   'social': ['corona-creation-challenge', 'isolating-together', 'tabletopia', 'quarantine-board-games'],

@@ -10,7 +10,7 @@ const manualSt = makeStyles(() => ({
     marginRight: '1vw',
   },
   button:{
-    padding: "1.7vh 2vw",
+    padding: "1.5vh 1.8vw",
     margin: "0.5vh 0 0 0",
     willChange: "box-shadow, transform",
     transition:
@@ -55,7 +55,7 @@ const manualSt = makeStyles(() => ({
   },
 }));
 
-export default function CustomButton({href, text, color, size, rounded, onClick, className, ...rest}) {
+export default function CustomButton({href, text, color, size, rounded, onClick, className, newTab, ...rest}) {
   const manual = manualSt();
   const btnClasses = classNames({
     [manual[color]]: color,
@@ -67,7 +67,7 @@ export default function CustomButton({href, text, color, size, rounded, onClick,
 
   return (
     <Button {...rest} className={btnClasses} onClick={onClick}
-            target={'_blank'} rel="noopener noreferrer"
+            target={newTab?'_blank':''} rel="noopener noreferrer"
             href={href}>
       <span className={classNames(manual.buttonSpan)}>{text}</span>
     </Button>
