@@ -2,8 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-//inputs 
 import FormikField from "../components/FormikField/FormikField"
+
 import "../components/FormikField/FormikField.css"
 import { CheckboxWithLabel, SimpleFileUpload } from 'formik-material-ui';
 import { Select } from 'material-ui-formik-components/Select'
@@ -15,9 +15,11 @@ import DateFnsUtils from '@date-io/date-fns';
 
 
 import Button from '@material-ui/core/Button';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
-import GridContainer from '../components/material-kit-components/Grid/GridContainer';
-import GridItem from '../components/material-kit-components/Grid/GridItem'
+
+import Grid from '@material-ui/core/Grid';
+
 
 
 import classNames from "classnames";
@@ -55,10 +57,11 @@ const manualSt = makeStyles(() => ({
         background: 'white',
         border: '1px solid #0072CE',
         borderRadius: '10px',
-        boxSizing: "border-box",
         color: '#0072CE',
         boxShadow: 'none',
         width: "100%",
+        height: '40px',
+        fontsize: '14px'
     },
     formField: {
         fontSize: '14px',
@@ -193,8 +196,8 @@ const AddEvent = (props) => {
                 <div className={classNames(classes.mainOther, manual.main)}>
                     <Container maxWidth='lg' style={{ paddingTop: '85px' }}>
                         {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
-                        <GridContainer spacing={10}>
-                            <GridItem xs={4}>
+                        <Grid container spacing={10}>
+                            <Grid item xs={4}>
                                 <div className={classNames(manual.toAll, manual.title)}>Host a New Event</div>
                                 <div className={classNames(manual.toAll, manual.detail)}>
                                     Thank you for your interest in leading a virtual event or activity through CVC.
@@ -205,8 +208,8 @@ const AddEvent = (props) => {
                                     Questions? Contact us at <br />
                                     <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
                             </div>
-                            </GridItem>
-                            <GridItem xs={8}>
+                            </Grid>
+                            <Grid item xs={8}>
                                 <Formik
                                     initialValues={initVal}
                                     onSubmit={submitHandler}
@@ -215,49 +218,52 @@ const AddEvent = (props) => {
                                     {({ dirty, isValid, errors, touched }) => {
                                         return (
                                             <Form>
+                                                {/* CONTACT SECTION */}
                                                 <div className={manual.section}>
                                                     <div className={classNames(manual.toAll, manual.subtitle)}>Contact</div>
-                                                    <GridContainer >
-                                                        <GridItem sm={6}>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item sm={6}>
                                                             <FormikField label="Name / Organization" name="name" error={errors.name} touch={touched.name} required ></FormikField>
-                                                        </GridItem>
-                                                        <GridItem sm={6}>
+                                                        </Grid>
+                                                        <Grid item sm={6}>
                                                             <FormikField label="Email" name="email" error={errors.email} touch={touched.email} required ></FormikField>
-                                                        </GridItem>
-                                                    </GridContainer>
+                                                        </Grid>
+                                                    </Grid>
                                                 </div>
 
 
+                                                {/* EVENT DETAILS SECTION */}
                                                 <div className={manual.section}>
                                                     <div className={classNames(manual.toAll, manual.subtitle)}>Event</div>
-                                                    <GridContainer >
-                                                        <GridItem sm={6}>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item sm={6}>
                                                             <FormikField label="Event Name" name="event" error={errors.event} touch={touched.event} required ></FormikField>
-                                                        </GridItem>
-                                                        <GridItem sm={4}>
+                                                        </Grid>
+                                                        <Grid item sm={4}>
                                                             <FormikField label="Logo / Image Link" name="image_link" error={errors.image_link} touch={touched.image_link} ></FormikField>
-                                                        </GridItem>
-                                                        <GridItem sm={2}>
+                                                        </Grid>
+                                                        <Grid item sm={2}>
                                                             {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                                            <Button
-                                                                className={classNames(manual.toAll, manual.uploadBtn)}
-                                                            >
-                                                                <input
-                                                                    type='file'
-                                                                    style={{ display: "none" }}
-                                                                />
-                                                                Upload File
-                                                            </Button>
-                                                        </GridItem>
-                                                    </GridContainer>
+                                                            <input
+                                                                type='file'
+                                                                id='file_upload'
+                                                                style={{ display: 'none' }}
+                                                            />
+                                                            <label htmlFor="file_upload">
+                                                                <Button className={manual.uploadBtn} variant="outlined" component="span">Upload</Button>
+                                                            </label>
 
-                                                    <GridContainer>
-                                                        <GridItem>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid container spacing={2}>
+                                                        <Grid item sm={12}>
                                                             <FormikField label="Event Description" name="desc" multiline rows="5" error={errors.desc} touch={touched.desc} required />
-                                                        </GridItem>
-                                                    </GridContainer>
-                                                    <GridContainer>
-                                                        <GridItem sm={3}>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid container spacing={2}>
+                                                        <Grid item sm={3}>
                                                             <div style={{ margin: '16px 0 8px' }}>
 
                                                                 <Field
@@ -267,8 +273,8 @@ const AddEvent = (props) => {
                                                                 />
                                                             </div>
 
-                                                        </GridItem>
-                                                        <GridItem sm={3}>
+                                                        </Grid>
+                                                        <Grid item sm={3}>
                                                             <div style={{ margin: '16px 0 8px' }}>
                                                                 <Field
                                                                     component={DateTimePicker}
@@ -276,8 +282,8 @@ const AddEvent = (props) => {
                                                                     label="End Time"
                                                                 />
                                                             </div>
-                                                        </GridItem>
-                                                        <GridItem sm={6}>
+                                                        </Grid>
+                                                        <Grid item sm={6}>
                                                             <Field
                                                                 name="recurring"
                                                                 label="Select Recurring"
@@ -290,25 +296,31 @@ const AddEvent = (props) => {
                                                                 ]}
                                                                 component={Select}
                                                             />
-                                                        </GridItem>
-                                                    </GridContainer>
-                                                    <div style={{ paddingTop: "18px" }}>
-                                                        Please provide AT LEAST ONE of the following links for your event.
-                                                    </div>
-                                                    <GridContainer spacing={3}>
-                                                        <GridItem sm={6}>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid container spacing={2}>
+                                                        <Grid item sm={12}>
+                                                            <div>
+                                                                Please provide AT LEAST ONE of the following links for your event.
+                                                            </div>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid container spacing={2}>
+                                                        <Grid item sm={6}>
                                                             <FormikField label="Website / Event Link" name="event_link" error={errors.event_link} touch={touched.event_link} required />
-                                                        </GridItem>
-                                                        <GridItem sm={6}>
+                                                        </Grid>
+                                                        <Grid item sm={6}>
                                                             <FormikField label="Video Call / Media Link (Zoom, Twitch, etc.)" name="invite_link" />
-                                                        </GridItem>
-                                                    </GridContainer>
-                                                    <br />
-                                                    <GridContainer spacing={3}>
-                                                        <GridItem sm={1}>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid container spacing={2}>
+                                                        <Grid item sm={1}>
                                                             <div style={{ paddingTop: '9px' }}>Tags</div>
-                                                        </GridItem>
-                                                        <GridItem sm={11}>
+                                                        </Grid>
+                                                        <Grid item sm={11}>
                                                             <Field
                                                                 component={CheckboxWithLabel}
                                                                 name="games"
@@ -351,23 +363,25 @@ const AddEvent = (props) => {
                                                                 type="checkbox"
                                                                 indeterminate={false}
                                                             />
-                                                        </GridItem>
-                                                    </GridContainer>
-                                                    <GridContainer>
-                                                        <GridItem sm={12}>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid container spacing={2}>
+                                                        <Grid item sm={12}>
                                                             <FormikField label="Other Tags" placeholder="Separate Each Tag by Semicolon" name="other_tag" />
-                                                        </GridItem>
-                                                    </GridContainer>
+                                                        </Grid>
+                                                    </Grid>
                                                 </div>
+
 
 
                                                 <div className={manual.section}>
                                                     <div className={classNames(manual.toAll, manual.subtitle)}>Additional Information</div>
-                                                    <GridContainer>
-                                                        <GridItem sm={12}>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item sm={12}>
                                                             <FormikField label="Comments" name="comments" multiline rows="5" error={errors.comments} touch={touched.comments} />
-                                                        </GridItem>
-                                                    </GridContainer>
+                                                        </Grid>
+                                                    </Grid>
                                                     <div>
                                                         By hosting an event you agree to the <a href="https://www.essential-policies.columbia.edu/university-event-policies" target="_blank">Columbia Events Policy</a>.
                                                     </div>
@@ -381,22 +395,24 @@ const AddEvent = (props) => {
                                                     />
                                                 </div>
 
-                                                <GridContainer>
-                                                    <GridItem sm={3}>
+                                                <Grid container spacing={2}>
+                                                    <Grid item sm={3}>
                                                         <Button
                                                             className={manual.submitBtn}
-                                                            disabled={!isValid}
-                                                            type="submit">
+                                                            // disabled={!isValid}
+                                                            type="submit"
+                                                            id='submit'
+                                                        >
                                                             Submit
                                                         </Button>
-                                                    </GridItem>
-                                                </GridContainer>
+                                                    </Grid>
+                                                </Grid>
                                             </Form>
                                         )
                                     }}
                                 </Formik>
-                            </GridItem>
-                        </GridContainer>
+                            </Grid>
+                        </Grid>
                         <div style={{ marginBottom: "50px" }} />
                         {/* </div> */}
                     </Container>

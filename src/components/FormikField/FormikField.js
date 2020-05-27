@@ -1,7 +1,9 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField"
+
 import { Field, ErrorMessage } from "formik"
 import "./FormikField.css"
+
+import CustomField from './CustomField'
 
 
 const FormikField = (props) => {
@@ -11,13 +13,28 @@ const FormikField = (props) => {
 
     // error state handling
     let error = props.error
+    // console.log("error: " + error)
     let touched = props.touch
+    // console.log("touched: " + error)
+    let valid = false
+
     let toggle = false
-    if (error != null) {
-        if (touched == true) {
+    if (touched == true) {
+        if (error != null) {
             toggle = true
         }
+        else {
+            // console.log("this is valid")
+            valid = true
+        }
     }
+
+
+    // if (error != null) {
+    //     if (touched == true) {
+    //         toggle = true
+    //     }
+    // }
 
     let multiTog = false
     if (multiline != null) {
@@ -25,20 +42,19 @@ const FormikField = (props) => {
     }
 
     return (
-        <div className="FormikField">
+        <div style={{ margin: '2px 0 8px 0' }}>
             <Field
                 fullWidth
-                as={TextField}
-                label={props.label}
+                as={CustomField}
+                // label={props.label}
                 name={props.name}
                 helperText={errorMsg}
-                multiline={props.rows > 1}
                 required={props.required}
                 error={toggle}
                 multiline={multiTog}
                 rows={props.rows}
-                placeholder={props.placeholder}
-                variant="outlined"
+                placeholder={props.label}
+                isValid={valid}
             />
         </div>
     )
