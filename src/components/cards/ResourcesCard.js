@@ -38,28 +38,75 @@ const colorMapping = {
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 330,
+    maxWidth: '300px',
+    height: '386px',
+    minWidth: '280px',
+    position: 'relative',
     boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
     transition: 'all 0.3s',
-    borderBottom: '5px solid #4284C8',
-    
+
     "&:hover": {
       boxShadow: "0 10px 10px 0 rgba(0, 0, 0, 0.14), 0 15px 5px -10px rgba(0, 0, 0, 0.2), 0 5px 25px 0 rgba(0, 0, 0, 0.12)"
     }
   },
+  /*imgOverlay: {
+    position:'absolute',
+    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 71.35%)',
+    left: 0,
+    right: 0,x
+    top: 0,
+    bottom: 0,
+    height: '50.26%',
+    opacity:'50%'
+  },*/
   media: {
-    height: 150,
-    padding: 0
+    position: 'absolute',
+    left: '0%',
+    right: '0%',
+    top: '0%',
+    bottom: '50.26%',
+
+    //background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 71.35%)',
+    //boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.6)',
+    borderRadius: '5px 5px 0px 0px'
   },
   title: {
-    textTransform: "capitalize",
-    height: 55,
-    fontSize: '1.25rem'
+    position: 'absolute',
+    left: '8.28%',
+    right: '8.28%',
+    top: '29.02%',
+    bottom: '51.04%',
+
+    /* Desktop/Body */
+
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '25px',
+    lineHeight: '30px',
+    textShadow: '1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000',
+
+    color: '#FFFFFF'
   },
   description: {
     // display: 'none',
-    height: 60,
-    overflow: 'hidden'
+    // height: 60,
+    position: 'absolute',
+    left: '8.28%',
+    right: '8.28%',
+    top: '55.44%',
+    bottom: '9.59%',
+
+    /* Desktop/Details */
+
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '14px',
+    lineHeight: '21px',
+
+    color: '#000000',
+    // overflow: 'hidden'
   },
   cardHeader:{
     textTransform: 'capitalize',
@@ -76,8 +123,8 @@ const useStyles = makeStyles({
     backgroundColor: colorMapping['vc'],
     position: 'absolute',
     width:'75%',
-    right: 10,
-    
+    right: 10
+
   },
   container: {
     position: 'relative',
@@ -88,12 +135,27 @@ const useStyles = makeStyles({
   icons:{
     marginRight: 0,
     marginLeft: 0
+  },
+  button:{
+    background: 'rgba(255, 255, 255, 0.85)',
+    float: 'right',
+    marginLeft:"3%",
+    marginTop: 0,
+    marginBottom: 0,
+    borderRadius: '20px',
+    zIndex: 10,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '10px',
+    lineHeight: '15px',
+    textAlign: 'center'
   }
 });
 
 const trimDescription = function(description) {
-  if(description.length > 75) {
-    description = description.substr(0, description.lastIndexOf(' ', 75)) + ' ...'
+  if(description.length > 250) {
+    description = description.substr(0, description.lastIndexOf(' ', 250)) + ' ...'
   }
   return description
 };
@@ -107,7 +169,8 @@ export default function ResourcesCard(props) {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  let {iosLink, androidLink, website, share, imgURL, title, description,
+
+  let {iosLink, androidLink, website, share, img, title, description, tags,
           headerTitle, headerColor} = props;
   if(headerColor && colorMapping.hasOwnProperty(headerColor)){
     headerColor = colorMapping[headerColor.toLowerCase()]
@@ -122,10 +185,13 @@ export default function ResourcesCard(props) {
       <div className={classes.mediaContainer}>
         {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor}}>{headerTitle}</div>}
         <CardMedia
+          component="img"
+          height="50.26%"
           className={classes.media}
-          image={imgURL}
+          image={img}
           title={title}
         />
+
       </div>
 
       <CardContent style={{marginBottom: 0}}>
@@ -135,6 +201,13 @@ export default function ResourcesCard(props) {
         <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
           {trimDescription(description)}
         </Typography>
+        <Button className={classes.button}>
+          {tags[0]}
+        </Button>
+        <Button className={classes.button}>
+          {tags[1]}
+        </Button>
+
       </CardContent>
       <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
         <div style={{float: 'left'}}>
@@ -191,9 +264,10 @@ ResourcesCard.propTypes = {
   androidLink: PropTypes.string,
   website: PropTypes.string.isRequired,
   share: PropTypes.bool,
-  imgURL: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  img: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
   headerTitle: PropTypes.string,
   headerColor: PropTypes.string
 };
