@@ -69,7 +69,7 @@ export default function ResourcesList() {
               {IndexCampusData[key].map(ele => {
                 let data = CampusData[key]['data'][ele];
                 return (
-                  <GridItem xs={12} sm={6} md={4} className={contStyle.gridEle}>
+                  <GridItem xs={12} sm={6} md={3} className={contStyle.gridEle}>
                     <ResourcesCard
                       website={data.links.website}
                       img={data.img}

@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { CustomButton, AddCalendar, CustomTheme } from "../";
 import Heading1 from "../text/Heading1";
 import Heading2 from "../text/Heading2";
-import Circle from "react-simple-shapes";
 
 const theme = CustomTheme;
 

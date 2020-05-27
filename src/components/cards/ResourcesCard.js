@@ -38,9 +38,7 @@ const colorMapping = {
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: '300px',
     height: '386px',
-    minWidth: '280px',
     position: 'relative',
     boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
     transition: 'all 0.3s',
@@ -140,7 +138,7 @@ const useStyles = makeStyles({
     background: 'rgba(255, 255, 255, 0.85)',
     float: 'right',
     marginLeft:"3%",
-    marginTop: 0,
+    marginTop: "2%",
     marginBottom: 0,
     borderRadius: '20px',
     zIndex: 10,
@@ -201,12 +199,13 @@ export default function ResourcesCard(props) {
         <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
           {trimDescription(description)}
         </Typography>
-        <Button className={classes.button}>
-          {tags[0]}
-        </Button>
-        <Button className={classes.button}>
-          {tags[1]}
-        </Button>
+        {tags.map(ele => {
+          return (
+            <Button className={classes.button}>
+              {ele}
+            </Button>
+          )
+        })}
 
       </CardContent>
       <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
