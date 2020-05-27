@@ -183,7 +183,7 @@ const CampusData = {
     }
   },
   'needs': {
-    title: 'Needs',
+    title: 'Basic Needs',
     img: 'https://i.ytimg.com/vi/ZdkJJOWG05g/maxresdefault.jpg',
     pageURL: NeedsURL,
     data: {
