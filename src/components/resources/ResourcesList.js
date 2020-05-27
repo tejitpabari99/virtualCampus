@@ -63,7 +63,7 @@ export default function ResourcesList() {
           <div className={contStyle.gridCont}>
             <div>
             <Typography style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }} variant="h5" component="h2" className={contStyle.title}>{CampusData[key]['title']}</Typography>
-            <Link to={CampusData[key]['pageURL']} className={contStyle.seeAllLink}>See All</Link>
+
             </div>
             <GridContainer>
               {IndexCampusData[key].map(ele => {
