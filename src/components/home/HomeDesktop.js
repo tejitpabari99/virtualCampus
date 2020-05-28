@@ -145,7 +145,7 @@ export default function HomeDesktop() {
               <div style={{marginBottom: "100px"}}/>
               </div>
             </div>
-            
+
 
           </div>
         </div>
