@@ -203,23 +203,25 @@ class Events extends React.Component {
   }
 
   convertEventsTime(event) {
-      const tzString = "America/New_York$true"; //event.timezone;
-      const tz = tzString.split("$")[0];
-      const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
-      const offset = getOffset(tz, daylightSavings);
+      const tzString = event.timezone;
+      if (event.timezone !== undefined && event.timezone.includes('$')) {
+          const tz = tzString.split("$")[0];
+          const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
+          const offset = getOffset(tz, daylightSavings);
 
-      // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
-      // America/New_York should be changed to the user's time zone who created the event, if they
-      // Choose to use their time zone rather than EST.
-      const UTCStart = convertDateToUTC(event.startTime, offset);
-      const UTCEnd = convertDateToUTC(event.endTime, offset);
+          // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
+          // America/New_York should be changed to the user's time zone who created the event, if they
+          // Choose to use their time zone rather than EST.
+          const UTCStart = convertDateToUTC(event.start_date, offset);
+          const UTCEnd = convertDateToUTC(event.end_date, offset);
 
-      // Second, convert those consts above to user's local time
-      event.startTime = convertUTCToLocal(UTCStart);
-      event.endTime = convertUTCToLocal(UTCEnd);
+          // Second, convert those consts above to user's local time
+          event.start_date = convertUTCToLocal(UTCStart);
+          event.end_date = convertUTCToLocal(UTCEnd);
 
-      // get timezone to display
-      event.timeZoneGMT =  getTimezoneName(getCurrentLocationForTimeZone(), dst());
+          // get timezone to display
+          event.timeZoneGMT = getTimezoneName(getCurrentLocationForTimeZone(), dst());
+      }
       return event;
   }
 
@@ -250,9 +252,16 @@ class Events extends React.Component {
   // }
 
 async componentDidMount() {
+
+      console.log("In async");
     var db = firebase.firestore();
     var approvedEvents = await db.collection('events').where("approved", "==", true).get();
-    var approvedEventsMap = approvedEvents.docs.map(doc => doc.data())
+
+    // MAY NEED TO CHANGE:
+    // this.convertEventsTime takes in an event's data, and uses the event.timezone
+    // and event.startTime or event.endTime (may need to change these names)
+    // to convert to user's local time
+    var approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()))
 
     this.setState({ eventsData: approvedEventsMap })
   }
