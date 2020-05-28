@@ -8,6 +8,7 @@ import EventCard from "./cards/EventCard";
 import EventCardMobile from "./cards/EventCardMobile";
 import EventModal from "./cards/EventModal";
 import ResourcesList from "./resources/ResourcesList";
+import ResourcesFeatured from "./resources/ResourcesFeatured";
 import ResourcesCard from "./cards/ResourcesCard";
 import AddCalendar from "./events/AddCalendar";
 import CustomButton from "./buttons/CustomButton";
@@ -23,4 +24,4 @@ export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton,
         Title, Subtitle, Heading,
-        ResourcesList, ResourcesCard}
+        ResourcesList, ResourcesFeatured, ResourcesCard}

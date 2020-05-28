@@ -42,6 +42,9 @@ export default function Resources() {
                 We have consolidated the following resources to help you navigate these uncertain times!
             </div><br/><br/>
 
+            <ResourcesFeatured />
+
+            <br/><br/>
             <div style={{textAlign:'center'}}>
               <CustomButton text={"ADD NEW RESOURCES"} href={"resources-form"}
                             color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
