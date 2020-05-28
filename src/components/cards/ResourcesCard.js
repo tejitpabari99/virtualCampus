@@ -47,16 +47,16 @@ const useStyles = makeStyles({
       boxShadow: "0 10px 10px 0 rgba(0, 0, 0, 0.14), 0 15px 5px -10px rgba(0, 0, 0, 0.2), 0 5px 25px 0 rgba(0, 0, 0, 0.12)"
     }
   },
-  /*imgOverlay: {
+  imgOverlay: {
     position:'absolute',
-    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 71.35%)',
+    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 41.35%)',
     left: 0,
-    right: 0,x
+    right: 0,
     top: 0,
     bottom: 0,
     height: '50.26%',
     opacity:'50%'
-  },*/
+  },
   media: {
     position: 'absolute',
     left: '0%',
@@ -64,8 +64,6 @@ const useStyles = makeStyles({
     top: '0%',
     bottom: '50.26%',
 
-    //background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 71.35%)',
-    //boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.6)',
     borderRadius: '5px 5px 0px 0px'
   },
   title: {
@@ -82,7 +80,6 @@ const useStyles = makeStyles({
     fontWeight: 'normal',
     fontSize: '25px',
     lineHeight: '30px',
-    textShadow: '1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000',
 
     color: '#FFFFFF'
   },
@@ -189,6 +186,7 @@ export default function ResourcesCard(props) {
           image={img}
           title={title}
         />
+        <div className={classes.imgOverlay}/>
 
       </div>
 
