@@ -49,7 +49,7 @@ const useStyles = makeStyles({
   },
   imgOverlay: {
     position:'absolute',
-    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 41.35%)',
+    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 71%)',
     left: 0,
     right: 0,
     top: 0,
@@ -178,7 +178,7 @@ export default function ResourcesCard(props) {
     <Card className={classes.root}>
       <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
       <div className={classes.mediaContainer}>
-        {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor}}>{headerTitle}</div>}
+        {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
         <CardMedia
           component="img"
           height="50.26%"

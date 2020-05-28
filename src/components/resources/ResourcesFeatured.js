@@ -36,7 +36,7 @@ const containerStyles = makeStyles(() => ({
     right: '62.74%',
     top: '11.91%',
     bottom: '16.96%',
-    background: '#FFFFFF'
+    background: '#FFFFFF',
   },
   category: {
     position: 'absolute',
