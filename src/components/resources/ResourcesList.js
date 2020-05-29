@@ -14,7 +14,6 @@ import {cardTitle} from "../../assets/material-kit-assets/jss/material-kit-react
 const CampusData = Data.CampusData;
 const theme = CustomTheme;
 
-
 const containerStyles = makeStyles(() => ({
   container: {
     paddingTop: "20px"
