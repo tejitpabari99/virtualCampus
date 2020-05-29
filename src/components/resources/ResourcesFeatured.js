@@ -8,8 +8,6 @@ import Button from "../material-kit-components/CustomButtons/Button.js";
 import {makeStyles} from "@material-ui/core/styles";
 import Data from "../../assets/ResourcesData";
 import {ResourcesCard, CustomTheme, CustomButton} from "..";
-const CampusData = Data.CampusData;
-const IndexCampusData = Data.IndexCampusData;
 const FeaturedData = Data.FeaturedData;
 const theme = CustomTheme;
 
@@ -99,8 +97,7 @@ export default function ResourcesList() {
     <Carousel>
         {
             Object.keys(FeaturedData).map(key => {
-              let category = CampusData[key]['data'];
-              let data = category[FeaturedData[key]];
+              let data = FeaturedData[key];
               console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>

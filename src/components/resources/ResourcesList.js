@@ -12,7 +12,6 @@ import Data from "../../assets/ResourcesData";
 import {ResourcesCard, CustomTheme} from "..";
 import {cardTitle} from "../../assets/material-kit-assets/jss/material-kit-react";
 const CampusData = Data.CampusData;
-const IndexCampusData = Data.IndexCampusData;
 const theme = CustomTheme;
 
 
@@ -49,6 +48,14 @@ const containerStyles = makeStyles(() => ({
   mainGrid: {
     marginLeft: 30,
     marginRight: 30
+  },
+
+  left: {
+    left: '0%',
+    width: '20%'
+  },
+  right: {
+    left: '25%'
   }
 }));
 
@@ -58,7 +65,8 @@ export default function ResourcesList() {
   return (
     <MuiThemeProvider theme={theme}>
     <div className={classNames(contStyle.mainGrid)}>
-      {Object.keys(IndexCampusData).map(key => {
+
+      {Object.keys(CampusData).map(key => {
         return (
           <div className={contStyle.gridCont}>
             <div>
@@ -66,8 +74,7 @@ export default function ResourcesList() {
 
             </div>
             <GridContainer>
-              {IndexCampusData[key].map(ele => {
-                let data = CampusData[key]['data'][ele];
+              {CampusData[key]['data'].map(data => {
                 return (
                   <GridItem xs={12} sm={6} md={3} className={contStyle.gridEle}>
                     <ResourcesCard
@@ -88,7 +95,7 @@ export default function ResourcesList() {
           </div>
         )
       })}
-    </div>
+      </div>
     </MuiThemeProvider>
   )
 }

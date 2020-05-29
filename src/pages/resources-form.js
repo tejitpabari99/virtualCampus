@@ -167,6 +167,7 @@ const AddResource = (props) => {
     const submitHandler = (values) => {
         let vals = JSON.stringify(values);
         console.log(vals);
+        console.log(values);
         alert(vals);
 
         if (values['file'] != '') {

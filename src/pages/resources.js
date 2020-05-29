@@ -37,7 +37,7 @@ export default function Resources() {
     return (
         <Template active={'resources'}>
             <MetaData title={'Resources'}/>
-          <Title color={'blue'}>RESOURCES</Title><br/>
+          <Title color={'blue'}>Resources</Title><br/>
             <div className={classes.description} style={{textAlign: 'center'}}>
                 We have consolidated the following resources to help you navigate these uncertain times!
             </div><br/><br/>
