@@ -205,6 +205,7 @@ class Events extends React.Component {
   convertEventsTime(event) {
       const tzString = event.timezone;
       if (event.timezone !== undefined && event.timezone.includes('$')) {
+          // $ splits time and timezone in the event.timezone field in firebase!
           const tz = tzString.split("$")[0];
           const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
           const offset = getOffset(tz, daylightSavings);
@@ -257,13 +258,15 @@ async componentDidMount() {
     var db = firebase.firestore();
     var approvedEvents = await db.collection('events').where("approved", "==", true).get();
 
+    // TODO
     // MAY NEED TO CHANGE:
-    // this.convertEventsTime takes in an event's data, and uses the event.timezone
-    // and event.startTime or event.endTime (may need to change these names)
-    // to convert to user's local time
+    // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
+    // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
+    // However, convertEventsTime should be run on every event, converting the time and timezone of the event
+    // To the current user's local time!
     var approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()))
 
-    this.setState({ eventsData: approvedEventsMap })
+    this.setState({ myEventsList: approvedEventsMap })
   }
 
   formatTime(hours, min) {

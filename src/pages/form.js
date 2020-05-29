@@ -271,9 +271,8 @@ class AddEvent extends React.Component {
                     });
             })
             .catch(function (error) {
-                console.error("Error adding document: ", error);
-                this.setState({errStatus: 2})
-                return 0;
+                console.error("Error adding document: ", error)
+                alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!")
             });
         Axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail', clientEmailData)
             .then(res => {
@@ -317,6 +316,7 @@ class AddEvent extends React.Component {
         }
         // send POST request to Imgur API
         r.send(d)
+
         return true
     }
 
