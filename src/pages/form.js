@@ -249,11 +249,11 @@ class AddEvent extends React.Component {
         const db = firebase.firestore();
         const newEventRef = db.collection('events').doc();
         clientEmailData['text'] = "Your New Event Request!\n<br>Here's what we are currently processing:\n <br>" +
-            emailData['text'] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
-            + "Please contact us if any of the above needs corrected or if you have any questions!"
-            + "\n<br>\n<br>Best,\n<br>The CVC Team"
+                emailData['text'] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
+                + "Please contact us if any of the above needs corrected or if you have any questions!"
+                + "\n<br>\n<br>Best,\n<br>The CVC Team"
         emailData['text'] = "New Event Request!\n <br>" +
-            emailData['text'].concat('\n<br> NOTE: The correct timezone is in the \'timezone\': field!'
+                emailData['text'].concat('\n<br> NOTE: The correct timezone is in the \'timezone\': field!'
                 +'<br><br>Click here to approve this event: ',
                 approvalUrl.concat(newEventRef.id))
         emailData['subject'] += ". ID: " + newEventRef.id;
