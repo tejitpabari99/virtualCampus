@@ -17,6 +17,7 @@
     "dotenv": "^8.2.0",
     "firebase-admin": "^8.10.0",
     "firebase-functions": "^3.6.1",
+    "gatsby-plugin-html-attributes": "^1.0.5",
     "gatsby-plugin-netlify": "^2.3.3",
     "nodemailer": "^6.4.6"
   },
