@@ -52,12 +52,12 @@ const useStyles = makeStyles(() => ({
     timeInfo: {
         color: 'gray',
         display: "block",
-        fontSize: 10,
+        fontSize: 15,
     },
     tagInfo: {
         color: 'gray',
         display: "inline",
-        fontSize: 10,
+        fontSize: 15,
     },
     button:{
         boxShadow:"none",
@@ -159,8 +159,8 @@ const useStyles = makeStyles(() => ({
         marginTop:'10px'
     },
     middleDot: {
-        height: "3px",
-        width: "3px",
+        height: "4px",
+        width: "4px",
         marginLeft: "6px", marginRight: "6px",
         marginBottom: "2px",
         backgroundColor: 'gray',
@@ -175,23 +175,21 @@ export default function EventCardMobile({ele}) {
     return(
         <div className={classes.card}>
             <div style={{position: "relative"}}>
-                <img className={classes.image} src={ele.imgLink} />
+                <img className={classes.image} src={ele.image_link} />
                 <div className={classes.imageBox}>
-                  <div className={classes.dateText}>{ele.startTime.getDate()}</div>
-                  <div className={classes.monthText}>{months[ele.startTime.getMonth()]}</div>
+                  <div className={classes.dateText}>{ele.start_date.getDate()}</div>
+                  <div className={classes.monthText}>{months[ele.start_date.getMonth()]}</div>
                 </div>
             </div>
-
             <div className={classes.cardbody}>
                 <h1 className={classes.heading1}> {ele.title} </h1>
                 <h1 className={classes.heading2}>{ele.hostedBy}</h1>
                 <div className={classes.timeInfo}>
-                    {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} - {formatTime(ele.endTime.getHours(), ele.endTime.getMinutes())} EST
+                    {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} - {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
 
                     {ele.tags.map((ta, ind) => {
                         return (
                         <span>
-
                             <span className={classes.middleDot}/>
                           <p className={classes.tagInfo}>
                             {ta}
@@ -200,7 +198,7 @@ export default function EventCardMobile({ele}) {
                         )
                     })}
                 </div>
-                <p style={{color: "black", marginBottom: 10, marginTop: 5}}>{ele.description}</p>
+                <p style={{color: "black", marginBottom: 10, marginTop: 5}}>{ele.desc}</p>
 
                 <div style={{color:"#4284C8", marginBottom: 5, marginTop: 5}}>
                         <strong><AddCalendar info={ele}/> </strong>
@@ -209,19 +207,19 @@ export default function EventCardMobile({ele}) {
 
                 {/* Button Formatting for putting one or two buttons */}
 
-                {ele.eventLink.length > 0 && ele.website !== '' ?
+                {ele.invite_link !== '' && ele.event_link !== '' ?
                     <div style={{textAlign:'center', width: "100%"}}>
-                        <CustomButton href={ele.website} text={'WEBSITE'} newTab
+                        <CustomButton href={ele.event_link} text={'WEBSITE'} newTab
                                     style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginRight: 20, marginTop: 5}} color={'blue'}/>
-                        <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
+                        <CustomButton href={ele.invite_link} text={'ATTEND'} newTab
                                 style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
                     </div>
-                : ele.eventLink.length === 0 && ele.website !== '' ?
-                    <CustomButton href={ele.website} text={'WEBSITE'} newTab
+                : ele.invite_link === '' && ele.event_link !== '' ?
+                    <CustomButton href={ele.event_link} text={'WEBSITE'} newTab
                                 style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
 
-                : ele.eventLink.length > 0 ?
-                    <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
+                : ele.invite_link !== '' ?
+                    <CustomButton href={ele.invite_link} text={'ATTEND'} newTab
                             style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
                 : null}
 

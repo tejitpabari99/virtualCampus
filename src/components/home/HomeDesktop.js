@@ -93,7 +93,7 @@ export default function HomeDesktop() {
   return (
     <div style={{ background: "white" }}>
       <MetaData title={'Columbia Virtual Campus'} />
-      <CustomHeader active={''} brand={''}></CustomHeader>
+      <CustomHeader active={''} brand={''}/>
       <div className={classNames(manual.landing)}>
         <div className={classNames(manual.landingText)}>
           <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>
@@ -120,7 +120,7 @@ export default function HomeDesktop() {
                 </Subtitle>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <CustomButton href={'/form/'}  text={'HOST A NEW EVENT'}
+            <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
               color={"orange"} size={"large"} />
             <div style={{ marginBottom: "40px" }} />
           </div>

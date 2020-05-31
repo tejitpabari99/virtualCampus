@@ -16,8 +16,7 @@ const useStyles = () => ({
 export default function Resources() {
     const classes = useStyles();
     return (
-        <Template active={'resources'}>
-            <MetaData title={'Resources'}/>
+        <Template active={'resources'} title={'Resources'}>
           <Title color={'blue'}>Resources</Title>
             <div style={{textAlign:'center'}}>
               <CustomButton text={"ADD NEW RESOURCES"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}

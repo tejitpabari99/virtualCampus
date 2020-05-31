@@ -194,7 +194,7 @@ export default function HomeMobile({isLandscape}) {
               </h1>
             </div>
             <div style={{textAlign:'center'}}>
-              <CustomButton href={'/form/'}  text={'HOST A NEW EVENT'}
+              <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
                             color={"orange"} size={"large"}/>
               <div style={{marginBottom: "40px"}}/>
             </div>

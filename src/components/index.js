@@ -17,10 +17,11 @@ import HomeMobile from "./home/HomeMobile";
 import Title from "./text/Title";
 import Subtitle from "./text/Subtitle";
 import Heading from "./text/Heading";
+import DesktopMobile from "./all/DesktopMobile";
 
 export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         EventCard, EventCardMobile, EventModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
-        CustomButton,
+        CustomButton, DesktopMobile,
         Title, Subtitle, Heading,
         ResourcesList, ResourcesCard}

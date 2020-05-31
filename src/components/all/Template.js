@@ -2,8 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
 import "../../assets/material-kit-assets/scss/material-kit-react.scss?v=1.8.0";
-import CustomHeader from "./CustomHeader";
-import CustomTheme from "./CustomTheme";
+import {MetaData, CustomTheme, CustomHeader} from '../'
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 
 const customStyle = makeStyles(() => ({
@@ -32,8 +31,9 @@ export default function Template(props) {
   const { children } = props;
   return (
     <MuiThemeProvider theme={CustomTheme}>
-      <div >
+      <div>
         <CustomHeader active={props.active} brand={'VIRTUAL CAMPUS'}/>
+        <MetaData title={props.title}/>
         <div className={custStyle.main}>
           <div className={classNames(custStyle.container)} >
             {children}

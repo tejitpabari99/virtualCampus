@@ -1,11 +1,11 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import * as Events from "./events";
+import { CircularProgress } from '@material-ui/core';
 
 //inputs
-import FormikField from "../components/FormikField/FormikField";
-import "../components/FormikField/FormikField.css";
+import FormikField from "../FormikField/FormikField";
+import "../FormikField/FormikField.css";
 import { CheckboxWithLabel, SimpleFileUpload } from "formik-material-ui";
 import { Select } from "material-ui-formik-components/Select";
 
@@ -17,17 +17,18 @@ import DateFnsUtils from "@date-io/date-fns";
 
 import Button from "@material-ui/core/Button";
 
-import GridContainer from "../components/material-kit-components/Grid/GridContainer";
-import GridItem from "../components/material-kit-components/Grid/GridItem";
+import GridContainer from "../material-kit-components/Grid/GridContainer";
+import GridItem from "../material-kit-components/Grid/GridItem";
 
 
 import classNames from "classnames";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { MetaData, CustomHeader, CustomButton, Title, Subtitle } from "../components";
+// import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
+import { MetaData, CustomHeader, CustomButton, Title, Subtitle, Template } from "../";
 import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
+import TZ from "countries-and-timezones";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -56,6 +57,9 @@ const initVal = {
 
 };
 
+let getCurrentLocationForTimeZone = function() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
 
 // here you can add make custom requirements for specific input fields
 // you can add multiple rules as seen with the "name" scheme
@@ -82,8 +86,11 @@ const validationSchema = Yup.object().shape({
   timezone: Yup.string()
     .required("Required"),
   agree: Yup.boolean("True")
-    .required()
-
+    .required(),
+  image_link: Yup.string()
+    .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/ ,'Enter valid image url (Ends with .jpg, .png)'),
+  invite_link: Yup.string()
+    .url("Please enter a valid URL")
 });
 
 const TITLE = "ADD EVENT";
@@ -165,31 +172,133 @@ function sendZoomEmail(id, name, from) {
     });
 }
 
+let dst = function (loc = getCurrentLocationForTimeZone()) {
+
+  // If user selects EST time:
+  if (loc === "America/New_York") {
+    const today = new Date();
+    var DSTDateStart;
+    var DSTDateEnd;
+    switch (today.getFullYear()) {
+      case 2020:
+        DSTDateStart = new Date(Date.UTC(2020, 2, 8, 7));
+        DSTDateEnd = new Date(Date.UTC(2020, 10, 1, 6));
+        break;
+      case 2021:
+        DSTDateStart = new Date(Date.UTC(2021, 2, 14, 7));
+        DSTDateEnd = new Date(Date.UTC(2021, 10, 7, 6));
+        break;
+      case 2022:
+        DSTDateStart = new Date(Date.UTC(2022, 2, 13, 7));
+        DSTDateEnd = new Date(Date.UTC(2022, 10, 6, 6));
+        break;
+    }
+    if (today.getTime() >= DSTDateStart.getTime() && today.getTime() < DSTDateEnd.getTime()) {
+      console.log("true");
+      return true;
+    }
+    console.log("false");
+    return false;
+  }
+
+  // If user selects local time:
+  if (TZ.getTimezone(loc).utcOffset === TZ.getTimezone(loc).dstOffset) {
+    return false;
+  }
+  const date = new Date();
+  return date.getTimezoneOffset() < this.stdTimezoneOffset();
+}
+
+let getTimezoneName = function(loc = getCurrentLocationForTimeZone(), dstN = null) {
+  if(!dstN) {dstN=dst()}
+  const gmt = TZ.getTimezone(loc).utcOffsetStr;
+  var str = "GMT" + gmt;
+
+  if (gmt === "-01:00")
+    return "CAT";
+  if (gmt === "-02:00")
+    return "BET";
+  if (gmt === "-03:00")
+    return "AGT";
+  if (gmt === "-03:30")
+    return "CNT";
+  if (gmt === "-04:00")
+    return "PRT";
+  if (gmt === "-05:00")
+    return dst ? "EDT" : "EST";
+  if (gmt === "-06:00")
+    return dst ? "CDT" : "CST";
+  if (gmt === "-07:00")
+    return dst ? "MDT" : "MST";
+  if (gmt === "-08:00")
+    return dst ? "PDT" : "PST";
+  if (gmt === "-09:00")
+    return dst ? "ADT" : "AST";
+  if (gmt === "-10:00")
+    return dst ? "HDT" : "HST";
+  if (gmt === "-11:00")
+    return "MIT";
+  if (gmt === "+12:00")
+    return dst ? "NDT" : "NST";
+  if (gmt === "+11:00")
+    return dst ? "SDT" : "SST";
+  if (gmt === "+10:00")
+    return "AET";
+  if (gmt === "+09:30")
+    return dst ? "ACDT" : "ACST";
+  if (gmt === "+09:00")
+    return dst ? "JDT" : "JST";
+  if (gmt === "+08:00")
+    return "CTT";
+  if (gmt === "+07:00")
+    return dst ? "VDT" : "VST";
+  if (gmt === "+06:00")
+    return dst ? "BDT" : "BST";
+  if (gmt === "+05:30")
+    return dst ? "IDT" : "IST";
+  if (gmt === "+05:00")
+    return "PLT";
+  if (gmt === "+04:00")
+    return "NET";
+  if (gmt === "+03:30")
+    return "MET";
+  if (gmt === "+03:00")
+    return "EAT";
+  if (gmt === "+02:00")
+    return "EET";
+  if (gmt === "+01:00")
+    return "ECT";
+
+  if (dstN)
+    return str + " DST";
+  return str;
+}
+
 function getTimezoneOptions() {
-  if (Events.getCurrentLocationForTimeZone() != defaultTimezone) {
+  if (getCurrentLocationForTimeZone() != defaultTimezone) {
     return [
       {
-        value: Events.getCurrentLocationForTimeZone()
-          + "$" + Events.dst(),
+        value: getCurrentLocationForTimeZone()
+          + "$" + dst(),
         label: "Mine: "
-          + Events.getTimezoneName()
+          + getTimezoneName()
       },
       {
         value: defaultTimezone
-          + "$" + Events.dst(defaultTimezone),
+          + "$" + dst(defaultTimezone),
         label: "Default: "
-          + Events.getTimezoneName(defaultTimezone
-            , Events.dst(defaultTimezone))
+          + getTimezoneName(defaultTimezone
+            , dst(defaultTimezone))
       }
     ];
   } else {
     return [
       {
         value: defaultTimezone
-          + "$" + Events.dst(defaultTimezone),
+          + "$" + dst(defaultTimezone),
         label: "Mine: "
-          + Events.getTimezoneName(defaultTimezone
-            , Events.dst(defaultTimezone))
+          + getTimezoneName(defaultTimezone
+            , dst(defaultTimezone))
       }
     ];
   }
@@ -197,14 +306,15 @@ function getTimezoneOptions() {
 
 const optionsTZ = getTimezoneOptions();
 
-class AddEvent extends React.Component {
+class EventFormDesktop extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
       feedbackSubmit: false,
-      errStatus: 0
+      errStatus: 0,
+      activityIndicatory: false,
     };
 
     this.submitHandler = this.submitHandler.bind(this);
@@ -215,8 +325,8 @@ class AddEvent extends React.Component {
     if (values["file"] !== "" && values["file"] !== undefined) {
       this.uploadImage(values);
     } else {
+      this.setState({activityIndicatory:true});
       const b = this.uploadData(values);
-      this.setState({ feedbackSubmit: true });
     }
   }
 
@@ -262,7 +372,16 @@ class AddEvent extends React.Component {
 
         Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
           .then(res => {
-            console.log("Success");
+            console.log("Success 1");
+            Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
+              .then(res => {
+                console.log("Success 2");
+                this.setState({ feedbackSubmit: true, activityIndicatory:false });
+              })
+              .catch(error => {
+                this.setState({ errStatus: 3 });
+                console.log("Updated error");
+              });
           })
           .catch(error => {
             this.setState({ errStatus: 1 });
@@ -273,16 +392,8 @@ class AddEvent extends React.Component {
         console.error("Error adding document: ", error);
         alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
       });
-    Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
-      .then(res => {
-        console.log("Success");
-      })
-      .catch(error => {
-        this.setState({ errStatus: 3 });
-        console.log("Updated error");
-      });
 
-    if (data["invite_link"] === "") {
+    if (data["zoomLink"]) {
       sendZoomEmail(newEventRef.id, data["event"], from);
     }
 
@@ -351,10 +462,21 @@ class AddEvent extends React.Component {
 
 
   render() {
-    if (this.state.feedbackSubmit) {
+    if (this.state.activityIndicatory){
       return (
         <div style={{ backgroundColor: "white" }}>
-          <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"}></CustomHeader>
+          <div style={{ backgroundColor: "white" }}>
+            <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"}/>
+            <div style={{marginTop: '25%', marginLeft:'50%'}}>
+              <CircularProgress />
+            </div>
+          </div>
+        </div>
+      )
+    }
+    else if (this.state.feedbackSubmit) {
+      return (
+        <Template title={'Add New Event'} active={"schedule"}>
           <div style={{
             fontFamily: "Poppins",
             fontStyle: "normal",
@@ -397,17 +519,16 @@ class AddEvent extends React.Component {
               Add Another Event
             </Button>
           </div>
-        </div>);
+        </Template>);
 
     } else {
       return (
-        <div>
+        <Template title={'Add New Event'} active={"schedule"}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             {/* <Template active={'schedule'}> */}
             <div>
-              <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"}></CustomHeader>
               <div style={{ backgroundColor: "white" }}>
-                <Container maxWidth='lg' style={{ paddingTop: "85px" }}>
+                <Container>
                   {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
                   <GridContainer spacing={10}>
                     <GridItem xs={4}>
@@ -492,34 +613,11 @@ class AddEvent extends React.Component {
                                                  touch={touched.event}
                                                  required></FormikField>
                                   </GridItem>
-                                  <GridItem sm={4}>
-                                    <FormikField label="Logo / Image Link"
+                                  <GridItem sm={6}>
+                                    <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
                                                  name="image_link"
                                                  error={errors.image_link}
                                                  touch={touched.image_link}></FormikField>
-                                  </GridItem>
-                                  <GridItem sm={2}>
-                                    {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                    <Button
-                                      style={{
-                                        fontFamily: "Poppins",
-                                        fontStyle: "normal",
-                                        fontWeight: "normal",
-                                        background: "white",
-                                        border: "1px solid #0072CE",
-                                        borderRadius: "10px",
-                                        boxSizing: "border-box",
-                                        color: "#0072CE",
-                                        boxShadow: "none",
-                                        width: "100%"
-                                      }}
-                                    >
-                                      <input
-                                        type='file'
-                                        style={{ display: "none" }}
-                                      />
-                                      Upload File
-                                    </Button>
                                   </GridItem>
                                 </GridContainer>
 
@@ -535,7 +633,6 @@ class AddEvent extends React.Component {
                                 <GridContainer>
                                   <GridItem sm={3}>
                                     <div style={{ margin: "16px 0 8px" }}>
-
                                       <Field
                                         component={DateTimePicker}
                                         name="start_date"
@@ -543,7 +640,6 @@ class AddEvent extends React.Component {
                                         required
                                       />
                                     </div>
-
                                   </GridItem>
                                   <GridItem sm={3}>
                                     <div style={{ margin: "16px 0 8px" }}>
@@ -566,30 +662,24 @@ class AddEvent extends React.Component {
                                     />
 
                                   </GridItem>
-                                  <GridItem sm={3}>
-                                    <Field
-                                      name="recurring"
-                                      label="Select Recurring"
-                                      options={[
-                                        { value: "never", label: "Never" },
-                                        { value: "daily", label: "Daily" },
-                                        { value: "weekly", label: "Weekly" },
-                                        { value: "monthly", label: "Monthly" },
-                                        {
-                                          value: "other_recurring",
-                                          label: "Other"
-                                        }
-                                      ]}
-                                      component={Select}
-                                    />
-                                  </GridItem>
+                                  {/*<GridItem sm={3}>*/}
+                                  {/*  <Field*/}
+                                  {/*    name="recurring"*/}
+                                  {/*    label="Select Recurring"*/}
+                                  {/*    options={[*/}
+                                  {/*      { value: "never", label: "Never" },*/}
+                                  {/*      { value: "daily", label: "Daily" },*/}
+                                  {/*      { value: "weekly", label: "Weekly" },*/}
+                                  {/*      { value: "monthly", label: "Monthly" },*/}
+                                  {/*      {*/}
+                                  {/*        value: "other_recurring",*/}
+                                  {/*        label: "Other"*/}
+                                  {/*      }*/}
+                                  {/*    ]}*/}
+                                  {/*    component={Select}*/}
+                                  {/*  />*/}
+                                  {/*</GridItem>*/}
                                 </GridContainer>
-                                <div style={{ paddingTop: "18px" }}>
-                                  Please provide AT LEAST ONE of the following links
-                                  for
-                                  your
-                                  event.
-                                </div>
                                 <GridContainer spacing={3}>
                                   <GridItem sm={6}>
                                     <FormikField label="Website / Event Link"
@@ -604,6 +694,13 @@ class AddEvent extends React.Component {
                                       name="invite_link"/>
                                   </GridItem>
                                 </GridContainer>
+                                <Field
+                                  component={CheckboxWithLabel}
+                                  name="zoomLink"
+                                  Label={{ label: "Request a Zoom Pro link (Only valid if no Video Call link given)" }}
+                                  type="checkbox"
+                                  indeterminate={false}
+                                />
                                 <br/>
                                 <GridContainer spacing={3}>
                                   <GridItem sm={1}>
@@ -656,7 +753,7 @@ class AddEvent extends React.Component {
                                 </GridContainer>
                                 <GridContainer>
                                   <GridItem sm={12}>
-                                    <FormikField label="Other Tags"
+                                    <FormikField label="Other Tags (Seperate each by semicolon)"
                                                  placeholder="Separate Each Tag by Semicolon"
                                                  name="other_tags"/>
                                   </GridItem>
@@ -732,7 +829,7 @@ class AddEvent extends React.Component {
 
             {/* </Template > */}
           </MuiPickersUtilsProvider>
-        </div>
+        </Template>
 
       );
     }
@@ -741,4 +838,4 @@ class AddEvent extends React.Component {
 
 }
 
-export default AddEvent;
+export default EventFormDesktop;
