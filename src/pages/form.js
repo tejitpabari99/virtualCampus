@@ -5,20 +5,25 @@ import * as Events from "./events";
 
 //inputs
 import FormikField from "../components/FormikField/FormikField"
+import CustomField from "../components/FormikField/CustomField"
+
 import "../components/FormikField/FormikField.css"
 import { CheckboxWithLabel, SimpleFileUpload } from 'formik-material-ui';
 import { Select } from 'material-ui-formik-components/Select'
 
 //Date and time input
 import { DateTimePicker } from 'formik-material-ui-pickers';
+import { DatePicker } from 'formik-material-ui-pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import CalendarIcon from "@material-ui/icons/CalendarTodayOutlined";
 
 
 import Button from '@material-ui/core/Button';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
-import GridContainer from '../components/material-kit-components/Grid/GridContainer';
-import GridItem from '../components/material-kit-components/Grid/GridItem'
+import Grid from '@material-ui/core/Grid';
+
 
 
 import classNames from "classnames";
@@ -28,6 +33,71 @@ import { MetaData, CustomHeader, CustomButton, Title, Subtitle } from "../compon
 import Container from '@material-ui/core/Container';
 import * as firebase from "firebase";
 import Axios from "axios";
+
+const manualSt = makeStyles((styles) => ({
+    ...styles,
+    toAll: {
+        fontFamily: 'Poppins',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        // marginBottom: '12px'
+    },
+    title: {
+        fontSize: '36px',
+        lineHeight: '54px',
+        color: '#0072CE'
+    },
+    subtitle: {
+        fontSize: '20px',
+        lineHeight: '30px',
+        color: '#0072CE'
+    },
+    detail: {
+        fontSize: '14px',
+        lineHeight: '21px',
+    },
+    section: {
+        margin: '15px 0'
+    },
+    uploadBtn: {
+        background: 'white',
+        border: '1px solid #0072CE',
+        borderRadius: '10px',
+        color: '#0072CE',
+        boxShadow: 'none',
+        width: "100%",
+        height: '40px',
+        fontsize: '14px'
+    },
+    formField: {
+        fontSize: '14px',
+        lineHeight: '21px',
+    },
+    tags: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        margin: "5px",
+        background: 'white',
+        border: '1px solid #0072CE',
+        borderRadius: '10px',
+        color: '#0072CE',
+        boxShadow: 'none',
+        width: "92px",
+        height: '40px',
+        fontsize: '12px',
+        textTransform: 'capitalize',
+    },
+    submitBtn: {
+        background: 'white',
+        border: '1px solid #FB750D',
+        borderRadius: '10px',
+        boxSizing: "border-box",
+        color: '#FB750D',
+        boxShadow: 'none',
+        width: "100%",
+    },
+
+}));
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -352,7 +422,10 @@ class AddEvent extends React.Component {
 
 
     render()
+
     {
+        const { manual } = this.props;
+
         if (this.state.feedbackSubmit) {
             return (
                 <div style={{backgroundColor: 'white'}}>
@@ -402,336 +475,222 @@ class AddEvent extends React.Component {
         } else {
             return (
                 <div>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        {/* <Template active={'schedule'}> */}
-                        <div>
-                            <CustomHeader active={'schedule'} brand={"VIRTUAL CAMPUS"}></CustomHeader>
-                            <div style={{backgroundColor: 'white'}}>
-                                <Container maxWidth='lg' style={{paddingTop: '85px'}}>
-                                    {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
-                                    <GridContainer spacing={10}>
-                                        <GridItem xs={4}>
-                                            <div style={{
-                                                fontFamily: 'Poppins', fontStyle: 'normal', fontWeight: 'normal',
-                                                fontSize: '36px', lineHeight: '54px', color: '#0072CE'
-                                            }}>
-                                                Host a New Event
-                                            </div>
-                                            <div style={{
-                                                fontFamily: 'Poppins', fontStyle: 'normal', fontWeight: 'normal',
-                                                fontSize: '14px', lineHeight: '21px',
-                                            }}>
-                                                Thank you for your interest in leading a virtual event or activity
-                                                through
-                                                CVC.
-                                                Please fill out the following form so we can provide you with the
-                                                necessary
-                                                resources and appropriate platform on our website!
-                                            </div>
-                                            <div style={{
-                                                fontFamily: 'Poppins', fontStyle: 'normal', fontWeight: 'normal',
-                                                fontSize: '14px', lineHeight: '21px', paddingTop: '66px'
-                                            }}>
-                                                Questions? Contact us at <br/>
-                                                <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
-                                            </div>
-                                        </GridItem>
-                                        <GridItem xs={8}>
-                                            <Formik
-                                                initialValues={initVal}
-                                                onSubmit={this.submitHandler}
-                                                validationSchema={validationSchema}
-                                            >
-                                                {({dirty, isValid, errors, touched}) => {
-                                                    return (
-                                                        <Form>
-                                                            <div style={{margin: '15px 0'}}>
-                                                                <div style={{
-                                                                    fontFamily: 'Poppins',
-                                                                    fontStyle: 'normal',
-                                                                    fontWeight: 'normal',
-                                                                    fontSize: '20px',
-                                                                    lineHeight: '30px',
-                                                                    color: '#0072CE'
-                                                                }}>
-                                                                    Contact
-                                                                </div>
-                                                                <GridContainer>
-                                                                    <GridItem sm={6}>
-                                                                        <FormikField label="Name / Organization"
-                                                                                     name="name"
-                                                                                     error={errors.name}
-                                                                                     touch={touched.name}
-                                                                                     required></FormikField>
-                                                                    </GridItem>
-                                                                    <GridItem sm={6}>
-                                                                        <FormikField label="Email" name="email"
-                                                                                     error={errors.email}
-                                                                                     touch={touched.email}
-                                                                                     required></FormikField>
-                                                                    </GridItem>
-                                                                </GridContainer>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    {/* <Template active={'schedule'}> */}
+                    <div>
+                        <CustomHeader active={'schedule'} brand={"VIRTUAL CAMPUS"}></CustomHeader>
+                        <div className={classNames(manual.mainOther, manual.main)}>
+                            <Container maxWidth='lg' style={{ paddingTop: '85px' }}>
+                                {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
+                                <Grid container spacing={10}>
+                                    <Grid item xs={4}>
+                                        <div className={classNames(manual.toAll, manual.title)}>Host a New Event</div>
+                                        <div className={classNames(manual.toAll, manual.detail)}>
+                                            Thank you for your interest in leading a virtual event or activity through CVC.
+                                            Please fill out the following form so we can provide you with the necessary
+                                            resources and appropriate platform on our website!
+                                    </div>
+                                        <div className={classNames(manual.toAll, manual.detail)} style={{ paddingTop: '66px' }}>
+                                            Questions? Contact us at <br />
+                                            <a href='mailto:columbiavirtualcampus@gmail.com' style={{color:"#0072CE"}}>columbiavirtualcampus@gmail.com</a>.
+                                    </div>
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        <Formik
+                                            initialValues={initVal}
+                                            onSubmit={this.submitHandler}
+                                            validationSchema={validationSchema}
+                                        >
+                                            {({ dirty, isValid, errors, touched }) => {
+                                                return (
+                                                    <Form>
+                                                        {/* CONTACT SECTION */}
+                                                        <div className={manual.section}>
+                                                            <div className={classNames(manual.toAll, manual.subtitle)}>Contact</div>
+                                                            <Grid container spacing={2}>
+                                                                <Grid item sm={6}>
+                                                                    <FormikField label="Name / Organization" name="name" error={errors.name} touch={touched.name} required ></FormikField>
+                                                                </Grid>
+                                                                <Grid item sm={6}>
+                                                                    <FormikField label="Email" name="email" error={errors.email} touch={touched.email} required ></FormikField>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </div>
+
+
+                                                        {/* EVENT DETAILS SECTION */}
+                                                        <div className={manual.section}>
+                                                            <div className={classNames(manual.toAll, manual.subtitle)}>Event</div>
+                                                            <Grid container spacing={2}>
+                                                                <Grid item sm={6}>
+                                                                    <FormikField label="Event Name" name="event" error={errors.event} touch={touched.event} required ></FormikField>
+                                                                </Grid>
+                                                                <Grid item sm={4}>
+                                                                    <FormikField label="Logo / Image Link" name="image_link" error={errors.image_link} touch={touched.image_link} ></FormikField>
+                                                                </Grid>
+                                                                <Grid item sm={2}>
+                                                                    {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
+                                                                    <input
+                                                                        type='file'
+                                                                        id='file_upload'
+                                                                        style={{ display: 'none' }}
+                                                                    />
+                                                                    <label htmlFor="file_upload">
+                                                                        <Button className={manual.uploadBtn} variant="outlined" component="span">Upload</Button>
+                                                                    </label>
+
+                                                                </Grid>
+                                                            </Grid>
+
+                                                            <Grid container spacing={2}>
+                                                                <Grid item sm={12}>
+                                                                    <FormikField label="Event Description" name="desc" multiline rows="5" error={errors.desc} touch={touched.desc} required />
+                                                                </Grid>
+                                                            </Grid>
+
+                                                            <Grid container spacing={2}>
+                                                                <Grid item sm={3}>
+                                                                    <div style={{ margin: '16px 0 8px' }}>
+                                                                        <Field
+                                                                            name="start_date"
+                                                                            label="Start Date and Time"
+                                                                            component={DateTimePicker}
+                                                                        />
+                                                                    </div>
+                                                                </Grid>
+                                                                <Grid item sm={3}>
+                                                                    <div style={{ margin: '16px 0 8px' }}>
+                                                                        <Field
+                                                                            component={DateTimePicker}
+                                                                            name="end_date"
+                                                                            label="End Date and Time"
+                                                                        />
+                                                                    </div>
+                                                                </Grid>
+                                                            </Grid>
+                                                            <div style={{margin: "10px", marginLeft: "0px", marginBottom: "0px"}}>
+                                                                  <Field
+                                                                      name="recurring"
+                                                                      type="checkbox"
+                                                                      indeterminate={false}
+                                                                  />
+                                                                  <div style={{display:'inline', marginLeft: "10px", fontSize: "14px"}}>This is a recurring event.</div>
                                                             </div>
+                                                            <Grid container spacing={2}>
+                                                                <Grid item sm={6}>
+                                                                    <Field
+                                                                        name="recurring"
+                                                                        label="Select Recurring"
+                                                                        options={[
+                                                                            { value: 'never', label: 'Never' },
+                                                                            { value: 'daily', label: 'Daily' },
+                                                                            { value: 'weekly', label: 'Weekly' },
+                                                                            { value: 'monthly', label: 'Monthly' },
+                                                                            { value: 'other_recurring', label: 'Other' },
+                                                                        ]}
+                                                                        component={Select}
+                                                                    />
+                                                                </Grid>
+                                                                <Grid item sm={6}>
+                                                                    <div style={{ margin: '16px 0 8px' }}>
+                                                                        <Field
+                                                                            component={DatePicker}
+                                                                            name="end_date"
+                                                                            label="End Date"
+                                                                        />
+                                                                    </div>
+                                                                </Grid>
+                                                            </Grid>
+                                                            <Grid container spacing={2}>
+                                                                <Grid item sm={12}>
+                                                                    <div style={{marginTop: "20px"}}>
+                                                                        Please provide AT LEAST ONE of the following links for your event.
+                                                                    </div>
+                                                                </Grid>
+                                                            </Grid>
+
+                                                            <Grid container spacing={2}>
+                                                                <Grid item sm={6}>
+                                                                    <FormikField label="Website / Event Link" name="event_link" error={errors.event_link} touch={touched.event_link} required />
+                                                                </Grid>
+                                                                <Grid item sm={6}>
+                                                                    <FormikField label="Video Call / Media Link (Zoom, Twitch, etc.)" name="invite_link" />
+                                                                </Grid>
+                                                            </Grid>
+
+                                                            <Grid container spacing={3}>
+                                                                <Grid item sm={1}>
+                                                                    <div style={{ paddingTop: '9px' }}>Tags</div>
+                                                                </Grid>
+                                                                <Grid item sm={8} style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                                                                    <Button className={manual.tags} variant="outlined">Education</Button>
+                                                                    <Button className={manual.tags} variant="outlined">Activism</Button>
+                                                                    <Button className={manual.tags} variant="outlined">COVID</Button>
+                                                                    <Button className={manual.tags} variant="outlined">Social</Button>
+                                                                    <Button className={manual.tags} variant="outlined">Fitness</Button>
+                                                                </Grid>
+                                                                <Grid item sm={3}>
+                                                                    <FormikField label="Other" placeholder="Separate Each Tag by Semicolon" name="other_tag" />
+                                                                </Grid>
+                                                            </Grid>
+
+                                                        </div>
 
 
-                                                            <div style={{margin: '15px 0'}}>
-                                                                <div style={{
-                                                                    fontFamily: 'Poppins',
-                                                                    fontStyle: 'normal',
-                                                                    fontWeight: 'normal',
-                                                                    fontSize: '20px',
-                                                                    lineHeight: '30px',
-                                                                    color: '#0072CE'
-                                                                }}>
-                                                                    Event
-                                                                </div>
-                                                                <GridContainer>
-                                                                    <GridItem sm={6}>
-                                                                        <FormikField label="Event Name" name="event"
-                                                                                     error={errors.event}
-                                                                                     touch={touched.event}
-                                                                                     required></FormikField>
-                                                                    </GridItem>
-                                                                    <GridItem sm={4}>
-                                                                        <FormikField label="Logo / Image Link"
-                                                                                     name="image_link"
-                                                                                     error={errors.image_link}
-                                                                                     touch={touched.image_link}></FormikField>
-                                                                    </GridItem>
-                                                                    <GridItem sm={2}>
-                                                                        {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                                                        <Button
-                                                                            style={{
-                                                                                fontFamily: 'Poppins',
-                                                                                fontStyle: 'normal',
-                                                                                fontWeight: 'normal',
-                                                                                background: 'white',
-                                                                                border: '1px solid #0072CE',
-                                                                                borderRadius: '10px',
-                                                                                boxSizing: "border-box",
-                                                                                color: '#0072CE',
-                                                                                boxShadow: 'none',
-                                                                                width: "100%",
-                                                                            }}
-                                                                        >
-                                                                            <input
-                                                                                type='file'
-                                                                                style={{display: "none"}}
-                                                                            />
-                                                                            Upload File
-                                                                        </Button>
-                                                                    </GridItem>
-                                                                </GridContainer>
 
-                                                                <GridContainer>
-                                                                    <GridItem>
-                                                                        <FormikField label="Event Description"
-                                                                                     name="desc"
-                                                                                     multiline rows="5"
-                                                                                     error={errors.desc}
-                                                                                     touch={touched.desc} required/>
-                                                                    </GridItem>
-                                                                </GridContainer>
-                                                                <GridContainer>
-                                                                    <GridItem sm={3}>
-                                                                        <div style={{margin: '16px 0 8px'}}>
-
-                                                                            <Field
-                                                                                component={DateTimePicker}
-                                                                                name="start_date"
-                                                                                label="Start Time"
-                                                                                required
-                                                                            />
-                                                                        </div>
-
-                                                                    </GridItem>
-                                                                    <GridItem sm={3}>
-                                                                        <div style={{margin: '16px 0 8px'}}>
-                                                                            <Field
-                                                                                component={DateTimePicker}
-                                                                                name="end_date"
-                                                                                label="End Time"
-                                                                                required
-                                                                            />
-                                                                        </div>
-                                                                    </GridItem>
-                                                                    <GridItem sm={3}>
-
-                                                                        <Field
-                                                                            name="timezone"
-                                                                            label="Select Timezone"
-                                                                            options={optionsTZ}
-                                                                            component={Select}
-                                                                            required
-                                                                        />
-
-                                                                    </GridItem>
-                                                                    <GridItem sm={3}>
-                                                                        <Field
-                                                                            name="recurring"
-                                                                            label="Select Recurring"
-                                                                            options={[
-                                                                                {value: 'never', label: 'Never'},
-                                                                                {value: 'daily', label: 'Daily'},
-                                                                                {value: 'weekly', label: 'Weekly'},
-                                                                                {value: 'monthly', label: 'Monthly'},
-                                                                                {
-                                                                                    value: 'other_recurring',
-                                                                                    label: 'Other'
-                                                                                },
-                                                                            ]}
-                                                                            component={Select}
-                                                                        />
-                                                                    </GridItem>
-                                                                </GridContainer>
-                                                                <div style={{paddingTop: "18px"}}>
-                                                                    Please provide AT LEAST ONE of the following links
-                                                                    for
-                                                                    your
-                                                                    event.
-                                                                </div>
-                                                                <GridContainer spacing={3}>
-                                                                    <GridItem sm={6}>
-                                                                        <FormikField label="Website / Event Link"
-                                                                                     name="event_link"
-                                                                                     error={errors.event_link}
-                                                                                     touch={touched.event_link}
-                                                                                     required/>
-                                                                    </GridItem>
-                                                                    <GridItem sm={6}>
-                                                                        <FormikField
-                                                                            label="Video Call / Media Link (Zoom, Twitch, etc.)"
-                                                                            name="invite_link"/>
-                                                                    </GridItem>
-                                                                </GridContainer>
-                                                                <br/>
-                                                                <GridContainer spacing={3}>
-                                                                    <GridItem sm={1}>
-                                                                        <div style={{paddingTop: '9px'}}>Tags</div>
-                                                                    </GridItem>
-                                                                    <GridItem sm={11}>
-                                                                        <Field
-                                                                            component={CheckboxWithLabel}
-                                                                            name="games_tag"
-                                                                            Label={{label: 'Games'}}
-                                                                            indeterminate={false}
-                                                                            type="checkbox"
-                                                                        />
-                                                                        <Field
-                                                                            component={CheckboxWithLabel}
-                                                                            name="activism_tag"
-                                                                            Label={{label: 'Activism'}}
-                                                                            type="checkbox"
-                                                                            indeterminate={false}
-                                                                        />
-                                                                        <Field
-                                                                            component={CheckboxWithLabel}
-                                                                            name="covid_tag"
-                                                                            Label={{label: 'COVID'}}
-                                                                            type="checkbox"
-                                                                            indeterminate={false}
-                                                                        />
-                                                                        <Field
-                                                                            component={CheckboxWithLabel}
-                                                                            name="social_tag"
-                                                                            Label={{label: 'Social'}}
-                                                                            type="checkbox"
-                                                                            indeterminate={false}
-                                                                        />
-                                                                        <Field
-                                                                            component={CheckboxWithLabel}
-                                                                            name="fitness_tag"
-                                                                            Label={{label: 'Fitness'}}
-                                                                            type="checkbox"
-                                                                            indeterminate={false}
-                                                                        />
-                                                                        <Field
-                                                                            component={CheckboxWithLabel}
-                                                                            name="education_tag"
-                                                                            Label={{label: 'Education'}}
-                                                                            type="checkbox"
-                                                                            indeterminate={false}
-                                                                        />
-                                                                    </GridItem>
-                                                                </GridContainer>
-                                                                <GridContainer>
-                                                                    <GridItem sm={12}>
-                                                                        <FormikField label="Other Tags"
-                                                                                     placeholder="Separate Each Tag by Semicolon"
-                                                                                     name="other_tags"/>
-                                                                    </GridItem>
-                                                                </GridContainer>
+                                                        <div className={manual.section}>
+                                                            <div className={classNames(manual.toAll, manual.subtitle)}>Additional Information</div>
+                                                            <Grid container spacing={2}>
+                                                                <Grid item sm={12}>
+                                                                    <FormikField label="Comments" name="comments" multiline rows="5" error={errors.comments} touch={touched.comments} />
+                                                                </Grid>
+                                                            </Grid>
+                                                            <div>
+                                                                By hosting an event you agree to the <a href="https://www.essential-policies.columbia.edu/university-event-policies" target="_blank" style={{color:"#0072CE"}}>Columbia Events Policy</a>.
                                                             </div>
-
-
-                                                            <div style={{margin: '15px 0'}}>
-                                                                <div style={{
-                                                                    fontFamily: 'Poppins',
-                                                                    fontStyle: 'normal',
-                                                                    fontWeight: 'normal',
-                                                                    fontSize: '20px',
-                                                                    lineHeight: '30px',
-                                                                    color: '#0072CE'
-                                                                }}>
-                                                                    Additional
-                                                                    Information
-                                                                </div>
-                                                                <GridContainer>
-                                                                    <GridItem sm={12}>
-                                                                        <FormikField label="Comments" name="comments"
-                                                                                     multiline
-                                                                                     rows="5" error={errors.comments}
-                                                                                     touch={touched.comments}/>
-                                                                    </GridItem>
-                                                                </GridContainer>
-                                                                <div>
-                                                                    By hosting an event you agree to the <a
-                                                                    href="https://www.essential-policies.columbia.edu/university-event-policies"
-                                                                    target="_blank">Columbia Events Policy</a>.
-                                                                </div>
-                                                                <Field
-                                                                    component={CheckboxWithLabel}
-                                                                    name="agree"
-                                                                    Label={{label: 'I agree to the Columbia Events Policy'}}
-                                                                    type="checkbox"
-                                                                    indeterminate={false}
-                                                                    required
-                                                                />
+                                                            <div style={{margin: "5px", marginLeft: "-3px"}}>
+                                                                  <Field
+                                                                      name="agree"
+                                                                      type="checkbox"
+                                                                      indeterminate={false}
+                                                                      required
+                                                                  />
+                                                                  <div style={{display:'inline', marginLeft: "10px", fontSize: "14px"}}>
+                                                                    I agree to the <a href="https://www.essential-policies.columbia.edu/university-event-policies" target="_blank" style={{color:"#0072CE"}}>
+                                                                    Columbia Events Policy
+                                                                    </a>
+                                                                  </div>
                                                             </div>
+                                                        </div>
 
-                                                            <GridContainer>
-                                                                <GridItem sm={3}>
-                                                                    <Button
-                                                                        style={{
-                                                                            background: 'white',
-                                                                            border: '1px solid #FB750D',
-                                                                            borderRadius: '10px',
-                                                                            boxSizing: "border-box",
-                                                                            color: '#FB750D',
-                                                                            boxShadow: 'none',
-                                                                            width: "100%"
-                                                                        }}
-                                                                        type="submit">
-                                                                        Submit
-                                                                    </Button>
-                                                                </GridItem>
-                                                            </GridContainer>
-                                                        </Form>
-                                                    )
-                                                }}
-                                            </Formik>
-                                        </GridItem>
-                                    </GridContainer>
-                                    <div style={{marginBottom: "50px"}}/>
-                                    {/* </div> */}
-                                </Container>
-                            </div>
-
-
+                                                        <Grid container spacing={2}>
+                                                            <Grid item sm={3}>
+                                                                <Button
+                                                                    className={manual.submitBtn}
+                                                                    // disabled={!isValid}
+                                                                    type="submit"
+                                                                    id='submit'
+                                                                >
+                                                                    Submit
+                                                                </Button>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Form>
+                                                )
+                                            }}
+                                        </Formik>
+                                    </Grid>
+                                </Grid>
+                                <div style={{ marginBottom: "50px" }} />
+                                {/* </div> */}
+                            </Container>
                         </div>
 
-                        {/* </Template > */}
-                    </MuiPickersUtilsProvider>
+
+                    </div>
+
+                    {/* </Template > */}
+                </MuiPickersUtilsProvider >
                 </div>
 
             );
@@ -741,4 +700,4 @@ class AddEvent extends React.Component {
 
 }
 
-export default AddEvent;
+export default withStyles(manualSt)(AddEvent);
