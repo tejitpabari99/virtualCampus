@@ -101,7 +101,7 @@ class Events extends React.Component {
     </div>
   );
 
-  render() {
+  render() { 
     const { classes } = this.props;
     return (
       <Template active={"schedule"}>
