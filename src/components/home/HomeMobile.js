@@ -1,6 +1,6 @@
 import React from "react"
 import classNames from "classnames";
-import HomeEventsMobile from './HomeEvents';
+import HomeEvents from './HomeEvents';
 import { makeStyles } from "@material-ui/core/styles";
 import landingImage from "../../assets/images/home/graphic.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
@@ -194,11 +194,11 @@ export default function HomeMobile({isLandscape}) {
               </h1>
             </div>
             <div style={{textAlign:'center'}}>
-              <CustomButton href={'https://forms.gle/fzKvSZqkAVNN6cHY6'} text={'HOST A NEW EVENT'}
+              <CustomButton href={'/form/'}  text={'HOST A NEW EVENT'}
                             color={"orange"} size={"large"}/>
               <div style={{marginBottom: "40px"}}/>
             </div>
-            <HomeEventsMobile/>
+            <HomeEvents/>
             <div style={{marginBottom: "100px"}}/>
           </div>
       </div>
