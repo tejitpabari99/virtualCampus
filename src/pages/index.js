@@ -1,6 +1,6 @@
-import React from "react"
-import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
-import {HomeDesktop, HomeMobile} from '../components'
+import React from "react";
+import { isEdge, isIE, isMobile, isTablet } from "react-device-detect";
+import { HomeDesktop, HomeMobile } from '../components';
 
 class Index extends React.Component {
 
@@ -29,11 +29,11 @@ class Index extends React.Component {
         if (this.state.height === -1) {
             return (
                 <div>
-                    <HomeDesktop/>
+                    <HomeDesktop />
                 </div>
             );
         }
-        {/* For mobile's screen orientation update */}
+        {/* For mobile's screen orientation update */ }
         const isLandscape = this.state.width > this.state.height ? true : false;
 
         {/* If Tablet:
@@ -43,29 +43,29 @@ class Index extends React.Component {
         if (isTablet) {
             if (isLandscape) {
                 return (
-                <div>
-                    <HomeDesktop/>
-                </div>
+                    <div>
+                        <HomeDesktop />
+                    </div>
                 );
             } else {
                 return (
                     <div>
-                        <HomeMobile isLandscape={isLandscape}/>
+                        <HomeMobile isLandscape={isLandscape} />
                     </div>
                 );
             }
 
 
-        {/* For mobile component : IE or Edge must go to mobile since they do not support all css */}
+            {/* For mobile component : IE or Edge must go to mobile since they do not support all css */ }
         } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
-                return (
-                    <div>
-                        <HomeMobile isLandscape={isLandscape}/>
-                    </div>
-                );
+            return (
+                <div>
+                    <HomeMobile isLandscape={isLandscape} />
+                </div>
+            );
 
 
-        {/* Else: desktop: isBrowser
+            {/* Else: desktop: isBrowser
             If screen is full size and not weirdly shape: render desktop version
             Else render mobile version (see above)
             */}
