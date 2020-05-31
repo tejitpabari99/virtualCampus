@@ -385,6 +385,5 @@ const CampusData = {
 
 module.exports = {
   CampusData: CampusData,
-  IndexCampusData: IndexCampusData,
   FeaturedData: FeaturedData
 };
