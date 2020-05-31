@@ -3,8 +3,7 @@ import classNames from "classnames";
 import React from "react";
 import landingImage from "../../assets/images/home/graphic.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { CustomButton, CustomHeader, MetaData, Subtitle, Title } from "./../../components";
-import HomeEvents from './HomeEvents';
+import { CustomButton, CustomHeader, MetaData, Subtitle, Title, HomeEvents } from "../";
 
 
 const useStyles = makeStyles(styles);
@@ -93,7 +92,7 @@ export default function HomeDesktop() {
   return (
     <div style={{ background: "white" }}>
       <MetaData title={'Columbia Virtual Campus'} />
-      <CustomHeader active={''} brand={''}></CustomHeader>
+      <CustomHeader active={'Campus'} brand={''}/>
       <div className={classNames(manual.landing)}>
         <div className={classNames(manual.landingText)}>
           <h1 className={classNames(manual.toAll, manual.toAllSecondary)}>

@@ -41,12 +41,33 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px #FB750D50"
     },
   },
+  orangeActive:{
+    color: 'white !important',
+    backgroundColor: '#F1945B',
+    "&:hover,&:focus": {
+      color: '#FB750D !important',
+      border: "1px solid #FB750D",
+      backgroundColor:null,
+      boxShadow: "0 14px 26px -12px #FB750D50"
+    },
+  },
   blue:{
     color: '#0072CE !important',
     border: "1px solid #0072CE",
-    "&:hover,&:focus": {
+    backgroundColor:null,
+    "&:hover": {
       color: 'white !important',
       backgroundColor: '#0072CE',
+      boxShadow: "0 14px 26px -12px #0072CE50"
+    },
+  },
+  blueActive:{
+    color: 'white !important',
+    backgroundColor: '#0072CE',
+    "&:hover": {
+      color: '#0072CE !important',
+      border: "1px solid #0072CE",
+      backgroundColor: null,
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
   },
@@ -77,7 +98,7 @@ export default function CustomButton({href, text, color, size, rounded, onClick,
 CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(["orange", "blue"]),
+  color: PropTypes.oneOf(["orange", "blue", "blueActive", "orangeActive"]),
   size: PropTypes.oneOf(["large","small"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,

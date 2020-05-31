@@ -3,60 +3,52 @@ import React from "react";
 import { Field, ErrorMessage } from "formik"
 import "./FormikField.css"
 
-import CustomField from './CustomField'
+import CustomTextField from './CustomTextField'
 
 
 const FormikField = (props) => {
 
     const errorMsg = <ErrorMessage name={props.name} />
-    const multiline = props.multiline
+    const multiline = props.multiline;
 
     // error state handling
-    let error = props.error
-    // console.log("error: " + error)
-    let touched = props.touch
-    // console.log("touched: " + error)
-    let valid = false
+    let error = props.error;
+    let touched = props.touch;
+    let valid = false;
 
-    let toggle = false
-    if (touched == true) {
+    let toggle = false;
+    if (touched === true) {
         if (error != null) {
             toggle = true
         }
         else {
-            // console.log("this is valid")
             valid = true
         }
     }
 
-
-    // if (error != null) {
-    //     if (touched == true) {
-    //         toggle = true
-    //     }
-    // }
-
-    let multiTog = false
+    let multiTog = false;
     if (multiline != null) {
         multiTog = true
     }
 
     return (
-        <div style={{ margin: '2px 0 8px 0' }}>
-            <Field
-                fullWidth
-                as={CustomField}
-                // label={props.label}
-                name={props.name}
-                helperText={errorMsg}
-                required={props.required}
-                error={toggle}
-                multiline={multiTog}
-                rows={props.rows}
-                placeholder={props.label}
-                isValid={valid}
-            />
-        </div>
+      <div style={{ margin: '2px 0 8px 0' }}>
+          <Field
+            fullWidth
+            as={CustomTextField}
+            value={props.value}
+            onChange={props.onChange}
+            // label={props.label}
+            name={props.name}
+            helperText={errorMsg}
+            required={props.required}
+            error={toggle}
+            multiline={multiTog}
+            rows={props.rows}
+            placeholder={props.label}
+            isValid={valid}
+          />
+      </div>
     )
 }
 
