@@ -14,6 +14,7 @@
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
     "firebase": "^7.14.2",
+    "formik-material-ui": "^2.0.0-beta.1",
     "gatsby": "^2.21.33",
     "gatsby-image": "^2.2.44",
     "gatsby-plugin-google-analytics": "^2.2.2",
@@ -45,6 +46,7 @@
     "react-device-detect": "^1.12.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^5.2.1",
+    "react-material-ui-carousel": "^1.5.0",
     "react-share": "^4.1.0",
     "react-simple-shapes": "^1.2.2",
     "reactstrap": "^8.4.1",
@@ -56,7 +58,11 @@
   },
   "devDependencies": {
     "axios": "^0.19.2",
-    "prettier": "^1.19.1"
+    "formik": "^2.1.4",
+    "jquery": "^3.5.1",
+    "prettier": "^1.19.1",
+    "survey-react": "^1.7.7",
+    "yup": "^0.29.1"
   },
   "keywords": [
     "Columbia",

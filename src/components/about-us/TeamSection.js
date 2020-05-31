@@ -158,7 +158,7 @@ export default function TeamSection() {
           <TeamMember position={'CC \'21'} name={'Daniella Truong'} image={daniella} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'SEAS \'23'} name={'Luiz do Valle'} image={luiz} noDescription/>
+          <TeamMember position={'SEAS \'22'} name={'Luiz do Valle'} image={luiz} noDescription/>
         </GridItem>
       </GridContainer>
 
