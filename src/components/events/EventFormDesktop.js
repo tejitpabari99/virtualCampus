@@ -783,7 +783,7 @@ class EventFormDesktop extends React.Component {
                                 </GridContainer>
                                 <div>
                                   By hosting an event you agree to the <a
-                                  href="https://www.essential-policies.columbia.edu/university-event-policies"
+                                  href="https://bit.ly/events-policy-docs"
                                   target="_blank">Columbia Events Policy</a>.
                                 </div>
                                 <Field
