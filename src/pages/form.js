@@ -573,42 +573,52 @@ class AddEvent extends React.Component {
                                       />
                                     </div>
                                   </Grid>
+                                  <Grid item sm={3}>
+                                      <Field
+                                          name="timezone"
+                                          label="Select Timezone"
+                                          options={optionsTZ}
+                                          component={Select}
+                                          required
+                                      />
+
+                                  </Grid>
                                 </Grid>
-                                {/*<div style={{ margin: "10px", marginLeft: "0px", marginBottom: "0px" }}>*/}
-                                {/*  <Field*/}
-                                {/*    name="recurring"*/}
-                                {/*    type="checkbox"*/}
-                                {/*    indeterminate={false}*/}
-                                {/*  />*/}
-                                {/*  <div style={{ display: "inline", marginLeft: "10px", fontSize: "14px" }}>This is a*/}
-                                {/*    recurring event.*/}
-                                {/*  </div>*/}
-                                {/*</div>*/}
-                                {/*<Grid container spacing={2}>*/}
-                                {/*  <Grid item sm={6}>*/}
-                                {/*    <Field*/}
-                                {/*      name="recurring"*/}
-                                {/*      label="Select Recurring"*/}
-                                {/*      options={[*/}
-                                {/*        { value: "never", label: "Never" },*/}
-                                {/*        { value: "daily", label: "Daily" },*/}
-                                {/*        { value: "weekly", label: "Weekly" },*/}
-                                {/*        { value: "monthly", label: "Monthly" },*/}
-                                {/*        { value: "other_recurring", label: "Other" }*/}
-                                {/*      ]}*/}
-                                {/*      component={Select}*/}
-                                {/*    />*/}
-                                {/*  </Grid>*/}
-                                {/*  <Grid item sm={6}>*/}
-                                {/*    <div style={{ margin: "16px 0 8px" }}>*/}
-                                {/*      <Field*/}
-                                {/*        component={DatePicker}*/}
-                                {/*        name="end_date"*/}
-                                {/*        label="End Date"*/}
-                                {/*      />*/}
-                                {/*    </div>*/}
-                                {/*  </Grid>*/}
-                                {/*</Grid>*/}
+                                <div style={{ margin: "10px", marginLeft: "0px", marginBottom: "0px" }}>
+                                  <Field
+                                    name="recurring"
+                                    type="checkbox"
+                                    indeterminate={false}
+                                  />
+                                  <div style={{ display: "inline", marginLeft: "10px", fontSize: "14px" }}>This is a
+                                    recurring event.
+                                  </div>
+                                </div>
+                                <Grid container spacing={2}>
+                                  <Grid item sm={6}>
+                                    <Field
+                                      name="recurring"
+                                      label="Select Recurring"
+                                      options={[
+                                        { value: "never", label: "Never" },
+                                        { value: "daily", label: "Daily" },
+                                        { value: "weekly", label: "Weekly" },
+                                        { value: "monthly", label: "Monthly" },
+                                        { value: "other_recurring", label: "Other" }
+                                      ]}
+                                      component={Select}
+                                    />
+                                  </Grid>
+                                  <Grid item sm={6}>
+                                    <div style={{ margin: "16px 0 8px" }}>
+                                      <Field
+                                        component={DatePicker}
+                                        name="end_date"
+                                        label="End Date"
+                                      />
+                                    </div>
+                                  </Grid>
+                                </Grid>
                                 <Grid container spacing={2}>
                                   <Grid item sm={12}>
                                     <div style={{ marginTop: "20px" }}>
