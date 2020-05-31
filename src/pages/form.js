@@ -512,7 +512,7 @@ class AddEvent extends React.Component {
                       >
                         {({ dirty, isValid, errors, touched }) => {
                           return (
-                            <Form>
+                            <Form> 
                               {/* CONTACT SECTION */}
                               <div className={classes.section}>
                                 <div className={classNames(classes.toAll, classes.subtitle)}>Contact</div>
