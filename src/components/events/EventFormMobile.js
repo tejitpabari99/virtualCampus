@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { CircularProgress } from '@material-ui/core';
+import * as Events from './../../pages/events.js';
 
 //inputs
 import FormikField from "../FormikField/FormikField";
@@ -206,7 +207,7 @@ let dst = function (loc = getCurrentLocationForTimeZone()) {
     return false;
   }
   const date = new Date();
-  return date.getTimezoneOffset() < this.stdTimezoneOffset();
+  return date.getTimezoneOffset() < Events.stdTimezoneOffset();
 }
 
 let getTimezoneName = function(loc = getCurrentLocationForTimeZone(), dstN = null) {
@@ -335,6 +336,8 @@ class EventFormMobile extends React.Component {
   uploadData(data) {
 
     data["approved"] = false;
+    data["start_date"] = data["start_date"].toString();
+    data["end_date"] = data["end_date"].toString();
     const from = data["email"];
     const subject = "NEW EVENT: " + data["event"];
     const clientSubject = "Your CVC Event Details: " + data["event"];
