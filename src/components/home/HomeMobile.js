@@ -6,6 +6,7 @@ import landingImage from "../../assets/images/home/graphic.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import Button from "./../material-kit-components/CustomButtons/Button.js";
 import {MetaData, CustomHeader, CustomButton, Title} from "../"
+import * as Events from './../../pages/events.js';
 
 
 const useStyles = makeStyles(styles);
