@@ -28,8 +28,6 @@ export function getTimezoneName(loc = getCurrentLocationForTimeZone(), dst = thi
     return "CAT";
   if (gmt === "-02:00")
     return "BET";
-  if (gmt === "-03:00")
-    return "AGT";
   if (gmt === "-03:30")
     return "CNT";
   if (gmt === "-04:00")
@@ -181,7 +179,7 @@ export function dst(loc = getCurrentLocationForTimeZone()) {
     return false;
   }
   const date = new Date();
-  return date.getTimezoneOffset() < this.stdTimezoneOffset();
+  return date.getTimezoneOffset() < stdTimezoneOffset();
 }
 
 export function convertTimestampToDate(timestamp){
@@ -207,16 +205,23 @@ class Events extends React.Component {
 
   convertEventsTime(event) {
     const tzString = event.timezone;
+
+    // Remove redudancy (AKA remove the evidence -.0)
+    event.start_date = event.start_date.split("GMT")[0];
+    event.end_date = event.end_date.split("GMT")[0];
+
     if (event.timezone !== undefined && event.timezone.includes("$")) {
       // $ splits time and timezone in the event.timezone field in firebase!
       const tz = tzString.split("$")[0];
       const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
       const offset = getOffset(tz, daylightSavings);
+
       // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
       // America/New_York should be changed to the user's time zone who created the event, if they
       // Choose to use their time zone rather than EST.
       const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
       const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
+
       // Second, convert those consts above to user's local time
       event.start_date = convertUTCToLocal(UTCStart);
       event.end_date = convertUTCToLocal(UTCEnd);
