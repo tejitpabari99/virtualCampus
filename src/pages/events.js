@@ -167,10 +167,10 @@ export function dst(loc = getCurrentLocationForTimeZone()) {
         break;
     }
     if (today.getTime() >= DSTDateStart.getTime() && today.getTime() < DSTDateEnd.getTime()) {
-      console.log("true");
+      //console.log("true");
       return true;
     }
-    console.log("false");
+    //("false");
     return false;
   }
 
@@ -274,7 +274,7 @@ class Events extends React.Component {
       // To the current user's local time!
       approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
     }
-    console.log(approvedEventsMap);
+    //console.log(approvedEventsMap);
     // console.log(approvedEventsMap);
     this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
