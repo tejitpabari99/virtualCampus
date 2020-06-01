@@ -392,7 +392,7 @@ class EventFormDesktop extends React.Component {
         alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
       });
 
-    if (data["zoomLink"]) {
+    if (data["zoomLink"] && (!data['invite_link'] || data['invite_link']==='')) {
       sendZoomEmail(newEventRef.id, data["event"], from);
     }
 
