@@ -52,12 +52,12 @@ const useStyles = makeStyles(() => ({
     timeInfo: {
         color: 'gray',
         display: "block",
-        fontSize: 15,
+        fontSize: 13,
     },
     tagInfo: {
         color: 'gray',
         display: "inline",
-        fontSize: 15,
+        fontSize: 13,
     },
     button:{
         boxShadow:"none",
@@ -101,17 +101,19 @@ const useStyles = makeStyles(() => ({
     imageBox:{
         position: "absolute",
         top: "43px",
-        left: "32px",
+        left: "15px",
         backgroundColor: '#F2F9FD',
         borderRadius: "5px",
-        width: "60px",
-        height: "60px"
+        width: "50px",
+        height: "50px"
     },
     dateText:{
       color: '#0072CE',
       fontSize: 20,
       textAlign: "center",
-      marginBottom: "0px", marginTop: "10px",
+      marginBottom: "0px",
+      marginTop: "1.5vw",
+        lineHeight: '5vw',
       paddingBottom: "0px"
     },
     monthText:{
@@ -153,10 +155,11 @@ const useStyles = makeStyles(() => ({
     },
     heading2:{
         lineHeight: '3vw',
-        fontSize: 'min(3.5vw, 20px)',
+        fontSize: 'min(4.2vw, 20px)',
         color:'#0072CE !important',
         margin: 0,
-        marginTop:'10px'
+        marginTop:'12px',
+        marginBottom:5,
     },
     middleDot: {
         height: "4px",
@@ -182,8 +185,8 @@ export default function EventCardMobile({ele}) {
                 </div>
             </div>
             <div className={classes.cardbody}>
-                <h1 className={classes.heading1}> {ele.title} </h1>
-                <h1 className={classes.heading2}>{ele.hostedBy}</h1>
+                <h1 className={classes.heading1}> {ele.event} </h1>
+                <h1 className={classes.heading2}>{ele.name}</h1>
                 <div className={classes.timeInfo}>
                     {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} - {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
 

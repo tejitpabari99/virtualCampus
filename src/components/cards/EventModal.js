@@ -98,14 +98,14 @@ export default function EventModal({open, closeDo, event}) {
                     padding: theme.spacing(2, 4, 3),
                     maxWidth: 500,
                     margin: 25}}>
-                    <h4 style={{color:"#4284C8"}} className={classes.cardTitle}>{event.title}</h4>
+                    <h4 style={{color:"#4284C8"}} className={classes.cardTitle}>{event.event}</h4>
                     <Button
                         className={classes.button3}
                         size="sm"
                         round
                         disabled
                     >
-                        {months[event.startTime.getMonth()].toUpperCase()} {event.startTime.getDate()}, {event.startTime.getFullYear()}
+                        {months[event.start_date.getMonth()].toUpperCase()} {event.start_date.getDate()}, {event.start_date.getFullYear()}
                     </Button>
                     <Button
                         className={classes.button3}
@@ -113,7 +113,7 @@ export default function EventModal({open, closeDo, event}) {
                         round
                         disabled
                     >
-                        {formatTime(event.startTime.getHours(),event.startTime.getMinutes())} EST
+                        {formatTime(event.start_date.getHours(),event.start_date.getMinutes())} {event.timeZoneGMT}
                     </Button>
                     {event.tags.map((ele, ind) => {
                         return (
@@ -132,34 +132,27 @@ export default function EventModal({open, closeDo, event}) {
                     })}
                     <div style={{ color: "#4284C8", marginBottom: 5,flexDirection: 'row', display:'flex' }}>
                         <div style={{fontSize:15}}><strong>Website: </strong></div>
-                        {event.website &&
+                        {event.event_link &&
                         <div style={{marginLeft:5}}>
-                            <a href={event.website} target={'_blank'} rel="noopener noreferrer"
-                               style={{ color: "#4284C8", textDecoration: 'underline' }}>{event.hostedBy}</a>
+                            <a href={event.event_link} target={'_blank'} rel="noopener noreferrer"
+                               style={{ color: "#4284C8", textDecoration: 'underline' }}>{event.event}</a>
                         </div>
                         }
-                        {!event.website && <div style={{marginLeft:5}}/>}
+                        {!event.event_link && <div style={{marginLeft:5}}/>}
                     </div>
                     <div style={{ color: "#4284C8", marginBottom: 5, flexDirection: 'row', display:'flex' }}>
                         <div style={{fontSize:15}}><strong>Event Link: </strong></div>
-                        {event.eventLink.length>0 &&
+                        {event.invite_link &&
                         <div style={{marginLeft:5}}>
-                            {event.eventLink.map((link, ind) => {
-                                return (
-                                    <div key={ind}>
-                                        <a href={link.link} target={'_blank'} rel="noopener noreferrer"
-                                            style={{ color: "#4284C8", textDecoration: 'underline' }}>{link.title}</a>
-                                        {link.hasOwnProperty('pass') && <span> ({link.pass})</span>}
-                                    </div>
-                                )
-                            })}
+                            <a href={event.invite_link} target={'_blank'} rel="noopener noreferrer"
+                               style={{ color: "#4284C8", textDecoration: 'underline' }}>Attend</a>
                         </div>
                         }
-                        {event.eventLink.length===0 && <div style={{marginLeft:5}}>TBA</div>}
+                        {!event.invite_link && <div style={{marginLeft:5}}>TBA</div>}
                     </div>
-                    <p style={{color:"#4284C8"}}>{event.description}</p>
+                    <p style={{color:"#4284C8"}}>{event.desc}</p>
                     <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
-                        <strong>Hosted By: </strong> {event.hostedBy}
+                        <strong>Hosted By: </strong> {event.name}
                     </p>
                     <div style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
                         <strong><AddCalendar info={event}/> </strong>

@@ -368,7 +368,6 @@ class EventFormMobile extends React.Component {
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
       .then(ref => {
-        console.log("Document written", ref);
 
         Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
           .then(res => {
@@ -515,7 +514,7 @@ class EventFormMobile extends React.Component {
                 paddingLeft: "10px",
                 paddingRight: "10px"
               }}
-              href={"/form"}>
+              href={"/events/add-new-event"}>
               Add Another Event
             </Button>
           </div>
