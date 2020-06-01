@@ -167,10 +167,8 @@ export function dst(loc = getCurrentLocationForTimeZone()) {
         break;
     }
     if (today.getTime() >= DSTDateStart.getTime() && today.getTime() < DSTDateEnd.getTime()) {
-      //console.log("true");
       return true;
     }
-    //("false");
     return false;
   }
 
@@ -263,7 +261,10 @@ class Events extends React.Component {
 
   async getEvents() {
     var db = firebase.firestore();
-    var approvedEvents = await db.collection("events").where("approved", "==", true).get();
+    var approvedEvents = await db.collection("events")
+      .where("approved", "==", true)
+      .orderBy("start_date", 'asc')
+      .get();
     let approvedEventsMap = [];
     if(approvedEvents){
       // TODO
@@ -274,8 +275,6 @@ class Events extends React.Component {
       // To the current user's local time!
       approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
     }
-    //console.log(approvedEventsMap);
-    // console.log(approvedEventsMap);
     this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
 

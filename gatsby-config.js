@@ -29,8 +29,8 @@ module.exports = {
         name: `Columbia Virtual Campus`,
         short_name: `Columbia Virtual Campus`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#FFF`,
+        theme_color: `#0072CE`,
         display: `minimal-ui`,
         icon: `src/assets/images/logoMain.png`, // This path is relative to the root of the site.
       },

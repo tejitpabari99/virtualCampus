@@ -371,7 +371,6 @@ class EventFormDesktop extends React.Component {
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
       .then(ref => {
-        console.log("Document written", ref);
 
         Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
           .then(res => {
@@ -518,7 +517,7 @@ class EventFormDesktop extends React.Component {
                 paddingLeft: "10px",
                 paddingRight: "10px"
               }}
-              href={"/form"}>
+              href={"/events/add-new-event"}>
               Add Another Event
             </Button>
           </div>
@@ -712,13 +711,6 @@ class EventFormDesktop extends React.Component {
                                   <GridItem sm={11}>
                                     <Field
                                       component={CheckboxWithLabel}
-                                      name="games_tag"
-                                      Label={{ label: "Games" }}
-                                      indeterminate={false}
-                                      type="checkbox"
-                                    />
-                                    <Field
-                                      component={CheckboxWithLabel}
                                       name="activism_tag"
                                       Label={{ label: "Activism" }}
                                       type="checkbox"
@@ -740,8 +732,8 @@ class EventFormDesktop extends React.Component {
                                     />
                                     <Field
                                       component={CheckboxWithLabel}
-                                      name="fitness_tag"
-                                      Label={{ label: "Fitness" }}
+                                      name="health_tag"
+                                      Label={{ label: "Health" }}
                                       type="checkbox"
                                       indeterminate={false}
                                     />
@@ -786,7 +778,7 @@ class EventFormDesktop extends React.Component {
                                 </GridContainer>
                                 <div>
                                   By hosting an event you agree to the <a
-                                  href="https://www.essential-policies.columbia.edu/university-event-policies"
+                                  href="https://bit.ly/events-policy-docs"
                                   target="_blank">Columbia Events Policy</a>.
                                 </div>
                                 <Field
