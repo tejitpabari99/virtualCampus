@@ -319,7 +319,7 @@ class Events extends React.Component {
         </div>
         {this.state.displayEvents.length > 0 &&
         <div style={{ marginBottom: "5%" }}>
-          <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> MAY 2020</h3>
+          <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> June 2020</h3>
           <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
           {this.state.displayEvents.map((ele, ind) => {
               return (<EventCard ele={ele} key={ind}/>);
