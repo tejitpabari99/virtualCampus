@@ -708,13 +708,6 @@ class EventFormDesktop extends React.Component {
                                   <GridItem sm={11}>
                                     <Field
                                       component={CheckboxWithLabel}
-                                      name="games_tag"
-                                      Label={{ label: "Games" }}
-                                      indeterminate={false}
-                                      type="checkbox"
-                                    />
-                                    <Field
-                                      component={CheckboxWithLabel}
                                       name="activism_tag"
                                       Label={{ label: "Activism" }}
                                       type="checkbox"
@@ -736,8 +729,8 @@ class EventFormDesktop extends React.Component {
                                     />
                                     <Field
                                       component={CheckboxWithLabel}
-                                      name="fitness_tag"
-                                      Label={{ label: "Fitness" }}
+                                      name="health_tag"
+                                      Label={{ label: "Health" }}
                                       type="checkbox"
                                       indeterminate={false}
                                     />
