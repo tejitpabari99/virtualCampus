@@ -1,19 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import IconButton from "@material-ui/core/IconButton";
-import ShareIcon from "@material-ui/icons/Share";
-import AppleIcon from '@material-ui/icons/Apple';
-import AndroidIcon from '@material-ui/icons/Android';
-import Popover from "@material-ui/core/Popover";
-import {FacebookShareButton, TwitterShareButton, LinkedinShareButton, EmailShareButton, WhatsappShareButton,
-  FacebookIcon, TwitterIcon, LinkedinIcon, EmailIcon, WhatsappIcon
-} from "react-share";
 import PropTypes from "prop-types";
 import {primaryColor,
   warningColor,
@@ -113,23 +102,7 @@ const useStyles = makeStyles({
 
 export default function BLMCard(props) {
   const classes = useStyles();
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = (event) => { setAnchorEl(event.currentTarget);};
-  const handleClose = () => {setAnchorEl(null);};
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-
-  let {website, share, title, description, tags, links, resume,
-          headerTitle, headerColor} = props;
-  if(headerColor && colorMapping.hasOwnProperty(headerColor)){
-    headerColor = colorMapping[headerColor.toLowerCase()]
-  }
-  else if(!headerColor || headerColor===''){
-    headerColor = colorMapping['vc']
-  }
-
+  let {website, title, description, links, resume} = props;
   return (
     <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
     <Card className={classes.root}>
@@ -139,16 +112,11 @@ export default function BLMCard(props) {
         </Typography>
         <Typography variant="body2" color="textSecondary" component="div" className={classes.description}>
           <div>{description}</div>
-          <div><a href={links} target='_blank' rel="noopener noreferrer" className={classes.link}>Check out Profile</a></div>
-          <div><a target='_blank' rel="noopener noreferrer" href={resume} className={classes.link} >Check out Resume</a></div>
+          {links && <div><a href={links} target='_blank' rel="noopener noreferrer"
+                            className={classes.link}>Check out Profile</a></div>}
+          {resume && <div><a target='_blank' rel="noopener noreferrer"
+                             href={resume} className={classes.link} >Check out Resume</a></div>}
         </Typography>
-        {tags && tags.map(ele => {
-          return (
-            <Button className={classes.button}>
-              {ele}
-            </Button>
-          )
-        })}
 
       </CardContent>
     </Card>
@@ -158,10 +126,8 @@ export default function BLMCard(props) {
 
 BLMCard.propTypes = {
   website: PropTypes.string.isRequired,
-  share: PropTypes.bool,
   description: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  tags: PropTypes.string,
-  headerTitle: PropTypes.string,
-  headerColor: PropTypes.string
+  links: PropTypes.string.isRequired,
+  resume: PropTypes.string
 };
