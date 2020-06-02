@@ -3,37 +3,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 
 
-let formatDescription = function(desc, eventLink, type){
+let formatDescription = function(desc, eve, type){
     var lineBreak = "\\n";
 
-    if (type == "Google") {
+    if (type === "Google") {
         lineBreak = "%0D%0A"
     }
 
     let d = desc + lineBreak + lineBreak;
-    for(let i=0; i<eventLink.length; i+=1){
-        let add = "";
-        let eve = eventLink[i];
-        if (eve.hasOwnProperty('title') && eve.hasOwnProperty('link')){
-            add += eve.title + " link: " + eve.link + lineBreak + lineBreak;
-        }
-        if (eve.hasOwnProperty('pass')){
-            add += "Password: " + eve.pass + lineBreak;
-        }
-        add += lineBreak;
-        d += add;
-    }
-
+    d += eve.event + " link: " + eve.invite_link + lineBreak + lineBreak
     return d;
-};
-
-let getLocation = function(eventLink){
-    if(eventLink.length>0){
-        if (eventLink[0].hasOwnProperty('link')){
-            return eventLink[0].link
-        }
-    }
-    return ''
 };
 
 let download = function(filename, text) {
@@ -72,58 +51,58 @@ const useStyles = makeStyles({
 export default function AddCalendar({info}) {
     // Get information for start time/date
     const classes = useStyles();
-    const dayOfMonthStart = info.startTime.getDate() < 10
-        ? "0" + info.startTime.getDate().toString()
-        : info.startTime.getDate().toString();
-    const monthStart = info.startTime.getMonth() + 1 < 10
-        ? "0" + (info.startTime.getMonth() + 1).toString()
-        : (info.startTime.getMonth() + 1).toString();
-    const yearStart = info.startTime.getFullYear().toString();
-    const hourStart = info.startTime.getHours() < 10
-        ? "0" + info.startTime.getHours().toString()
-        : info.startTime.getHours().toString();
-    const minuteStart = info.startTime.getMinutes() < 10
-        ? "0" + info.startTime.getMinutes().toString()
-        : info.startTime.getMinutes().toString();
+    const dayOfMonthStart = info.start_date.getDate() < 10
+        ? "0" + info.start_date.getDate().toString()
+        : info.start_date.getDate().toString();
+    const monthStart = info.start_date.getMonth() + 1 < 10
+        ? "0" + (info.start_date.getMonth() + 1).toString()
+        : (info.start_date.getMonth() + 1).toString();
+    const yearStart = info.start_date.getFullYear().toString();
+    const hourStart = info.start_date.getHours() < 10
+        ? "0" + info.start_date.getHours().toString()
+        : info.start_date.getHours().toString();
+    const minuteStart = info.start_date.getMinutes() < 10
+        ? "0" + info.start_date.getMinutes().toString()
+        : info.start_date.getMinutes().toString();
 
 
     // Get information for end time/date
-    const dayOfMonthEnd = info.endTime.getDate() < 10
-        ? "0" + info.endTime.getDate().toString()
-        : info.endTime.getDate().toString();
-    const monthEnd = info.endTime.getMonth() + 1 < 10
-        ? "0" + (info.endTime.getMonth() + 1).toString()
-        : (info.endTime.getMonth() + 1).toString();
-    const yearEnd = info.endTime.getFullYear().toString();
-    const hourEnd = info.endTime.getHours() < 10
-        ? "0" + info.endTime.getHours().toString()
-        : info.endTime.getHours().toString();
-    const minuteEnd = info.endTime.getMinutes() < 10
-        ? "0" + info.endTime.getMinutes().toString()
-        : info.endTime.getMinutes().toString();
+    const dayOfMonthEnd = info.end_date.getDate() < 10
+        ? "0" + info.end_date.getDate().toString()
+        : info.end_date.getDate().toString();
+    const monthEnd = info.end_date.getMonth() + 1 < 10
+        ? "0" + (info.end_date.getMonth() + 1).toString()
+        : (info.end_date.getMonth() + 1).toString();
+    const yearEnd = info.end_date.getFullYear().toString();
+    const hourEnd = info.end_date.getHours() < 10
+        ? "0" + info.end_date.getHours().toString()
+        : info.end_date.getHours().toString();
+    const minuteEnd = info.end_date.getMinutes() < 10
+        ? "0" + info.end_date.getMinutes().toString()
+        : info.end_date.getMinutes().toString();
 
     // Format start/end time for calendars
     const startTimeFmt = yearStart + monthStart + dayOfMonthStart + "T" + hourStart + minuteStart + "00";
     const endTimeFmt = yearEnd + monthEnd + dayOfMonthEnd + "T" + hourEnd + minuteEnd + "00";
 
-    let descGoogleCal = formatDescription(info.description, info.eventLink, "Google");
-    let descOutlookCal = formatDescription(info.description, info.eventLink, "Outlook");
-    let desciCal = formatDescription(info.description, info.eventLink, "iCal");
-    let loc = getLocation(info.eventLink);
+    let descGoogleCal = formatDescription(info.desc, info.invite_link, "Google");
+    let descOutlookCal = formatDescription(info.desc, info.invite_link, "Outlook");
+    let desciCal = formatDescription(info.desc, info.invite_link, "iCal");
+    let loc = info.invite_link;
     // Create links or .ics text. Note: .ics works for outlook and apple
     const googleLink = "https://calendar.google.com/calendar/r/eventedit?"
         + "dates="+startTimeFmt+"/"+endTimeFmt+"&location="+loc
-        +"&text="+info.title+"&details="+descGoogleCal;
+        +"&text="+info.event+"&details="+descGoogleCal;
     const icGenText = "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:"+loc+"\nDTSTART:"
         +startTimeFmt+"\nDTEND:"+endTimeFmt+"\nSUMMARY:"
-        +info.title+"\nDESCRIPTION:"+descOutlookCal
+        +info.event+"\nDESCRIPTION:"+descOutlookCal
         +"\nLOCATION:"+loc+"\nEND:VEVENT\nEND:VCALENDAR";
     const iCalGenText = "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nURL:"+loc+"\nDTSTART:"
         +startTimeFmt+"\nDTEND:"+endTimeFmt+"\nSUMMARY:"
-        +info.title+"\nDESCRIPTION:"+desciCal
+        +info.event+"\nDESCRIPTION:"+desciCal
         +"\nLOCATION:"+loc+"\nEND:VEVENT\nEND:VCALENDAR";
-    const icsGenName = info.title + "_Calendar.ics";
-    const icalGenName = info.title + "_Calendar.ics";
+    const icsGenName = info.event + "_Calendar.ics";
+    const icalGenName = info.event + "_Calendar.ics";
 
     return (
         <div className={classes.inline}>

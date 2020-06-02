@@ -32,7 +32,7 @@ class contactUs extends React.Component {
       text: this.state.text
     };
 
-    Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/contactUs", data)
+    Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", data)
       .then(res => {
         this.setState({ feedbackSubmit: true });
         console.log(res);
@@ -45,8 +45,7 @@ class contactUs extends React.Component {
 
   render() {
     return (
-      <Template active={"contact-us"}>
-        <MetaData title={"Contact Us"}/>
+      <Template active={"contact-us"} title={"Contact Us"}>
         <Title color={'blue'}>Contact Us</Title>
         <div style={{ textAlign: "center" }}>
           Our Email: <a style={{ textAlign: "center", color: "#4284C8" }}

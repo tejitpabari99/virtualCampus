@@ -97,6 +97,7 @@ const FeaturedData = {
 const CampusData = {
   'social': {
     title: 'Social',
+    pageURL: SocialURL,
     data: [
       {
         title: 'Corona Creation Challenge',
@@ -175,6 +176,7 @@ const CampusData = {
   },
   'health': {
     title: 'Health',
+    pageURL: HealthURL,
     data: [
       {
         title: 'CPS Virtual Support',
@@ -236,6 +238,7 @@ const CampusData = {
   },
   'needs': {
     title: 'Basic Needs',
+    pageURL: NeedsURL,
     data: [
       {
         title: 'Good Samaritan',
@@ -269,6 +272,7 @@ const CampusData = {
   },
   'covid': {
     title: 'COVID-19',
+    pageURL: COVIDURL,
     data: [
       {
         title: 'Hearts Over Hands',
@@ -349,7 +353,7 @@ const CampusData = {
         }
       },
       {
-        title: 'Consolidated Coronavirus Live Updates',
+        title: 'Coronavirus Live Updates',
         description: 'Coronavirus Live Updates. Option to view map/tracker.',
         img: 'data:image/png;base64,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',
         links: {
@@ -365,6 +369,7 @@ const CampusData = {
   },
   'jobs-internships': {
     title: 'Jobs and Internships',
+    pageURL: JobsInternshipsURL,
     data: [
       {
         title: 'Flypaper Tutors',
@@ -385,6 +390,5 @@ const CampusData = {
 
 module.exports = {
   CampusData: CampusData,
-  IndexCampusData: IndexCampusData,
   FeaturedData: FeaturedData
 };

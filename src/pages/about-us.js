@@ -3,8 +3,7 @@ import {MetaData, TeamSection, Template, Title} from "../components";
 
 export default function IndexPage() {
     return (
-        <Template active={'about-us'}>
-            <MetaData title={'About Us'}/>
+        <Template active={'about-us'} title={'About Us'}>
             <div style={{textAlign:'center', width:'60%', marginLeft:'auto', marginRight:'auto', marginTop:'5%'}}>
               <Title>About Us</Title>
                 <div>
