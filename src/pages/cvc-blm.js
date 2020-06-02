@@ -110,10 +110,12 @@ class cvcBlm extends React.Component {
             voices and provide financial support for organizations led by and in support of black people.
           </div>
           <div style={{ marginBottom: "15px" }}>
-            Students and faculty at Columbia and other universities have offered to provide one-on-one workshops,
-            tutorials, and mentorship in exchange for a donation to the Brooklyn Community
-            Bail Fund and Black Visions Collective. <strong>Each $15 donation will grant you access to
-            30 minutes with any tutor of your choice!</strong>
+            Students and faculty at Columbia have offered to provide one-on-one workshops, tutorials,
+            and mentorship in exchange for a donation to the Brooklyn Community Bail Fund and Black Visions
+            Collective. <strong>Each $15 donation will grant you access to 30 minutes with any tutor of your choice!
+            Do you need help polishing your resume?</strong> Want another set of eyes on your application papers?
+            Need someone to help you with a difficult coding problem? You can do all of that and more while
+            donating to important causes.
           </div>
           <div>
             To sign up for a class, please make a donation to the Brooklyn Community Bail Fund
