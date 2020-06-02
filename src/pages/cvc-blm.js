@@ -106,8 +106,8 @@ class cvcBlm extends React.Component {
           <div style={{marginBottom:'15px'}}>
             Students and faculty at Columbia and other universities have offered to provide one-on-one workshops,
             tutorials, and mentorship in exchange for a donation to the Brooklyn Community
-            Bail Fund and Black Visions Collective. Each $15 donation will grant you access to
-            30 minutes with any tutor of your choice!
+            Bail Fund and Black Visions Collective. <strong>Each $15 donation will grant you access to
+            30 minutes with any tutor of your choice!</strong>
           </div>
           <div>
             To sign up for a class, please make a donation to the Brooklyn Community Bail Fund
@@ -117,50 +117,67 @@ class cvcBlm extends React.Component {
           </div>
         </Subtitle>
         <Heading color={'blue'} style={{marginTop:'60px'}}>
-          Donate
+          How to sign up?
         </Heading>
-        <Subtitle color={'black'}
-                  style={{maxWidth:'70%', marginLeft:'auto', marginRight:'auto', fontSize:'18px', lineHeight:'28px' }}>
-          Donate to either one of the following organizations (or both!) to get access to tutoring sessions held by
-          qualified students and professors. Your total donation must amount to $15 - donations can be stacked for
-          tutoring sessions longer than 30 minutes (eg.: $30 dollars for an hour, $45 dollars for an hour and a half).
-        </Subtitle>
-        <div style={{textAlign:'center', marginBottom:'20px', justifyContent:'space-between', flex:1}}>
-            <CustomButton text={'Brooklyn Community Bail Fund'} size={'large'} color={'orange'} href={'https://brooklynbailfund.org/donation-form'} style={{marginRight:'3vw', marginBottom:'10px'}} newTab/>
-            <CustomButton text={'Black Visions Collective'} size={'large'} color={'orange'} style={{marginBottom:'10px'}} href={'https://secure.everyaction.com/4omQDAR0oUiUagTu0EG-Ig2'} newTab/>
+        <div style={{display:"flex", flexDirection:"horizontal",justifyContent:"center"}}>
+
+        <GridContainer style={{maxWidth:"90%", display:"flex", flexDirection:"horizontal",justifyContent:"space-between"}}>
+            <GridItem xs={12} sm={6} md={3} style={{textAlign:"center"}}>
+              <Subtitle color={'black'}
+                      style={{maxWidth:'70%', marginLeft:'auto', marginRight:'auto', fontSize:'18px', lineHeight:'28px' }}>
+              Step 1: Pick tutor </Subtitle>
+              <br/>
+              Check out the list of tutors available in the various categories below.
+              <br/>
+              Links to their credentials will be listed as well. Clicking on their name will show you their schedules.
+            </GridItem>
+
+            <GridItem xs={12} sm={6} md={3} style={{textAlign:"center"}}>
+
+            <Subtitle color={'black'}
+                      style={{maxWidth:'70%', marginLeft:'auto', marginRight:'auto', fontSize:'18px', lineHeight:'28px' }}>
+              Step 2: Donate </Subtitle>
+              <br/>
+
+                Donate to either one of the following organizations (or both!) to get access to tutoring sessions held by
+                qualified students and professors. Your total donation must amount to $15 - donations can be stacked for
+                tutoring sessions longer than 30 minutes (eg.: $30 dollars for an hour, $45 dollars for an hour and a half).
+
+              <div style={{textAlign:'center', marginBottom:'20px', justifyContent:'space-between', flex:1}}>
+                  <CustomButton text={'Brooklyn Community Bail Fund'} size={'medium'} color={'orange'} href={'https://brooklynbailfund.org/donation-form'} style={{marginRight:'3vw', marginBottom:'10px'}} newTab/>
+                  <CustomButton text={'Black Visions Collective'} size={'medium'} color={'orange'} style={{marginBottom:'10px'}} href={'https://secure.everyaction.com/4omQDAR0oUiUagTu0EG-Ig2'} newTab/>
+              </div>
+            </GridItem>
+
+            <GridItem xs={12} sm={6} md={3} style={{textAlign:"center"}}>
+                <Subtitle color={'black'}
+                        style={{maxWidth:'70%', marginLeft:'auto', marginRight:'auto', fontSize:'18px', lineHeight:'28px' }}>
+                Step 3: Send confirmation and sign up!
+              </Subtitle>
+              Once you have donated, upload your receipt to the form (below) and we will reach out to you with your password.
+              When scheduling a time with the selected tutor, enter the password.
+              <div style={{textAlign:'center', marginBottom:'20px'}}>
+                <CustomButton text={'Sign Up for classes'} size={'medium'} color={'orange'} href={'https://forms.gle/X2wjM9N5qdRwWNrG9'} newTab/>
+              </div>
+              </GridItem>
+        </GridContainer>
         </div>
 
-        <Heading color={'blue'} style={{marginTop:'50px'}}>
-          Sign up as a Tutor
-        </Heading>
-        <Subtitle color={'black'}
-                  style={{maxWidth:'70%', marginLeft:'auto', marginRight:'auto', fontSize:'18px', lineHeight:'28px' }}>
-          Sign up as a tutor below
-        </Subtitle>
 
-        <div style={{textAlign:'center', marginBottom:'20px'}}>
-          <CustomButton text={'Sign up to Tutor'} size={'large'} color={'orange'} href={'https://forms.gle/kG5bhF7NTPtQZPmS7'} newTab/>
-        </div>
 
-        <Heading color={'blue'} style={{marginTop:'60px'}}>
-          Sign up for classes
-        </Heading>
-        <Subtitle color={'black'}
-                  style={{maxWidth:'70%', marginLeft:'auto', marginRight:'auto', fontSize:'18px', lineHeight:'28px' }}>
-          Once you have donated, upload your receipt to the form (below) and we will reach out to you with your password
-        </Subtitle>
-        <div style={{textAlign:'center', marginBottom:'20px'}}>
-          <CustomButton text={'Sign Up for classes'} size={'large'} color={'orange'} href={'https://forms.gle/X2wjM9N5qdRwWNrG9'} newTab/>
-        </div>
 
         <Heading color={'blue'} style={{marginTop:'60px'}}>
           Check out our Tutors!
         </Heading>
         <Subtitle color={'black'}
                   style={{maxWidth:'65%', marginLeft:'auto', marginRight:'auto', fontSize:'18px', lineHeight:'28px' }}>
-          Click on any tutor to see their schedules!
-        </Subtitle>
+          Click on any tutor see their schedules!
+          If interested in becoming a tutor, please fill out the form below, specifying your area of expertise and credentials, so we can add you as one of our tutors!
 
+        </Subtitle>
+        <div style={{textAlign:'center', marginBottom:'20px'}}>
+          <CustomButton text={'Sign up to Tutor'} size={'large'} color={'orange'} href={'https://forms.gle/kG5bhF7NTPtQZPmS7'} newTab/>
+        </div>
         <div style={{width: '100%'}}>
           {this.state.allTutors &&
             this.state.allTutors.map((ele, ind) => {
