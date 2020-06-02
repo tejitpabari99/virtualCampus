@@ -112,8 +112,8 @@ class cvcBlm extends React.Component {
           <div style={{ marginBottom: "15px" }}>
             Students and faculty at Columbia have offered to provide one-on-one workshops, tutorials,
             and mentorship in exchange for a donation to the Brooklyn Community Bail Fund and Black Visions
-            Collective. <strong>Each $15 donation will grant you access to 30 minutes with any tutor of your choice!
-            Do you need help polishing your resume?</strong> Want another set of eyes on your application papers?
+            Collective. <strong>Each $15 donation will grant you access to 30 minutes with any tutor of your choice!</strong>
+            Do you need help polishing your resume? Want another set of eyes on your application papers?
             Need someone to help you with a difficult coding problem? You can do all of that and more while
             donating to important causes.
           </div>
@@ -174,6 +174,10 @@ class cvcBlm extends React.Component {
               <br/>
               Once you have donated, upload your receipt to the form (below) and we will reach out to you with your
               password (check your inbox for an email from columbiavirtualcampus@gmail.com).
+              <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                <CustomButton text={"Sign Up for classes"} size={"medium"} color={"orange"}
+                              href={"https://forms.gle/X2wjM9N5qdRwWNrG9"} newTab/>
+              </div>
             </GridItem>
 
             <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
@@ -191,10 +195,6 @@ class cvcBlm extends React.Component {
                 Check out the list of tutors available in the various categories below.
                 Links to their credentials will be listed as well. Clicking on their name will show you their schedules.
                 Sign up for a time slot with the password provided to you by email.
-              </div>
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <CustomButton text={"Sign Up for classes"} size={"medium"} color={"orange"}
-                              href={"https://forms.gle/X2wjM9N5qdRwWNrG9"} newTab/>
               </div>
             </GridItem>
           </GridContainer>
