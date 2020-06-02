@@ -55,5 +55,11 @@ module.exports = {
         precachePages: [`/`,`/events/`, `/resources/*`, `/about-us`, `/contact-us`],
       },
     },
+    {
+      resolve: 'gatsby-plugin-html-attributes',
+      options: {
+        lang: 'en'
+      }
+    }
   ],
 };

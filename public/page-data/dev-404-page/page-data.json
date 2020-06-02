@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"componentChunkName":"component---cache-dev-404-page-js","path":"/dev-404-page/","result":{"data":{"allSitePage":{"nodes":[{"path":"/social/"},{"path":"/health/"},{"path":"/basic-needs/"},{"path":"/covid/"},{"path":"/jobs-internships/"},{"path":"/about-us/"},{"path":"/contact-us/"},{"path":"/events/"},{"path":"/"},{"path":"/resources-form/"},{"path":"/resources/"}]}},"pageContext":{}}}
+=======
+{"componentChunkName":"component---cache-dev-404-page-js","path":"/dev-404-page/","result":{"data":{"allSitePage":{"nodes":[{"path":"/social/"},{"path":"/health/"},{"path":"/basic-needs/"},{"path":"/covid/"},{"path":"/jobs-internships/"},{"path":"/about-us/"},{"path":"/contact-us/"},{"path":"/events/"},{"path":"/events/add-new-event/"},{"path":"/"},{"path":"/resources-form/"},{"path":"/resources/"}]}},"pageContext":{}}}
+>>>>>>> 07e5831bd61271442a5ff02128bed256ebfa8ad7

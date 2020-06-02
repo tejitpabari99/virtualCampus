@@ -6,6 +6,7 @@ function MetaData({title}) {
     return(
         <Helmet>
             <title>{title}</title>
+            <html lang="en"/>
             <meta name="description" content="Virtual Campus for the Columbia Community" />
             <link rel="canonical" href="https://columbiavirtualcampus.com/" />
             <meta name="robots" content="index, follow" />

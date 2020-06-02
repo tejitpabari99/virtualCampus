@@ -32,8 +32,6 @@ const useStyles = () => ({
     }
 });
 
-// Hi michelle! Testing
-
 export default function Resources() {
     const classes = useStyles();
     return (
@@ -47,6 +45,7 @@ export default function Resources() {
             <ResourcesFeatured />
 
             <br/><br/>
+
             <div style={{textAlign:'center'}}>
               <CustomButton text={"ADD NEW RESOURCES"} href={"resources-form"}
                             color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>

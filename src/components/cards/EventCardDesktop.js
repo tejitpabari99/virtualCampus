@@ -74,28 +74,31 @@ const useStyles = makeStyles(() => ({
   },
   timeInfo: {
     color: "gray",
-    position: "absolute",
+    // position: "absolute",
     // marginLeft: "4.32px",
-    marginRight: "9.61px",
+    // marginRight: "9.61px",
     // marginTop: "4.68px",
-    marginBottom: "9.82px",
-    flexDirection: "row"
+    // marginBottom: "9.82px",
+    flexDirection: "row",
+    display:'inline-block'
   },
   middleDot: {
     height: "5px",
     width: "5px",
-    marginLeft: "145px",
+    marginLeft: "10px",
+    marginBottom:'2px',
     backgroundColor: "gray",
     borderRadius: "50%",
     display: "inline-block",
-    flexDirection: "row"
+    // flexDirection: "row"
   },
   tagInfo: {
     color: "gray",
-    position: "absolute",
-    marginLeft: "10px",
+    // position: "absolute",
+    // marginLeft: "10px",
+    display: "inline-block",
     // marginTop: "3px",
-    flexDirection: "row"
+    // flexDirection: "row"
   },
   cardbody: {
     padding: 10,
@@ -142,7 +145,8 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function EventCardDesktop({ ele, onClick }) {
+export default function EventCardDesktop({ ele }) {
+  console.log(ele);
   const classes = useStyles();
   return (
 
@@ -150,63 +154,60 @@ export default function EventCardDesktop({ ele, onClick }) {
 
       <Card className={classes.card}>
         <div className={classes.flexBox}>
-          <img className={classes.image} src={ele.imgLink} alt={ele.title}/>
+          <img className={classes.image} src={ele.image_link} alt={ele.event}/>
           <div className={classes.imageBox}>
-            <p className={classes.dateText}>{ele.startTime.getDate()}</p>
-            <p className={classes.monthText}>{months[ele.startTime.getMonth()]}</p>
+            <p className={classes.dateText}>{ele.start_date.getDate()}</p>
+            <p className={classes.monthText}>{months[ele.start_date.getMonth()]}</p>
           </div>
         </div>
         <div className={classes.flexBox} style={{width:'100%'}}>
           <div className={classes.flexBox} style={{padding:0, paddingLeft: '2vw'}}>
-            <h1 className={classes.heading1}> {ele.title} </h1>
-            <h1 className={classes.heading2}>{ele.hostedBy}</h1>
+            <h1 className={classes.heading1}> {ele.event} </h1>
+            <h1 className={classes.heading2}>{ele.name}</h1>
           </div>
           <CardBody style={{padding:0, paddingLeft: '2vw', display:'flex', flexDirection:'row', height: '80%'}}>
             <div style={{paddingRight: '1.5vw'}}>
               <div className={classes.timeInfo}>
-                {formatTime(ele.startTime.getHours(), ele.startTime.getMinutes())} -
-                {formatTime(ele.endTime.getHours(), ele.endTime.getMinutes())} EST
+                {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} -
+                {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
               </div>
-              <span className={classes.middleDot}/>
-              <span className={classes.tagInfo}>
-                          {ele.tags.map((ta, ind) => {
-                            return (
-                              <div>
-                                {ta}
-                              </div>
-                            );
-                          })}
-                      </span>
+              <div className={classes.tagInfo}>
+                {ele.tags.map((ta, ind) => {
+                  return (
+                    <div style={{display:'inline-block'}}><span className={classes.middleDot}/> {ta}</div>
+                  );
+                })}
+              </div>
               <p style={{
                 color: "black",
                 minHeight: 55,
                 marginBottom: 0,
                 height:"min(9vw, 105px)",
-              }}>{ele.description}</p>
+              }}>{ele.desc}</p>
               <div style={{ color: "#4284C8", marginBottom: 5, marginTop: 'auto' }}>
                 <strong> <AddCalendar info={ele}/></strong>
               </div>
             </div>
             <div className={classes.flexBox} style={{marginBottom: 5, marginTop: 'auto', marginLeft:'auto'}}>
-              {ele.eventLink.length > 0 && ele.website !== '' ?
+              {ele.invite_link !== '' && ele.event_link !== '' ?
                 <div>
                 <div style={{textAlign:'left'}}>
-                    <CustomButton href={ele.website} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
+                    <CustomButton href={ele.event_link} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
                                   style={{ position: "relative", marginBottom: "5%", width: "90%", height: "10%" }} />
                 </div>
                 <div style={{textAlign:'left'}}>
-                    <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
+                    <CustomButton href={ele.invite_link} text={'ATTEND'} newTab
                                   style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
                 </div>
                 </div>
-                : ele.eventLink.length === 0 && ele.website !== '' ?
+                : ele.invite_link === '' && ele.event_link !== '' ?
                   <div style={{textAlign:'left'}}>
-                  <CustomButton href={ele.website} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
+                  <CustomButton href={ele.event_link} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
                                 style={{ position: "relative", width: "90%", height: "10%" }} />
                   </div>
-                  : ele.eventLink.length > 0 ?
+                  : ele.invite_link !== '' ?
                     <div style={{textAlign:'left'}}>
-                    <CustomButton href={ele.eventLink[0].link} text={ele.eventLink[0].title} newTab
+                    <CustomButton href={ele.invite_link} text={'ATTEND'} newTab
                                   style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
                     </div>
                     : null}
