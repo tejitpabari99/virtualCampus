@@ -28,6 +28,10 @@ const manualSt = makeStyles(() => ({
     fontSize: 'min(2.5vw, 20px)',
     padding: "1vh min(2.5vw,15px)",
   },
+  medium:{
+    fontSize: 'min(2.2vw, 13px)',
+    padding: "1vh min(2.3vw,13px)",
+  },
   small:{
     fontSize: 'min(2vw, 15px)',
     padding: "1vh min(2vw,10px)",
@@ -78,7 +82,7 @@ CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
   color: PropTypes.oneOf(["orange", "blue"]),
-  size: PropTypes.oneOf(["large","small"]),
+  size: PropTypes.oneOf(["large","small", "medium"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,
   className: PropTypes.string
