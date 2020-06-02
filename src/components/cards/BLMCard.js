@@ -38,69 +38,26 @@ const colorMapping = {
 
 const useStyles = makeStyles({
   root: {
-    height: '386px',
+    height: '220px',
+    maxWidth: 345,
+    marginBottom: 25,
     position: 'relative',
     boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
     transition: 'all 0.3s',
-
     "&:hover": {
       boxShadow: "0 10px 10px 0 rgba(0, 0, 0, 0.14), 0 15px 5px -10px rgba(0, 0, 0, 0.2), 0 5px 25px 0 rgba(0, 0, 0, 0.12)"
     }
   },
-  imgOverlay: {
-    position:'absolute',
-    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 71%)',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    height: '50.26%',
-    opacity:'50%'
-  },
-  media: {
-    position: 'absolute',
-    left: '0%',
-    right: '0%',
-    top: '0%',
-    bottom: '50.26%',
-
-    borderRadius: '5px 5px 0px 0px'
-  },
   title: {
-    position: 'absolute',
-    left: '8.28%',
-    right: '8.28%',
-    top: '29.02%',
-    bottom: '51.04%',
-
-    /* Desktop/Body */
-
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
     fontSize: '25px',
     lineHeight: '30px',
-
-    color: '#FFFFFF'
+    color: '#000000'
   },
   description: {
-    // display: 'none',
-    // height: 60,
-    position: 'absolute',
-    left: '8.28%',
-    right: '8.28%',
-    top: '55.44%',
-    bottom: '9.59%',
-
-    /* Desktop/Details */
-
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '14px',
+    fontSize: '13px',
     lineHeight: '21px',
-
     color: '#000000',
+
     // overflow: 'hidden'
   },
   cardHeader:{
@@ -145,15 +102,14 @@ const useStyles = makeStyles({
     fontSize: '10px',
     lineHeight: '15px',
     textAlign: 'center'
+  },
+  link:{
+    color:'blue',
+    "&:hover": {
+      color:'darkblue'
+    }
   }
 });
-
-const trimDescription = function(description) {
-  if(description.length > 250) {
-    description = description.substr(0, description.lastIndexOf(' ', 250)) + ' ...'
-  }
-  return description
-};
 
 export default function BLMCard(props) {
   const classes = useStyles();
@@ -165,7 +121,7 @@ export default function BLMCard(props) {
   const id = open ? 'simple-popover' : undefined;
 
 
-  let {iosLink, androidLink, website, share, img, title, description, tags,
+  let {website, share, title, description, tags, links, resume,
           headerTitle, headerColor} = props;
   if(headerColor && colorMapping.hasOwnProperty(headerColor)){
     headerColor = colorMapping[headerColor.toLowerCase()]
@@ -175,29 +131,18 @@ export default function BLMCard(props) {
   }
 
   return (
+    <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
     <Card className={classes.root}>
-      <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
-      <div className={classes.mediaContainer}>
-        {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
-        <CardMedia
-          component="img"
-          height="50.26%"
-          className={classes.media}
-          image={img}
-          title={title}
-        />
-        <div className={classes.imgOverlay}/>
-
-      </div>
-
-      <CardContent style={{marginBottom: 0}}>
+      <CardContent style={{marginBottom: 0, overflowWrap:'anywhere'}}>
         <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
           {title}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
-          {trimDescription(description)}
+        <Typography variant="body2" color="textSecondary" component="div" className={classes.description}>
+          <div>{description}</div>
+          <div><a href={links} target='_blank' rel="noopener noreferrer" className={classes.link}>Check out Profile</a></div>
+          <div><a target='_blank' rel="noopener noreferrer" href={resume} className={classes.link} >Check out Resume</a></div>
         </Typography>
-        {tags.map(ele => {
+        {tags && tags.map(ele => {
           return (
             <Button className={classes.button}>
               {ele}
@@ -206,65 +151,17 @@ export default function BLMCard(props) {
         })}
 
       </CardContent>
-      <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
-        <div style={{float: 'left'}}>
-          {share &&
-            <div style={{display:'inline-block'}} className={classes.icons}>
-              <IconButton aria-describedby={id} onClick={handleClick} size={'small'}>
-                <ShareIcon fontSize={'small'}/>
-              </IconButton>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}>
-                  <div style={{display: 'inline-block', paddingLeft: 5, paddingTop: 5, width: '100%'}}>
-                    <FacebookShareButton url={website} children={<FacebookIcon round size={24} style={{marginRight: 5}}/>}/>
-                    <TwitterShareButton url={website} children={<TwitterIcon round size={24} style={{marginRight: 5}}/>}/>
-                    <WhatsappShareButton url={website} children={<WhatsappIcon round size={24} style={{marginRight: 5}}/>}/>
-                    <LinkedinShareButton url={website} children={<LinkedinIcon round size={24} style={{marginRight: 5}}/>}/>
-                    <EmailShareButton url={website} children={<EmailIcon round size={24} style={{marginRight: 5}}/>}/>
-                  </div>
-              </Popover>
-            </div>
-          }
-          {iosLink &&
-          <IconButton href={iosLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-            <AppleIcon fontSize={'small'}/>
-          </IconButton>}
-          {androidLink &&
-          <IconButton href={androidLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-            <AndroidIcon fontSize={'small'}/>
-          </IconButton>}
-        </div>
-        <div style={{float: 'right', marginLeft: 'auto'}}>
-          <Button size="small" color="primary" href={website} target='_blank' rel="noopener noreferrer">
-            View
-          </Button>
-        </div>
-      </CardActions>
-      </a>
     </Card>
+    </a>
   );
 }
 
 BLMCard.propTypes = {
-  iosLink: PropTypes.string,
-  androidLink: PropTypes.string,
   website: PropTypes.string.isRequired,
   share: PropTypes.bool,
-  img: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  tags: PropTypes.string.isRequired,
+  tags: PropTypes.string,
   headerTitle: PropTypes.string,
   headerColor: PropTypes.string
 };

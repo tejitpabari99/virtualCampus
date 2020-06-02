@@ -32,7 +32,6 @@ const FormikField = (props) => {
                 label={props.label}
                 name={props.name}
                 helperText={errorMsg}
-                multiline={props.rows > 1}
                 required={props.required}
                 error={toggle}
                 multiline={multiTog}

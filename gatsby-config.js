@@ -12,16 +12,8 @@ module.exports = {
         apiKey: `AIzaSyBTFCyJxfKW4sTDM_oJ8I_mkblJWiVWxpw`,
         clientId: `1009798395114-g80e06avugf7ufq7i6v695o3cfck8j3h.apps.googleusercontent.com`,
         discoveryURLs: [
-          // These are the discovery docs for various Google APIs.
-          // This can be empty.
-          // Find more here: https://developers.google.com/discovery
-          // This one is for the Google Drive v3 api.
           "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
         ],
-        // The permission scopes your app needs.
-        // For auth only, this can be empty.
-        // Find more here: https://developers.google.com/identity/protocols/oauth2/scopes
-        // This one is for reading a writing all files in Google Drive.
         scopes: ["https://www.googleapis.com/auth/drive"],
       },
     },
