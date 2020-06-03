@@ -5,12 +5,13 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import {Link} from "gatsby";
 import {MuiThemeProvider} from "@material-ui/core/styles";
+import Button from "../material-kit-components/CustomButtons/Button";
 
 import {makeStyles} from "@material-ui/core/styles";
 import Data from "../../assets/ResourcesData";
-import {ResourcesCard, CustomTheme} from "..";
+import { ResourcesCard, CustomTheme, Heading } from "..";
+import {cardTitle} from "../../assets/material-kit-assets/jss/material-kit-react";
 const CampusData = Data.CampusData;
-const IndexCampusData = Data.IndexCampusData;
 const theme = CustomTheme;
 
 const containerStyles = makeStyles(() => ({
@@ -19,7 +20,7 @@ const containerStyles = makeStyles(() => ({
   },
   gridEle: {
     marginBottom: "40px",
-    marginTop: 5
+    marginTop: 5,
   },
   title: {
     textTransform: "capitalize",
@@ -46,6 +47,14 @@ const containerStyles = makeStyles(() => ({
   mainGrid: {
     marginLeft: 30,
     marginRight: 30
+  },
+
+  left: {
+    left: '0%',
+    width: '20%'
+  },
+  right: {
+    left: '25%'
   }
 }));
 
@@ -54,38 +63,35 @@ export default function ResourcesList() {
   const contStyle = containerStyles();
   return (
     <MuiThemeProvider theme={theme}>
-    <div className={classNames(contStyle.mainGrid)}>
-      {Object.keys(IndexCampusData).map(key => {
-        return (
-          <div className={contStyle.gridCont}>
-            <div>
-            <Typography variant="h6" component="h2" className={contStyle.title}>{CampusData[key]['title']}</Typography>
-            <Link to={CampusData[key]['pageURL']} className={contStyle.seeAllLink}>See All</Link>
+      <div className={classNames(contStyle.mainGrid)}>
+
+        {Object.keys(CampusData).map(key => {
+          return (
+            <div className={contStyle.gridCont}>
+                <Heading color={'blue'} style={{textAlign:'left'}}>{CampusData[key]['title']}</Heading>
+              <GridContainer>
+                {CampusData[key]['data'].map(data => {
+                  return (
+                    <GridItem xs={12} sm={6} md={3} className={contStyle.gridEle}>
+                      <ResourcesCard
+                        website={data.links.website}
+                        img={data.img}
+                        title={data.title}
+                        description={data.description}
+                        iosLink={data.links.iosLink}
+                        androidLink={data.links.androidLink}
+                        tags={data.category.tags}
+                        share
+                      />
+                    </GridItem>
+                  );
+
+                })}
+              </GridContainer>
             </div>
-            <GridContainer>
-              {IndexCampusData[key].map(ele => {
-                let splt = ele.split('/');
-                let data = CampusData[key];
-                for (let k of splt){ data = data['data'][k]}
-                return (
-                  <GridItem xs={12} sm={6} md={3} className={contStyle.gridEle}>
-                    <ResourcesCard
-                      website={data.website || data.facebook || data.instagram }
-                      imgURL={data.imgURL}
-                      title={data.title}
-                      description={data.description}
-                      iosLink={data.iosLink}
-                      androidLink={data.androidLink}
-                      share
-                    />
-                  </GridItem>
-                )
-              })}
-            </GridContainer>
-          </div>
-        )
-      })}
-    </div>
+          )
+        })}
+      </div>
     </MuiThemeProvider>
   )
 }
