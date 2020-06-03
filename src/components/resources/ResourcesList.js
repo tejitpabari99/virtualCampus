@@ -8,7 +8,7 @@ import {MuiThemeProvider} from "@material-ui/core/styles";
 import Button from "../material-kit-components/CustomButtons/Button";
 
 import {makeStyles} from "@material-ui/core/styles";
-import Data from "../../assets/ResourcesData";
+import Data from "../../assets/resourcesfirebase";
 import {ResourcesCard, CustomTheme} from "..";
 import {cardTitle} from "../../assets/material-kit-assets/jss/material-kit-react";
 const CampusData = Data.CampusData;
