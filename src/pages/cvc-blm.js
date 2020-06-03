@@ -9,6 +9,7 @@ import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 import Subtitle from "../components/text/Subtitle";
 import Heading from "../components/text/Heading";
+import Button from "@material-ui/core/Button";
 
 let toTitleCase = function(str) {
   str = str.toLowerCase().split(" ");
@@ -40,7 +41,7 @@ class cvcBlm extends React.Component {
 
   fetchData() {
     let that = this;
-    fetch("https://sheets.googleapis.com/v4/spreadsheets/1lKaDRHeC2NHewyeh87podHwo1Ya4qAtYr9VAYI71s50/values/Tutor Profiles!A2:F40?key=" + process.env.GATSBY_GOOGLE_SHEET_KEY)
+    fetch("https://sheets.googleapis.com/v4/spreadsheets/1lKaDRHeC2NHewyeh87podHwo1Ya4qAtYr9VAYI71s50/values/Tutor Profiles!A2:F500?key=" + process.env.GATSBY_GOOGLE_SHEET_KEY)
       .then(function(response) {
         response.json().then(function(data) {
           console.log("Success");
@@ -56,7 +57,7 @@ class cvcBlm extends React.Component {
     if (data) {
       let new_dict = {};
       for (let i = 0; i < data.length; i += 1) {
-        if (data[i] && data[i][0]) {
+        if (data[i] && data[i][1]) {
           let subject = data[i][1].toLowerCase();
           if (new_dict.hasOwnProperty(subject)) {
             new_dict[subject].push(data[i]);
@@ -112,14 +113,18 @@ class cvcBlm extends React.Component {
           <div style={{ marginBottom: "15px" }}>
             Students and faculty at Columbia have offered to provide one-on-one workshops, tutorials,
             and mentorship in exchange for a donation to the Brooklyn Community Bail Fund and Black Visions
-            Collective. <strong>Each $15 donation will grant you access to 30 minutes with any tutor of your choice!</strong>
+            Collective. <strong>Each $15 donation will grant you access to 30 minutes with any tutor of your choice! </strong>
             Do you need help polishing your resume? Want another set of eyes on your application papers?
             Need someone to help you with a difficult coding problem? You can do all of that and more while
             donating to important causes.
           </div>
           <div>
             To sign up for a class, please make a donation to the Brooklyn Community Bail Fund
-            or Black Visions Collective (or both!). Verify your donation by uploading
+            or Black Visions Collective (or both!). You can also <a href={'https://venmo.com/Tejit-Pabari'}>Venmo </a>
+            us or
+            <a href={'https://www.paypal.me/tejitpabari'} target='_blank' rel="noopener noreferrer"> Paypal </a> us and
+            we can pay.
+            Verify your donation by uploading
             a snapshot/picture of your receipt on the “Sign up for classes” form below. Upon completion,
             a password that you can use to sign up for meetings with tutors will be sent to your email.
           </div>
