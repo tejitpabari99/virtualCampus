@@ -18,11 +18,15 @@ import Title from "./text/Title";
 import Subtitle from "./text/Subtitle";
 import Heading from "./text/Heading";
 import DesktopMobile from "./all/DesktopMobile";
+import Search from "./input/Search";
 import BLMCard from "./cards/BLMCard";
+import TutorExpansionMapping from './pop-up/blm/TutorExpansionMapping';
+import TutorSearchMapping from './pop-up/blm/TutorSearchMapping'
 
 export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         EventCard, EventCardMobile, EventModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton, DesktopMobile,
-        Title, Subtitle, Heading,
-        ResourcesList, ResourcesCard, BLMCard}
+        Title, Subtitle, Heading, Search,
+        ResourcesList, ResourcesCard,
+        BLMCard, TutorExpansionMapping, TutorSearchMapping}
