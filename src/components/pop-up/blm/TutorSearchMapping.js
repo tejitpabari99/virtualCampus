@@ -19,13 +19,15 @@ class TutorSearchMapping extends React.Component {
             console.log(innerEle.item, innerEle.item && innerEle.website);
             if (innerEle.item && innerEle.item.website) {
               return (
-                <GridItem key={innerInd} xs={12} sm={6} md={3}>
+
+                <GridItem key={innerInd} xs={12} sm={12} md={12} >
                   <BLMCard
                     website={innerEle.item.website}
                     title={innerEle.item.name}
                     description={innerEle.item.desc}
                     links={innerEle.item.profile}
                     resume={innerEle.item.resume}
+
                   />
                 </GridItem>
               );

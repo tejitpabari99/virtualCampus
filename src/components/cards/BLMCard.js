@@ -28,6 +28,7 @@ const colorMapping = {
 const useStyles = makeStyles({
   root: {
     height: '220px',
+    textAlign:'center',
     maxWidth: 345,
     marginBottom: 25,
     position: 'relative',
@@ -38,7 +39,7 @@ const useStyles = makeStyles({
     }
   },
   title: {
-    fontSize: '25px',
+    fontSize: '20px',
     lineHeight: '30px',
     color: '#000000'
   },
@@ -93,10 +94,11 @@ const useStyles = makeStyles({
     textAlign: 'center'
   },
   link:{
-    color:'blue',
+    color:'#82b7e8',
     "&:hover": {
-      color:'darkblue'
-    }
+      color:'#252c55'
+    },
+    fontSize:'20px'
   }
 });
 
@@ -105,21 +107,16 @@ export default function BLMCard(props) {
   let {website, title, description, links, resume} = props;
   return (
     <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
-    <Card className={classes.root}>
-      <CardContent style={{marginBottom: 0, overflowWrap:'anywhere'}}>
-        <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
-          {title}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="div" className={classes.description}>
-          <div>{description}</div>
-          {links && <div><a href={links} target='_blank' rel="noopener noreferrer"
-                            className={classes.link}>Check out Profile</a></div>}
-          {resume && <div><a target='_blank' rel="noopener noreferrer"
-                             href={resume} className={classes.link} >Check out Resume</a></div>}
-        </Typography>
+    <div>
+    <div style={{display:'flex', flexDirection:'horizontal', justifyContent:'space-between'}}>
+    <div className={classes.title}><strong> {title}</strong></div>
+    <div style={{display:'flex',flexDirection:'horizontal'}}>{links && <div style={{marginRight:"3%"}}><a href={links} target='_blank' rel="noopener noreferrer"
+                            className={classes.link}>Profile</a></div>} {resume && <div><a target='_blank' rel="noopener noreferrer"
+                             href={resume} className={classes.link} > Resume</a></div>}</div>
+    </div>
+    <i> {description} </i>
+    </div>
 
-      </CardContent>
-    </Card>
     </a>
   );
 }
