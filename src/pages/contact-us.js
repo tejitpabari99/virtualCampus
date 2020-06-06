@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomButton, MetaData, Template, Title } from "../components";
+import { CustomButton, CustomHeader, MetaData, Template, Title } from "../components";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import CustomInput from "../components/material-kit-components/CustomInput/CustomInput.js";
@@ -8,6 +8,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import EmailIcon from "@material-ui/icons/Email";
 import MessageIcon from "@material-ui/icons/Message";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import { CircularProgress } from '@material-ui/core';
 import Axios from "axios";
 
 class contactUs extends React.Component {
@@ -19,6 +20,7 @@ class contactUs extends React.Component {
       subject: "",
       from: "",
       text: "",
+      activityIndicatory: false,
       feedbackSubmit: false
     };
 
@@ -26,6 +28,7 @@ class contactUs extends React.Component {
   }
 
   handleClick() {
+    this.setState({activityIndicatory:true});
     const data = {
       from: this.state.from,
       subject: this.state.subject,
@@ -34,6 +37,7 @@ class contactUs extends React.Component {
 
     Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", data)
       .then(res => {
+        this.setState({ activityIndicatory: false });
         this.setState({ feedbackSubmit: true });
         console.log(res);
       })
@@ -58,7 +62,19 @@ class contactUs extends React.Component {
         <div style={{ minHeight: "20px" }}/>
 
         <h3 style={{ textAlign: "center", color: "#4284C8" }}><strong>Feedback</strong></h3>
-        {!this.state.feedbackSubmit &&
+        {this.state.activityIndicatory &&
+
+        <div style={{ backgroundColor: "white" }}>
+          <div style={{ backgroundColor: "white" }}>
+            <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"}/>
+            <div style={{marginTop: '25%', marginLeft:'50%'}}>
+              <CircularProgress />
+            </div>
+          </div>
+        </div>
+        }
+
+        {!this.state.feedbackSubmit && !this.state.activityIndicatory &&
 
         <div>
           <GridContainer style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -120,7 +136,7 @@ class contactUs extends React.Component {
           </div>
         </div>}
 
-        {this.state.feedbackSubmit &&
+        {this.state.feedbackSubmit && !this.state.activityIndicatory &&
         <div>
           <div style={{ minHeight: "20px" }}/>
           <div style={{ textAlign: "center" }}>
