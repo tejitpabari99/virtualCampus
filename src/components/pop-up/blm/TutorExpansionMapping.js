@@ -25,6 +25,7 @@ class TutorExpansionMapping extends React.Component {
         Object.keys(this.props.allTutors).map((ele, ind) => {
           if (ele && this.props.allTutors[ele] && this.props.allTutors[ele][0].website) {
             return (
+              <div style={{display:'flex', flexDirection:'horizontal', justifyContent:'center'}}>
               <ExpansionPanel key={ind} expanded={this.state.expanded === "panel" + ind.toString()}
                               style={{ width: "100%" }}
                               onChange={() => {
@@ -35,14 +36,14 @@ class TutorExpansionMapping extends React.Component {
                   aria-controls="panel1bh-content"
                   id={"panel" + ind.toString() + "bh-header"}
                 >
-                  <span>{ele}</span>
+                  <span style={{fontSize:'22px'}}>{ele}</span>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails style={{ width: "100%" }}>
                   <GridContainer style={{ width: "100%" }}>
                     {this.props.allTutors[ele] && this.props.allTutors[ele].map((innerEle, innerInd) => {
                       if (innerEle && innerEle.website) {
                         return (
-                          <GridItem key={innerInd} xs={12} sm={6} md={3}>
+                          <GridItem key={innerInd} xs={12} sm={12} md={12} style={{margin:"1%"}}>
                             <BLMCard
                               website={innerEle.website}
                               title={innerEle.name}
@@ -57,6 +58,7 @@ class TutorExpansionMapping extends React.Component {
                   </GridContainer>
                 </ExpansionPanelDetails>
               </ExpansionPanel>
+              </div>
             );
           }
 
