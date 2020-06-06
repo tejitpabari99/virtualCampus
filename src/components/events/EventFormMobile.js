@@ -344,6 +344,8 @@ class EventFormMobile extends React.Component {
     data = processTags(data);
     const text = formatEmailText(data);
     const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
+    const zoomUrl = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=http%3A%2F%2Fdesktop-hnqifrq.local%3A3000%2Fevents%2Fhandle-approve&state="
+
     const clientEmailData = {
       to: from,
       from: "columbiavirtualcampus@gmail.com",
@@ -368,6 +370,10 @@ class EventFormMobile extends React.Component {
       emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
         + "<br><br>Click here to approve this event: ",
         approvalUrl.concat(newEventRef.id));
+    if (data["zoomLink"]) {
+      emailData["text"].concat("\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: ",
+          zoomUrl.concat(newEventRef.id));
+    }
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
       .then(ref => {
@@ -396,7 +402,7 @@ class EventFormMobile extends React.Component {
       });
 
     if (data["zoomLink"]) {
-      sendZoomEmail(newEventRef.id, data["event"], from);
+      //sendZoomEmail(newEventRef.id, data["event"], from);
     }
 
     return emailData["text"];

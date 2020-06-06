@@ -63,3 +63,23 @@ exports.approveEvent = functions.https.onRequest((req, res) => {
         });
     });
 });
+
+
+exports.sendZoomRequest = functions.https.onRequest(async (req, res) => {
+
+  cors(req, res, async () => {
+    console.log(req.body);
+    const request = require('request-promise');
+
+    request.post(req.body,
+        function (err, httpResponse, body) {
+          console.log(err);
+          if (body.error) {
+              return res.status(403).send("failed posting to call zoom api: " + body.error);
+          }
+
+          return res.status(200).send(body);
+        }
+    );
+  })
+});
