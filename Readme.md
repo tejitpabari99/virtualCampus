@@ -35,3 +35,4 @@ It is developed using [Gatsby](https://www.gatsbyjs.org/docs/, "Gatsby"), a stat
 6. To deploy functions, run `$ firebase deploy --only functions` or for specific functions run `$ firebase deploy --only functions:<funcname1>,<funcname2>,...`
 
 Note: You might not have permission to make new functions that rely on HTTP. Use the CVC email to login and deploy in this case.
+
