@@ -1,20 +1,14 @@
 import React from "react";
-import { CustomButton, CustomHeader, MetaData, Template, Title } from "../components";
+import { CustomButton, CustomHeader, Template, Title } from "../components";
+import CustomInput from "../components/material-kit-components/CustomInput/CustomInput.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
-import CustomInput from "../components/material-kit-components/CustomInput/CustomInput.js";
-import Button from "../components/material-kit-components/CustomButtons/Button.js";
 import PersonIcon from "@material-ui/icons/Person";
 import EmailIcon from "@material-ui/icons/Email";
 import MessageIcon from "@material-ui/icons/Message";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { CircularProgress } from '@material-ui/core';
 import Axios from "axios";
-import React from "react";
-import { CustomButton, Template, Title } from "../components";
-import CustomInput from "../components/material-kit-components/CustomInput/CustomInput.js";
-import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
-import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 
 class contactUs extends React.Component {
     constructor(props) {
