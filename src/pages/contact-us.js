@@ -35,7 +35,7 @@ class contactUs extends React.Component {
       text: this.state.text
     };
 
-    Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", data)
+    /*Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", data)
       .then(res => {
         this.setState({ activityIndicatory: false });
         this.setState({ feedbackSubmit: true });
@@ -43,7 +43,7 @@ class contactUs extends React.Component {
       })
       .catch(error => {
         console.log(error);
-      });
+      });*/
 
   }
 
@@ -67,7 +67,7 @@ class contactUs extends React.Component {
         <div style={{ backgroundColor: "white" }}>
           <div style={{ backgroundColor: "white" }}>
             <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"}/>
-            <div style={{marginTop: '25%', marginLeft:'50%'}}>
+            <div style={{marginTop: '3%', marginLeft:'49%'}}>
               <CircularProgress />
             </div>
           </div>
