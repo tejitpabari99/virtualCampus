@@ -8,7 +8,7 @@ import EventCard from "./cards/EventCard";
 import EventCardMobile from "./cards/EventCardMobile";
 import EventModal from "./cards/EventModal";
 import ResourcesList from "./resources/ResourcesList";
-import ResourcesFeatured from "./resources/ResourcesFeatured";
+import ResourcesFeatured from "./resources/ResourcesFeaturedDesktop";
 import ResourcesCard from "./cards/ResourcesCard";
 import AddCalendar from "./events/AddCalendar";
 import CustomButton from "./buttons/CustomButton";
