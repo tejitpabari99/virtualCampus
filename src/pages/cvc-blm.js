@@ -7,6 +7,8 @@ import Subtitle from "../components/text/Subtitle";
 import Heading from "../components/text/Heading";
 import { CircularProgress } from '@material-ui/core';
 import firebase from '../firebase'
+import Card from "@material-ui/core";
+import CardContent from '@material-ui/core/CardContent';
 
 import Fuse from 'fuse.js';
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -68,18 +70,13 @@ class cvcBlm extends React.Component {
           that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator:false});
           let tutorsPop = {};
           let tutorsAllSec = {};
-          for(var key in allTutors) {
-            if(subjects.includes(key)){
-              tutorsPop[key] = allTutors[key]
+          for(let key in allTutors) {
+            if(allTutors.hasOwnProperty(key)){
+              if(subjects.includes(key)){tutorsPop[key] = allTutors[key]}
+              else{tutorsAllSec[key] = allTutors[key]}
             }
-            else{
-              tutorsAllSec[key] = allTutors[key]
-            }
-
-
           }
           that.setState({ tutorsPop: tutorsPop, tutorsAllSec: tutorsAllSec});
-
         });
       })
       .catch(error => {
@@ -118,7 +115,7 @@ class cvcBlm extends React.Component {
 
   searchFunc(val) {
     if(!val || val.length<=2){
-      return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:''});
+      return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:'Search term must be more than 2 characters'});
     }
     this.setState({activityIndicator:true});
     const options = {
@@ -181,11 +178,11 @@ class cvcBlm extends React.Component {
 
         </Subtitle>
 
-        <div style={{ display: "flex", flexDirection: "horizontal", justifyContent: "center" }}>
+        <div style={{ display: "flex", flexDirection: "horizontal", justifyContent: "center", marginTop: 10 }}>
           <GridContainer
             style={{
               maxWidth: "90%", display: "flex", flexDirection: "horizontal",
-              justifyContent: "space-between", marginTop: 0, marginBottom:"-4%"
+              justifyContent: "space-between", marginTop: 0
             }}>
             <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
 
@@ -267,8 +264,9 @@ class cvcBlm extends React.Component {
                     fontSize: "18px",
                     lineHeight: "28px"
                   }}>
-          For each section, these vounteers are willing to provide tutoring, review/edit your work, or answer any questions within that domain.
-
+          For each section, these vounteers are willing to provide tutoring,
+          review/edit your work, or answer any questions within that domain.
+          Click on their names to know their schedules
         </Subtitle>
 
 
@@ -284,7 +282,11 @@ class cvcBlm extends React.Component {
         {!this.state.activityIndicator &&
         <div>
           {this.state.tutorSearch.length>0 && !this.state.tutorSearchError ?
-            <div style={{display:'flex', flexDirection:'horizontal', justifyContent:'center'}}><div style={{ maxWidth:'85%'}}><TutorSearchMapping tutorSearch={this.state.tutorSearch}/></div></div>:
+            <div style={{display:'flex', flexDirection:'horizontal', justifyContent:'center'}}>
+              <div style={{ width:'85%'}}>
+                <TutorSearchMapping tutorSearch={this.state.tutorSearch}/>
+              </div>
+            </div>:
             this.state.tutorSearchError?
               <div style={{width:'100%', textAlign:'center', color:'red'}}>{this.state.tutorSearchError}</div>:
               <div style={{display:'flex', flexDirection:'horizontal', justifyContent:'center'}}>
@@ -314,13 +316,12 @@ class cvcBlm extends React.Component {
               <TutorExpansionMapping allTutors={this.state.allTutors}/>
               </div>
               </div>
-
           }
         </div>
 
         }
 
-        <Heading color={"blue"} style={{ marginTop: "60px" }}>
+        <Heading color={"blue"} style={{ marginTop: "80px" }}>
           Our Mission
         </Heading>
 

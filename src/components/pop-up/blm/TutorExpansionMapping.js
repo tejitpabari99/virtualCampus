@@ -7,6 +7,15 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import GridItem from "../../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+let useStyles = () => ({
+  gridItem:{
+    "&:hover,&:focus":
+    {backgroundColor:'#F2F9FD'}
+  }
+})
+
 
 class TutorExpansionMapping extends React.Component {
 
@@ -19,6 +28,7 @@ class TutorExpansionMapping extends React.Component {
   };
 
   render() {
+    const {classes} = this.props;
     return (
       <div style={{ width: "100%" }}>
         {this.props.allTutors &&
@@ -38,12 +48,13 @@ class TutorExpansionMapping extends React.Component {
                 >
                   <span style={{fontSize:'22px'}}>{ele}</span>
                 </ExpansionPanelSummary>
-                <ExpansionPanelDetails style={{ width: "100%" }}>
-                  <GridContainer style={{ width: "100%" }}>
+                <ExpansionPanelDetails style={{ width: "100%", paddingLeft:0, paddingRight:0 }}>
+                  <GridContainer style={{ width: "100%", marginLeft:0, marginRight:0 }}>
                     {this.props.allTutors[ele] && this.props.allTutors[ele].map((innerEle, innerInd) => {
                       if (innerEle && innerEle.website) {
                         return (
-                          <GridItem key={innerInd} xs={12} sm={12} md={12} style={{margin:"1%"}}>
+                          <GridItem key={innerInd} xs={12} sm={12} md={12} className={classes.gridItem}
+                                    style={{paddingTop:10, paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
                             <BLMCard
                               website={innerEle.website}
                               title={innerEle.name}
@@ -69,4 +80,4 @@ class TutorExpansionMapping extends React.Component {
   }
 }
 
-export default TutorExpansionMapping;
+export default withStyles(useStyles)(TutorExpansionMapping);

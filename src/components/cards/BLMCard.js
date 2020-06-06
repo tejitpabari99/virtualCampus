@@ -94,9 +94,9 @@ const useStyles = makeStyles({
     textAlign: 'center'
   },
   link:{
-    color:'#82b7e8',
+    color:'#F1945B',
     "&:hover": {
-      color:'#252c55'
+      color:'#FB750D'
     },
     fontSize:'20px'
   }
@@ -106,16 +106,17 @@ export default function BLMCard(props) {
   const classes = useStyles();
   let {website, title, description, links, resume} = props;
   return (
-    <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
-    <div>
-    <div style={{display:'flex', flexDirection:'horizontal', justifyContent:'space-between'}}>
-    <div className={classes.title}><strong> {title}</strong></div>
-    <div style={{display:'flex',flexDirection:'horizontal'}}>{links && <div style={{marginRight:"3%"}}><a href={links} target='_blank' rel="noopener noreferrer"
-                            className={classes.link}>Profile</a></div>} {resume && <div><a target='_blank' rel="noopener noreferrer"
-                             href={resume} className={classes.link} > Resume</a></div>}</div>
-    </div>
-    <i> {description} </i>
-    </div>
+    <a href={website} target='_blank' rel="noopener noreferrer"
+       style={{color: 'black'}}>
+      <div>
+        <div style={{display:'flex', flexDirection:'horizontal', justifyContent:'space-between'}}>
+        <div className={classes.title}><strong> {title}</strong></div>
+        <div style={{display:'flex',flexDirection:'horizontal'}}>{links && <div style={{marginRight:resume?10:0}}><a href={links} target='_blank' rel="noopener noreferrer"
+                                className={classes.link}>Profile</a></div>} {resume && <div><a target='_blank' rel="noopener noreferrer"
+                                 href={resume} className={classes.link} > Resume</a></div>}</div>
+        </div>
+        <i> {description} </i>
+      </div>
 
     </a>
   );
