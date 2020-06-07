@@ -47,17 +47,27 @@ class HandleApprove extends React.Component {
                 return 0;
             });
     }
-    async updateZoomLink(id, zoomLink) {
+    async updateZoomLink(id, zoomLink, hostLink, pass) {
         var db = firebase.firestore();
         var approvedEvents = await db.collection("events")
             .doc(id).update({zoomLink: zoomLink})
             .then(() => {
-                this.setState({response: "Zoom link created and zoom link put into database successfully! " + zoomLink})
+                this.setState({response: "Zoom link created and zoom link put into database successfully! "
+                        + "\nJoin url: " + zoomLink
+                        + "\n Host Link: " + hostLink
+                        + "\n PW: " + pass
+                        + "\n\nSUCCESS: put into Database!"})
             }).catch((err) => {
-                this.setState({response: "Zoom link created but could not put into event in database. Link:" + zoomLink})
+                this.setState({response: "Zoom link created but could not put into event in database."
+                        + "\nJoin url: " + zoomLink
+                        + "\n Host Link: " + hostLink
+                        + "\n PW: " + pass
+                        + "\n\nFAILURE: putting into Database!"})
             });
     }
 
+    // TODO: Email user the start_url?
+    // TODO: Make sure the zoom redirect uri is correct once pushed to live website
     run() {
         if (this.state.params === undefined || this.state.params.code === undefined) {
             this.setState({response: "404 Not Found"});
@@ -122,7 +132,7 @@ class HandleApprove extends React.Component {
                                     timezone: event.timezone.split("$")[0],
                                     topic: event.event,
                                     agenda: event.desc,
-                                    password: 1000000 + Math.random() * 8000000
+                                    password: Math.floor(1000000 + Math.random() * 8000000)
                                 },
                                 json: true
                             };
@@ -132,10 +142,12 @@ class HandleApprove extends React.Component {
                                 .then(res => {
                                     this.setState({response: "Success. Created zoom meeting:"
                                                         + "\nJoin url: " + res.data.join_url
-                                                        + "\n Host Link: " + res.data.host_url
+                                                        + "\n Host Link: " + res.data.start_url
                                                         + "\n PW: " + options.body.password
                                                         + "\n\nAttempting to put into database..."});
-                                    this.updateZoomLink(this.state.params.state, res.data.join_url);
+                                    console.log(JSON.stringify(res.data))
+                                    this.updateZoomLink(this.state.params.state, res.data.join_url, res.data.start_url,
+                                                            options.body.password);
                                 })
                                 .catch(error => {
                                     console.log("error: " + error);

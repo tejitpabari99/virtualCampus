@@ -344,7 +344,7 @@ class EventFormMobile extends React.Component {
     data = processTags(data);
     const text = formatEmailText(data);
     const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
-    const zoomUrl = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=http%3A%2F%2Fdesktop-hnqifrq.local%3A3000%2Fevents%2Fhandle-approve&state="
+    const zoomUrl = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=https%3A%2F%2Fcolumbiavirtualcampus.com%2Fevents%2Fhandle-approve&state="
 
     const clientEmailData = {
       to: from,
