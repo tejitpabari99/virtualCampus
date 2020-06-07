@@ -1,7 +1,4 @@
-//import React from "react"
-//import myResourcesList from '../assets/ResourcesData';
-//const firebase = require("../firebase.js");
-
+//const firebase = require("../firebase");
 const admin = require("firebase-admin");
 const serviceAccount = require("../firebase/serviceAccountKey.json");
 
@@ -10,20 +7,25 @@ admin.initializeApp({
   databaseURL: "https://columbia-virtual-campus.firebaseio.com/"
 });
 
-
 let db = admin.firestore();
 const settings = {/* your settings... */ timestampsInSnapshots: true};
 db.settings(settings);
+console.log(admin);
 
 // All the categories within "resources"
 let docs = db.collection('resources');
-//console.log(docs);
+console.log(docs);
 
 //get multiple documents from a collection
-let collection = docs.where("reviewed", "==", true);
-console.log(collection);
+//let collection = docs.where("reviewed", "==", true);
+//console.log(collection);
 
-console.log(500000);
+let CampusData = [];
+let CollectionNames = [];
+
+let resource = docs.doc('basic needs').get();
+console.log(resource);
+
 /*
 let collection = docs.get().then(function(querySnapshot) {
     querySnapshot.forEach(function(docs) {
@@ -32,19 +34,33 @@ let collection = docs.get().then(function(querySnapshot) {
     });
 });;
 */
-//console.log(collection);
 
 // All the resources within "basic needs"
-//collection = docs.doc('basic needs');
-//console.log(collection);
+/*
+let collection = docs.doc('basic needs');
+console.log(collection);
 
+collection = docs.get()
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      console.log('Document data:', doc.data());
+    }
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+});
+*/
+
+/*
 //iterate through each document
 collection.forEach((doc) => {
 
 });
 let subcollection =
 console.log(subcollection);
-
+*/
 /*docs.forEach((doc) => {
   console.log(doc);
 });
@@ -56,12 +72,7 @@ console.log(subcollection);
 //let subdoc = subcollection.doc('International Student');
 //console.log(subdoc);
 let CampusData = [[]];
-/*
-let CampusData = {key1: "title", key2: "pageURL", key3: "data"};
-CampusData.key3 = ["title", "description", "img", "links", "reviewed", "category"];
-CampusData.key3.links = ["website", "facebook"];
-CampusData.key3.category = ["category", "tags"];
-*/
+
 /*
 let getDoc = subdoc.get()
   .then(doc => {
@@ -101,7 +112,6 @@ for (var i = 0; i < Collection.length; i++) {
     });
 }
 */
-
 
 /*docs.forEach((doc) => {
   console.log(doc);
