@@ -33,7 +33,7 @@ const FileUploadBtn = (props) => {
                 style={{ display: 'none' }}
             />
             <label htmlFor="file_upload">
-                <ButtonBase className={manual.uploadBtn} component="span">
+                <ButtonBase className={manual.uploadBtn} component="span" onClick={props.onClick}>
                     <span style={{ fontSize: '14px' }}>
                         {text}
                     </span>

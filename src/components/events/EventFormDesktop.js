@@ -322,6 +322,7 @@ class EventFormDesktop extends React.Component {
 
     this.submitHandler = this.submitHandler.bind(this);
     this.uploadData = this.uploadData.bind(this);
+    this.handleImageUpload = this.handleImageUpload.bind(this);
   }
 
   submitHandler(values) {
@@ -471,6 +472,12 @@ class EventFormDesktop extends React.Component {
     }
   }
 
+  handleImageUpload(){
+    console.log(this.inputElement);
+    this.inputElement.props.label="Image Uploaded";
+    this.inputElement.touch = true;
+  }
+
 
   render() {
     if (this.state.activityIndicatory) {
@@ -594,13 +601,13 @@ class EventFormDesktop extends React.Component {
                                       name="name"
                                       error={errors.name}
                                       touch={touched.name}
-                                      required></FormikField>
+                                      required/>
                                   </Grid>
                                   <Grid item sm={6}>
                                     <FormikField label="Email" name="email"
                                       error={errors.email}
                                       touch={touched.email}
-                                      required></FormikField>
+                                      required/>
                                   </Grid>
                                 </Grid>
                               </div>
@@ -622,18 +629,19 @@ class EventFormDesktop extends React.Component {
                                     <FormikField label="Event Name" name="event"
                                       error={errors.event}
                                       touch={touched.event}
-                                      required></FormikField>
+                                      required/>
                                   </Grid>
-                                  <Grid item sm={4}>
+                                  <Grid item sm={6}>
                                     <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
-                                      name="image_link"
-                                      error={errors.image_link}
-                                      touch={touched.image_link}></FormikField>
+                                                 name="image_link"
+                                                 error={errors.image_link}
+                                                 ref={input => this.inputElement = input}
+                                                 touch={touched.image_link}/>
                                   </Grid>
-                                  <Grid item sm={2}>
-                                    {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                    <FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" />
-                                  </Grid>
+                                  {/*<Grid item sm={2}>*/}
+                                  {/*  /!* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> *!/*/}
+                                  {/*  /!*<FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload"/>*!/*/}
+                                  {/*</Grid>*/}
                                 </Grid>
 
                                 <Grid container spacing={2}>
@@ -721,9 +729,9 @@ class EventFormDesktop extends React.Component {
                                   <Grid item sm={1}>
                                     <div style={{ paddingTop: "9px" }}>Tags</div>
                                   </Grid>
-                                  <Grid item sm={11}>
+                                  <Grid item>
                                     <Field
-                                      component={CustomCheckBox}
+                                      component={CheckboxWithLabel}
                                       name="activism_tag"
                                       Label={{ label: "Activism" }}
                                       type="checkbox"

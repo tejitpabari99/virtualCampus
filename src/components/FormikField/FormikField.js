@@ -4,35 +4,40 @@ import { Field, ErrorMessage } from "formik"
 
 import CustomTextField from './CustomTextField'
 
+class FormikField extends React.Component{
+    constructor(props) {
+        super(props);
 
-const FormikField = (props) => {
-
-    const errorMsg = <ErrorMessage name={props.name} />
-    const multiline = props.multiline
-
-    // error state handling
-    let error = props.error
-    let touched = props.touch
-    let valid = false
-
-    let toggle = false
-    if (touched == true) {
-        if (error != null) {
-            toggle = true
-        }
-        else {
-            valid = true
-        }
     }
 
-    let multiTog = false
-    if (multiline != null) {
-        multiTog = true
-    }
+    render(){
+        const {props} = this;
+        const errorMsg = <ErrorMessage name={props.name} />
+        const multiline = props.multiline
 
-    return (
-        <div style={{ margin: '2px 0 8px 0' }}>
-            <Field
+        // error state handling
+        let error = props.error
+        let touched = props.touch
+        let valid = false
+
+        let toggle = false
+        if (touched == true) {
+            if (error != null) {
+                toggle = true
+            }
+            else {
+                valid = true
+            }
+        }
+
+        let multiTog = false
+        if (multiline != null) {
+            multiTog = true
+        }
+
+        return (
+          <div style={{ margin: '2px 0 8px 0' }}>
+              <Field
                 fullWidth
                 as={CustomTextField}
                 // label={props.label}
@@ -44,9 +49,12 @@ const FormikField = (props) => {
                 rows={props.rows}
                 placeholder={props.label}
                 isValid={valid}
-            />
-        </div>
-    )
+              />
+          </div>
+        )
+    }
+
+
 }
 
 export default FormikField
