@@ -171,9 +171,16 @@ class cvcBlm extends React.Component {
                     lineHeight: "28px"
                   }}>
 
-          <div style={{ marginBottom: "15px" }}>
-            Support the black community in a critical time while developing new skills, expanding your network, experiencing personal growth, polishing off your
-            resume and so much more. Once you have chosen a session from below, follow three simple steps to register for it as soon as tomorrow!
+          <div style={{ marginBottom: "15px", fontSize:20 }}>
+            <strong>Are you a college student seeking advice for your internship applications? </strong>
+            Do you want resume editing help, interview prep, and networking opportunities
+            from interns and employees at Microsoft, Google, Facebook, Goldman Sachs, J.P. Morgan,
+            McKinsey & Co, Saturday Night Live, Exxon Mobil, The Observer and more?
+          </div>
+          <div style={{fontSize: 18}}>
+            Columbia Virtual Campus is offering a one-on-one mentorship service in which 100% of
+            fees are donated to organizations supporting the black community.
+            Get the help you need while donating to a good cause.
           </div>
 
         </Subtitle>
@@ -264,9 +271,45 @@ class cvcBlm extends React.Component {
                     fontSize: "18px",
                     lineHeight: "28px"
                   }}>
-          For each section, these vounteers are willing to provide tutoring,
-          review/edit your work, or answer any questions within that domain.
-          Click on their names to know their schedules
+          Choose a tutor from below and register for a time.
+          We will email you a link to make your donation before you begin your session.
+          Any amount of donation will allow you mentorship time with these amazing tutors!.
+        </Subtitle>
+        <Subtitle color={"black"}
+                  style={{
+                    maxWidth: "70%",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    fontSize: "18px",
+                    lineHeight: "28px",
+                    marginBottom: 25
+                  }}>
+          Looking for resume reviews, interview prep, or networking opportunities? Filter by company:
+          <br/>
+          <div style={{ width:'100%'}}>
+            <div style={{maxWidth:'100%', marginLeft:'auto',marginRight:'auto',}}>
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Microsoft')}}> Microsoft </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Facebook')}}> Facebook </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Google')}}> Google </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Reddit')}}> Reddit </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Mongo')}}> Mongo DB </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Blizzard')}}> Blizzard </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Activision')}}> Activision </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Goldman')}}> Goldman Sachs</Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('McKinsey')}}> McKinsey </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Morgan')}}> JP Morgan </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Mercer')}}> Mercer </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Deloitte')}}> Deloitte </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Thrive')}}> Thrive Global </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Exxon')}}> Exxon Mobil </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Exxon')}}> BASF </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Biden')}}> Joe Biden </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Saturday')}}> Saturday Night Live </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Seth Meyers')}}> Late Night with Seth Meyers </Link>,
+              <Link className={classes.links} onClick={()=> {this.setSearchInput('Observer')}}> The Observer </Link>, and many more...
+            </div>
+          </div>
+
         </Subtitle>
 
 
@@ -347,8 +390,7 @@ class cvcBlm extends React.Component {
             style={{color:'blue'}}>
               &nbsp;this list.&nbsp;
             </a>
-              <strong> Each $15 donation will grant you access to 30 minutes with any tutor of your
-            choice! </strong>
+              <strong> Any amount donated will grant you mentorship sessions with the tutors of your choice! </strong>
             Do you need help polishing your resume? Want another set of eyes on your application papers?
             Need someone to help you with a difficult coding problem? You can do all of that and more while
             donating to important causes.
