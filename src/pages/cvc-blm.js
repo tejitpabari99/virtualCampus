@@ -1,4 +1,6 @@
 import React from "react";
+import { Helmet } from "react-helmet";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Template, CustomButton, Title, TutorExpansionMapping, Search, TutorSearchMapping } from "../components";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
@@ -7,12 +9,23 @@ import Subtitle from "../components/text/Subtitle";
 import Heading from "../components/text/Heading";
 import { CircularProgress } from '@material-ui/core';
 import firebase from '../firebase'
+import Link from '@material-ui/core/Link';
 import Card from "@material-ui/core";
 import CardContent from '@material-ui/core/CardContent';
 
 import Fuse from 'fuse.js';
 import LinearProgress from "@material-ui/core/LinearProgress";
+import withStyles from "@material-ui/core/styles/withStyles";
 
+const useStyles = () => ({
+  links:{
+    color: '#0072CE',
+    "&:hover":{
+      color:'#1D2C4D',
+      cursor:'pointer'
+    }
+  }
+})
 
 class cvcBlm extends React.Component {
 
@@ -29,12 +42,15 @@ class cvcBlm extends React.Component {
       donationGoal:0,
       donationReceived: 0,
       tutorsPop: {},
-      tutorsAllSec: {}
+      tutorsAllSec: {},
+      defaultSearchInput:'',
+      inputElement:null
     };
 
     this.fetchData = this.fetchData.bind(this);
     this.processData = this.processData.bind(this);
     this.searchFunc = this.searchFunc.bind(this);
+    this.setSearchInput = this.setSearchInput.bind(this);
     this.fetchDonationCompletedData = this.fetchDonationCompletedData.bind(this);
 
     // this.fetchDonationCompletedData();
@@ -66,7 +82,7 @@ class cvcBlm extends React.Component {
           let tutorData = that.processData(data["values"]);
           let allTutors = tutorData[0],
             tutorSearch = tutorData[1];
-          let subjects = ["College Experience", "Jobs and Internships", "Writing/Editing Help", "Programming", "Undergrad/Grad admissions"];
+          let subjects = ["College Experience", "Jobs and Internship Applications: Interviews, Resumes, Networking", "Writing/Editing Help", "Programming", "Undergrad/Grad admissions", "Research"];
           that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator:false});
           let tutorsPop = {};
           let tutorsAllSec = {};
@@ -113,10 +129,17 @@ class cvcBlm extends React.Component {
     return [{},{}];
   }
 
-  searchFunc(val) {
-    if(!val || val.length<=2){
+  searchFunc(val, changeDefaultSearchVal=true) {
+    if(changeDefaultSearchVal){
+      this.setState({defaultSearchInput:''});
+    }
+    if(!val || val.length===0){
+      return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:''});
+    }
+    else if(val.length<=2){
       return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:'Search term must be more than 2 characters'});
     }
+
     this.setState({activityIndicator:true});
     const options = {
       threshold:0.2,
@@ -140,9 +163,21 @@ class cvcBlm extends React.Component {
     this.setState({tutorSearch:tutorSearch, activityIndicator:false, tutorSearchError:''});
   }
 
+  setSearchInput(input){
+    this.setState({defaultSearchInput:input});
+    this.inputElement.state.searchVal = input;
+    this.inputElement.props.onClick(input);
+  }
+
   render() {
+    const {classes} = this.props;
     return (
       <Template active={"cvc-blm"} title={"#BLM"}>
+        <Helmet>
+          <meta property="og:title" content="Columbia Virtual Campus #BLM" />
+          <meta property="og:url" content="http://columbiavirtualcampus.com/cvc-blm" />
+          <meta property="og:description" content="Support the Black Community" />
+        </Helmet>
         <div style={{marginBottom:20, width:'100%'}}>
           {
             this.state.donationCompleted!==0 &&
@@ -179,93 +214,18 @@ class cvcBlm extends React.Component {
           </div>
           <div style={{fontSize: 18}}>
             Columbia Virtual Campus is offering a one-on-one mentorship service in which 100% of
-            fees are donated to organizations supporting the black community.
-            Get the help you need while donating to a good cause.
+            fees are donated to organizations
+            supporting the black community. Get the help you need while donating to a good cause.
           </div>
 
         </Subtitle>
 
-        <div style={{ display: "flex", flexDirection: "horizontal", justifyContent: "center", marginTop: 10 }}>
-          <GridContainer
-            style={{
-              maxWidth: "90%", display: "flex", flexDirection: "horizontal",
-              justifyContent: "space-between", marginTop: 0
-            }}>
-            <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
-
-              <Subtitle color={"black"}
-                        style={{
-                          maxWidth: "70%",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          fontSize: "18px",
-                          lineHeight: "28px"
-                        }}>
-                 Step 1: Donate  </Subtitle>
-              <br/>
-
-              Donate to any organization on
-              <a href={'https://docs.google.com/spreadsheets/d/1p6IOTPoSUQpOLjcqPFTfCULdoqH_WUZjmEYXFRJdI2c/edit?usp=sharing'}
-                 style={{color:'blue'}}>
-                &nbsp;this list&nbsp;
-            </a>. You can also Venmo us
-              <span style={{textDecoration:'underline'}}> @tejit-pabari </span> or
-              <a href={"https://www.paypal.me/tejitpabari"} style={{color:'blue'}}
-                 target='_blank' rel="noopener noreferrer"> Paypal </a> us
-              and we will donate on your behalf. Every $15 donation gives you access to one 30 minute session
-              (so, $30 will get you two sessions).
-
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <CustomButton text={"Donate"} size={"medium"} color={"orange"}
-                              href={"https://docs.google.com/spreadsheets/d/1p6IOTPoSUQpOLjcqPFTfCULdoqH_WUZjmEYXFRJdI2c/edit?usp=sharing"}
-                              newTab/>
-              </div>
-            </GridItem>
-
-            <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
-              <Subtitle color={"black"}
-                        style={{
-                          maxWidth: "70%",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          fontSize: "18px",
-                          lineHeight: "28px"
-                        }}>
-                Step 2: Send confirmation
-              </Subtitle>
-              <br/>
-              Upload a screenshot of your donation or Venmo payment to this form. We will email you a password
-              that you can use to sign up with a mentor.
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <CustomButton text={"Confirm Donation"} size={"medium"} color={"orange"}
-                              href={"https://forms.gle/X2wjM9N5qdRwWNrG9"} newTab/>
-              </div>
-            </GridItem>
-
-            <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
-              <Subtitle color={"black"}
-                        style={{
-                          maxWidth: "70%",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          fontSize: "18px",
-                          lineHeight: "28px"
-                        }}>
-                Step 3: Register for a session</Subtitle>
-              <br/>
-              <div>
-                Click on the session you wish to attend from below, choose a time, and enter the password emailed to you!
-                Enjoy your session.
-              </div>
-            </GridItem>
-          </GridContainer>
-        </div>
-        <Heading color={"blue"} style={{ marginTop: "60px" }}>
+        <Heading color={"blue"} style={{ marginTop: "40px" }}>
           Available Sessions
         </Heading>
         <Subtitle color={"black"}
                   style={{
-                    maxWidth: "65%",
+                    maxWidth: "70%",
                     marginLeft: "auto",
                     marginRight: "auto",
                     fontSize: "18px",
@@ -310,14 +270,18 @@ class cvcBlm extends React.Component {
             </div>
           </div>
 
+
         </Subtitle>
 
 
         <div style={{ marginBottom: 30, textAlign: "center" }}>
+
           <Search data={this.state.data}
+                  ref={input => this.inputElement = input}
                   onClick={(val) => {this.searchFunc(val)}}
                   onCancel={()=> {this.searchFunc('')}}
           />
+          <div style={{textAlign:'center', marginTop: 20, fontSize:20}}>Click on a Tutor's name to book them</div>
         </div>
         {this.state.activityIndicator &&
           <CircularProgress style={{marginLeft:'50%'}}/>
@@ -385,10 +349,10 @@ class cvcBlm extends React.Component {
           </div>
           <div style={{ marginBottom: "15px" }}>
             Students and faculty at Columbia have offered to provide one-on-one workshops, tutorials,
-            and mentorship in exchange for a donation to the any of the organizations in
-            <a href={'https://docs.google.com/spreadsheets/d/1p6IOTPoSUQpOLjcqPFTfCULdoqH_WUZjmEYXFRJdI2c/edit?usp=sharing'}
-            style={{color:'blue'}}>
-              &nbsp;this list.&nbsp;
+            and mentorship in exchange for a donation to
+            <a href={'https://secure.everyaction.com/4omQDAR0oUiUagTu0EG-Ig2'}
+               target='_blank' rel="noopener noreferrer" className={classes.links}>
+              &nbsp;Black Visions Collective&nbsp;
             </a>
               <strong> Any amount donated will grant you mentorship sessions with the tutors of your choice! </strong>
             Do you need help polishing your resume? Want another set of eyes on your application papers?
@@ -396,19 +360,7 @@ class cvcBlm extends React.Component {
             donating to important causes.
           </div>
           <div>
-            To sign up for a class, please make a donation to the any org on
-            <a href={'https://docs.google.com/spreadsheets/d/1p6IOTPoSUQpOLjcqPFTfCULdoqH_WUZjmEYXFRJdI2c/edit?usp=sharing'}
-               style={{color:'blue'}}>
-              &nbsp;this list.&nbsp;
-            </a>
-              You can also Venmo us
-            <span style={{textDecoration:'underline'}}> @tejit-pabari </span> or
-            <a href={"https://www.paypal.me/tejitpabari"} style={{color:'blue'}}
-               target='_blank' rel="noopener noreferrer"> Paypal </a> us and
-            we can pay on your behalf.
-            Verify your donation by uploading
-            a snapshot/picture of your receipt on the “Sign up for classes” form below. Upon completion,
-            a password that you can use to sign up for meetings with tutors will be sent to your email.
+            Want to sign up as a tutor? Click below
           </div>
         </Subtitle>
         <div style={{ textAlign: "center", marginBottom: "20px" }}>
@@ -420,4 +372,4 @@ class cvcBlm extends React.Component {
   }
 }
 
-export default cvcBlm;
+export default withStyles(useStyles)(cvcBlm);
