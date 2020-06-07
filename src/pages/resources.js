@@ -1,20 +1,8 @@
 import React from "react"
 import Template from "../components/all/Template";
-import AddIcon from "@material-ui/icons/Add";
-import Button from "../components/material-kit-components/CustomButtons/Button.js";
-import {MetaData, ResourcesList, CustomButton, Title} from "../components";
-
-const useStyles = () => ({
-    addNewButton:{
-        boxShadow:"none",
-        fontSize: 15,
-        marginLeft:'auto',
-        marginRight:'auto'
-    }
-});
+import { ResourcesList, CustomButton, Title} from "../components";
 
 export default function Resources() {
-    const classes = useStyles();
     return (
         <Template active={'resources'} title={'Resources'}>
           <Title color={'blue'}>Resources</Title>

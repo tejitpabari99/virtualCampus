@@ -3,9 +3,8 @@ import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { MetaData, EventCard, EventModal, Template, CustomButton, Title } from "../components";
+import { EventCard, EventModal, Template, CustomButton, Title } from "../components";
 import TZ from "countries-and-timezones";
-import AddIcon from "@material-ui/icons/Add";
 import firebase from "../firebase";
 
 
@@ -309,7 +308,6 @@ class Events extends React.Component {
   );
 
   render() {
-    const { classes } = this.props;
     return (
       <Template active={"schedule"} title={"Events"}>
         <Title color={"blue"}>All Events</Title>
