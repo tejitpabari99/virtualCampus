@@ -1,46 +1,60 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField"
+
 import { Field, ErrorMessage } from "formik"
-import "./FormikField.css"
 
+import CustomTextField from './CustomTextField'
 
-const FormikField = (props) => {
+class FormikField extends React.Component{
+    constructor(props) {
+        super(props);
 
-    const errorMsg = <ErrorMessage name={props.name} />
-    const multiline = props.multiline
+    }
 
-    // error state handling
-    let error = props.error
-    let touched = props.touch
-    let toggle = false
-    if (error != null) {
+    render(){
+        const {props} = this;
+        const errorMsg = <ErrorMessage name={props.name} />
+        const multiline = props.multiline
+
+        // error state handling
+        let error = props.error
+        let touched = props.touch
+        let valid = false
+
+        let toggle = false
         if (touched == true) {
-            toggle = true
+            if (error != null) {
+                toggle = true
+            }
+            else {
+                valid = true
+            }
         }
-    }
 
-    let multiTog = false
-    if (multiline != null) {
-        multiTog = true
-    }
+        let multiTog = false
+        if (multiline != null) {
+            multiTog = true
+        }
 
-    return (
-        <div className="FormikField">
-            <Field
+        return (
+          <div style={{ margin: '2px 0 8px 0' }}>
+              <Field
                 fullWidth
-                as={TextField}
-                label={props.label}
+                as={CustomTextField}
+                // label={props.label}
                 name={props.name}
                 helperText={errorMsg}
                 required={props.required}
                 error={toggle}
                 multiline={multiTog}
                 rows={props.rows}
-                placeholder={props.placeholder}
-                variant="outlined"
-            />
-        </div>
-    )
+                placeholder={props.label}
+                isValid={valid}
+              />
+          </div>
+        )
+    }
+
+
 }
 
 export default FormikField
