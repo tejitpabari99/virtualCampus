@@ -1,100 +1,136 @@
 import GridItem from "../material-kit-components/Grid/GridItem";
-import classNames from "classnames";
 import GridContainer from "../material-kit-components/Grid/GridContainer";
-import Typography from "@material-ui/core/Typography";
 import React from "react";
-import {Link} from "gatsby";
-import {MuiThemeProvider} from "@material-ui/core/styles";
 import Button from "../material-kit-components/CustomButtons/Button";
 
+<<<<<<< HEAD
 import {makeStyles} from "@material-ui/core/styles";
 import Data from "../../assets/resourcesfirebase";
 import {ResourcesCard, CustomTheme} from "..";
 import {cardTitle} from "../../assets/material-kit-assets/jss/material-kit-react";
 const CampusData = Data.CampusData;
 const theme = CustomTheme;
+=======
+import {ResourcesCard, Heading} from "..";
+import firebase from "../../firebase";
+import {Descriptions} from "../../assets/ResourcesData.js"
+>>>>>>> 1c0f29fe50801b7f17cc2a190562566b02595817
 
-const containerStyles = makeStyles(() => ({
-  container: {
-    paddingTop: "20px"
-  },
-  gridEle: {
-    marginBottom: "40px",
-    marginTop: 5,
-  },
-  title: {
-    textTransform: "capitalize",
-    display: 'inline-block'
-  },
-  seeAll: {
-    float:'right',
-    display: 'inline-block',
-    textDecoration: 'underline'
-  },
-  seeAllLink: {
-    color: '#3838ff',
-    "&:hover":{
-      color: 'blue',
-      textDecoration: 'underline'
-    },
-    float:'right',
-    textDecoration: 'underline',
-  },
-  gridCont: {
-    boxSizing: 'border-box',
-    display: 'block'
-  },
-  mainGrid: {
-    marginLeft: 30,
-    marginRight: 30
-  },
 
-  left: {
-    left: '0%',
-    width: '20%'
-  },
-  right: {
-    left: '25%'
+class ResourcesList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      myResourcesDict: {},
+      myResourcesDisplay: [],
+      myCategory: "All Resources",
+      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID."
+    };
+    this.getResources();
   }
-}));
 
+  async getResources() {
+    let db = firebase.firestore();
+    let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
+    let approvedResourcesDict = {};
+    let approvedResourcesDisplay = [];
+    if(approvedResources){
+      approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
+      approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
+    }
+    // console.log(approvedResourcesDict);
+    this.setState({ myResourcesDict: approvedResourcesDict});
+    this.setState({ myResourcesDisplay: approvedResourcesDisplay});
+  }
 
-export default function ResourcesList() {
-  const contStyle = containerStyles();
-  return (
-    <MuiThemeProvider theme={theme}>
-    <div className={classNames(contStyle.mainGrid)}>
+  makeDisplayResources(resources) {
+    let res = {};
+    for (let i = 0; i < resources.length; i += 1) {
+      let ele = resources[i];
+      let key = this.toTitleCase(ele['category']['category']);
+      if (key in res) {
+        res[key].push(ele)
+      }
+      else {
+        res[key] = [ele]
+      }
+    }
+    return res;
+  }
 
-      {Object.keys(CampusData).map(key => {
-        return (
-          <div className={contStyle.gridCont}>
-            <div>
-            <Typography style={{ textAlign: "center", color: "#4284C8", fontSize: "30px" }} variant="h5" component="h2" className={contStyle.title}>{CampusData[key]['title']}</Typography>
+  toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
 
-            </div>
-            <GridContainer>
-              {CampusData[key]['data'].map(data => {
-                return (
-                  <GridItem xs={12} sm={6} md={3} className={contStyle.gridEle}>
-                    <ResourcesCard
-                      website={data.links.website}
-                      img={data.img}
-                      title={data.title}
-                      description={data.description}
-                      iosLink={data.links.iosLink}
-                      androidLink={data.links.androidLink}
-                      tags={data.category.tags}
-                      share
-                    />
-                  </GridItem>
-                );
+  setDisplay(category) {
+    this.setState({
+      myResourcesDisplay: this.state.myResourcesDict[category],
+      myDescription: Descriptions[category],
+      myCategory: category
+    });
+    console.log(Descriptions);
+  }
 
-              })}
-            </GridContainer>
-          </div>
-        )
-      })}
+  render() {
+    return (
+      <div>
+        <div style={{textAlign:'center'}}>
+          {Object.keys(this.state.myResourcesDict).map(category => {
+            return (
+              <Button size="large"
+                      style={{background: 'rgba(255, 255, 255, 0.85)',
+                              position: 'relative',
+                              marginLeft:"4%",
+                              marginRight:"4%",
+                              marginTop: '3%',
+                              borderRadius: '10px',
+
+                              fontFamily: 'Poppins',
+                              fontStyle: 'normal',
+                              fontWeight: 'normal',
+                              fontSize: '20px',
+                              lineHeight: '30px',
+                              color: '#0072CE',
+                              '&:active': {
+                                background: '#F2F2F2'
+                              }}}
+                      onClick={this.setDisplay.bind(this, category)}
+                      value={{category}}
+              >{category}</Button>
+            );
+          })}
+        </div>
+
+        <hr style={{border: "1px solid #0072CE", marginTop: '4%'}} />
+
+        <Heading color={'blue'} style={{textAlign:'center', paddingTop: '30px'}}>{this.state.myCategory}</Heading>
+
+        <div style={{textAlign:'center', paddingTop: '15px'}}>{this.state.myDescription}</div>
+
+        <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
+        {this.state.myResourcesDisplay.map(data => {
+          return (
+            <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
+              <ResourcesCard
+                website={data.links.website}
+                img={data.img}
+                title={data.title}
+                description={data.description}
+                iosLink={data.links.iosLink}
+                androidLink={data.links.androidLink}
+                tags={data.category.tags}
+                share
+              />
+            </GridItem>
+          );
+
+        })}
+       </GridContainer>
       </div>
-    </MuiThemeProvider>
-  )
+    );
+  }
 }
+
+export default (ResourcesList);
