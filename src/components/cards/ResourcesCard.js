@@ -166,7 +166,7 @@ export default function ResourcesCard(props) {
 
 
   let {iosLink, androidLink, website, share, img, title, description, tags,
-          headerTitle, headerColor} = props;
+    headerTitle, headerColor} = props;
   if(headerColor && colorMapping.hasOwnProperty(headerColor)){
     headerColor = colorMapping[headerColor.toLowerCase()]
   }
@@ -177,38 +177,38 @@ export default function ResourcesCard(props) {
   return (
     <Card className={classes.root}>
       <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
-      <div className={classes.mediaContainer}>
-        {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
-        <CardMedia
-          component="img"
-          height="50.26%"
-          className={classes.media}
-          image={img}
-          title={title}
-        />
-        <div className={classes.imgOverlay}/>
+        <div className={classes.mediaContainer}>
+          {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
+          <CardMedia
+            component="img"
+            height="50.26%"
+            className={classes.media}
+            image={img}
+            title={title}
+          />
+          <div className={classes.imgOverlay}/>
 
-      </div>
+        </div>
 
-      <CardContent style={{marginBottom: 0}}>
-        <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
-          {title}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
-          {trimDescription(description)}
-        </Typography>
-        {tags.map(ele => {
-          return (
-            <Button className={classes.button}>
-              {ele}
-            </Button>
-          )
-        })}
+        <CardContent style={{marginBottom: 0}}>
+          <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
+            {title}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
+            {trimDescription(description)}
+          </Typography>
+          {tags && tags.map(ele => {
+            return (
+              <Button className={classes.button}>
+                {ele}
+              </Button>
+            )
+          })}
 
-      </CardContent>
-      <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
-        <div style={{float: 'left'}}>
-          {share &&
+        </CardContent>
+        <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
+          <div style={{float: 'left'}}>
+            {share &&
             <div style={{display:'inline-block'}} className={classes.icons}>
               <IconButton aria-describedby={id} onClick={handleClick} size={'small'}>
                 <ShareIcon fontSize={'small'}/>
@@ -226,31 +226,31 @@ export default function ResourcesCard(props) {
                   vertical: 'bottom',
                   horizontal: 'left',
                 }}>
-                  <div style={{display: 'inline-block', paddingLeft: 5, paddingTop: 5, width: '100%'}}>
-                    <FacebookShareButton url={website} children={<FacebookIcon round size={24} style={{marginRight: 5}}/>}/>
-                    <TwitterShareButton url={website} children={<TwitterIcon round size={24} style={{marginRight: 5}}/>}/>
-                    <WhatsappShareButton url={website} children={<WhatsappIcon round size={24} style={{marginRight: 5}}/>}/>
-                    <LinkedinShareButton url={website} children={<LinkedinIcon round size={24} style={{marginRight: 5}}/>}/>
-                    <EmailShareButton url={website} children={<EmailIcon round size={24} style={{marginRight: 5}}/>}/>
-                  </div>
+                <div style={{display: 'inline-block', paddingLeft: 5, paddingTop: 5, width: '100%'}}>
+                  <FacebookShareButton url={website} children={<FacebookIcon round size={24} style={{marginRight: 5}}/>}/>
+                  <TwitterShareButton url={website} children={<TwitterIcon round size={24} style={{marginRight: 5}}/>}/>
+                  <WhatsappShareButton url={website} children={<WhatsappIcon round size={24} style={{marginRight: 5}}/>}/>
+                  <LinkedinShareButton url={website} children={<LinkedinIcon round size={24} style={{marginRight: 5}}/>}/>
+                  <EmailShareButton url={website} children={<EmailIcon round size={24} style={{marginRight: 5}}/>}/>
+                </div>
               </Popover>
             </div>
-          }
-          {iosLink &&
-          <IconButton href={iosLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-            <AppleIcon fontSize={'small'}/>
-          </IconButton>}
-          {androidLink &&
-          <IconButton href={androidLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-            <AndroidIcon fontSize={'small'}/>
-          </IconButton>}
-        </div>
-        <div style={{float: 'right', marginLeft: 'auto'}}>
-          <Button size="small" color="primary" href={website} target='_blank' rel="noopener noreferrer">
-            View
-          </Button>
-        </div>
-      </CardActions>
+            }
+            {iosLink &&
+            <IconButton href={iosLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
+              <AppleIcon fontSize={'small'}/>
+            </IconButton>}
+            {androidLink &&
+            <IconButton href={androidLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
+              <AndroidIcon fontSize={'small'}/>
+            </IconButton>}
+          </div>
+          <div style={{float: 'right', marginLeft: 'auto'}}>
+            <Button size="small" color="primary" href={website} target='_blank' rel="noopener noreferrer">
+              View
+            </Button>
+          </div>
+        </CardActions>
       </a>
     </Card>
   );

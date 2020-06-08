@@ -7,6 +7,17 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-google-gapi`,
+      options: {
+        apiKey: `AIzaSyBTFCyJxfKW4sTDM_oJ8I_mkblJWiVWxpw`,
+        clientId: `1009798395114-g80e06avugf7ufq7i6v695o3cfck8j3h.apps.googleusercontent.com`,
+        discoveryURLs: [
+          "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+        ],
+        scopes: ["https://www.googleapis.com/auth/drive"],
+      },
+    },
+    {
       resolve: `gatsby-plugin-styled-components`,
       options: {
         // Add any options here
@@ -29,8 +40,8 @@ module.exports = {
         name: `Columbia Virtual Campus`,
         short_name: `Columbia Virtual Campus`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#FFF`,
+        theme_color: `#0072CE`,
         display: `minimal-ui`,
         icon: `src/assets/images/logoMain.png`, // This path is relative to the root of the site.
       },

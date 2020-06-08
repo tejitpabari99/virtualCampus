@@ -51,7 +51,7 @@ class ResourcesList extends React.Component {
 
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
 
@@ -72,21 +72,21 @@ class ResourcesList extends React.Component {
             return (
               <Button size="large"
                       style={{background: 'rgba(255, 255, 255, 0.85)',
-                              position: 'relative',
-                              marginLeft:"4%",
-                              marginRight:"4%",
-                              marginTop: '3%',
-                              borderRadius: '10px',
+                        position: 'relative',
+                        marginLeft:"4%",
+                        marginRight:"4%",
+                        marginTop: '3%',
+                        borderRadius: '10px',
 
-                              fontFamily: 'Poppins',
-                              fontStyle: 'normal',
-                              fontWeight: 'normal',
-                              fontSize: '20px',
-                              lineHeight: '30px',
-                              color: '#0072CE',
-                              '&:active': {
-                                background: '#F2F2F2'
-                              }}}
+                        fontFamily: 'Poppins',
+                        fontStyle: 'normal',
+                        fontWeight: 'normal',
+                        fontSize: '20px',
+                        lineHeight: '30px',
+                        color: '#0072CE',
+                        '&:active': {
+                          background: '#F2F2F2'
+                        }}}
                       onClick={this.setDisplay.bind(this, category)}
                       value={{category}}
               >{category}</Button>
@@ -101,27 +101,27 @@ class ResourcesList extends React.Component {
         <div style={{textAlign:'center', paddingTop: '15px'}}>{this.state.myDescription}</div>
 
         <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
-        {this.state.myResourcesDisplay.map(data => {
-          return (
-            <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
-              <ResourcesCard
-                website={data.links.website}
-                img={data.img}
-                title={data.title}
-                description={data.description}
-                iosLink={data.links.iosLink}
-                androidLink={data.links.androidLink}
-                tags={data.category.tags}
-                share
-              />
-            </GridItem>
-          );
+          {this.state.myResourcesDisplay.map(data => {
+            return (
+              <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
+                <ResourcesCard
+                  website={data.links.website}
+                  img={data.img}
+                  title={data.title}
+                  description={data.description}
+                  iosLink={data.links.iosLink}
+                  androidLink={data.links.androidLink}
+                  tags={data.category.tags}
+                  share
+                />
+              </GridItem>
+            );
 
-        })}
-       </GridContainer>
+          })}
+        </GridContainer>
       </div>
     );
   }
 }
 
-export default (ResourcesList);
+export default ResourcesList;
