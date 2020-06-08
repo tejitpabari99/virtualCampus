@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { CustomButton, AddCalendar, CustomTheme } from "../";
 import Heading1 from "../text/Heading1";
 import Heading2 from "../text/Heading2";
+import Circle from "react-simple-shapes";
 
 const theme = CustomTheme;
 
@@ -116,22 +117,25 @@ const useStyles = makeStyles(() => ({
     top: "3vw",
     left: "2%",
     backgroundColor: "#F2F9FD",
-    paddingLeft: "1%",
-    paddingRight: "1%",
+    paddingLeft: "0.5%",
+    paddingRight: "0.5%",
     borderRadius: "5.51px",
-    height: "6vw",
-    width: "7.2%"
+    height: "5vw",
+    width: "5%"
   },
   dateText: {
     color: "#0072CE",
     fontSize: "2.1vw",
     textAlign: "center",
-    margin: 0
+    margin: 0,
+    marginTop: '0.3vw',
+    lineHeight: '2.5vw'
   },
   monthText: {
     color: "#0072CE",
     fontSize: "1.3vw",
-    textAlign: "center"
+    textAlign: "center",
+    margin: 0,
   },
   image: {
     borderRadius: "11px",
@@ -208,7 +212,7 @@ export default function EventCardDesktop({ ele }) {
                   : ele.invite_link !== '' ?
                     <div style={{textAlign:'left'}}>
                     <CustomButton href={ele.invite_link} text={'ATTEND'} newTab
-                                  style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
+                                  style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"small"}/>
                     </div>
                     : null}
 

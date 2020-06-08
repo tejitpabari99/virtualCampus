@@ -8,7 +8,7 @@ import EventCard from "./cards/EventCard";
 import EventCardMobile from "./cards/EventCardMobile";
 import EventModal from "./cards/EventModal";
 import ResourcesList from "./resources/ResourcesList";
-import ResourcesFeatured from "./resources/ResourcesFeaturedDesktop";
+import ResourcesFeaturedDesktop from "./resources/ResourcesFeaturedDesktop";
 import ResourcesCard from "./cards/ResourcesCard";
 import AddCalendar from "./events/AddCalendar";
 import CustomButton from "./buttons/CustomButton";
@@ -19,10 +19,15 @@ import Title from "./text/Title";
 import Subtitle from "./text/Subtitle";
 import Heading from "./text/Heading";
 import DesktopMobile from "./all/DesktopMobile";
+import Search from "./input/Search";
+import BLMCard from "./cards/BLMCard";
+import TutorExpansionMapping from './pop-up/blm/TutorExpansionMapping';
+import TutorSearchMapping from './pop-up/blm/TutorSearchMapping'
 
 export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         EventCard, EventCardMobile, EventModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton, DesktopMobile,
-        Title, Subtitle, Heading,
-        ResourcesList, ResourcesFeatured, ResourcesCard}
+        Title, Subtitle, Heading, Search,
+        ResourcesList, ResourcesFeaturedDesktop, ResourcesCard,
+        BLMCard, TutorExpansionMapping, TutorSearchMapping}

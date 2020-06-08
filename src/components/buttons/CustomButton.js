@@ -28,6 +28,10 @@ const manualSt = makeStyles(() => ({
     fontSize: 'min(2.5vw, 20px)',
     padding: "1vh min(2.5vw,15px)",
   },
+  medium:{
+    fontSize: 'min(2.2vw, 13px)',
+    padding: "1vh min(2.3vw,13px)",
+  },
   small:{
     fontSize: 'min(2vw, 15px)',
     padding: "1vh min(2vw,10px)",
@@ -35,7 +39,7 @@ const manualSt = makeStyles(() => ({
   orange:{
     color: '#FB750D !important',
     border: "1px solid #FB750D",
-    "&:hover,&:focus": {
+    "&:hover": {
       color: 'white !important',
       backgroundColor: '#F1945B',
       boxShadow: "0 14px 26px -12px #FB750D50"
@@ -44,7 +48,7 @@ const manualSt = makeStyles(() => ({
   blue:{
     color: '#0072CE !important',
     border: "1px solid #0072CE",
-    "&:hover,&:focus": {
+    "&:hover": {
       color: 'white !important',
       backgroundColor: '#0072CE',
       boxShadow: "0 14px 26px -12px #0072CE50"
@@ -78,7 +82,7 @@ CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
   color: PropTypes.oneOf(["orange", "blue"]),
-  size: PropTypes.oneOf(["large","small"]),
+  size: PropTypes.oneOf(["large","small", "medium"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,
   className: PropTypes.string

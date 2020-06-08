@@ -15,10 +15,6 @@ const theme = CustomTheme;
 const containerStyles = makeStyles(() => ({
   container: {
     position: 'relative',
-    left: '0%',
-    right: '1.55%',
-    top: '3.15%',
-    bottom: '2.8%',
 
     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))',
     filter: 'blur(15px) contrast(125%) brightness(75%)',
@@ -90,7 +86,7 @@ function Item(props) {
   )
 }
 
-export default function ResourcesList() {
+export default function ResourcesFeaturedDesktop() {
   const contStyle = containerStyles();
   return (
     <MuiThemeProvider theme={theme}>
@@ -101,7 +97,7 @@ export default function ResourcesList() {
               // console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height={'550px'} width={'100%'} className={contStyle.container} style={{imageRendering: 'crisp-edges'}}/>
+                    <img src={data.img} alt={data.img} height='550px' width='100%' className={contStyle.container}/>
                     <img src={data.img} alt={data.img} height={'416.1px'} width={'57%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>

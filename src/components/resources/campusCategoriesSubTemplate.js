@@ -23,7 +23,7 @@ const containerStyles = makeStyles(() => ({
 const resolveData = function(data) {
   const contStyle = containerStyles();
   return (
-    <GridItem xs={12} sm={6} md={4} className={contStyle.gridEle}>
+    <GridItem xs={12} sm={6} md={3} className={contStyle.gridEle}>
       <ResourcesCard
         website={data.website || data.facebook || data.instagram }
         imgURL={data.imgURL}
