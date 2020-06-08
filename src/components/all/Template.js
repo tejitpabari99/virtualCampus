@@ -5,14 +5,24 @@ import "../../assets/material-kit-assets/scss/material-kit-react.scss?v=1.8.0";
 import {MetaData, CustomTheme, CustomHeader} from '../'
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 
-const customStyle = makeStyles(() => ({
-  container: {
+const customStyle = makeStyles({
+  container: props => {
+    if (props.blm){
+      return {
+        paddingTop: "15px",
+        marginLeft:0,
+        marginRight:0,
+        background: "#FFFFFF",
+      }
+    }
+    return {
     paddingTop: "50px",
     paddingLeft:'3%',
     paddingRight:'3%',
     marginLeft:0,
     marginRight:0,
     background: "#FFFFFF",
+    }
   },
   main: {
     paddingTop:50,
@@ -22,12 +32,10 @@ const customStyle = makeStyles(() => ({
     position: "relative",
     marginBottom:'100px'
   },
-}));
-const useStyles = makeStyles(styles);
+});
 
 export default function Template(props) {
-  const classes = useStyles();
-  const custStyle = customStyle();
+  const custStyle = customStyle(props);
   const { children } = props;
   return (
     <MuiThemeProvider theme={CustomTheme}>

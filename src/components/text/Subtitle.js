@@ -17,7 +17,10 @@ const manualSt = makeStyles(() => ({
   },
   black: {
     color:'#000000 !important'
-  }
+  },
+  white: {
+    color: "#FFFFFF"
+  },
 }));
 
 export default function Subtitle({children, color, className, ...rest}) {
@@ -33,7 +36,7 @@ export default function Subtitle({children, color, className, ...rest}) {
 }
 
 Subtitle.propTypes = {
-  color: PropTypes.oneOf(["orange", "blue", "black"]),
+  color: PropTypes.oneOf(["orange", "blue", "black", "white"]),
   className: PropTypes.string
 };
 

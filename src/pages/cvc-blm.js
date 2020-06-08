@@ -5,11 +5,16 @@ import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 import Subtitle from "../components/text/Subtitle";
 import Heading from "../components/text/Heading";
+import Group1 from "../assets/images/blm/Group 1.png"
+import Group2 from "../assets/images/blm/Group 2.png"
+import Group3 from "../assets/images/blm/Group 3.png"
+import Group4 from "../assets/images/blm/Group 4.png"
+import Group34 from "../assets/images/blm/Group 34.png"
 import { CircularProgress } from '@material-ui/core';
 import firebase from '../firebase'
-import Card from "@material-ui/core";
-import CardContent from '@material-ui/core/CardContent';
-
+import Card from "../components/material-kit-components/Card/Card.js";
+import CardBody from "../components/material-kit-components/Card/CardBody.js";
+import CardHeader from "../components/material-kit-components/Card/CardHeader.js";
 import Fuse from 'fuse.js';
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -19,14 +24,14 @@ class cvcBlm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allTutors:{},
+      allTutors: {},
       tutorSearch: [],
-      tutorSearchOrg:[],
+      tutorSearchOrg: [],
       searchVal: "",
-      activityIndicator:true,
-      tutorSearchError:'',
-      donationCompleted:0,
-      donationGoal:0,
+      activityIndicator: true,
+      tutorSearchError: '',
+      donationCompleted: 0,
+      donationGoal: 0,
       donationReceived: 0,
       tutorsPop: {},
       tutorsAllSec: {}
@@ -41,15 +46,17 @@ class cvcBlm extends React.Component {
     this.fetchData();
   };
 
-  async fetchDonationCompletedData(){
+  async fetchDonationCompletedData() {
     let db = firebase.firestore();
-    try{
+    try {
       const response = await db.collection('pop-up').doc('blm').get();
       const responseData = response.data();
       const donationGoal = parseInt(responseData.donationGoal);
       const donationReceived = parseInt(responseData.donationReceived);
-      this.setState({donationCompleted:parseInt((donationReceived*100)/donationGoal),
-        donationReceived:donationReceived, donationGoal:donationGoal});
+      this.setState({
+        donationCompleted: parseInt((donationReceived * 100) / donationGoal),
+        donationReceived: donationReceived, donationGoal: donationGoal
+      });
     }
     catch (e) {
       console.log('Progress Error', e)
@@ -60,27 +67,27 @@ class cvcBlm extends React.Component {
   fetchData() {
     let that = this;
     fetch("https://sheets.googleapis.com/v4/spreadsheets/1lKaDRHeC2NHewyeh87podHwo1Ya4qAtYr9VAYI71s50/values/Tutor Profiles!A2:F500?key=" + process.env.GATSBY_GOOGLE_SHEET_KEY)
-      .then(function(response) {
-        response.json().then(function(data) {
+      .then(function (response) {
+        response.json().then(function (data) {
           console.log("Success");
           let tutorData = that.processData(data["values"]);
           let allTutors = tutorData[0],
             tutorSearch = tutorData[1];
           let subjects = ["College Experience", "Jobs and Internships", "Writing/Editing Help", "Programming", "Undergrad/Grad admissions"];
-          that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator:false});
+          that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator: false });
           let tutorsPop = {};
           let tutorsAllSec = {};
-          for(let key in allTutors) {
-            if(allTutors.hasOwnProperty(key)){
-              if(subjects.includes(key)){tutorsPop[key] = allTutors[key]}
-              else{tutorsAllSec[key] = allTutors[key]}
+          for (let key in allTutors) {
+            if (allTutors.hasOwnProperty(key)) {
+              if (subjects.includes(key)) { tutorsPop[key] = allTutors[key] }
+              else { tutorsAllSec[key] = allTutors[key] }
             }
           }
-          that.setState({ tutorsPop: tutorsPop, tutorsAllSec: tutorsAllSec});
+          that.setState({ tutorsPop: tutorsPop, tutorsAllSec: tutorsAllSec });
         });
       })
       .catch(error => {
-        this.setState({activityIndicator:false});
+        this.setState({ activityIndicator: false });
         console.error("There was an error!", error);
       });
   };
@@ -110,49 +117,49 @@ class cvcBlm extends React.Component {
       }
       return [new_dict, tutorSearch];
     }
-    return [{},{}];
+    return [{}, {}];
   }
 
   searchFunc(val) {
-    if(!val || val.length<=2){
-      return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:'Search term must be more than 2 characters'});
+    if (!val || val.length <= 2) {
+      return this.setState({ tutorSearch: [], activityIndicator: false, tutorSearchError: 'Search term must be more than 2 characters' });
     }
-    this.setState({activityIndicator:true});
+    this.setState({ activityIndicator: true });
     const options = {
-      threshold:0.2,
-      distance:1000,
+      threshold: 0.2,
+      distance: 1000,
       keys: ['desc', 'subject', 'name']
     };
 
     const fuse = new Fuse(this.state.tutorSearchOrg, options);
     const output = fuse.search(val);
     const tutorSearch = [],
-     tutorSearchTab = {};
-    for(let i=0; i<output.length; i+=1){
-      if(output[i].item.name && !tutorSearchTab.hasOwnProperty(output[i].item.name)){
+      tutorSearchTab = {};
+    for (let i = 0; i < output.length; i += 1) {
+      if (output[i].item.name && !tutorSearchTab.hasOwnProperty(output[i].item.name)) {
         tutorSearch.push(output[i]);
-        tutorSearchTab[output[i].item.name]=0;
+        tutorSearchTab[output[i].item.name] = 0;
       }
     }
-    if(!tutorSearch || tutorSearch.length<=0){
-      return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:'No Results found'});
+    if (!tutorSearch || tutorSearch.length <= 0) {
+      return this.setState({ tutorSearch: [], activityIndicator: false, tutorSearchError: 'No Results found' });
     }
-    this.setState({tutorSearch:tutorSearch, activityIndicator:false, tutorSearchError:''});
+    this.setState({ tutorSearch: tutorSearch, activityIndicator: false, tutorSearchError: '' });
   }
 
   render() {
     return (
-      <Template active={"cvc-blm"} title={"#BLM"}>
-        <div style={{marginBottom:20, width:'100%'}}>
+      <Template active={"cvc-blm"} title={"#BLM"} style={{ marginTop: "0" }} blm>
+        <div style={{ marginBottom: 20, width: '100%' }}>
           {
-            this.state.donationCompleted!==0 &&
-            <div style={{maxWidth: "70%", marginLeft: "auto", marginRight: "auto",}}>
+            this.state.donationCompleted !== 0 &&
+            <div style={{ maxWidth: "70%", marginLeft: "auto", marginRight: "auto", }}>
               <Heading color={"blue"} style={{ marginTop: "10px" }}>
                 Donation Received
               </Heading>
-              <div style={{display:'inline'}}>
+              <div style={{ display: 'inline' }}>
                 <LinearProgress variant="determinate" value={this.state.donationCompleted}
-                                style={{width:'90%', display:'inline-block', marginRight:10, verticalAlign:'middle'}} />
+                  style={{ width: '90%', display: 'inline-block', marginRight: 10, verticalAlign: 'middle' }} />
                 <span>${this.state.donationReceived} of {this.state.donationGoal}</span>
               </div>
 
@@ -160,110 +167,161 @@ class cvcBlm extends React.Component {
           }
         </div>
 
-
-        <Title color={"blue"}>#BLM</Title>
-        <Subtitle color={"black"}
-                  style={{
-                    maxWidth: "70%",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    fontSize: "18px",
-                    lineHeight: "28px"
-                  }}>
-
-          <div style={{ marginBottom: "15px" }}>
-            Support the black community in a critical time while developing new skills, expanding your network, experiencing personal growth, polishing off your
-            resume and so much more. Once you have chosen a session from below, follow three simple steps to register for it as soon as tomorrow!
-          </div>
-
-        </Subtitle>
-
-        <div style={{ display: "flex", flexDirection: "horizontal", justifyContent: "center", marginTop: 10 }}>
+        <div style={{ backgroundColor: "black", paddingTop: "40px", paddingBottom: "40px" }}>
+          <Title color={"blue"}>#BLM</Title>
           <GridContainer
             style={{
-              maxWidth: "90%", display: "flex", flexDirection: "horizontal",
-              justifyContent: "space-between", marginTop: 0
-            }}>
-            <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
-
-              <Subtitle color={"black"}
-                        style={{
-                          maxWidth: "70%",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          fontSize: "18px",
-                          lineHeight: "28px"
-                        }}>
-                 Step 1: Donate  </Subtitle>
-              <br/>
-
-              Donate to any organization on
-              <a href={'https://docs.google.com/spreadsheets/d/1p6IOTPoSUQpOLjcqPFTfCULdoqH_WUZjmEYXFRJdI2c/edit?usp=sharing'}
-                 style={{color:'blue'}}>
-                &nbsp;this list&nbsp;
-            </a>. You can also Venmo us
-              <span style={{textDecoration:'underline'}}> @tejit-pabari </span> or
-              <a href={"https://www.paypal.me/tejitpabari"} style={{color:'blue'}}
-                 target='_blank' rel="noopener noreferrer"> Paypal </a> us
-              and we will donate on your behalf. Every $15 donation gives you access to one 30 minute session
-              (so, $30 will get you two sessions).
-
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <CustomButton text={"Donate"} size={"medium"} color={"orange"}
-                              href={"https://docs.google.com/spreadsheets/d/1p6IOTPoSUQpOLjcqPFTfCULdoqH_WUZjmEYXFRJdI2c/edit?usp=sharing"}
-                              newTab/>
+              maxWidth: "90%",
+              display: "flex",
+              flexDirection: "horizontal",
+              justifyContent: "space-between",
+              marginTop: "2em",
+            }}
+          >
+            <GridItem xs={12} sm={9}>
+              <Subtitle
+                color={"white"}
+                style={{
+                  maxWidth: "70%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  textAlign: "left",
+                  fontSize: "calc(12px + 1vw)",
+                  lineHeight: "1.1em",
+                }}
+              >
+                <div style={{ marginBottom: "15px" }}>
+                  In light of the recent murders of George Floyd, Ahmaud Arbery,
+                  and Breonna Taylor, Columbia Virtual Campus stands in solidarity
+                  with black students, faculty, staff, and affiliates.
               </div>
-            </GridItem>
-
-            <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
-              <Subtitle color={"black"}
-                        style={{
-                          maxWidth: "70%",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          fontSize: "18px",
-                          lineHeight: "28px"
-                        }}>
-                Step 2: Send confirmation
+                <div style={{ color: "gray" }}>
+                  We recognize the horrific history of antiblack racism worldwide,
+                  and through our tutoring program, we hope to uplift black voices
+                  and provide financial support for organizations led by and in
+                  support of black people.
+              </div>
               </Subtitle>
-              <br/>
-              Upload a screenshot of your donation or Venmo payment to this form. We will email you a password
-              that you can use to sign up with a mentor.
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <CustomButton text={"Confirm Donation"} size={"medium"} color={"orange"}
-                              href={"https://forms.gle/X2wjM9N5qdRwWNrG9"} newTab/>
-              </div>
             </GridItem>
-
-            <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
-              <Subtitle color={"black"}
-                        style={{
-                          maxWidth: "70%",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          fontSize: "18px",
-                          lineHeight: "28px"
-                        }}>
-                Step 3: Register for a session</Subtitle>
-              <br/>
-              <div>
-                Click on the session you wish to attend from below, choose a time, and enter the password emailed to you!
-                Enjoy your session.
-              </div>
+            <GridItem xs={12} sm={3} style={{ textAlign: "left" }}>
+              <img src={Group1} style={{ maxWidth: "80%", height: "auto" }} />
             </GridItem>
           </GridContainer>
+          <Title color={"blue"} style={{ marginTop: "3em" }}>
+            Our Tutoring Program
+        </Title>
+          <Subtitle color={"white"} style={{ fontSize: "28px", lineHeight: "1em" }}>
+            What we are doing to support the movement.
+        </Subtitle>
+          <GridContainer
+            style={{
+              maxWidth: "90%",
+              display: "flex",
+              flexDirection: "horizontal",
+              justifyContent: "space-between",
+              marginTop: "5em",
+            }}
+          >
+            <GridItem xs={12} sm={6} style={{ textAlign: "right" }}>
+              <img src={Group34} style={{ maxWidth: "70%", height: "auto" }} />
+            </GridItem>
+            <GridItem xs={12} sm={6}>
+              <Subtitle
+                color={"white"}
+                style={{
+                  maxWidth: "70%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  lineHeight: "1.1em",
+                  textAlign: "left",
+                  fontSize: "calc(12px + 1vw)",
+                }}
+              >
+                <div style={{ color: "white", marginBottom: "15px" }}>
+                  DONATE WHAT YOU CAN for 30 minutes with any tutor!
+              </div>
+                <div style={{ color: "#0072CE", marginBottom: "15px" }}>
+                  Through our tutoring program, you can recieve academic mentorship while donating to Black Lives Matter causes.
+              </div>
+                <div style={{ color: "gray", marginBottom: "15px" }}>
+                  Columbia Virtual Campus is offering a one-on-one mentorship service in which 100% of fees are donated to
+                  organizations supporting the black community.
+              </div>
+              </Subtitle>
+            </GridItem>
+          </GridContainer>
+
+          <Title color={"blue"} style={{ marginTop: "3em" }}>How to Sign Up</Title>
+          <div style={{ display: "flex", flexDirection: "horizontal", justifyContent: "center", marginTop: 10 }}>
+            <GridContainer
+              spacing={2}
+              style={{
+                maxWidth: "90%", display: "flex", flexDirection: "horizontal",
+                justifyContent: "space-between", marginTop: 0
+              }}>
+              <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
+                <Card style={{ paddingTop: "30px", height: "90%" }}>
+                  <CardHeader>
+                    <img src={Group3} style={{ maxWidth: "100%", height: "auto" }} />
+                  </CardHeader>
+                  <CardBody>
+                    <div style={{ fontSize: "20px" }}> Step 1: </div>
+                    <Subtitle color={"blue"} style={{ fontSize: "36px" }}> Book a tutor  </Subtitle>
+                    <div style={{ marginBottom: "2em", fontSize: "20px" }}>
+                      Choose a tutor from the list below and register for an available time.
+                      Click on their name to see their schedules as well as their profile and resume!
+                    </div>
+                    <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                      <CustomButton text={"Sign up for classes"} size={"medium"} color={"orange"} />
+                    </div>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
+                <Card style={{ paddingTop: "100px", height: "90%" }}>
+                  <CardHeader>
+                    <img src={Group4} />
+                  </CardHeader>
+                  <CardBody>
+                    <div style={{ fontSize: "20px" }}> Step 2: </div>
+                    <Subtitle color={"blue"} style={{ fontSize: "36px" }}> Donate  </Subtitle>
+                    <div style={{ marginBottom: "20px", fontSize: "20px" }}>
+                      DONATE WHAT YOU CAN to the approved organization listed in your tutoring session confirmation email.
+                      Each donation grants you access to 30 minutes of mentorship.
+                    </div>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
+                <Card style={{ paddingTop: "90px", height: "90%" }}>
+                  <CardHeader>
+                    <img src={Group2} />
+                  </CardHeader>
+                  <CardBody>
+                    <div style={{ fontSize: "20px" }}> Step 3: </div>
+                    <Subtitle color={"blue"} style={{ fontSize: "36px" }}> Email Receipt  </Subtitle>
+                    <div style={{ marginBottom: "20px", fontSize: "20px" }}>
+                      Reply to your tutoring session confirmation email from columbiavirtualcampus@gmail.com with your
+                      donation receipt to access your session with ease. You’re all set to see your tutor!
+                    </div>
+                  </CardBody>
+                </Card>
+              </GridItem>
+            </GridContainer>
+          </div>
         </div>
+        
         <Heading color={"blue"} style={{ marginTop: "60px" }}>
           Available Sessions
         </Heading>
         <Subtitle color={"black"}
-                  style={{
-                    maxWidth: "65%",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    fontSize: "18px",
-                    lineHeight: "28px"
-                  }}>
+          style={{
+            maxWidth: "65%",
+            marginLeft: "auto",
+            marginRight: "auto",
+            fontSize: "18px",
+            lineHeight: "28px"
+          }}>
           For each section, these vounteers are willing to provide tutoring,
           review/edit your work, or answer any questions within that domain.
           Click on their names to know their schedules
@@ -272,27 +330,27 @@ class cvcBlm extends React.Component {
 
         <div style={{ marginBottom: 30, textAlign: "center" }}>
           <Search data={this.state.data}
-                  onClick={(val) => {this.searchFunc(val)}}
-                  onCancel={()=> {this.searchFunc('')}}
+            onClick={(val) => { this.searchFunc(val) }}
+            onCancel={() => { this.searchFunc('') }}
           />
         </div>
         {this.state.activityIndicator &&
-          <CircularProgress style={{marginLeft:'50%'}}/>
+          <CircularProgress style={{ marginLeft: '50%' }} />
         }
         {!this.state.activityIndicator &&
-        <div>
-          {this.state.tutorSearch.length>0 && !this.state.tutorSearchError ?
-            <div style={{display:'flex', flexDirection:'horizontal', justifyContent:'center'}}>
-              <div style={{ width:'85%'}}>
-                <TutorSearchMapping tutorSearch={this.state.tutorSearch}/>
-              </div>
-            </div>:
-            this.state.tutorSearchError?
-              <div style={{width:'100%', textAlign:'center', color:'red'}}>{this.state.tutorSearchError}</div>:
-              <div style={{display:'flex', flexDirection:'horizontal', justifyContent:'center'}}>
-              <div style={{ maxWidth:'85%'}}>
-              <div style={{marginBottom:'3%'}} >
-              <Subtitle color={"black"}
+          <div>
+            {this.state.tutorSearch.length > 0 && !this.state.tutorSearchError ?
+              <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
+                <div style={{ width: '85%' }}>
+                  <TutorSearchMapping tutorSearch={this.state.tutorSearch} />
+                </div>
+              </div> :
+              this.state.tutorSearchError ?
+                <div style={{ width: '100%', textAlign: 'center', color: 'red' }}>{this.state.tutorSearchError}</div> :
+                <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
+                  <div style={{ maxWidth: '85%' }}>
+                    <div style={{ marginBottom: '3%' }} >
+                      <Subtitle color={"black"}
                         style={{
                           maxWidth: "65%",
                           marginLeft: "auto",
@@ -301,78 +359,25 @@ class cvcBlm extends React.Component {
                           lineHeight: "28px"
                         }}>
                         Most Popular
-              </Subtitle>
-              <TutorExpansionMapping allTutors={this.state.tutorsPop}/></div>
-              <Subtitle color={"black"}
-                        style={{
-                          maxWidth: "65%",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          fontSize: "18px",
-                          lineHeight: "28px"
-                        }}>
-                        All Sessions
-              </Subtitle>
-              <TutorExpansionMapping allTutors={this.state.allTutors}/>
-              </div>
-              </div>
-          }
-        </div>
+                      </Subtitle>
+                      <TutorExpansionMapping allTutors={this.state.tutorsPop} /></div>
+                    <Subtitle color={"black"}
+                      style={{
+                        maxWidth: "65%",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        fontSize: "18px",
+                        lineHeight: "28px"
+                      }}>
+                      All Sessions
+                    </Subtitle>
+                    <TutorExpansionMapping allTutors={this.state.allTutors} />
+                  </div>
+                </div>
+            }
+          </div>
 
         }
-
-        <Heading color={"blue"} style={{ marginTop: "80px" }}>
-          Our Mission
-        </Heading>
-
-        <Subtitle color={"black"}
-                  style={{
-                    maxWidth: "70%",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    fontSize: "18px",
-                    lineHeight: "28px"
-                  }}>
-
-          <div style={{ marginBottom: "15px" }}>
-            In light of the recent murders of George Floyd, Ahmaud Arbery, and Breonna Taylor, Columbia Virtual Campus
-            stands in solidarity with black students, faculty, staff, and affiliates. We recognize the horrific
-            history of antiblack racism worldwide, and through our tutoring program, we hope to uplift black
-            voices and provide financial support for organizations led by and in support of black people.
-          </div>
-          <div style={{ marginBottom: "15px" }}>
-            Students and faculty at Columbia have offered to provide one-on-one workshops, tutorials,
-            and mentorship in exchange for a donation to the any of the organizations in
-            <a href={'https://docs.google.com/spreadsheets/d/1p6IOTPoSUQpOLjcqPFTfCULdoqH_WUZjmEYXFRJdI2c/edit?usp=sharing'}
-            style={{color:'blue'}}>
-              &nbsp;this list.&nbsp;
-            </a>
-              <strong> Each $15 donation will grant you access to 30 minutes with any tutor of your
-            choice! </strong>
-            Do you need help polishing your resume? Want another set of eyes on your application papers?
-            Need someone to help you with a difficult coding problem? You can do all of that and more while
-            donating to important causes.
-          </div>
-          <div>
-            To sign up for a class, please make a donation to the any org on
-            <a href={'https://docs.google.com/spreadsheets/d/1p6IOTPoSUQpOLjcqPFTfCULdoqH_WUZjmEYXFRJdI2c/edit?usp=sharing'}
-               style={{color:'blue'}}>
-              &nbsp;this list.&nbsp;
-            </a>
-              You can also Venmo us
-            <span style={{textDecoration:'underline'}}> @tejit-pabari </span> or
-            <a href={"https://www.paypal.me/tejitpabari"} style={{color:'blue'}}
-               target='_blank' rel="noopener noreferrer"> Paypal </a> us and
-            we can pay on your behalf.
-            Verify your donation by uploading
-            a snapshot/picture of your receipt on the “Sign up for classes” form below. Upon completion,
-            a password that you can use to sign up for meetings with tutors will be sent to your email.
-          </div>
-        </Subtitle>
-        <div style={{ textAlign: "center", marginBottom: "20px" }}>
-          <CustomButton text={"Sign up to Tutor"} size={"small"} color={"orange"}
-                        href={"https://forms.gle/kG5bhF7NTPtQZPmS7"} newTab/>
-        </div>
       </Template>
     );
   }
