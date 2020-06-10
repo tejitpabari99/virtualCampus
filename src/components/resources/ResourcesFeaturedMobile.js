@@ -90,7 +90,7 @@ function Item(props) {
   )
 }
 
-export default function ResourcesList() {
+export default function ResourcesFeaturedMobile() {
   const contStyle = containerStyles();
   return (
     <MuiThemeProvider theme={theme}>
