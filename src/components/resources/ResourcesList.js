@@ -3,18 +3,9 @@ import GridContainer from "../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../material-kit-components/CustomButtons/Button";
 
-<<<<<<< HEAD
-import {makeStyles} from "@material-ui/core/styles";
-import Data from "../../assets/resourcesfirebase";
-import {ResourcesCard, CustomTheme} from "..";
-import {cardTitle} from "../../assets/material-kit-assets/jss/material-kit-react";
-const CampusData = Data.CampusData;
-const theme = CustomTheme;
-=======
 import {ResourcesCard, Heading} from "..";
 import firebase from "../../firebase";
 import {Descriptions} from "../../assets/ResourcesData.js"
->>>>>>> 1c0f29fe50801b7f17cc2a190562566b02595817
 
 
 class ResourcesList extends React.Component {
@@ -109,7 +100,12 @@ class ResourcesList extends React.Component {
 
         <div style={{textAlign:'center', paddingTop: '15px'}}>{this.state.myDescription}</div>
 
-        <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
+      <GridContainer style={{width: '100%'}}>
+        <GridItem xl={3}>
+          
+        </GridItem>
+        <GridItem xl={9}>
+        <GridContainer style={{paddingLeft: '0px', paddingRight: '0px', paddingTop: '10px'}}>
           {this.state.myResourcesDisplay.map(data => {
             return (
               <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
@@ -128,6 +124,8 @@ class ResourcesList extends React.Component {
 
           })}
         </GridContainer>
+        </GridItem>
+      </GridContainer>
       </div>
     );
   }
