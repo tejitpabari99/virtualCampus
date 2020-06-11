@@ -15,6 +15,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Menu from "@material-ui/icons/Menu";
 // core components
 import styles from "../../../assets/material-kit-assets/jss/material-kit-react/components/headerStyle.js";
+import EventAlert from "../../all/EventAlert"
 
 const useStyles = makeStyles(styles);
 
@@ -74,6 +75,7 @@ export default function Header(props) {
   const brandComponent = <Button color="transparent" className={classes.title} href={'/'}><strong>{brand}</strong></Button>;
   return (
     <AppBar className={appBarClasses}>
+      <EventAlert timeUntil={40} styling={{fontSize: 13, paddingRight: 30, borderTopRightRadius: 30, borderBottomRightRadius: 30, marginTop: 5}} />
       <Toolbar className={classNames(customStyle.container, classes.container)}
                style={{marginRight:0, paddingRight: '3%', marginLeft:0, paddingLeft: '3%', maxWidth: '100%'}}>
         {leftLinks !== undefined ? brandComponent : null}

@@ -1,4 +1,6 @@
 import React from "react";
+import { Helmet } from "react-helmet";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Template, CustomButton, Title, TutorExpansionMapping, Search, TutorSearchMapping } from "../components";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
@@ -15,9 +17,21 @@ import firebase from '../firebase'
 import Card from "../components/material-kit-components/Card/Card.js";
 import CardBody from "../components/material-kit-components/Card/CardBody.js";
 import CardHeader from "../components/material-kit-components/Card/CardHeader.js";
+import Link from '@material-ui/core/Link';
+
 import Fuse from 'fuse.js';
 import LinearProgress from "@material-ui/core/LinearProgress";
+import withStyles from "@material-ui/core/styles/withStyles";
 
+const useStyles = () => ({
+  links:{
+    color: '#0072CE',
+    "&:hover":{
+      color:'#1D2C4D',
+      cursor:'pointer'
+    }
+  }
+})
 
 class cvcBlm extends React.Component {
 
@@ -34,12 +48,15 @@ class cvcBlm extends React.Component {
       donationGoal: 0,
       donationReceived: 0,
       tutorsPop: {},
-      tutorsAllSec: {}
+      tutorsAllSec: {},
+      defaultSearchInput:'',
+      inputElement:null
     };
 
     this.fetchData = this.fetchData.bind(this);
     this.processData = this.processData.bind(this);
     this.searchFunc = this.searchFunc.bind(this);
+    this.setSearchInput = this.setSearchInput.bind(this);
     this.fetchDonationCompletedData = this.fetchDonationCompletedData.bind(this);
 
     // this.fetchDonationCompletedData();
@@ -73,8 +90,8 @@ class cvcBlm extends React.Component {
           let tutorData = that.processData(data["values"]);
           let allTutors = tutorData[0],
             tutorSearch = tutorData[1];
-          let subjects = ["College Experience", "Jobs and Internships", "Writing/Editing Help", "Programming", "Undergrad/Grad admissions"];
-          that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator: false });
+          let subjects = ["College Experience", "Jobs and Internship Applications: Interviews, Resumes, Networking", "Writing/Editing Help", "Programming", "Undergrad/Grad admissions", "Research"];
+          that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator:false});
           let tutorsPop = {};
           let tutorsAllSec = {};
           for (let key in allTutors) {
@@ -120,11 +137,18 @@ class cvcBlm extends React.Component {
     return [{}, {}];
   }
 
-  searchFunc(val) {
-    if (!val || val.length <= 2) {
-      return this.setState({ tutorSearch: [], activityIndicator: false, tutorSearchError: 'Search term must be more than 2 characters' });
+  searchFunc(val, changeDefaultSearchVal=true) {
+    if(changeDefaultSearchVal){
+      this.setState({defaultSearchInput:''});
     }
-    this.setState({ activityIndicator: true });
+    if(!val || val.length===0){
+      return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:''});
+    }
+    else if(val.length<=2){
+      return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:'Search term must be more than 2 characters'});
+    }
+
+    this.setState({activityIndicator:true});
     const options = {
       threshold: 0.2,
       distance: 1000,
@@ -147,10 +171,22 @@ class cvcBlm extends React.Component {
     this.setState({ tutorSearch: tutorSearch, activityIndicator: false, tutorSearchError: '' });
   }
 
+  setSearchInput(input){
+    this.setState({defaultSearchInput:input});
+    this.inputElement.state.searchVal = input;
+    this.inputElement.props.onClick(input);
+  }
+
   render() {
+    const {classes} = this.props;
     return (
-      <Template active={"cvc-blm"} title={"#BLM"} style={{ marginTop: "0" }} blm>
-        <div style={{ marginBottom: 20, width: '100%' }}>
+      <Template active={"cvc-blm"} title={"#BLM"}>
+        <Helmet>
+          <meta property="og:title" content="Columbia Virtual Campus #BLM" />
+          <meta property="og:url" content="http://columbiavirtualcampus.com/cvc-blm" />
+          <meta property="og:description" content="Support the Black Community" />
+        </Helmet>
+        <div style={{marginBottom:20, width:'100%'}}>
           {
             this.state.donationCompleted !== 0 &&
             <div style={{ maxWidth: "70%", marginLeft: "auto", marginRight: "auto", }}>
@@ -329,10 +365,13 @@ class cvcBlm extends React.Component {
 
 
         <div style={{ marginBottom: 30, textAlign: "center" }}>
+
           <Search data={this.state.data}
-            onClick={(val) => { this.searchFunc(val) }}
-            onCancel={() => { this.searchFunc('') }}
+                  ref={input => this.inputElement = input}
+                  onClick={(val) => {this.searchFunc(val)}}
+                  onCancel={()=> {this.searchFunc('')}}
           />
+          <div style={{textAlign:'center', marginTop: 20, fontSize:20}}>Click on a Tutor's name to book them</div>
         </div>
         {this.state.activityIndicator &&
           <CircularProgress style={{ marginLeft: '50%' }} />
@@ -383,4 +422,4 @@ class cvcBlm extends React.Component {
   }
 }
 
-export default cvcBlm;
+export default withStyles(useStyles)(cvcBlm);

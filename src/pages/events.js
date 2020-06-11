@@ -228,6 +228,28 @@ class Events extends React.Component {
     return event;
   }
 
+  // TODO(claire): These are the new functions to use the Google Calendar API instead.
+  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/events#resource
+  // makeDisplayEvents(events) {
+  //   let arr = [];
+  //   for (let i = 0; i < events.length; i += 1) {
+  //     let ele = events[i];
+  //     if (ele.end > new Date().toISOString()) {
+  //       arr.push(ele);
+  //     }
+  //     if (arr.length === 5) {
+  //       break;
+  //     }
+  //   }
+  //   return arr;
+  // }
+
+  // async getEvents() {
+  //   getCalendarEvents((events) => {
+  //     this.setState({ myEventsList: events, displayEvents: this.makeDisplayEvents(events) });
+  //   })
+  // }
+
   makeDisplayEvents(events) {
     let arr = [];
     for (let i = 0; i < events.length; i += 1) {
@@ -242,21 +264,6 @@ class Events extends React.Component {
     return arr;
   }
 
-  // async componentDidMount() {
-  //   var db = await firebase.firestore();
-  //   var docs = await db.collection('eventsData').get();
-  //   docs.forEach((doc) => {
-  //     console.log(doc);
-  //   })
-  //   var eventsData = [];
-  //   docs.forEach((doc) => {
-  //     var event = doc.data();
-  //     event.startTime = event.startTime.toDate();
-  //     event.endTime = event.endTime.toDate();
-  //     eventsData.push(event);
-  //   });
-  //   this.setState({myEventsList:eventsData})
-  // }
 
   async getEvents() {
     var db = firebase.firestore();
@@ -266,12 +273,6 @@ class Events extends React.Component {
       .get();
     let approvedEventsMap = [];
     if(approvedEvents){
-      // TODO
-      // MAY NEED TO CHANGE:
-      // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
-      // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
-      // However, convertEventsTime should be run on every event, converting the time and timezone of the event
-      // To the current user's local time!
       approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
     }
     this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
