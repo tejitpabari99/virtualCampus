@@ -15,7 +15,7 @@ const theme = CustomTheme;
 const containerStyles = makeStyles(() => ({
   container: {
     position: 'relative',
-
+    display: 'block',
     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))',
     filter: 'blur(15px) contrast(125%) brightness(75%)',
   },
@@ -41,7 +41,7 @@ const containerStyles = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '20px',
+    fontSize: '1.3vw',
     lineHeight: '30px',
     color: '#000000'
   },
@@ -50,8 +50,8 @@ const containerStyles = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '36px',
-    lineHeight: '48px',
+    fontSize: '2vw',
+    lineHeight: 'vh',
     color: '#0072CE'
   },
   button: {
@@ -65,7 +65,7 @@ const containerStyles = makeStyles(() => ({
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '10px',
-    lineHeight: '15px',
+    lineHeight: '14px',
     textAlign: 'center'
   },
   description: {
@@ -73,8 +73,8 @@ const containerStyles = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '14px',
-    lineHeight: '21px',
+    fontSize: 'vw',
+    lineHeight: '18px',
     color: '#000000'
   },
 }));
@@ -131,7 +131,7 @@ export default function ResourcesFeaturedDesktop() {
                         <p>
                           <br/>
                           <CustomButton text={"Explore!"} href={data.links.website}
-                            color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25, position:'relative'}}/>
+                            color={"orange"} size={"2.3vw"} style={{marginTop: 10, marginBottom: 25, position:'relative'}}/>
                         </p>
 
                       </p>
