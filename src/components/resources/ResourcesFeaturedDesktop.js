@@ -97,8 +97,8 @@ export default function ResourcesFeaturedDesktop() {
               // console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height='550px' width='100%' className={contStyle.container}/>
-                    <img src={data.img} alt={data.img} height={'416.1px'} width={'57%'} className={contStyle.img}/>
+                    <img src={data.img} alt={data.img} height='500px' width='100%' className={contStyle.container}/>
+                    <img src={data.img} alt={data.img} height={'380.3px'} width={'57%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>
                         {data.category.category
@@ -129,7 +129,6 @@ export default function ResourcesFeaturedDesktop() {
                         </p>
 
                         <p>
-                          <br/>
                           <CustomButton text={"Explore!"} href={data.links.website}
                             color={"orange"} size={"2.3vw"} style={{marginTop: 10, marginBottom: 25, position:'relative'}}/>
                         </p>

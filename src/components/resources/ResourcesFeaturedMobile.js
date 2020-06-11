@@ -25,16 +25,16 @@ const containerStyles = makeStyles(() => ({
   },
   img: {
     position: 'absolute',
-    left: '5.46%',
-    right: '4.99%',
-    top: '4%',
+    left: '8%',
+    right: '8%',
+    top: '8%',
   },
   card: {
     position: 'absolute',
-    left: '5.46%',
-    right: '4.99%',
-    top: '34.31%',
-    bottom: '9.31%',
+    left: '8%',
+    right: '8%',
+    top: '40.31%',
+    bottom: '14%',
     background: '#FFFFFF',
   },
   category: {
@@ -55,12 +55,12 @@ const containerStyles = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '20px',
-    lineHeight: '30px',
+    fontSize: 'vw',
+    lineHeight: 'vh',
     color: '#0072CE'
   },
   button: {
-    background: '#F2F2F2',
+    background: '#FFFFFF',
     position: 'relative',
     marginLeft: '3%',
     bottom: '42.65%',
@@ -69,7 +69,7 @@ const containerStyles = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '9px',
+    fontSize: '8px',
     lineHeight: '20px',
     textAlign: 'center',
   },
@@ -78,8 +78,8 @@ const containerStyles = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '14px',
-    lineHeight: '21px',
+    fontSize: '11px',
+    lineHeight: 'vh',
     color: '#000000'
   },
 }));
@@ -102,8 +102,8 @@ export default function ResourcesFeaturedMobile() {
               console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height={'550px'} width={'100%'} className={contStyle.container} style={{imageRendering: 'crisp-edges'}}/>
-                    <img src={data.img} alt={data.img} height={'180px'} width={'89.55%'} className={contStyle.img}/>
+                    <img src={data.img} alt={data.img} height={'500px'} width={'100%'} className={contStyle.container} style={{imageRendering: 'crisp-edges'}}/>
+                    <img src={data.img} alt={data.img} height={'180px'} width={'84%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>
                         {data.category.category
@@ -121,20 +121,20 @@ export default function ResourcesFeaturedMobile() {
                         <p>
                           {data.category.tags.map(ele => {
                             return (
-                              <Button className={contStyle.button} style={{width: '68px', height: '28px'}}>
+                              <Button className={contStyle.button} style={{width: '53px', height: '21px'}}>
                                 {ele}
                               </Button>
                             )
                           })}
                         </p>
 
-                        <p className={contStyle.description} style={{marginTop: 25, position:'relative'}}>
+                        <p className={contStyle.description} style={{marginTop: 10, position:'relative'}}>
                           {data.description}
                         </p>
 
                         <p>
                           <CustomButton text={"Explore!"} href={data.links.website}
-                            color={"orange"} size={"large"} style={{marginTop: 15, position:'relative'}}/>
+                            color={"orange"} size={"medium"} style={{marginTop: 3, position:'relative'}}/>
                         </p>
 
                       </p>
