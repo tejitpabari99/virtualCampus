@@ -30,6 +30,7 @@ class Index extends React.Component {
             return (
                 <div>
                     <HomeDesktop/>
+
                 </div>
             );
         }

@@ -54,6 +54,36 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
   },
+  black:{
+    color: 'black !important',
+    border: "1px solid black",
+    backgroundColor: '#F6C09F',
+    "&:hover": {
+      color: '#F6C09F !important',
+      backgroundColor: 'black',
+      boxShadow: "0 14px 26px -12px gray"
+    },
+  },
+  white:{
+    color: 'white !important',
+    border: "1px solid white",
+    backgroundColor: '#82B7E8',
+    "&:hover": {
+      color: '#82B7E8 !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px gray"
+    },
+  },
+  white2:{
+    color: 'white !important',
+    border: "1px solid white",
+    backgroundColor: "rgba(0,0,0,0.1)",
+    "&:hover": {
+      color: '#0072CE !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px gray"
+    },
+  },
   rounded: {
     borderRadius: "30px"
   },
@@ -92,4 +122,3 @@ CustomButton.defaultProps = {
   color: "orange",
   size: "small"
 };
-

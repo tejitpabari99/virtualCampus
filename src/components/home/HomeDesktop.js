@@ -2,9 +2,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 import React from "react";
 import landingImage from "../../assets/images/home/graphic.png";
+import hostEventPic from "../../assets/images/home/hostAnEvent.png";
+import facebookPic from "../../assets/images/home/facebook.png";
+import instagramPic from "../../assets/images/home/instagram.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { CustomButton, CustomHeader, MetaData, Subtitle, Title } from "./../../components";
+import { CustomButton, CustomHeader, MetaData, Subtitle, Title} from "./../../components";
 import HomeEvents from './HomeEvents';
+import HomeResourcesList from "./HomeResourcesList.js";
 
 
 const useStyles = makeStyles(styles);
@@ -66,21 +70,66 @@ const manualSt = makeStyles(() => ({
     height: "max(90vh, 31vw)",
     width: "100%",
   },
-  button: {
-    background: "#FFFFFF",
-    color: '#FB750D !important',
-    border: "1px solid #FB750D",
-    boxSizing: "border-box",
-    borderRadius: "10px",
-    "&:hover,&:focus": {
-      color: 'white !important',
-      backgroundColor: '#FB750D',
-    },
-  },
   eventsSection: {
-    position: 'relative',
-    left: '0px',
-    background: 'transparent',
+    flexDirection: "column",
+    position: "relative",
+  },
+  eventPic: {
+    height: "795px",
+    width: "100%",
+    marginBottom: "-850px",
+    objectFit: "cover"
+  },
+  eventText: {
+    position: "relative",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    color:"white",
+    textAlign: "center",
+    lineHeight: '2.5vw',
+    marginTop: "15px",
+  },
+  resourcesSection: {
+    position: 'relative'
+  },
+  button: {
+      boxShadow: 'none',
+      fontSize: '1.1rem',
+      width: 150,
+      backgroundColor: 'white',
+      paddingTop: 10,
+      paddingBottom: 10,
+      color: '#F1945B !important',
+      marginLeft: "37.5%"
+  },
+  button2: {
+      boxShadow: 'none',
+      fontSize: '1.1rem',
+      width: 150,
+      paddingTop: 10,
+      paddingBottom: 10,
+      color: '#F1945B !important',
+      marginLeft: "37.5%"
+  },
+  socialSection: {
+    textAlign: "center",
+  },
+  insta: {
+    width: "50%",
+    height: "992px",
+    backgroundColor: "#F6C09F",
+    color: "black",
+    float: "left",
+    padding:"0px",
+    marginTop: "0px",
+  },
+  fabo: {
+    width: "50%",
+    height: "992px",
+    backgroundColor: "#82B7E8",
+    color: "white",
+    float: "right",
+    padding:"0px",
+    margin: "0px",
   },
 
 }));
@@ -115,19 +164,70 @@ export default function HomeDesktop() {
           <Title color={"blue"}>Upcoming Events</Title>
           <div style={{ textAlign: "center" }}>
             <Subtitle color={'black'} className={manual.toAllSubHeadingUpEvents}>
-              Do you or your club want to host your own event on Columbia Virtual Campus?
-                  <br /> Answer some short questions to get started!
-                </Subtitle>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
-              color={"orange"} size={"large"} />
-            <div style={{ marginBottom: "40px" }} />
+              Find out what's happening on campus, virtually.
+            </Subtitle>
           </div>
           <HomeEvents />
-          <div style={{ marginBottom: "100px" }} />
+          <div className={manual.button}>
+              <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
+              color={"orange"} size={"large"} />
+          </div>
+          <div style={{ marginBottom: "40px" }} />
         </div>
       </div>
+
+      <div className={manual.eventsSection}>
+        <img className={manual.eventPic} src={hostEventPic} alt="HostEventPic"/>
+          <div className={manual.eventText}>
+            <br/><br/><br/><br/><br/>
+            <h2>Want to host an event?</h2>
+            <h5>Looking to host you own event on Columbia Virtual Campus?</h5>
+            <h5>Answer some questions to <strong>start leading.</strong></h5>
+            <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
+            color={"white2"} size={"large"} />
+            <br/><br/><br/><br/><br/><br/>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: "40px" }} />
+
+      <div className={manual.resourcesSection}>
+        <div className={classes.container} id="resources">
+          <Title color={"blue"}>Top Resources</Title>
+          <HomeResourcesList />
+        </div>
+        <div className={manual.button} style={{marginLeft: "42%"}}>
+            <CustomButton href={'/resources'}  text={'SEE ALL RESOURCES'}
+            color={"orange"} size={"large"}/>
+        </div>
+      </div>
+      <div style={{ marginBottom: "40px" }} />
+
+      <div className={manual.socialSection}>
+          <div className={manual.insta}>
+              <h2 style={{marginTop: "80px"}}>CVC on Instagram</h2>
+              <h4 style={{marginTop: "20px"}}>
+                Check us out on social media to see <br/> what we're all about!
+              </h4>
+              <br/> <br/>
+              <img src={instagramPic} alt="InstagramPic"/>
+              <div style={{marginTop: "30px", backgroundColor: "#F6C09F", color: "black", borderColor: "black"}}>
+                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"}/>
+              </div>
+          </div>
+          <div className={manual.fabo}>
+              <h2 style={{marginTop: "80px"}}>CVC on Facebook</h2>
+              <h4 style={{marginTop: "20px"}}>
+                Check us out on social media to see <br/> what we're all about!
+              </h4>
+              <br/> <br/>
+              <img src={facebookPic} alt="FacebookPic"/>
+              <div style={{marginTop: "30px"}}>
+                  <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"}/>
+              </div>
+          </div>
+      </div>
+
     </div>
   )
 };

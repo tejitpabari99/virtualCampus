@@ -8,27 +8,27 @@ import firebase from "../../firebase";
 import {Descriptions} from "../../assets/ResourcesData.js"
 
 
-class ResourcesList extends React.Component {
+class HomeResourcesList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       myResourcesDict: {},
       myResourcesDisplay: [],
-      myCategory: "All Resources",
-      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID."
-    };
+  };
     this.getResources();
   }
 
   async getResources() {
     let db = firebase.firestore();
-    let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
+    let approvedResources = await db.collection("resources").where("reviewed", "==", true).limit(4).get();
     let approvedResourcesDict = {};
     let approvedResourcesDisplay = [];
     if(approvedResources){
       approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
     }
+
+
      console.log(approvedResourcesDict);
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: approvedResourcesDisplay});
@@ -67,38 +67,6 @@ class ResourcesList extends React.Component {
   render() {
     return (
       <div>
-        <div style={{textAlign:'center'}}>
-          {Object.keys(this.state.myResourcesDict).map(category => {
-            return (
-              <Button size="large"
-                      style={{background: 'rgba(255, 255, 255, 0.85)',
-                        position: 'relative',
-                        marginLeft:"4%",
-                        marginRight:"4%",
-                        marginTop: '3%',
-                        borderRadius: '10px',
-
-                        fontFamily: 'Poppins',
-                        fontStyle: 'normal',
-                        fontWeight: 'normal',
-                        fontSize: '20px',
-                        lineHeight: '30px',
-                        color: '#0072CE',
-                        '&:active': {
-                          background: '#F2F2F2'
-                        }}}
-                      onClick={this.setDisplay.bind(this, category)}
-                      value={{category}}
-              >{category}</Button>
-            );
-          })}
-        </div>
-
-        <hr style={{border: "1px solid #0072CE", marginTop: '4%'}} />
-
-        <Heading color={'blue'} style={{textAlign:'center', paddingTop: '30px'}}>{this.state.myCategory}</Heading>
-
-        <div style={{textAlign:'center', paddingTop: '15px'}}>{this.state.myDescription}</div>
 
         <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
           {this.state.myResourcesDisplay.map(data => {
@@ -124,4 +92,4 @@ class ResourcesList extends React.Component {
   }
 }
 
-export default ResourcesList;
+export default HomeResourcesList;
