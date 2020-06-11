@@ -3,10 +3,9 @@ import GridContainer from "../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCard, Heading} from "..";
+import {ResourcesCard, Heading, CustomButton} from "..";
 import firebase from "../../firebase";
 import {Descriptions} from "../../assets/ResourcesData.js"
-
 
 class ResourcesList extends React.Component {
   constructor(props) {
@@ -16,6 +15,7 @@ class ResourcesList extends React.Component {
       myResourcesDisplay: [],
       myCategory: "All Resources",
       myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID."
+      //myTagsDisplay: []
     };
     this.getResources();
   }
@@ -101,11 +101,15 @@ class ResourcesList extends React.Component {
         <div style={{textAlign:'center', paddingTop: '15px'}}>{this.state.myDescription}</div>
 
       <GridContainer style={{width: '100%'}}>
-        <GridItem xl={3}>
-          
+        <GridItem xs={3}>
+          <Heading color={'blue'} style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}>{"Want to add your own resource?"}</Heading>
+          <div style={{textAlign:'center', paddingTop: '3%'}}>
+            <CustomButton text={"ADD RESOURCE"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
+                          color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
+          </div>
         </GridItem>
-        <GridItem xl={9}>
-        <GridContainer style={{paddingLeft: '0px', paddingRight: '0px', paddingTop: '10px'}}>
+        <GridItem xs={9}>
+        <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
           {this.state.myResourcesDisplay.map(data => {
             return (
               <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
