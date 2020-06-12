@@ -15,25 +15,26 @@ const theme = CustomTheme;
 const containerStyles = makeStyles(() => ({
   container: {
     position: 'relative',
-    left: '0%',
-    right: '1.55%',
-    top: '3.15%',
-    bottom: '2.8%',
+    left: '3.8%',
+    right: '3.56%',
+    top: '2.78%',
+    bottom: '2.94%',
 
     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))',
     filter: 'blur(15px) contrast(125%) brightness(75%)',
   },
   img: {
     position: 'absolute',
-    left: '37.26%',
-    top: '11.91%',
+    left: '8%',
+    right: '8%',
+    top: '8%',
   },
   card: {
     position: 'absolute',
-    left: '4.9%',
-    right: '62.74%',
-    top: '11.91%',
-    bottom: '16.96%',
+    left: '8%',
+    right: '8%',
+    top: '40.31%',
+    bottom: '14%',
     background: '#FFFFFF',
   },
   category: {
@@ -41,12 +42,12 @@ const containerStyles = makeStyles(() => ({
     left: '7.55%',
     right: '7.55%',
     top: '7.81%',
-    bottom: '77.93%',
+    bottom: '58.82%',
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '20px',
-    lineHeight: '30px',
+    fontSize: '14px',
+    lineHeight: '21px',
     color: '#000000'
   },
   title: {
@@ -54,31 +55,31 @@ const containerStyles = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '36px',
-    lineHeight: '48px',
+    fontSize: 'vw',
+    lineHeight: 'vh',
     color: '#0072CE'
   },
   button: {
-    background: 'rgba(255, 255, 255, 0.85)',
+    background: '#FFFFFF',
     position: 'relative',
-    marginLeft:"3%",
-    marginBottom: 0,
-    borderRadius: '20px',
+    marginLeft: '3%',
+    bottom: '42.65%',
+    borderRadius: '30px',
     zIndex: 10,
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '10px',
-    lineHeight: '15px',
-    textAlign: 'center'
+    fontSize: '8px',
+    lineHeight: '20px',
+    textAlign: 'center',
   },
   description: {
     position: 'relative',
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '14px',
-    lineHeight: '21px',
+    fontSize: '11px',
+    lineHeight: 'vh',
     color: '#000000'
   },
 }));
@@ -90,7 +91,7 @@ function Item(props) {
   )
 }
 
-export default function ResourcesList() {
+export default function ResourcesFeaturedMobile() {
   const contStyle = containerStyles();
   return (
     <MuiThemeProvider theme={theme}>
@@ -101,8 +102,8 @@ export default function ResourcesList() {
               console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height={'550px'} width={'100%'} className={contStyle.container} style={{imageRendering: 'crisp-edges'}}/>
-                    <img src={data.img} alt={data.img} height={'416.1px'} width={'57%'} className={contStyle.img}/>
+                    <img src={data.img} alt={data.img} height={'500px'} width={'100%'} className={contStyle.container} style={{imageRendering: 'crisp-edges'}}/>
+                    <img src={data.img} alt={data.img} height={'180px'} width={'84%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>
                         {data.category.category
@@ -120,22 +121,20 @@ export default function ResourcesList() {
                         <p>
                           {data.category.tags.map(ele => {
                             return (
-                              <Button className={contStyle.button}>
+                              <Button className={contStyle.button} style={{width: '53px', height: '21px'}}>
                                 {ele}
                               </Button>
                             )
                           })}
                         </p>
 
-                        <p className={contStyle.description}>
-                          <br/>
+                        <p className={contStyle.description} style={{marginTop: 10, position:'relative'}}>
                           {data.description}
                         </p>
 
                         <p>
-                          <br/>
                           <CustomButton text={"Explore!"} href={data.links.website}
-                            color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25, position:'relative'}}/>
+                            color={"orange"} size={"medium"} style={{marginTop: 3, position:'relative'}}/>
                         </p>
 
                       </p>

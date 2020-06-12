@@ -1,7 +1,12 @@
 import React from "react"
 import Template from "../components/all/Template";
 import AddIcon from "@material-ui/icons/Add";
+
 import {MetaData, ResourcesList, ResourcesFeaturedDesktop, Title} from "../components";
+
+import Button from "../components/material-kit-components/CustomButtons/Button.js";
+import {MetaData, ResourcesList, CustomButton, Title} from "../components";
+import ResourcesFeatured from "../components/resources/ResourcesFeatured";
 
 const useStyles = () => ({
     addNewButton:{
@@ -18,7 +23,7 @@ export default function Resources() {
         <Template active={'resources'} title={'Resources'}>
           <Title color={'blue'}>Resources</Title>
             <div style={{paddingTop: '3%'}}>
-                <ResourcesFeaturedDesktop/>
+                <ResourcesFeatured />
             </div>
             <ResourcesList />
         </Template>

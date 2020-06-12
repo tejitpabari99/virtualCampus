@@ -109,23 +109,23 @@ class ResourcesList extends React.Component {
         <div style={{textAlign:'center'}}>
           {Object.keys(this.state.myResourcesDict).map(category => {
             return (
-              <Button size="large"
-                      style={{background: 'rgba(255, 255, 255, 0.85)',
+              <Button size="medium"
+                      active
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.85)',
                         position: 'relative',
-                        marginLeft:"4%",
-                        marginRight:"4%",
+                        marginLeft:"2%",
+                        marginRight:"2%",
                         marginTop: '3%',
                         borderRadius: '10px',
 
                         fontFamily: 'Poppins',
                         fontStyle: 'normal',
                         fontWeight: 'normal',
-                        fontSize: '20px',
-                        lineHeight: '30px',
-                        color: '#0072CE',
-                        '&:active': {
-                          background: '#F2F2F2'
-                        }}}
+                        fontSize: '13px',
+                        lineHeight: '17px',
+                        color: '#0072CE'
+                      }}
                       onClick={this.setDisplay.bind(this, category)}
                       value={{category}}
               >{category}</Button>
@@ -135,9 +135,9 @@ class ResourcesList extends React.Component {
 
         <hr style={{border: "1px solid #0072CE", marginTop: '4%'}} />
 
-        <Heading color={'blue'} style={{textAlign:'center', paddingTop: '30px'}}>{this.state.myCategory}</Heading>
+        <Heading color={'blue'} style={{textAlign:'center', marginTop: '30px'}}>{this.state.myCategory}</Heading>
 
-        <div style={{textAlign:'center', paddingTop: '15px'}}>{this.state.myDescription}</div>
+        <div style={{textAlign:'center', paddingTop: '15px', paddingLeft: '20px', paddingRight: '20px'}}>{this.state.myDescription}</div>
 
       <GridContainer style={{width: '100%'}}>
         <GridItem xs={3}>
