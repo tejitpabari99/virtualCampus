@@ -15,7 +15,9 @@ class ResourcesList extends React.Component {
       myResourcesDisplay: [],
       myCategory: "All Resources",
       myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
-      //myTagsDict: {}
+      myTagsDict: {},
+      myTagsDescription: "",
+      myTagsDisplay: []
     };
     this.getResources();
   }
@@ -26,16 +28,15 @@ class ResourcesList extends React.Component {
     let approvedResourcesDict = {};
     let approvedResourcesDisplay = [];
     let approvedTagsDict = {};
-    //let tagList = []; //is this needed here?
     if(approvedResources){
       approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
-      //approvedTagsDict = this.makeDisplayTags(approvedResources.docs.map(doc => doc.data()));
+      approvedTagsDict = this.makeDisplayTags(approvedResources.docs.map(doc => doc.data()));
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
     }
+    approvedResourcesDict['All Resources'] = approvedResourcesDisplay;
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: approvedResourcesDisplay});
-    //this.setState({ myTagsDict: approvedTagsDict});
-    console.log(approvedResourcesDisplay);
+    this.setState({ myTagsDict: approvedTagsDict});
   }
 
   makeDisplayResources(resources) {
@@ -53,27 +54,37 @@ class ResourcesList extends React.Component {
     return res;
   }
 
-/*
   makeDisplayTags(resources) {
-    let res = {{}};
+    let res = {};
     for (let i=0; i< resources.length; i+=1) {
       let ele = resources[i];
       let key = this.toTitleCase(ele['category']['category']);
-      if (key in res) {
-        res[key].push(ele)
-      }
-      else {
-        res[key] = [ele]
+      let tag = ele['category']['tags'];
+
+      for(let j=0; j<tag.length; j++){
+        let tagName = this.toTitleCase(tag[j]);
+        //if category not added yet, add tag and resource
+        if(key in res== false){
+          res[key] = [tagName];
+          res[key][tagName] = [ele];
+        }
+        //if category is already added
+        else{
+          //if tag exists, add resource
+          if(res[key][tagName]){
+              res[key][tagName].push(ele);
+          }
+          //if tag doesn't exist, add tag and resource
+          else{
+            res[key].push(tagName);
+            res[key][tagName] = [ele]
+          }
+        }
       }
     }
     return res;
-    }
-    {'health':
-      {'mental':[resource1, resource2, etc.],
-       'physical': [resource1]},
-    }
   }
-*/
+
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -81,16 +92,12 @@ class ResourcesList extends React.Component {
   }
 
   setDisplay(category) {
-    /*let temp = [];
-    for resource in resources:
-      if resource not in temp:
-        temp.append(resource)
-        */
     this.setState({
       myResourcesDisplay: this.state.myResourcesDict[category],
       myDescription: Descriptions[category],
-      myCategory: category,
-      //myTags: //makeTag(...)
+      myCategory: category
+      //myTagsDisplay: this.state.myTagsDict[category]
+      //myTagsDescription: "Filter by tags: "
     });
   }
 /*

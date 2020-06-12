@@ -2,7 +2,7 @@ import React from "react"
 import Template from "../components/all/Template";
 import AddIcon from "@material-ui/icons/Add";
 
-import {MetaData, ResourcesList, ResourcesFeaturedDesktop, Title} from "../components";
+import {ResourcesFeaturedDesktop} from "../components";
 
 import Button from "../components/material-kit-components/CustomButtons/Button.js";
 import {MetaData, ResourcesList, CustomButton, Title} from "../components";
