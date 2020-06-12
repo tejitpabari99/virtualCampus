@@ -8,7 +8,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'social',
+      category: 'Social',
       tags: ['Connected']
     }
   },
@@ -21,7 +21,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'health',
+      category: 'Health',
       tags: ['Mental']
     }
   },
@@ -34,7 +34,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'basic needs',
+      category: 'Basic Needs',
       tags: ['Finances']
     }
   },
@@ -47,7 +47,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'covid-19',
+      category: 'COVID-19',
       tags: ['Columbia']
     }
   },
@@ -60,7 +60,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'jobs and internships',
+      category: 'Jobs, Internships, & Learning',
       tags: ['Learning', 'Job']
     }
   }
@@ -71,7 +71,7 @@ const Descriptions = {
   'Health': 'Resources that promote physical/emotional wellbeing, raise self-care tips, and help stabilize yourself during these turbulent times.',
   'Social': 'Resources that allow you to stay connected with peers, whether through social media, recreational activities, or more.',
   'Basic Needs': 'Resources that support basic living expenses, such as food, utilities, finances, and more.',
-  'Covid- 19': 'Resources that help you stay updated on COVID, check yourself for symptoms, and offer support if you or a loved one is afflicted.',
+  'COVID-19': 'Resources that help you stay updated on COVID, check yourself for symptoms, and offer support if you or a loved one is afflicted.',
   'All Resources': 'Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.'
 };
 
