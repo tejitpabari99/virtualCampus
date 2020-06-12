@@ -3,10 +3,9 @@ import GridContainer from "../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCard, Heading} from "..";
+import {ResourcesCard, Heading, CustomButton} from "..";
 import firebase from "../../firebase";
 import {Descriptions} from "../../assets/ResourcesData.js"
-
 
 class ResourcesList extends React.Component {
   constructor(props) {
@@ -15,7 +14,10 @@ class ResourcesList extends React.Component {
       myResourcesDict: {},
       myResourcesDisplay: [],
       myCategory: "All Resources",
-      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID."
+      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
+      myTagsDict: {},
+      myTagsDescription: "",
+      myTagsDisplay: []
     };
     this.getResources();
   }
@@ -25,14 +27,16 @@ class ResourcesList extends React.Component {
     let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
     let approvedResourcesDict = {};
     let approvedResourcesDisplay = [];
+    let approvedTagsDict = {};
     if(approvedResources){
       approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
+      approvedTagsDict = this.makeDisplayTags(approvedResources.docs.map(doc => doc.data()));
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
     }
-    // console.log(approvedResourcesDict);
     approvedResourcesDict['All Resources'] = approvedResourcesDisplay;
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: approvedResourcesDisplay});
+    this.setState({ myTagsDict: approvedTagsDict});
   }
 
   makeDisplayResources(resources) {
@@ -50,6 +54,37 @@ class ResourcesList extends React.Component {
     return res;
   }
 
+  makeDisplayTags(resources) {
+    let res = {};
+    for (let i=0; i< resources.length; i+=1) {
+      let ele = resources[i];
+      let key = this.toTitleCase(ele['category']['category']);
+      let tag = ele['category']['tags'];
+
+      for(let j=0; j<tag.length; j++){
+        let tagName = this.toTitleCase(tag[j]);
+        //if category not added yet, add tag and resource
+        if(key in res== false){
+          res[key] = [tagName];
+          res[key][tagName] = [ele];
+        }
+        //if category is already added
+        else{
+          //if tag exists, add resource
+          if(res[key][tagName]){
+              res[key][tagName].push(ele);
+          }
+          //if tag doesn't exist, add tag and resource
+          else{
+            res[key].push(tagName);
+            res[key][tagName] = [ele]
+          }
+        }
+      }
+    }
+    return res;
+  }
+
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -60,7 +95,9 @@ class ResourcesList extends React.Component {
     this.setState({
       myResourcesDisplay: this.state.myResourcesDict[category],
       myDescription: Descriptions[category],
-      myCategory: category
+      myCategory: category,
+      myTagsDisplay: this.state.myTagsDict[category],
+      myTagsDescription: "Filter by tags: "
     });
   }
 
@@ -100,7 +137,24 @@ class ResourcesList extends React.Component {
 
         <div style={{textAlign:'center', paddingTop: '15px', paddingLeft: '20px', paddingRight: '20px'}}>{this.state.myDescription}</div>
 
-        <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px', align:'center'}}>
+      <GridContainer style={{width: '100%'}}>
+        <GridItem xs={3}>
+          <div style={{textALign:'left', paddingTop: '15px'}}>{this.state.myTagsDescription}</div>
+          {this.state.myTagsDisplay.map(data => {
+            return (
+              <div>
+                <CustomButton text={data} color={'blue'} size={'small'} style={{marginTop: 10, marginBottom: 10}}/>
+              </div>
+            );
+          })}
+          <Heading color={'blue'} style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}>{"Want to add your own resource?"}</Heading>
+          <div style={{textAlign:'center', paddingTop: '3%'}}>
+            <CustomButton text={"ADD RESOURCE"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
+                          color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
+          </div>
+        </GridItem>
+        <GridItem xs={9}>
+        <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
           {this.state.myResourcesDisplay.map(data => {
             return (
               <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
@@ -119,6 +173,8 @@ class ResourcesList extends React.Component {
 
           })}
         </GridContainer>
+        </GridItem>
+      </GridContainer>
       </div>
     );
   }
