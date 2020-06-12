@@ -95,21 +95,12 @@ class ResourcesList extends React.Component {
     this.setState({
       myResourcesDisplay: this.state.myResourcesDict[category],
       myDescription: Descriptions[category],
-      myCategory: category
-      //myTagsDisplay: this.state.myTagsDict[category]
-      //myTagsDescription: "Filter by tags: "
+      myCategory: category,
+      myTagsDisplay: this.state.myTagsDict[category],
+      myTagsDescription: "Filter by tags: "
     });
   }
-/*
-  makeTag(tagList){
-    <div style={{textAlign:'left', paddingTop: '15px'}}>{"Filter by tags:"}</div>
-    for (let i = 0; i < tagList.length; i += 1) {
-      <div style={{textAlign:'center', paddingTop: '3%'}}>
-        <Button text={tagList[i]} style={{marginTop: 10, marginBottom: 25}}/>
-      </div>
-    }
-  }
-*/
+
   render() {
     return (
       <div>
@@ -148,6 +139,14 @@ class ResourcesList extends React.Component {
 
       <GridContainer style={{width: '100%'}}>
         <GridItem xs={3}>
+          <div style={{textALign:'left', paddingTop: '15px'}}>{this.state.myTagsDescription}</div>
+          {this.state.myTagsDisplay.map(data => {
+            return (
+              <div>
+                <CustomButton text={data} color={'blue'} size={'small'} style={{marginTop: 10, marginBottom: 10}}/>
+              </div>
+            );
+          })}
           <Heading color={'blue'} style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}>{"Want to add your own resource?"}</Heading>
           <div style={{textAlign:'center', paddingTop: '3%'}}>
             <CustomButton text={"ADD RESOURCE"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
