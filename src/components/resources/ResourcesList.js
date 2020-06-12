@@ -13,6 +13,7 @@ class ResourcesList extends React.Component {
     super(props);
     this.state = {
       myResourcesDict: {},
+      myTagsDict: {},
       myResourcesDisplay: [],
       myCategory: "All Resources",
       myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID."
@@ -28,6 +29,7 @@ class ResourcesList extends React.Component {
     if(approvedResources){
       approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
+
     }
     // console.log(approvedResourcesDict);
     approvedResourcesDict['All Resources'] = approvedResourcesDisplay;
@@ -47,8 +49,10 @@ class ResourcesList extends React.Component {
         res[key] = [ele]
       }
     }
+    console.log(res);
     return res;
   }
+
 
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
@@ -99,6 +103,8 @@ class ResourcesList extends React.Component {
         <Heading color={'blue'} style={{textAlign:'center', marginTop: '30px'}}>{this.state.myCategory}</Heading>
 
         <div style={{textAlign:'center', paddingTop: '15px', paddingLeft: '20px', paddingRight: '20px'}}>{this.state.myDescription}</div>
+
+        <div></div>
 
         <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px', align:'center'}}>
           {this.state.myResourcesDisplay.map(data => {
