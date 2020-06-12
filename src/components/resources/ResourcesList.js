@@ -14,8 +14,8 @@ class ResourcesList extends React.Component {
       myResourcesDict: {},
       myResourcesDisplay: [],
       myCategory: "All Resources",
-      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID."
-      //myTagsDisplay: []
+      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
+      //myTagsDict: {}
     };
     this.getResources();
   }
@@ -25,13 +25,17 @@ class ResourcesList extends React.Component {
     let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
     let approvedResourcesDict = {};
     let approvedResourcesDisplay = [];
+    let approvedTagsDict = {};
+    //let tagList = []; //is this needed here?
     if(approvedResources){
       approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
+      //approvedTagsDict = this.makeDisplayTags(approvedResources.docs.map(doc => doc.data()));
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
     }
-    // console.log(approvedResourcesDict);
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: approvedResourcesDisplay});
+    //this.setState({ myTagsDict: approvedTagsDict});
+    console.log(approvedResourcesDisplay);
   }
 
   makeDisplayResources(resources) {
@@ -49,6 +53,27 @@ class ResourcesList extends React.Component {
     return res;
   }
 
+/*
+  makeDisplayTags(resources) {
+    let res = {{}};
+    for (let i=0; i< resources.length; i+=1) {
+      let ele = resources[i];
+      let key = this.toTitleCase(ele['category']['category']);
+      if (key in res) {
+        res[key].push(ele)
+      }
+      else {
+        res[key] = [ele]
+      }
+    }
+    return res;
+    }
+    {'health':
+      {'mental':[resource1, resource2, etc.],
+       'physical': [resource1]},
+    }
+  }
+*/
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -56,14 +81,28 @@ class ResourcesList extends React.Component {
   }
 
   setDisplay(category) {
+    /*let temp = [];
+    for resource in resources:
+      if resource not in temp:
+        temp.append(resource)
+        */
     this.setState({
       myResourcesDisplay: this.state.myResourcesDict[category],
       myDescription: Descriptions[category],
-      myCategory: category
+      myCategory: category,
+      //myTags: //makeTag(...)
     });
-    console.log(Descriptions);
   }
-
+/*
+  makeTag(tagList){
+    <div style={{textAlign:'left', paddingTop: '15px'}}>{"Filter by tags:"}</div>
+    for (let i = 0; i < tagList.length; i += 1) {
+      <div style={{textAlign:'center', paddingTop: '3%'}}>
+        <Button text={tagList[i]} style={{marginTop: 10, marginBottom: 25}}/>
+      </div>
+    }
+  }
+*/
   render() {
     return (
       <div>
