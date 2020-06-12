@@ -46,7 +46,7 @@ const containerStyles = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '14px',
+    fontSize: '12px',
     lineHeight: '21px',
     color: '#000000'
   },
