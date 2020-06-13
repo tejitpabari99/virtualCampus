@@ -1,427 +1,222 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { CircularProgress } from '@material-ui/core';
-import * as Events from './../../pages/events.js';
 
-//inputs
-import FormikField from "../FormikField/FormikField";
-import { CheckboxWithLabel, SimpleFileUpload } from "formik-material-ui";
-import { Select } from "material-ui-formik-components/Select";
-
-//Date and time input
-import { DateTimePicker } from "formik-material-ui-pickers";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-
+import FormikField from "../FormikField/FormikField"
+// import "../components/form.css"
+import { CheckboxWithLabel } from 'formik-material-ui';
 import FileUploadBtn from '../FormikField/FileUploadBtn'
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 
-// import GridContainer from "../material-kit-components/Grid/GridContainer";
-// import GridItem from "../material-kit-components/Grid/GridItem";
 import Grid from '@material-ui/core/Grid';
 
 
 import classNames from "classnames";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-// import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { MetaData, CustomHeader, CustomButton, Title, Subtitle, Template } from "../";
-import Container from "@material-ui/core/Container";
-import * as firebase from "firebase";
-import Axios from "axios";
-import TZ from "countries-and-timezones";
+import { makeStyles } from "@material-ui/core/styles";
+import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
+import {CustomHeader, Template} from ".."
+import Container from '@material-ui/core/Container';
+import firebase from "../../firebase";
+
+import Categories from "./FormCategories"
+const MainCategories = Categories.FormCategories;
+
+const useStyles = makeStyles(styles);
+const manualSt = makeStyles(() => ({
+    toAll: {
+        fontFamily: 'Poppins',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        // marginBottom: '12px'
+    },
+    title: {
+        fontSize: '36px',
+        lineHeight: '54px',
+        color: '#0072CE',
+        width: '435px',
+        height: '66px',
+        left: '55px',
+        top: '101px',
+    },
+    subtitle: {
+        fontSize: '20px',
+        lineHeight: '30px',
+        color: '#0072CE',
+        width: '243px',
+        height: '30px',
+        left: '584px',
+        top: '114px',
+    },
+    detail: {
+        width: '400px',
+        height: '63px',
+        left: '55px',
+        color: '#000000',
+        fontSize: '14px',
+        lineHeight: '21px',
+    },
+    section: {
+        margin: '15px 0'
+    },
+    uploadBtn: {
+        right: '5.42%',
+        top: '25.72%',
+        bottom: '70.59%',
+        borderRadius: '10px',
+        boxSizing: "border-box",
+        color: '#0072CE !important',
+        border: "1px solid #0072CE",
+        "&:hover,&:focus": {
+            color: 'white !important',
+            backgroundColor: '#0072CE',
+            boxShadow: "0 14px 26px -12px #0072CE50"
+        },
+        fontSize: 'min(2vw, 15px)',
+        padding: "1vh min(2vw,20px)",
+        margin: "1vh 0 0 0",
+        willChange: "box-shadow, transform",
+        transition:
+            "box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+        textAlign: "center",
+        whiteSpace: "nowrap",
+        verticalAlign: "middle",
+        touchAction: "manipulation",
+        cursor: "pointer",
+        background: "#FFFFFF",
+        width: "121px",
+        height: "36px",
+        marginLeft: '-10px',
+        marginTop: '16px'
+    },
+    formField: {
+        fontSize: '14px',
+        lineHeight: '21px',
+    },
+    submitBtn: {
+        borderRadius: '10px',
+        width: "100%",
+        color: '#FB750D !important',
+        boxSizing: "border-box",
+        border: "1px solid #FB750D",
+        "&:hover,&:focus": {
+            color: 'white !important',
+            backgroundColor: '#F1945B',
+            boxShadow: "0 14px 26px -12px #FB750D50"
+        },
+        fontSize: 'min(2vw, 15px)',
+        padding: "1vh min(2vw,15px)"
+    },
+    categoryBtn: {
+        right: '25px',
+        borderRadius: '10px',
+        color: '#0072CE !important',
+        border: "1px solid #0072CE",
+        "&:hover,&:focus": {
+            color: 'white !important',
+            backgroundColor: '#0072CE',
+            boxShadow: "0 14px 26px -12px #0072CE50"
+        },
+        fontSize: 'min(1vw, 12px)',
+        textTransform: 'none',
+        marginLeft: '12px'
+    },
+    dot: {
+        fontSize: '16pt',
+        color: '#FD6464',
+        borderRadius: '50%',
+        position: 'absolute',
+        width: '5px',
+        height: '5px',
+        marginLeft: '16px',
+        paddingTop: '5px'
+    },
+}));
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
-    name: "",
-    email: "",
-    event: "",
-    desc: "",
-    other_tags: "",
-    image_file: "",
-    image_link: "",
-    start_date: "",
-    end_date: "",
-    timezone: "",
-    recurring: "",
-    event_link: "",
-    invite_link: "",
-    comments: "",
-    tag: "",
-    games_tag: "",
-    activism_tag: "",
-    covid_tag: "",
-    social_tag: "",
-    fitness_tag: "",
-    education_tag: "",
-    agree: ""
-
+    name: '',
+    email: '',
+    project_name: '',
+    desc: '',
+    image_file: '',
+    image_link: '',
+    project_link: '',
+    comments: '',
+    category: '',
+    needs_tag: '',
+    career_tag: '',
+    covid_tag: '',
+    health_tag: '',
+    social_tag: '',
+    other_tag: '',
+    agree: '',
 };
 
-let getCurrentLocationForTimeZone = function () {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone;
-}
-
-// here you can add make custom requirements for specific input fields
-// you can add multiple rules as seen with the "name" scheme
-// you can also add custom feedback messages in the parameters of each error function
 const validationSchema = Yup.object().shape({
     name: Yup.string()
-        .min(5, "Too Short")
-        .required("Required"),
+        .min(5, 'Too Short')
+        .required('Required'),
     email: Yup.string()
-        .email("Please enter a valid email address")
-        .required("Required"),
-    event_link: Yup.string()
-        .url("Please enter a valid URL")
-        .required("Required"),
-    event: Yup.string()
-        .required("Required"),
+        .email('Please enter a valid email address')
+        .required('Required'),
+    project_link: Yup.string()
+        .url('Please enter a valid URL')
+        .required('Required'),
+    project_name: Yup.string()
+        .required('Required'),
     desc: Yup.string()
-        .required("Required")
-        .max("250", "Please less than 250 characters"),
-    start_date: Yup.string()
-        .required("Required"),
-    end_date: Yup.string()
-        .required("Required"),
-    timezone: Yup.string()
-        .required("Required"),
-    agree: Yup.boolean("True")
-        .required(),
-    image_link: Yup.string()
-        .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
-    invite_link: Yup.string()
-        .url("Please enter a valid URL")
+        .required('Required')
+        .max('250', "Please enter less than 250 characters"),
+    agree: Yup.boolean('True')
+        .required()
+
 });
 
-const TITLE = "ADD EVENT";
-const defaultTimezone = "America/New_York";
+const ResourceFormDesktop = (props) => {
+    const classes = useStyles();
+    const manual = manualSt();
 
+    const submitHandler = (values) => {
+        let vals = JSON.stringify(values);
+        console.log(vals);
+        console.log(values);
+        alert(vals);
 
-function formatEmailText(jsonText) {
-    var newText = "";
-    Object.keys(jsonText).map((key, index) => (
-        newText = newText + "\n<br>" + getText(key, jsonText[key])
-    ));
-    return newText;
-}
-
-function getText(key, val) {
-    key = key.replace("_", " ");
-    if (val !== undefined && val !== "")
-        return key + ": " + val;
-    return key + ": not provided";
-}
-
-function processATag(values, key, defKey) {
-
-    if (key.endsWith("_tag") && key !== defKey && values[key] !== "") {
-        if (values[key] == true) {
-            values[defKey] = values[defKey] + key.replace("_tag", "") + ";";
+        if (values['file'] != '') {
+            uploadImage(values);
         }
-    }
-
-    return values[defKey];
-}
-
-function cleanTag(values, key) {
-    if (key.endsWith("_tag")) {
-        delete values[key];
-    }
-    return values;
-}
-
-function processTags(values) {
-
-    const defKey = "other_tags";
-
-    if (values[defKey].endsWith(";") === false && values[defKey] !== "") {
-        values[defKey] = values[defKey] + ";";
-    }
-
-    Object.keys(values).map((key, index) => (
-        values[defKey] = processATag(values, key, defKey),
-            values = cleanTag(values, key)
-    ));
-    values[defKey] = values[defKey].replace("; ;", ";");
-    values[defKey] = values[defKey].replace(";;", ";");
-    if (values[defKey].endsWith(";")) {
-        values[defKey] = values[defKey].substring(0, values[defKey].length - 1);
-    }
-    values["tags"] = values[defKey].split(";");
-    delete values["tag"];
-    delete values[defKey];
-    return values;
-
-}
-
-
-function sendZoomEmail(id, name, from) {
-
-    const emailData = {
-        from: from,
-        subject: "ZOOMLINK: " + name + ". ID: " + id,
-        text: "Event " + name + " needs a zoom link!"
+        else {
+            uploadData(values);
+        }
     };
 
-    Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-        .then(res => {
-            console.log("Success");
-        })
-        .catch(error => {
-            console.log("error");
-        });
-}
-
-let dst = function (loc = getCurrentLocationForTimeZone()) {
-
-    // If user selects EST time:
-    if (loc === "America/New_York") {
-        const today = new Date();
-        var DSTDateStart;
-        var DSTDateEnd;
-        switch (today.getFullYear()) {
-            case 2020:
-                DSTDateStart = new Date(Date.UTC(2020, 2, 8, 7));
-                DSTDateEnd = new Date(Date.UTC(2020, 10, 1, 6));
-                break;
-            case 2021:
-                DSTDateStart = new Date(Date.UTC(2021, 2, 14, 7));
-                DSTDateEnd = new Date(Date.UTC(2021, 10, 7, 6));
-                break;
-            case 2022:
-                DSTDateStart = new Date(Date.UTC(2022, 2, 13, 7));
-                DSTDateEnd = new Date(Date.UTC(2022, 10, 6, 6));
-                break;
-        }
-        if (today.getTime() >= DSTDateStart.getTime() && today.getTime() < DSTDateEnd.getTime()) {
-            console.log("true");
-            return true;
-        }
-        console.log("false");
-        return false;
-    }
-
-    // If user selects local time:
-    if (TZ.getTimezone(loc).utcOffset === TZ.getTimezone(loc).dstOffset) {
-        return false;
-    }
-    const date = new Date();
-    return date.getTimezoneOffset() < Events.stdTimezoneOffset();
-}
-
-let getTimezoneName = function (loc = getCurrentLocationForTimeZone(), dstN = null) {
-    if (!dstN) { dstN = dst() }
-    const gmt = TZ.getTimezone(loc).utcOffsetStr;
-    var str = "GMT" + gmt;
-
-    if (gmt === "-01:00")
-        return "CAT";
-    if (gmt === "-02:00")
-        return "BET";
-    if (gmt === "-03:00")
-        return "AGT";
-    if (gmt === "-03:30")
-        return "CNT";
-    if (gmt === "-04:00")
-        return "PRT";
-    if (gmt === "-05:00")
-        return dst ? "EDT" : "EST";
-    if (gmt === "-06:00")
-        return dst ? "CDT" : "CST";
-    if (gmt === "-07:00")
-        return dst ? "MDT" : "MST";
-    if (gmt === "-08:00")
-        return dst ? "PDT" : "PST";
-    if (gmt === "-09:00")
-        return dst ? "ADT" : "AST";
-    if (gmt === "-10:00")
-        return dst ? "HDT" : "HST";
-    if (gmt === "-11:00")
-        return "MIT";
-    if (gmt === "+12:00")
-        return dst ? "NDT" : "NST";
-    if (gmt === "+11:00")
-        return dst ? "SDT" : "SST";
-    if (gmt === "+10:00")
-        return "AET";
-    if (gmt === "+09:30")
-        return dst ? "ACDT" : "ACST";
-    if (gmt === "+09:00")
-        return dst ? "JDT" : "JST";
-    if (gmt === "+08:00")
-        return "CTT";
-    if (gmt === "+07:00")
-        return dst ? "VDT" : "VST";
-    if (gmt === "+06:00")
-        return dst ? "BDT" : "BST";
-    if (gmt === "+05:30")
-        return dst ? "IDT" : "IST";
-    if (gmt === "+05:00")
-        return "PLT";
-    if (gmt === "+04:00")
-        return "NET";
-    if (gmt === "+03:30")
-        return "MET";
-    if (gmt === "+03:00")
-        return "EAT";
-    if (gmt === "+02:00")
-        return "EET";
-    if (gmt === "+01:00")
-        return "ECT";
-
-    if (dstN)
-        return str + " DST";
-    return str;
-}
-
-function getTimezoneOptions() {
-    if (getCurrentLocationForTimeZone() != defaultTimezone) {
-        return [
-            {
-                value: getCurrentLocationForTimeZone()
-                    + "$" + dst(),
-                label: "Mine: "
-                    + getTimezoneName()
-            },
-            {
-                value: defaultTimezone
-                    + "$" + dst(defaultTimezone),
-                label: "Default: "
-                    + getTimezoneName(defaultTimezone
-                        , dst(defaultTimezone))
-            }
-        ];
-    } else {
-        return [
-            {
-                value: defaultTimezone
-                    + "$" + dst(defaultTimezone),
-                label: "Mine: "
-                    + getTimezoneName(defaultTimezone
-                        , dst(defaultTimezone))
-            }
-        ];
-    }
-}
-
-const optionsTZ = getTimezoneOptions();
-
-class EventFormMobile extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            feedbackSubmit: false,
-            errStatus: 0,
-            imgFileValue: "",
-            activityIndicatory: false,
-        };
-
-        this.submitHandler = this.submitHandler.bind(this);
-        this.uploadData = this.uploadData.bind(this);
-    }
-
-    submitHandler(values) {
-        if (values["file"] !== "" && values["file"] !== undefined) {
-            this.uploadImage(values);
-        } else {
-            this.setState({ activityIndicatory: true });
-            const b = this.uploadData(values);
-        }
-    }
-
-    imgFileUploadHandler = (fileName) => {
-        // console.log("congrats, you clicked me.")
-        this.setState({
-            imgFileValue: fileName
-        })
-    }
+    // const imgFileUploadHandler = (fileName) => {
+    //     // console.log("congrats, you clicked me.")
+    //     this.setState({
+    //         imgFileValue: fileName
+    //     })
+    // }
 
     // upload to firebase here
-    uploadData(data) {
-
-        data["approved"] = false;
-        data["start_date"] = data["start_date"].toString();
-        data["end_date"] = data["end_date"].toString();
-        const from = data["email"];
-        const subject = "NEW EVENT: " + data["event"];
-        const clientSubject = "Your CVC Event Details: " + data["event"];
-        data = processTags(data);
-        const text = formatEmailText(data);
-        const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
-        const clientEmailData = {
-            to: from,
-            from: "columbiavirtualcampus@gmail.com",
-            subject: clientSubject,
-            text: text
-        };
-
-        const emailData = {
-            from: from,
-            subject: subject,
-            text: text
-        };
-
-
-        const db = firebase.firestore();
-        const newEventRef = db.collection("events").doc();
-        clientEmailData["text"] = "Your New Event Request!\n<br>Here's what we are currently processing:\n <br>" +
-            emailData["text"] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
-            + "Please contact us if any of the above needs corrected or if you have any questions!"
-            + "\n<br>\n<br>Best,\n<br>The CVC Team";
-        emailData["text"] = "New Event Request!\n <br>" +
-            emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
-                + "<br><br>Click here to approve this event: ",
-                approvalUrl.concat(newEventRef.id));
-        emailData["subject"] += ". ID: " + newEventRef.id;
-        newEventRef.set(data)
-            .then(ref => {
-
-                Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-                    .then(res => {
-                        console.log("Success 1");
-                        Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
-                            .then(res => {
-                                console.log("Success 2");
-                                this.setState({ feedbackSubmit: true, activityIndicatory: false });
-                            })
-                            .catch(error => {
-                                this.setState({ errStatus: 3 });
-                                console.log("Updated error");
-                            });
-                    })
-                    .catch(error => {
-                        this.setState({ errStatus: 1 });
-                        console.log("Updated error");
-                    });
-            })
-            .catch(function (error) {
-                console.error("Error adding document: ", error);
-                alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
-            });
-
-        if (data["zoomLink"]) {
-            sendZoomEmail(newEventRef.id, data["event"], from);
-        }
-
-        return emailData["text"];
+    function uploadData(values) {
+        var db = firebase.firestore();
+        var path = values["valueHash"];
+        var newResourceRef = db.collection("resources");
+        console.log(values);
     }
 
-    uploadImage(values) {
-
+    function uploadImage(values) {
         const r = new XMLHttpRequest();
         const d = new FormData();
         // const e = document.getElementsByClassName('input-image')[0].files[0]
         // var u
-        const clientID = "df36f9db0218771";
+        const clientID = 'df36f9db0218771';
 
-        d.append("image", values["file"]);
+        d.append('image', values["file"]);
 
         // Boilerplate for POST request to Imgur
-        r.open("POST", "https://api.imgur.com/3/image/");
-        r.setRequestHeader("Authorization", `Client-ID ${clientID}`);
+        r.open('POST', 'https://api.imgur.com/3/image/');
+        r.setRequestHeader('Authorization', `Client-ID ${clientID}`);
         r.onreadystatechange = function () {
             if (r.status === 200 && r.readyState === 4) {
                 let res = JSON.parse(r.responseText);
@@ -429,392 +224,221 @@ class EventFormMobile extends React.Component {
                 let imgur = `https://i.imgur.com/${res.data.id}.png`;
 
                 values["file"] = imgur;
-                this.uploadData(values);
-
+                uploadData(values);
             }
         };
         // send POST request to Imgur API
         r.send(d);
-
-        return true;
     }
 
-    getHeadMessage() {
-
-        if (this.state.errStatus === 4) {
-            return "Oops... Sorry! There was an error handling your request.";
-        } else if (this.state.errStatus === 3 || this.state.errStatus === 1) {
-            return "Thank You! Further Action Required!";
-        } else if (this.state.errStatus === 2) {
-            return "Oops... Sorry! There was an error handling your request.";
-        } else {
-            return "Thank You!";
-        }
-    }
-
-    getBodyMessage() {
-
-        if (this.state.errStatus === 4) {
-            return "We were unable to process your request due to an unexpected error. " +
-                "Please try again. If the problem persists please reach out to us:";
-        } else if (this.state.errStatus === 3 || this.state.errStatus === 1) {
-            return "Please contact us about approving your event! We were unable to automatically email our team."
-                + " Please reach out to us at:";
-        } else if (this.state.errStatus === 2) {
-            return "We were unable to process your request. Please try again. " +
-                "If the problem persists please reach out to us:";
-        } else {
-            return "We look forward to hosting your event on CVC! " +
-                "If there is anything that needs to be updated, please reach out to us.";
-        }
-    }
+    return (
+        <Template title={'Add New Resource'} active={"resources"} brand={"VIRTUAL CAMPUS"}>
+        <div>
+            <div className={classNames(classes.mainOther, manual.main)}>
+                <Container>
 
 
-    render() {
-        if (this.state.activityIndicatory) {
-            return (
-                <div style={{ backgroundColor: "white" }}>
-                    <div style={{ backgroundColor: "white" }}>
-                        <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"} />
-                        <div style={{ marginTop: '25%', marginLeft: '50%' }}>
-                            <CircularProgress />
-                        </div>
-                    </div>
-                </div>
-            )
-        }
-        else if (this.state.feedbackSubmit) {
-            return (
-                <Template title={'Add New Event'} active={"schedule"}>>
                     <div style={{
-                        fontFamily: "Poppins",
-                        fontStyle: "normal",
-                        fontWeight: "normal",
-                        fontSize: "1.5rem",
-                        lineHeight: "30px",
-                        color: "#0072CE",
-                        margin: "10px",
-                        textAlign: "center",
-                        paddingTop: "16%"
+                        fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                        fontSize: "36px", lineHeight: "54px", color: "#0072CE"
                     }}>
-                        <div style={{ fontSize: "2.5rem" }}> {this.getHeadMessage()} </div>
-                        <br />
-                        <br />
-                        <div style={{
-                            color: "black",
-                            paddingLeft: "20%", paddingRight: "20%"
-                        }}> {this.getBodyMessage()}</div>
-                        <br />
-                        <br />
-                        <div style={{ color: "black", fontSize: "1rem" }}>
-                            Questions? Contact us at
-                            <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
-                               href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com.</a>
-                        </div>
-                        <br />
-                        <br />
-                        <Button
-                            style={{
-                                background: "white",
-                                border: "1px solid #FB750D",
-                                borderRadius: "10px",
-                                boxSizing: "border-box",
-                                color: "#FB750D",
-                                boxShadow: "none",
-                                paddingLeft: "10px",
-                                paddingRight: "10px"
-                            }}
-                            href={"/events/add-new-event"}>
-                            Add Another Event
-                        </Button>
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "36px", lineHeight: "54px", color: "#0072CE"
+                            }}>
+                                Add a New Resource
+                            </div>
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "14px", lineHeight: "21px"
+                            }}>
+                                Thank you for your interest in sharing your project through CVC.
+                                Please fill out the following form so we can thoroughly promote your resource on our website!
+                            </div>
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
+                            }}>
+                                Questions? Contact us at <br />
+                                <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+                            </div>
                     </div>
-                </Template>);
-
-        } else {
-            return (
-
-                <Template title={'Add New Resource'} active={"schedule"}>
-                <div className={classNames(classes.mainOther, manual.main)}>
-                        {/* <Template active={'schedule'}> */}
-                            <div>
-                                <Container>
-
-                                <div style={{
-                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                    fontSize: "36px", lineHeight: "54px", color: "#0072CE"
-                                }}>
-                                    Add a New Resource 2
-                                </div>
-                                <div style={{
-                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                    fontSize: "14px", lineHeight: "21px"
-                                }}>
-                                    Thank you for your interest in sharing your project through CVC.
-                                    Please fill out the following form so we can thoroughly promote your resource on our website!
-                                </div>
-                                <div style={{
-                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                    fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
-                                }}>
-                                    Questions? Contact us at <br />
-                                    <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
-                                </div>
-                                    {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
-
-                                    <Formik
-                                        initialValues={initVal}
-                                        onSubmit={this.submitHandler}
-                                        validationSchema={validationSchema}
-                                    >
-                                        {({ dirty, isValid, errors, touched }) => {
-                                            return (
-                                                <Form>
-                                                    <div style={{ margin: "15px 0" }}>
-                                                        <div style={{
-                                                            fontFamily: "Poppins",
-                                                            fontStyle: "normal",
-                                                            fontWeight: "normal",
-                                                            fontSize: "20px",
-                                                            lineHeight: "30px",
-                                                            color: "#0072CE"
-                                                        }}>
-                                                            Contact
+                            <Formik initialValues={initVal} onSubmit={submitHandler} validationSchema={validationSchema}>
+                                {({ dirty, isValid, errors, touched }) => {
+                                    return (
+                                        <Form>
+                                            <div className={manual.section}>
+                                                <div className={classNames(manual.toAll, manual.subtitle)}>Contact</div>
+                                                <Grid container spacing={2}>
+                                                    <Grid item xs={12}>
+                                                        <FormikField label="Name / Organization" name="name" error={errors.name} touch={touched.name} required ></FormikField>
+                                                    </Grid>
+                                                    <Grid item xs={12}>
+                                                        <div>
+                                                            <FormikField label="Email" name="email" error={errors.email} touch={touched.email} required ></FormikField>
                                                         </div>
-                                                        {/* <Grid container spacing={2}> */}
-                                                        <Grid item sm={6}>
-                                                            <FormikField label="Name / Organization"
-                                                                         name="name"
-                                                                         error={errors.name}
-                                                                         touch={touched.name}
-                                                                         required></FormikField>
-                                                        </Grid>
-                                                        <Grid item sm={6}>
-                                                            <FormikField label="Email" name="email"
-                                                                         error={errors.email}
-                                                                         touch={touched.email}
-                                                                         required></FormikField>
-                                                        </Grid>
-                                                        {/* </Grid > */}
-                                                    </div>
+                                                    </Grid>
+                                                </Grid>
+                                            </div>
 
-                                                    <div style={{ margin: "15px 0" }}>
-                                                        <div style={{
-                                                            fontFamily: "Poppins",
-                                                            fontStyle: "normal",
-                                                            fontWeight: "normal",
-                                                            fontSize: "20px",
-                                                            lineHeight: "30px",
-                                                            color: "#0072CE"
-                                                        }}>
-                                                            Event
+                                            <div className={manual.section}>
+                                                <div className={classNames(manual.toAll, manual.subtitle)} style={{ marginTop: '30px' }}>Resource</div>
+                                                <Grid container spacing={2} >
+                                                    <Grid item xs={12}>
+                                                        <FormikField label="Project Name" name="project_name" error={errors.project_name} touch={touched.project_name} required ></FormikField>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid container spacing={2} >
+                                                    <Grid item xs={12}>
+                                                        <div>
+                                                            <FormikField
+                                                                label="Logo / Image Link"
+                                                                name="image_link"
+                                                                error={errors.image_link}
+                                                                touch={touched.image_link}
+                                                                // value={this.state.imgFileValue}
+                                                            />
                                                         </div>
-                                                        <Grid item sm={6}>
-                                                            <FormikField label="Event Name" name="event"
-                                                                         error={errors.event}
-                                                                         touch={touched.event}
-                                                                         required></FormikField>
-                                                        </Grid>
-                                                        <Grid container spacing={2}>
-                                                            <Grid item xs={6}>
-                                                                <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
-                                                                             name="image_link"
-                                                                             error={errors.image_link}
-                                                                             touch={touched.image_link}
-                                                                             value={this.state.imgFileValue}
+                                                    </Grid>
+                                                </Grid>
+                                                    {/*<Grid item sm={2}>*/}
+                                                        {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
+                                                        {/* <CustomButton text={"Upload File"} color={"blue"} size={"small"}/> */}
+                                                        {/* <Field
+                                                            name='image_file'
+                                                            component={FileUpload}
+                                                        /> */}
+                                                        {/* <input
+                                                            name='image_file'
+                                                            type='file'
+                                                            id='file_upload'
+                                                            style={{ display: 'none' }}
+                                                        />
+                                                        <label htmlFor="file_upload">
+                                                            <div>
+                                                                <Button className={classNames(manual.toAll, manual.uploadBtn)} variant="outlined" component="span">
+                                                                    Upload File
+                                                                </Button>
+                                                            </div>
+                                                        </label> */}
+                                                    {/*<FileUploadBtn
+                                                            text="Upload"
+                                                            name='file'
+                                                            label='Image Upload'
+                                                            id="fileUpload"
+                                                            // onChange={this.imgFileUploadHandler}
+                                                        />
+
+                                                    </Grid>*/}
+                                                    {/* </Grid> */}
+
+                                                <Grid container spacing={2}>
+                                                    <Grid item xs={12}>
+                                                        <FormikField label="Description" name="desc" multiline rows="4" error={errors.desc} touch={touched.desc} required />
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid container spacing={2}>
+                                                    <Grid item xs={12}>
+                                                        <FormikField label="Project Link" name="project_link" error={errors.project_link} touch={touched.project_link} required />
+                                                    </Grid>
+                                                </Grid>
+
+                                                <Grid container spacing={2}>
+                                                    <Grid item sm={2}>
+                                                        <div className={manual.dot} style={{ paddingTop: '9px' }}>•</div>
+                                                        <div style={{ marginLeft: '35px', paddingTop: '9px', height: '15px', width: '70px' }}>Category</div>
+                                                    </Grid>
+                                                    <Grid item sm={2}>
+                                                        <div className="buttons">
+                                                            {/* {Object.keys(MainCategories).map(category => {
+                                                                return (
+                                                                    <Button name="category" className={classNames(manual.toAll, manual.categoryBtn)}>{MainCategories[category]['title']}</Button>
+                                                                );
+                                                            })} */}
+                                                            <Grid item xs={12}>
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="needs_tag"
+                                                                    Label={{ label: "Needs" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
+                                                                />
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="career_tag"
+                                                                    Label={{ label: "Career" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
+                                                                />
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="covid_tag"
+                                                                    Label={{ label: "COVID" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
+                                                                />
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="health_tag"
+                                                                    Label={{ label: "Health" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
+                                                                />
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="social_tag"
+                                                                    Label={{ label: "Social" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
                                                                 />
                                                             </Grid>
-                                                            <Grid item xs={6} >
-                                                                {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                                                <FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" onChange={this.imgFileUploadHandler} />
-                                                            </Grid>
-                                                        </Grid >
-
-                                                        {/* <Grid container spacing={2}> */}
-                                                        <Grid item xs={12}>
-                                                            <FormikField label="Event Description"
-                                                                         name="desc"
-                                                                         multiline rows="10"
-                                                                         error={errors.desc}
-                                                                         touch={touched.desc} required />
-                                                        </Grid>
-                                                        {/* </Grid > */}
-                                                        <Grid container spacing={2}>
-                                                            <Grid item xs={6}>
-                                                                <div style={{ margin: "16px 0 8px" }}>
-                                                                    <Field
-                                                                        component={DateTimePicker}
-                                                                        name="start_date"
-                                                                        label="Start Time"
-                                                                        required
-                                                                    />
-                                                                </div>
-                                                            </Grid>
-                                                            <Grid item xs={6}>
-                                                                <div style={{ margin: "16px 0 8px" }}>
-                                                                    <Field
-                                                                        component={DateTimePicker}
-                                                                        name="end_date"
-                                                                        label="End Time"
-                                                                        required
-                                                                    />
-                                                                </div>
-                                                            </Grid>
-                                                        </Grid >
-                                                        <Grid item xs={12}>
-                                                            <Field
-                                                                name="timezone"
-                                                                label="Select Timezone"
-                                                                options={optionsTZ}
-                                                                component={Select}
-                                                                required
-                                                            />
-                                                        </Grid>
-                                                        <br />
-                                                        {/* <Grid container spacing={2}> */}
-                                                        <Field
-                                                            component={CheckboxWithLabel}
-                                                            name="zoomLink"
-                                                            Label={{ label: "Request a Zoom Pro link" }}
-                                                            type="checkbox"
-                                                            indeterminate={false}
-                                                        />
-                                                        <Grid item >
-                                                            <FormikField label="Website / Event Link"
-                                                                         name="event_link"
-                                                                         error={errors.event_link}
-                                                                         touch={touched.event_link}
-                                                                         required />
-                                                        </Grid>
-                                                        <Grid item >
-                                                            <FormikField
-                                                                label="Video Call / Media Link (Zoom, Twitch, etc.)"
-                                                                name="invite_link" />
-                                                        </Grid>
-                                                        {/* </Grid > */}
-                                                        {/* <br /> */}
-                                                        {/* <Grid container spacing={2}> */}
-                                                        {/* <Grid item sm={1}>
-                              </Grid> */}
-                                                        <div></div>
-                                                        <Grid item sm={12}>
-                                                            <div style={{
-                                                                display: "inline",
-                                                                paddingTop: "9px",
-                                                                marginRight: "20px"
-                                                            }}>Tags:</div>
-                                                            <Field
-                                                                component={CheckboxWithLabel}
-                                                                name="activism_tag"
-                                                                Label={{ label: "Activism" }}
-                                                                type="checkbox"
-                                                                indeterminate={false}
-                                                            />
-                                                            <Field
-                                                                component={CheckboxWithLabel}
-                                                                name="covid_tag"
-                                                                Label={{ label: "COVID" }}
-                                                                type="checkbox"
-                                                                indeterminate={false}
-                                                            />
-                                                            <Field
-                                                                component={CheckboxWithLabel}
-                                                                name="social_tag"
-                                                                Label={{ label: "Social" }}
-                                                                type="checkbox"
-                                                                indeterminate={false}
-                                                            />
-                                                            <Field
-                                                                component={CheckboxWithLabel}
-                                                                name="health_tag"
-                                                                Label={{ label: "Health" }}
-                                                                type="checkbox"
-                                                                indeterminate={false}
-                                                            />
-                                                            <Field
-                                                                component={CheckboxWithLabel}
-                                                                name="education_tag"
-                                                                Label={{ label: "Education" }}
-                                                                type="checkbox"
-                                                                indeterminate={false}
-                                                            />
-                                                        </Grid>
-                                                        <Grid item sm={12}>
-                                                            <FormikField label="Other Tags (Seperate each by semicolon)"
-                                                                         placeholder="Separate Each Tag by Semicolon"
-                                                                         name="other_tags" />
-                                                        </Grid>
-                                                        {/* </Grid > */}
-                                                        {/* <Grid container spacing={2}> */}
-                                                        <div style={{ margin: "15px 0" }}>
-                                                            <div style={{
-                                                                fontFamily: "Poppins",
-                                                                fontStyle: "normal",
-                                                                fontWeight: "normal",
-                                                                fontSize: "20px",
-                                                                lineHeight: "30px",
-                                                                color: "#0072CE"
-                                                            }}>
-                                                                Additional
-                                                                Information
-                                                            </div>
-                                                            <Grid item sm={12}>
-                                                                <FormikField label="Comments" name="comments"
-                                                                             multiline
-                                                                             rows="8"
-                                                                             error={errors.comments}
-                                                                             touch={touched.comments} />
-                                                            </Grid>
-
-                                                            {/* </Grid > */}
-                                                            <div style={{ paddingTop: "10px" }}>
-                                                                By hosting an event you agree to the <a
-                                                                href="https://bit.ly/events-policy-docs"
-                                                                target="_blank">Columbia Events Policy</a>.
-                                                            </div>
-                                                            <Field
-                                                                component={CheckboxWithLabel}
-                                                                name="agree"
-                                                                Label={{ label: "I agree to the Columbia Events Policy" }}
-                                                                type="checkbox"
-                                                                indeterminate={false}
-                                                                required
-                                                            />
                                                         </div>
-                                                    </div>
-                                                    <br />
-                                                    <Grid item sm={3}>
-                                                        <Button
-                                                            style={{
-                                                                background: "white",
-                                                                border: "1px solid #FB750D",
-                                                                borderRadius: "10px",
-                                                                boxSizing: "border-box",
-                                                                color: "#FB750D",
-                                                                boxShadow: "none",
-                                                                width: "100%"
-                                                            }}
-                                                            type="submit">
-                                                            Submit
-                                                        </Button>
                                                     </Grid>
-                                                </Form>
-                                            );
-                                        }}
-                                    </Formik>
+                                                    <Grid item xs={12}>
+                                                        <FormikField label="Other Tags (Seperate each by semicolon)"
+                                                                     placeholder="Separate Each Tag by Semicolon"
+                                                                     name="other_tags" />
+                                                    </Grid>
+                                                </Grid>
+                                            </div>
 
+                                            <div className={manual.section} style={{ marginTop: '30px' }}>
+                                                <div>
+                                                    By adding a resource, you agree to the <a style={{ textAlign: "center", color: "#4284C8" }}
+                                                                                              href="https://policylibrary.columbia.edu/acceptable-usage-information-resources-policy" target="_blank">
+                                                    Columbia Resources Policy</a>.
+                                                </div>
+                                                <Field
+                                                    component={CheckboxWithLabel}
+                                                    name="agree"
+                                                    Label={{ label: 'I agree to the Columbia Resources Policy.' }}
+                                                    type="checkbox"
+                                                    indeterminate={false}
+                                                    required
+                                                />
+                                            </div>
 
-                                    <div style={{ marginBottom: "50px" }} />
+                                            <Grid container spacing={2}>
+                                                <Grid item sm={3}>
+                                                    <Button
+                                                        className={manual.submitBtn}
+                                                        disabled={!isValid}
+                                                        type="submit">
+                                                        Submit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Form>
+                                    )
+                                }}
+                            </Formik>
+                    <div style={{ marginBottom: "50px" }} />
+                    {/* </div> */}
+                </Container>
+            </div>
+        </div >
+        </Template>
+    );
+};
 
-                                </Container>
-                            </div>
-
-
-                        </div>
-                </Template>
-
-            );
-        }
-    }
-}
-
-export default EventFormMobile;
+export default ResourceFormDesktop;
