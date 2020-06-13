@@ -314,7 +314,7 @@ class EventFormDesktop extends React.Component {
       feedbackSubmit: false,
       errStatus: 0,
       activityIndicatory: false,
-      imgFileUpload: false,
+      imgFileValue: "",
     };
 
     this.submitHandler = this.submitHandler.bind(this);
@@ -330,6 +330,12 @@ class EventFormDesktop extends React.Component {
     }
   }
 
+  imgFileUploadHandler = (fileName) => {
+    // console.log("congrats, you clicked me.")
+    this.setState({
+      imgFileValue: fileName
+    })
+  }
 
   // upload to firebase here
   uploadData(data) {
@@ -459,10 +465,6 @@ class EventFormDesktop extends React.Component {
       return "We look forward to hosting your event on CVC! " +
         "If there is anything that needs to be updated, please reach out to us.";
     }
-  }
-
-  imgFileUploadHandler = (event) => {
-    console.log("congrats, you clicked me.")
   }
 
   render() {
@@ -621,7 +623,9 @@ class EventFormDesktop extends React.Component {
                                     <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
                                       name="image_link"
                                       error={errors.image_link}
-                                      touch={touched.image_link}></FormikField>
+                                      touch={touched.image_link}
+                                      value={this.state.imgFileValue}
+                                    />
                                   </Grid>
                                   <Grid item sm={2}>
                                     {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}

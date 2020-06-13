@@ -190,6 +190,13 @@ const ResourceFormDesktop = (props) => {
         }
     };
 
+    // const imgFileUploadHandler = (fileName) => {
+    //     // console.log("congrats, you clicked me.")
+    //     this.setState({
+    //         imgFileValue: fileName
+    //     })
+    // }
+
     // upload to firebase here
     function uploadData(values) {
         var db = firebase.firestore();
@@ -291,7 +298,13 @@ const ResourceFormDesktop = (props) => {
                                                     </Grid>
                                                     <Grid item sm={4}>
                                                         <div>
-                                                            <FormikField label="Logo / Image Link" name="image_link" error={errors.image_link} touch={touched.image_link}></FormikField>
+                                                            <FormikField
+                                                                label="Logo / Image Link"
+                                                                name="image_link"
+                                                                error={errors.image_link}
+                                                                touch={touched.image_link}
+                                                            // value={this.state.imgFileValue}
+                                                            />
                                                         </div>
                                                     </Grid>
                                                     <Grid item sm={2}>
@@ -314,7 +327,13 @@ const ResourceFormDesktop = (props) => {
                                                                 </Button>
                                                             </div>
                                                         </label> */}
-                                                        <FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" />
+                                                        <FileUploadBtn
+                                                            text="Upload"
+                                                            name='file'
+                                                            label='Image Upload'
+                                                            id="fileUpload"
+                                                        // onChange={this.imgFileUploadHandler}
+                                                        />
 
                                                     </Grid>
                                                 </Grid>
@@ -425,7 +444,7 @@ const ResourceFormDesktop = (props) => {
                     {/* </div> */}
                 </Container>
             </div>
-        </div>
+        </div >
     );
 };
 

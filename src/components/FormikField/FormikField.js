@@ -44,6 +44,7 @@ const FormikField = (props) => {
                 rows={props.rows}
                 placeholder={props.label}
                 isValid={valid}
+                value={props.value}
             />
         </div>
     )

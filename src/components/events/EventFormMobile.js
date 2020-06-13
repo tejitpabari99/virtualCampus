@@ -315,6 +315,7 @@ class EventFormMobile extends React.Component {
     this.state = {
       feedbackSubmit: false,
       errStatus: 0,
+      imgFileValue: "",
       activityIndicatory: false,
     };
 
@@ -331,6 +332,12 @@ class EventFormMobile extends React.Component {
     }
   }
 
+  imgFileUploadHandler = (fileName) => {
+    // console.log("congrats, you clicked me.")
+    this.setState({
+      imgFileValue: fileName
+    })
+  }
 
   // upload to firebase here
   uploadData(data) {
@@ -619,7 +626,9 @@ class EventFormMobile extends React.Component {
                                 <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
                                   name="image_link"
                                   error={errors.image_link}
-                                  touch={touched.image_link}></FormikField>
+                                  touch={touched.image_link}
+                                  value={this.state.imgFileValue}
+                                />
                               </Grid>
                               <Grid item xs={6} >
                                 {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}

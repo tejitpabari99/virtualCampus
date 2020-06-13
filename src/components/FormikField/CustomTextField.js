@@ -51,7 +51,7 @@ const CustomTextField = (props) => {
         onBlur,
         onChange,
         onFocus,
-        value,
+        value = "",
     } = props;
 
     const classes = useStyles();

@@ -190,6 +190,13 @@ const ResourceFormMobile = (props) => {
         }
     };
 
+    // const imgFileUploadHandler = (fileName) => {
+    //     // console.log("congrats, you clicked me.")
+    //     this.setState({
+    //         imgFileValue: fileName
+    //     })
+    // }
+
     // upload to firebase here
     function uploadData(values) {
         var db = firebase.firestore();
@@ -287,7 +294,13 @@ const ResourceFormMobile = (props) => {
                                                 </Grid>
                                                 <Grid item xs={6}>
                                                     <div>
-                                                        <FormikField label="Logo / Image Link" name="image_link" error={errors.image_link} touch={touched.image_link}></FormikField>
+                                                        <FormikField
+                                                            label="Logo / Image Link"
+                                                            name="image_link"
+                                                            error={errors.image_link}
+                                                            touch={touched.image_link}
+                                                        // value={this.state.imgFileValue}
+                                                        />
                                                     </div>
                                                 </Grid>
                                                 <Grid item xs={6}>
@@ -310,7 +323,13 @@ const ResourceFormMobile = (props) => {
                                                                 </Button>
                                                             </div>
                                                         </label> */}
-                                                    <FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" />
+                                                    <FileUploadBtn
+                                                        text="Upload"
+                                                        name='file'
+                                                        label='Image Upload'
+                                                        id="fileUpload"
+                                                    // onChange={this.imgFileUploadHandler}
+                                                    />
 
                                                 </Grid>
                                             </Grid>
