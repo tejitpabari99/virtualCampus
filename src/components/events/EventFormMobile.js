@@ -13,9 +13,18 @@ import { Select } from "material-ui-formik-components/Select";
 import { DateTimePicker } from "formik-material-ui-pickers";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+
 import FileUploadBtn from '../FormikField/FileUploadBtn'
 import Button from "@material-ui/core/Button";
+
+// import GridContainer from "../material-kit-components/Grid/GridContainer";
+// import GridItem from "../material-kit-components/Grid/GridItem";
 import Grid from '@material-ui/core/Grid';
+
+
+import classNames from "classnames";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+// import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import { MetaData, CustomHeader, CustomButton, Title, Subtitle, Template } from "../";
 import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
@@ -612,8 +621,8 @@ class EventFormMobile extends React.Component {
                                                touch={touched.event}
                                                required></FormikField>
                                 </Grid>
-                                <Grid container spacing={2}>
-                                  <Grid item xs={6}>
+                                <Grid container spacing={1}>
+                                  <Grid item xs={12}>
                                     <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
                                                  name="image_link"
                                                  error={errors.image_link}
@@ -621,10 +630,10 @@ class EventFormMobile extends React.Component {
                                                  value={this.state.imgFileValue}
                                     />
                                   </Grid>
-                                  <Grid item xs={6} >
+                                  {/*<Grid item xs={6} > */}
                                     {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                    <FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" onChange={this.imgFileUploadHandler} />
-                                  </Grid>
+                                    {/*<FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" onChange={this.imgFileUploadHandler} />
+                                  </Grid>*/}
                                 </Grid >
 
                                 {/* <Grid container spacing={2}> */}

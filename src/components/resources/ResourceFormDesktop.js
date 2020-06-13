@@ -248,28 +248,28 @@ const ResourceFormDesktop = (props) => {
                                     href={"mailto:columbiavirtualcampus@gmail.com"}>columbiavirtualcampus@gmail.com</a>.
                             </div>
                         </Grid> */}
-                    <Grid container spacing={10}>
-                        <Grid item xs={4}>
-                            <div style={{
-                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                fontSize: "36px", lineHeight: "54px", color: "#0072CE"
-                            }}>
-                                Add a New Resource
-                      </div>
-                            <div style={{
-                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                fontSize: "14px", lineHeight: "21px"
-                            }}>
-                                Thank you for your interest in sharing your project through CVC.
-                                Please fill out the following form so we can thoroughly promote your resource on our website!
-                      </div>
-                            <div style={{
-                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
-                            }}>
-                                Questions? Contact us at <br />
-                                <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
-                      </div>
+                        <Grid container spacing={10}>
+                            <Grid item xs={4}>
+                                <div style={{
+                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                    fontSize: "36px", lineHeight: "54px", color: "#0072CE"
+                                }}>
+                                    Add a New Resource
+                          </div>
+                                <div style={{
+                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                    fontSize: "14px", lineHeight: "21px"
+                                }}>
+                                    Thank you for your interest in sharing your project through CVC.
+                                    Please fill out the following form so we can thoroughly promote your resource on our website!
+                          </div>
+                                <div style={{
+                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                    fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
+                                }}>
+                                    Questions? Contact us at <br />
+                                    <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+                          </div>
                         </Grid>
                         <Grid item xs={8}>
                             <Formik initialValues={initVal} onSubmit={submitHandler} validationSchema={validationSchema}>

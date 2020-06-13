@@ -12,14 +12,10 @@ import { Select } from "material-ui-formik-components/Select";
 import { DateTimePicker } from "formik-material-ui-pickers";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-
-
 import FileUploadBtn from '../FormikField/FileUploadBtn'
 import Button from "@material-ui/core/Button";
-import FileUploadBtn from "../FormikField/FileUploadBtn"
-
 import Grid from '@material-ui/core/Grid';
-import { MetaData, CustomHeader, CustomButton, Title, Subtitle, Template } from "../";
+import { CustomHeader, Template } from "../";
 import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
@@ -329,7 +325,8 @@ class EventFormDesktop extends React.Component {
   }
 
   imgFileUploadHandler = (fileName) => {
-    // console.log("congrats, you clicked me.")
+    console.log("congrats, you clicked me.")
+    console.log("Filename: " + fileName)
     this.setState({
       imgFileValue: fileName
     })
@@ -470,6 +467,13 @@ class EventFormDesktop extends React.Component {
       return "We look forward to hosting your event on CVC! " +
         "If there is anything that needs to be updated, please reach out to us.";
     }
+  }
+
+  getFileName() {
+    if (this.state.imgFileValue !== "") {
+      return this.state.imgFileValue;
+    }
+    return ""
   }
 
   handleImageUpload(){
@@ -630,18 +634,26 @@ class EventFormDesktop extends React.Component {
                                       touch={touched.event}
                                       required></FormikField>
                                   </Grid>
-                                  <Grid item sm={4}>
+                                  <Grid item sm={6}>
                                     <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
+                                                 name="image_link"
+                                                 error={errors.image_link}
+                                                 touch={touched.image_link}
+                                    />
+                                  </Grid>
+                                  {/*<Grid item sm={4}>
+                                    <FormikField label={this.getFileName() === "" ? "Logo / Image Link (Preferred: Imgur URL)" : this.getFileName()}
+
                                       name="image_link"
                                       error={errors.image_link}
                                       touch={touched.image_link}
-                                      value={this.state.imgFileValue}
+                                      value={this.getFileName()}
                                     />
                                   </Grid>
-                                  <Grid item sm={2}>
+                                  <Grid item sm={2}> */}
                                     {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                    <FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" onChange={this.imgFileUploadHandler} />
-                                  </Grid>
+                                  {/*<FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" onChange={this.imgFileUploadHandler} />
+                                  </Grid>*/}
                                 </Grid >
 
                                 <Grid container spacing={2}>
