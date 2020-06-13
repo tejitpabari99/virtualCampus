@@ -93,21 +93,20 @@ class ResourcesList extends React.Component {
   }
 
   setDisplay(category) {
-    if(category != 'All Resources'){
-      this.setState({
+    this.setState({
         myResourcesDisplay: this.state.myResourcesDict[category],
         myDescription: Descriptions[category],
         myCategory: category,
-        myTagsDisplay: this.state.myTagsDict[category],
+        myTagsDisplay: this.state.myTagsDict[category]
+    });
+    
+    if(category != 'All Resources'){
+      this.setState({
         myTagsDescription: "Filter by tags: "
       });
     }
     else{
       this.setState({
-        myResourcesDisplay: this.state.myResourcesDict[category],
-        myDescription: Descriptions[category],
-        myCategory: category,
-        myTagsDisplay: this.state.myTagsDict[category],
         myTagsDescription: ""
       });
     }
