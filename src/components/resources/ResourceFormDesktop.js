@@ -2,10 +2,10 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
-import FormikField from "../components/FormikField/FormikField"
+import FormikField from "../FormikField/FormikField"
 // import "../components/form.css"
 import { CheckboxWithLabel } from 'formik-material-ui';
-import FileUploadBtn from '../components/FormikField/FileUploadBtn'
+import FileUploadBtn from '../FormikField/FileUploadBtn'
 import Button from '@material-ui/core/Button';
 
 import Grid from '@material-ui/core/Grid';
@@ -13,12 +13,12 @@ import Grid from '@material-ui/core/Grid';
 
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
-import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { CustomHeader } from "../components"
+import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
+import { CustomHeader } from ".."
 import Container from '@material-ui/core/Container';
-import firebase from "../firebase";
+import firebase from "../../firebase";
 
-import Categories from "../components/resources/FormCategories"
+import Categories from "./FormCategories"
 const MainCategories = Categories.FormCategories;
 
 const useStyles = makeStyles(styles);
@@ -172,7 +172,7 @@ const validationSchema = Yup.object().shape({
 
 });
 
-const AddResource = (props) => {
+const ResourceFormDesktop = (props) => {
     const classes = useStyles();
     const manual = manualSt();
 
@@ -429,4 +429,4 @@ const AddResource = (props) => {
     );
 };
 
-export default AddResource;
+export default ResourceFormDesktop;
