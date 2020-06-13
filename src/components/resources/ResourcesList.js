@@ -102,7 +102,7 @@ class ResourcesList extends React.Component {
         myTagsDisplay: this.state.myTagsDict[category]
     });
 
-    if(category != 'All Resources'){
+    if(category !== 'All Resources'){
       this.setState({
         myTagsDescription: "Filter by tags: "
       });
@@ -114,6 +114,11 @@ class ResourcesList extends React.Component {
     }
   }
 
+  setTagDisplay(category, tag) {
+    this.setState({
+      myResourcesDisplay: this.state.myTagsDict[category][tag]
+    });
+  }
   render() {
     return (
       <div>
@@ -163,6 +168,8 @@ class ResourcesList extends React.Component {
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)'
                               }}
+                              onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
+                              value={{data}}
                 />
               );
             })}
