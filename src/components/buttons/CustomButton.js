@@ -44,6 +44,16 @@ const manualSt = makeStyles(() => ({
       backgroundColor: '#F1945B',
       boxShadow: "0 14px 26px -12px #FB750D50"
     },
+  },  
+  orangeInvert:{
+    color: 'white !important',
+    backgroundColor: '#FB750D',
+    border: "1px solid #FB750D",
+    "&:hover": {
+      color: '#FB750D !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px #FB750D50"
+    },
   },
   blue:{
     color: '#0072CE !important',

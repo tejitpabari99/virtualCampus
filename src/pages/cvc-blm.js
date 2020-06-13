@@ -8,30 +8,30 @@ import GridContainer from "../components/material-kit-components/Grid/GridContai
 import Subtitle from "../components/text/Subtitle";
 import Heading from "../components/text/Heading";
 import Group1 from "../assets/images/blm/Group 1.png"
-import Group2 from "../assets/images/blm/Group 2.png"
-import Group3 from "../assets/images/blm/Group 3.png"
-import Group4 from "../assets/images/blm/Group 4.png"
 import Group34 from "../assets/images/blm/Group 34.png"
 import { CircularProgress } from '@material-ui/core';
 import firebase from '../firebase'
-import Card from "../components/material-kit-components/Card/Card.js";
-import CardBody from "../components/material-kit-components/Card/CardBody.js";
-import CardHeader from "../components/material-kit-components/Card/CardHeader.js";
-import Link from '@material-ui/core/Link';
 
 import Fuse from 'fuse.js';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 const useStyles = () => ({
-  links:{
+  CustomButtons: {
     color: '#0072CE',
-    "&:hover":{
-      color:'#1D2C4D',
-      cursor:'pointer'
+    "&:hover": {
+      color: '#1D2C4D',
+      cursor: 'pointer'
     }
   }
 })
+
+const companies = [
+  "Microsoft", "Facebook", "Google", "Reddit", "MongoDB", 
+  "Blizzard", "Activision", "Goldman Sachs", "McKinset", 
+  "Mercer", "Deloitte", "Thrive Global", "Exxon Mobil", 
+  "BASF", "Joe Biden", "Saturday Night Live", "The Observer"
+]
 
 class cvcBlm extends React.Component {
 
@@ -49,8 +49,8 @@ class cvcBlm extends React.Component {
       donationReceived: 0,
       tutorsPop: {},
       tutorsAllSec: {},
-      defaultSearchInput:'',
-      inputElement:null
+      defaultSearchInput: '',
+      inputElement: null
     };
 
     this.fetchData = this.fetchData.bind(this);
@@ -91,7 +91,7 @@ class cvcBlm extends React.Component {
           let allTutors = tutorData[0],
             tutorSearch = tutorData[1];
           let subjects = ["College Experience", "Jobs and Internship Applications: Interviews, Resumes, Networking", "Writing/Editing Help", "Programming", "Undergrad/Grad admissions", "Research"];
-          that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator:false});
+          that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator: false });
           let tutorsPop = {};
           let tutorsAllSec = {};
           for (let key in allTutors) {
@@ -137,18 +137,18 @@ class cvcBlm extends React.Component {
     return [{}, {}];
   }
 
-  searchFunc(val, changeDefaultSearchVal=true) {
-    if(changeDefaultSearchVal){
-      this.setState({defaultSearchInput:''});
+  searchFunc(val, changeDefaultSearchVal = true) {
+    if (changeDefaultSearchVal) {
+      this.setState({ defaultSearchInput: '' });
     }
-    if(!val || val.length===0){
-      return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:''});
+    if (!val || val.length === 0) {
+      return this.setState({ tutorSearch: [], activityIndicator: false, tutorSearchError: '' });
     }
-    else if(val.length<=2){
-      return this.setState({tutorSearch:[], activityIndicator:false, tutorSearchError:'Search term must be more than 2 characters'});
+    else if (val.length <= 2) {
+      return this.setState({ tutorSearch: [], activityIndicator: false, tutorSearchError: 'Search term must be more than 2 characters' });
     }
 
-    this.setState({activityIndicator:true});
+    this.setState({ activityIndicator: true });
     const options = {
       threshold: 0.2,
       distance: 1000,
@@ -171,22 +171,22 @@ class cvcBlm extends React.Component {
     this.setState({ tutorSearch: tutorSearch, activityIndicator: false, tutorSearchError: '' });
   }
 
-  setSearchInput(input){
-    this.setState({defaultSearchInput:input});
+  setSearchInput(input) {
+    this.setState({ defaultSearchInput: input });
     this.inputElement.state.searchVal = input;
     this.inputElement.props.onClick(input);
   }
 
   render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
     return (
-      <Template active={"cvc-blm"} title={"#BLM"}>
+      <Template active={"cvc-blm"} title={"#BLM"} blm>
         <Helmet>
           <meta property="og:title" content="Columbia Virtual Campus #BLM" />
           <meta property="og:url" content="http://columbiavirtualcampus.com/cvc-blm" />
           <meta property="og:description" content="Support the Black Community" />
         </Helmet>
-        <div style={{marginBottom:20, width:'100%'}}>
+        <div style={{ marginBottom: 20, width: '100%' }}>
           {
             this.state.donationCompleted !== 0 &&
             <div style={{ maxWidth: "70%", marginLeft: "auto", marginRight: "auto", }}>
@@ -211,7 +211,7 @@ class cvcBlm extends React.Component {
               display: "flex",
               flexDirection: "horizontal",
               justifyContent: "space-between",
-              marginTop: "2em",
+              marginTop: "1.5em",
             }}
           >
             <GridItem xs={12} sm={9}>
@@ -243,12 +243,6 @@ class cvcBlm extends React.Component {
               <img src={Group1} style={{ maxWidth: "80%", height: "auto" }} />
             </GridItem>
           </GridContainer>
-          <Title color={"blue"} style={{ marginTop: "3em" }}>
-            Our Tutoring Program
-        </Title>
-          <Subtitle color={"white"} style={{ fontSize: "28px", lineHeight: "1em" }}>
-            What we are doing to support the movement.
-        </Subtitle>
           <GridContainer
             style={{
               maxWidth: "90%",
@@ -259,7 +253,16 @@ class cvcBlm extends React.Component {
             }}
           >
             <GridItem xs={12} sm={6} style={{ textAlign: "right" }}>
-              <img src={Group34} style={{ maxWidth: "70%", height: "auto" }} />
+              <img src={Group34} style={{ maxWidth: "70%",height: "auto" }} />
+              <br/>
+              <CustomButton style={{margin:"1em"}} text={"Microsoft"} color={'orangeInvert'}/>
+              <CustomButton style={{margin:"1em"}} text={"Google"} color={'orangeInvert'}/>
+              <CustomButton style={{margin:"1em"}} text={"Facebook"} color={'orangeInvert'}/>
+              <br/>
+              <CustomButton style={{margin:"1em"}} text={"Reddit"} color={'orangeInvert'}/>
+              <CustomButton style={{margin:"1em"}} text={"MongoDB"} color={'orangeInvert'}/>
+              <CustomButton style={{margin:"1em"}} text={"McKinset"} color={'orangeInvert'}/>
+
             </GridItem>
             <GridItem xs={12} sm={6}>
               <Subtitle
@@ -268,111 +271,63 @@ class cvcBlm extends React.Component {
                   maxWidth: "70%",
                   marginLeft: "auto",
                   marginRight: "auto",
-                  lineHeight: "1.1em",
                   textAlign: "left",
                   fontSize: "calc(12px + 1vw)",
+                  lineHeight: "1.1em",
                 }}
               >
-                <div style={{ color: "white", marginBottom: "15px" }}>
-                  DONATE WHAT YOU CAN for 30 minutes with any tutor!
+                <div style={{ color: "#0072CE", marginBottom: "1em", fontSize:"calc(12px + 1.4vw)", lineHeight: "1.1em"}}>
+                  Our Mentorship Program
               </div>
-                <div style={{ color: "#0072CE", marginBottom: "15px" }}>
-                  Through our tutoring program, you can recieve academic mentorship while donating to Black Lives Matter causes.
+                <div style={{ color: "white", marginBottom: "1em" }}>
+                  <strong> DONATE WHAT YOU CAN </strong> for 30 minutes with any mentor!
               </div>
-                <div style={{ color: "gray", marginBottom: "15px" }}>
+                <div style={{ color: "gray", marginBottom: "1em" }}>
                   Columbia Virtual Campus is offering a one-on-one mentorship service in which 100% of fees are donated to
                   organizations supporting the black community.
               </div>
               </Subtitle>
             </GridItem>
           </GridContainer>
-
-          <Title color={"blue"} style={{ marginTop: "3em" }}>How to Sign Up</Title>
-          <div style={{ display: "flex", flexDirection: "horizontal", justifyContent: "center", marginTop: 10 }}>
-            <GridContainer
-              spacing={2}
-              style={{
-                maxWidth: "90%", display: "flex", flexDirection: "horizontal",
-                justifyContent: "space-between", marginTop: 0
-              }}>
-              <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
-                <Card style={{ paddingTop: "30px", height: "90%" }}>
-                  <CardHeader>
-                    <img src={Group3} style={{ maxWidth: "100%", height: "auto" }} />
-                  </CardHeader>
-                  <CardBody>
-                    <div style={{ fontSize: "20px" }}> Step 1: </div>
-                    <Subtitle color={"blue"} style={{ fontSize: "36px" }}> Book a tutor  </Subtitle>
-                    <div style={{ marginBottom: "2em", fontSize: "20px" }}>
-                      Choose a tutor from the list below and register for an available time.
-                      Click on their name to see their schedules as well as their profile and resume!
-                    </div>
-                    <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                      <CustomButton text={"Sign up for classes"} size={"medium"} color={"orange"} />
-                    </div>
-                  </CardBody>
-                </Card>
-              </GridItem>
-              <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
-                <Card style={{ paddingTop: "100px", height: "90%" }}>
-                  <CardHeader>
-                    <img src={Group4} />
-                  </CardHeader>
-                  <CardBody>
-                    <div style={{ fontSize: "20px" }}> Step 2: </div>
-                    <Subtitle color={"blue"} style={{ fontSize: "36px" }}> Donate  </Subtitle>
-                    <div style={{ marginBottom: "20px", fontSize: "20px" }}>
-                      DONATE WHAT YOU CAN to the approved organization listed in your tutoring session confirmation email.
-                      Each donation grants you access to 30 minutes of mentorship.
-                    </div>
-                  </CardBody>
-                </Card>
-              </GridItem>
-              <GridItem xs={12} sm={6} md={4} style={{ textAlign: "center" }}>
-                <Card style={{ paddingTop: "90px", height: "90%" }}>
-                  <CardHeader>
-                    <img src={Group2} />
-                  </CardHeader>
-                  <CardBody>
-                    <div style={{ fontSize: "20px" }}> Step 3: </div>
-                    <Subtitle color={"blue"} style={{ fontSize: "36px" }}> Email Receipt  </Subtitle>
-                    <div style={{ marginBottom: "20px", fontSize: "20px" }}>
-                      Reply to your tutoring session confirmation email from columbiavirtualcampus@gmail.com with your
-                      donation receipt to access your session with ease. You’re all set to see your tutor!
-                    </div>
-                  </CardBody>
-                </Card>
-              </GridItem>
-            </GridContainer>
-          </div>
         </div>
-        
-        <Heading color={"blue"} style={{ marginTop: "60px" }}>
+
+        <Heading color={"blue"} style={{ margin: "40px" }}>
           Available Sessions
         </Heading>
+        <div style={{maxWidth:"70%", marginLeft: "auto", marginRight: "auto"}}> 
         <Subtitle color={"black"}
           style={{
-            maxWidth: "65%",
             marginLeft: "auto",
             marginRight: "auto",
-            fontSize: "18px",
-            lineHeight: "28px"
+            fontSize: "1.2em",
+            lineHeight: "28px",
+            textAlign: "left",
           }}>
-          For each section, these vounteers are willing to provide tutoring,
-          review/edit your work, or answer any questions within that domain.
-          Click on their names to know their schedules
+          <ol>
+            <li><strong> Choose a mentor </strong> from below and register for a time. </li>
+            <li><strong> Receive an email </strong> with a CustomButton to make your donation before you begin your session. </li>
+            <li><strong> Donate any amount </strong> to access your session with these amazing mentors! </li>
+          </ol>
         </Subtitle>
-
-
-        <div style={{ marginBottom: 30, textAlign: "center" }}>
-
-          <Search data={this.state.data}
-                  ref={input => this.inputElement = input}
-                  onClick={(val) => {this.searchFunc(val)}}
-                  onCancel={()=> {this.searchFunc('')}}
+        <Search data={this.state.data}
+            ref={input => this.inputElement = input}
+            onClick={(val) => { this.searchFunc(val) }}
+            onCancel={() => { this.searchFunc('') }}
           />
-          <div style={{textAlign:'center', marginTop: 20, fontSize:20}}>Click on a Tutor's name to book them</div>
+          <br/>
+          <GridContainer style = {{marginTop:"2em"}}>
+            <GridItem xs={12} sm={2} style={{paddingRight:0}}>
+              Filter by company:
+            </GridItem>
+            <GridItem xs={12} sm={10} style={{paddingLeft:0}}>
+              {companies.map((value, index) =>
+                <CustomButton text={value} color={'blue'} key={index} style={{
+                  fontSize: "0.7em", margin: "0.5em"}} onClick={() => { this.setSearchInput(value) }}/>
+              )}
+            </GridItem>
+          </GridContainer>
         </div>
+
         {this.state.activityIndicator &&
           <CircularProgress style={{ marginLeft: '50%' }} />
         }
@@ -391,7 +346,7 @@ class cvcBlm extends React.Component {
                     <div style={{ marginBottom: '3%' }} >
                       <Subtitle color={"black"}
                         style={{
-                          maxWidth: "65%",
+                          maxWidth: "70%",
                           marginLeft: "auto",
                           marginRight: "auto",
                           fontSize: "18px",
@@ -415,7 +370,6 @@ class cvcBlm extends React.Component {
                 </div>
             }
           </div>
-
         }
       </Template>
     );
