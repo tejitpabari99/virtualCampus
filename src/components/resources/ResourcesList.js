@@ -34,6 +34,7 @@ class ResourcesList extends React.Component {
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
     }
     approvedResourcesDict['All Resources'] = approvedResourcesDisplay;
+    approvedTagsDict['All Resources'] = [];
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: approvedResourcesDisplay});
     this.setState({ myTagsDict: approvedTagsDict});
@@ -92,13 +93,24 @@ class ResourcesList extends React.Component {
   }
 
   setDisplay(category) {
-    this.setState({
-      myResourcesDisplay: this.state.myResourcesDict[category],
-      myDescription: Descriptions[category],
-      myCategory: category,
-      myTagsDisplay: this.state.myTagsDict[category],
-      myTagsDescription: "Filter by tags: "
-    });
+    if(category != 'All Resources'){
+      this.setState({
+        myResourcesDisplay: this.state.myResourcesDict[category],
+        myDescription: Descriptions[category],
+        myCategory: category,
+        myTagsDisplay: this.state.myTagsDict[category],
+        myTagsDescription: "Filter by tags: "
+      });
+    }
+    else{
+      this.setState({
+        myResourcesDisplay: this.state.myResourcesDict[category],
+        myDescription: Descriptions[category],
+        myCategory: category,
+        myTagsDisplay: this.state.myTagsDict[category],
+        myTagsDescription: ""
+      });
+    }
   }
 
   render() {
@@ -143,7 +155,11 @@ class ResourcesList extends React.Component {
           {this.state.myTagsDisplay.map(data => {
             return (
               <div>
-                <CustomButton text={data} color={'blue'} size={'small'} style={{marginTop: 10, marginBottom: 10}}/>
+                <CustomButton text={data} color={'blue'} size={'small'} style={{marginLeft:"2%",
+                marginRight:"2%",
+                marginTop: '3%',
+                position: 'relative'
+              }}/>
               </div>
             );
           })}
