@@ -3,20 +3,21 @@ import GridContainer from "../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCard, Heading} from "..";
+import {ResourcesCard, Heading, CustomButton} from "..";
 import firebase from "../../firebase";
 import {Descriptions} from "../../assets/ResourcesData.js"
-
 
 class ResourcesList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       myResourcesDict: {},
-      myTagsDict: {},
       myResourcesDisplay: [],
       myCategory: "All Resources",
-      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID."
+      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
+      myTagsDict: {},
+      myTagsDescription: "",
+      myTagsDisplay: []
     };
     this.getResources();
   }
@@ -26,15 +27,17 @@ class ResourcesList extends React.Component {
     let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
     let approvedResourcesDict = {};
     let approvedResourcesDisplay = [];
+    let approvedTagsDict = {};
     if(approvedResources){
       approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
+      approvedTagsDict = this.makeDisplayTags(approvedResources.docs.map(doc => doc.data()));
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
 
     }
-    // console.log(approvedResourcesDict);
     approvedResourcesDict['All Resources'] = approvedResourcesDisplay;
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: approvedResourcesDisplay});
+    this.setState({ myTagsDict: approvedTagsDict});
   }
 
   makeDisplayResources(resources) {
@@ -53,6 +56,36 @@ class ResourcesList extends React.Component {
     return res;
   }
 
+  makeDisplayTags(resources) {
+    let res = {};
+    for (let i=0; i< resources.length; i+=1) {
+      let ele = resources[i];
+      let key = this.toTitleCase(ele['category']['category']);
+      let tag = ele['category']['tags'];
+
+      for(let j=0; j<tag.length; j++){
+        let tagName = this.toTitleCase(tag[j]);
+        //if category not added yet, add tag and resource
+        if(key in res== false){
+          res[key] = [tagName];
+          res[key][tagName] = [ele];
+        }
+        //if category is already added
+        else{
+          //if tag exists, add resource
+          if(res[key][tagName]){
+              res[key][tagName].push(ele);
+          }
+          //if tag doesn't exist, add tag and resource
+          else{
+            res[key].push(tagName);
+            res[key][tagName] = [ele]
+          }
+        }
+      }
+    }
+    return res;
+  }
 
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
@@ -66,6 +99,18 @@ class ResourcesList extends React.Component {
       myDescription: Descriptions[category],
       myCategory: category
     });
+    if (category !== 'All Resources'){
+      this.setState({
+        myTagsDisplay: this.state.myTagsDict[category],
+        myTagsDescription: "Filter by tags: "
+      });
+    }
+    else {
+      this.setState({
+        myTagsDisplay: [],
+        myTagsDescription: ""
+      });
+    }
   }
 
   render() {
@@ -104,26 +149,49 @@ class ResourcesList extends React.Component {
 
         <div style={{textAlign:'center', paddingTop: '15px', paddingLeft: '20px', paddingRight: '20px'}}>{this.state.myDescription}</div>
 
-        <div></div>
-
-        <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px', align:'center'}}>
-          {this.state.myResourcesDisplay.map(data => {
-            return (
-              <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
-                <ResourcesCard
-                  website={data.links.website}
-                  img={data.img}
-                  title={data.title}
-                  description={data.description}
-                  iosLink={data.links.iosLink}
-                  androidLink={data.links.androidLink}
-                  tags={data.category.tags}
-                  share
+        <GridContainer style={{width: '100%'}}>
+          <GridItem xs={3} style={{textAlign:'center'}}>
+            <div style={{textAlign:'center', paddingTop: '80px', paddingBottom: '8px', fontSize:'18px'}}>{this.state.myTagsDescription}</div>
+            {this.state.myTagsDisplay.map(data => {
+              return (
+                <CustomButton text={data}
+                              color={'blue'}
+                              style={{
+                                marginTop: 8,
+                                marginBottom: 8,
+                                marginLeft: 10,
+                                fontSize: 'min(1.5vw, 9px)'
+                              }}
                 />
-              </GridItem>
-            );
+              );
+            })}
+            <Heading color={'blue'} style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}>{"Want to add your own resource?"}</Heading>
+            <div style={{textAlign:'center', paddingTop: '3%'}}>
+              <CustomButton text={"ADD RESOURCE"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
+                            color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
+            </div>
+          </GridItem>
+          <GridItem xs={9}>
+          <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
+            {this.state.myResourcesDisplay.map(data => {
+              return (
+                <GridItem xs={12} sm={6} md={4} style={{marginBottom: "40px", marginTop: "10px"}}>
+                  <ResourcesCard
+                    website={data.links.website}
+                    img={data.img}
+                    title={data.title}
+                    description={data.description}
+                    iosLink={data.links.iosLink}
+                    androidLink={data.links.androidLink}
+                    tags={data.category.tags}
+                    share
+                  />
+                </GridItem>
+              );
 
-          })}
+            })}
+          </GridContainer>
+          </GridItem>
         </GridContainer>
       </div>
     );

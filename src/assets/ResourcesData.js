@@ -8,7 +8,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'social',
+      category: 'Social',
       tags: ['Connected']
     }
   },
@@ -21,7 +21,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'health',
+      category: 'Health',
       tags: ['Mental']
     }
   },
@@ -34,7 +34,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'basic needs',
+      category: 'Basic Needs',
       tags: ['Finances']
     }
   },
@@ -47,7 +47,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'covid-19',
+      category: 'COVID-19',
       tags: ['Columbia']
     }
   },
@@ -60,7 +60,7 @@ const FeaturedData = {
     },
     reviewed: true,
     category: {
-      category: 'jobs and internships',
+      category: 'Jobs, Internships, & Learning',
       tags: ['Learning', 'Job']
     }
   }
