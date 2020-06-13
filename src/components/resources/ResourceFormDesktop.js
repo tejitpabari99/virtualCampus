@@ -1,24 +1,27 @@
-// TODO: Add link to this form
-
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import FormikField from "../../components/FormikField/FormikField"
+
+import FormikField from "../FormikField/FormikField"
+// import "../components/form.css"
 import { CheckboxWithLabel } from 'formik-material-ui';
-import FileUploadBtn from "../../components/FormikField/FileUploadBtn"
+import FileUploadBtn from '../FormikField/FileUploadBtn'
 import Button from '@material-ui/core/Button';
+
 import Grid from '@material-ui/core/Grid';
+
+
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { CustomHeader } from "../../components"
+import { CustomHeader } from ".."
 import Container from '@material-ui/core/Container';
 import firebase from "../../firebase";
-import Categories from "../../components/resources/FormCategories"
 
+import Categories from "./FormCategories"
 const MainCategories = Categories.FormCategories;
-const useStyles = makeStyles(styles);
 
+const useStyles = makeStyles(styles);
 const manualSt = makeStyles(() => ({
     toAll: {
         fontFamily: 'Poppins',
@@ -140,11 +143,11 @@ const initVal = {
     project_link: '',
     comments: '',
     category: '',
-    needs: '',
-    career: '',
-    covid: '',
-    health: '',
-    social: '',
+    needs_tag: '',
+    career_tag: '',
+    covid_tag: '',
+    health_tag: '',
+    social_tag: '',
     other_tag: '',
     agree: '',
 };
@@ -169,7 +172,7 @@ const validationSchema = Yup.object().shape({
 
 });
 
-const AddResource = (props) => {
+const ResourceFormDesktop = (props) => {
     const classes = useStyles();
     const manual = manualSt();
 
@@ -186,6 +189,13 @@ const AddResource = (props) => {
             uploadData(values);
         }
     };
+
+    // const imgFileUploadHandler = (fileName) => {
+    //     // console.log("congrats, you clicked me.")
+    //     this.setState({
+    //         imgFileValue: fileName
+    //     })
+    // }
 
     // upload to firebase here
     function uploadData(values) {
@@ -226,7 +236,7 @@ const AddResource = (props) => {
             <CustomHeader active={'resources'} brand={"VIRTUAL CAMPUS"}></CustomHeader>
             <div className={classNames(classes.mainOther, manual.main)}>
                 <Container maxWidth='lg' style={{ paddingTop: '76px' }}>
-                    <Grid container spacing={10}>
+                    {/* <Grid container spacing={8}>
                         <Grid item xs={4}>
                             <div className={classNames(manual.toAll, manual.title)}>Add a New Resource</div>
                             <div className={classNames(manual.toAll, manual.detail)}>
@@ -237,8 +247,30 @@ const AddResource = (props) => {
                                 Questions? Contact us at: <a style={{ textAlign: "center", color: "#4284C8" }}
                                     href={"mailto:columbiavirtualcampus@gmail.com"}>columbiavirtualcampus@gmail.com</a>.
                             </div>
+                        </Grid> */}
+                    <Grid container spacing={10}>
+                        <Grid item xs={4}>
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "36px", lineHeight: "54px", color: "#0072CE"
+                            }}>
+                                Add a New Resource
+                      </div>
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "14px", lineHeight: "21px"
+                            }}>
+                                Thank you for your interest in sharing your project through CVC.
+                                Please fill out the following form so we can thoroughly promote your resource on our website!
+                      </div>
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
+                            }}>
+                                Questions? Contact us at <br />
+                                <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+                      </div>
                         </Grid>
-
                         <Grid item xs={8}>
                             <Formik initialValues={initVal} onSubmit={submitHandler} validationSchema={validationSchema}>
                                 {({ dirty, isValid, errors, touched }) => {
@@ -260,51 +292,118 @@ const AddResource = (props) => {
 
                                             <div className={manual.section}>
                                                 <div className={classNames(manual.toAll, manual.subtitle)} style={{ marginTop: '30px' }}>Resource</div>
-                                                <Grid container spacing={2}>
+                                                <Grid container spacing={2} >
                                                     <Grid item sm={6}>
                                                         <FormikField label="Project Name" name="project_name" error={errors.project_name} touch={touched.project_name} required ></FormikField>
                                                     </Grid>
                                                     <Grid item sm={4}>
                                                         <div>
-                                                            <FormikField label="Logo / Image Link" name="image_link" error={errors.image_link} touch={touched.image_link}></FormikField>
+                                                            <FormikField
+                                                                label="Logo / Image Link"
+                                                                name="image_link"
+                                                                error={errors.image_link}
+                                                                touch={touched.image_link}
+                                                            // value={this.state.imgFileValue}
+                                                            />
                                                         </div>
                                                     </Grid>
                                                     <Grid item sm={2}>
                                                         {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                                        <FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" />
+                                                        {/* <CustomButton text={"Upload File"} color={"blue"} size={"small"}/> */}
+                                                        {/* <Field
+                                                            name='image_file'
+                                                            component={FileUpload}
+                                                        /> */}
+                                                        {/* <input
+                                                            name='image_file'
+                                                            type='file'
+                                                            id='file_upload'
+                                                            style={{ display: 'none' }}
+                                                        />
+                                                        <label htmlFor="file_upload">
+                                                            <div>
+                                                                <Button className={classNames(manual.toAll, manual.uploadBtn)} variant="outlined" component="span">
+                                                                    Upload File
+                                                                </Button>
+                                                            </div>
+                                                        </label> */}
+                                                        <FileUploadBtn
+                                                            text="Upload"
+                                                            name='file'
+                                                            label='Image Upload'
+                                                            id="fileUpload"
+                                                        // onChange={this.imgFileUploadHandler}
+                                                        />
+
                                                     </Grid>
                                                 </Grid>
 
-                                                <Grid container>
-                                                    <Grid item sm={12}>
+                                                <Grid container spacing={2}>
+                                                    <Grid item xs={12}>
                                                         <FormikField label="Description" name="desc" multiline rows="4" error={errors.desc} touch={touched.desc} required />
                                                     </Grid>
                                                 </Grid>
-                                                <Grid container>
-                                                    <Grid item sm={12}>
+                                                <Grid container spacing={2}>
+                                                    <Grid item xs={12}>
                                                         <FormikField label="Project Link" name="project_link" error={errors.project_link} touch={touched.project_link} required />
                                                     </Grid>
                                                 </Grid>
-                                                <br />
 
-                                                <Grid container>
+                                                <Grid container spacing={2}>
                                                     <Grid item sm={2}>
-                                                        <div className={manual.dot}>•</div>
-                                                        <div style={{ marginLeft: '35px', paddingTop: '5px', height: '15px', width: '70px' }}>Category</div>
+                                                        <div className={manual.dot} style={{ paddingTop: '9px' }}>•</div>
+                                                        <div style={{ marginLeft: '35px', paddingTop: '9px', height: '15px', width: '70px' }}>Category</div>
                                                     </Grid>
-                                                    <Grid item sm={7}>
+                                                    <Grid item sm={10}>
                                                         <div className="buttons">
-                                                            {Object.keys(MainCategories).map(category => {
+                                                            {/* {Object.keys(MainCategories).map(category => {
                                                                 return (
                                                                     <Button name="category" className={classNames(manual.toAll, manual.categoryBtn)}>{MainCategories[category]['title']}</Button>
                                                                 );
-                                                            })}
+                                                            })} */}
+                                                            <Grid item sm={11}>
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="needs_tag"
+                                                                    Label={{ label: "Needs" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
+                                                                />
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="career_tag"
+                                                                    Label={{ label: "Career" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
+                                                                />
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="covid_tag"
+                                                                    Label={{ label: "COVID" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
+                                                                />
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="health_tag"
+                                                                    Label={{ label: "Health" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
+                                                                />
+                                                                <Field
+                                                                    component={CheckboxWithLabel}
+                                                                    name="social_tag"
+                                                                    Label={{ label: "Social" }}
+                                                                    type="checkbox"
+                                                                    indeterminate={false}
+                                                                />
+                                                            </Grid>
                                                         </div>
                                                     </Grid>
-                                                    <Grid item sm={3}>
-                                                        <div style={{ marginTop: '-20px' }}>
-                                                            <FormikField label="Other" name="other_tag"></FormikField>
-                                                        </div>
+                                                    <Grid item sm={12}>
+                                                        <FormikField label="Other Tags (Seperate each by semicolon)"
+                                                            placeholder="Separate Each Tag by Semicolon"
+                                                            name="other_tags" />
                                                     </Grid>
                                                 </Grid>
                                             </div>
@@ -325,7 +424,7 @@ const AddResource = (props) => {
                                                 />
                                             </div>
 
-                                            <Grid container>
+                                            <Grid container spacing={2}>
                                                 <Grid item sm={3}>
                                                     <Button
                                                         className={manual.submitBtn}
@@ -349,4 +448,4 @@ const AddResource = (props) => {
     );
 };
 
-export default AddResource;
+export default ResourceFormDesktop;

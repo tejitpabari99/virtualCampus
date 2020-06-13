@@ -6,7 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: '2px 4px',
+        // padding: '2px 4px',
         display: 'flex',
         position: 'relative',
         padding: 5,
@@ -51,7 +51,7 @@ const CustomTextField = (props) => {
         onBlur,
         onChange,
         onFocus,
-        value,
+        value = "",
     } = props;
 
     const classes = useStyles();
