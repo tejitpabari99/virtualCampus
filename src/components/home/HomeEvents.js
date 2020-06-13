@@ -304,7 +304,6 @@ class Events extends React.Component{
                     })}
                 </div>
                 {this.state.displayEvents.length>0 && <div style={{textAlign:"center", marginTop: 20}}>
-                    <CustomButton text={'SEE MORE'} href={'/events'} size={"small"} color={"orange"} rounded/>
                 </div>}
             </div>
         )
