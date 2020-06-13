@@ -32,6 +32,7 @@ class ResourcesList extends React.Component {
       approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
       approvedTagsDict = this.makeDisplayTags(approvedResources.docs.map(doc => doc.data()));
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
+
     }
     approvedResourcesDict['All Resources'] = approvedResourcesDisplay;
     this.setState({ myResourcesDict: approvedResourcesDict});
@@ -51,6 +52,7 @@ class ResourcesList extends React.Component {
         res[key] = [ele]
       }
     }
+    console.log(res);
     return res;
   }
 
@@ -95,10 +97,20 @@ class ResourcesList extends React.Component {
     this.setState({
       myResourcesDisplay: this.state.myResourcesDict[category],
       myDescription: Descriptions[category],
-      myCategory: category,
-      myTagsDisplay: this.state.myTagsDict[category],
-      myTagsDescription: "Filter by tags: "
+      myCategory: category
     });
+    if (category !== 'All Resources'){
+      this.setState({
+        myTagsDisplay: this.state.myTagsDict[category],
+        myTagsDescription: "Filter by tags: "
+      });
+    }
+    else {
+      this.setState({
+        myTagsDisplay: [],
+        myTagsDescription: ""
+      });
+    }
   }
 
   render() {
@@ -137,44 +149,50 @@ class ResourcesList extends React.Component {
 
         <div style={{textAlign:'center', paddingTop: '15px', paddingLeft: '20px', paddingRight: '20px'}}>{this.state.myDescription}</div>
 
-      <GridContainer style={{width: '100%'}}>
-        <GridItem xs={3}>
-          <div style={{textALign:'left', paddingTop: '15px'}}>{this.state.myTagsDescription}</div>
-          {this.state.myTagsDisplay.map(data => {
-            return (
-              <div>
-                <CustomButton text={data} color={'blue'} size={'small'} style={{marginTop: 10, marginBottom: 10}}/>
-              </div>
-            );
-          })}
-          <Heading color={'blue'} style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}>{"Want to add your own resource?"}</Heading>
-          <div style={{textAlign:'center', paddingTop: '3%'}}>
-            <CustomButton text={"ADD RESOURCE"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
-                          color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
-          </div>
-        </GridItem>
-        <GridItem xs={9}>
-        <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
-          {this.state.myResourcesDisplay.map(data => {
-            return (
-              <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
-                <ResourcesCard
-                  website={data.links.website}
-                  img={data.img}
-                  title={data.title}
-                  description={data.description}
-                  iosLink={data.links.iosLink}
-                  androidLink={data.links.androidLink}
-                  tags={data.category.tags}
-                  share
+        <GridContainer style={{width: '100%'}}>
+          <GridItem xs={3} style={{textAlign:'center'}}>
+            <div style={{textAlign:'center', paddingTop: '80px', paddingBottom: '8px', fontSize:'18px'}}>{this.state.myTagsDescription}</div>
+            {this.state.myTagsDisplay.map(data => {
+              return (
+                <CustomButton text={data}
+                              color={'blue'}
+                              style={{
+                                marginTop: 8,
+                                marginBottom: 8,
+                                marginLeft: 10,
+                                fontSize: 'min(1.5vw, 9px)'
+                              }}
                 />
-              </GridItem>
-            );
+              );
+            })}
+            <Heading color={'blue'} style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}>{"Want to add your own resource?"}</Heading>
+            <div style={{textAlign:'center', paddingTop: '3%'}}>
+              <CustomButton text={"ADD RESOURCE"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
+                            color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
+            </div>
+          </GridItem>
+          <GridItem xs={9}>
+          <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
+            {this.state.myResourcesDisplay.map(data => {
+              return (
+                <GridItem xs={12} sm={6} md={4} style={{marginBottom: "40px", marginTop: "10px"}}>
+                  <ResourcesCard
+                    website={data.links.website}
+                    img={data.img}
+                    title={data.title}
+                    description={data.description}
+                    iosLink={data.links.iosLink}
+                    androidLink={data.links.androidLink}
+                    tags={data.category.tags}
+                    share
+                  />
+                </GridItem>
+              );
 
-          })}
+            })}
+          </GridContainer>
+          </GridItem>
         </GridContainer>
-        </GridItem>
-      </GridContainer>
       </div>
     );
   }

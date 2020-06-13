@@ -41,7 +41,7 @@ const containerStyles = makeStyles(() => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '1.3vw',
+    fontSize: '1.2vw',
     lineHeight: '30px',
     color: '#000000'
   },
@@ -130,7 +130,7 @@ export default function ResourcesFeaturedDesktop() {
 
                         <p>
                           <CustomButton text={"Explore!"} href={data.links.website}
-                            color={"orange"} size={"2.3vw"} style={{marginTop: 10, marginBottom: 25, position:'relative'}}/>
+                            color={"orange"} size={"2.3vw"} style={{marginTop: 15, marginBottom: 25, position:'relative'}}/>
                         </p>
 
                       </p>
