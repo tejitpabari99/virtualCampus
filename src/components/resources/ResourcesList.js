@@ -35,6 +35,7 @@ class ResourcesList extends React.Component {
 
     }
     approvedResourcesDict['All Resources'] = approvedResourcesDisplay;
+    approvedTagsDict['All Resources'] = [];
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: approvedResourcesDisplay});
     this.setState({ myTagsDict: approvedTagsDict});
@@ -95,24 +96,29 @@ class ResourcesList extends React.Component {
 
   setDisplay(category) {
     this.setState({
-      myResourcesDisplay: this.state.myResourcesDict[category],
-      myDescription: Descriptions[category],
-      myCategory: category
+        myResourcesDisplay: this.state.myResourcesDict[category],
+        myDescription: Descriptions[category],
+        myCategory: category,
+        myTagsDisplay: this.state.myTagsDict[category]
     });
-    if (category !== 'All Resources'){
+
+    if(category !== 'All Resources'){
       this.setState({
-        myTagsDisplay: this.state.myTagsDict[category],
         myTagsDescription: "Filter by tags: "
       });
     }
-    else {
+    else{
       this.setState({
-        myTagsDisplay: [],
         myTagsDescription: ""
       });
     }
   }
 
+  setTagDisplay(category, tag) {
+    this.setState({
+      myResourcesDisplay: this.state.myTagsDict[category][tag]
+    });
+  }
   render() {
     return (
       <div>
@@ -162,6 +168,8 @@ class ResourcesList extends React.Component {
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)'
                               }}
+                              onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
+                              value={{data}}
                 />
               );
             })}
