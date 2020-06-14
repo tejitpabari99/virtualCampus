@@ -275,7 +275,7 @@ export default function HomeMobile({isLandscape}) {
               <br/>
               <img src={instagramPic} alt="InstagramPic" style={{width:"80%"}}/>
               <div style={{marginTop: "30px"}}>
-                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"} />
+                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"} newTabs/>
               </div>
           </div>
           <div className={manual.fabo}>
@@ -287,7 +287,7 @@ export default function HomeMobile({isLandscape}) {
               <br/>
               <img src={facebookPic} alt="FacebookPic" style={{width:"75%"}}/>
               <div style={{marginTop: "50px"}}>
-                  <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"} />
+                  <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"} newTab/>
               </div>
           </div>
       </div>

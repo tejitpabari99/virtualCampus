@@ -653,7 +653,7 @@ class EventFormDesktop extends React.Component {
                                   <Grid item sm={2}> */}
                                     {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
                                   {/*<FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" onChange={this.imgFileUploadHandler} />
-                                  </Grid>*/}
+                                  </Grid>*/}w
                                 </Grid >
 
                                 <Grid container spacing={2}>

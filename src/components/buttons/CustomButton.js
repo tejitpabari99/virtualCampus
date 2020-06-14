@@ -61,7 +61,7 @@ const manualSt = makeStyles(() => ({
     "&:hover": {
       color: '#F6C09F !important',
       backgroundColor: 'black',
-      boxShadow: "0 14px 26px -12px gray"
+      boxShadow: "0 14px 26px -12px #F6C09F50"
     },
   },
   white:{
@@ -71,7 +71,7 @@ const manualSt = makeStyles(() => ({
     "&:hover": {
       color: '#82B7E8 !important',
       backgroundColor: 'white',
-      boxShadow: "0 14px 26px -12px gray"
+      boxShadow: "0 14px 26px -12px #82B7E850"
     },
   },
   white2:{

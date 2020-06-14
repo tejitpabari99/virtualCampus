@@ -296,7 +296,7 @@ const ResourceFormDesktop = (props) => {
                                                     <Grid item sm={6}>
                                                         <FormikField label="Project Name" name="project_name" error={errors.project_name} touch={touched.project_name} required ></FormikField>
                                                     </Grid>
-                                                    <Grid item sm={4}>
+                                                    <Grid item sm={6}>
                                                         <div>
                                                             <FormikField
                                                                 label="Logo / Image Link"
@@ -307,35 +307,35 @@ const ResourceFormDesktop = (props) => {
                                                             />
                                                         </div>
                                                     </Grid>
-                                                    <Grid item sm={2}>
-                                                        {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                                        {/* <CustomButton text={"Upload File"} color={"blue"} size={"small"}/> */}
-                                                        {/* <Field
-                                                            name='image_file'
-                                                            component={FileUpload}
-                                                        /> */}
-                                                        {/* <input
-                                                            name='image_file'
-                                                            type='file'
-                                                            id='file_upload'
-                                                            style={{ display: 'none' }}
-                                                        />
-                                                        <label htmlFor="file_upload">
-                                                            <div>
-                                                                <Button className={classNames(manual.toAll, manual.uploadBtn)} variant="outlined" component="span">
-                                                                    Upload File
-                                                                </Button>
-                                                            </div>
-                                                        </label> */}
-                                                        <FileUploadBtn
-                                                            text="Upload"
-                                                            name='file'
-                                                            label='Image Upload'
-                                                            id="fileUpload"
-                                                        // onChange={this.imgFileUploadHandler}
-                                                        />
+                                                    {/*<Grid item sm={2}>*/}
+                                                    {/*    /!* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> *!/*/}
+                                                    {/*    /!* <CustomButton text={"Upload File"} color={"blue"} size={"small"}/> *!/*/}
+                                                    {/*    /!* <Field*/}
+                                                    {/*        name='image_file'*/}
+                                                    {/*        component={FileUpload}*/}
+                                                    {/*    /> *!/*/}
+                                                    {/*    /!* <input*/}
+                                                    {/*        name='image_file'*/}
+                                                    {/*        type='file'*/}
+                                                    {/*        id='file_upload'*/}
+                                                    {/*        style={{ display: 'none' }}*/}
+                                                    {/*    />*/}
+                                                    {/*    <label htmlFor="file_upload">*/}
+                                                    {/*        <div>*/}
+                                                    {/*            <Button className={classNames(manual.toAll, manual.uploadBtn)} variant="outlined" component="span">*/}
+                                                    {/*                Upload File*/}
+                                                    {/*            </Button>*/}
+                                                    {/*        </div>*/}
+                                                    {/*    </label> *!/*/}
+                                                    {/*    <FileUploadBtn*/}
+                                                    {/*        text="Upload"*/}
+                                                    {/*        name='file'*/}
+                                                    {/*        label='Image Upload'*/}
+                                                    {/*        id="fileUpload"*/}
+                                                    {/*    // onChange={this.imgFileUploadHandler}*/}
+                                                    {/*    />*/}
 
-                                                    </Grid>
+                                                    {/*</Grid>*/}
                                                 </Grid>
 
                                                 <Grid container spacing={2}>
