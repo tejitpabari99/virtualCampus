@@ -25,14 +25,14 @@ const customStyle = makeStyles(() => ({
 
 export default function Template(props) {
   const custStyle = customStyle();
-  const { children, style } = props;
+  const { children, styleMain, styleContainer} = props;
   return (
     <MuiThemeProvider theme={CustomTheme}>
       <div>
         <CustomHeader active={props.active} brand={'VIRTUAL CAMPUS'}/>
         <MetaData title={props.title}/>
-        <div className={custStyle.main}>
-          <div className={custStyle.container} style={style}>
+        <div className={custStyle.main} style={styleMain}>
+          <div className={custStyle.container} style={styleContainer}>
             {children}
           </div>
         </div>

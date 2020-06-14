@@ -199,7 +199,7 @@ class cvcBlm extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <Template active={"cvc-blm"} title={"#BLM"} style={{padding:0}}>
+      <Template active={"cvc-blm"} title={"#BLM"} styleContainer={{padding:0}} styleMain={{marginBottom:0}}>
         <Helmet>
           <meta property="og:title" content="Columbia Virtual Campus #BLM" />
           <meta property="og:url" content="http://columbiavirtualcampus.com/cvc-blm" />
@@ -247,7 +247,7 @@ class cvcBlm extends React.Component {
                   and Breonna Taylor, Columbia Virtual Campus stands in solidarity
                   with black students, faculty, staff, and affiliates.
                 </div>
-                <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw' }}>
+                <div style={{ color: "#adadad", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw' }}>
                   We recognize the horrific history of antiblack racism worldwide,
                   and through our tutoring program, we hope to uplift black voices
                   and provide financial support for organizations led by and in
@@ -265,19 +265,19 @@ class cvcBlm extends React.Component {
             <GridItem xs={12} sm={5} style={{ textAlign: "center", width:'85%', marginLeft:'auto', marginRight:'auto'}}>
               <img src={Group34} style={{ maxWidth: "80%",height: "auto", marginTop:'20px'}} />
               <br/>
-              <CustomButton style={{margin:"1em"}} text={"Microsoft"}
+              <CustomButton style={{margin: '1em'}} text={"Microsoft"}
                             color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Microsoft')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Google"}
+              <CustomButton style={{margin: '1em'}} text={"Google"}
                             color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Google')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Goldman Sachs"}
+              <CustomButton style={{margin: '1em'}} text={"Goldman Sachs"}
                             color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Goldman')}}/>
               <br/>
-              <CustomButton style={{margin:"1em"}} text={"McKinsey"}
+              <CustomButton style={{margin: '1em', marginTop:0}} text={"McKinsey"}
                             color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('McKinsey')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Blizzard"}
+              <CustomButton style={{margin: '1em', marginTop:0}} text={"Blizzard"}
                             color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Blizzard')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Saturday Night Live"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Saturday')}}/>
+              <CustomButton style={{margin: '1em', marginTop:0}} text={"The Observer"}
+                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Observer')}}/>
 
             </GridItem>
             <GridItem xs={12} sm={7}>
@@ -297,7 +297,7 @@ class cvcBlm extends React.Component {
                 <div style={{ marginBottom: "15px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)' }}>
                   <strong> DONATE WHAT YOU CAN </strong><br/> for 30 minutes with any mentor!
                 </div>
-                <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'1vw' }}>
+                <div style={{ color: "#adadad", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'1vw' }}>
                   Columbia Virtual Campus is offering a one-on-one mentorship service in which 100% of fees are donated to
                   organizations supporting the black community.
                 </div>
@@ -335,8 +335,9 @@ class cvcBlm extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={10} style={{paddingLeft:0}}>
               {Object.keys(companies).map((value, index) =>
-                <CustomButton text={value} color={'blue'} key={index} style={{
-                  fontSize: "0.7em", margin: "0.5em"}} onClick={() => { this.setSearchInput(companies[value]) }}/>
+                <CustomButton text={value} color={'blue'} key={index}
+                              style={{ fontSize: "0.7em", margin: "0.5em"}}
+                              onClick={() => { this.setSearchInput(companies[value]) }}/>
               )}
             </GridItem>
           </GridContainer>
@@ -385,6 +386,18 @@ class cvcBlm extends React.Component {
           }
         </div>
         }
+        <GridContainer style={{backgroundColor:'black', color:'white', marginTop:'50px', padding: '50px'}}>
+          <GridItem xs={12} sm={6}>
+            <div style={{ marginBottom: "15px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)'}}>
+              Want to sign up as a tutor? Specify your schedule, area of expertise and credentials.
+            </div>
+          </GridItem>
+          <GridItem xs={0} sm={3}>
+          </GridItem>
+          <GridItem xs={12} sm={2}>
+            <CustomButton text={'Sign up to Tutor'} size={'large'} color={'blackWhite'} newTab/>
+          </GridItem>
+        </GridContainer>
       </Template>
     );
   }
