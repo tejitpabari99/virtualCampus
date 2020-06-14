@@ -45,12 +45,32 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px #FB750D50"
     },
   },
+  orangeInvert:{
+    color: 'white !important',
+    backgroundColor: '#FB750D',
+    border: "1px solid #FB750D",
+    "&:hover": {
+      color: '#FB750D !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px #FB750D50"
+    },
+  },
   blue:{
     color: '#0072CE !important',
     border: "1px solid #0072CE",
     "&:hover": {
       color: 'white !important',
       backgroundColor: '#0072CE',
+      boxShadow: "0 14px 26px -12px #0072CE50"
+    },
+  },
+  blueInvert:{
+    color: 'white !important',
+    backgroundColor: '#0072CE',
+    border: "1px solid #FB750D",
+    "&:hover": {
+      color: '#0072CE !important',
+      backgroundColor: 'white',
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
   },
@@ -81,7 +101,7 @@ export default function CustomButton({href, text, color, size, rounded, onClick,
 CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(["orange", "blue"]),
+  color: PropTypes.oneOf(["orange", "blue", "blueInvert", "orangeInvert"]),
   size: PropTypes.oneOf(["large","small", "medium"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,

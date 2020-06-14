@@ -25,30 +25,24 @@ export default class Search extends React.Component{
   render(){
     return(
       <div style={{display:'inline'}}>
-      <TextField
-        style={{ width: "70%", marginRight: 10 }}
-        id="input-with-icon-textfield"
-        placeholder="Search Tutor Names, Descriptions, Subjects"
-        value={this.state.searchVal}
-        onChange={(val) => {this.setState({searchVal:val.target.value})}}
-        variant="outlined"
-        onKeyDown={this.keyPress}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon style={{color:'#F1945B'}}/>
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <div>
-              {this.state.searchVal && <InputAdornment position="end">
-                <IconButton onClick={() => {this.setState({searchVal: ''}); this.props.onCancel()}}><ClearIcon/></IconButton>
-              </InputAdornment>}
-            </div>
-          )
-        }}
-      />
-      <CustomButton color={'blue'} text={'Search'} size={'small'} onClick={() => {this.props.onClick(this.state.searchVal)}}/>
+        <TextField
+          style={{ width: "100%"}}
+          id="input-with-icon-textfield"
+          placeholder="Search tutors, subjects and descriptions..."
+          value={this.state.searchVal}
+          onChange={(val) => {this.setState({searchVal:val.target.value})}}
+          variant="outlined"
+          onKeyDown={this.keyPress}
+          InputProps={{
+            endAdornment: (
+              <div>
+                <InputAdornment position="end">
+                  <IconButton onClick={() => {this.props.onClick(this.state.searchVal)}}><SearchIcon style={{color:'black'}}/></IconButton>
+                </InputAdornment>
+              </div>
+            )
+          }}
+        />
       </div>
 
     )
