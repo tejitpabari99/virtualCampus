@@ -3,9 +3,13 @@ import classNames from "classnames";
 import HomeEvents from './HomeEvents';
 import { makeStyles } from "@material-ui/core/styles";
 import landingImage from "../../assets/images/home/graphic.png";
+import hostEventPic from "../../assets/images/home/hostAnEvent.png";
+import facebookPic from "../../assets/images/home/facebook.png";
+import instagramPic from "../../assets/images/home/instagram.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import Button from "./../material-kit-components/CustomButtons/Button.js";
-import {MetaData, CustomHeader, CustomButton, Title} from "../"
+import {MetaData, CustomHeader, CustomButton, Title} from "../";
+import HomeResourcesList from "./HomeResourcesList.js";
 import * as Events from './../../pages/events.js';
 
 
@@ -78,7 +82,42 @@ const manualPortrait = makeStyles(() => ({
     left:'0px',
     backgroundColor:'transparent',
   },
-
+  eventPic: {
+    height: "400px",
+    width: "100%",
+    marginBottom: "-450px",
+    objectFit: "cover"
+  },
+  eventText: {
+    position: "relative",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    color:"white",
+    textAlign: "center",
+    lineHeight: '2.5vw',
+    marginTop: "15px",
+  },
+  resourcesSection: {
+    position: 'relative'
+  },
+  socialSection: {
+    textAlign: "center",
+  },
+  insta: {
+    width: "100%",
+    height: "750px",
+    backgroundColor: "#F6C09F",
+    color: "black",
+    padding:"0px",
+    marginTop: "0px",
+  },
+  fabo: {
+    width: "100%",
+    height: "700px",
+    backgroundColor: "#82B7E8",
+    color: "white",
+    padding:"0px",
+    margin: "0px",
+  },
 }));
 
 
@@ -144,11 +183,6 @@ const manualLandscape = makeStyles(() => ({
     boxSizing: "border-box",
     borderRadius: "10px",
   },
-  eventsSection: {
-    position:'relative',
-    left:'0px',
-    backgroundColor:'transparent',
-  },
 
 }));
 export default function HomeMobile({isLandscape}) {
@@ -191,18 +225,73 @@ export default function HomeMobile({isLandscape}) {
             <Title color={"blue"}>Upcoming Events</Title>
             <div style={{textAlign: "center"}}>
               <h1 className={classNames(manual.toAllSubHeadingUpEvents)}>
-                Do you or your club want to host your own event on Columbia Virtual Campus? Answer some short questions to get started!
+                Find out what's happening on campus, virtually.
               </h1>
             </div>
-            <div style={{textAlign:'center'}}>
-              <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
-                            color={"orange"} size={"large"}/>
-              <div style={{marginBottom: "40px"}}/>
-            </div>
             <HomeEvents/>
-            <div style={{marginBottom: "100px"}}/>
+            <div style={{textAlign:'center'}}>
+              <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
+                            color={"orange"} size={"large"}/>
+              <div style={{marginBottom: "10px"}}/>
+            </div>
           </div>
       </div>
+
+      <div className={manual.eventsSection}>
+        <img className={manual.eventPic} src={hostEventPic} alt="HostEventPic"/>
+          <div className={manual.eventText}>
+            <br/>
+            <h2>Want to host an event?</h2>
+            <h5>Looking to host you own event on Columbia Virtual Campus?</h5>
+            <h5>Answer some questions to <strong>start leading.</strong></h5>
+            <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
+            color={"white2"} size={"large"} />
+            <br/><br/><br/><br/><br/>
+          </div>
+      </div>
+
+      <div style={{marginBottom: "50px" }} />
+
+      <div className={manual.resourcesSection}>
+        <div className={classes.container} id="resources">
+          <Title color={"blue"}>Top Resources</Title>
+          <HomeResourcesList />
+        </div>
+        <div style={{marginBottom: "-20px" }} />
+        <div style={{marginLeft: "35%"}}>
+            <CustomButton href={'/resources'}  text={'SEE ALL RESOURCES'}
+            color={"orange"} size={"large"} />
+        </div>
+      </div>
+      <div style={{marginBottom: "50px" }} />
+
+      <div className={manual.socialSection}>
+          <div className={manual.insta}>
+              <br/>
+              <h2 style={{marginTop: "50px"}}>CVC on Instagram</h2>
+              <h4 style={{marginTop: "20px"}}>
+                Check us out on social media to see <br/> what we're all about!
+              </h4>
+              <br/>
+              <img src={instagramPic} alt="InstagramPic" style={{width:"80%"}}/>
+              <div style={{marginTop: "30px"}}>
+                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"} />
+              </div>
+          </div>
+          <div className={manual.fabo}>
+              <br/>
+              <h2 style={{marginTop: "0px"}}>CVC on Facebook</h2>
+              <h4 style={{marginTop: "20px"}}>
+                Check us out on social media to see <br/> what we're all about!
+              </h4>
+              <br/>
+              <img src={facebookPic} alt="FacebookPic" style={{width:"75%"}}/>
+              <div style={{marginTop: "50px"}}>
+                  <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"} />
+              </div>
+          </div>
+      </div>
+
     </div>
     )
 };

@@ -29,7 +29,6 @@ class ResourcesList extends React.Component {
       approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
     }
-    // console.log(approvedResourcesDict);
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: approvedResourcesDisplay});
   }

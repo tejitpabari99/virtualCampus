@@ -5,7 +5,6 @@ import { CircularProgress } from '@material-ui/core';
 
 //inputs
 import FormikField from "../FormikField/FormikField";
-import CustomCheckBox from "../FormikField/CustomCheckBox"
 import { CheckboxWithLabel, SimpleFileUpload } from "formik-material-ui";
 import { Select } from "material-ui-formik-components/Select";
 
@@ -13,20 +12,10 @@ import { Select } from "material-ui-formik-components/Select";
 import { DateTimePicker } from "formik-material-ui-pickers";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-
-
+import FileUploadBtn from '../FormikField/FileUploadBtn'
 import Button from "@material-ui/core/Button";
-import FileUploadBtn from "../FormikField/FileUploadBtn"
-
 import Grid from '@material-ui/core/Grid';
-// import GridContainer from "../material-kit-components/Grid/GridContainer";
-// import GridItem from "../material-kit-components/Grid/GridItem";
-
-
-import classNames from "classnames";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-// import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { MetaData, CustomHeader, CustomButton, Title, Subtitle, Template } from "../";
+import { CustomHeader, Template } from "../";
 import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
@@ -197,10 +186,10 @@ let dst = function (loc = getCurrentLocationForTimeZone()) {
         break;
     }
     if (today.getTime() >= DSTDateStart.getTime() && today.getTime() < DSTDateEnd.getTime()) {
-      console.log("true");
+      // console.log("true");
       return true;
     }
-    console.log("false");
+    // console.log("false");
     return false;
   }
 
@@ -318,6 +307,7 @@ class EventFormDesktop extends React.Component {
       feedbackSubmit: false,
       errStatus: 0,
       activityIndicatory: false,
+      imgFileValue: "",
     };
 
     this.submitHandler = this.submitHandler.bind(this);
@@ -334,6 +324,13 @@ class EventFormDesktop extends React.Component {
     }
   }
 
+  imgFileUploadHandler = (fileName) => {
+    console.log("congrats, you clicked me.")
+    console.log("Filename: " + fileName)
+    this.setState({
+      imgFileValue: fileName
+    })
+  }
 
   // upload to firebase here
   uploadData(data) {
@@ -472,12 +469,18 @@ class EventFormDesktop extends React.Component {
     }
   }
 
+  getFileName() {
+    if (this.state.imgFileValue !== "") {
+      return this.state.imgFileValue;
+    }
+    return ""
+  }
+
   handleImageUpload(){
     console.log(this.inputElement);
     this.inputElement.props.label="Image Uploaded";
     this.inputElement.touch = true;
   }
-
 
   render() {
     if (this.state.activityIndicatory) {
@@ -601,15 +604,15 @@ class EventFormDesktop extends React.Component {
                                       name="name"
                                       error={errors.name}
                                       touch={touched.name}
-                                      required/>
+                                      required></FormikField>
                                   </Grid>
                                   <Grid item sm={6}>
                                     <FormikField label="Email" name="email"
                                       error={errors.email}
                                       touch={touched.email}
-                                      required/>
+                                      required></FormikField>
                                   </Grid>
-                                </Grid>
+                                </Grid >
                               </div>
 
 
@@ -629,20 +632,29 @@ class EventFormDesktop extends React.Component {
                                     <FormikField label="Event Name" name="event"
                                       error={errors.event}
                                       touch={touched.event}
-                                      required/>
+                                      required></FormikField>
                                   </Grid>
                                   <Grid item sm={6}>
                                     <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
                                                  name="image_link"
                                                  error={errors.image_link}
-                                                 ref={input => this.inputElement = input}
-                                                 touch={touched.image_link}/>
+                                                 touch={touched.image_link}
+                                    />
                                   </Grid>
-                                  {/*<Grid item sm={2}>*/}
-                                  {/*  /!* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> *!/*/}
-                                  {/*  /!*<FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload"/>*!/*/}
-                                  {/*</Grid>*/}
-                                </Grid>
+                                  {/*<Grid item sm={4}>
+                                    <FormikField label={this.getFileName() === "" ? "Logo / Image Link (Preferred: Imgur URL)" : this.getFileName()}
+
+                                      name="image_link"
+                                      error={errors.image_link}
+                                      touch={touched.image_link}
+                                      value={this.getFileName()}
+                                    />
+                                  </Grid>
+                                  <Grid item sm={2}> */}
+                                    {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
+                                  {/*<FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" onChange={this.imgFileUploadHandler} />
+                                  </Grid>*/}
+                                </Grid >
 
                                 <Grid container spacing={2}>
                                   <Grid item sm={12}>
@@ -652,7 +664,7 @@ class EventFormDesktop extends React.Component {
                                       error={errors.desc}
                                       touch={touched.desc} required />
                                   </Grid>
-                                </Grid>
+                                </Grid >
                                 <Grid container spacing={2}>
                                   <Grid item sm={3}>
                                     <div style={{ margin: "16px 0 8px" }}>
@@ -685,24 +697,7 @@ class EventFormDesktop extends React.Component {
                                     />
 
                                   </Grid>
-                                  {/*<GridItem sm={3}>*/}
-                                  {/*  <Field*/}
-                                  {/*    name="recurring"*/}
-                                  {/*    label="Select Recurring"*/}
-                                  {/*    options={[*/}
-                                  {/*      { value: "never", label: "Never" },*/}
-                                  {/*      { value: "daily", label: "Daily" },*/}
-                                  {/*      { value: "weekly", label: "Weekly" },*/}
-                                  {/*      { value: "monthly", label: "Monthly" },*/}
-                                  {/*      {*/}
-                                  {/*        value: "other_recurring",*/}
-                                  {/*        label: "Other"*/}
-                                  {/*      }*/}
-                                  {/*    ]}*/}
-                                  {/*    component={Select}*/}
-                                  {/*  />*/}
-                                  {/*</GridItem>*/}
-                                </Grid>
+                                </Grid >
                                 <Grid container spacing={2}>
                                   <Grid item sm={6}>
                                     <FormikField label="Website / Event Link"
@@ -716,7 +711,7 @@ class EventFormDesktop extends React.Component {
                                       label="Video Call / Media Link (Zoom, Twitch, etc.)"
                                       name="invite_link" />
                                   </Grid>
-                                </Grid>
+                                </Grid >
                                 <Field
                                   component={CheckboxWithLabel}
                                   name="zoomLink"
@@ -729,7 +724,7 @@ class EventFormDesktop extends React.Component {
                                   <Grid item sm={1}>
                                     <div style={{ paddingTop: "9px" }}>Tags</div>
                                   </Grid>
-                                  <Grid item>
+                                  <Grid item sm={11}>
                                     <Field
                                       component={CheckboxWithLabel}
                                       name="activism_tag"
@@ -766,14 +761,14 @@ class EventFormDesktop extends React.Component {
                                       indeterminate={false}
                                     />
                                   </Grid>
-                                </Grid>
-                                <Grid container spacing={2} >
+                                </Grid >
+                                <Grid container spacing={2}>
                                   <Grid item sm={12}>
                                     <FormikField label="Other Tags (Seperate each by semicolon)"
                                       placeholder="Separate Each Tag by Semicolon"
                                       name="other_tags" />
                                   </Grid>
-                                </Grid>
+                                </Grid >
                               </div>
 
 
@@ -796,7 +791,7 @@ class EventFormDesktop extends React.Component {
                                       rows="5" error={errors.comments}
                                       touch={touched.comments} />
                                   </Grid>
-                                </Grid>
+                                </Grid >
                                 <div>
                                   By hosting an event you agree to the <a
                                     href="https://bit.ly/events-policy-docs"
@@ -828,13 +823,13 @@ class EventFormDesktop extends React.Component {
                                     Submit
                                   </Button>
                                 </Grid>
-                              </Grid>
+                              </Grid >
                             </Form>
                           );
                         }}
                       </Formik>
                     </Grid>
-                  </Grid>
+                  </Grid >
                   <div style={{ marginBottom: "50px" }} />
                   {/* </div> */}
                 </Container>
