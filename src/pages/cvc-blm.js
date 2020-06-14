@@ -319,7 +319,7 @@ class cvcBlm extends React.Component {
                     }}>
             <ol style={{paddingLeft:'15px'}}>
               <li><strong> Choose a mentor </strong> from below and register for a time. </li>
-              <li><strong> Receive an email </strong> with a CustomButton to make your donation before you begin your session. </li>
+              <li><strong> Receive an email </strong> with a link to make your donation before you begin your session. </li>
               <li><strong> Donate any amount </strong> to access your session with these amazing mentors! </li>
             </ol>
           </Subtitle>
