@@ -25,15 +25,9 @@ class EventAlert extends React.Component{
     
     async getEvents() {
         var db = firebase.firestore();
-        var approvedEvents = await db.collection("events").where("approved", "==", false).get();
+        var approvedEvents = await db.collection("events").where("approved", "==", true).get();
         let approvedEventsMap = [];
         if(approvedEvents){
-            // TODO
-            // MAY NEED TO CHANGE:
-            // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
-            // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
-            // However, convertEventsTime should be run on every event, converting the time and timezone of the event
-            // To the current user's local time!
             approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
         }
         this.setState({ myEventsList: approvedEventsMap });   
