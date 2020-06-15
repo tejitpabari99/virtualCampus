@@ -21,9 +21,8 @@ const manualSt = makeStyles(() => ({
 
 const FileUploadBtn = (props) => {
     const manual = manualSt();
-
     const text = props.text
-
+    const onChange = props.onChange
 
     return (
         <div className={manual.root}>
@@ -31,9 +30,15 @@ const FileUploadBtn = (props) => {
                 type='file'
                 id='file_upload'
                 style={{ display: 'none' }}
+                // onChange={props.onChange}
+                onChange={e => {
+                    // onChange([...e.target.files]);
+                    onChange(e.target.files[0].name);
+                    // console.log(e.target.files[0].name)
+                }}
             />
             <label htmlFor="file_upload">
-                <ButtonBase className={manual.uploadBtn} component="span" onClick={props.onClick}>
+                <ButtonBase className={manual.uploadBtn} component="span">
                     <span style={{ fontSize: '14px' }}>
                         {text}
                     </span>

@@ -45,6 +45,16 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px #FB750D50"
     },
   },
+  orangeInvert:{
+    color: 'white !important',
+    backgroundColor: '#FB750D',
+    border: "1px solid #FB750D",
+    "&:hover": {
+      color: '#FB750D !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px #FB750D50"
+    },
+  },
   blue:{
     color: '#0072CE !important',
     border: "1px solid #0072CE",
@@ -52,6 +62,56 @@ const manualSt = makeStyles(() => ({
       color: 'white !important',
       backgroundColor: '#0072CE',
       boxShadow: "0 14px 26px -12px #0072CE50"
+    },
+  },
+  black:{
+    color: 'black !important',
+    border: "1px solid black",
+    backgroundColor: '#F6C09F',
+    "&:hover": {
+      color: '#F6C09F !important',
+      backgroundColor: 'black',
+      boxShadow: "0 14px 26px -12px #F6C09F50"
+    },
+  },
+  white:{
+    color: 'white !important',
+    border: "1px solid white",
+    backgroundColor: '#82B7E8',
+    "&:hover": {
+      color: '#82B7E8 !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px #82B7E850"
+    },
+  },
+  white2: {
+    color: 'white !important',
+    border: "1px solid white",
+    backgroundColor: "rgba(0,0,0,0.1)",
+    "&:hover": {
+      color: '#0072CE !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px gray"
+    }
+  },
+  blueInvert:{
+    color: 'white !important',
+    backgroundColor: '#0072CE',
+    border: "1px solid #FB750D",
+    "&:hover": {
+      color: '#0072CE !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px #0072CE50"
+    },
+  },
+  blackWhite:{
+    color: 'white !important',
+    backgroundColor: 'black',
+    border: "1px solid white",
+    "&:hover": {
+      color: 'black !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px black"
     },
   },
   rounded: {
@@ -81,7 +141,7 @@ export default function CustomButton({href, text, color, size, rounded, onClick,
 CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(["orange", "blue"]),
+  color: PropTypes.oneOf(["orange", "blue", "blueInvert", "orangeInvert"]),
   size: PropTypes.oneOf(["large","small", "medium"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,
@@ -92,4 +152,3 @@ CustomButton.defaultProps = {
   color: "orange",
   size: "small"
 };
-
