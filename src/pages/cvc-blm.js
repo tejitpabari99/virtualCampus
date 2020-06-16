@@ -80,6 +80,7 @@ class cvcBlm extends React.Component {
 
     // this.fetchDonationCompletedData();
     this.fetchData();
+    this.myRef = React.createRef()  
   };
 
   async fetchDonationCompletedData() {
@@ -196,6 +197,10 @@ class cvcBlm extends React.Component {
     this.inputElement.props.onClick(input);
   }
 
+  scrollToMyRef() {
+    window.scrollTo(0, this.myRef.current.offsetTop);
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -263,21 +268,25 @@ class cvcBlm extends React.Component {
             style={{ marginTop: "5vw", }}
           >
             <GridItem xs={12} sm={5} style={{ textAlign: "center", width:'85%', marginLeft:'auto', marginRight:'auto'}}>
-              <img src={Group34} style={{ maxWidth: "80%",height: "auto", marginTop:'20px'}} />
+              <div>
+                <img src={Group34} style={{ maxWidth: "100%",height: "auto", width:"75%", marginTop:'20px'}} />
+              </div>
               <br/>
-              <CustomButton style={{margin:"1em"}} text={"Microsoft"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Microsoft')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Google"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Google')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Goldman Sachs"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Goldman')}}/>
-              <br/>
-              <CustomButton style={{margin:"1em"}} text={"McKinsey"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('McKinsey')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Blizzard"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Blizzard')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Saturday Night Live"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Saturday')}}/>
+              <div>
+                <CustomButton style={{margin:"1em"}} text={"Microsoft"}
+                              color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Microsoft');}}/>
+                <CustomButton style={{margin:"1em"}} text={"Google"}
+                              color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Google')}}/>
+                <CustomButton style={{margin:"1em"}} text={"Goldman Sachs"}
+                              color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Goldman')}}/>
+                <br/>
+                <CustomButton style={{margin:"1em"}} text={"McKinsey"}
+                              color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('McKinsey')}}/>
+                <CustomButton style={{margin:"1em"}} text={"Blizzard"}
+                              color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Blizzard')}}/>
+                <CustomButton style={{margin:"1em"}} text={"Saturday Night Live"}
+                              color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Saturday')}}/>
+              </div>
 
             </GridItem>
             <GridItem xs={12} sm={7}>
@@ -309,7 +318,7 @@ class cvcBlm extends React.Component {
         <Heading color={"blue"} style={{ margin: "40px" }}>
           Available Sessions
         </Heading>
-        <div style={{maxWidth:"85%", marginLeft: "auto", marginRight: "auto"}}>
+        <div style={{maxWidth:"85%", marginLeft: "auto", marginRight: "auto"}} ref={this.myRef}>
           <Subtitle color={"black"}
                     style={{
                       marginLeft: "auto",
