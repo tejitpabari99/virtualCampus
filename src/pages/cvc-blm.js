@@ -10,7 +10,7 @@ import Heading from "../components/text/Heading";
 import Group1 from "../assets/images/blm/Group 1.png"
 import Group34 from "../assets/images/blm/Group 34.png"
 import { CircularProgress } from '@material-ui/core';
-import firebase from '../firebase'
+import firebase from '../firebase';
 
 import Fuse from 'fuse.js';
 import LinearProgress from "@material-ui/core/LinearProgress";
