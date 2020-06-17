@@ -1,31 +1,80 @@
 #!/usr/bin/env python
 import sys
+import gspread
 import numpy as np
 import pandas as pd
 import firebase_admin
-from firebase_admin import credentials
+from datetime import datetime
+from gspread.models import Cell
 from firebase_admin import firestore
-
-def log(message):
-    print(message, file=sys.stderr, flush=True)
+from firebase_admin import credentials
+from oauth2client.service_account import ServiceAccountCredentials
 
 if __name__ == "__main__":
-    
+    main()
+
+def main():
     argv = sys.argv
 
     if len(argv) != 3:
-        log("usage: ./firebase.py <filepath> <servicekey>")
+        log(f"usage: {argv[0]} <spreasheet_API_key.json> <firestore_API_key.json>")
         sys.exit()
 
-    # Parse command line arguments
-    filepath = argv[1]
-    service_key = argv[2]
+    # Parse arguments
+    spreadsheet_API_key = argv[1]
+    firestore_API_key = argv[2]
 
-    # Read CSV file into a Pandas DataFrame
-    log("\nReading data from " + filepath)
-    resources_df = pd.read_csv(filepath)
+    log(f"Uploading new resources as of {datetime.now()}")
 
-    # Clean dataframe
+    # Get access to Google Sheets spreadsheet
+    sheet_name = "List of Resources"
+    log(f"Opening spreadsheet \"{sheet_name}\"...")
+    sheet = get_spreadsheet(sheet_name, spreadsheet_API_key).worksheet("Sheet1")
+    resources_df = clean_resources_dataframe(get_dataframe(sheet))
+    new_resources_df = get_new_resources(resources_df)
+
+    # Initialize Cloud Firestore
+    log("Initializing Cloud Firestore...")
+    db = get_database_client(firestore_API_key)
+
+    # Upload resources
+    uploaded_rows = upload_new_resources(new_resources_df, db, sheet)
+
+    # Update spreasheet
+    if len(uploaded_rows) > 0:
+        log("Updating spreadsheet...")
+        update_uploaded_status(sheet, uploaded_rows)
+        log(f"\tSpreadsheet updated on {datetime.now()}\n")
+
+def log(message:str):
+    print(message, file=sys.stderr, flush=True)
+
+def get_spreadsheet(sheet_name:str, cred_file:str) -> gspread.models.Spreadsheet:
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
+    client = gspread.authorize(creds)
+    return client.open(sheet_name)
+
+def get_dataframe(sheet:gspread.models.Worksheet) -> pd.DataFrame:
+    column_names =[
+                "Resource Name",
+                "Category",
+                "Tags",
+                "Club/Organization",
+                "Description",
+                "Website",
+                "Image Link",
+                "Facebook",
+                "Card Link",
+                "iOS Link",
+                "Android Link",
+                "Ready for Upload",
+                "Uploaded"
+                ]
+    FIRST_ROW = 8
+    return pd.DataFrame(sheet.get_all_values(), columns=column_names).iloc[FIRST_ROW:]
+
+def clean_resources_dataframe(resources_df:pd.DataFrame) -> pd.DataFrame:
     resources_df.columns = map(str.lower, resources_df.columns)
     resources_df = resources_df[resources_df["resource name"].notna()]
     resources_df = resources_df[resources_df["category"].notna()]
@@ -33,26 +82,37 @@ if __name__ == "__main__":
     resources_df = resources_df.applymap(str)
     resources_df["category"] = resources_df["category"].str.lower()
     resources_df["tags"] = resources_df["tags"].str.lower()
-    resources_df["reviewed"] = resources_df["reviewed"].str.lower()
-    resources_df["reviewed"] = resources_df["reviewed"].map({"true": True, "false": False})
+    resources_df["ready for upload"] = resources_df["ready for upload"].str.lower()
+    resources_df["ready for upload"] = resources_df["ready for upload"].map({"true": True, "false": False})
+    resources_df["uploaded"] = resources_df["uploaded"].str.lower()
+    resources_df["uploaded"] = resources_df["uploaded"].map({"true": True, "false": False})
+    return resources_df
 
-    # Initailize Cloud Firestore
-    log("\nInitializing Cloud Firestore with key " + service_key)
-    cred = credentials.Certificate(service_key)
+def get_new_resources(resources_df:pd.DataFrame) -> pd.DataFrame:
+    return resources_df[(resources_df["ready for upload"] == True) & (resources_df["uploaded"] == False)]
+
+def get_database_client(firestore_API_key:str):
+    cred = credentials.Certificate(firestore_API_key)
     firebase_admin.initialize_app(cred)
-    db = firestore.client()
+    return firestore.client()
 
-    # Add data to Firestore
-    log("\nAdding data to firestore...")
+def upload_new_resources(new_resources_df:pd.DataFrame, db, sheet):
+    length = len(new_resources_df.index)
+    if length == 0:
+        log("No new resources to upload")
+        return []
+
+    log(f"{length} resources to upload")
     added = 0
-    for index, row in resources_df.iterrows():
+    uploaded_rows = list()
+    for index, row in new_resources_df.iterrows():
         data = {
             "category": {
                 "category": row["category"],
                 "tags": row["tags"].split(", ")
             },
             "description": row["description"],
-            "reviewed": row["reviewed"],
+            "reviewed": True,
             "img": row["image link"],
             "links": {
                 "androidLink": row["android link"],
@@ -63,9 +123,22 @@ if __name__ == "__main__":
             },
             "title": row["resource name"],
         }
+
         path = "resources" 
-        db.collection(path).add(data)
+
+        try:
+            db.collection(path).add(data)
+        except:
+            log(f"Error uploading data to firestore. {added} / {length} resources uploaded successfully")
+            return uploaded_rows
+
         added += 1
-        log("\tAdded " + row["resource name"] + " to " + path)
-    
-    log("\nAdded " + str(added) + " entries to Firestore")
+        log(f"\tAdded {row['resource name']} to {path}")
+        uploaded_rows.append(index + 1)
+    log(f"\nAdded {added} / {length} entries to Firestore")
+    return uploaded_rows
+
+def update_uploaded_status(sheet, uploaded_rows):
+    UPLOADED_COLUMN = 13
+    cells = [Cell(row=row, col=UPLOADED_COLUMN, value="TRUE") for row in uploaded_rows]
+    sheet.update_cells(cells, value_input_option="USER_ENTERED")
