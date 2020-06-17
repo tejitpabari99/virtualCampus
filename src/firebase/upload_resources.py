@@ -11,8 +11,8 @@ from firebase_admin import firestore
 from firebase_admin import credentials
 from oauth2client.service_account import ServiceAccountCredentials
 
-if __name__ == "__main__":
-    main()
+SPREADSHEET_NAME = "List of Resources"
+WORKSHEET_NAME = "Sheet1"
 
 def main():
     argv = sys.argv
@@ -28,9 +28,8 @@ def main():
     log(f"Uploading new resources as of {datetime.now()}")
 
     # Get access to Google Sheets spreadsheet
-    sheet_name = "List of Resources"
-    log(f"Opening spreadsheet \"{sheet_name}\"...")
-    sheet = get_spreadsheet(sheet_name, spreadsheet_API_key).worksheet("Sheet1")
+    log(f"Opening spreadsheet \"{SPREADSHEET_NAME}\"...")
+    sheet = get_spreadsheet(SPREADSHEET_NAME, spreadsheet_API_key).worksheet(WORKSHEET_NAME)
     resources_df = clean_resources_dataframe(get_dataframe(sheet))
     new_resources_df = get_new_resources(resources_df)
 
@@ -143,3 +142,6 @@ def update_uploaded_status(sheet:gspread.models.Worksheet, uploaded_rows:List[in
     UPLOADED_COLUMN = 13
     cells = [Cell(row=row, col=UPLOADED_COLUMN, value="TRUE") for row in uploaded_rows]
     sheet.update_cells(cells, value_input_option="USER_ENTERED")
+
+if __name__ == "__main__":
+    main()
