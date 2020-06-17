@@ -23,6 +23,7 @@ const containerStyles = makeStyles(() => ({
     position: 'absolute',
     left: '37.26%',
     top: '11.91%',
+    objectFit: 'cover',
   },
   card: {
     position: 'absolute',
