@@ -4,6 +4,7 @@ import gspread
 import numpy as np
 import pandas as pd
 import firebase_admin
+from typing import List
 from datetime import datetime
 from gspread.models import Cell
 from firebase_admin import firestore
@@ -96,7 +97,7 @@ def get_database_client(firestore_API_key:str):
     firebase_admin.initialize_app(cred)
     return firestore.client()
 
-def upload_new_resources(new_resources_df:pd.DataFrame, db, sheet):
+def upload_new_resources(new_resources_df:pd.DataFrame, db, sheet:gspread.models.Worksheet) -> List[int]:
     length = len(new_resources_df.index)
     if length == 0:
         log("No new resources to upload")
@@ -138,7 +139,7 @@ def upload_new_resources(new_resources_df:pd.DataFrame, db, sheet):
     log(f"\nAdded {added} / {length} entries to Firestore")
     return uploaded_rows
 
-def update_uploaded_status(sheet, uploaded_rows):
+def update_uploaded_status(sheet:gspread.models.Worksheet, uploaded_rows:List[int]):
     UPLOADED_COLUMN = 13
     cells = [Cell(row=row, col=UPLOADED_COLUMN, value="TRUE") for row in uploaded_rows]
     sheet.update_cells(cells, value_input_option="USER_ENTERED")
