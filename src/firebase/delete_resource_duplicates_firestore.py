@@ -1,22 +1,71 @@
 #!/usr/bin/env python
 import sys
 import firebase_admin
+from typing import List, Dict
 from firebase_admin import firestore
 from firebase_admin import credentials
+
+class Resource(object):
+    
+    def __init__(self, resource_dict):
+        self._title = resource_dict["title"]
+        self._reviewed = resource_dict["reviewed"]
+        self._description = resource_dict["description"]
+        self._img = resource_dict["img"]
+        self._category = resource_dict["category"]["category"]
+        self._tags = resource_dict["category"]["tags"]
+        self._links = resource_dict["links"]
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Resource):
+            return False
+        return self.title == other.title or self.links == other.links
+    
+    def __hash__(self):
+        return hash((self.title, frozenset(self.links.items())))
+
+    @property
+    def title(self) -> str:
+        return self._title
+
+    @property
+    def reviewed(self) -> bool:
+        return self._reviewed
+
+    @property
+    def description(self) -> str:
+        return self._description
+
+    @property
+    def img(self) -> str:
+        return self._img
+
+    @property
+    def category(self) -> str:
+        return self._category
+    
+    @property
+    def tags(self) -> List[str]:
+        return self._title
+
+    @property
+    def links(self) -> Dict[str,str]:
+        return self._links
+
 
 def main():
     argv = sys.argv
 
-    if len(argv) != 3:
-        log(f"usage: {argv[0]} <firestore_API_key> <collection>")
+    if len(argv) != 2:
+        log(f"usage: {argv[0]} <firestore_API_key>")
         sys.exit()
     
     firestore_API_key = argv[1]
-    collection = argv[2]
+    COLLECTION = "resources"
 
     db = get_database_client(firestore_API_key)
 
-    docs = db.collection(collection).stream()
+    docs = db.collection(COLLECTION).stream()
 
     remove_duplicates(docs)
 
@@ -33,27 +82,15 @@ def remove_duplicates(docs):
     total = removed = 0
     log("Delete duplicates:")
     for doc in docs:
-        hashable_data = tuplefy(doc.to_dict())
-        if hashable_data in seen:
+        resource = Resource(doc.to_dict())
+        if resource in seen:
             doc.reference.delete()
-            log(f"\tDocument with title \"{hashable_data[-1]}\"")
+            log(f"\tDocument with title \"{resource.title}\"")
             removed += 1
         else:
-            seen.add(hashable_data)
+            seen.add(resource)
         total += 1
     log(f"Found and deleted {removed} duplicates from {total} documents.")
-
-def tuplefy(data):
-
-    return (
-        data["category"]["category"],
-        tuple(data["category"]["tags"]),
-        data["description"],
-        data["img"],
-        data["reviewed"],
-        data["title"]
-    )
-
         
 if __name__ == "__main__":
     main()
