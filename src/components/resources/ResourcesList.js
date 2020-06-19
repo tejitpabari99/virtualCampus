@@ -7,6 +7,28 @@ import {ResourcesCard, Heading, CustomButton} from "..";
 import firebase from "../../firebase";
 import {Descriptions} from "../../assets/ResourcesData.js"
 
+const CoolerButton = ({children, ...other}) => {
+  const [isPushed, setIsPushed] = React.useState(true);
+  const otherClick = other.onClick.bind({});
+  const handleClick = () => {
+    setIsPushed(!isPushed);
+    otherClick();
+  }
+  delete other.onClick;
+
+  return (
+    <Button
+      onClick={() => {handleClick()}}
+      color={
+        (isPushed) ? "secondary" : "primary"
+      }
+      {...other}
+    >
+      {children}
+    </Button>
+  );
+}
+
 class ResourcesList extends React.Component {
   constructor(props) {
     super(props);
@@ -88,6 +110,38 @@ class ResourcesList extends React.Component {
     return res;
   }
 
+//this keeps track of whether or not the tag has been clicked
+  makeTagClick(resources) {
+        let val = {};
+        for (let i=0; i< resources.length; i+=1) {
+          let ele = resources[i];
+          let key = this.toTitleCase(ele['category']['category']);
+          let tag = ele['category']['tags'];
+
+          for(let j=0; j<tag.length; j++){
+            let tagName = this.toTitleCase(tag[j]);
+            //if category not added yet, add tag and resource
+            if(key in val== false){
+              val[key] = [tagName];
+              val[key][tagName] = false;
+            }
+            //if category is already added
+            else{
+              //if tag exists, add resource
+              if(val[key][tagName]){
+                  val[key][tagName].push(false);
+              }
+              //if tag doesn't exist, add tag and resource
+              else{
+                val[key].push(tagName);
+                val[key][tagName] = false;
+              }
+            }
+          }
+        }
+        return val;
+  }
+
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -114,11 +168,17 @@ class ResourcesList extends React.Component {
     }
   }
 
+//NEED TO EDIT
   setTagDisplay(category, tag) {
     this.setState({
       myResourcesDisplay: this.state.myTagsDict[category][tag]
     });
   }
+/*
+  setClickButton(category, tag){
+
+  }
+  */
   render() {
     return (
       <div>
@@ -160,17 +220,14 @@ class ResourcesList extends React.Component {
             <div style={{textAlign:'center', paddingTop: '80px', paddingBottom: '8px', fontSize:'18px'}}>{this.state.myTagsDescription}</div>
             {this.state.myTagsDisplay.map(data => {
               return (
-                <CustomButton text={data}
-                              color={'blue'}
-                              style={{
+                <CoolerButton   style={{
                                 marginTop: 8,
                                 marginBottom: 8,
                                 marginLeft: 10,
-                                fontSize: 'min(1.5vw, 9px)'
+                                fontSize: 'min(1.5vw, 9px)',
                               }}
                               onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
-                              value={{data}}
-                />
+                >{data}</CoolerButton>
               );
             })}
             <Heading color={'blue'} style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}>{"Want to add your own resource?"}</Heading>
