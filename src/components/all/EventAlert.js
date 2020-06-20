@@ -25,7 +25,8 @@ class EventAlert extends React.Component{
     
     async getEvents() {
         var db = firebase.firestore();
-        var approvedEvents = await db.collection("events").where("approved", "==", true).get();
+        var approvedEvents = await db.collection("events")
+            .where("approved", "==", true).get();
         let approvedEventsMap = [];
         if(approvedEvents){
             approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
@@ -79,7 +80,6 @@ class EventAlert extends React.Component{
         for (let i = 0; i < events.length; i++) {
             console.log("am i getting here")
             const e = events[i]
-            console.log(new Date(e.start_date))
             if(e.agree) {
                 //if event is happening now, save event and change flag to true
                 if ((new Date(e.start_date)) < today && (new Date(e.end_date)) > today) {
@@ -156,9 +156,9 @@ class EventAlert extends React.Component{
         const { classes } = this.props;
         let note = this.eventAlert()
         let alert = note[0]
-        let isHome = window.location.href.replace("//", "").split("/").length === 2 ? true : false
+        let isHome = window.location.href.replace("//", "").split("/").length === 2
+                     ? true : false
         let displayAlert = note[1] && isHome
-
         return (
             <div>
                 {displayAlert ?

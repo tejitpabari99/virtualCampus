@@ -193,7 +193,7 @@ export default function HomeDesktop() {
 
       <div className={manual.resourcesSection}>
         <div className={classes.container} id="resources">
-          <Title color={"blue"} style={{marginTop:'50px'}}>Top Resources</Title>
+          <Title color={"blue"}>Top Resources</Title>
           <HomeResourcesList />
         </div>
         <div className={manual.button} style={{marginLeft: "42%"}}>
@@ -212,7 +212,7 @@ export default function HomeDesktop() {
               <br/> <br/>
               <img src={instagramPic} alt="InstagramPic"/>
               <div style={{marginTop: "30px", backgroundColor: "#F6C09F", color: "black", borderColor: "black"}}>
-                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"} newTab/>
+                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"}/>
               </div>
           </div>
           <div className={manual.fabo}>
@@ -223,7 +223,7 @@ export default function HomeDesktop() {
               <br/> <br/>
               <img src={facebookPic} alt="FacebookPic"/>
               <div style={{marginTop: "30px"}}>
-                  <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"} newTab/>
+                  <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"}/>
               </div>
           </div>
       </div>

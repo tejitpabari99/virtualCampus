@@ -3,10 +3,11 @@ import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { MetaData, EventCard, EventModal, Template, CustomButton, Title } from "../components";
+import { MetaData, EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
 import TZ from "countries-and-timezones";
 import AddIcon from "@material-ui/icons/Add";
 import firebase from "../firebase";
+import Fuse from 'fuse.js';
 
 
 const localizer = momentLocalizer(moment);
@@ -195,7 +196,11 @@ class Events extends React.Component {
       event: null,
       count: 0,
       myEventsList: [],
-      displayEvents: []
+      displayEvents: [],
+      eventSearch: [],
+      eventSearchError: '',
+      searchVal: "",
+      defaultSearchInput:''
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
@@ -279,6 +284,33 @@ class Events extends React.Component {
     this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
 
+  searchFunc(val, changeDefaultSearchVal=true) {
+    if(changeDefaultSearchVal){
+      this.setState({defaultSearchInput:''});
+    }
+    if(!val || val.length===0){
+      return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:''});
+    }
+    else if(val.length<=2){
+      return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'Search term must be more than 2 characters'});
+    }
+    this.setState({activityIndicator:true});
+    const options = {
+      threshold:0.2,
+      distance:1000,
+      keys: ['tags', 'name']
+    };
+    const fuse = new Fuse(this.state.myEventsList, options);
+    const output = fuse.search(val);
+    const eventSearch = output;
+
+    if(!eventSearch || eventSearch.length<=0){
+      return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'No Results found'});
+    }
+    console.log(eventSearch)
+    this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:''});
+  }
+  
   formatTime(hours, min) {
     let h = hours > 12 ? hours - 12 : hours;
     let m = min < 10 ? "0" + min.toString() : min.toString();

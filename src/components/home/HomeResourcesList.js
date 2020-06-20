@@ -67,8 +67,7 @@ class HomeResourcesList extends React.Component {
   render() {
     return (
       <div>
-
-        <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', marginTop:'10px'}}>
+        <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
           {this.state.myResourcesDisplay.map(data => {
             return (
               <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
