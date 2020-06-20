@@ -8,6 +8,7 @@ import TZ from "countries-and-timezones";
 import AddIcon from "@material-ui/icons/Add";
 import firebase from "../firebase";
 import Fuse from 'fuse.js';
+import Subtitle from "../components/text/Subtitle";
 
 
 const localizer = momentLocalizer(moment);
@@ -196,6 +197,7 @@ class Events extends React.Component {
       event: null,
       count: 0,
       myEventsList: [],
+      permEventsList: [],
       displayEvents: [],
       eventSearch: [],
       eventSearchError: '',
@@ -281,7 +283,8 @@ class Events extends React.Component {
     if(approvedEvents){
       approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
     }
-    this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
+    this.setState({ myEventsList: approvedEventsMap, permEventsList: approvedEventsMap,
+                         displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
 
   searchFunc(val, changeDefaultSearchVal=true) {
@@ -298,17 +301,22 @@ class Events extends React.Component {
     const options = {
       threshold:0.2,
       distance:1000,
-      keys: ['tags', 'name']
+      keys: ['tags', 'name', "event"]
     };
-    const fuse = new Fuse(this.state.myEventsList, options);
+    const fuse = new Fuse(this.state.permEventsList, options);
     const output = fuse.search(val);
     const eventSearch = output;
 
     if(!eventSearch || eventSearch.length<=0){
-      return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'No Results found'});
+      return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'No Results found',
+                                myEventsList: []});
     }
-    console.log(eventSearch)
-    this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:''});
+    let itemOn = 0
+    const approvedEventsMap = eventSearch.map(doc => (eventSearch[itemOn++]['item']));
+
+    // Update events. Note: we don't have to update time again b/c time is already updated
+    this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'',
+                         myEventsList: approvedEventsMap});
   }
   
   formatTime(hours, min) {
@@ -358,6 +366,14 @@ class Events extends React.Component {
               return (<EventCard ele={ele} key={ind}/>);
           })}
         </div>}
+        <Search placeholder="Search Events by Name and/or Tags"
+                iconColor="#2984CE"
+                data={this.state.data}
+                ref={input => this.inputElement = input}
+                onClick={(val) => { this.searchFunc(val) }}
+                onCancel={() => { this.searchFunc('') }}
+
+        /><br />
         <Calendar
           views={["month", "week", "day"]}
           localizer={localizer}
@@ -368,7 +384,7 @@ class Events extends React.Component {
           endAccessor="end_date"
           allDayAccessor="allDay"
           showMultiDayTimes
-          style={{ height: 550 }}
+          style={{ height: 550, marginTop: 50 }}
           onSelectEvent={(event) => {
             this.setState({ open: true, event });
           }}

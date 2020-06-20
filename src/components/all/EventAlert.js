@@ -78,13 +78,11 @@ class EventAlert extends React.Component{
 
         //iterate through events
         for (let i = 0; i < events.length; i++) {
-            console.log("am i getting here")
             const e = events[i]
             if(e.agree) {
                 //if event is happening now, save event and change flag to true
                 if ((new Date(e.start_date)) < today && (new Date(e.end_date)) > today) {
                     event = e
-                    console.log("IS IT HAPPENING MR KRABS")
                     displayNow = true
                     break
                 }
