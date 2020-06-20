@@ -8,7 +8,7 @@ import {
     convertUTCToLocal, dst, getCurrentLocationForTimeZone,
     getOffset,
     getTimezoneName
-} from "../../pages/events";
+} from "../all/TimeFunctions";
 
 
 class EventAlert extends React.Component{
