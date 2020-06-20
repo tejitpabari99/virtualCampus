@@ -1,7 +1,7 @@
 import React from "react"
-import myEventsList from '../../assets/EventsData';
 import { Alert} from '@material-ui/lab';
 import firebase from "../../firebase";
+import { isMobile } from "react-device-detect";
 import {
     convertDateToUTC,
     convertTimestampToDate,
@@ -103,20 +103,45 @@ class EventAlert extends React.Component{
         let alert = [];
         if (event != null) {
             displayAlert = true;
+            if (isMobile) {
+                if (displayNow) {
+                    alert.push(<span style={{display: 'inline-block', paddingLeft: '2px'}}>Now:
+                        <strong> {event.event}</strong></span>)
+                } else {
+                    alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}>
+                        In {parseInt(((new Date(event.start_date)).getTime() - today.getTime()) / 60000)} minutes:
+                        <strong>{event.event}</strong>!</span>)
+                }
+            } else
             if (displayNow) {
-                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}><strong>{event.event}</strong> is happening right now!</span>)
+                alert.push(<span style={{display: 'inline-block', paddingLeft: '2px'}}><strong>{event.event}</strong>
+                    is happening right now!</span>)
             } else {
-                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}><strong>{event.event}</strong> is starting in {parseInt(((new Date(event.start_date)).getTime() - today.getTime()) / 60000)} minutes!</span>)
+                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}><strong>{event.event}</strong>
+                    is starting in {parseInt(((new Date(event.start_date)).getTime() - today.getTime()) / 60000)}
+                    minutes!</span>)
             }
 
             if (event.website !== '') {
-                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}>For more information: <a
-                    href={event.event_link}>Website</a>. </span>) 
+                if (isMobile) {
+                    alert.push(<span style={{display: 'inline-block', paddingLeft: '2px'}}> <a
+                        href={event.event_link}>Website</a>. </span>)
+                } else {
+                    alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}>For more information: <a
+                        href={event.event_link}>Website</a>. </span>)
+                }
             }
 
             if (event.invite_link.length > 0) {
-                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}>To join the event directly: <a
-                    href={event.invite_link[0].link}>{event.invite_link[0].title}</a>.</span>)
+                if (isMobile) {
+                    alert.push(<span
+                        style={{display: 'inline-block', paddingLeft: '5px'}}> <a
+                        href={event.invite_link[0].link}>{event.invite_link[0].title}</a>.</span>)
+                } else {
+                    alert.push(<span
+                        style={{display: 'inline-block', paddingLeft: '5px'}}> To join the event directly: <a
+                        href={event.invite_link[0].link}>{event.invite_link[0].title}</a>.</span>)
+                }
             }
         }
 
@@ -131,7 +156,9 @@ class EventAlert extends React.Component{
         const { classes } = this.props;
         let note = this.eventAlert()
         let alert = note[0]
-        let displayAlert = note[1]
+        let isHome = window.location.href.replace("//", "").split("/").length === 2 ? true : false
+        let displayAlert = note[1] && isHome
+
         return (
             <div>
                 {displayAlert ?

@@ -133,7 +133,8 @@ export default function EventEventModal({open, closeDo, event}) {
                 <p style={{color:"#4284C8", marginBottom: 5, marginTop: 15}}>
                     <strong>Submit your .edu email to receive event link and details </strong>
                 </p>
-                <CustomInput labelText="Email" 
+                <CustomInput
+                    labelText="Email"
                     onChange={(val) => {handleCheckEmail(val)}}
                     error={emailError}/>
                 <CustomButton text="Send" style={{marginTop: 20, marginLeft: 10, width: 80, height: 40}} 
@@ -155,7 +156,7 @@ export default function EventEventModal({open, closeDo, event}) {
                     <strong>Your email has been submitted!</strong>
                 </p>
                 <p style={{color:"#4284C8", marginBottom: 5, marginTop: 15, fontSize: 12}}>
-                    Check your email for the link and website to the event (this may take a few minutes)
+                    Check your email for event invitation (this may take a few minutes)
                 </p>
             </div>
         )
