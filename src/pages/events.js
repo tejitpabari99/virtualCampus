@@ -9,7 +9,9 @@ import AddIcon from "@material-ui/icons/Add";
 import firebase from "../firebase";
 import Fuse from 'fuse.js';
 import Subtitle from "../components/text/Subtitle";
-import {getTimezoneName, convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate} from "../components/all/TimeFunctions"
+import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
+  getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate}
+  from "../components/all/TimeFunctions"
 
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({

@@ -1,7 +1,11 @@
 import TZ from "countries-and-timezones";
 import firebase from "../../firebase";
+
+
+const defaultTimezone = "America/New_York";
+
 // Get a better timezone name
-export function getTimezoneName(loc = getCurrentLocationForTimeZone(), dst = this.dst()) {
+export function getTimezoneName(loc = getCurrentLocationForTimeZone(), dst = dst) {
     const gmt = TZ.getTimezone(loc).utcOffsetStr;
     var str = "GMT" + gmt;
   
@@ -167,4 +171,35 @@ export function getTimezoneName(loc = getCurrentLocationForTimeZone(), dst = thi
       ? new Timestamp(timestamp.seconds, timestamp.nanoseconds).toDate()
       : timestamp;
   }
+
+
+    export function getTimezoneOptions() {
+    if (getCurrentLocationForTimeZone() !== defaultTimezone) {
+        return [
+            {
+                value: getCurrentLocationForTimeZone()
+                    + "$" + dst(),
+                label: "Mine: "
+                    + getTimezoneName()
+            },
+            {
+                value: defaultTimezone
+                    + "$" + dst(defaultTimezone),
+                label: "Default: "
+                    + getTimezoneName(defaultTimezone
+                        , dst(defaultTimezone))
+            }
+        ];
+    } else {
+        return [
+            {
+                value: defaultTimezone
+                    + "$" + dst(defaultTimezone),
+                label: "Mine: "
+                    + getTimezoneName(defaultTimezone
+                        , dst(defaultTimezone))
+            }
+        ];
+    }
+}
   
