@@ -20,10 +20,6 @@ import Button from "@material-ui/core/Button";
 // import GridContainer from "../material-kit-components/Grid/GridContainer";
 // import GridItem from "../material-kit-components/Grid/GridItem";
 import Grid from '@material-ui/core/Grid';
-
-
-import classNames from "classnames";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
 // import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import { MetaData, CustomHeader, CustomButton, Title, Subtitle, Template } from "../";
 import Container from "@material-ui/core/Container";

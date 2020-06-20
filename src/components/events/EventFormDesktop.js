@@ -86,7 +86,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const TITLE = "ADD EVENT";
-const defaultTimezone = "America/New_York";
 
 
 function formatEmailText(jsonText) {
