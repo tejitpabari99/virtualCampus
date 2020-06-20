@@ -3,6 +3,7 @@ import React from "react";
 import Axios from "axios";
 import queryString from 'query-string';
 import firebase from "../../firebase";
+import {Formik} from "formik";
 
 class HandleApprove extends React.Component {
 
@@ -10,8 +11,12 @@ class HandleApprove extends React.Component {
 
         super(props);
         this.state={
-            state: 1,
+            state: -1,
             response: "Begin",
+            code: null,
+            myEventsId: null,
+            myEventsList: null,
+            headings: null,
             params: queryString.parse(this.props.location.search),
             eventInfo: 0
         };
@@ -27,22 +32,18 @@ class HandleApprove extends React.Component {
             .get()
             .then(snapshot => {
                 if (snapshot.empty) {
-                    console.log('No matching documents.');
                     this.setState({ eventInfo: 0 });
                     return 0;
                 }
 
                 snapshot.forEach(doc => {
                     if (doc.id === id) {
-                        console.log("here 2");
-                        console.log(doc.data())
                         this.setState({ eventInfo: doc.data() });
                         return doc.data();
                     }
                 });
             })
             .catch(err => {
-                console.log('Error getting documents', err);
                 this.setState({ eventInfo: 0 });
                 return 0;
             });
@@ -66,6 +67,10 @@ class HandleApprove extends React.Component {
             });
     }
 
+    verify() {
+        return false
+    }
+
     // TODO: Email user the start_url?
     // TODO: Make sure the zoom redirect uri is correct once pushed to live website
     run() {
@@ -77,7 +82,6 @@ class HandleApprove extends React.Component {
             const urlTokenAuth = 'https://zoom.us/oauth/token'
             const urlCreateMeeting = 'https://api.zoom.us/v2/users/columbiavirtualcampus@gmail.com/meetings'
             const redir_uri = window.location.href.split("?")[0];
-            console.log(redir_uri);
             const requestUrl = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendZoomRequest'
 
             const body = {
@@ -104,7 +108,6 @@ class HandleApprove extends React.Component {
                     // Check if we should create a meeting for event:
                     this.getEventById(this.state.params.state).then(r => {
                         const event = this.state.eventInfo;
-                        console.log("event info: " + event)
 
                         if (event === 0) {
                             this.setState({response: "Event does not exist."})
@@ -136,7 +139,6 @@ class HandleApprove extends React.Component {
                                 },
                                 json: true
                             };
-                            console.log(JSON.stringify(options));
                             // Second create zoom meeting with API
                             Axios.post(requestUrl, options)
                                 .then(res => {
@@ -145,12 +147,10 @@ class HandleApprove extends React.Component {
                                                         + "\n Host Link: " + res.data.start_url
                                                         + "\n PW: " + options.body.password
                                                         + "\n\nAttempting to put into database..."});
-                                    console.log(JSON.stringify(res.data))
                                     this.updateZoomLink(this.state.params.state, res.data.join_url, res.data.start_url,
                                                             options.body.password);
                                 })
                                 .catch(error => {
-                                    console.log("error: " + error);
                                     this.setState({response: "Failure! Could not add meeting: " + error})
                                 });
                         } else {
@@ -160,7 +160,6 @@ class HandleApprove extends React.Component {
                     });
                 })
                 .catch(error => {
-                    console.log("error: " + error);
                     this.setState({response: "Failure! Could not authenticate: " + error})
                 });
         }
@@ -168,10 +167,191 @@ class HandleApprove extends React.Component {
         this.setState({state: 2})
 
     }
-    componentDidMount() {
-        this.run();
+
+
+
+    async getEvents() {
+        var db = firebase.firestore()
+        let options = []
+        var approvedEvents = await db.collection("events").get()
+        let approvedEventsMap = [];
+        let approvedEventsId = []
+        if(approvedEvents){
+            approvedEventsMap = approvedEvents.docs.map(doc => doc.data());
+            approvedEventsId = approvedEvents.docs.map(doc => doc.id);
+        }
+        this.setState({ myEventsList: approvedEventsMap, state: 0, myEventsId: approvedEventsId });
+        this.setState({state: 0});
+    }
+
+    async componentDidMount() {
+        await this.getEvents();
+        this.setHeading();
+        fetch('/', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(res => console.log(res.json())) //returns array of data
+        // this.run();
+    }
+
+    renderTableData() {
+        if (this.state.headings !== null) {
+            var even = false
+            return this.state.myEventsList.map((event, index) => {
+
+                var zoomLink = "#"
+                var zoomLinkText = "Not Requested"
+                var approveText = "Approved"
+                var approveLink = "#"
+                even = !even
+
+                if (event["zoomLink"] === true) {
+                    zoomLink = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=https%3A%2F%2Fcolumbiavirtualcampus.com%2Fevents%2Fhandle-approve&state="
+                        + this.state.myEventsId[index];
+                    zoomLinkText = "Generate Zoom Meeting"
+                }
+
+                if (event["approved"] == false) {
+                    approveText = "Click to Approve"
+                    approveLink = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId="
+                                + this.state.myEventsId[index]
+                }
+
+                return (
+                    <tr key={this.state.myEventsId[index]} style={even ? {backgroundColor: "#dddddd"} : {}}>
+                        <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px", borderSpacing: "0px"}}>
+                            <a  style={{color: "black"}}
+                                href={approveLink}>
+                                {approveText}
+                            </a>
+                        </td>
+                        <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px"}}>
+                            <a style={{color: "black"}} href={zoomLink}>
+                                {zoomLinkText}
+                            </a>
+                        </td>
+                        {
+                            this.state.headings.map((num, j) => {
+                                if (num === "tags") {
+                                    return (<td key={j}
+                                                style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
+                                                        borderSpacing: "0px", color: "black"}}>
+                                        {JSON.stringify(event[num])}</td>)
+                                } else if (num !== "approved" && num !== "zoomLink") {
+                                        return (<td key={j}
+                                                    style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
+                                                            borderSpacing: "0px", color: "black"}}>
+                                            {event[num]}</td>)
+                                }
+                            })
+                        }
+                    </tr>
+                )
+            })
+        } else {
+            return (
+                <tr> </tr>
+            )
+        }
+    }
+
+
+    getHeading() {
+        if (this.state.headings !== null) {
+            var temp = this.state.headings
+            return (
+                <tr key="Heading" >
+                    {/*<td style={{border: "1px solid black", width: "50px"}}>ID</td>*/}
+                    <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
+                                borderSpacing: "0px", color: "black"}}>
+                        <b>Approve Link</b></td>
+                    <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
+                                borderSpacing: "0px", color: "black"}}>
+                        <b>Generate Zoom Link</b></td>
+                    {
+                        temp.map((num, j) => {
+                            if (num !== "zoomLink" && num !== "approved")
+                                return (<td key={j}
+                                            style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
+                                                    borderSpacing: "0px", color: "black"}}>
+                                    <b>{num}</b></td>)
+                        })
+                    }
+                </tr>
+            )
+        } else {
+            return (
+                <tr> </tr>
+            )
+        }
+    }
+    setHeading() {
+        if (this.state.headings === null) {
+            var max = 0
+            var headings = null
+            this.state.myEventsList.map((event, index) => {
+                var arr = [];
+                var size = 0
+                Object.keys(event).forEach(function (key) {
+                    arr.push(key);
+                    size = size + 1
+                });
+                arr.push("zoomLink")
+                if (size > max) {
+                    headings = arr
+                }
+            })
+
+            this.setState({headings: headings});
+        }
+    }
+    submitHandler() {
+        console.log(btoa("test"))
+        console.log(atob(btoa("test")))
+
+
+        fetch('/', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(res => console.log(res.json())) //returns array of data
+            .then(res => this.setState({ res })); //assign state to array res
     }
     render() {
+
+        if (this.verify() === false) {
+            return (<div>
+                        <form action="#" onSubmit={this.submitHandler} method="post">
+                            <input type="text" id="typed" name="typed" /><br />
+                            <input type="submit" value="Submit" />
+                        </form>
+                    </div>)
+        } else
+        if (this.state.state === -1) {
+            return (
+                <div>
+                    Loading...
+                </div>
+            )
+        } else if (this.state.state === 0) {
+            return (
+                <div style={{background: "white", fontSize:"1rem", paddingLeft:"1%"}}>
+                    <table id='events'>
+                        <tbody>
+                            {this.getHeading()}
+                            {this.renderTableData()}
+                        </tbody>
+                    </table>
+                </div>
+            )
+        } else
         if (this.state.state === 1) {
             return (
                 <div>
