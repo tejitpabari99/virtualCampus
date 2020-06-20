@@ -3,8 +3,10 @@ import sys
 import numpy as np
 import pandas as pd
 import firebase_admin
-from firebase_admin import credentials
 from firebase_admin import firestore
+from resource import Resource, Links
+from firebase_admin import credentials
+
 
 def log(message):
     print(message, file=sys.stderr, flush=True)
@@ -46,25 +48,10 @@ if __name__ == "__main__":
     log("\nAdding data to firestore...")
     added = 0
     for index, row in resources_df.iterrows():
-        data = {
-            "category": {
-                "category": row["category"],
-                "tags": row["tags"].split(", ")
-            },
-            "description": row["description"],
-            "reviewed": row["reviewed"],
-            "img": row["image link"],
-            "links": {
-                "androidLink": row["android link"],
-                "cardLink": row["card link"],
-                "facebook": row["facebook"],
-                "iosLink": row["ios link"],
-                "website": row["website"],
-            },
-            "title": row["resource name"],
-        }
+        links = Links(row["android link"], row["card link"], row["facebook"], row["ios link"], row["website"])
+        resource = Resource(row["resource name"], True, row["description"], row["image link"], row["category"], row["tags"].split(", "), links)
         path = "resources" 
-        db.collection(path).add(data)
+        db.collection(path).add(resource.to_dict())
         added += 1
         log("\tAdded " + row["resource name"] + " to " + path)
     

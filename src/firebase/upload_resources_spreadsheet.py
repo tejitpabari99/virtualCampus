@@ -5,11 +5,14 @@ import numpy as np
 import pandas as pd
 import firebase_admin
 from typing import List
+
 from datetime import datetime
 from gspread.models import Cell
 from firebase_admin import firestore
+from resource import Resource, Links
 from firebase_admin import credentials
 from oauth2client.service_account import ServiceAccountCredentials
+
 
 SPREADSHEET_NAME = "List of Resources"
 WORKSHEET_NAME = "Sheet1"
@@ -107,32 +110,14 @@ def upload_new_resources(new_resources_df:pd.DataFrame, db, sheet:gspread.models
     added = 0
     uploaded_rows = list()
     for index, row in new_resources_df.iterrows():
-        data = {
-            "category": {
-                "category": row["category"],
-                "tags": row["tags"].split(", ")
-            },
-            "description": row["description"],
-            "reviewed": True,
-            "img": row["image link"],
-            "links": {
-                "androidLink": row["android link"],
-                "cardLink": row["card link"],
-                "facebook": row["facebook"],
-                "iosLink": row["ios link"],
-                "website": row["website"],
-            },
-            "title": row["resource name"],
-        }
-
+        links = Links(row["android link"], row["card link"], row["facebook"], row["ios link"], row["website"])
+        resource = Resource(row["resource name"], True, row["description"], row["image link"], row["category"], row["tags"].split(", "), links)
         path = "resources" 
-
         try:
-            db.collection(path).add(data)
+            db.collection(path).add(resource.to_dict())
         except:
             log(f"Error uploading data to firestore. {added} / {length} resources uploaded successfully")
             return uploaded_rows
-
         added += 1
         log(f"\tAdded {row['resource name']} to {path}")
         uploaded_rows.append(index + 1)
