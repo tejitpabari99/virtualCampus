@@ -17,6 +17,7 @@ class EventAlert extends React.Component{
         this.state={
             open:false,
             event:null,
+            isHome:false,
             myEventsList: []
         };
         this.getEvents();
@@ -150,12 +151,17 @@ class EventAlert extends React.Component{
         this.setState({ open: false, count: 0 });
     }
 
+    componentDidMount() {
+        const isHomeVar = window.location.href.replace("//", "").split("/").length === 2
+                            ? true : false
+        this.setState({ isHome: isHomeVar});
+    }
+
     render(){
         const { classes } = this.props;
         let note = this.eventAlert()
         let alert = note[0]
-        let isHome = window.location.href.replace("//", "").split("/").length === 2
-                     ? true : false
+        let isHome = this.state.isHome
         let displayAlert = note[1] && isHome
         return (
             <div>
