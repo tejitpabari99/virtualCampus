@@ -1,11 +1,9 @@
 import React from "react"
 import Template from "../components/all/Template";
 import AddIcon from "@material-ui/icons/Add";
-
-import {ResourcesFeaturedDesktop} from "../components";
-
 import Button from "../components/material-kit-components/CustomButtons/Button.js";
-import {MetaData, ResourcesList, CustomButton, Title} from "../components";
+import {MetaData, CustomButton, Title} from "../components";
+import ResourcesList from "../components/resources/ResourcesList";
 import ResourcesFeatured from "../components/resources/ResourcesFeatured";
 
 const useStyles = () => ({
