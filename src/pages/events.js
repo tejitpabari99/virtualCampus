@@ -125,11 +125,9 @@ class Events extends React.Component {
     if(changeDefaultSearchVal){
       this.setState({defaultSearchInput:''});
     }
-    if(!val || val.length===0){
-      return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:''});
-    }
-    else if(val.length<=2){
-      return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'Search term must be more than 2 characters'});
+    if(!val || val.length===0) {
+      return this.setState({eventSearch: [], activityIndicator: false, eventSearchError: '',
+                                 myEventsList: this.state.permEventsList});
     }
     this.setState({activityIndicator:true});
     const options = {
