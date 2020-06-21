@@ -1,7 +1,7 @@
 import React from "react"
 
-import GridContainer from "../material-kit-components/Grid/GridContainer.js";
-import GridItem from "../material-kit-components/Grid/GridItem";
+import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
+import GridItem from "../../material-kit-components/Grid/GridItem";
 import {ResourcesCard, Template} from "../";
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";

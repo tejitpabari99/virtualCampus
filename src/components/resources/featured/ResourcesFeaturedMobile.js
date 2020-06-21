@@ -1,13 +1,11 @@
-import classNames from "classnames";
 import React from "react";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 import Carousel from 'react-material-ui-carousel'
-import {Paper} from '@material-ui/core'
-import Button from "../material-kit-components/CustomButtons/Button.js";
+import Button from "../../material-kit-components/CustomButtons/Button.js";
 
 import {makeStyles} from "@material-ui/core/styles";
-import Data from "../../assets/ResourcesData";
-import {ResourcesCard, CustomTheme, CustomButton} from "..";
+import Data from "../../../assets/ResourcesData";
+import {CustomTheme, CustomButton} from "../..";
 const FeaturedData = Data.FeaturedData;
 const theme = CustomTheme;
 
