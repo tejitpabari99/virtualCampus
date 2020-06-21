@@ -180,25 +180,25 @@ class ResourcesListDesktop extends React.Component {
             </div>
           </GridItem>
           <GridItem xs={9}>
-          <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
-            {this.state.myResourcesDisplay.map(data => {
-              return (
-                <GridItem xs={12} sm={6} md={4} style={{marginBottom: "40px", marginTop: "10px"}}>
-                  <ResourcesCard
-                    website={data.links.website}
-                    img={data.img}
-                    title={data.title}
-                    description={data.description}
-                    iosLink={data.links.iosLink}
-                    androidLink={data.links.androidLink}
-                    tags={data.category.tags}
-                    share
-                  />
-                </GridItem>
-              );
+            <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
+              {this.state.myResourcesDisplay.map(data => {
+                return (
+                  <GridItem xs={12} sm={6} md={4} style={{marginBottom: "40px", marginTop: "10px"}}>
+                    <ResourcesCard
+                      website={data.links.website}
+                      img={data.img}
+                      title={data.title}
+                      description={data.description}
+                      iosLink={data.links.iosLink}
+                      androidLink={data.links.androidLink}
+                      tags={data.category.tags}
+                      share
+                    />
+                  </GridItem>
+                );
 
-            })}
-          </GridContainer>
+              })}
+            </GridContainer>
           </GridItem>
         </GridContainer>
       </div>
