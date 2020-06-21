@@ -12,7 +12,9 @@ const CoolerButton = ({children, ...other}) => {
   const otherClick = other.onClick.bind({});
   const handleClick = () => {
     setIsPushed(!isPushed);
-    otherClick();
+    if(isPushed){
+      otherClick();
+    }
   }
   delete other.onClick;
 
@@ -108,38 +110,6 @@ class ResourcesList extends React.Component {
       }
     }
     return res;
-  }
-
-//this keeps track of whether or not the tag has been clicked
-  makeTagClick(resources) {
-        let val = {};
-        for (let i=0; i< resources.length; i+=1) {
-          let ele = resources[i];
-          let key = this.toTitleCase(ele['category']['category']);
-          let tag = ele['category']['tags'];
-
-          for(let j=0; j<tag.length; j++){
-            let tagName = this.toTitleCase(tag[j]);
-            //if category not added yet, add tag and resource
-            if(key in val== false){
-              val[key] = [tagName];
-              val[key][tagName] = false;
-            }
-            //if category is already added
-            else{
-              //if tag exists, add resource
-              if(val[key][tagName]){
-                  val[key][tagName].push(false);
-              }
-              //if tag doesn't exist, add tag and resource
-              else{
-                val[key].push(tagName);
-                val[key][tagName] = false;
-              }
-            }
-          }
-        }
-        return val;
   }
 
   toTitleCase(str) {
