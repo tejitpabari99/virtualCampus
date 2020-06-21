@@ -19,10 +19,11 @@ import Subtitle from "./text/Subtitle";
 import Heading from "./text/Heading";
 import DesktopMobile from "./all/DesktopMobile";
 import BLMCard from "./cards/BLMCard";
+import Intro from "./technical/Intro"
 
 export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         EventCard, EventCardMobile, EventModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton, DesktopMobile,
         Title, Subtitle, Heading,
-        ResourcesList, ResourcesCard, BLMCard}
+        ResourcesList, ResourcesCard, BLMCard, Intro}

@@ -3,10 +3,14 @@ import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { MetaData, EventCard, EventModal, Template, CustomButton, Title } from "../components";
+import { MetaData, EventCard, EventModal, Template, CustomButton, Title, Intro } from "../components";
 import TZ from "countries-and-timezones";
 import AddIcon from "@material-ui/icons/Add";
 import firebase from "../firebase";
+import Subtitle from "../components/text/Subtitle";
+import interview from "../assets/images/technical/interview.png";
+import GridItem from "../components/material-kit-components/Grid/GridItem.js";
+import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 
 
 const localizer = momentLocalizer(moment);
@@ -187,6 +191,7 @@ export function convertTimestampToDate(timestamp){
     : timestamp;
 }
 
+
 class Events extends React.Component {
   constructor(props) {
     super(props);
@@ -317,6 +322,21 @@ class Events extends React.Component {
           <CustomButton href={""} text={"Participate"}
                         style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
         </div>
+        <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
+        <GridContainer
+            style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
+                <GridItem xs={12} sm={12} md={4}>
+                    <img src={interview} style={{width: "350px", height: "300px" }}></img>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={8}>
+                    <p style={{fontSize: "25px", fontWeight: "bold", textAlign: "left"}}>Are you preparing for tech internships and full time positons? 
+                    Do you want to practice your technical interview skills?</p>
+                    <p style={{fontSize : "20px", textAlign: "left"}}> Columbia Virtual Campus is offerring the opportunity to particiapte in one-on-one mock technical interviews with Columbia Univeristy students who have interned at Company1, Company2, Company3, and more.  
+                    These one hour tutoring sessions will allow you to pratice real technical interview questions in a setting that resembles a real interview.</p>
+                    <p style={{fontSize : "15px", textAlign: "left"}}><strong>Interested in giving mock interviews?</strong> Email us with your interview!</p>
+                </GridItem>
+            </GridContainer>
+        <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
         <Calendar
           views={["month", "week", "day"]}
           localizer={localizer}
