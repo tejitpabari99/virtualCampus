@@ -1,7 +1,7 @@
 import React from "react"
 import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
-import ResourcesFormDesktop from "../../components/resources/ResourceFormDesktop";
-import ResourcesFormMobile from "../../components/resources/ResourceFormMobile";
+import ResourcesFormDesktop from "../../components/resources/form/ResourceFormDesktop";
+import ResourcesFormMobile from "../../components/resources/form/ResourceFormMobile";
 
 class Index extends React.Component {
 
