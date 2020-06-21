@@ -217,8 +217,8 @@ class HandleApprove extends React.Component {
 
                 if (event["approved"] == false) {
                     approveText = "Click to Approve"
-                    approveLink = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId="
-                                + this.state.myEventsId[index]
+                    //approveLink = "..."
+                               // + this.state.myEventsId[index]
                 }
 
                 return (
@@ -326,14 +326,14 @@ class HandleApprove extends React.Component {
     }
     render() {
 
-        if (this.verify() === false) {
+        /*if (this.verify() === false) {
             return (<div>
                         <form action="#" onSubmit={this.submitHandler} method="post">
                             <input type="text" id="typed" name="typed" /><br />
                             <input type="submit" value="Submit" />
                         </form>
                     </div>)
-        } else
+        } else*/
         if (this.state.state === -1) {
             return (
                 <div>
