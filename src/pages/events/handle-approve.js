@@ -3,7 +3,6 @@ import React from "react";
 import Axios from "axios";
 import queryString from 'query-string';
 import firebase from "../../firebase";
-import {Formik} from "formik";
 
 class HandleApprove extends React.Component {
 
@@ -71,17 +70,13 @@ class HandleApprove extends React.Component {
         return false
     }
 
-    // TODO: Email user the start_url?
-    // TODO: Make sure the zoom redirect uri is correct once pushed to live website
-    run() {
+    // NOTE: white-list real url and redirect to real url!!! Then update redirect link url
+    run(redir_uri) {
         if (this.state.params === undefined || this.state.params.code === undefined) {
-            this.setState({response: "404 Not Found"});
-        //} else if (this.state.params.state === undefined) {
-         //   this.setState({response: "Event not specified."});
+            return;
         } else {
             const urlTokenAuth = 'https://zoom.us/oauth/token'
             const urlCreateMeeting = 'https://api.zoom.us/v2/users/columbiavirtualcampus@gmail.com/meetings'
-            const redir_uri = window.location.href.split("?")[0];
             const requestUrl = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendZoomRequest'
 
             const body = {
@@ -163,9 +158,7 @@ class HandleApprove extends React.Component {
                     this.setState({response: "Failure! Could not authenticate: " + error})
                 });
         }
-
         this.setState({state: 2})
-
     }
 
 
@@ -187,15 +180,8 @@ class HandleApprove extends React.Component {
     async componentDidMount() {
         await this.getEvents();
         this.setHeading();
-        fetch('/', {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(res => console.log(res.json())) //returns array of data
-        // this.run();
+        if (this.state.params !== undefined && this.state.params.code !== undefined)
+            this.run(window.location.href.split("?")[0]);
     }
 
     renderTableData() {
@@ -210,7 +196,8 @@ class HandleApprove extends React.Component {
                 even = !even
 
                 if (event["zoomLink"] === true) {
-                    zoomLink = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=https%3A%2F%2Fcolumbiavirtualcampus.com%2Fevents%2Fhandle-approve&state="
+
+                    zoomLink = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=http%3A%2F%2Fdesktop-hnqifrq%3A3000%2Fevents%2Fhandle-approve%2F&state="
                         + this.state.myEventsId[index];
                     zoomLinkText = "Generate Zoom Meeting"
                 }
@@ -254,7 +241,7 @@ class HandleApprove extends React.Component {
             })
         } else {
             return (
-                <tr> </tr>
+                <tr />
             )
         }
     }
@@ -285,7 +272,7 @@ class HandleApprove extends React.Component {
             )
         } else {
             return (
-                <tr> </tr>
+                <tr />
             )
         }
     }
