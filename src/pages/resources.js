@@ -16,6 +16,7 @@ const useStyles = () => ({
 });
 
 export default function Resources() {
+    const classes = useStyles();
     return (
         <Template active={'resources'} title={'Resources'}>
           <Title color={'blue'}>Resources</Title>
