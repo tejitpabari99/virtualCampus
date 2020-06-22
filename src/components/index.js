@@ -8,7 +8,12 @@ import EventCard from "./cards/EventCard";
 import EventCardMobile from "./cards/EventCardMobile";
 import EventModal from "./cards/EventModal";
 import EventEmailModal from "./cards/EventEmailModal";
-import ResourcesList from "./resources/ResourcesList";
+import ResourcesList from "./resources/resourcesList/ResourcesList";
+import ResourcesListDesktop from "./resources/resourcesList/ResourcesListDesktop";
+import ResourcesListMobile from "./resources/resourcesList/ResourcesListMobile";
+import ResourcesFeatured from "./resources/featured/ResourcesFeatured";
+import ResourcesFeaturedDesktop from "./resources/featured/ResourcesFeaturedDesktop";
+import ResourcesFeaturedMobile from "./resources/featured/ResourcesFeaturedMobile";
 import ResourcesCard from "./cards/ResourcesCard";
 import AddCalendar from "./events/AddCalendar";
 import CustomButton from "./buttons/CustomButton";
@@ -28,6 +33,7 @@ export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         EventCard, EventCardMobile, EventModal, EventEmailModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton, DesktopMobile,
-        Title, Subtitle, Heading, Search,
-        ResourcesList, ResourcesCard,
+        Title, Subtitle, Heading, Search, ResourcesList,
+        ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
+        ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
         BLMCard, TutorExpansionMapping, TutorSearchMapping}

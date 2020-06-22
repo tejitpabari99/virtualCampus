@@ -10,7 +10,7 @@ import Heading from "../components/text/Heading";
 import Group1 from "../assets/images/blm/Group 1.png"
 import Group34 from "../assets/images/blm/Group 34.png"
 import { CircularProgress } from '@material-ui/core';
-import firebase from '../firebase'
+import firebase from '../firebase';
 
 import Fuse from 'fuse.js';
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -319,7 +319,7 @@ class cvcBlm extends React.Component {
                     }}>
             <ol style={{paddingLeft:'15px'}}>
               <li><strong> Choose a mentor </strong> from below and register for a time. </li>
-              <li><strong> Receive an email </strong> with a CustomButton to make your donation before you begin your session. </li>
+              <li><strong> Receive an email </strong> with a link to make your donation before you begin your session. </li>
               <li><strong> Donate any amount </strong> to access your session with these amazing mentors! </li>
             </ol>
           </Subtitle>
@@ -395,7 +395,7 @@ class cvcBlm extends React.Component {
           <GridItem xs={0} sm={3}>
           </GridItem>
           <GridItem xs={12} sm={2}>
-            <CustomButton text={'Sign up to Tutor'} size={'large'} color={'blackWhite'} newTab/>
+            <CustomButton text={'Sign up to Tutor'} size={'large'} color={'blackWhite'} href={'https://forms.gle/g2WMk2LwY25o3WT98'} newTab/>
           </GridItem>
         </GridContainer>
       </Template>
