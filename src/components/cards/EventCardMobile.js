@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
 import CustomTheme from "../all/CustomTheme";
 import { AddCalendar } from "../";
@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CustomButton from '../buttons/CustomButton';
 import Heading1Mobile from "../text/Heading1Mobile";
 import Heading2Mobile from "../text/Heading2Mobile";
+import EventEmailModal from "./EventEmailModal"
 const theme = CustomTheme;
 
 const months = {
@@ -175,6 +176,16 @@ const useStyles = makeStyles(() => ({
 export default function EventCardMobile({ele}) {
     const classes = useStyles();
 
+    const [open, setOpen] = useState(false);
+
+    const openModalHandler = () => {
+        setOpen(true)
+    }
+
+    const closeDo = () => {
+        setOpen(false);
+    }
+
     return(
         <div className={classes.card}>
             <div style={{position: "relative"}}>
@@ -214,17 +225,21 @@ export default function EventCardMobile({ele}) {
                     <div style={{textAlign:'center', width: "100%"}}>
                         <CustomButton href={ele.event_link} text={'WEBSITE'} newTab
                                     style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginRight: 20, marginTop: 5}} color={'blue'}/>
-                        <CustomButton href={ele.invite_link} text={'ATTEND'} newTab
-                                style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
+                        <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
+                            style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
                     </div>
                 : ele.invite_link === '' && ele.event_link !== '' ?
                     <CustomButton href={ele.event_link} text={'WEBSITE'} newTab
                                 style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
 
                 : ele.invite_link !== '' ?
-                    <CustomButton href={ele.invite_link} text={'ATTEND'} newTab
+                    <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                             style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
                 : null}
+                {/* Uncomment the button below for testing */}
+                {/* <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
+                            style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/> */}
+                {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>} 
 
             </div>
 

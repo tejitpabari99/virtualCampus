@@ -4,7 +4,7 @@ import Fade from "@material-ui/core/Fade";
 import classNames from "classnames";
 import Button from "../material-kit-components/CustomButtons/Button";
 import Modal from "@material-ui/core/Modal";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
 import {CustomTheme, AddCalendar} from "../";
 import CustomInput from "../material-kit-components/CustomInput/CustomInput.js";
@@ -42,23 +42,11 @@ const useStyles = makeStyles ({
         marginTop: 0,
         marginBottom: 10
     },
-    button3:{
-        boxShadow:"none",
-        backgroundColor:"#BFD8E950",
-        margin:"15px",
-        marginLeft:"0px",
-        marginTop: 0,
-        marginBottom: 10
-    },
     addNewButton:{
         // float:'right',
         boxShadow:"none",
         fontSize: 20,
     },
-    learnMoreModal: {
-        boxShadow:"none",
-        fontSize: 15,
-    }
 });
 
 const months = {
@@ -76,7 +64,7 @@ const months = {
     11: 'December'
 };
 
-export default function EventModal({open, closeDo, event}) {
+export default function EventEventModal({open, closeDo, event}) {
     const classes = useStyles();
 
     const [email, setEmail] = useState(0);
@@ -116,6 +104,7 @@ export default function EventModal({open, closeDo, event}) {
           });
 
     }
+    
 
     const handleCheckEmail = (val) => {
         setEmail(val.target.value)
@@ -131,14 +120,21 @@ export default function EventModal({open, closeDo, event}) {
         }
     }
 
-    let emailSubmissionModal = null
+    let modalContent = null
     if (emailNotSubmitted) {
-        emailSubmissionModal = (
-            <div>
-                <p style={{color:"#4284C8", marginBottom: 5, marginTop: 20}}>
-                        <strong>Submit your .edu email to receive event link and details: </strong>
-                    </p>
-                <CustomInput labelText="Email" 
+        modalContent = (
+            <div style={{backgroundColor: theme.palette.background.paper,
+                border: '2px solid #000',
+                boxShadow: theme.shadows[5],
+                padding: theme.spacing(2, 4, 3),
+                maxWidth: 500,
+                margin: 25}}>
+                <h4 style={{color:"#4284C8"}} className={classes.cardTitle}>{event.event}</h4>
+                <p style={{color:"#4284C8", marginBottom: 5, marginTop: 15}}>
+                    <strong>Submit your .edu email to receive event link and details </strong>
+                </p>
+                <CustomInput
+                    labelText="Email"
                     onChange={(val) => {handleCheckEmail(val)}}
                     error={emailError}/>
                 <CustomButton text="Send" style={{marginTop: 20, marginLeft: 10, width: 80, height: 40}} 
@@ -148,13 +144,19 @@ export default function EventModal({open, closeDo, event}) {
             </div>
         )
     } else {
-        emailSubmissionModal = (
-            <div>
+        modalContent = (
+            <div style={{backgroundColor: theme.palette.background.paper,
+                border: '2px solid #000',
+                boxShadow: theme.shadows[5],
+                padding: theme.spacing(2, 4, 3),
+                maxWidth: 500,
+                margin: 25}}>
+                <h4 style={{color:"#4284C8"}} className={classes.cardTitle}>{event.event}</h4>
                 <p style={{color:"#4284C8", marginBottom: 5, marginTop: 15}}>
                     <strong>Your email has been submitted!</strong>
                 </p>
                 <p style={{color:"#4284C8", marginBottom: 5, marginTop: 15, fontSize: 12}}>
-                    Check your email for the link and website to the event (this may take a few minutes)
+                    Check your email for event invitation (this may take a few minutes)
                 </p>
             </div>
         )
@@ -177,80 +179,7 @@ export default function EventModal({open, closeDo, event}) {
             }}
         >
             <Fade in={open}>
-                <div style={{backgroundColor: theme.palette.background.paper,
-                    border: '2px solid #000',
-                    boxShadow: theme.shadows[5],
-                    padding: theme.spacing(2, 4, 3),
-                    maxWidth: 500,
-                    margin: 25}}>
-                    <h4 style={{color:"#4284C8"}} className={classes.cardTitle}>{event.event}</h4>
-                    <Button
-                        className={classes.button3}
-                        size="sm"
-                        round
-                        disabled
-                    >
-                        {months[event.start_date.getMonth()].toUpperCase()} {event.start_date.getDate()}, {event.start_date.getFullYear()}
-                    </Button>
-                    <Button
-                        className={classes.button3}
-                        size="sm"
-                        round
-                        disabled
-                    >
-                        {formatTime(event.start_date.getHours(),event.start_date.getMinutes())} {event.timeZoneGMT}
-                    </Button>
-                    {event.tags.map((ele, ind) => {
-                        return (
-                            <Button
-                                key={ind}
-                                color="vcColor"
-                                className={classNames(classes.navLink, classes.button)}
-                                size="sm"
-                                round
-                                disabled
-                                active={true}
-                            >
-                                {ele}
-                            </Button>
-                        )
-                    })}
-                    <div style={{ color: "#4284C8", marginBottom: 5,flexDirection: 'row', display:'flex' }}>
-                        <div style={{fontSize:15}}><strong>Website: </strong></div>
-                        {event.event_link &&
-                        <div style={{marginLeft:5}}>
-                            <a href={event.event_link} target={'_blank'} rel="noopener noreferrer"
-                               style={{ color: "#4284C8", textDecoration: 'underline' }}>{event.event}</a>
-                        </div>
-                        }
-                        {!event.event_link && <div style={{marginLeft:5}}/>}
-                    </div>
-                    {/* <div style={{ color: "#4284C8", marginBottom: 5, flexDirection: 'row', display:'flex' }}>
-                        <div style={{fontSize:15}}><strong>Event Link: </strong></div>
-                        {event.invite_link &&
-                        <div style={{marginLeft:5}}>
-                            <a href={event.invite_link} target={'_blank'} rel="noopener noreferrer"
-                               style={{ color: "#4284C8", textDecoration: 'underline' }}>Attend</a>
-                        </div> 
-                        }
-                        {!event.invite_link && <div style={{marginLeft:5}}>TBA</div>}
-                    </div> */}
-                    <p style={{color:"#4284C8"}}>{event.desc}</p>
-                    <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
-                        <strong>Hosted By: </strong> {event.name}
-                    </p>
-
-                    {/* <p style={{color:"#4284C8", marginBottom: 5, marginTop: 20}}>
-                        <strong>Submit your .edu email to receive event link and details: </strong>
-                    </p>
-                    <CustomInput labelText="Email"/>
-                    <CustomButton text="Send" style={{marginTop: 20, marginLeft: 10, width: 80, height: 40}} size={"small"}/> */}
-                    {emailSubmissionModal}
-
-                    <div style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
-                        <strong><AddCalendar info={event}/> </strong>
-                    </div>
-                </div>
+                {modalContent}
             </Fade>
         </Modal>
     )
