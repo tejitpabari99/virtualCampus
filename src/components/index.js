@@ -7,6 +7,7 @@ import TeamSection from "./about-us/TeamSection";
 import EventCard from "./cards/EventCard";
 import EventCardMobile from "./cards/EventCardMobile";
 import EventModal from "./cards/EventModal";
+import EventEmailModal from "./cards/EventEmailModal";
 import ResourcesList from "./resources/resourcesList/ResourcesList";
 import ResourcesListDesktop from "./resources/resourcesList/ResourcesListDesktop";
 import ResourcesListMobile from "./resources/resourcesList/ResourcesListMobile";
@@ -29,7 +30,7 @@ import TutorExpansionMapping from './pop-up/blm/TutorExpansionMapping';
 import TutorSearchMapping from './pop-up/blm/TutorSearchMapping'
 
 export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
-        EventCard, EventCardMobile, EventModal, AddCalendar,
+        EventCard, EventCardMobile, EventModal, EventEmailModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton, DesktopMobile,
         Title, Subtitle, Heading, Search, ResourcesList,
