@@ -23,12 +23,14 @@ export default class Search extends React.Component{
   }
 
   render(){
+   let iconCol = this.props.iconColor === undefined ? 'black' : this.props.iconColor
     return(
       <div style={{display:'inline'}}>
         <TextField
           style={{ width: "100%"}}
           id="input-with-icon-textfield"
-          placeholder="Search tutors, subjects and descriptions..."
+          placeholder={this.props.placeholder === undefined ? "Search tutors, subjects and descriptions..."
+                                                            : this.props.placeholder}
           value={this.state.searchVal}
           onChange={(val) => {this.setState({searchVal:val.target.value})}}
           variant="outlined"
@@ -37,7 +39,9 @@ export default class Search extends React.Component{
             endAdornment: (
               <div>
                 <InputAdornment position="end">
-                  <IconButton onClick={() => {this.props.onClick(this.state.searchVal)}}><SearchIcon style={{color:'black'}}/></IconButton>
+                  <IconButton onClick={() => {this.props.onClick(this.state.searchVal)}}>
+                      <SearchIcon style={{color:iconCol}}/>
+                  </IconButton>
                 </InputAdornment>
               </div>
             )

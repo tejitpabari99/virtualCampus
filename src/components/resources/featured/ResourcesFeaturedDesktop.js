@@ -25,10 +25,10 @@ const containerStyles = makeStyles(() => ({
   },
   card: {
     position: 'absolute',
-    left: '4.9%',
+    left: '5.3%',
     right: '62.74%',
     top: '11.91%',
-    bottom: '16.96%',
+    bottom: '17.75%',
     background: '#FFFFFF',
   },
   category: {
@@ -97,7 +97,7 @@ export default function ResourcesFeaturedDesktop() {
               return (
                   <div style={{overflow:'hidden'}}>
                     <img src={data.img} alt={data.img} height='500px' width='100%' className={contStyle.container}/>
-                    <img src={data.img} alt={data.img} height={'380.3px'} width={'57%'} className={contStyle.img}/>
+                    <img src={data.img} alt={data.img} height='70.32%' width={'57.3%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>
                         {data.category.category

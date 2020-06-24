@@ -1,7 +1,7 @@
 import React from "react"
 import Template from "../components/all/Template";
-
-import {ResourcesList, Title} from "../components";
+import {Title} from "../components";
+import ResourcesList from "../components/resources/resourcesList/ResourcesList";
 import ResourcesFeatured from "../components/resources/featured/ResourcesFeatured";
 
 export default function Resources() {

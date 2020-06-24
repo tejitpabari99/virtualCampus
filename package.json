@@ -17,7 +17,7 @@
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
     "countries-and-timezones": "^2.2.0",
-    "firebase": "^7.14.2",
+    "firebase": "^7.15.1",
     "formik": "^2.1.4",
     "formik-material-ui": "^2.0.0-beta.1",
     "formik-material-ui-pickers": "0.0.8",

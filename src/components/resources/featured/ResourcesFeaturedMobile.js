@@ -13,25 +13,19 @@ const theme = CustomTheme;
 const containerStyles = makeStyles(() => ({
   container: {
     position: 'relative',
-    left: '3.8%',
-    right: '3.56%',
-    top: '2.78%',
-    bottom: '2.94%',
-
-    background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))',
+    background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) 71%)',
     filter: 'blur(15px) contrast(125%) brightness(75%)',
   },
   img: {
     position: 'absolute',
-    left: '8%',
-    right: '8%',
+    left: '7%',
     top: '8%',
     objectFit: 'cover',
   },
   card: {
     position: 'absolute',
-    left: '8%',
-    right: '8%',
+    left: '7%',
+    right: '7%',
     top: '40.31%',
     bottom: '14%',
     background: '#FFFFFF',
@@ -101,8 +95,8 @@ export default function ResourcesFeaturedMobile() {
               console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height={'500px'} width={'100%'} className={contStyle.container} style={{imageRendering: 'crisp-edges'}}/>
-                    <img src={data.img} alt={data.img} height={'180px'} width={'84%'} className={contStyle.img}/>
+                    <img src={data.img} alt={data.img} height={'500px'} width={'100%'} className={contStyle.container}/>
+                    <img src={data.img} alt={data.img} height={'180px'} width={'86%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>
                         {data.category.category
