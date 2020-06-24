@@ -1,14 +1,14 @@
 import React from "react"
-import myEventsList from '../../assets/EventsData';
 import { Alert} from '@material-ui/lab';
 import firebase from "../../firebase";
+import { isMobile } from "react-device-detect";
 import {
     convertDateToUTC,
     convertTimestampToDate,
     convertUTCToLocal, dst, getCurrentLocationForTimeZone,
     getOffset,
     getTimezoneName
-} from "../../pages/events";
+} from "../all/TimeFunctions";
 
 
 class EventAlert extends React.Component{
@@ -17,6 +17,7 @@ class EventAlert extends React.Component{
         this.state={
             open:false,
             event:null,
+            isHome:false,
             myEventsList: []
         };
         this.getEvents();
@@ -25,15 +26,10 @@ class EventAlert extends React.Component{
     
     async getEvents() {
         var db = firebase.firestore();
-        var approvedEvents = await db.collection("events").where("approved", "==", false).get();
+        var approvedEvents = await db.collection("events")
+            .where("approved", "==", true).get();
         let approvedEventsMap = [];
         if(approvedEvents){
-            // TODO
-            // MAY NEED TO CHANGE:
-            // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
-            // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
-            // However, convertEventsTime should be run on every event, converting the time and timezone of the event
-            // To the current user's local time!
             approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
         }
         this.setState({ myEventsList: approvedEventsMap });   
@@ -83,14 +79,11 @@ class EventAlert extends React.Component{
 
         //iterate through events
         for (let i = 0; i < events.length; i++) {
-            console.log("am i getting here")
             const e = events[i]
-            console.log(new Date(e.start_date))
             if(e.agree) {
                 //if event is happening now, save event and change flag to true
                 if ((new Date(e.start_date)) < today && (new Date(e.end_date)) > today) {
                     event = e
-                    console.log("IS IT HAPPENING MR KRABS")
                     displayNow = true
                     break
                 }
@@ -109,20 +102,45 @@ class EventAlert extends React.Component{
         let alert = [];
         if (event != null) {
             displayAlert = true;
+            if (isMobile) {
+                if (displayNow) {
+                    alert.push(<span style={{display: 'inline-block', paddingLeft: '2px'}}>Now:
+                        <strong> {event.event}</strong></span>)
+                } else {
+                    alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}>
+                        In {parseInt(((new Date(event.start_date)).getTime() - today.getTime()) / 60000)} minutes:
+                        <strong>{event.event}</strong>!</span>)
+                }
+            } else
             if (displayNow) {
-                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}><strong>{event.event}</strong> is happening right now!</span>)
+                alert.push(<span style={{display: 'inline-block', paddingLeft: '2px'}}><strong>{event.event}</strong>
+                    is happening right now!</span>)
             } else {
-                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}><strong>{event.event}</strong> is starting in {parseInt(((new Date(event.start_date)).getTime() - today.getTime()) / 60000)} minutes!</span>)
+                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}><strong>{event.event}</strong>
+                    is starting in {parseInt(((new Date(event.start_date)).getTime() - today.getTime()) / 60000)}
+                    minutes!</span>)
             }
 
             if (event.website !== '') {
-                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}>For more information: <a
-                    href={event.event_link}>Website</a>. </span>) 
+                if (isMobile) {
+                    alert.push(<span style={{display: 'inline-block', paddingLeft: '2px'}}> <a
+                        href={event.event_link}>Website</a>. </span>)
+                } else {
+                    alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}>For more information: <a
+                        href={event.event_link}>Website</a>. </span>)
+                }
             }
 
             if (event.invite_link.length > 0) {
-                alert.push(<span style={{display: 'inline-block', paddingLeft: '5px'}}>To join the event directly: <a
-                    href={event.invite_link[0].link}>{event.invite_link[0].title}</a>.</span>)
+                if (isMobile) {
+                    alert.push(<span
+                        style={{display: 'inline-block', paddingLeft: '5px'}}> <a
+                        href={event.invite_link[0].link}>{event.invite_link[0].title}</a>.</span>)
+                } else {
+                    alert.push(<span
+                        style={{display: 'inline-block', paddingLeft: '5px'}}> To join the event directly: <a
+                        href={event.invite_link[0].link}>{event.invite_link[0].title}</a>.</span>)
+                }
             }
         }
 
@@ -133,11 +151,18 @@ class EventAlert extends React.Component{
         this.setState({ open: false, count: 0 });
     }
 
+    componentDidMount() {
+        const isHomeVar = window.location.href.replace("//", "").split("/").length === 2
+                            ? true : false
+        this.setState({ isHome: isHomeVar});
+    }
+
     render(){
         const { classes } = this.props;
         let note = this.eventAlert()
         let alert = note[0]
-        let displayAlert = note[1]
+        let isHome = this.state.isHome
+        let displayAlert = note[1] && isHome
         return (
             <div>
                 {displayAlert ?

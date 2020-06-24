@@ -275,7 +275,7 @@ export default function HomeMobile({isLandscape}) {
               <br/>
               <img src={instagramPic} alt="InstagramPic" style={{width:"80%"}}/>
               <div style={{marginTop: "30px"}}>
-                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"} newTabs/>
+                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"} />
               </div>
           </div>
           <div className={manual.fabo}>

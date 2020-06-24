@@ -19,8 +19,8 @@ import { CustomHeader, Template } from "../";
 import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
-import TZ from "countries-and-timezones";
-import * as Events from "../../pages/events";
+
+import { getTimezoneOptions } from "../all/TimeFunctions"
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -49,9 +49,9 @@ const initVal = {
 
 };
 
-let getCurrentLocationForTimeZone = function () {
-  return Intl.DateTimeFormat().resolvedOptions().timeZone;
-}
+
+const optionsTZ = getTimezoneOptions();
+
 
 // here you can add make custom requirements for specific input fields
 // you can add multiple rules as seen with the "name" scheme
@@ -86,7 +86,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const TITLE = "ADD EVENT";
-const defaultTimezone = "America/New_York";
 
 
 function formatEmailText(jsonText) {
@@ -163,140 +162,6 @@ function sendZoomEmail(id, name, from) {
       console.log("error");
     });
 }
-
-let dst = function (loc = getCurrentLocationForTimeZone()) {
-
-  // If user selects EST time:
-  if (loc === "America/New_York") {
-    const today = new Date();
-    var DSTDateStart;
-    var DSTDateEnd;
-    switch (today.getFullYear()) {
-      case 2020:
-        DSTDateStart = new Date(Date.UTC(2020, 2, 8, 7));
-        DSTDateEnd = new Date(Date.UTC(2020, 10, 1, 6));
-        break;
-      case 2021:
-        DSTDateStart = new Date(Date.UTC(2021, 2, 14, 7));
-        DSTDateEnd = new Date(Date.UTC(2021, 10, 7, 6));
-        break;
-      case 2022:
-        DSTDateStart = new Date(Date.UTC(2022, 2, 13, 7));
-        DSTDateEnd = new Date(Date.UTC(2022, 10, 6, 6));
-        break;
-    }
-    if (today.getTime() >= DSTDateStart.getTime() && today.getTime() < DSTDateEnd.getTime()) {
-      // console.log("true");
-      return true;
-    }
-    // console.log("false");
-    return false;
-  }
-
-  // If user selects local time:
-  if (TZ.getTimezone(loc).utcOffset === TZ.getTimezone(loc).dstOffset) {
-    return false;
-  }
-  const date = new Date();
-  return date.getTimezoneOffset() < Events.stdTimezoneOffset();
-}
-
-let getTimezoneName = function (loc = getCurrentLocationForTimeZone(), dstN = null) {
-  if (!dstN) { dstN = dst() }
-  const gmt = TZ.getTimezone(loc).utcOffsetStr;
-  var str = "GMT" + gmt;
-
-  if (gmt === "-01:00")
-    return "CAT";
-  if (gmt === "-02:00")
-    return "BET";
-  if (gmt === "-03:00")
-    return "AGT";
-  if (gmt === "-03:30")
-    return "CNT";
-  if (gmt === "-04:00")
-    return "PRT";
-  if (gmt === "-05:00")
-    return dst ? "EDT" : "EST";
-  if (gmt === "-06:00")
-    return dst ? "CDT" : "CST";
-  if (gmt === "-07:00")
-    return dst ? "MDT" : "MST";
-  if (gmt === "-08:00")
-    return dst ? "PDT" : "PST";
-  if (gmt === "-09:00")
-    return dst ? "ADT" : "AST";
-  if (gmt === "-10:00")
-    return dst ? "HDT" : "HST";
-  if (gmt === "-11:00")
-    return "MIT";
-  if (gmt === "+12:00")
-    return dst ? "NDT" : "NST";
-  if (gmt === "+11:00")
-    return dst ? "SDT" : "SST";
-  if (gmt === "+10:00")
-    return "AET";
-  if (gmt === "+09:30")
-    return dst ? "ACDT" : "ACST";
-  if (gmt === "+09:00")
-    return dst ? "JDT" : "JST";
-  if (gmt === "+08:00")
-    return "CTT";
-  if (gmt === "+07:00")
-    return dst ? "VDT" : "VST";
-  if (gmt === "+06:00")
-    return dst ? "BDT" : "BST";
-  if (gmt === "+05:30")
-    return dst ? "IDT" : "IST";
-  if (gmt === "+05:00")
-    return "PLT";
-  if (gmt === "+04:00")
-    return "NET";
-  if (gmt === "+03:30")
-    return "MET";
-  if (gmt === "+03:00")
-    return "EAT";
-  if (gmt === "+02:00")
-    return "EET";
-  if (gmt === "+01:00")
-    return "ECT";
-
-  if (dstN)
-    return str + " DST";
-  return str;
-}
-
-function getTimezoneOptions() {
-  if (getCurrentLocationForTimeZone() != defaultTimezone) {
-    return [
-      {
-        value: getCurrentLocationForTimeZone()
-          + "$" + dst(),
-        label: "Mine: "
-          + getTimezoneName()
-      },
-      {
-        value: defaultTimezone
-          + "$" + dst(defaultTimezone),
-        label: "Default: "
-          + getTimezoneName(defaultTimezone
-            , dst(defaultTimezone))
-      }
-    ];
-  } else {
-    return [
-      {
-        value: defaultTimezone
-          + "$" + dst(defaultTimezone),
-        label: "Mine: "
-          + getTimezoneName(defaultTimezone
-            , dst(defaultTimezone))
-      }
-    ];
-  }
-}
-
-const optionsTZ = getTimezoneOptions();
 
 class EventFormDesktop extends React.Component {
 
@@ -653,7 +518,7 @@ class EventFormDesktop extends React.Component {
                                   <Grid item sm={2}> */}
                                     {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
                                   {/*<FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" onChange={this.imgFileUploadHandler} />
-                                  </Grid>*/}w
+                                  </Grid>*/}
                                 </Grid >
 
                                 <Grid container spacing={2}>
