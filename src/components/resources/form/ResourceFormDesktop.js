@@ -1,24 +1,18 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-
-import FormikField from "../../FormikField/FormikField"
-// import "../components/form.css"
+import FormikField from "../../form-components/FormikField";
 import { CheckboxWithLabel } from 'formik-material-ui';
-import FileUploadBtn from '../../FormikField/FileUploadBtn'
+import FileUploadBtn from '../../form-components/FileUploadBtn';
 import Button from '@material-ui/core/Button';
-
 import Grid from '@material-ui/core/Grid';
-
-
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "../../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import { CustomHeader } from "../.."
 import Container from '@material-ui/core/Container';
 import firebase from "../../../firebase";
-
-import Categories from "./FormCategories"
+import Categories from "./FormCategories";
 const MainCategories = Categories.FormCategories;
 
 const useStyles = makeStyles(styles);
@@ -248,27 +242,27 @@ const ResourceFormDesktop = (props) => {
                                     href={"mailto:columbiavirtualcampus@gmail.com"}>columbiavirtualcampus@gmail.com</a>.
                             </div>
                         </Grid> */}
-                        <Grid container spacing={10}>
-                            <Grid item xs={4}>
-                                <div style={{
-                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                    fontSize: "36px", lineHeight: "54px", color: "#0072CE"
-                                }}>
-                                    Add a New Resource
+                    <Grid container spacing={10}>
+                        <Grid item xs={4}>
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "36px", lineHeight: "54px", color: "#0072CE"
+                            }}>
+                                Add a New Resource
                           </div>
-                                <div style={{
-                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                    fontSize: "14px", lineHeight: "21px"
-                                }}>
-                                    Thank you for your interest in sharing your project through CVC.
-                                    Please fill out the following form so we can thoroughly promote your resource on our website!
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "14px", lineHeight: "21px"
+                            }}>
+                                Thank you for your interest in sharing your project through CVC.
+                                Please fill out the following form so we can thoroughly promote your resource on our website!
                           </div>
-                                <div style={{
-                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                    fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
-                                }}>
-                                    Questions? Contact us at <br />
-                                    <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
+                            }}>
+                                Questions? Contact us at <br />
+                                <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
                           </div>
                         </Grid>
                         <Grid item xs={8}>
