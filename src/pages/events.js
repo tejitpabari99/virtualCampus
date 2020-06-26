@@ -2,16 +2,14 @@ import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { MetaData, EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
-import TZ from "countries-and-timezones";
-import AddIcon from "@material-ui/icons/Add";
+import "../components/events/react-big-calendar.css";
+import { EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
 import firebase from "../firebase";
 import Fuse from 'fuse.js';
-import Subtitle from "../components/text/Subtitle";
 import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
-  getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate}
+  getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
   from "../components/all/TimeFunctions"
+import CustomToolbar from "../components/events/CalendarToolBar"
 
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({
@@ -21,7 +19,6 @@ const useStyles = () => ({
   }
 
 });
-
 
 class Events extends React.Component {
   constructor(props) {
@@ -174,10 +171,8 @@ class Events extends React.Component {
   }
 
   EventDisplay = ({ event }) => (
-    <div>
-      <div style={{ fontSize: 15, marginBottom: 3 }}>{event.event}</div>
-      <div style={{ fontSize: 13 }}>{this.formatTime(event.start_date.getHours(), event.start_date.getMinutes())} -
-        {this.formatTime(event.end_date.getHours(), event.end_date.getMinutes())}</div>
+    <div style={{height:"1.2em"}}>
+      <div style={{ fontSize: ".7em" }}>{event.event}</div>
     </div>
   );
 
@@ -207,7 +202,7 @@ class Events extends React.Component {
 
         /><br />
         <Calendar
-          views={["month", "week", "day"]}
+          views={["month"]}
           localizer={localizer}
           scrollToTime={new Date()}
           events={this.state.myEventsList}
@@ -222,7 +217,8 @@ class Events extends React.Component {
           }}
           eventPropGetter={this.eventPropStyles}
           components={{
-            event: this.EventDisplay
+            event: this.EventDisplay,
+            toolbar: CustomToolbar
           }}
           formats={{ eventTimeRangeFormat: () => null }}
         />
@@ -231,5 +227,7 @@ class Events extends React.Component {
     );
   }
 }
+
+
 
 export default withStyles(useStyles)(Events);
