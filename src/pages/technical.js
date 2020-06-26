@@ -3,7 +3,7 @@ import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { MetaData, EventCard, EventModal, Template, CustomButton, Title, Intro } from "../components";
+import { MetaData, EventCard, MockInterviewModal, Template, CustomButton, Title, Intro } from "../components";
 import TZ from "countries-and-timezones";
 import AddIcon from "@material-ui/icons/Add";
 import firebase from "../firebase";
@@ -357,7 +357,7 @@ class Events extends React.Component {
           }}
           formats={{ eventTimeRangeFormat: () => null }}
         />
-        {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
+        {this.state.open && <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
       </Template>
     );
   }

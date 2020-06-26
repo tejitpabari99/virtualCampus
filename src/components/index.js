@@ -7,6 +7,7 @@ import TeamSection from "./about-us/TeamSection";
 import EventCard from "./cards/EventCard";
 import EventCardMobile from "./cards/EventCardMobile";
 import EventModal from "./cards/EventModal";
+import MockInterviewModal from "./cards/MockInterviewModal";
 import ResourcesList from "./resources/ResourcesList";
 import ResourcesCard from "./cards/ResourcesCard";
 import AddCalendar from "./events/AddCalendar";
@@ -26,4 +27,4 @@ export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton, DesktopMobile,
         Title, Subtitle, Heading,
-        ResourcesList, ResourcesCard, BLMCard, Intro}
+        ResourcesList, ResourcesCard, BLMCard, Intro, MockInterviewModal}
