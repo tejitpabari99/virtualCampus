@@ -32,7 +32,6 @@ class ResourcesListDesktop extends React.Component {
       approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
       approvedTagsDict = this.makeDisplayTags(approvedResources.docs.map(doc => doc.data()));
       approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
-
     }
     approvedResourcesDict['All Resources'] = approvedResourcesDisplay;
     approvedTagsDict['All Resources'] = [];
@@ -175,7 +174,7 @@ class ResourcesListDesktop extends React.Component {
             })}
             <Heading color={'blue'} style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}>{"Want to add your own resource?"}</Heading>
             <div style={{textAlign:'center', paddingTop: '3%'}}>
-              <CustomButton text={"ADD RESOURCE"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
+              <CustomButton text={"ADD RESOURCE"} href={"/resources/add-new-resource"}
                             color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
             </div>
           </GridItem>
