@@ -9,6 +9,9 @@ import styles from "../../assets/material-kit-assets/jss/material-kit-react/view
 import { CustomButton, CustomHeader, MetaData, Subtitle, Title} from "./../../components";
 import HomeEvents from './HomeEvents';
 import HomeResourcesList from "./HomeResourcesList.js";
+import { Helmet } from 'react-helmet';
+import InstagramEmbed from 'react-instagram-embed';
+
 
 
 const useStyles = makeStyles(styles);
@@ -141,6 +144,9 @@ export default function HomeDesktop() {
   manual = manualSt();
   return (
     <div style={{ background: "white" }}>
+      <Helmet>
+            <script async={true} defer={true} crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=2186738638294469&autoLogAppEvents=1" />
+      </Helmet>
       <MetaData title={'Columbia Virtual Campus'} />
       <CustomHeader active={''} brand={''}/>
       <div className={classNames(manual.landing)}>
@@ -210,7 +216,20 @@ export default function HomeDesktop() {
                 Check us out on social media to see <br/> what we're all about!
               </h4>
               <br/> <br/>
-              <img src={instagramPic} alt="InstagramPic"/>
+              <div align="center">
+              <InstagramEmbed
+                url='https://www.instagram.com/p/CBHN4GMlSkD/'
+                maxWidth={320}
+                hideCaption={false}
+                containerTagName='div'
+                protocol=''
+                injectScript
+                onLoading={() => {}}
+                onSuccess={() => {}}
+                onAfterRender={() => {}}
+                onFailure={() => {}}
+              />
+              </div>
               <div style={{marginTop: "30px", backgroundColor: "#F6C09F", color: "black", borderColor: "black"}}>
                   <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"}/>
               </div>
@@ -220,9 +239,20 @@ export default function HomeDesktop() {
               <h4 style={{marginTop: "20px"}}>
                 Check us out on social media to see <br/> what we're all about!
               </h4>
-              <br/> <br/>
-              <img src={facebookPic} alt="FacebookPic"/>
-              <div style={{marginTop: "30px"}}>
+              <br/>
+              <div style = {{marginTop: "55px"}}
+                className="fb-page"
+                data-href="https://www.facebook.com/columbiavirtualcampus/"
+                data-tabs="timeline"
+                data-width="600"
+                data-height="455"
+                data-small-header="true"
+                data-adapt-container-width="true"
+                data-hide-cover="false"
+                data-show-facepile="false"
+              >
+              </div>
+              <div style={{marginTop: "50px"}}>
                   <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"}/>
               </div>
           </div>

@@ -11,7 +11,8 @@ import Button from "./../material-kit-components/CustomButtons/Button.js";
 import {MetaData, CustomHeader, CustomButton, Title} from "../";
 import HomeResourcesList from "./HomeResourcesList.js";
 import * as Events from './../../pages/events.js';
-
+import InstagramEmbed from 'react-instagram-embed';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(styles);
 
@@ -59,7 +60,7 @@ const manualPortrait = makeStyles(() => ({
     margin: '0',
     float:'left',
     marginLeft: '5%',
-    marginTop: "20%" ,
+    marginTop: "20%",
     textAlign:'left',
     width: 'auto'
   },
@@ -165,7 +166,7 @@ const manualLandscape = makeStyles(() => ({
     margin: '0',
     float:'left',
     marginLeft: '12%',
-    marginTop: "3%" ,
+    marginTop: "3%",
     textAlign:'left',
     width: 'auto'
   },
@@ -202,6 +203,9 @@ export default function HomeMobile({isLandscape}) {
 
   return (
     <div style={{background: "white"}}>
+      <Helmet>
+        <script async={true} defer={true} crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=2186738638294469&autoLogAppEvents=1" />
+      </Helmet>
       <MetaData title={'Columbia Virtual Campus'}/>
       <CustomHeader active={''} brand={''}/>
       <div className={classNames(manual.landing)} >
@@ -273,7 +277,20 @@ export default function HomeMobile({isLandscape}) {
                 Check us out on social media to see <br/> what we're all about!
               </h4>
               <br/>
-              <img src={instagramPic} alt="InstagramPic" style={{width:"80%"}}/>
+              <div align="center">
+              <InstagramEmbed
+                url='https://www.instagram.com/p/CBHN4GMlSkD/'
+                maxWidth={320}
+                hideCaption={false}
+                containerTagName='div'
+                protocol=''
+                injectScript
+                onLoading={() => {}}
+                onSuccess={() => {}}
+                onAfterRender={() => {}}
+                onFailure={() => {}}
+              />
+              </div>
               <div style={{marginTop: "30px"}}>
                   <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"} />
               </div>
@@ -285,7 +302,18 @@ export default function HomeMobile({isLandscape}) {
                 Check us out on social media to see <br/> what we're all about!
               </h4>
               <br/>
-              <img src={facebookPic} alt="FacebookPic" style={{width:"75%"}}/>
+              <div style = {{marginTop: "55px"}}
+                className="fb-page"
+                data-href="https://www.facebook.com/columbiavirtualcampus/"
+                data-tabs="timeline"
+                data-width="600"
+                data-height="455"
+                data-small-header="true"
+                data-adapt-container-width="true"
+                data-hide-cover="false"
+                data-show-facepile="false"
+              >
+              </div>
               <div style={{marginTop: "50px"}}>
                   <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"} newTab/>
               </div>
