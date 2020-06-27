@@ -1,4 +1,3 @@
-import AddResourceMobile from "./AddResourceExpansion.js";
 import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
@@ -35,7 +34,7 @@ const CoolerButton = ({children, otherClickOption, ...other}) => {
   );
 };
 
-class ResourcesListMobile extends React.Component {
+class ResourcesListOld extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -198,7 +197,7 @@ class ResourcesListMobile extends React.Component {
     return (
       <div>
         <div style={{textAlign:'center'}}>
-          {Object.keys(this.state.myResourcesDict).sort().map(category => {
+          {Object.keys(this.state.myResourcesDict).map(category => {
             return (
               <Button size="medium"
                       active
@@ -239,8 +238,16 @@ class ResourcesListMobile extends React.Component {
         >{this.state.myDescription}</div>
 
         <GridContainer style={{width: '100%'}}>
-          <GridItem style={{textAlign:'center', marginBottom:'34px'}}>
-            {this.state.myTagsDisplay.sort().map(data => {
+          <GridItem xs={3} style={{textAlign:'center'}}>
+            <div style={{
+                    textAlign:'center',
+                    paddingTop: '80px',
+                    paddingBottom: '8px',
+                    fontSize:'18px'
+                  }}
+            >{this.state.myTagsDescription}</div>
+
+            {this.state.myTagsDisplay.map(data => {
               return (
                 <CoolerButton style={{
                                 marginTop: 8,
@@ -253,10 +260,24 @@ class ResourcesListMobile extends React.Component {
                 >{data}</CoolerButton>
               );
             })}
+
+            <Heading color={'blue'}
+                     style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}
+            >{"Want to add your own resource?"}</Heading>
+
+            <div style={{textAlign:'center', paddingTop: '3%'}}>
+              <CustomButton text={"ADD RESOURCE"}
+                            href={"https://forms.gle/1ahZnFfsmXFGcF9XA"}
+                            color={"orange"}
+                            size={"large"}
+                            style={{marginTop: 10, marginBottom: 25}}
+              />
+            </div>
+
           </GridItem>
-          <AddResourceMobile />
-          <GridItem>
-            <GridContainer style={{paddingLeft: '30px', paddingRight: '5px', paddingTop: '20px'}}>
+          <GridItem xs={9}>
+            <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
+
               {this.state.myResourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}
@@ -286,4 +307,4 @@ class ResourcesListMobile extends React.Component {
   }
 }
 
-export default ResourcesListMobile;
+export default ResourcesListOld;

@@ -128,7 +128,7 @@ export default function ResourcesFeaturedDesktop() {
                         </p>
 
                         <p>
-                          <CustomButton text={"Explore!"} href={data.links.website}
+                          <CustomButton text={"Explore"} href={data.links.website}
                             color={"orange"} size={"2.3vw"} style={{marginTop: 15, marginBottom: 25, position:'relative'}}/>
                         </p>
 

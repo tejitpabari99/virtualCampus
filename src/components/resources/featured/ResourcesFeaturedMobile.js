@@ -126,7 +126,7 @@ export default function ResourcesFeaturedMobile() {
                         </p>
 
                         <p>
-                          <CustomButton text={"Explore!"} href={data.links.website}
+                          <CustomButton text={"Explore"} href={data.links.website}
                             color={"orange"} size={"medium"} style={{marginTop: 3, position:'relative'}}/>
                         </p>
 
