@@ -134,7 +134,9 @@ class ResourcesListOld extends React.Component {
         myResourcesDisplay: this.state.myResourcesDict[category],
         myDescription: Descriptions[category],
         myCategory: category,
-        myTagsDisplay: this.state.myTagsDict[category]
+        myTagsDisplay: this.state.myTagsDict[category],
+        myList: {},
+        myKeyList: []
     });
 
     if(category !== 'All Resources'){
