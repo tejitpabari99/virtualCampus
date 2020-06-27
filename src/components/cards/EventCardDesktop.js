@@ -1,13 +1,14 @@
 import CardBody from "../material-kit-components/Card/CardBody";
 import classNames from "classnames";
 import Card from "../material-kit-components/Card/Card";
-import React from "react";
+import React, { useState } from "react";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CustomButton, AddCalendar, CustomTheme } from "../";
 import Heading1 from "../text/Heading1";
 import Heading2 from "../text/Heading2";
 import Circle from "react-simple-shapes";
+import EventEmailModal from "./EventEmailModal"
 
 const theme = CustomTheme;
 
@@ -152,6 +153,16 @@ const useStyles = makeStyles(() => ({
 export default function EventCardDesktop({ ele }) {
   console.log(ele);
   const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+
+  const openModalHandler = () => {
+    setOpen(true)
+  }
+
+  const closeDo = () => {
+    setOpen(false);
+  }
   return (
 
     <div style={{ width: "100%" }}>
@@ -200,8 +211,8 @@ export default function EventCardDesktop({ ele }) {
                                   style={{ position: "relative", marginBottom: "5%", width: "90%", height: "10%" }} />
                 </div>
                 <div style={{textAlign:'left'}}>
-                    <CustomButton href={ele.invite_link} text={'ATTEND'} newTab
-                                  style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
+                    <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
+                                style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
                 </div>
                 </div>
                 : ele.invite_link === '' && ele.event_link !== '' ?
@@ -211,10 +222,14 @@ export default function EventCardDesktop({ ele }) {
                   </div>
                   : ele.invite_link !== '' ?
                     <div style={{textAlign:'left'}}>
-                    <CustomButton href={ele.invite_link} text={'ATTEND'} newTab
+                      <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                                   style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"small"}/>
                     </div>
                     : null}
+                    {/* Uncomment the button below for testing */}
+                    {/* <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
+                                  style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"small"}/> */}
+                    {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>} 
 
             </div>
           </CardBody>

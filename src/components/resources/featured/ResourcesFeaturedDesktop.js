@@ -1,13 +1,11 @@
-import classNames from "classnames";
 import React from "react";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 import Carousel from 'react-material-ui-carousel'
-import {Paper} from '@material-ui/core'
-import Button from "../material-kit-components/CustomButtons/Button.js";
+import Button from "../../material-kit-components/CustomButtons/Button.js";
 
 import {makeStyles} from "@material-ui/core/styles";
-import Data from "../../assets/ResourcesData";
-import {ResourcesCard, CustomTheme, CustomButton} from "..";
+import Data from "../../../assets/ResourcesData";
+import {CustomTheme, CustomButton} from "../..";
 const FeaturedData = Data.FeaturedData;
 const theme = CustomTheme;
 
@@ -27,10 +25,10 @@ const containerStyles = makeStyles(() => ({
   },
   card: {
     position: 'absolute',
-    left: '4.9%',
+    left: '5.3%',
     right: '62.74%',
     top: '11.91%',
-    bottom: '16.96%',
+    bottom: '17.75%',
     background: '#FFFFFF',
   },
   category: {
@@ -99,7 +97,7 @@ export default function ResourcesFeaturedDesktop() {
               return (
                   <div style={{overflow:'hidden'}}>
                     <img src={data.img} alt={data.img} height='500px' width='100%' className={contStyle.container}/>
-                    <img src={data.img} alt={data.img} height={'380.3px'} width={'57%'} className={contStyle.img}/>
+                    <img src={data.img} alt={data.img} height='70.32%' width={'57.3%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>
                         {data.category.category
@@ -130,7 +128,7 @@ export default function ResourcesFeaturedDesktop() {
                         </p>
 
                         <p>
-                          <CustomButton text={"Explore!"} href={data.links.website}
+                          <CustomButton text={"Explore"} href={data.links.website}
                             color={"orange"} size={"2.3vw"} style={{marginTop: 15, marginBottom: 25, position:'relative'}}/>
                         </p>
 

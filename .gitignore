@@ -75,3 +75,6 @@ firebaseConfig.js
 
 # Visual Studios
 .vs
+
+# Firebase Service Account
+**/serviceAccountKey.json
