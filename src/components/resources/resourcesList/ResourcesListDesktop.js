@@ -14,8 +14,6 @@ const CoolerButton = ({children, otherClickOption, ...other}) => {
     setIsPushed(!isPushed);
     if(isPushed){
       otherClick();
-    }else{
-      otherClickOption();
     }
     else{
       otherClickOption();
@@ -47,9 +45,7 @@ class ResourcesListDesktop extends React.Component {
       myTagsDict: {},
       myTagsDisplay: [],
       myTagsDescription: "",
-      allResources: {},
-      myList: {},
-      myKeyList: []
+      myTagsResourcesDisplay: {}
     };
     this.getResources();
   }
@@ -153,81 +149,28 @@ class ResourcesListDesktop extends React.Component {
     }
   }
 
-
-
-  // Display appropriate resources when tags are clicked
   setTagDisplay(category, tag) {
-    let resources = this.state.myTagsDict[category][tag];
-    for (let i=0; i < resources.length; i += 1) {
-       let ele = resources[i];
-       let key = ele['title'];
-
-       if(key in this.state.myList) {
-         let newList = this.state.myList;
-         newList[key]['activeButton'] += 1;
-         this.setState({
-           myList: newList
-         });
-       }
-       //new resource
-       else{
-         let newList = this.state.myList;
-         let keyList = this.state.myKeyList;
-         keyList.push(key);
-         newList[key] = {};
-         newList[key]['resource'] = ele;
-         newList[key]['activeButton'] = 1;
-
-         let allResources = [];
-         for(let j=0; j<keyList.length; j++){
-           allResources.push(newList[keyList[j]]['resource']);
-         }
-         this.setState({
-           myList: newList,
-           myKeyList: keyList,
-           myResourcesDisplay: allResources
-         });
-       }
-     }
+    this.state.myTagsResourcesDisplay[tag] = this.state.myTagsDict[category][tag];
+    let allResources = [];
+    for(let key in this.state.myTagsResourcesDisplay){
+      let resourceList = this.state.myTagsResourcesDisplay[key];
+      allResources.push(...resourceList);
+    }
+    allResources = Array.from(new Set(allResources));
+    this.setState({ myResourcesDisplay: allResources});
   }
 
   deleteTagDisplay(category, tag) {
-    let resources = this.state.myTagsDict[category][tag];
-
-    for (let i=0; i < resources.length; i += 1) {
-       let ele = resources[i];
-       let key = ele['title'];
-       let newList = this.state.myList;
-
-       if(newList[key]['activeButton'] > 1) {
-         newList[key]['activeButton'] -= 1;
-
-         this.setState({
-           myList: newList
-         });
-       }
-       else {
-         let keyList = this.state.myKeyList;
-         for (let j=0; j < keyList.length; j += 1){
-           if(key === keyList[j]){
-             keyList.splice(j, 1);
-           }
-         }
-         console.log(keyList);
-
-         let allResources = [];
-         for(let j=0; j<keyList.length; j++){
-           allResources.push(newList[keyList[j]]['resource']);
-         }
-
-         this.setState({
-           myList: newList,
-           myKeyList: keyList,
-           myResourcesDisplay: allResources
-         });
-       }
-     }
+    delete this.state.myTagsResourcesDisplay[tag];
+    let allResources = [];
+    for(let key in this.state.myTagsResourcesDisplay){
+      let resourceList = this.state.myTagsResourcesDisplay[key];
+      allResources.push(...resourceList);
+    }
+    allResources = Array.from(new Set(allResources));
+    this.setState({ myResourcesDisplay: allResources});
   }
+
 
   render() {
     return (
