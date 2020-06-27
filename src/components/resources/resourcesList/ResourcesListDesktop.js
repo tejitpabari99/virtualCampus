@@ -197,7 +197,7 @@ class ResourcesListDesktop extends React.Component {
     return (
       <div>
         <div style={{textAlign:'center'}}>
-          {Object.keys(this.state.myResourcesDict).map(category => {
+          {Object.keys(this.state.myResourcesDict).sort().map(category => {
             return (
               <Button size="medium"
                       active
@@ -247,7 +247,7 @@ class ResourcesListDesktop extends React.Component {
                   }}
             >{this.state.myTagsDescription}</div>
 
-            {this.state.myTagsDisplay.map(data => {
+            {this.state.myTagsDisplay.sort().map(data => {
               return (
                 <CoolerButton style={{
                                 marginTop: 8,

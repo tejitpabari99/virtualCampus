@@ -198,7 +198,7 @@ class ResourcesListMobile extends React.Component {
     return (
       <div>
         <div style={{textAlign:'center'}}>
-          {Object.keys(this.state.myResourcesDict).map(category => {
+          {Object.keys(this.state.myResourcesDict).sort().map(category => {
             return (
               <Button size="medium"
                       active
@@ -240,7 +240,7 @@ class ResourcesListMobile extends React.Component {
 
         <GridContainer style={{width: '100%'}}>
           <GridItem style={{textAlign:'center', marginBottom:'34px'}}>
-            {this.state.myTagsDisplay.map(data => {
+            {this.state.myTagsDisplay.sort().map(data => {
               return (
                 <CoolerButton style={{
                                 marginTop: 8,
