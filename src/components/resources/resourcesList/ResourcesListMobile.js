@@ -15,6 +15,8 @@ const CoolerButton = ({children, otherClickOption, ...other}) => {
     setIsPushed(!isPushed);
     if(isPushed){
       otherClick();
+    }else{
+      otherClickOption();
     }
     else{
       otherClickOption();
@@ -191,7 +193,29 @@ class ResourcesListMobile extends React.Component {
   }
 
   deleteTagDisplay(category, tag) {
+    let resources = this.state.myTagsDict[category][tag];
+    for (let i=0; i < resources.length; i += 1) {
+       let ele = resources[i];
+       let key = ele['title'];
 
+       if(key in this.state.myList) {
+         let newList = this.state.myList;
+         let keyList = this.state.myKeyList;
+         newList[key]['activeButton'] -= 1;
+         keyList.pop(key);
+
+         let allResources = [];
+         for(let j=0; j<keyList.length; j++){
+           allResources.pop(newList[keyList[j]]['resource']);
+         }
+
+         this.setState({
+           myList: newList,
+           myKeyList: keyList,
+           myResourcesDisplay: allResources
+         });
+       }
+     }
   }
 
   render() {
