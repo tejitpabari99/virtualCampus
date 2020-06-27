@@ -34,7 +34,7 @@ const CoolerButton = ({children, otherClickOption, ...other}) => {
   );
 };
 
-class ResourcesListDesktop extends React.Component {
+class ResourcesListOld extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -307,4 +307,4 @@ class ResourcesListDesktop extends React.Component {
   }
 }
 
-export default ResourcesListDesktop;
+export default ResourcesListOld;
