@@ -35,7 +35,7 @@ class ResourcesList extends React.Component {
       );
     }
     {/* For mobile's screen orientation update */}
-    const isLandscape = this.state.width > this.state.height ? true : false;
+    const isLandscape = this.state.width > this.state.height;
 
     {/* If Tablet:
             If in portrait, do mobile component

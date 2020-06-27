@@ -198,7 +198,7 @@ export default function ResourcesCard(props) {
           <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
             {trimDescription(description)}
           </Typography>
-          {tags && tags.map(ele => {
+          {tags && tags.sort().reverse().map(ele => {
             return (
               <Button className={classes.button}>
                 {ele}

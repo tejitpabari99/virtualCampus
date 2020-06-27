@@ -2,6 +2,7 @@ import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
+
 import {ResourcesCard, Heading, CustomButton} from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
@@ -11,9 +12,12 @@ const CoolerButton = ({children, otherClickOption, ...other}) => {
   const otherClick = other.onClick.bind({});
   const handleClick = () => {
     setIsPushed(!isPushed);
-    if (isPushed){
+    if(isPushed){
       otherClick();
     }else{
+      otherClickOption();
+    }
+    else{
       otherClickOption();
     }
   };
@@ -64,7 +68,6 @@ class ResourcesListDesktop extends React.Component {
       approvedResourcesDict = this.makeDisplayResources(allResources);
       approvedTagsDict = this.makeDisplayTags(allResources);
     }
-    approvedResourcesDict['All Resources'] = allResources;
     approvedTagsDict['All Resources'] = [];
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: allResources});
@@ -149,6 +152,8 @@ class ResourcesListDesktop extends React.Component {
       });
     }
   }
+
+
 
   // Display appropriate resources when tags are clicked
   setTagDisplay(category, tag) {

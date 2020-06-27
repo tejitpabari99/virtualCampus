@@ -120,7 +120,7 @@ class Resource(object):
     
     @property
     def tags(self) -> List[str]:
-        return self._title
+        return self._tags
 
     @property
     def links(self) -> Dict[str,str]:
