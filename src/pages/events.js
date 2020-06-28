@@ -225,7 +225,7 @@ class Events extends React.Component {
   render() {
     const { classes } = this.props;
     let numEventsDisplayed = 0
-    const MAX_EVENTS_DISPALYED = 4
+    const MAX_EVENTS_DISPALYED = 3
     return (
       <Template active={"schedule"} title={"Events"}>
 
