@@ -1,16 +1,18 @@
 import Backdrop from "@material-ui/core/Backdrop";
 import { makeStyles } from '@material-ui/core/styles';
-import { Formik, Form, Field, ErrorMessage, FormikConsumer } from "formik";
+import { Formik, Form} from "formik";
+import * as Yup from "yup";
 import FormikField from "../FormikField/FormikField";
 import Fade from "@material-ui/core/Fade";
-import classNames from "classnames";
 import Button from "../material-kit-components/CustomButtons/Button";
 import Modal from "@material-ui/core/Modal";
 import React from "react";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
-import {CustomTheme, AddCalendar} from "../";
+import {CustomTheme} from "../";
 import GridItem from "../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../material-kit-components/Grid/GridContainer.js";
+import Axios from "axios";
+import * as firebase from "firebase";
 
 const theme = CustomTheme;
 
@@ -20,6 +22,22 @@ const formatTime = function(hours, min) {
     let add = hours>12?'PM':'AM';
     return h + ':' + m + add
 };
+
+const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Required"),
+    email: Yup.string()
+      .email("Please enter a valid email address")
+      .trim().matches(/^[a-zA-Z0-9]+@(columbia|barnard)+.edu$/, 'Enter Columbia or Barnard email address')
+      .required("Required"),
+    comments: Yup.string()
+  });
+
+  const initVal = {
+      name: "", 
+      email: "", 
+      comments: "", 
+  }
 
 const useStyles = makeStyles ({
     modal: {
@@ -78,8 +96,46 @@ const months = {
     11: 'December'
 };
 
+
 export default function MockInterviewModal({open, closeDo, event}) {
     const classes = useStyles();
+
+    const submitHandler = async values => {
+        const name = values.name;
+        const email = values.email;
+        const db = firebase.firestore();
+        let lookUpEvent = await db.collection("technical")
+            .where("host_email", "==", "imkevinmao@gmail.com")
+            .where("start_date", "==", "Wed Jul 01 2020 15:00:00 GMT-0500 (Eastern Standard Time)")
+            .get();
+        if (lookUpEvent.size == 0){
+            alert("Could not find event!");
+            window.location.reload()
+            return;
+        } else if (!lookUpEvent.docs[0].data().available){
+            alert("Event already booked!");
+            window.location.reload()
+            return;
+        }
+        lookUpEvent = lookUpEvent.docs[0];
+        const lookUpEventData = lookUpEvent.data();
+        const URL = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/bookEvent';
+        const emailData = {
+            from: "columbiavirtualcampus@gmail.com",
+            to: email,
+            subject: "Complete your interview signup!",
+            text: `Dear ${name},
+            
+            Confirm your interview with ${lookUpEventData.host_name} at ${lookUpEventData.start_date} by clicking this link:
+            ${URL}?eventId=${lookUpEvent.id}&name=${name}&email=${email}`
+          };
+        Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
+          .then(res => {
+              alert("Check your email for confirmation!");
+          });
+        closeDo();
+    }
+
     return(
         <Modal
             style={{display: 'flex',
@@ -114,7 +170,11 @@ export default function MockInterviewModal({open, closeDo, event}) {
                     <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3, marginBottom: "0.7em"}}/>
                     <p>Computer Science Major in SEAS (2021)
                         <br/> Software Engineer Intern at Microsoft</p> 
-                    <Formik>
+                    <Formik
+                        validationSchema={validationSchema}
+                        onSubmit={submitHandler}
+                        initialValues={initVal}
+                    >
                         {({ dirty, isValid, errors, touched }) => {
                           return (
                             <Form>
@@ -129,12 +189,10 @@ export default function MockInterviewModal({open, closeDo, event}) {
                                     }}>
                                     Signup for a mock interview here!
                                     </div>
-                                    <FormikField label="Name"
-                                                    name="name"
+                                    <FormikField label="Name" name="name"
                                                     error={errors.name}
                                                     touch={touched.name}
                                                     required></FormikField>
-                    
                                     <FormikField label="Email" name="email"
                                                     error={errors.email}
                                                     touch={touched.email}
@@ -142,7 +200,7 @@ export default function MockInterviewModal({open, closeDo, event}) {
                                     <FormikField label="Comments for interviewer" name="comments"
                                                     error={errors.comments}
                                                     touch={touched.comments}
-                                                    required></FormikField>
+                                                    ></FormikField>
                                     <Button
                                         style={{
                                         background: "white",

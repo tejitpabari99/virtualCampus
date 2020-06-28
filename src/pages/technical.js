@@ -198,7 +198,6 @@ class Events extends React.Component {
     this.state = {
       open: false,
       event: null,
-      count: 0,
       myEventsList: [],
       displayEvents: []
     };
@@ -295,7 +294,7 @@ class Events extends React.Component {
   }
 
   closeDo() {
-    this.setState({ open: false, count: 0 });
+    this.setState({ open: false});
   }
 
   eventPropStyles(event, start, end, isSelected) {
