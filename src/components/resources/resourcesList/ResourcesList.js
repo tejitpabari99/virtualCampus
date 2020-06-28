@@ -34,7 +34,7 @@ const CoolerButton = ({children, otherClickOption, ...other}) => {
   );
 };
 
-class ResourcesListOld extends React.Component {
+class ResourcesListDesktop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,7 +66,6 @@ class ResourcesListOld extends React.Component {
       approvedResourcesDict = this.makeDisplayResources(allResources);
       approvedTagsDict = this.makeDisplayTags(allResources);
     }
-    approvedResourcesDict['All Resources'] = allResources;
     approvedTagsDict['All Resources'] = [];
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: allResources});
@@ -76,6 +75,7 @@ class ResourcesListOld extends React.Component {
   // Creates mapping of category to corresponding resources
   makeDisplayResources(resources) {
     let res = {};
+    res['All Resources'] = resources;
     for (let i = 0; i < resources.length; i += 1) {
       let ele = resources[i];
       let key = this.toTitleCase(ele['category']['category']);
@@ -134,7 +134,9 @@ class ResourcesListOld extends React.Component {
         myResourcesDisplay: this.state.myResourcesDict[category],
         myDescription: Descriptions[category],
         myCategory: category,
-        myTagsDisplay: this.state.myTagsDict[category]
+        myTagsDisplay: this.state.myTagsDict[category],
+        myList: {},
+        myKeyList: []
     });
 
     if(category !== 'All Resources'){
@@ -148,8 +150,6 @@ class ResourcesListOld extends React.Component {
       });
     }
   }
-
-
 
   // Display appropriate resources when tags are clicked
   setTagDisplay(category, tag) {
@@ -165,7 +165,7 @@ class ResourcesListOld extends React.Component {
            myList: newList
          });
        }
-       //new resource
+       //new resourcet
        else{
          let newList = this.state.myList;
          let keyList = this.state.myKeyList;
@@ -195,7 +195,7 @@ class ResourcesListOld extends React.Component {
     return (
       <div>
         <div style={{textAlign:'center'}}>
-          {Object.keys(this.state.myResourcesDict).map(category => {
+          {Object.keys(this.state.myResourcesDict).sort().map(category => {
             return (
               <Button size="medium"
                       active
@@ -245,7 +245,7 @@ class ResourcesListOld extends React.Component {
                   }}
             >{this.state.myTagsDescription}</div>
 
-            {this.state.myTagsDisplay.map(data => {
+            {this.state.myTagsDisplay.sort().map(data => {
               return (
                 <CoolerButton style={{
                                 marginTop: 8,
@@ -305,4 +305,4 @@ class ResourcesListOld extends React.Component {
   }
 }
 
-export default ResourcesListOld;
+export default ResourcesListDesktop;
