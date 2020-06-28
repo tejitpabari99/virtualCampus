@@ -14,7 +14,7 @@ const manualSt = makeStyles(() => ({
     margin: "0.5vh 0 0 0",
     willChange: "box-shadow, transform",
     transition:
-        "box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+      "box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
     textAlign: "center",
     whiteSpace: "nowrap",
     verticalAlign: "middle",
@@ -63,6 +63,14 @@ const manualSt = makeStyles(() => ({
       backgroundColor: '#0072CE',
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
+  },
+  blue2: {
+    color: 'white !important',
+    paddingLeft: "00px",
+    backgroundColor: "#3B5998",
+    "&:hover": {
+      color: '#EEEEEE !important',
+    }
   },
   black:{
     color: 'black !important',
@@ -130,18 +138,18 @@ export default function CustomButton({href, text, color, size, rounded, onClick,
   });
 
   return (
-      <Button {...rest} className={btnClasses} onClick={onClick}
-              target={newTab?'_blank':''} rel="noopener noreferrer"
-              href={href}>
-        <span className={classNames(manual.buttonSpan)}>{text}</span>
-      </Button>
+    <Button {...rest} className={btnClasses} onClick={onClick}
+            target={newTab?'_blank':''} rel="noopener noreferrer"
+            href={href}>
+      <span className={classNames(manual.buttonSpan)}>{text}</span>
+    </Button>
   )
 }
 
 CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(["white", "white2", "black", "orange", "blue", "blueInvert", "orangeInvert"]),
+  color: PropTypes.oneOf(["orange", "blue", "blueInvert", "orangeInvert"]),
   size: PropTypes.oneOf(["large","small", "medium"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,
