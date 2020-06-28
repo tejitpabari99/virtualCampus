@@ -156,7 +156,7 @@ class ResourcesListMobile extends React.Component {
     this.renderTagDisplay()
   }
 
-  deleteTagDisplay(category, tag) {
+  deleteTagDisplay(tag) {
     delete this.state.myTagsResourcesDisplay[tag];
     this.renderTagDisplay()
   }
@@ -226,7 +226,7 @@ class ResourcesListMobile extends React.Component {
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
                               onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
-                              otherClickOption={this.deleteTagDisplay.bind(this, this.state.myCategory, data)}
+                              otherClickOption={this.deleteTagDisplay.bind(this, data)}
                 >{data}</CoolerButton>
               );
             })}
