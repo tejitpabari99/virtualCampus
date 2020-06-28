@@ -264,7 +264,26 @@ class Events extends React.Component {
   //   this.setState({myEventsList:eventsData})
   // }
 
+
   async getEvents() {
+    var db = firebase.firestore();
+    var approvedEvents = await db.collection("technical").get();
+    let approvedEventsMap = [];
+    if(approvedEvents){
+        // TODO
+        // MAY NEED TO CHANGE:
+        // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
+        // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
+        // However, convertEventsTime should be run on every event, converting the time and timezone of the event
+        // To the current user's local time!
+        approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
+    }
+    console.log(approvedEventsMap);
+    // console.log(approvedEventsMap);
+    this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
+  }
+
+  /*async getEvents() {
     var db = firebase.firestore();
     var approvedEvents = await db.collection("events")
       .where("approved", "==", true)
@@ -281,7 +300,7 @@ class Events extends React.Component {
       approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
     }
     this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
-  }
+  }*/
 
   formatTime(hours, min) {
     let h = hours > 12 ? hours - 12 : hours;
@@ -299,17 +318,29 @@ class Events extends React.Component {
   }
 
   eventPropStyles(event, start, end, isSelected) {
-    let style = {
-      backgroundColor: "#2984ce"
-    };
+    let style;
+    if(event.available === true){
+      style = {
+        backgroundColor: "#2984ce"
+      };
+    }
+    else{
+      style = {
+        backgroundColor: "#A9B2B7",
+        pointerEvents: 'none',
+        border: 'none'
+      };
+    }
+
+    /*let style = {
+      backgroundColor: "#A9B2B7"
+    };*/
     return { style: style };
   }
 
   EventDisplay = ({ event }) => (
     <div>
-      <div style={{ fontSize: 15, marginBottom: 3 }}>{event.event}</div>
-      <div style={{ fontSize: 13 }}>{this.formatTime(event.start_date.getHours(), event.start_date.getMinutes())} -
-        {this.formatTime(event.end_date.getHours(), event.end_date.getMinutes())}</div>
+      <div style={{ fontSize: 15, marginBottom: 3 }}>{event.host_name}</div>
     </div>
   );
 
@@ -317,46 +348,49 @@ class Events extends React.Component {
     const { classes } = this.props;
     return (
       <Template active={"technical"} title={"Events"}>
-        <Title color={"blue"}>Mock Tech Interview</Title>
-        <div style={{ textAlign: "center" }}>
-          <CustomButton href={""} text={"Participate"}
-                        style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
-        </div>
-        <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
+        <Title color={"blue"} style={{ padding: '20px'}}>Mock Tech Interview</Title>
+        <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> July 2020</h3>
+        <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
         <GridContainer
-            style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
+            style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, marginLeft: 0, marginRight: 0, textAlign:'center'}}>
                 <GridItem xs={12} sm={12} md={4}>
-                    <img src={interview} style={{width: "350px", height: "300px" }}></img>
+                    <img src={interview} style={{width: "350px", height: "300px", marginLeft: "-20px"}}></img>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={8}>
-                    <p style={{fontSize: "25px", fontWeight: "bold", textAlign: "left"}}>Are you preparing for tech internships and full time positons? 
+                    <p style={{fontSize: "25px", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships and full time positons? 
                     Do you want to practice your technical interview skills?</p>
-                    <p style={{fontSize : "20px", textAlign: "left"}}> Columbia Virtual Campus is offerring the opportunity to particiapte in one-on-one mock technical interviews with Columbia Univeristy students who have interned at Company1, Company2, Company3, and more.  
+                    <p style={{fontSize : "20px", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity to particiapte in one-on-one mock technical interviews with Columbia Univeristy students who have interned at Company1, Company2, Company3, and more.  
                     These one hour tutoring sessions will allow you to pratice real technical interview questions in a setting that resembles a real interview.</p>
-                    <p style={{fontSize : "15px", textAlign: "left"}}><strong>Interested in giving mock interviews?</strong> Email us with your interview!</p>
+                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at columbiavirtualcampus@gmail.com!</p>
                 </GridItem>
-            </GridContainer>
-        <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
-        <Calendar
-          views={["month", "week", "day"]}
-          localizer={localizer}
-          scrollToTime={new Date()}
-          events={this.state.myEventsList}
-          defaultView={"month"}
-          startAccessor="start_date"
-          endAccessor="end_date"
-          allDayAccessor="allDay"
-          showMultiDayTimes
-          style={{ height: 550 }}
-          onSelectEvent={(event) => {
-            this.setState({ open: true, event });
-          }}
-          eventPropGetter={this.eventPropStyles}
-          components={{
-            event: this.EventDisplay
-          }}
-          formats={{ eventTimeRangeFormat: () => null }}
-        />
+        </GridContainer>
+        <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
+        <GridContainer
+            style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
+                <GridItem xs={12} sm={12} md={12}>
+                <Calendar
+                  views={["month", "week", "day"]}
+                  localizer={localizer}
+                  scrollToTime={new Date()}
+                  events={this.state.myEventsList}
+                  defaultView={"week"}
+                  startAccessor="start_date"
+                  endAccessor="end_date"
+                  allDayAccessor="allDay"
+                  showMultiDayTimes
+                  style={{ height: 550 }}
+                  onSelectEvent={(event) => {
+                    this.setState({ open: true, event });
+                  }}
+                  eventPropGetter={this.eventPropStyles}
+                  components={{
+                    event: this.EventDisplay
+                  }}
+                  formats={{ eventTimeRangeFormat: () => null }}
+                />
+                </GridItem>
+        </GridContainer>
+        
         {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
       </Template>
     );
