@@ -30,13 +30,13 @@ const validationSchema = Yup.object().shape({
       .email("Please enter a valid email address")
       .trim().matches(/^[a-zA-Z0-9]+@(columbia|barnard)+.edu$/, 'Enter Columbia or Barnard email address')
       .required("Required"),
-    comments: Yup.string()
+    // comments: Yup.string()
   });
 
   const initVal = {
       name: "", 
       email: "", 
-      comments: "", 
+    //   comments: "", 
   }
 
 const useStyles = makeStyles ({
@@ -104,9 +104,10 @@ export default function MockInterviewModal({open, closeDo, event}) {
         const name = values.name;
         const email = values.email;
         const db = firebase.firestore();
+        console.log(event.start_date_original);
         let lookUpEvent = await db.collection("technical")
-            .where("host_email", "==", "imkevinmao@gmail.com")
-            .where("start_date", "==", "Wed Jul 01 2020 15:00:00 GMT-0500 (Eastern Standard Time)")
+            .where("host_email", "==", event.host_email)
+            .where("start_date", "==", event.start_date_original)
             .get();
         if (lookUpEvent.size == 0){
             alert("Could not find event!");
@@ -135,7 +136,6 @@ export default function MockInterviewModal({open, closeDo, event}) {
           });
         closeDo();
     }
-
     return(
         <Modal
             style={{display: 'flex',
@@ -161,15 +161,14 @@ export default function MockInterviewModal({open, closeDo, event}) {
                     margin: 25}}>
                     <GridContainer style={{marginTop:0, marginBottom:0}}>
                         <GridItem xs={6}>
-                            <h4 style={{color:"#4284C8"}} className={classes.cardTitle}>Kevin Mao</h4>
+                            <h4 style={{color:"#4284C8"}} className={classes.cardTitle}>{event.host_name}</h4>
                         </GridItem>
                         <GridItem xs={6}>
-                            <h5 style={{color:"black"}} >1:00pm - 2:00pm</h5>
+                            <h5 style={{color:"black"}} >{formatTime(event.start_date.getHours(),event.start_date.getMinutes())} {event.timeZoneGMT}</h5>
                         </GridItem>
                     </GridContainer>
                     <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3, marginBottom: "0.7em"}}/>
-                    <p>Computer Science Major in SEAS (2021)
-                        <br/> Software Engineer Intern at Microsoft</p> 
+                    <p>{event.host_bio}</p> 
                     <Formik
                         validationSchema={validationSchema}
                         onSubmit={submitHandler}
@@ -197,10 +196,10 @@ export default function MockInterviewModal({open, closeDo, event}) {
                                                     error={errors.email}
                                                     touch={touched.email}
                                                     required></FormikField>
-                                    <FormikField label="Comments for interviewer" name="comments"
+                                    {/* <FormikField label="Comments for interviewer" name="comments"
                                                     error={errors.comments}
                                                     touch={touched.comments}
-                                                    ></FormikField>
+                                                    ></FormikField> */}
                                     <Button
                                         style={{
                                         background: "white",

@@ -207,6 +207,7 @@ class Events extends React.Component {
 
   convertEventsTime(event) {
     const tzString = event.timezone;
+    event.start_date_original = event.start_date;
 
     // Remove redudancy (AKA remove the evidence -.0)
     event.start_date = event.start_date.split("GMT")[0];
@@ -282,24 +283,6 @@ class Events extends React.Component {
     this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
 
-  /*async getEvents() {
-    var db = firebase.firestore();
-    var approvedEvents = await db.collection("events")
-      .where("approved", "==", true)
-      .orderBy("start_date", 'asc')
-      .get();
-    let approvedEventsMap = [];
-    if(approvedEvents){
-      // TODO
-      // MAY NEED TO CHANGE:
-      // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
-      // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
-      // However, convertEventsTime should be run on every event, converting the time and timezone of the event
-      // To the current user's local time!
-      approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
-    }
-    this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
-  }*/
 
   formatTime(hours, min) {
     let h = hours > 12 ? hours - 12 : hours;
@@ -347,11 +330,11 @@ class Events extends React.Component {
     const { classes } = this.props;
     return (
       <Template active={"technical"} title={"Events"}>
-        <Title color={"blue"} style={{ padding: '20px'}}>Mock Tech Interview</Title>
+        <Title color={"blue"} style={{ padding: '20px', marginTop: 0}}>Mock Tech Interview</Title>
         <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> July 2020</h3>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
         <GridContainer
-            style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, marginLeft: 0, marginRight: 0, textAlign:'center'}}>
+            style={{marginTop:"2em", marginBottom:"2em", marginLeft: 0, marginRight: 0, textAlign:'center'}}>
                 <GridItem xs={12} sm={12} md={4}>
                     <img src={interview} style={{width: "350px", height: "300px", marginLeft: "-20px"}}></img>
                 </GridItem>

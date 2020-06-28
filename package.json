@@ -16,6 +16,7 @@
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
     "countries-and-timezones": "^2.2.0",
+    "eslint-plugin-promise": "^4.2.1",
     "firebase": "^7.14.2",
     "formik": "^2.1.4",
     "formik-material-ui": "^2.0.0-beta.1",
