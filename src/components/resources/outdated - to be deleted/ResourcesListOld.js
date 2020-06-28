@@ -34,7 +34,7 @@ const CoolerButton = ({children, otherClickOption, ...other}) => {
   );
 };
 
-class ResourcesListDesktop extends React.Component {
+class ResourcesListOld extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,7 +45,9 @@ class ResourcesListDesktop extends React.Component {
       myTagsDict: {},
       myTagsDisplay: [],
       myTagsDescription: "",
-      myTagsResourcesDisplay: {}
+      allResources: {},
+      myList: {},
+      myKeyList: []
     };
     this.getResources();
   }
@@ -134,8 +136,7 @@ class ResourcesListDesktop extends React.Component {
         myCategory: category,
         myTagsDisplay: this.state.myTagsDict[category],
         myList: {},
-        myKeyList: [],
-        myTagsResourcesDisplay: {}
+        myKeyList: []
     });
 
     if(category !== 'All Resources'){
@@ -150,32 +151,53 @@ class ResourcesListDesktop extends React.Component {
     }
   }
 
+
+
+  // Display appropriate resources when tags are clicked
   setTagDisplay(category, tag) {
-    this.state.myTagsResourcesDisplay[tag] = this.state.myTagsDict[category][tag];
-    this.renderTagDisplay()
+    let resources = this.state.myTagsDict[category][tag];
+    for (let i=0; i < resources.length; i += 1) {
+       let ele = resources[i];
+       let key = ele['title'];
+
+       if(key in this.state.myList) {
+         let newList = this.state.myList;
+         newList[key]['activeButton'] += 1;
+         this.setState({
+           myList: newList
+         });
+       }
+       //new resource
+       else{
+         let newList = this.state.myList;
+         let keyList = this.state.myKeyList;
+         keyList.push(key);
+         newList[key] = {};
+         newList[key]['resource'] = ele;
+         newList[key]['activeButton'] = 1;
+
+         let allResources = [];
+         for(let j=0; j<keyList.length; j++){
+           allResources.push(newList[keyList[j]]['resource']);
+         }
+         this.setState({
+           myList: newList,
+           myKeyList: keyList,
+           myResourcesDisplay: allResources
+         });
+       }
+     }
   }
 
-  deleteTagDisplay(tag) {
-    delete this.state.myTagsResourcesDisplay[tag];
-    this.renderTagDisplay()
-  }
+  deleteTagDisplay(category, tag) {
 
-  renderTagDisplay() {
-    let allResources = [];
-    for(let key in this.state.myTagsResourcesDisplay){
-      let resourceList = this.state.myTagsResourcesDisplay[key];
-      allResources.push(...resourceList);
-    }
-    allResources = Array.from(new Set(allResources));
-    this.setState({ myResourcesDisplay: allResources});
   }
-
 
   render() {
     return (
       <div>
         <div style={{textAlign:'center'}}>
-          {Object.keys(this.state.myResourcesDict).sort().map(category => {
+          {Object.keys(this.state.myResourcesDict).map(category => {
             return (
               <Button size="medium"
                       active
@@ -225,7 +247,7 @@ class ResourcesListDesktop extends React.Component {
                   }}
             >{this.state.myTagsDescription}</div>
 
-            {this.state.myTagsDisplay.sort().map(data => {
+            {this.state.myTagsDisplay.map(data => {
               return (
                 <CoolerButton style={{
                                 marginTop: 8,
@@ -234,7 +256,7 @@ class ResourcesListDesktop extends React.Component {
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
                               onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
-                              otherClickOption={this.deleteTagDisplay.bind(this, data)}
+                              otherClickOption={this.deleteTagDisplay.bind(this, this.state.myCategory, data)}
                 >{data}</CoolerButton>
               );
             })}
@@ -285,4 +307,4 @@ class ResourcesListDesktop extends React.Component {
   }
 }
 
-export default ResourcesListDesktop;
+export default ResourcesListOld;
