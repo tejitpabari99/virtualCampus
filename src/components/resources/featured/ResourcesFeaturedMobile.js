@@ -53,11 +53,11 @@ const containerStyles = makeStyles(() => ({
     color: '#0072CE'
   },
   button: {
-    background: '#FFFFFF',
+    background: 'rgba(255, 255, 255, 0.85)',
     position: 'relative',
     marginLeft: '3%',
     bottom: '42.65%',
-    borderRadius: '30px',
+    borderRadius: '5px',
     zIndex: 10,
     fontFamily: 'Poppins',
     fontStyle: 'normal',
@@ -114,7 +114,7 @@ export default function ResourcesFeaturedMobile() {
                         <p>
                           {data.category.tags.map(ele => {
                             return (
-                              <Button className={contStyle.button} style={{width: '53px', height: '21px'}}>
+                              <Button disabled className={contStyle.button} style={{width: '66px', height: '25px'}}>
                                 {ele}
                               </Button>
                             )

@@ -56,16 +56,16 @@ const containerStyles = makeStyles(() => ({
   button: {
     background: 'rgba(255, 255, 255, 0.85)',
     position: 'relative',
-    marginLeft:"3%",
-    marginBottom: 0,
-    borderRadius: '20px',
+    marginLeft: '3%',
+    bottom: '42.65%',
+    borderRadius: '5px',
     zIndex: 10,
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '10px',
-    lineHeight: '14px',
-    textAlign: 'center'
+    fontSize: '11px',
+    lineHeight: '15px',
+    textAlign: 'center',
   },
   description: {
     position: 'relative',
@@ -115,7 +115,7 @@ export default function ResourcesFeaturedDesktop() {
                         <p>
                           {data.category.tags.map(ele => {
                             return (
-                              <Button className={contStyle.button}>
+                              <Button disabled className={contStyle.button}>
                                 {ele}
                               </Button>
                             )
