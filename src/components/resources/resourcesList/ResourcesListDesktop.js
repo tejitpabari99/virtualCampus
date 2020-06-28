@@ -152,17 +152,15 @@ class ResourcesListDesktop extends React.Component {
 
   setTagDisplay(category, tag) {
     this.state.myTagsResourcesDisplay[tag] = this.state.myTagsDict[category][tag];
-    let allResources = [];
-    for(let key in this.state.myTagsResourcesDisplay){
-      let resourceList = this.state.myTagsResourcesDisplay[key];
-      allResources.push(...resourceList);
-    }
-    allResources = Array.from(new Set(allResources));
-    this.setState({ myResourcesDisplay: allResources});
+    this.renderTagDisplay()
   }
 
   deleteTagDisplay(category, tag) {
     delete this.state.myTagsResourcesDisplay[tag];
+    this.renderTagDisplay()
+  }
+
+  renderTagDisplay() {
     let allResources = [];
     for(let key in this.state.myTagsResourcesDisplay){
       let resourceList = this.state.myTagsResourcesDisplay[key];
