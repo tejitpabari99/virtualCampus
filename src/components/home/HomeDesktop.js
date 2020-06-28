@@ -9,6 +9,9 @@ import styles from "../../assets/material-kit-assets/jss/material-kit-react/view
 import { CustomButton, CustomHeader, MetaData, Subtitle, Title} from "./../../components";
 import HomeEvents from './HomeEvents';
 import HomeResourcesList from "./HomeResourcesList.js";
+import { Helmet } from 'react-helmet';
+import InstagramEmbed from 'react-instagram-embed';
+
 
 
 const useStyles = makeStyles(styles);
@@ -115,7 +118,7 @@ const manualSt = makeStyles(() => ({
   },
   insta: {
     width: "50%",
-    height: "992px",
+    height: "850px",
     backgroundColor: "#F6C09F",
     color: "black",
     float: "left",
@@ -124,13 +127,13 @@ const manualSt = makeStyles(() => ({
   },
   fabo: {
     width: "50%",
-    height: "992px",
+    height: "850px",
     backgroundColor: "#82B7E8",
     color: "white",
     float: "right",
     padding:"0px",
     margin: "0px",
-  },
+  }
 
 }));
 
@@ -141,6 +144,9 @@ export default function HomeDesktop() {
   manual = manualSt();
   return (
     <div style={{ background: "white" }}>
+      <Helmet>
+            <script async={true} defer={true} crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=2186738638294469&autoLogAppEvents=1" />
+      </Helmet>
       <MetaData title={'Columbia Virtual Campus'} />
       <CustomHeader active={''} brand={''}/>
       <div className={classNames(manual.landing)}>
@@ -204,25 +210,40 @@ export default function HomeDesktop() {
       <div style={{ marginBottom: "40px" }} />
 
       <div className={manual.socialSection}>
-          <div className={manual.insta}>
-              <h2 style={{marginTop: "80px"}}>CVC on Instagram</h2>
-              <h4 style={{marginTop: "20px"}}>
-                Check us out on social media to see <br/> what we're all about!
-              </h4>
-              <br/> <br/>
-              <img src={instagramPic} alt="InstagramPic"/>
-              <div style={{marginTop: "30px", backgroundColor: "#F6C09F", color: "black", borderColor: "black"}}>
-                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"}/>
+          <div className={manual.insta} style={{paddingTop:"50px"}}>
+              <div align="center"  style = {{marginTop: "53px", border:"none"}}>
+                  <InstagramEmbed
+                url='https://www.instagram.com/p/CBHN4GMlSkD/'
+                maxWidth={320}
+                hideCaption={true}
+                containerTagName='div'
+                protocol=''
+                injectScript
+                onLoading={() => {}}
+                onSuccess={() => {}}
+                onAfterRender={() => {}}
+                onFailure={() => {}}
+              />
+              </div>
+              <div style={{marginTop: "50px", color: "black", borderColor: "black"}}>
+                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'}
+                                color={"black"} size={"large"} />
               </div>
           </div>
-          <div className={manual.fabo}>
-              <h2 style={{marginTop: "80px"}}>CVC on Facebook</h2>
-              <h4 style={{marginTop: "20px"}}>
-                Check us out on social media to see <br/> what we're all about!
-              </h4>
-              <br/> <br/>
-              <img src={facebookPic} alt="FacebookPic"/>
-              <div style={{marginTop: "30px"}}>
+          <div className={manual.fabo}  style={{paddingTop:"50px"}}>
+              <div style = {{marginTop: "52px", border:"none"}}
+                className="fb-page"
+                data-href="https://www.facebook.com/columbiavirtualcampus/"
+                data-tabs="timeline"
+                data-width="320"
+                data-height="527"
+                data-small-header="true"
+                data-adapt-container-width="true"
+                data-hide-cover="false"
+                data-show-facepile="false"
+              >
+              </div>
+              <div style={{marginTop: "50px"}}>
                   <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"}/>
               </div>
           </div>

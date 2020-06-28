@@ -21,11 +21,10 @@ import Button from "@material-ui/core/Button";
 // import GridItem from "../material-kit-components/Grid/GridItem";
 import Grid from '@material-ui/core/Grid';
 // import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { MetaData, CustomHeader, CustomButton, Title, Subtitle, Template } from "../";
+import { MetaData, CustomHeader, CustomButton, Title, Subtitle, Template, getTimezoneOptions } from "../";
 import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
-import { getTimezoneOptions } from "../all/TimeFunctions"
 
 // set an init value first so the input is "controlled" by default
 const initVal = {

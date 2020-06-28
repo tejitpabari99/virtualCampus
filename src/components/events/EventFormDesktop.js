@@ -15,12 +15,10 @@ import DateFnsUtils from "@date-io/date-fns";
 import FileUploadBtn from '../form-components/FileUploadBtn'
 import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
-import { CustomHeader, Template } from "../";
+import { CustomHeader, Template, getTimezoneOptions } from "../";
 import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
-
-import { getTimezoneOptions } from "../all/TimeFunctions"
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
