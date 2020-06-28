@@ -134,7 +134,8 @@ class ResourcesListDesktop extends React.Component {
         myCategory: category,
         myTagsDisplay: this.state.myTagsDict[category],
         myList: {},
-        myKeyList: []
+        myKeyList: [],
+        myTagsResourcesDisplay: {}
     });
 
     if(category !== 'All Resources'){
