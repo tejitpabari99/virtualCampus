@@ -239,6 +239,11 @@ class Events extends React.Component {
             <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
               {this.state.displayEvents.map((ele, ind) => {
                   if (numEventsDisplayed < MAX_EVENTS_DISPALYED) {
+
+                    if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
+                      ele.tags = ['none']
+                    }
+
                     numEventsDisplayed = numEventsDisplayed + 1
                     return (<EventCard ele={ele} key={ind}/>);
                   }

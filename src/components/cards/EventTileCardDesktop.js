@@ -193,11 +193,13 @@ export default function EventCardDesktop({ ele }) {
           <div className={classes.imgOverlay}/>
 
           {ele.tags.map((ta, ind) => {
-            return (
-              <Button className={classes.button}>
-                {ta}
-              </Button>
-            )
+            if (ta !== undefined && ta !== "") {
+              return (
+                  <Button className={classes.button}>
+                    {ta}
+                  </Button>
+              )
+            }
           })}
 
         </div>
