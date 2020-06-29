@@ -25,6 +25,7 @@ import Subtitle from "./text/Subtitle";
 import Heading from "./text/Heading";
 import DesktopMobile from "./all/DesktopMobile";
 import Search from "./input/Search";
+import EventSearch from "./input/EventSearch";
 import BLMCard from "./cards/BLMCard";
 import TutorExpansionMapping from './pop-up/blm/TutorExpansionMapping';
 import TutorSearchMapping from './pop-up/blm/TutorSearchMapping'
@@ -42,7 +43,7 @@ export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         EventCard, EventCardMobile, EventModal, EventEmailModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton, DesktopMobile,
-        Title, Subtitle, Heading, Search, ResourcesList,
+        Title, Subtitle, Heading, EventSearch, Search, ResourcesList,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
         BLMCard, TutorExpansionMapping, TutorSearchMapping, 

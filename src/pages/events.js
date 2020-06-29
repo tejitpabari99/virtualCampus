@@ -3,7 +3,10 @@ import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../components/events/react-big-calendar.css";
-import { EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
+import { EventCard, EventModal, Template, CustomButton, Title, EventSearch, EventCardDesktopBottom }
+  from "../components";
+import TZ from "countries-and-timezones";
+import AddIcon from "@material-ui/icons/Add";
 import firebase from "../firebase";
 import Fuse from 'fuse.js';
 import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
@@ -324,18 +327,15 @@ class Events extends React.Component {
           <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
                         style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
         </div>
-
         <div style={{margin: "40px"}}/>
-        <Search placeholder="Search Events by Name and/or Tags"
+        <EventSearch placeholder="Search all virtual events."
                 iconColor="#2984CE"
                 data={this.state.data}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
-
         />
         <div style={{margin: "40px"}}/>
-
         <Calendar
           views={["month"]}
           localizer={localizer}
