@@ -134,8 +134,6 @@ class ResourcesListMobile extends React.Component {
         myDescription: Descriptions[category],
         myCategory: category,
         myTagsDisplay: this.state.myTagsDict[category],
-        myList: {},
-        myKeyList: [],
         myTagsResourcesDisplay: {}
     });
 
