@@ -4,9 +4,8 @@ import CustomHeader from "./all/CustomHeader";
 import Template from "./all/Template";
 import TeamMember from "./about-us/TeamMember";
 import TeamSection from "./about-us/TeamSection";
-import EventCard from "./cards/EventCard";
-import EventCardDesktopBottom from "./cards/EventCardDesktopBottom";
-import EventCardMobile from "./cards/EventCardMobile";
+import EventCardFeatured from "./cards/eventCardsFeaturedAndCards/EventCardFeatured";
+import EventCard from "./cards/eventCardsFeaturedAndCards/EventCard";
 import EventModal from "./cards/EventModal";
 import EventEmailModal from "./cards/EventEmailModal";
 import ResourcesList from "./resources/resourcesList/ResourcesList";
@@ -39,10 +38,12 @@ import {convertUTCToLocal,
         getTimezoneName,
         convertTimestampToDate,
         getTimezoneOptions} from './all/TimeFunctions'
+import EventsPageDesktop from "./events/eventPageDesktop";
+import EventsPageMobile from "./events/eventPageMobile";
 
 export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
-        EventCard, EventCardMobile, EventModal, EventEmailModal, AddCalendar,
-        HomeEvents, HomeMobile, HomeDesktop,
+        EventCard, EventCardFeatured, EventModal, EventEmailModal, AddCalendar,
+        HomeEvents, HomeMobile, HomeDesktop, EventsPageDesktop, EventsPageMobile,
         CustomButton, DesktopMobile,
         Title, Subtitle, Heading, EventSearch, Search, ResourcesList,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,

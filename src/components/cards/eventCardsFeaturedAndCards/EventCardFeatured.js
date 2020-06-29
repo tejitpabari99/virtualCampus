@@ -1,10 +1,10 @@
 import React from "react"
 import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
-import EventCardDesktop from './EventCardDesktop'
-import EventTileCardDesktop from './EventTileCardDesktop'
-import EventCardMobile from './EventCardMobile'
+import EventCardHighlightDesktop from './EventCardFeaturedDesktop'
+import EventTileCardDesktop from './../EventTileCardDesktop'
+import EventCardHighlightMobile from './EventCardFeaturedMobile'
 
-class EventCard extends React.Component {
+class EventCardFeatured extends React.Component {
 
   constructor(props) {
     super(props);
@@ -47,13 +47,13 @@ class EventCard extends React.Component {
       if (isLandscape) {
         return (
           <div>
-            <EventCardDesktop ele={ele} onClick={onClick}/>
+            <EventCardHighlightDesktop ele={ele} onClick={onClick}/>
           </div>
         );
       } else {
         return (
           <div>
-            <EventCardMobile ele={ele} onClick={onClick}/>
+            <EventCardHighlightMobile ele={ele} onClick={onClick}/>
           </div>
         );
       }
@@ -63,7 +63,7 @@ class EventCard extends React.Component {
     } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
       return (
         <div>
-          <EventCardMobile ele={ele} onClick={onClick}/>
+          <EventCardHighlightMobile ele={ele} onClick={onClick}/>
         </div>
       );
 
@@ -82,4 +82,4 @@ class EventCard extends React.Component {
   }
 }
 
-export default EventCard;
+export default EventCardFeatured;

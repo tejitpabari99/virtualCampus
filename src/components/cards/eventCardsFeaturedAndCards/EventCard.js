@@ -1,8 +1,9 @@
-import React from "react";
-import { isEdge, isIE, isMobile, isTablet } from "react-device-detect";
-import { EventsPageDesktop, EventsPageMobile } from '../components';
+import React from "react"
+import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
+import EventCardDesktop from './EventCardDesktop'
+import EventCardMobile from './EventCardMobile'
 
-class Index extends React.Component {
+class EventCardHighlight extends React.Component {
 
   constructor(props) {
     super(props);
@@ -25,13 +26,13 @@ class Index extends React.Component {
 
   // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
   render() {
+    const {ele, onClick} = this.props;
 
     if (this.state.height === -1) {
       return (
-          <div>
-            <EventsPageDesktop/>
-
-          </div>
+        <div>
+          <EventCardDesktop ele={ele} onClick={onClick}/>
+        </div>
       );
     }
     {/* For mobile's screen orientation update */}
@@ -44,15 +45,15 @@ class Index extends React.Component {
     if (isTablet) {
       if (isLandscape) {
         return (
-            <div>
-              <EventsPageDesktop/>
-            </div>
+          <div>
+            <EventCardDesktop ele={ele} onClick={onClick}/>
+          </div>
         );
       } else {
         return (
-            <div>
-              <EventsPageMobile isLandscape={isLandscape}/>
-            </div>
+          <div>
+            <EventCardMobile ele={ele} onClick={onClick}/>
+          </div>
         );
       }
 
@@ -60,9 +61,9 @@ class Index extends React.Component {
       {/* For mobile component : IE or Edge must go to mobile since they do not support all css */}
     } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
       return (
-          <div>
-            <EventsPageMobile isLandscape={isLandscape}/>
-          </div>
+        <div>
+          <EventCardMobile ele={ele} onClick={onClick}/>
+        </div>
       );
 
 
@@ -72,12 +73,12 @@ class Index extends React.Component {
             */}
     } else {
       return (
-          <div>
-            <EventsPageDesktop />
-          </div>
+        <div>
+          <EventCardDesktop ele={ele} onClick={onClick}/>
+        </div>
       );
     }
   }
 }
 
-export default Index;
+export default EventCardHighlight;

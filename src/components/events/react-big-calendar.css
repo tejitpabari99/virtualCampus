@@ -251,6 +251,8 @@ button.rbc-input::-moz-focus-inner {
     padding-right: 5px;
     text-align: right; }
 .rbc-date-cell.rbc-now {
+    border: 2px solid #c4eaff;
+    border-bottom: none;
     font-weight: bold; }
 .rbc-date-cell > a, .rbc-date-cell > a:active, .rbc-date-cell > a:visited {
     color: inherit;

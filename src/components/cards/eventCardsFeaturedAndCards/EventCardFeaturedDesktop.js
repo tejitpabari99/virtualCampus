@@ -1,14 +1,11 @@
-import CardBody from "../material-kit-components/Card/CardBody";
+import CardBody from "../../material-kit-components/Card/CardBody";
 import classNames from "classnames";
-import Card from "../material-kit-components/Card/Card";
+import Card from "../../material-kit-components/Card/Card";
 import React, { useState } from "react";
-import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
+import { cardTitle } from "../../../assets/material-kit-assets/jss/material-kit-react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CustomButton, AddCalendar, CustomTheme } from "../";
-import Heading1 from "../text/Heading1";
-import Heading2 from "../text/Heading2";
-import Circle from "react-simple-shapes";
-import EventEmailModal from "./EventEmailModal"
+import { CustomButton, AddCalendar, CustomTheme } from "../../";
+import EventEmailModal from "./../EventEmailModal"
 
 const theme = CustomTheme;
 
@@ -150,7 +147,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function EventCardDesktop({ ele }) {
+export default function EventCardFeaturedDesktop({ ele }) {
   console.log(ele);
   const classes = useStyles();
 

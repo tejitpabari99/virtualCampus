@@ -1,14 +1,9 @@
-import CardBody from "../material-kit-components/Card/CardBody";
-import classNames from "classnames";
-import Card from "../material-kit-components/Card/Card";
+
 import React, { useState } from "react";
-import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
+import classNames from "classnames";
+import { cardTitle } from "../../../assets/material-kit-assets/jss/material-kit-react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CustomButton, AddCalendar, CustomTheme } from "../";
-import Heading1 from "../text/Heading1";
-import Heading2 from "../text/Heading2";
-import Circle from "react-simple-shapes";
-import EventEmailModal from "./EventEmailModal"
+import { CustomButton, AddCalendar, CustomTheme } from "../../";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -226,7 +221,7 @@ export default function EventCardDesktopBottom({ ele }) {
   }
   return (
 
-    <div style={{ width: "877px" }}>
+    <div style={{ width: "100%" }}>
     <ExpansionPanel>
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon/>}

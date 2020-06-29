@@ -1,13 +1,11 @@
 import classNames from "classnames";
 import React, { useState } from "react";
-import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
-import CustomTheme from "../all/CustomTheme";
-import { AddCalendar } from "../";
+import { cardTitle } from "../../../assets/material-kit-assets/jss/material-kit-react";
+import CustomTheme from "../../all/CustomTheme";
+import { AddCalendar } from "../../";
 import { makeStyles } from "@material-ui/core/styles";
-import CustomButton from '../buttons/CustomButton';
-import Heading1Mobile from "../text/Heading1Mobile";
-import Heading2Mobile from "../text/Heading2Mobile";
-import EventEmailModal from "./EventEmailModal"
+import CustomButton from '../../buttons/CustomButton';
+import EventEmailModal from "./../EventEmailModal"
 const theme = CustomTheme;
 
 const months = {
@@ -173,7 +171,7 @@ const useStyles = makeStyles(() => ({
       },
 }));
 
-export default function EventCardMobile({ele}) {
+export default function EventCardFeaturedMobile({ele}) {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);

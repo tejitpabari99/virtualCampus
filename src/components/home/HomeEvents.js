@@ -2,7 +2,7 @@ import React from "react"
 import Button from "../material-kit-components/CustomButtons/Button.js";
 import myEventsList from '../../assets/EventsData'
 import { withStyles } from "@material-ui/core/styles";
-import {EventCard, EventModal, CustomButton,
+import {EventCardHighlight, EventModal, CustomButton,
         getTimezoneName, convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate} from '../'
 import TZ from "countries-and-timezones";
 import firebase from "../../firebase";
@@ -130,7 +130,7 @@ class Events extends React.Component{
                 <div>
                     {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
                     {this.state.displayEvents.map((ele, ind) => {
-                        return(<EventCard key={ind} ele={ele} onClick={() => this.attendEvent(ele)}/>)
+                        return(<EventCardHighlight key={ind} ele={ele} onClick={() => this.attendEvent(ele)}/>)
                     })}
                 </div>
                 {this.state.displayEvents.length>0 && <div style={{textAlign:"center", marginTop: 20}}>
