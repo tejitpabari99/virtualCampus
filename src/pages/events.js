@@ -3,7 +3,7 @@ import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { MetaData, EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
+import { MetaData, EventCard, EventModal, Template, CustomButton, Title, EventSearch } from "../components";
 import TZ from "countries-and-timezones";
 import AddIcon from "@material-ui/icons/Add";
 import firebase from "../firebase";
@@ -198,13 +198,12 @@ class Events extends React.Component {
               return (<EventCard ele={ele} key={ind}/>);
           })}
         </div>}
-        <Search placeholder="Search Events by Name and/or Tags"
+        <EventSearch placeholder="Search all virtual events."
                 iconColor="#2984CE"
                 data={this.state.data}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
-
         /><br />
         <Calendar
           views={["month", "week", "day"]}
