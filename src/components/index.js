@@ -5,6 +5,7 @@ import Template from "./all/Template";
 import TeamMember from "./about-us/TeamMember";
 import TeamSection from "./about-us/TeamSection";
 import EventCard from "./cards/EventCard";
+import EventCardDesktopBottom from "./cards/EventCardDesktopBottom";
 import EventCardMobile from "./cards/EventCardMobile";
 import EventModal from "./cards/EventModal";
 import EventEmailModal from "./cards/EventEmailModal";

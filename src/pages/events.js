@@ -265,7 +265,7 @@ class Events extends React.Component {
   render() {
     const { classes } = this.props;
     let numEventsDisplayed = 0
-    const MAX_EVENTS_DISPALYED = 3
+    const MAX_EVENTS_DISPLAYED = 3
     return (
       <Template active={"schedule"} title={"Events"}>
 
@@ -278,7 +278,7 @@ class Events extends React.Component {
             </div>
             <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
               {this.state.displayEvents.map((ele, ind) => {
-                  if (numEventsDisplayed < MAX_EVENTS_DISPALYED) {
+                  if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
 
                     if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
                       ele.tags = ['none']
@@ -335,6 +335,8 @@ class Events extends React.Component {
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
         />
+        <br />
+
         <div style={{margin: "40px"}}/>
         <Calendar
           views={["month"]}
@@ -358,6 +360,8 @@ class Events extends React.Component {
           formats={{ eventTimeRangeFormat: () => null }}
         />
         {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
+
+
       </Template>
     );
   }

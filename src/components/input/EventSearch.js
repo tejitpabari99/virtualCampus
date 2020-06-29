@@ -55,7 +55,7 @@ export default class EventSearch extends React.Component{
         <div style={{display:'inline', padding: '18px'}}>
           <TextField
             style={{
-              width: "1043px",
+              width: "85%",
               borderColor: "#0072CE",
               backgroundColor: "white",
               marginBottom: "20px",
@@ -172,7 +172,7 @@ export default class EventSearch extends React.Component{
         <div style={{display:'inline', padding: '18px'}}>
           <TextField
             style={{
-              width: "1043px",
+              width: "85%",
               borderColor: "#0072CE",
               backgroundColor: "white",
               marginBottom: "20px",
