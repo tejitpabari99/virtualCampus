@@ -8,8 +8,11 @@ import {ResourcesCard, Heading, CustomButton} from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
 
-const CoolerButton = ({children, otherClickOption, ...other}) => {
+const CoolerButton = ({children, otherClickOption, category, key, ...other}) => {
   const [isPushed, setIsPushed] = React.useState(true);
+  React.useEffect(() => {
+    setIsPushed(true);
+  }, [children, category, key]);
   const otherClick = other.onClick.bind({});
   const handleClick = () => {
     setIsPushed(!isPushed);
@@ -217,9 +220,9 @@ class ResourcesListMobile extends React.Component {
 
         <GridContainer style={{width: '100%'}}>
           <GridItem style={{textAlign:'center', marginBottom:'34px'}}>
-            {this.state.myTagsDisplay.sort().map(data => {
+            {this.state.myTagsDisplay.sort().map((data, idx) => {
               return (
-                <CoolerButton style={{
+                <CoolerButton key={idx} style={{
                                 marginTop: 8,
                                 marginBottom: 8,
                                 marginLeft: 10,
@@ -227,6 +230,7 @@ class ResourcesListMobile extends React.Component {
                               }}
                               onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
                               otherClickOption={this.deleteTagDisplay.bind(this, data)}
+                              category={this.state.myCategory}
                 >{data}</CoolerButton>
               );
             })}

@@ -7,8 +7,11 @@ import {ResourcesCard, Heading, CustomButton} from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
 
-const CoolerButton = ({children, otherClickOption, ...other}) => {
+const CoolerButton = ({children, otherClickOption, category, key, ...other}) => {
   const [isPushed, setIsPushed] = React.useState(true);
+  React.useEffect(() => {
+    setIsPushed(true);
+  }, [children, category, key]);
   const otherClick = other.onClick.bind({});
   const handleClick = () => {
     setIsPushed(!isPushed);
@@ -45,9 +48,13 @@ class ResourcesListDesktop extends React.Component {
       myTagsDict: {},
       myTagsDisplay: [],
       myTagsDescription: "",
-      myTagsResourcesDisplay: {}
+      myTagsResourcesDisplay: {},
+      searchVal: "",
+      defaultSearchInput: ''
     };
     this.getResources();
+//    this.searchFunc = this.searchFunc.bind(this);
+//    this.setSearchInput = this.setSearchInput.bind(this);
   }
 
   // Get resources from Firestore
@@ -135,7 +142,7 @@ class ResourcesListDesktop extends React.Component {
         myTagsDisplay: this.state.myTagsDict[category],
         myList: {},
         myKeyList: [],
-        myTagsResourcesDisplay: {}
+        myTagsResourcesDisplay: {},
     });
 
     if(category !== 'All Resources'){
@@ -170,6 +177,14 @@ class ResourcesListDesktop extends React.Component {
     this.setState({ myResourcesDisplay: allResources});
   }
 
+  //Search function for looking up Resources
+
+  //Sets the search input for the search functionality
+  setSearchInput(input){
+    this.setState({ defaultSearchInput: input });
+    this.inputElement.state.searchVal = input;
+    this.inputElement.props.onClick(input);
+  }
 
   render() {
     return (
@@ -225,9 +240,9 @@ class ResourcesListDesktop extends React.Component {
                   }}
             >{this.state.myTagsDescription}</div>
 
-            {this.state.myTagsDisplay.sort().map(data => {
+            {this.state.myTagsDisplay.sort().map((data, idx) => {
               return (
-                <CoolerButton style={{
+                <CoolerButton key={idx} style={{
                                 marginTop: 8,
                                 marginBottom: 8,
                                 marginLeft: 10,
@@ -235,6 +250,7 @@ class ResourcesListDesktop extends React.Component {
                               }}
                               onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
                               otherClickOption={this.deleteTagDisplay.bind(this, data)}
+                              category={this.state.myCategory}
                 >{data}</CoolerButton>
               );
             })}
