@@ -126,11 +126,12 @@ const useStyles = makeStyles(() => ({
     },
     image:{
         borderRadius: 5,
-        width:"100%",
-        height: "102px",
+        width:"auto",
+        height: "100%",
         objectFit: "cover",
-        marginTop: "32px",
-        marginBottom: "11px",
+        paddingTop: "32px",
+        paddingBottom: "11px",
+        display: "block",
         // [theme.breakpoints.up('xs')]:{
         //     display:'none'
         // },
@@ -171,6 +172,10 @@ const useStyles = makeStyles(() => ({
         borderRadius: "50%",
         display: "inline-block",
       },
+    img: {
+        height: "30vh",
+        width: "100%",
+    }
 }));
 
 export default function EventCardMobile({ele}) {
@@ -189,7 +194,9 @@ export default function EventCardMobile({ele}) {
     return(
         <div className={classes.card}>
             <div style={{position: "relative"}}>
-                <img className={classes.image} src={ele.image_link} />
+                <div className={classes.img}>
+                    <img className={classes.image} src={ele.image_link} />
+                </div>
                 <div className={classes.imageBox}>
                   <div className={classes.dateText}>{ele.start_date.getDate()}</div>
                   <div className={classes.monthText}>{months[ele.start_date.getMonth()]}</div>
