@@ -132,6 +132,13 @@ function cleanTag(values, key) {
 function processTags(values) {
 
   const defKey = "other_tags";
+  if (defKey in values === false)
+    return values;
+
+  // Because we want commas and semicolons to be separated upon, let's make them equivalent:
+  console.log(values[defKey])
+  values[defKey] = values[defKey].split(",").join(";")
+  console.log("after: " + values[defKey])
 
   if (values[defKey].endsWith(";") === false && values[defKey] !== "") {
     values[defKey] = values[defKey] + ";";
@@ -141,8 +148,8 @@ function processTags(values) {
     values[defKey] = processATag(values, key, defKey),
     values = cleanTag(values, key)
   ));
-  values[defKey] = values[defKey].replace("; ;", ";");
-  values[defKey] = values[defKey].replace(";;", ";");
+  values[defKey] = values[defKey].split("; ;").join(";");
+  values[defKey] = values[defKey].split(";;").join(";");
   if (values[defKey].endsWith(";")) {
     values[defKey] = values[defKey].substring(0, values[defKey].length - 1);
   }
@@ -315,7 +322,7 @@ class EventFormDesktop extends React.Component {
       errStatus: 0,
       activityIndicatory: false,
       imgFileValue: "",
-      imgurLink: "butts",
+      imgurLink: "",
     };
 
     this.submitHandler = this.submitHandler.bind(this);
@@ -332,7 +339,7 @@ class EventFormDesktop extends React.Component {
     //   this.setState({ activityIndicatory: true });
     //   const b = this.uploadData(values);
     // }
-    if (this.state.imgurLink != "") {
+    if (this.state.imgurLink !== "") {
       values['image_link'] = this.state.imgurLink
     }
     // console.log(values)
