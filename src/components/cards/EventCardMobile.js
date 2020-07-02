@@ -149,7 +149,7 @@ const useStyles = makeStyles(() => ({
         // }
     },
     heading1:{
-        lineHeight: '3vw',
+        lineHeight: '6vw',
         fontSize: 'min(5.2vw, 28px)',
         color:'#000000 !important',
         margin: 0
@@ -196,7 +196,7 @@ export default function EventCardMobile({ele}) {
                 </div>
             </div>
             <div className={classes.cardbody}>
-                <h1 className={classes.heading1}> {ele.event} </h1>
+                <h1 className={classes.heading1} style={{display: "block"}}> {ele.event} </h1>
                 <h1 className={classes.heading2}>{ele.name}</h1>
                 <div className={classes.timeInfo}>
                     {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} - {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
