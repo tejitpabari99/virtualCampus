@@ -184,6 +184,14 @@ const manualLandscape = makeStyles(() => ({
     boxSizing: "border-box",
     borderRadius: "10px",
   },
+  hostsSection: {
+    height: "70vh",
+    flexDirection: "column",
+    position: "relative",
+    backgroundImage: `url(${hostEventPic})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "100% auto"
+  },
   eventsSection: {
     position:'relative',
     left:'0px',
@@ -282,7 +290,7 @@ export default function HomeMobile({isLandscape}) {
           </div>
       </div>
 
-      <div className={manual.eventsSection}>
+      <div className={manual.hostsSection}>
         <img className={manual.eventPic} src={hostEventPic} alt="HostEventPic"/>
           <div className={manual.eventText}>
             <br/>
@@ -291,7 +299,7 @@ export default function HomeMobile({isLandscape}) {
             <h5>Answer some questions to <strong>start leading.</strong></h5>
             <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
             color={"white2"} size={"large"} />
-            <br/><br/><br/><br/><br/>
+            <br/><br/>
           </div>
       </div>
 

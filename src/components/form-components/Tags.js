@@ -35,7 +35,7 @@ const Tags = (props) => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item sm={12}>
-          <FormikField label="Other Tags (Seperate each by semicolon)"
+          <FormikField label="Other Tags: Please separate by either Semicolons or Commas (e.g. 'tag1;tag2' or 'tag1,tag2')"
             placeholder="Separate Each Tag by Semicolon"
             name="other_tags" />
         </Grid>
