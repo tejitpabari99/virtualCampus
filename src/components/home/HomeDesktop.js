@@ -116,7 +116,7 @@ const manualSt = makeStyles(() => ({
   socialSection: {
     textAlign: "center",
   },
-  insta: {
+/*  insta: {
     width: "50%",
     height: "850px",
     backgroundColor: "transparent",
@@ -154,7 +154,25 @@ insta2: {
         width: "100%",
         height: "850px",
         backgroundColor: "transparent"
-    }
+    }*/
+        insta: {
+        width: "50%",
+        height: "992px",
+        backgroundColor: "#F6C09F",
+        color: "black",
+        float: "left",
+        padding:"0px",
+        marginTop: "0px",
+    },
+    fabo: {
+    width: "50%",
+        height: "992px",
+        backgroundColor: "#82B7E8",
+        color: "white",
+        float: "right",
+        padding:"0px",
+        margin: "0px",
+},
 
 }));
 
@@ -230,12 +248,13 @@ export default function HomeDesktop() {
       </div>
       <div style={{ marginBottom: "40px" }} />
 
-      <div style={{height: "850px"}}>
+        {/*<div style={{height: "100vh"}}>
           <div className={classNames(manual.insta2, manual.instaBg)}  style={{paddingTop:"50px", zIndex:"1"}} />
-          <div className={classNames(manual.fabo2, manual.faboBg)}  style={{paddingTop:"50px", zIndex:"0"}} />
+          <div className={classNames(manual.fabo2, manual.faboBg)}  style={{paddingTop:"50px", zIndex:"0"}} />*/}
 
-          <div className={manual.socialSection} style={{position: "relative", height: "0px", top: "-850px", zIndex:"3"}}>
-              <div className={manual.insta} style={{paddingTop:"50px"}}>
+        {/*<div className={manual.socialSection} style={{position: "relative", height: "0px", top: "-850px", zIndex:"3"}}>*/}
+        <div className={manual.socialSection}>
+        <div className={manual.insta} style={{paddingTop:"50px"}}>
                   <div align="center"  style = {{marginTop: "53px", border:"none"}}>
                       <InstagramEmbed
                           url='https://www.instagram.com/p/CBHN4GMlSkD/'
@@ -273,7 +292,7 @@ export default function HomeDesktop() {
                   </div>
               </div>
           </div>
-      </div>
+        {/*}</div>*/}
 
 
     </div>
