@@ -77,10 +77,16 @@ const manualSt = makeStyles(() => ({
     flexDirection: "column",
     position: "relative",
   },
+    hostsSection: {
+        flexDirection: "column",
+        position: "relative",
+        backgroundImage: `url(${hostEventPic})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100% auto"
+    },
   eventPic: {
-    height: "795px",
+    height: "100%",
     width: "100%",
-    marginBottom: "-850px",
     objectFit: "cover"
   },
   eventText: {
@@ -157,7 +163,7 @@ insta2: {
     }*/
         insta: {
         width: "50%",
-        height: "992px",
+        height: "100vh",
         backgroundColor: "#F6C09F",
         color: "black",
         float: "left",
@@ -166,7 +172,7 @@ insta2: {
     },
     fabo: {
     width: "50%",
-        height: "992px",
+        height: "100vh",
         backgroundColor: "#82B7E8",
         color: "white",
         float: "right",
@@ -221,22 +227,19 @@ export default function HomeDesktop() {
         </div>
       </div>
 
-      <div className={manual.eventsSection}>
-        <img className={manual.eventPic} src={hostEventPic} alt="HostEventPic"/>
-          <div className={manual.eventText}>
-            <br/><br/><br/><br/><br/>
+      <div className={manual.hostsSection}>
+          <div className={manual.eventText} style={{height:"100%"}}>
+            <br /><br /><br />
             <h2>Want to host an event?</h2>
             <h5>Looking to host you own event on Columbia Virtual Campus?</h5>
             <h5>Answer some questions to <strong>start leading.</strong></h5>
             <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
             color={"white2"} size={"large"} />
-            <br/><br/><br/><br/><br/><br/>
+            <br /><br /><br /><br />
         </div>
       </div>
 
-      <div style={{ marginBottom: "40px" }} />
-
-      <div className={manual.resourcesSection}>
+      <div className={manual.resourcesSection} style={{paddingTop:"40px"}}>
         <div className={classes.container} id="resources">
           <Title color={"blue"}>Top Resources</Title>
           <HomeResourcesList />
