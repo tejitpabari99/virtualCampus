@@ -45,7 +45,6 @@ class Events extends React.Component {
   convertEventsTime(event) {
     const tzString = event.timezone;
 
-    // Remove redudancy (AKA remove the evidence -.0)
     event.start_date = event.start_date.split("GMT")[0];
     event.end_date = event.end_date.split("GMT")[0];
 
@@ -181,8 +180,29 @@ class Events extends React.Component {
     </div>
   );
 
+
+  getMonthName() {
+    var d = new Date();
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    return month[d.getMonth()];
+  }
+
   render() {
     const { classes } = this.props;
+    const date = new Date();
+
     return (
       <Template active={"schedule"} title={"Events"}>
         <Title color={"blue"}>All Events</Title>
@@ -192,7 +212,7 @@ class Events extends React.Component {
         </div>
         {this.state.displayEvents.length > 0 &&
         <div style={{ marginBottom: "5%" }}>
-          <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> June 2020</h3>
+          <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
           <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
           {this.state.displayEvents.map((ele, ind) => {
               return (<EventCard ele={ele} key={ind}/>);

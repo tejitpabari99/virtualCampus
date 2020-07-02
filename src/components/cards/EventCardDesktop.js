@@ -134,19 +134,23 @@ const useStyles = makeStyles(() => ({
   },
   monthText: {
     color: "#0072CE",
-    fontSize: "1.3vw",
+    fontSize: "1.1vw",
     textAlign: "center",
     margin: 0,
   },
   image: {
+    height: "100%",
+    width: "auto",
     borderRadius: "11px",
-    height: "min(18vw, 200px)",
-    width: "min(23vw, 300px)",
-    paddginTop:0,
+    paddingTop:0,
     paddingBottom: 0,
     // marginTop: "5%",
     display: "block",
     objectFit: "cover"
+  },
+  img: {
+    height: "min(12vw, 250px)",
+    width: "min(12vw, 250px)",
   }
 }));
 
@@ -169,7 +173,9 @@ export default function EventCardDesktop({ ele }) {
 
       <Card className={classes.card}>
         <div className={classes.flexBox}>
-          <img className={classes.image} src={ele.image_link} alt={ele.event}/>
+          <div className={classes.img}>
+            <img className={classes.image} src={ele.image_link} alt={ele.event}/>
+          </div>
           <div className={classes.imageBox}>
             <p className={classes.dateText}>{ele.start_date.getDate()}</p>
             <p className={classes.monthText}>{months[ele.start_date.getMonth()]}</p>
