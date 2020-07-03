@@ -26,11 +26,12 @@ const FormBody = (props) => {
             <Formik
                 initialValues={props.initVal}
                 onSubmit={props.submit}
+                onChange={props.onChange}
                 validationSchema={props.validationSchema}
             >
                 {({ dirty, isValid, errors, touched }) => {
                     return (
-                        <Form>
+                        <Form onChange={props.onChange}>
                             <ContactInfo
                                 errorName={errors.name}
                                 touchedName={touched.name}
@@ -48,6 +49,7 @@ const FormBody = (props) => {
                                 touchedDesc={touched.desc}
                                 imgUpload={props.imgUpload}
                                 fileName={props.fileName}
+                                onChange={props.onChange}
                             />
                             <div>
                                 {props.children}

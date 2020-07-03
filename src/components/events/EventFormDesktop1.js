@@ -19,7 +19,14 @@ import DateFnsUtils from "@date-io/date-fns";
 // utils
 import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
-import { CustomHeader, Template } from "..";
+import {
+  CustomHeader,
+  EventCard,
+  Template,
+  getOffset,
+  convertDateToUTC,
+  convertTimestampToDate, convertUTCToLocal
+} from "..";
 import Container from "@material-ui/core/Container";
 
 // backend
@@ -312,6 +319,59 @@ function getTimezoneOptions() {
 
 const optionsTZ = getTimezoneOptions();
 
+let imgurLinkOutside = ""
+const default_img = "https://i.imgur.com/GP66BiO.png"
+let exampleEvent = {
+  agree: true,
+  approved: false,
+  comments: "",
+  desc: "CVC Example Description",
+  email: "columbiavirtualcampus@gmail.com",
+  end_date: "Sun Jul 05 2020 23:59:00 GMT-0400 (Eastern Daylight Time)",
+  entry_link: "",
+  event: "CVC Example",
+  event_link: "http://columbiavirtualcampus.com",
+  image_file: "",
+  image_link: default_img,
+  invite_link: "",
+  name: "Columbia Virtual Campus",
+  recurring: "",
+  start_date: "Sat Jul 04 2020 23:59:00 GMT-0400 (Eastern Daylight Time)",
+  tags: [],
+  timezone: "America/New_York$true",
+  title: "CVC Example"
+}
+
+
+function convertEventsTime(event) {
+  const tzString = event.timezone;
+
+  event.start_date = event.start_date.split("GMT")[0];
+  event.end_date = event.end_date.split("GMT")[0];
+
+  if (event.timezone !== undefined && event.timezone.includes("$")) {
+    // $ splits time and timezone in the event.timezone field in firebase!
+    const tz = tzString.split("$")[0];
+    const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
+    const offset = getOffset(tz, daylightSavings);
+
+    // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
+    // America/New_York should be changed to the user's time zone who created the event, if they
+    // Choose to use their time zone rather than EST.
+    const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
+    const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
+
+    // Second, convert those consts above to user's local time
+    event.start_date = convertUTCToLocal(UTCStart);
+    event.end_date = convertUTCToLocal(UTCEnd);
+    // get timezone to display
+    event.timeZoneGMT = getTimezoneName(getCurrentLocationForTimeZone(), dst());
+  }
+  return event;
+}
+
+let convertedExampleEvent = convertEventsTime(exampleEvent)
+
 class EventFormDesktop extends React.Component {
 
   constructor(props) {
@@ -323,22 +383,36 @@ class EventFormDesktop extends React.Component {
       activityIndicatory: false,
       imgFileValue: "",
       imgurLink: "",
+      sampleEvent: convertedExampleEvent
     };
 
     this.submitHandler = this.submitHandler.bind(this);
     this.uploadData = this.uploadData.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
     this.uploadImage = this.uploadImage.bind(this);
+    this.updateEvent = this.updateEvent.bind(this);
 
   }
 
+  getMonthName() {
+    var d = new Date();
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    return month[d.getMonth()];
+  }
+
   submitHandler(values) {
-    // if (values["file"] !== "" && values["file"] !== undefined) {
-    //   this.uploadImage(values);
-    // } else {
-    //   this.setState({ activityIndicatory: true });
-    //   const b = this.uploadData(values);
-    // }
     if (this.state.imgurLink !== "") {
       values['image_link'] = this.state.imgurLink
     }
@@ -347,10 +421,8 @@ class EventFormDesktop extends React.Component {
     const b = this.uploadData(values);
   }
 
-
   // upload to firebase here
   uploadData(data) {
-
     data["approved"] = false;
     data["start_date"] = data["start_date"].toString();
     data["end_date"] = data["end_date"].toString();
@@ -507,7 +579,30 @@ class EventFormDesktop extends React.Component {
     this.inputElement.touch = true;
   }
 
+
+  updateEvent(data) {
+    convertedExampleEvent['image_link'] = this.state.imgurLink
+    const name = data.target.name
+    const value = data.target.defaultValue
+    if (name.substr(-3) !== "tag") {
+      convertedExampleEvent[name] = value
+    } else if (name.substr(-10) !== "other_tags")   {
+      convertedExampleEvent[name] = value
+      convertedExampleEvent = processTags(convertedExampleEvent)
+    } else {
+      convertedExampleEvent['tags'].push(name)
+    }
+    convertedExampleEvent['event'] = convertedExampleEvent['title']
+    this.setState({sampleEvent: convertedExampleEvent})
+  }
+
+  getSampleEvent() {
+    return this.state.sampleEvent
+  }
+
+
   render() {
+    const date = new Date();
     if (this.state.activityIndicatory) {
       return (
         <div style={{ backgroundColor: "white" }}>
@@ -582,6 +677,7 @@ class EventFormDesktop extends React.Component {
                   />
                   <FormBody
                     submit={this.submitHandler}
+                    onChange={this.updateEvent}
                     title="Events"
                     entryTitle="Event Name"
                     initVal={initVal}
@@ -628,6 +724,13 @@ class EventFormDesktop extends React.Component {
             </div>
             {/* </Template > */}
           </MuiPickersUtilsProvider>
+
+          Example:
+          <div style={{ marginBottom: "5%" }}>
+            <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
+            <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
+              <EventCard ele={this.getSampleEvent()} key={0}/>
+            </div>
         </Template>
 
       );
