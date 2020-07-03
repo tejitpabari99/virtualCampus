@@ -140,7 +140,7 @@ const useStyles = makeStyles(() => ({
   },
   image: {
     height: "100%",
-    width: "auto",
+    width: "100%",
     borderRadius: "11px",
     paddingTop:0,
     paddingBottom: 0,

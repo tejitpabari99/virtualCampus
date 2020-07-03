@@ -106,7 +106,7 @@ class Events extends React.Component {
   async getEvents() {
     var db = firebase.firestore();
     var approvedEvents = await db.collection("events")
-      .where("approved", "==", true)
+      .where("approved", "==", false)
       .orderBy("start_date", 'asc')
       .get();
     let approvedEventsMap = [];

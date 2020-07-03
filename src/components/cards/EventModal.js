@@ -160,10 +160,10 @@ export default function EventModal({open, closeDo, event}) {
                     </p>
                     <CustomInput labelText="Email"/>
                     <CustomButton text="Send" style={{marginTop: 20, marginLeft: 10, width: 80, height: 40}} size={"small"}/> */}
-                    <EmailEvent event={event}/>
+                    <EmailEvent event={event} isModal={false} />
 
                     <div style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
-                        <strong><AddCalendar info={event} isModal={false} /> </strong>
+                        <strong><AddCalendar info={event} /> </strong>
                     </div>
                 </div>
             </Fade>
