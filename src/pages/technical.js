@@ -192,7 +192,7 @@ export function convertTimestampToDate(timestamp){
 }
 
 
-class Events extends React.Component {
+class Technical extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -374,4 +374,4 @@ class Events extends React.Component {
   }
 }
 
-export default withStyles(useStyles)(Events);
+export default withStyles(useStyles)(Technical);
