@@ -760,7 +760,13 @@ class EventFormDesktop extends React.Component {
             {/* </Template > */}
           </MuiPickersUtilsProvider>
           <Container>
-            <h1>Previews:</h1>
+            <h2 style={{color: "#0072CE", display: "inline"}}>
+              Preview of Your Event&nbsp;
+              <h5 style={{color: "#0072CE", display: "inline"}}>
+                - Date/Time is not updated in previews:
+              </h5>
+            </h2>
+            <h5 style={{color: "#0072CE"}}>Desktop Version:</h5>
             <Grid >
               <div style={{ marginBottom: "5%" }}>
                 <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
@@ -768,6 +774,7 @@ class EventFormDesktop extends React.Component {
                   <EventCardDesktop ele={this.getSampleEvent()} key={0}/>
                 </div>
             </Grid>
+            <h5 style={{color: "#0072CE"}}>Mobile Version (Similar to iPhone X):</h5>
             <Grid>
               <div style={{ marginBottom: "5%", width:"380px", wordWrap: "break-word", textAlign:"left"}}>
                 <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>

@@ -15,6 +15,11 @@ const useStyles = makeStyles(() => ({
         fontSize: "36px",
         lineHeight: "54px",
     },
+    smallTitle: {
+        color: "#0072CE",
+        fontSize: "24px",
+        lineHeight: "32px"
+    },
     subtitle: {
         fontSize: "14px",
         lineHeight: "21px"
@@ -39,6 +44,9 @@ const FormTitle = (props) => {
             <div className={classNames(classes.root, classes.subtitle, classes.topBuffer)}>
                 Questions? Contact us at <br />
                 <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+            </div>
+            <div className={classNames(classes.root, classes.smallTitle, classes.topBuffer)}>
+                View a Live Preview of Your Event at the Bottom of Page Before You Submit!
             </div>
         </Grid>
 
