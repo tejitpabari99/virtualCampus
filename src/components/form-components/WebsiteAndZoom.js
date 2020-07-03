@@ -26,6 +26,12 @@ const WebsiteAndZoom = (props) => {
   return (
     <div style={{ margin: "15px 0 0 0" }}>
 
+    <div className={classNames(classes.root, classes.title)}>
+        Links&nbsp;
+        <div style={{fontSize: "15px", display:"inline"}}>
+            (Only those who have a Columbia/Barnard Email Address will have access to zoom link)
+        </div>
+    </div>
       <Grid container spacing={2}>
         <Grid item sm={6}>
           <FormikField label="Website / Event Link"
@@ -34,9 +40,10 @@ const WebsiteAndZoom = (props) => {
                        touch={props.touched.event_link}
                        required />
         </Grid>
+
         <Grid item sm={6}>
           <FormikField
-              label="Video Call / Media Link (Zoom, Twitch, etc.)"
+              label="Video/Media Link (Zoom, Twitch, etc.)"
               name="invite_link" />
         </Grid>
       </Grid >
