@@ -141,7 +141,7 @@ export default function EventModal({open, closeDo, event, isModal}) {
         emailSubmissionModal = (
             <div style={styles}>
                 <p style={{color: "#4284C8", marginBottom: 5, marginTop: 20}}>
-                    <strong>Submit your Columbia/Barnard email address to receive event link and details: </strong>
+                    <strong>Submit your Columbia/Barnard email address to receive event (zoom) link and details: </strong>
                 </p>
                 <CustomInput labelText="Email"
                              onChange={(val) => {

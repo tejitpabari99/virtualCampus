@@ -167,6 +167,7 @@ export default function EventCardDesktop({ ele }) {
   const closeDo = () => {
     setOpen(false);
   }
+  const default_img = "https://i.imgur.com/GHbjLkb.png"
   return (
 
     <div style={{ width: "100%" }}>
@@ -174,7 +175,7 @@ export default function EventCardDesktop({ ele }) {
       <Card className={classes.card}>
         <div className={classes.flexBox}>
           <div className={classes.img}>
-            <img className={classes.image} src={ele.image_link} alt={ele.event}/>
+            <img className={classes.image} src={ele.image_link === "" ? default_img : ele.image_link } alt={ele.event}/>
           </div>
           <div className={classes.imageBox}>
             <p className={classes.dateText}>{ele.start_date.getDate()}</p>
