@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-
+const axios = require('axios');
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -64,71 +64,66 @@ exports.approveEvent = functions.https.onRequest((req, res) => {
     });
 });
 
-exports.bookEvent = functions.https.onRequest((req, res) => {
+exports.bookEvent = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     if (req.method !== 'GET') {
       return;
     }
-
     const eventId = req.query.eventId;
     const name = req.query.name;
     const email = req.query.email;
+    // return res.status(200).send(eventId + ' ' + name + ' ' + email);
     const db = admin.firestore();
     let doc;
     try {
-      doc = await db.collection('technical').doc(eventId).get();
-    } catch (err){
-      return res.status(500).send(err);
-    }
-    if (!doc.exists){
-      return res.status(412).send("Event does not exist!");
-    }
-    if (!doc.data().available){
-      return res.status(412).send("Event already booked!");
-    }
-    const event = doc.data();
-    const attendeeText = `Dear ${name},
-      
+      doc = await db.collection('technical').doc(eventId.toString()).get();
+      if (!doc.exists){
+        return res.status(412).send("Event does not exist!");
+      }
+      const event = doc.data();
+      if (!event.available){
+        return res.status(412).send("Event already booked!");
+      }
+      // return res.status(200).send(eventId + ' ' + name + ' ' + email + ' ' + event.available.toString());
+      const attendeeText = `Dear ${name},
     Your mock interview with ${event.host_name} at ${event.start_date} has been confirmed!
     Your interviewer should reach out to you to schedule a video call within the next 24 hours,
     but if not, you can reach them at ${event.host_email}.
     Please look over our guidelines and interview resources before your start date.
-    
     Thanks,
     CVC`
-    const hostText = `Dear ${event.host_name},
-      
+      const hostText = `Dear ${event.host_name},
     ${name} has signed up for a mock interview with you at ${event.start_date}!
     IMPORTANT: reach out to ${name} at ${email} within the next 24 hours to schedule a video call.
     Please look over our guidelines and interview resources before your start date.
-    
     Thanks,
     CVC`
-
-    const attendeeMailOptions = {
-      from: "columbiavirtualcampus@gmail.com",
-      replyTo: "columbiavirtualcampus@gmail.com",
-      to: email, 
-      subject: "Your interview has been confirmed!",
-      text: attendeeText,
-      html: `<p>${attendeeText}</p>`
-    };
-
-    const hostMailOptions = {
-      from: "columbiavirtualcampus@gmail.com",
-      replyTo: "columbiavirtualcampus@gmail.com",
-      to: event.host_email, 
-      subject: `${name} has signed up for an interview!`,
-      text: hostText,
-      html: `<p>${hostText}</p>`
-    };
-    try {
-      await db.collection('technical').doc(eventId).update({ available: false, attendee_email: email, attendee_name: name });
-      await mailTransport.sendMail(attendeeMailOptions);
-      await mailTransport.sendMail(hostMailOptions);
-    } catch(err){
-      return res.status(500).send(err);
+      const attendeeMailOptions = {
+        from: "columbiavirtualcampus@gmail.com",
+        replyTo: "columbiavirtualcampus@gmail.com",
+        to: email,
+        subject: "Your interview has been confirmed!",
+        text: attendeeText,
+        html: `<p>${attendeeText}</p>`
+      };
+      const hostMailOptions = {
+        from: "columbiavirtualcampus@gmail.com",
+        replyTo: "columbiavirtualcampus@gmail.com",
+        to: event.host_email,
+        subject: `${name} has signed up for an interview!`,
+        text: hostText,
+        html: `<p>${hostText}</p>`
+      };
+      await db.collection('technical').doc(eventId.toString()).update({ available: false, attendee_email: email, attendee_name: name });
+      // await mailTransport.sendMail(attendeeMailOptions);
+      await axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail',attendeeMailOptions);
+      await axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail', hostMailOptions);
+      return res.status(200).send(eventId + ' ' + name + ' ' + email + ' ' + event.available.toString());
+    //   await mailTransport.sendMail(hostMailOptions);
+    //
+    } catch (err){
+      res.status(500).send(err);
     }
-    return res.status(200).send("success");
+    // res.status(200).send("success");
   });
 });
