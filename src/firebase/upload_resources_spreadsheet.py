@@ -4,8 +4,8 @@ import gspread
 import numpy as np
 import pandas as pd
 import firebase_admin
-from typing import List
 
+from typing import List, Dict
 from datetime import datetime
 from gspread.models import Cell
 from firebase_admin import firestore
@@ -17,6 +17,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 SPREADSHEET_NAME = "List of Resources"
 WORKSHEET_NAME = "Sheet1"
 UPLOADED_COLUMN = 13
+FIREBASE_COLLECTION = "resources" 
 
 def main():
     argv = sys.argv
@@ -34,21 +35,34 @@ def main():
     # Get access to Google Sheets spreadsheet
     log(f"Opening spreadsheet \"{SPREADSHEET_NAME}\"...")
     sheet = get_spreadsheet(SPREADSHEET_NAME, spreadsheet_API_key).worksheet(WORKSHEET_NAME)
+
+    # Put resources in dataframe and clean the data
     resources_df = clean_resources_dataframe(get_dataframe(sheet))
     new_resources_df = get_new_resources(resources_df)
+
+    if len(new_resources_df.index) == 0:
+        log("No new resources to upload")
+        sys.exit()
 
     # Initialize Cloud Firestore
     log("Initializing Cloud Firestore...")
     db = get_database_client(firestore_API_key)
 
+    # Get dictionary with resources already in Firestore
+    log("Checking which resources are already in Firestore...")
+    firestore_resources = get_resources_in_firesbase(db)
+
     # Upload resources
-    uploaded_rows = upload_new_resources(new_resources_df, db, sheet)
+    uploaded_rows = upload_new_resources(new_resources_df, firestore_resources, db, sheet)
 
     # Update spreasheet
     if len(uploaded_rows) > 0:
         log("Updating spreadsheet...")
         update_uploaded_status(sheet, uploaded_rows)
         log(f"\tSpreadsheet updated on {datetime.now()}\n")
+
+
+# Helper methods 
 
 def log(message:str):
     print(message, file=sys.stderr, flush=True)
@@ -100,26 +114,36 @@ def get_database_client(firestore_API_key:str):
     firebase_admin.initialize_app(cred)
     return firestore.client()
 
-def upload_new_resources(new_resources_df:pd.DataFrame, db, sheet:gspread.models.Worksheet) -> List[int]:
-    length = len(new_resources_df.index)
-    if length == 0:
-        log("No new resources to upload")
-        return []
+def get_resources_in_firesbase(db) -> Dict[Resource, str]:
+    docs = db.collection(FIREBASE_COLLECTION).stream()
+    firestore_resources = dict()
+    for doc in docs:
+        try:
+            resource = Resource.from_dict(doc.to_dict())
+        except KeyError:
+            log(f"Document with id {doc.id} in Firestore has incorrect or missing fields")
+        firestore_resources[resource] = doc.id
+    return firestore_resources
 
+def upload_new_resources(new_resources_df:pd.DataFrame, firestore_resources:Dict[Resource, str], db, sheet:gspread.models.Worksheet) -> List[int]:
+    length = len(new_resources_df.index)
     log(f"{length} resources to upload")
     added = 0
     uploaded_rows = list()
     for index, row in new_resources_df.iterrows():
         links = Links(row["android link"], row["card link"], row["facebook"], row["ios link"], row["website"])
         resource = Resource(row["resource name"], True, row["description"], row["image link"], row["category"], row["tags"].split(", "), links)
-        path = "resources" 
         try:
-            db.collection(path).add(resource.to_dict())
+            if resource not in firestore_resources:
+                db.collection(FIREBASE_COLLECTION).add(resource.to_dict())
+                log(f"\tAdded {row['resource name']} to {FIREBASE_COLLECTION}")
+            else:
+                db.collection(FIREBASE_COLLECTION).document(firestore_resources[resource]).set(resource.to_dict())
+                log(f"\tUpdated {row['resource name']} in {FIREBASE_COLLECTION}")
         except:
             log(f"Error uploading data to firestore. {added} / {length} resources uploaded successfully")
             return uploaded_rows
         added += 1
-        log(f"\tAdded {row['resource name']} to {path}")
         uploaded_rows.append(index + 1)
     log(f"\nAdded {added} / {length} entries to Firestore")
     return uploaded_rows
