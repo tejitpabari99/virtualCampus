@@ -28,8 +28,8 @@ const WebsiteAndZoom = (props) => {
 
     <div className={classNames(classes.root, classes.title)}>
         Links&nbsp;
-        <div style={{fontSize: "15px", display:"inline"}}>
-            (Only those who have a Columbia/Barnard Email Address will have access to zoom link)
+        <div style={{fontSize: "13px", display:"inline"}}>
+            (The zoom link you provide will not be shared unless the viewer has a columbia affiliated email address)
         </div>
     </div>
       <Grid container spacing={2}>
