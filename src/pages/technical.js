@@ -329,7 +329,7 @@ class Technical extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <Template active={"technical"} title={"Events"}>
+      <Template active={"technical"} title={"Technical"}>
         <Title color={"blue"} style={{ padding: '20px', marginTop: 0}}>Mock Tech Interview</Title>
         <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> July 2020</h3>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>

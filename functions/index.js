@@ -1,11 +1,5 @@
 const functions = require('firebase-functions');
 const axios = require('axios');
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
 const nodemailer = require('nodemailer');
 const cors = require('cors')({ origin: true });
 
@@ -72,7 +66,6 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
     const eventId = req.query.eventId;
     const name = req.query.name;
     const email = req.query.email;
-    // return res.status(200).send(eventId + ' ' + name + ' ' + email);
     const db = admin.firestore();
     let doc;
     try {
@@ -84,7 +77,6 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
       if (!event.available){
         return res.status(412).send("Event already booked!");
       }
-      // return res.status(200).send(eventId + ' ' + name + ' ' + email + ' ' + event.available.toString());
       const attendeeText = `Dear ${name},
     Your mock interview with ${event.host_name} at ${event.start_date} has been confirmed!
     Your interviewer should reach out to you to schedule a video call within the next 24 hours,
@@ -115,15 +107,11 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
         html: `<p>${hostText}</p>`
       };
       await db.collection('technical').doc(eventId.toString()).update({ available: false, attendee_email: email, attendee_name: name });
-      // await mailTransport.sendMail(attendeeMailOptions);
       await axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail',attendeeMailOptions);
       await axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail', hostMailOptions);
-      return res.status(200).send(eventId + ' ' + name + ' ' + email + ' ' + event.available.toString());
-    //   await mailTransport.sendMail(hostMailOptions);
-    //
+      return res.status(200).send('Success! You can close this window now.');
     } catch (err){
       res.status(500).send(err);
     }
-    // res.status(200).send("success");
   });
 });
