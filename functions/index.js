@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const axios = require('axios');
 const nodemailer = require('nodemailer');
 const cors = require('cors')({ origin: true });
+const jwt = require('jsonwebtoken')
 
 require('dotenv').config();
 
@@ -63,9 +64,17 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
     if (req.method !== 'GET') {
       return;
     }
-    const eventId = req.query.eventId;
-    const name = req.query.name;
-    const email = req.query.email;
+    let decoded;
+    try {
+      decoded = jwt.verify(req.query.token, 'ASK KEVIN FOR THE KEY');
+    } catch(err) {
+      return res.status(500).send(err);
+    }
+    
+    const eventId = decoded.data.eventId;
+    const name = decoded.data.name;
+    const email = decoded.data.email;
+    const comments = decoded.data.comments;
     const db = admin.firestore();
     let doc;
     try {
@@ -85,7 +94,8 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
     Thanks,
     CVC`
       const hostText = `Dear ${event.host_name},
-    ${name} has signed up for a mock interview with you at ${event.start_date}!
+    ${name} has signed up for a mock interview with you at ${event.start_date}! 
+    ${comments && `They have sent you these comments: ${comments}`}
     IMPORTANT: reach out to ${name} at ${email} within the next 24 hours to schedule a video call.
     Please look over our guidelines and interview resources before your start date.
     Thanks,
@@ -106,12 +116,17 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
         text: hostText,
         html: `<p>${hostText}</p>`
       };
-      await db.collection('technical').doc(eventId.toString()).update({ available: false, attendee_email: email, attendee_name: name });
+      await db.collection('technical').doc(eventId.toString()).update({
+        available: false,
+        attendee_email: email,
+        attendee_name: name,
+        interview_comments: comments
+      });
       await axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail',attendeeMailOptions);
       await axios.post('https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail', hostMailOptions);
       return res.status(200).send('Success! You can close this window now.');
     } catch (err){
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
   });
 });
