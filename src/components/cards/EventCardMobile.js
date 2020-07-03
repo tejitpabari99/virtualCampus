@@ -34,8 +34,8 @@ const formatTime = function(hours, min) {
 
 const useStyles = makeStyles(() => ({
     card:{
-        paddingLeft: "5vw",
-        paddingRight: "5vw",
+        paddingLeft: "1.5rem",
+        paddingRight: "1.5rem",
     },
     cardTitle,
     eventTitle: {
@@ -113,8 +113,8 @@ const useStyles = makeStyles(() => ({
       fontSize: 20,
       textAlign: "center",
       marginBottom: "0px",
-      marginTop: "1.5vw",
-        lineHeight: '5vw',
+      marginTop: ".2rem",
+        lineHeight: '1.3rem',
       paddingBottom: "0px"
     },
     monthText:{
@@ -150,14 +150,14 @@ const useStyles = makeStyles(() => ({
         // }
     },
     heading1:{
-        lineHeight: '6vw',
-        fontSize: 'min(5.2vw, 28px)',
+        lineHeight: '1.8rem',
+        fontSize: 'min(5.2vw, 19px)',
         color:'#000000 !important',
         margin: 0
     },
     heading2:{
-        lineHeight: '3vw',
-        fontSize: 'min(4.2vw, 20px)',
+        lineHeight: '1.2rem',
+        fontSize: 'min(4.2vw, 14px)',
         color:'#0072CE !important',
         margin: 0,
         marginTop:'12px',

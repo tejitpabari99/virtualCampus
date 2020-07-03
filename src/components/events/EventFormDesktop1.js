@@ -21,12 +21,14 @@ import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
 import {
   CustomHeader,
-  EventCard,
   Template,
   getOffset,
   convertDateToUTC,
   convertTimestampToDate, convertUTCToLocal
 } from "..";
+
+import EventCardDesktop from './../cards/EventCardDesktop'
+import EventCardMobile from './../cards/EventCardMobile'
 import Container from "@material-ui/core/Container";
 
 // backend
@@ -503,7 +505,7 @@ class EventFormDesktop extends React.Component {
     // console.log("congrats, you clicked me.")
     const fileName = fileList[0].name
     const file = fileList[0]
-    // console.log("Filename: " + fileName)
+     console.log("Filename: " + fileName)
     // console.log("File: " + file)
 
     this.uploadImage(file)
@@ -530,6 +532,8 @@ class EventFormDesktop extends React.Component {
         imgur = `https://i.imgur.com/${res.data.id}.png`;
 
         this.setState({ imgurLink: imgur })
+
+        this.updateEvent(undefined)
       }
     };
     // send POST request to Imgur API
@@ -579,21 +583,52 @@ class EventFormDesktop extends React.Component {
     this.inputElement.touch = true;
   }
 
-
   updateEvent(data) {
+
+    console.log("Sensed update")
+
+    // First, update image
     convertedExampleEvent['image_link'] = this.state.imgurLink
-    const name = data.target.name
-    const value = data.target.defaultValue
-    if (name.substr(-3) !== "tag") {
-      convertedExampleEvent[name] = value
-    } else if (name.substr(-10) !== "other_tags")   {
-      convertedExampleEvent[name] = value
-      convertedExampleEvent = processTags(convertedExampleEvent)
-    } else {
-      convertedExampleEvent['tags'].push(name)
+
+    // Data will be undefined if the user pastes an url for the image.
+    // We still want to update the state so it will render image
+    if (data !== undefined) {
+      const name = data.target.name
+      const value = data.target.value
+
+      if (name.substr(-3) === "tag") {
+        // Process button tags
+        this.pushToTags(convertedExampleEvent, name, true);
+
+      } else if (name.substr(-10) === "other_tags") {
+        // Process typed tags
+        convertedExampleEvent[name] = value
+        const prev_tags = convertedExampleEvent['tags']
+        convertedExampleEvent = processTags(convertedExampleEvent)
+        prev_tags.map((object, i) => {
+          if (object.substr(-4) === "_tag")
+            this.pushToTags(convertedExampleEvent, object);
+        })
+
+      } else {
+        // Just simply update the dictionary if other values
+        convertedExampleEvent[name] = value
+      }
+
+      // Just to make sure we have an event and title, they are equivalent
+      convertedExampleEvent['event'] = convertedExampleEvent['title']
     }
-    convertedExampleEvent['event'] = convertedExampleEvent['title']
+
     this.setState({sampleEvent: convertedExampleEvent})
+  }
+
+  pushToTags(event, tag, remove = false) {
+    if (event['tags'].includes(tag) === false) {
+      event['tags'].push(tag)
+    } else if (remove) {
+      // Remove if toggle button turned off
+      event['tags'] = event['tags'].filter(x => x !== tag)
+    }
   }
 
   getSampleEvent() {
@@ -724,13 +759,23 @@ class EventFormDesktop extends React.Component {
             </div>
             {/* </Template > */}
           </MuiPickersUtilsProvider>
-
-          Example:
-          <div style={{ marginBottom: "5%" }}>
-            <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
-            <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
-              <EventCard ele={this.getSampleEvent()} key={0}/>
-            </div>
+          <Container>
+            <h1>Previews:</h1>
+            <Grid >
+              <div style={{ marginBottom: "5%" }}>
+                <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
+                <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
+                  <EventCardDesktop ele={this.getSampleEvent()} key={0}/>
+                </div>
+            </Grid>
+            <Grid>
+              <div style={{ marginBottom: "5%", width:"380px", wordWrap: "break-word", textAlign:"left"}}>
+                <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
+                <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
+                <EventCardMobile ele={this.getSampleEvent()} key={0}/>
+              </div>
+            </Grid>
+          </Container>
         </Template>
 
       );
