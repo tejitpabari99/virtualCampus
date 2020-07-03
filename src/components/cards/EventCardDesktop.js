@@ -167,7 +167,7 @@ export default function EventCardDesktop({ ele }) {
   const closeDo = () => {
     setOpen(false);
   }
-  const default_img = "https://i.imgur.com/GHbjLkb.png"
+  const default_img = "https://i.imgur.com/GP66BiO.png"
   return (
 
     <div style={{ width: "100%" }}>

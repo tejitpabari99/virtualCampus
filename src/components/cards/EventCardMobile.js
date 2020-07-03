@@ -191,11 +191,12 @@ export default function EventCardMobile({ele}) {
         setOpen(false);
     }
 
+    const default_img = "https://i.imgur.com/GP66BiO.png"
     return(
         <div className={classes.card}>
             <div style={{position: "relative"}}>
                 <div className={classes.img}>
-                    <img className={classes.image} src={ele.image_link} />
+                    <img className={classes.image} src={ele.image_link === "" ? default_img : ele.image_link } alt={ele.event} />
                 </div>
                 <div className={classes.imageBox}>
                   <div className={classes.dateText}>{ele.start_date.getDate()}</div>
