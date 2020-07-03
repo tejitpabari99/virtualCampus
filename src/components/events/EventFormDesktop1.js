@@ -598,7 +598,7 @@ class EventFormDesktop extends React.Component {
 
       if (name.substr(-3) === "tag") {
         // Process button tags
-        this.pushToTags(convertedExampleEvent, name, true);
+        this.pushToTags(convertedExampleEvent, value, true);
 
       } else if (name.substr(-10) === "other_tags") {
         // Process typed tags
@@ -766,6 +766,7 @@ class EventFormDesktop extends React.Component {
                 - Date/Time is not updated in previews:
               </h5>
             </h2>
+            <br />
             <h5 style={{color: "#0072CE"}}>Desktop Version:</h5>
             <Grid >
               <div style={{ marginBottom: "5%" }}>
