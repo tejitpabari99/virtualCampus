@@ -11,6 +11,7 @@ import EntryDetails from "../form-components/EntryDetails"
 import Tags from './Tags'
 import AdditionalInfo from './AdditionalInfo'
 import SubmitButton from './SubmitButton'
+import WebsiteAndZoom from "./WebsiteAndZoom"
 
 import Button from "@material-ui/core/Button";
 
@@ -51,6 +52,7 @@ const FormBody = (props) => {
                             <div>
                                 {props.children}
                             </div>
+                            <WebsiteAndZoom touched={touched} errors={errors}/>
                             <Tags tags={['Activism', 'COVID', 'Social', 'Health', 'Education']} />
                             <AdditionalInfo
                                 errorComments={errors.comments}
