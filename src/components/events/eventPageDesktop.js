@@ -288,7 +288,7 @@ class EventsPageDesktop extends React.Component {
             <div className={classes.mainText} style={{paddingLeft: "4%"}}>
               <h2 style={{fontSize: "3vw"}}>All Events</h2>
               <p style={{fontSize: "2vw"}}>Check out our virtual events!</p>
-              <CustomButton href={"/events/add-new-event"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
+              <CustomButton href={"/events"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
                   style={{ marginTop: 10, marginBottom: 25, marginLeft: "-10px" }} color={"blue2"} size={"large"}/>
             </div>
             <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>

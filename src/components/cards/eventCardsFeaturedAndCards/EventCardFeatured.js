@@ -1,7 +1,6 @@
 import React from "react"
 import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
 import EventCardHighlightDesktop from './EventCardFeaturedDesktop'
-import EventTileCardDesktop from './../EventTileCardDesktop'
 import EventCardHighlightMobile from './EventCardFeaturedMobile'
 
 class EventCardFeatured extends React.Component {
@@ -32,7 +31,7 @@ class EventCardFeatured extends React.Component {
     if (this.state.height === -1) {
       return (
         <div>
-          <EventTileCardDesktop ele={ele} onClick={onClick}/>
+          <EventCardHighlightDesktop ele={ele} onClick={onClick}/>
         </div>
       );
     }
@@ -75,7 +74,7 @@ class EventCardFeatured extends React.Component {
     } else {
       return (
         <div>
-          <EventTileCardDesktop ele={ele} onClick={onClick}/>
+          <EventCardHighlightDesktop ele={ele} onClick={onClick}/>
         </div>
       );
     }

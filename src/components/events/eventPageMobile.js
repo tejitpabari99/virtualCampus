@@ -2,7 +2,7 @@ import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import "../events/react-big-calendar.css";
+import "../events/react-big-calendar-mobile.css";
 import { EventCardFeatured, EventCard, EventModal, Template, CustomButton, Title, EventSearch }
   from "../";
 import firebase from "../../firebase";
@@ -10,8 +10,12 @@ import Fuse from 'fuse.js';
 import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
   getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
   from "../all/TimeFunctions"
-import CustomToolbar from "../events/CalendarToolBar"
+import CustomToolbar from "../events/CalendarToolBarMobile"
 import ArrowForward from '@material-ui/icons/ArrowForwardIosOutlined';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 
 
 const localizer = momentLocalizer(moment);
@@ -22,84 +26,86 @@ const useStyles = () => ({
   },
   mainBox: {
     backgroundColor: "#3B5998",
-    height: "345px",
-    width: "107.2%",
+    height: "495px",
+    width: "375px",
     borderStyle: "solid",
     borderColor: "#3B5998",
     borderWidth: "thick",
-    flexDirection: "row",
-    display: "flex",
     paddingTop: "30px",
     marginLeft: "-4%"
   },
   mainText: {
     marginLeft: "10px",
     color:"white",
-    textAlign: "left"
+    textAlign: "left",
+    fontSize: "14px"
   },
   greenBox: {
     backgroundColor: "#F3FFEE",
-    height: "100px",
-    width: "25%",
+    height: "82px",
+    width: "137px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#F3FFEE",
-    marginRight: "20px",
-    boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)"
+    marginRight: "10px",
+    boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   greenText: {
     color:"#1BAE0E",
     textAlign: "left",
-    marginTop: "50px",
-    marginLeft: "10px"
+    marginTop: "30px",
+    marginLeft: "5px",
+    fontSize: "14px"
   },
   blueBox: {
     backgroundColor: "#F2F9FD",
-    height: "100px",
-    width: "25%",
+    height: "82px",
+    width: "137px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#F2F9FD",
-    marginRight: "20px",
-    boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)"
+    marginRight: "10px",
+    boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   blueText: {
     color:"#0072CE",
     textAlign: "left",
     marginTop: "50px",
-    marginLeft: "10px"
+    marginLeft: "5px",
+    fontSize: "14px"
   },
   orangeBox: {
     backgroundColor: "#FDEEE5",
-    height: "100px",
-    width: "25%",
+    height: "82px",
+    width: "137px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#FDEEE5",
-    marginRight: "20px",
-    boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)"
+    marginRight: "10px",
+    boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   orangeText: {
     color:"#FB750D",
     textAlign: "left",
     marginTop: "50px",
-    marginLeft: "10px"
+    marginLeft: "5px",
+    fontSize: "14px"
   },
   grayBox: {
     backgroundColor: "#BDBDBD",
-    height: "100px",
-    width: "25%",
+    height: "82px",
+    width: "137px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#BDBDBD",
     marginRight: "0px",
-    boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)"
+    boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   grayText: {
     color:"black",
     textAlign: "left",
     marginTop: "50px",
-    marginLeft: "10px"
+    marginLeft: "5px"
   },
 
 });
@@ -113,8 +119,8 @@ class EventsPageDesktop extends React.Component {
       myEventsList: [],
       permEventsList: [],
       displayEvents: [],
-      eventSearch: [],
-      eventSearchError: '',
+      eventSearchMobile: [],
+      eventSearchMobileError: '',
       searchVal: "",
       defaultSearchInput:''
     };
@@ -149,28 +155,6 @@ class EventsPageDesktop extends React.Component {
     }
     return event;
   }
-
-  // TODO(claire): These are the new functions to use the Google Calendar API instead.
-  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/events#resource
-  // makeDisplayEvents(events) {
-  //   let arr = [];
-  //   for (let i = 0; i < events.length; i += 1) {
-  //     let ele = events[i];
-  //     if (ele.end > new Date().toISOString()) {
-  //       arr.push(ele);
-  //     }
-  //     if (arr.length === 5) {
-  //       break;
-  //     }
-  //   }
-  //   return arr;
-  // }
-
-  // async getEvents() {
-  //   getCalendarEvents((events) => {
-  //     this.setState({ myEventsList: events, displayEvents: this.makeDisplayEvents(events) });
-  //   })
-  // }
 
   makeDisplayEvents(events) {
     let arr = [];
@@ -214,7 +198,7 @@ class EventsPageDesktop extends React.Component {
       this.setState({defaultSearchInput:''});
     }
     if(!val || val.length===0) {
-      return this.setState({eventSearch: [], activityIndicator: false, eventSearchError: '',
+      return this.setState({eventSearchMobile: [], activityIndicator: false, eventSearchMobileError: '',
         myEventsList: this.makeEventsList(this.state.permEventsList)});
     }
     this.setState({activityIndicator:true});
@@ -225,17 +209,17 @@ class EventsPageDesktop extends React.Component {
     };
     const fuse = new Fuse(this.state.permEventsList, options);
     const output = fuse.search(val);
-    const eventSearch = output;
+    const eventSearchMobile = output;
 
-    if(!eventSearch || eventSearch.length<=0){
-      return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'No Results found',
+    if(!eventSearchMobile || eventSearchMobile.length<=0){
+      return this.setState({eventSearchMobile:[], activityIndicator:false, eventSearchMobileError:'No Results found',
         myEventsList: []});
     }
     let itemOn = 0
-    const approvedEventsMap = eventSearch.map(doc => (eventSearch[itemOn++]['item']));
+    const approvedEventsMap = eventSearchMobile.map(doc => (eventSearchMobile[itemOn++]['item']));
 
     // Update events. Note: we don't have to update time again b/c time is already updated
-    this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'',
+    this.setState({eventSearchMobile:eventSearchMobile, activityIndicator:false, eventSearchMobileError:'',
       myEventsList: this.makeEventsList(approvedEventsMap)});
   }
 
@@ -286,10 +270,10 @@ class EventsPageDesktop extends React.Component {
 
           <div className={classes.mainBox}>
             <div className={classes.mainText} style={{paddingLeft: "4%"}}>
-              <h2 style={{fontSize: "3vw"}}>All Events</h2>
-              <p style={{fontSize: "2vw"}}>Check out our virtual events!</p>
-              <CustomButton href={"/events/add-new-event"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
-                            style={{ marginTop: 10, marginBottom: 25, marginLeft: "-10px" }} color={"blue2"} size={"large"}/>
+              <h2 style={{fontSize: "24px"}}>All Events</h2>
+              <p style={{fontSize: "14px"}}>Check out our virtual events!</p>
+              <CustomButton href={"/events"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
+                            style={{ fontSize: "14px", marginTop: 10, marginLeft: "-2.5px" }} color={"blue2"} size={"large"}/>
             </div>
             <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
               {this.state.displayEvents.map((ele, ind) => {
@@ -311,25 +295,25 @@ class EventsPageDesktop extends React.Component {
           <div style={{flexDirection: "row", display: "flex"}}>
             <div className={classes.greenBox}>
               <div className={classes.greenText}>
-                <h4>Happening Now</h4>
+                <h4 style = {{fontSize: "14px"}}>Happening Now</h4>
               </div>
             </div>
 
             <div className={classes.blueBox}>
               <div className={classes.blueText}>
-                <h4>Popular</h4>
+                <h4 style = {{fontSize: "14px"}}>Popular</h4>
               </div>
             </div>
 
             <div className={classes.orangeBox}>
               <div className={classes.orangeText}>
-                <h4>Recurring</h4>
+                <h4 style = {{fontSize: "14px"}}>Recurring</h4>
               </div>
             </div>
 
             <div className={classes.grayBox}>
               <div className={classes.grayText}>
-                <h4>Past</h4>
+                <h4 style = {{fontSize: "14px"}}>Past</h4>
               </div>
             </div>
           </div>
@@ -345,41 +329,45 @@ class EventsPageDesktop extends React.Component {
           />
           <br />
           <div style={{margin: "40px"}}/>
-          <div style={{width: "100%"}}>
-            <div style={{width: "25%", float:"left", marginBottom:"3%"}}>
-              <Calendar
-                  views={["month"]}
-                  localizer={localizer}
-                  scrollToTime={new Date()}
-                  events={this.state.myEventsList}
-                  defaultView={"month"}
-                  startAccessor="start_date"
-                  endAccessor="end_date"
-                  allDayAccessor="allDay"
-                  showMultiDayTimes
-                  style={{ height: 550 }}
-                  onSelectEvent={(event) => {
-                    this.setState({ open: true, event });
-                  }}
-                  eventPropGetter={this.eventPropStyles}
-                  components={{
-                    event: this.EventDisplay,
-                    toolbar: CustomToolbar
-                  }}
-                  formats={{ eventTimeRangeFormat: () => null }}
-              />
-              {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon style={{color: "#0072CE"}}/>}
+            >
+              <h5 style={{color: "#0072CE"}}>Show Calendar</h5>
+            </ExpansionPanelSummary>
 
+            <ExpansionPanelDetails style={{ width: "100%", paddingLeft:0, paddingRight:0 }}>
+              <div style={{width: "100%"}}>
+                <div style={{width: "100%", float:"left", marginBottom:"3%"}}>
+                  <Calendar
+                      views={["month"]}
+                      localizer={localizer}
+                      scrollToTime={new Date()}
+                      events={this.state.myEventsList}
+                      defaultView={"month"}
+                      startAccessor="start_date"
+                      endAccessor="end_date"
+                      allDayAccessor="allDay"
+                      showMultiDayTimes
+                      style={{ height: 550 }}
+                      onSelectEvent={(event) => {
+                        this.setState({ open: true, event });
+                      }}
+                      eventPropGetter={this.eventPropStyles}
+                      components={{
+                        event: this.EventDisplay,
+                        toolbar: CustomToolbar
+                      }}
+                      formats={{ eventTimeRangeFormat: () => null }}
+                  />
+                  {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
 
-              <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Want to do more?</Title>
-              <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h5>
-              <div style={{ textAlign: "left" }}>
-                <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
-                              style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
+                </div>
               </div>
-            </div>
-            <div style= {{flexDirection: "column", display: "flex", paddingTop:"3%", paddingLeft: "3%", width: "75%",
-              marginBottom:"3%"}}>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+          <div style={{margin: "40px"}}/>
+          <div style= {{flexDirection: "column", display: "flex",width: "100%", marginBottom:"3%"}}>
               {this.state.myEventsList.map((ele, ind) => {
                     if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
                       ele.tags = ['none']
@@ -388,8 +376,15 @@ class EventsPageDesktop extends React.Component {
                   }
               )}
               <div>{noSearchResults}</div>
-            </div>
           </div>
+
+          <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Want to do more?</Title>
+          <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h5>
+          <div style={{ textAlign: "left" }}>
+            <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
+                          style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
+          </div>
+
 
         </Template>
     );
