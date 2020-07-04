@@ -141,8 +141,6 @@ class ResourcesListDesktop extends React.Component {
         myDescription: Descriptions[category],
         myCategory: category,
         myTagsDisplay: Object.keys(this.state.myTagsDict[category]),
-        myList: {},
-        myKeyList: [],
         myTagsResourcesDisplay: {},
     });
 

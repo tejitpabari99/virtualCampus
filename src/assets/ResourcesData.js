@@ -63,6 +63,19 @@ const FeaturedData = {
       category: 'Jobs, Internships, & Learning',
       tags: ['Learning', 'Job']
     }
+  },
+  'blm': {
+    title: 'CovIntern',
+    description: 'A place to find an internship and get connected with top companies and startups.',
+    img: 'https://covintern.com/static/images/og-preview.17bdc42043de.png',
+    links: {
+      website: 'https://covintern.com/jobs/'
+    },
+    reviewed: true,
+    category: {
+      category: 'Jobs, Internships, & Learning',
+      tags: ['Learning', 'Job']
+    }
   }
 };
 
@@ -72,7 +85,8 @@ const Descriptions = {
   'Social': 'Resources that allow you to stay connected with peers, whether through social media, recreational activities, or more.',
   'Basic Needs': 'Resources that support basic living expenses, such as food, utilities, finances, and more.',
   'Covid- 19': 'Resources that help you stay updated on COVID, check yourself for symptoms, and offer support if you or a loved one is afflicted.',
-  'All Resources': 'Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.'
+  'All Resources': 'Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.',
+  'Blm': 'Resources that '
 };
 
 module.exports = {

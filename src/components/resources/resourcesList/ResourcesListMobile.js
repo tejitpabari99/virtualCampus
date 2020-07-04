@@ -103,7 +103,7 @@ class ResourcesListMobile extends React.Component {
         let tagName = this.toTitleCase(tag[j]);
         // if category not added yet, add tag and resource
         if (!(key in res)) {
-          res[key] = [tagName];
+          res[key] = {};
           res[key][tagName] = [ele];
         }
         // if category is already added
@@ -114,7 +114,6 @@ class ResourcesListMobile extends React.Component {
           }
           // if tag doesn't exist, add tag and resource
           else{
-            res[key].push(tagName);
             res[key][tagName] = [ele]
           }
         }
@@ -136,7 +135,7 @@ class ResourcesListMobile extends React.Component {
         myResourcesDisplay: this.state.myResourcesDict[category],
         myDescription: Descriptions[category],
         myCategory: category,
-        myTagsDisplay: this.state.myTagsDict[category],
+        myTagsDisplay: Object.keys(this.state.myTagsDict[category]),
         myTagsResourcesDisplay: {}
     });
 
