@@ -53,6 +53,7 @@ class ResourcesListDesktop extends React.Component {
       defaultSearchInput: ''
     };
     this.getResources();
+
 //    this.searchFunc = this.searchFunc.bind(this);
 //    this.setSearchInput = this.setSearchInput.bind(this);
   }
@@ -72,6 +73,7 @@ class ResourcesListDesktop extends React.Component {
       approvedTagsDict = this.makeDisplayTags(allResources);
     }
     approvedTagsDict['All Resources'] = [];
+    console.log(approvedTagsDict);
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: allResources});
     this.setState({ myTagsDict: approvedTagsDict});
@@ -106,7 +108,7 @@ class ResourcesListDesktop extends React.Component {
         let tagName = this.toTitleCase(tag[j]);
         // if category not added yet, add tag and resource
         if (!(key in res)) {
-          res[key] = [tagName];
+          res[key] = {};
           res[key][tagName] = [ele];
         }
         // if category is already added
@@ -117,7 +119,6 @@ class ResourcesListDesktop extends React.Component {
           }
           // if tag doesn't exist, add tag and resource
           else{
-            res[key].push(tagName);
             res[key][tagName] = [ele]
           }
         }
@@ -139,7 +140,7 @@ class ResourcesListDesktop extends React.Component {
         myResourcesDisplay: this.state.myResourcesDict[category],
         myDescription: Descriptions[category],
         myCategory: category,
-        myTagsDisplay: this.state.myTagsDict[category],
+        myTagsDisplay: Object.keys(this.state.myTagsDict[category]),
         myList: {},
         myKeyList: [],
         myTagsResourcesDisplay: {},
@@ -261,7 +262,7 @@ class ResourcesListDesktop extends React.Component {
 
             <div style={{textAlign:'center', paddingTop: '3%'}}>
               <CustomButton text={"ADD RESOURCE"}
-                            href={"https://forms.gle/1ahZnFfsmXFGcF9XA"}
+                            href={"/resources/add-new-resource"}
                             color={"orange"}
                             size={"large"}
                             style={{marginTop: 10, marginBottom: 25}}

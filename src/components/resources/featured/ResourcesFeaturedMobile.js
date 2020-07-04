@@ -92,7 +92,6 @@ export default function ResourcesFeaturedMobile() {
         {
             Object.keys(FeaturedData).map(key => {
               let data = FeaturedData[key];
-              console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>
                     <img src={data.img} alt={data.img} height={'500px'} width={'100%'} className={contStyle.container}/>

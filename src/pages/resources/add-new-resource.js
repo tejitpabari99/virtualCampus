@@ -4,20 +4,20 @@ import * as Yup from "yup";
 import { FormControlLabel, Radio, LinearProgress } from '@material-ui/core';
 
 import { RadioGroup } from 'formik-material-ui';
-import FormikField from "../../FormikField/FormikField"
+import FormikField from "../../components/FormikField/FormikField"
 // import "../components/form.css"
 import { CheckboxWithLabel } from 'formik-material-ui';
-import FileUploadBtn from '../../FormikField/FileUploadBtn'
+import FileUploadBtn from '../../components/FormikField/FileUploadBtn'
 import Button from '@material-ui/core/Button';
 
 import Grid from '@material-ui/core/Grid';
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
-import styles from "../../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { CustomHeader } from "../.."
+import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
+import { CustomHeader } from "../../components"
 import Container from '@material-ui/core/Container';
 import firebase from "../../../firebase";
-import Categories from "./FormCategories"
+import Categories from "../../components/resources/form/FormCategories"
 
 
 const MainCategories = Categories.FormCategories;
