@@ -54,7 +54,7 @@ export default function AddResourcesMobile() {
               Thank you for your interest in sharing your resource through CVC.
               Please click the button below to fill out a short form.
             <br />
-            <CustomButton text={"ADD RESOURCE"} href={"/resources/add-new-resource"}
+            <CustomButton text={"ADD RESOURCE"} href={"https://forms.gle/BdG5GF1zMgKRGzz3A"}
                           color={"orange"} size={"large"} style={{marginTop: 25, marginBottom: 15}}/>
           </Typography>
         </ExpansionPanelDetails>
