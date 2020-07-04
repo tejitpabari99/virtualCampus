@@ -1,11 +1,20 @@
-import classNames from "classnames";
 import React, { useState } from "react";
-import { cardTitle } from "../../../assets/material-kit-assets/jss/material-kit-react";
-import CustomTheme from "../../all/CustomTheme";
-import { AddCalendar } from "../../";
 import { makeStyles } from "@material-ui/core/styles";
-import CustomButton from '../../buttons/CustomButton';
+import Card from "../../material-kit-components/Card/Card";
+import CardBody from "../../material-kit-components/Card/CardBody";
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { cardTitle } from "../../../assets/material-kit-assets/jss/material-kit-react";
+import { CustomButton, AddCalendar, CustomTheme } from "../../";
 import EventEmailModal from "./../EventEmailModal"
+import Heading1 from "../../text/Heading1";
+import Heading2 from "../../text/Heading2";
+
 const theme = CustomTheme;
 
 const months = {
@@ -23,6 +32,16 @@ const months = {
     11: 'December'
 }
 
+const days = {
+  0: "SUN",
+  1: "MON",
+  2: "TUE",
+  3: "WED",
+  4: "THU",
+  5: "FRI",
+  6: "SAT"
+};
+
 const formatTime = function(hours, min) {
     let h = hours>12?hours-12:hours;
     let m = min<10?'0'+min.toString():min.toString();
@@ -31,149 +50,118 @@ const formatTime = function(hours, min) {
 };
 
 const useStyles = makeStyles(() => ({
-    card:{
-        paddingLeft: "5vw",
-        paddingRight: "5vw",
-    },
-    cardTitle,
-    eventTitle: {
-        color: 'black',
-        marginRight: "8px",
-        fontSize:18,
-        display:'inline-block'
-    },
-    eventHost: {
-        color: '#0072CE',
-        marginTop: "2.34px",
-        fontSize:12,
-        display:'inline-block'
-    },
-    timeInfo: {
-        color: 'gray',
-        display: "block",
-        fontSize: 13,
-    },
-    tagInfo: {
-        color: 'gray',
-        display: "inline",
-        fontSize: 13,
-    },
-    button:{
-        boxShadow:"none",
-        marginTop: 0,
-        marginBottom: 0
-    },
-    button2:{
-        boxShadow:"none",
-        height:"50px",
-        margin:"0px",
-        float:"right",
-        right:0,
-        fontSize:15,
-        top:0,
-        position:"absolute",
-        borderBottomLeftRadius:"15px",
-        backgroundColor: '#F1945B',
-        color:'white !important',
-        "&:hover": {
-            backgroundColor: 'white',
-            color: '#F1945B !important'
-        },
-        "&:focus": {
-            backgroundColor: '#F1945B',
-            color: 'white !important',
-        },
-    },
-    cardbody:{
-        padding: 10,
-        paddingLeft: 0,
-        paddingRight: 0
-    },
-    button3:{
-        boxShadow:"none",
-        backgroundColor:"#BFD8E950",
-        margin:"15px",
-        marginLeft:"0px",
-        marginTop: 0,
-        marginBottom: 0
-    },
-    imageBox:{
-        position: "absolute",
-        top: "43px",
-        left: "15px",
-        backgroundColor: '#F2F9FD',
-        borderRadius: "5px",
-        width: "50px",
-        height: "50px"
-    },
-    dateText:{
-      color: '#0072CE',
-      fontSize: 20,
-      textAlign: "center",
-      marginBottom: "0px",
-      marginTop: "1.5vw",
-        lineHeight: '5vw',
-      paddingBottom: "0px"
-    },
-    monthText:{
-      color: '#0072CE',
-      fontSize: 12,
-      textAlign: "center",
-      marginTop: "0px",
-      paddingTop: "0px"
-    },
-    image:{
-        borderRadius: 5,
-        width:"auto",
-        height: "100%",
-        objectFit: "cover",
-        paddingTop: "32px",
-        paddingBottom: "11px",
-        display: "block",
-        // [theme.breakpoints.up('xs')]:{
-        //     display:'none'
-        // },
-        // [theme.breakpoints.up('sm')]:{
-        //     display:'none'
-        // },
-        // [theme.breakpoints.up('md')]:{
-        //     width:"200px",
-        //     height: "200px",
-        //     display:'block'
-        // },
-        // [theme.breakpoints.up('lg')]:{
-        //     width:"200px",
-        //     height: "200px",
-        //     display:'block'
-        // }
-    },
-    heading1:{
-        lineHeight: '6vw',
-        fontSize: 'min(5.2vw, 28px)',
-        color:'#000000 !important',
-        margin: 0
-    },
-    heading2:{
-        lineHeight: '3vw',
-        fontSize: 'min(4.2vw, 20px)',
-        color:'#0072CE !important',
-        margin: 0,
-        marginTop:'12px',
-        marginBottom:5,
-    },
-    middleDot: {
-        height: "4px",
-        width: "4px",
-        marginLeft: "6px", marginRight: "6px",
-        marginBottom: "2px",
-        backgroundColor: 'gray',
-        borderRadius: "50%",
-        display: "inline-block",
-      },
-    img: {
-        height: "30vh",
-        width: "100%",
+  root: {
+    height: '249px',
+    width: "100%",
+    align: 'center',
+    boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
+    transition: 'all 0.3s',
+    "&:hover": {
+      boxShadow: "0 10px 10px 0 rgba(0, 0, 0, 0.14), 0 15px 5px -10px rgba(0, 0, 0, 0.2), 0 5px 25px 0 rgba(0, 0, 0, 0.12)"
     }
+  },
+  imgOverlay: {
+    position:'absolute',
+    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 71%)',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    height: '50.26%',
+    opacity:'50%'
+  },
+  media: {
+    position: 'absolute',
+    left: '0%',
+    right: '0%',
+    top: '0%',
+    bottom: '50.26%',
+    borderRadius: '5px 5px 0px 0px'
+  },
+  title: {
+    position: 'absolute',
+    left: '8.28%',
+    right: '8.28%',
+    top: '68%',
+    bottom: '32%',
+
+    /* Desktop/Body */
+
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '14px',
+    lineHeight: '21px',
+
+    color: 'black'
+  },
+  dateInfo: {
+    position: 'absolute',
+    left: '8.28%',
+    right: '8.28%',
+    top: '55%',
+    bottom: '51.04%',
+
+    /* Desktop/Body */
+
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '14px',
+    lineHeight: '21px',
+
+    color: '#0072CE'
+  },
+  timeInfo: {
+    position: 'absolute',
+    left: '8.28%',
+    right: '3%',
+    top: '53%',
+    bottom: '51.04%',
+
+    /* Desktop/Body */
+
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '10px',
+    lineHeight: '31px',
+    textAlign: 'right',
+
+    color: '#828282'
+  },
+  organization: {
+    position: 'absolute',
+    left: '8.28%',
+    right: '8.28%',
+    top: '85%',
+    bottom: '15%',
+
+    /* Desktop/Body */
+
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '12px',
+    lineHeight: '18px',
+
+    color: '#0072CE'
+  },
+  button:{
+    background: 'rgba(255, 255, 255, 0.85)',
+    float: 'right',
+    marginLeft:"3%",
+    marginTop: "2%",
+    marginBottom: 0,
+    borderRadius: '5px',
+    zIndex: 10,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '10px',
+    lineHeight: '15px',
+    textAlign: 'center'
+  }
 }));
 
 export default function EventCardFeaturedMobile({ele}) {
@@ -190,64 +178,49 @@ export default function EventCardFeaturedMobile({ele}) {
     }
 
     return(
-        <div className={classes.card}>
-            <div style={{position: "relative"}}>
-                <div className={classes.img}>
-                    <img className={classes.image} src={ele.image_link} />
-                </div>
-                <div className={classes.imageBox}>
-                  <div className={classes.dateText}>{ele.start_date.getDate()}</div>
-                  <div className={classes.monthText}>{months[ele.start_date.getMonth()]}</div>
-                </div>
-            </div>
-            <div className={classes.cardbody}>
-                <h1 className={classes.heading1} style={{display: "block"}}> {ele.event} </h1>
-                <h1 className={classes.heading2}>{ele.name}</h1>
-                <div className={classes.timeInfo}>
-                    {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} - {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
+      <Card className={classes.root}>
 
-                    {ele.tags.map((ta, ind) => {
-                        return (
-                        <span>
-                            <span className={classes.middleDot}/>
-                          <p className={classes.tagInfo}>
-                            {ta}
-                          </p>
-                        </span>
-                        )
-                    })}
-                </div>
-                <p style={{color: "black", marginBottom: 10, marginTop: 5}}>{ele.desc}</p>
+          <div className={classes.mediaContainer}>
+            <CardMedia
+              component="img"
+              height="50.26%"
+              className={classes.media}
+              image={ele.image_link}
+            />
+            <div className={classes.imgOverlay}/>
 
-                <div style={{color:"#4284C8", marginBottom: 5, marginTop: 5}}>
-                        <strong><AddCalendar info={ele}/> </strong>
-                </div>
+            {ele.tags.map((ta, ind) => {
+              if (ta !== undefined && ta !== "") {
+                return (
+                    <Button className={classes.button}>
+                      {ta}
+                    </Button>
+                )
+              }
+            })}
 
+          </div>
 
-                {/* Button Formatting for putting one or two buttons */}
+          <CardContent>
+            <Typography variant="h3" component="h3" className={classes.dateInfo}>
+              <p> <strong>{days[ele.start_date.getDay()]} </strong>
+              {ele.start_date.getDate()} {months[ele.start_date.getMonth()]} </p>
+            </Typography>
 
-                {ele.invite_link !== '' && ele.event_link !== '' ?
-                    <div style={{textAlign:'center', width: "100%"}}>
-                        <CustomButton href={ele.event_link} text={'WEBSITE'} newTab
-                                    style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginRight: 20, marginTop: 5}} color={'blue'}/>
-                        <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
-                            style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
-                    </div>
-                : ele.invite_link === '' && ele.event_link !== '' ?
-                    <CustomButton href={ele.event_link} text={'WEBSITE'} newTab
-                                style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
+            <Typography className={classes.timeInfo}  style={{marginRight:".5vw"}}>
+              {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} -
+              {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
+            </Typography>
 
-                : ele.invite_link !== '' ?
-                    <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
-                            style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
-                : null}
-                {/* Uncomment the button below for testing */}
-                {/* <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
-                            style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/> */}
-                {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>} 
+            <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
+              {ele.title}
+            </Typography>
 
-            </div>
+            <Typography gutterBottom variant="h5" component="h2" className={classes.organization} >
+              {ele.name}
+            </Typography>
 
-        </div>
-    )
+          </CardContent>
+      </Card>
+    );
 }

@@ -27,14 +27,14 @@ const months = {
 };
 
 const days = {
-  0: "Sun",
-  1: "Mon",
-  2: "Tue",
-  3: "Wed",
-  4: "Thu",
-  5: "Fri",
-  6: "Sat"
-} 
+  0: "SUN",
+  1: "MON",
+  2: "TUE",
+  3: "WED",
+  4: "THU",
+  5: "FRI",
+  6: "SAT"
+}
 
 const formatTime = function(hours, min) {
   let h = hours > 12 ? hours - 12 : hours;
@@ -55,21 +55,21 @@ const useStyles = makeStyles(() => ({
     margin:0
   },
   nameHeader: {
-    fontSize: '20px',
+    fontSize: '14px',
+    lineHeight: "21px",
     position: "absolute",
     color: "black",
     whiteSpace: "nowrap",
-    marginTop: "8px",
-    marginLeft: "-5px",
-    // display:'inline-block'
+    marginLeft: "10px",
   },
   orgHeader: {
-    fontSize: '14px',
+    fontSize: '10px',
+    lineHeight: "15px",
     color: '#0072CE',
-    // display:'inline-block',
-    marginLeft:'5px'
+    marginLeft:'10px',
+    marginTop: "20px",
+
   },
-  cardTitle,
   eventTitle: {
     color: "black",
     position: "relative",
@@ -83,44 +83,22 @@ const useStyles = makeStyles(() => ({
   },
   timeInfo: {
     color: "gray",
-    // position: "absolute",
-    // marginLeft: "4.32px",
-    // marginRight: "9.61px",
-    // marginTop: "4.68px",
-    // marginBottom: "9.82px",
-    // flexDirection: "row",
-    // display:'inline-block'
     marginTop: "1px",
-    fontSize: "12px"
-  },
-  middleDot: {
-    height: "5px",
-    width: "5px",
-    marginLeft: "10px",
-    marginBottom:'2px',
-    backgroundColor: "gray",
-    borderRadius: "50%",
-    display: "inline-block",
-    // flexDirection: "row"
+    fontSize: "10px"
   },
   tagInfo: {
-    // color: "gray",
-    // position: "absolute",
-    // marginLeft: "10px",
-    // display: "inline-block",
     marginTop: "8px",
-    marginLeft: "14px",
-    // flexDirection: "row"
+    marginLeft: "5px",
   },
   tagBlock: {
     display: 'inline-block',
     fontSize: '10px',
     marginLeft: '10px',
     backgroundColor: '#F2F2F2',
-    paddingTop: 2, 
-    paddingBottom: 1, 
-    paddingLeft: 12, 
-    paddingRight: 12, 
+    paddingTop: 2,
+    paddingBottom: 1,
+    paddingLeft: 12,
+    paddingRight: 12,
     borderRadius: "5px",
   },
   happeningBlock: {
@@ -128,10 +106,10 @@ const useStyles = makeStyles(() => ({
     fontSize: '10px',
     marginLeft: '10px',
     backgroundColor: '#F3FFEE',
-    paddingTop: 2, 
-    paddingBottom: 1, 
-    paddingLeft: 12, 
-    paddingRight: 12, 
+    paddingTop: 2,
+    paddingBottom: 1,
+    paddingLeft: 12,
+    paddingRight: 12,
     borderRadius: "5px",
     color: "#1BAE0E",
     position: "relative"
@@ -151,7 +129,6 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column"
   },
   imageBox: {
-    // position: "absolute",
     top: "3vw",
     backgroundColor: "#F2F9FD",
     paddingLeft: "0.5%",
@@ -161,33 +138,21 @@ const useStyles = makeStyles(() => ({
     width: "5%"
   },
   dateBox: {
-    marginLeft: "17px",
-    marginTop: "15px"
+    marginLeft: "3px",
+    marginTop: "15px",
+    marginRight: "15px"
   },
   dateText: {
     color: "#0072CE",
-    fontSize: "16px",
+    fontSize: "14px",
     fontWeight: "light",
     marginLeft: "5px",
-    // display: "inline-block",
-    // textAlign: "center",
-    // margin: 0,
-    // marginTop: '0.3vw',
-    // lineHeight: '2.5vw'
   },
   weekText: {
     fontWeight: 700,
     color: "#0072CE",
-    fontSize: "16px",
+    fontSize: "14px",
   },
-  // dateText: {
-  //   color: "#0072CE",
-  //   fontSize: "2.1vw",
-  //   textAlign: "center",
-  //   margin: 0,
-  //   marginTop: '0.3vw',
-  //   lineHeight: '2.5vw'
-  // },
   monthText: {
     color: "#0072CE",
     fontSize: "1.3vw",
@@ -198,11 +163,16 @@ const useStyles = makeStyles(() => ({
     borderRadius: "5px",
     height: "70px",
     width: "70px",
-    // paddginTop:0,
-    // paddingBottom: 0,
-    // marginTop: "5%",
     display: "inline-block",
     objectFit: "cover"
+  },
+  verticalLine: {
+    borderLeft: "1px solid rgba(185, 217, 235, 0.5)",
+    height: "70px"
+  },
+  horizontalLine: {
+    borderTop: "1px solid rgba(185, 217, 235, 0.5)",
+    height: "100%"
   }
 }));
 
@@ -228,9 +198,6 @@ export default function EventCardDesktopBottom({ ele }) {
         aria-controls="panel1bh-content"
       >
         {/* put outer stuff here */}
-        <div className={classes.flexBox}>
-          <img className={classes.image} src={ele.image_link} alt={ele.event}/>
-        </div> 
 
         <div className={classes.dateBox}>
             <span className={classes.weekText}>{days[ele.start_date.getDay()]}</span>
@@ -243,31 +210,37 @@ export default function EventCardDesktopBottom({ ele }) {
             </div>
         </div>
 
-        <div className={classes.tagInfo}>
-          <div className={classes.happeningBlock}>Happening Now!
-            <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
-          </div>
+        <div className={classes.verticalLine} />
 
+        <div className={classes.tagInfo}>
+          <div className={classes.happeningBlock}>Happening Now</div>
           {ele.tags.map((ta, ind) => {
             return (
               <div className={classes.tagBlock}>{ta}</div>
             );
           })}
+
+          <div className={classes.nameHeader}> {ele.event} </div>
+          <div className={classes.orgHeader}>{ele.name}</div>
+        </div>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails style={{ width: "100%"}}>
+        {/* put inner stuff here */}
+
+        <div className={classes.flexBox}>
+          <img className={classes.image} src={ele.image_link} alt={ele.event}/>
+          <div style={{marginTop: "10px"}} />
+          <div style={{ color: "#4284C8", marginBottom: 5}}>
+            <strong> <AddCalendar info={ele}/></strong>
+          </div>
         </div>
 
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails style={{ width: "100%", paddingLeft:0, paddingRight:0 }}>
-        {/* put inner stuff here */}
-        <div style={{
-          color: "black",
-          marginLeft: 35,
-          marginRight: 35,
-          marginBottom: 10,
-        }}>{ele.desc}</div>
+        <div style={{color: "black", marginLeft: 10, marginRight: 35,
+          width: "70%", marginBottom: 10,fontSize: "14px"}}>
+          {ele.desc}
+        </div>
         <br/>
-        <div style={{ color: "#4284C8", marginBottom: 5}}>
-          <strong> <AddCalendar info={ele}/></strong>
-      </div>
+
       </ExpansionPanelDetails>
     </ExpansionPanel>
 

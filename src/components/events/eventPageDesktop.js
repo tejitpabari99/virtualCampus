@@ -271,7 +271,7 @@ class EventsPageDesktop extends React.Component {
   render() {
     const { classes } = this.props;
     let numEventsDisplayed = 0
-    const MAX_EVENTS_DISPLAYED = 3
+    const MAX_EVENTS_DISPLAYED = (this.props.width - 200) / 490
     let sizeOfList = 0
     let noSearchResults = ""
     this.state.myEventsList.map((ele, ind) => {
@@ -286,9 +286,9 @@ class EventsPageDesktop extends React.Component {
 
         <div className={classes.mainBox}>
             <div className={classes.mainText} style={{paddingLeft: "4%"}}>
-              <h2 style={{fontSize: "3vw"}}>All Events</h2>
-              <p style={{fontSize: "2vw"}}>Check out our virtual events!</p>
-              <CustomButton href={"/events/add-new-event"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
+              <h2 style={{fontSize: "2.5vw"}}>All Events</h2>
+              <p style={{fontSize: "1.5vw"}}>Check out our virtual events!</p>
+              <CustomButton href={"/events"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
                   style={{ marginTop: 10, marginBottom: 25, marginLeft: "-10px" }} color={"blue2"} size={"large"}/>
             </div>
             <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>

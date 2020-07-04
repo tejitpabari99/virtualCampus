@@ -36,13 +36,13 @@ class Events extends React.Component {
             if (isLandscape) {
                 return (
                     <div>
-                        <EventsPageDesktop/>
+                        <EventsPageDesktop width={this.state.width}/>
                     </div>
                 );
             } else {
                 return (
                     <div>
-                        <EventsPageMobile isLandscape={isLandscape}/>
+                        <EventsPageMobile isLandscape={isLandscape} width={this.state.width}/>
                     </div>
                 );
             }
@@ -50,7 +50,7 @@ class Events extends React.Component {
         } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
             return (
                 <div>
-                    <EventsPageMobile isLandscape={isLandscape}/>
+                    <EventsPageMobile isLandscape={isLandscape} width={this.state.width}/>
                 </div>
             );
             {/* Else: desktop: isBrowser
@@ -60,7 +60,7 @@ class Events extends React.Component {
         } else {
             return (
                 <div>
-                    <EventsPageDesktop />
+                    <EventsPageDesktop width={this.state.width}/>
                 </div>
             );
         }
