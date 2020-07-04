@@ -1,4 +1,17 @@
 const FeaturedData = {
+  'blm': {
+    title: 'ActBlue',
+    description: 'Act Blue allows you to split up your donations across various bail funds, mutual aid funds, and activist organizations.',
+    img: 'https://support.actblue.com/wp-content/uploads/2018/10/support-twitter-social-card_TWITSAFE.png',
+    links: {
+      website: 'https://secure.actblue.com/donate/bail_funds_george_floyd'
+    },
+    reviewed: true,
+    category: {
+      category: 'BLM',
+      tags: ['Action Steps']
+    }
+  },
   'social': {
     title: 'Sentiment',
     description: 'Sentiment is an SMS messaging service to keep you connected with both yourself and the ones you love.',
@@ -64,19 +77,6 @@ const FeaturedData = {
       tags: ['Learning', 'Job']
     }
   },
-  'blm': {
-    title: 'CovIntern',
-    description: 'A place to find an internship and get connected with top companies and startups.',
-    img: 'https://covintern.com/static/images/og-preview.17bdc42043de.png',
-    links: {
-      website: 'https://covintern.com/jobs/'
-    },
-    reviewed: true,
-    category: {
-      category: 'Jobs, Internships, & Learning',
-      tags: ['Learning', 'Job']
-    }
-  }
 };
 
 const Descriptions = {
@@ -86,7 +86,7 @@ const Descriptions = {
   'Basic Needs': 'Resources that support basic living expenses, such as food, utilities, finances, and more.',
   'Covid- 19': 'Resources that help you stay updated on COVID, check yourself for symptoms, and offer support if you or a loved one is afflicted.',
   'All Resources': 'Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.',
-  'Blm': 'Resources that '
+  'BLM': 'Resources that further the #BLM mission to bring justice for colored people through nonprofit organizations, action steps, self-education, and more.'
 };
 
 module.exports = {
