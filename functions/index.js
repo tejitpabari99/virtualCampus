@@ -68,7 +68,10 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
     try {
       decoded = jwt.verify(req.query.token, 'ASK KEVIN FOR THE KEY');
     } catch(err) {
-      return res.status(500).send(err);
+      if (err.name === 'TokenExpiredError') {
+        return res.status(500).send("Token expired! Please try signing up again.");
+      }
+      return res.status(500).send("Invalid token! Please try signing up again.");
     }
     
     const eventId = decoded.data.eventId;

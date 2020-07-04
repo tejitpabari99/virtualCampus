@@ -108,7 +108,7 @@ export default function MockInterviewModal({open, closeDo, event}) {
         const lookUpEventData = lookUpEvent.data();
         const URL = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/bookEvent';
         const token = jwt.sign({
-            exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60),
+            expiresIn: "24h",
             data: {
                 eventId: lookUpEvent.id,
                 name,
