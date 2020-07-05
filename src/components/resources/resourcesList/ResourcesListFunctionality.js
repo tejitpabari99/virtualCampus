@@ -40,11 +40,9 @@ class ResourcesListFunctionality extends React.Component {
     this.state = {
       activityIndicator: true,
       category: "All Resources",
-      defaultSearchInput: '',
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
       resourcesDict: {},
       resourcesDisplay: [],
-      searchVal: "",
       tagsDict: {},
       tagsDisplay: [],
       tagsDescription: "",
@@ -196,7 +194,11 @@ class ResourcesListFunctionality extends React.Component {
     }
     this.setState({
       resourcesDisplay: res,
-      activityIndicator: false
+      activityIndicator: false,
+      category: "All Resources",
+      description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
+      tagsDescription: "",
+      tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
     });
   }
 }

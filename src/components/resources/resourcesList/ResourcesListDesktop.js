@@ -42,17 +42,17 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{marginTop: '3%'}} />
-
-        <Search data={this.state.myResourcesDisplay}
+        <div style={{width:'86%', marginLeft:'7%', marginTop: '3%'}}>
+            <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
                 placeholder={"Search resources"}
-                style={{}}
-        />
+            />
+        </div>
 
-        <hr style={{border: "1px solid #0072CE", marginTop: '2%'}} />
+
+        <hr style={{border: "1px solid #0072CE", marginTop: '3%'}} />
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}
