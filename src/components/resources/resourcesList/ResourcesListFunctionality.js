@@ -38,21 +38,17 @@ class ResourcesListFunctionality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      myCategory: "All Resources",
-      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
-      myResourcesDict: {},
-      myResourcesDisplay: [],
-      myTagsDict: {},
-      myTagsDisplay: [],
-      myTagsDescription: "",
-      myTagsResourcesDisplay: {},
-      searchVal: "",
-      defaultSearchInput: ''
+      activityIndicator: true,
+      category: "All Resources",
+      description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
+      resourcesDict: {},
+      resourcesDisplay: [],
+      tagsDict: {},
+      tagsDisplay: [],
+      tagsDescription: "",
+      tagsResourcesDisplay: {},
     };
     this.getResources();
-
-//    this.searchFunc = this.searchFunc.bind(this);
-//    this.setSearchInput = this.setSearchInput.bind(this);
   }
 
   // Get resources from Firestore
@@ -61,19 +57,28 @@ class ResourcesListFunctionality extends React.Component {
     let approvedResourcesDict = {};
     let allResources = [];
     let approvedTagsDict = {};
-
-    let db = firebase.firestore();
-    let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
-    if(approvedResources){
-      allResources = approvedResources.docs.map(doc => doc.data());
-      approvedResourcesDict = this.makeDisplayResources(allResources);
-      approvedTagsDict = this.makeDisplayTags(allResources);
+    try{
+      let db = firebase.firestore();
+      let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
+      if(approvedResources){
+        allResources = approvedResources.docs.map(doc => doc.data());
+        approvedResourcesDict = this.makeDisplayResources(allResources);
+        approvedTagsDict = this.makeDisplayTags(allResources);
+      }
+      approvedTagsDict['All Resources'] = [];
+      console.log(approvedTagsDict);
+      this.setState({
+        resourcesDict: approvedResourcesDict,
+        resourcesDisplay: allResources,
+        tagsDict: approvedTagsDict,
+        activityIndicator: false
+      });
     }
-    approvedTagsDict['All Resources'] = [];
-    this.setState({ myResourcesDict: approvedResourcesDict});
-    this.setState({ myResourcesDisplay: allResources});
-    this.setState({ myTagsDict: approvedTagsDict});
+    catch (e) {
+      console.log('Progress Error', e)
+    }
   }
+
 
   // Creates mapping of category to corresponding resources
   makeDisplayResources(resources) {
@@ -136,68 +141,65 @@ class ResourcesListFunctionality extends React.Component {
   // Display appropriate resources when category button is clicked
   setDisplay(category) {
     this.setState({
-        myResourcesDisplay: this.state.myResourcesDict[category],
-        myDescription: Descriptions[category],
-        myCategory: category,
-        myTagsDisplay: Object.keys(this.state.myTagsDict[category]),
-        myTagsResourcesDisplay: {},
+      resourcesDisplay: this.state.resourcesDict[category],
+      description: Descriptions[category],
+      category: category,
+      tagsDisplay: Object.keys(this.state.tagsDict[category]),
+      tagsResourcesDisplay: {},
     });
 
     if(category !== 'All Resources'){
       this.setState({
-        myTagsDescription: "Filter by tags: "
+        tagsDescription: "Filter by tags: "
       });
     }
     else{
       this.setState({
-        myTagsDescription: ""
+        tagsDescription: ""
       });
     }
   }
 
   setTagDisplay(category, tag) {
-    this.state.myTagsResourcesDisplay[tag] = this.state.myTagsDict[category][tag];
+    this.state.tagsResourcesDisplay[tag] = this.state.tagsDict[category][tag];
     this.renderTagDisplay()
   }
 
   deleteTagDisplay(tag) {
-    delete this.state.myTagsResourcesDisplay[tag];
+    delete this.state.tagsResourcesDisplay[tag];
     this.renderTagDisplay()
   }
 
   renderTagDisplay() {
     let allResources = [];
-    for(let key in this.state.myTagsResourcesDisplay){
-      let resourceList = this.state.myTagsResourcesDisplay[key];
+    for(let key in this.state.tagsResourcesDisplay){
+      let resourceList = this.state.tagsResourcesDisplay[key];
       allResources.push(...resourceList);
     }
     allResources = Array.from(new Set(allResources));
-    this.setState({ myResourcesDisplay: allResources});
+    this.setState({ resourcesDisplay: allResources});
   }
 
   //Search function for looking up Resources
-  searchFunc(val, changeDefaultSearchVal = true) {
-    if (changeDefaultSearchVal) {
-      this.setState({ defaultSearchInput: '' });
+  searchFunc(val) {
+    this.setState({ activityIndicator: true });
+    let res = [];
+    let allResources = this.state.resourcesDict['All Resources'];
+    for(let i in allResources){
+      let resource = allResources[i];
+      if(resource['title'].toLowerCase().includes(val) ||
+          resource['description'].toLowerCase().includes(val)){
+        res.push(resource)
+      }
     }
-    let allResources = this.state.myResourcesDict['All Resources'];
-    let resourceSearch = [];
-    console.log(val);
-
-    const fuse = new Fuse(this.state.myResourcesDict['All Resources'], options);
-    for(let i=0; i<allResources.length; i+=1) {
-      //if(allResources[i]['title'] == val || allResources[i]['description'] == val){
-      //  resourceSearch.push(allResources[i]);
-      //}
-    }
-
-    this.setState({ myResourcesDisplay: resourceSearch});
-  }
-  //Sets the search input for the search functionality
-  setSearchInput(input){
-    this.setState({ defaultSearchInput: input });
-    this.inputElement.state.searchVal = input;
-    this.inputElement.props.onClick(input);
+    this.setState({
+      resourcesDisplay: res,
+      activityIndicator: false,
+      category: "All Resources",
+      description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
+      tagsDescription: "",
+      tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
+    });
   }
 }
 
