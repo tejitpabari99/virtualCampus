@@ -119,10 +119,10 @@ export default function MockInterviewModal({open, closeDo, event}) {
         const emailData = {
             from: "columbiavirtualcampus@gmail.com",
             to: email,
-            subject: "Complete your interview signup!",
-            text: `Dear ${name},
-            
-            Confirm your interview with ${lookUpEventData.host_name} at ${lookUpEventData.start_date} by clicking this link:
+            subject: "ACTION REQUIRED: Complete your interview signup!",
+            text: `Dear ${name},<br/><br/>
+            Confirm your interview with ${lookUpEventData.host_name} at ${lookUpEventData.start_date}
+             by clicking this link:<br/>
             ${URL}?token=${token}`
           };
         Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)

@@ -89,19 +89,32 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
       if (!event.available){
         return res.status(412).send("Event already booked!");
       }
-      const attendeeText = `Dear ${name},
-    Your mock interview with ${event.host_name} at ${event.start_date} has been confirmed!
-    Your interviewer should reach out to you to schedule a video call within the next 24 hours,
-    but if not, you can reach them at ${event.host_email}.
-    Please look over our guidelines and interview resources before your start date.
-    Thanks,
+      const attendeeText = `Dear ${name},<br/><br/>
+    You are now confirmed to attend Technical Interview Prep session with the Columbia Virtual Campus Team.<br/>
+    Please find the details of your appointment below:<br/><br/>
+    INTERVIEWER: ${event.host_name} (${event.host_email})<br/> 
+    TIME: ${event.start_date}<br/>
+    LOCATION: Virtual video call<br/><br/>
+    Your interviewer should reach out to you to schedule a video call within the next 24 hours.<br/>
+    If you haven't heard from interviewer within 24 hours after this email, please reach them at ${event.host_email}.<br/><br/>
+    If you wish to cancel an appointment you can do it NO LATER than 24 hours before the appointment<br/>
+    by responding to this email and cc'ing your interviewer.<br/>
+    Please see our <a href="https://docs.google.com/document/d/1lAzdx1YNshGhYQ41sTiNDjFdU3_m_vi9BYphfZYsZyU/edit?usp=sharing">
+    interview resources</a> and <a href="https://docs.google.com/document/d/1x9kL4-7PeTTY_f5W93sx7WeuSu9_7qRt_ksqkYnkCLg/edit?usp=sharing">
+    guidelines</a> before your start date.<br/><br/>
+    Thanks,<br/>
     CVC`
-      const hostText = `Dear ${event.host_name},
-    ${name} has signed up for a mock interview with you at ${event.start_date}! 
-    ${comments && `They have sent you these comments: ${comments}`}
-    IMPORTANT: reach out to ${name} at ${email} within the next 24 hours to schedule a video call.
-    Please look over our guidelines and interview resources before your start date.
-    Thanks,
+      const hostText = `Dear ${event.host_name},<br/><br/>
+    ${name} has signed up for a mock interview with you! Please find the details of your appointment below:<br/><br/>
+    INTERVIEWEE: ${name} (${email})<br/> 
+    TIME: ${event.start_date}<br/>
+    LOCATION: Virtual video call<br/>
+    ${comments && `COMMENTS: ${comments}<br/>`}<br/>
+    IMPORTANT: reach out to ${name} at ${email} within the next 24 hours to schedule a video call.<br/>
+    Please see our <a href="https://docs.google.com/document/d/1lAzdx1YNshGhYQ41sTiNDjFdU3_m_vi9BYphfZYsZyU/edit?usp=sharing">
+    interview resources</a> and <a href="https://docs.google.com/document/d/1x9kL4-7PeTTY_f5W93sx7WeuSu9_7qRt_ksqkYnkCLg/edit?usp=sharing">
+    guidelines</a> before your start date.<br/><br/>
+    Thanks,<br/>
     CVC`
       const attendeeMailOptions = {
         from: "columbiavirtualcampus@gmail.com",
@@ -115,7 +128,7 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
         from: "columbiavirtualcampus@gmail.com",
         replyTo: "columbiavirtualcampus@gmail.com",
         to: event.host_email,
-        subject: `${name} has signed up for an interview!`,
+        subject: `ACTION REQUIRED: ${name} has signed up for an interview!`,
         text: hostText,
         html: `<p>${hostText}</p>`
       };
