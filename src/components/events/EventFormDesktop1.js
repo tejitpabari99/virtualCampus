@@ -75,7 +75,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email address")
     .required("Required"),
-  entry_link: Yup.string()
+  event_link: Yup.string()
     .url("Please enter a valid URL")
     .required("Required"),
   title: Yup.string()
@@ -418,7 +418,7 @@ class EventFormDesktop extends React.Component {
     if (this.state.imgurLink !== "") {
       values['image_link'] = this.state.imgurLink
     }
-    // console.log(values)
+     console.log(values)
     this.setState({ activityIndicatory: true });
     const b = this.uploadData(values);
   }
@@ -460,12 +460,11 @@ class EventFormDesktop extends React.Component {
     emailData["text"] = "New Event Request!\n <br>" +
       emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
         + "<br><br>Click here to approve this event: ",
-        approvalUrl.concat(newEventRef.id))
-      + "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: "
-      + zoomUrl.concat(newEventRef.id);
+        approvalUrl.concat(newEventRef.id));
     if (data["zoomLink"]) {
-      emailData["text"].concat("\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: ",
-        zoomUrl.concat(newEventRef.id));
+      console.log("Zoom link: " + data["zoomLink"])
+      emailData["text"] += "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: " +
+        zoomUrl.concat(newEventRef.id);
     }
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
