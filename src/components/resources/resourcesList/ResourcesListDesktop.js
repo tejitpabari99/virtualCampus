@@ -3,7 +3,7 @@ import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCard, Heading, CustomButton} from "../..";
+import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
 
@@ -50,7 +50,8 @@ class ResourcesListDesktop extends React.Component {
       myTagsDescription: "",
       myTagsResourcesDisplay: {},
       searchVal: "",
-      defaultSearchInput: ''
+      defaultSearchInput: '',
+      inputElement: null
     };
     this.getResources();
 //    this.searchFunc = this.searchFunc.bind(this);
@@ -178,6 +179,12 @@ class ResourcesListDesktop extends React.Component {
   }
 
   //Search function for looking up Resources
+  searchFunc(val, changeDefaultSearchVal = true) {
+    if (changeDefaultSearchVal) {
+      this.setState({ defaultSearchInput: '' });
+    }
+    //rest of code...
+  }
 
   //Sets the search input for the search functionality
   setSearchInput(input){
@@ -217,6 +224,12 @@ class ResourcesListDesktop extends React.Component {
         </div>
 
         <hr style={{border: "1px solid #0072CE", marginTop: '4%'}} />
+
+        <Search data={this.state.myResourcesDisplay}
+                ref={input => this.inputElement = input}
+                onClick={(val) => { this.searchFunc(val) }}
+                onCancel={() => { this.searchFunc('') }}
+        />
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}
