@@ -7,6 +7,7 @@ import Button from "../../material-kit-components/CustomButtons/Button";
 import {ResourcesCard, Heading, CustomButton} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
+import { CircularProgress } from '@material-ui/core';
 
 class ResourcesListMobile extends ResourcesListFunctionality {
   constructor(props) {
@@ -17,7 +18,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
     return (
       <div>
         <div style={{textAlign:'center'}}>
-          {Object.keys(this.state.myResourcesDict).sort().map(category => {
+          {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
               <Button size="medium"
                       active
@@ -47,7 +48,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}
-        >{this.state.myCategory}</Heading>
+        >{this.state.category}</Heading>
 
         <div style={{
               textAlign:'center',
@@ -55,11 +56,11 @@ class ResourcesListMobile extends ResourcesListFunctionality {
               paddingLeft: '20px',
               paddingRight: '20px'
             }}
-        >{this.state.myDescription}</div>
+        >{this.state.description}</div>
 
         <GridContainer style={{width: '100%'}}>
           <GridItem style={{textAlign:'center', marginBottom:'34px'}}>
-            {this.state.myTagsDisplay.sort().map((data, idx) => {
+            {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
                 <CoolerButton key={idx} style={{
                                 marginTop: 8,
@@ -67,9 +68,9 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
-                              onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
+                              onClick={this.setTagDisplay.bind(this, this.state.category, data)}
                               otherClickOption={this.deleteTagDisplay.bind(this, data)}
-                              category={this.state.myCategory}
+                              category={this.state.category}
                 >{data}</CoolerButton>
               );
             })}
@@ -77,7 +78,8 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           <AddResourceMobile />
           <GridItem>
             <GridContainer style={{paddingLeft: '30px', paddingRight: '5px', paddingTop: '20px'}}>
-              {this.state.myResourcesDisplay.map(data => {
+              {this.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
+              {!this.activityIndicator && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}
                             sm={6}
