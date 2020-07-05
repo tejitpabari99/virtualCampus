@@ -1,4 +1,17 @@
 const FeaturedData = {
+  'jobs-internships': {
+    title: 'Brain.fm',
+    description: 'Creates music that sounds different and affects you differently to help you be more productive while you work. Designed to enhance your mood, focus, relaxation, sleep, and more!',
+    img: 'https://www.brain.fm/assets/img/focus-animation_bcba3d519ff8406664b93fe49a8fa2e8.gif',
+    links: {
+      website: 'https://www.brain.fm/'
+    },
+    reviewed: true,
+    category: {
+      category: 'Jobs, Internships, & Learning',
+      tags: ['Productivity']
+    }
+  },
   'blm': {
     title: 'ActBlue',
     description: 'Act Blue allows you to split up your donations across various bail funds, mutual aid funds, and activist organizations.',
@@ -62,19 +75,6 @@ const FeaturedData = {
     category: {
       category: 'COVID-19',
       tags: ['Updates']
-    }
-  },
-  'jobs-internships': {
-    title: 'CovIntern',
-    description: 'A place to find an internship and get connected with top companies and startups.',
-    img: 'https://covintern.com/static/images/og-preview.17bdc42043de.png',
-    links: {
-      website: 'https://covintern.com/jobs/'
-    },
-    reviewed: true,
-    category: {
-      category: 'Jobs, Internships, & Learning',
-      tags: ['Learning', 'Job']
     }
   },
 };
