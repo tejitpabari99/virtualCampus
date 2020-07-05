@@ -211,7 +211,7 @@ export default function HomeDesktop() {
 
       <div style={{ marginBottom: "2.5vh", background: "transparent" }} />
       <div className={classNames(classes.main, manual.eventsSection)} style={{ textAlign: 'left' }}>
-        <div className={classes.container} id="explore">
+        <div id="explore" style={{marginLeft: "7%", marginRight: "7%", width:"86%"}}>
           <Title color={"blue"}>Upcoming Events</Title>
           <div style={{ textAlign: "center" }}>
             <Subtitle color={'black'} className={manual.toAllSubHeadingUpEvents}>
