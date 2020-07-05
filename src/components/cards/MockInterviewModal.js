@@ -13,6 +13,7 @@ import GridItem from "../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../material-kit-components/Grid/GridContainer.js";
 import Axios from "axios";
 import * as firebase from "firebase";
+import * as jwt from "jsonwebtoken";
 
 const theme = CustomTheme;
 
@@ -30,13 +31,13 @@ const validationSchema = Yup.object().shape({
       .email("Please enter a valid email address")
       .trim().matches(/^[a-zA-Z0-9]+@(columbia|barnard)+.edu$/, 'Enter Columbia or Barnard email address')
       .required("Required"),
-    // comments: Yup.string()
+    comments: Yup.string()
   });
 
   const initVal = {
       name: "", 
       email: "", 
-    //   comments: "", 
+      comments: "", 
   }
 
 const useStyles = makeStyles ({
@@ -81,35 +82,20 @@ const useStyles = makeStyles ({
     }
 });
 
-const months = {
-    0: 'January',
-    1: 'February',
-    2: 'March',
-    3: 'April',
-    4: 'May',
-    5: 'June',
-    6: 'July',
-    7: 'August',
-    8: 'September',
-    9: 'October',
-    10: 'November',
-    11: 'December'
-};
-
-
 export default function MockInterviewModal({open, closeDo, event}) {
     const classes = useStyles();
 
     const submitHandler = async values => {
         const name = values.name;
         const email = values.email;
+        const comments = values.comments;
         const db = firebase.firestore();
-        console.log(event.start_date_original);
+
         let lookUpEvent = await db.collection("technical")
             .where("host_email", "==", event.host_email)
             .where("start_date", "==", event.start_date_original)
             .get();
-        if (lookUpEvent.size == 0){
+        if (lookUpEvent.size === 0){
             alert("Could not find event!");
             window.location.reload()
             return;
@@ -121,14 +107,23 @@ export default function MockInterviewModal({open, closeDo, event}) {
         lookUpEvent = lookUpEvent.docs[0];
         const lookUpEventData = lookUpEvent.data();
         const URL = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/bookEvent';
+        const token = jwt.sign({
+            expiresIn: "24h",
+            data: {
+                eventId: lookUpEvent.id,
+                name,
+                email,
+                comments
+            }
+          }, 'ASK KEVIN FOR THE KEY');
         const emailData = {
             from: "columbiavirtualcampus@gmail.com",
             to: email,
-            subject: "Complete your interview signup!",
-            text: `Dear ${name},
-            
-            Confirm your interview with ${lookUpEventData.host_name} at ${lookUpEventData.start_date} by clicking this link:
-            ${URL}?eventId=${lookUpEvent.id}&name=${name}&email=${email}`
+            subject: "ACTION REQUIRED: Complete your interview signup!",
+            text: `Dear ${name},<br/><br/>
+            Confirm your interview with ${lookUpEventData.host_name} at ${lookUpEventData.start_date}
+             by clicking this link:<br/>
+            ${URL}?token=${token}`
           };
         Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
           .then(res => {
@@ -196,10 +191,10 @@ export default function MockInterviewModal({open, closeDo, event}) {
                                                     error={errors.email}
                                                     touch={touched.email}
                                                     required></FormikField>
-                                    {/* <FormikField label="Comments for interviewer" name="comments"
+                                    <FormikField label="Comments for interviewer" name="comments"
                                                     error={errors.comments}
                                                     touch={touched.comments}
-                                                    ></FormikField> */}
+                                                    ></FormikField>
                                     <Button
                                         style={{
                                         background: "white",
