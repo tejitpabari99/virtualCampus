@@ -138,7 +138,7 @@ const useStyles = makeStyles({
     marginLeft:"3%",
     marginTop: "2%",
     marginBottom: 0,
-    borderRadius: '20px',
+    borderRadius: '5px',
     zIndex: 10,
     fontFamily: 'Poppins',
     fontStyle: 'normal',
@@ -200,8 +200,8 @@ export default function ResourcesCard(props) {
           </Typography>
           {tags && tags.sort().reverse().map(ele => {
             return (
-              <Button className={classes.button}>
-                {ele}
+              <Button disabled style={{'color':'black'}} className={classes.button}>
+                  {ele}
               </Button>
             )
           })}

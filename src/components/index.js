@@ -11,6 +11,7 @@ import EventEmailModal from "./cards/EventEmailModal";
 import ResourcesList from "./resources/resourcesList/ResourcesList";
 import ResourcesListDesktop from "./resources/resourcesList/ResourcesListDesktop";
 import ResourcesListMobile from "./resources/resourcesList/ResourcesListMobile";
+import ResourcesListFunctionality from "./resources/resourcesList/ResourcesListFunctionality";
 import ResourcesFeatured from "./resources/featured/ResourcesFeatured";
 import ResourcesFeaturedDesktop from "./resources/featured/ResourcesFeaturedDesktop";
 import ResourcesFeaturedMobile from "./resources/featured/ResourcesFeaturedMobile";
@@ -35,5 +36,5 @@ export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         CustomButton, DesktopMobile,
         Title, Subtitle, Heading, Search, ResourcesList,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
-        ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
+        ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesListFunctionality, ResourcesCard,
         BLMCard, TutorExpansionMapping, TutorSearchMapping}
