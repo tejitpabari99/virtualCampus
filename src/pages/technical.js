@@ -332,6 +332,7 @@ class Technical extends React.Component {
           views={["month", "week", "day"]}
           localizer={localizer}
           scrollToTime={new Date()}
+          date={new Date('July 12, 2020 0:00:00')}
           events={this.state.myEventsList}
           defaultView={"week"}
           startAccessor="start_date"

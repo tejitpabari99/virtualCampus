@@ -226,7 +226,6 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                                         Submit
                                         </Button>
                                     }
-                                    <p>Check your email to confirm appointment.</p>
                                 </div>
                             </Form>
                           );
