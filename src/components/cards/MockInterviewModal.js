@@ -127,8 +127,11 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             subject: "ACTION REQUIRED: Complete your interview signup!",
             text: `Dear ${name},<br/><br/>
             Confirm your interview with ${lookUpEventData.host_name} at ${lookUpEventData.start_date} 
-            by clicking the link below. It will expire in 24 hours. <br/>
-            ${URL}?token=${token}`
+            by clicking the link below. It will expire in 24 hours.<br/>
+            ${URL}?token=${token}<br/><br/>
+            If you do not wish to confirm, no action is required.<br/><br/>
+            Thanks,<br/>
+            CVC`
           };
         Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
             .then(res => {
