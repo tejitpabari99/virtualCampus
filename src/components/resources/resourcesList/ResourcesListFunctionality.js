@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
+import Fuse from "fuse.js";
 
 export const CoolerButton = ({children, otherClickOption, category, key, ...other}) => {
   const [isPushed, setIsPushed] = React.useState(true);
@@ -50,9 +51,6 @@ class ResourcesListFunctionality extends React.Component {
       tagsResourcesDisplay: {},
     };
     this.getResources();
-
-//    this.searchFunc = this.searchFunc.bind(this);
-//    this.setSearchInput = this.setSearchInput.bind(this);
   }
 
   // Get resources from Firestore
@@ -185,12 +183,21 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   //Search function for looking up Resources
-
-  //Sets the search input for the search functionality
-  setSearchInput(input){
-    this.setState({ defaultSearchInput: input });
-    this.inputElement.state.searchVal = input;
-    this.inputElement.props.onClick(input);
+  searchFunc(val) {
+    this.setState({ activityIndicator: true });
+    let res = [];
+    let allResources = this.state.resourcesDict['All Resources'];
+    for(let i in allResources){
+      let resource = allResources[i];
+      if(resource['title'].toLowerCase().includes(val) ||
+          resource['description'].toLowerCase().includes(val)){
+        res.push(resource)
+      }
+    }
+    this.setState({
+      resourcesDisplay: res,
+      activityIndicator: false
+    });
   }
 }
 

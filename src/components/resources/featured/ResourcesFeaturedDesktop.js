@@ -1,6 +1,6 @@
 import React from "react";
 import {MuiThemeProvider} from "@material-ui/core/styles";
-import { Carousel } from 'react-responsive-carousel'
+import Carousel from 'react-material-ui-carousel'
 import Button from "../../material-kit-components/CustomButtons/Button.js";
 
 import {makeStyles} from "@material-ui/core/styles";
@@ -78,36 +78,68 @@ const containerStyles = makeStyles(() => ({
   },
 }));
 
+function Item(props) {
+  const contStyle = containerStyles();
+  return (
+      <div>props</div>
+  )
+}
+
 export default function ResourcesFeaturedDesktop() {
-  let Carousel = require('react-responsive-carousel').Carousel;
   const contStyle = containerStyles();
   return (
     <MuiThemeProvider theme={theme}>
     <Carousel>
-        <div>
-                    <img src="assets/1.jpeg" />
-                    <p className="legend">Legend 1</p>
-                </div>
-                <div>
-                    <img src="assets/2.jpeg" />
-                    <p className="legend">Legend 2</p>
-                </div>
-                <div>
-                    <img src="assets/3.jpeg" />
-                    <p className="legend">Legend 3</p>
-                </div>
-                <div>
-                    <img src="assets/4.jpeg" />
-                    <p className="legend">Legend 4</p>
-                </div>
-                <div>
-                    <img src="assets/5.jpeg" />
-                    <p className="legend">Legend 5</p>
-                </div>
-                <div>
-                    <img src="assets/6.jpeg" />
-                    <p className="legend">Legend 6</p>
-                </div>
+        {
+            Object.keys(FeaturedData).map(key => {
+              let data = FeaturedData[key];
+              // console.log(data);
+              return (
+                  <div style={{overflow:'hidden'}}>
+                    <img src={data.img} alt={data.img} height='500px' width='100%' className={contStyle.container}/>
+                    <img src={data.img} alt={data.img} height='70.32%' width={'57.3%'} className={contStyle.img}/>
+                    <div className={contStyle.card} >
+                      <p className={contStyle.category}>
+                        {data.category.category
+                          .split(' ')
+                          .map(function(word) {
+                              return word[0].toUpperCase() + word.substr(1);
+                          })
+                          .join(' ')
+                        }
+
+                        <p className={contStyle.title}>
+                        {data.title}
+                        </p>
+
+                        <p>
+                          {data.category.tags.map(ele => {
+                            return (
+                              <Button disabled className={contStyle.button}>
+                                {ele}
+                              </Button>
+                            )
+                          })}
+                        </p>
+
+                        <p className={contStyle.description}>
+                          <br/>
+                          {data.description}
+                        </p>
+
+                        <p>
+                          <CustomButton text={"Explore"} href={data.links.website}
+                            color={"orange"} size={"2.3vw"} style={{marginTop: 15, marginBottom: 25, position:'relative'}}/>
+                        </p>
+
+                      </p>
+
+                    </div>
+                  </div>
+              )
+
+            })
+        }
     </Carousel>
     </MuiThemeProvider>
   )
