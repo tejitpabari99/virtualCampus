@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { CircularProgress } from '@material-ui/core';
+import * as Events from './../../pages/events.js';
 
 //inputs
 import FormikField from "../FormikField/FormikField";
@@ -29,19 +30,18 @@ import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
 import TZ from "countries-and-timezones";
-import * as Events from "../../pages/events";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
-  host_name: "",
-  host_email: "",
-  host_bio: "",
-  host_workExp: "",
-  host_interviewExp: "",
-  start_date: "",
-  end_date: "",
-  timezone: "",
-  time: "",
+    host_name: "",
+    host_email: "",
+    host_bio: "",
+    host_workExp: "",
+    host_interviewExp: "",
+    start_date: "",
+    end_date: "",
+    timezone: "",
+    time: "",
 };
 
 let getCurrentLocationForTimeZone = function() {
@@ -52,30 +52,30 @@ let getCurrentLocationForTimeZone = function() {
 // you can add multiple rules as seen with the "name" scheme
 // you can also add custom feedback messages in the parameters of each error function
 const validationSchema = Yup.object().shape({
-  host_name: Yup.string()
-    .min(5, "Too Short")
-    .required("Required"),
-  host_email: Yup.string()
-    .email("Please enter a valid email address")
-    .trim().matches(/^[a-zA-Z0-9]+@(columbia|barnard)+.edu$/, 'Enter Columbia or Barnard email address')
-    .required("Required"),
-  host_bio: Yup.string()
-    .required("Required")
-    .max("50", "Please less than 250 characters"),
-  host_workExp: Yup.string()
-    .required("Required")
-    .max("100", "Please less than 250 characters"),
-  host_interviewExp: Yup.string()
-    .required("Required")
-    .max("100", "Please less than 250 characters"),
-  start_date: Yup.string()
-    .required("Required"),
-  end_date: Yup.string()
-    .required("Required"),
-  timezone: Yup.string()
-    .required("Required"),
-  time: Yup.string()
-    .required("Required")
+    host_name: Yup.string()
+      .min(5, "Too Short")
+      .required("Required"),
+    host_email: Yup.string()
+      .email("Please enter a valid email address")
+      .trim().matches(/^[a-zA-Z0-9]+@(columbia|barnard)+.edu$/, 'Enter Columbia or Barnard email address')
+      .required("Required"),
+    host_bio: Yup.string()
+      .required("Required")
+      .max("50", "Please less than 250 characters"),
+    host_workExp: Yup.string()
+      .required("Required")
+      .max("100", "Please less than 250 characters"),
+    host_interviewExp: Yup.string()
+      .required("Required")
+      .max("100", "Please less than 250 characters"),
+    start_date: Yup.string()
+      .required("Required"),
+    end_date: Yup.string()
+      .required("Required"),
+    timezone: Yup.string()
+      .required("Required"),
+    time: Yup.string()
+      .required("Required")
 });
 
 const TITLE = "ADD EVENT";
@@ -115,7 +115,6 @@ function cleanTag(values, key) {
   return values;
 }
 
-
 function processTags(values) {
 
   const defKey = "other_tags";
@@ -139,7 +138,6 @@ function processTags(values) {
   return values;
 
 }
-
 
 
 function sendZoomEmail(id, name, from) {
@@ -293,7 +291,7 @@ function getTimezoneOptions() {
 
 const optionsTZ = getTimezoneOptions();
 
-class InterviewerFormDesktop extends React.Component {
+class EventFormMobile extends React.Component {
 
   constructor(props) {
     super(props);
@@ -309,8 +307,12 @@ class InterviewerFormDesktop extends React.Component {
   }
 
   submitHandler(values) {
-    const name = values.host_name;
-    alert(name);
+    if (values["file"] !== "" && values["file"] !== undefined) {
+      this.uploadImage(values);
+    } else {
+      this.setState({activityIndicatory:true});
+      const b = this.uploadData(values);
+    }
   }
 
 
@@ -377,7 +379,7 @@ class InterviewerFormDesktop extends React.Component {
         alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
       });
 
-    if (data["zoomLink"] && (!data['invite_link'] || data['invite_link']==='')) {
+    if (data["zoomLink"]) {
       sendZoomEmail(newEventRef.id, data["event"], from);
     }
 
@@ -460,7 +462,7 @@ class InterviewerFormDesktop extends React.Component {
     }
     else if (this.state.feedbackSubmit) {
       return (
-        <Template title={'Add New Event'} active={"schedule"}>
+        <Template title={'Add New Event'} active={"schedule"}>>
           <div style={{
             fontFamily: "Poppins",
             fontStyle: "normal",
@@ -507,15 +509,15 @@ class InterviewerFormDesktop extends React.Component {
 
     } else {
       return (
-        <Template title={'Sign-up to be an Interviewer'} active={"schedule"}>
+        <Template title={'Add New Event'} active={"schedule"}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             {/* <Template active={'schedule'}> */}
             <div>
-              <div style={{ backgroundColor: "white" }}>
+              <div>
                 <Container>
                   {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
-                  <GridContainer spacing={10}>
-                    <GridItem xs={4}>
+                  <div>
+                    <div>
                       <div style={{
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
                         fontSize: "36px", lineHeight: "54px", color: "#0072CE"
@@ -540,8 +542,9 @@ class InterviewerFormDesktop extends React.Component {
                         Questions? Contact us at <br/>
                         <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
                       </div>
-                    </GridItem>
-                    <GridItem xs={8}>
+                    </div>
+                  </div>
+                  <GridContainer spacing={10}>
                       <Formik
                         initialValues={initVal}
                         onSubmit={this.submitHandler}
@@ -563,16 +566,16 @@ class InterviewerFormDesktop extends React.Component {
                                 </div>
                                 <GridContainer>
                                   <GridItem sm={6}>
-                                    <FormikField label="Full Name"
-                                                 name="host_name"
-                                                 error={errors.host_name}
-                                                 touch={touched.host_name}
+                                    <FormikField label="Name / Organization"
+                                                 name="name"
+                                                 error={errors.name}
+                                                 touch={touched.name}
                                                  required></FormikField>
                                   </GridItem>
                                   <GridItem sm={6}>
-                                    <FormikField label="Email" name="host_email"
-                                                 error={errors.host_email}
-                                                 touch={touched.host_email}
+                                    <FormikField label="Email" name="email"
+                                                 error={errors.email}
+                                                 touch={touched.email}
                                                  required></FormikField>
                                   </GridItem>
                                 </GridContainer>
@@ -588,37 +591,64 @@ class InterviewerFormDesktop extends React.Component {
                                   lineHeight: "30px",
                                   color: "#0072CE"
                                 }}>
-                                  Technical Experience
+                                  Event
                                 </div>
                                 <GridContainer>
                                   <GridItem sm={6}>
-                                    <FormikField label="Previous Work Experience" name="host_workExp"
-                                                 error={errors.host_workExp}
-                                                 touch={touched.host_workExp}
+                                    <FormikField label="Event Name" name="event"
+                                                 error={errors.event}
+                                                 touch={touched.event}
                                                  required></FormikField>
                                   </GridItem>
                                   <GridItem sm={6}>
-                                    <FormikField label="Previous Interview Experience"
-                                                 name="host_interviewExp"
-                                                 error={errors.host_interviewExp}
-                                                 touch={touched.host_interviewExp}></FormikField>
+                                    <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
+                                                 name="image_link"
+                                                 error={errors.image_link}
+                                                 touch={touched.image_link}></FormikField>
                                   </GridItem>
                                 </GridContainer>
 
                                 <GridContainer>
                                   <GridItem>
-                                    <FormikField label="Bio"
-                                                 name="host_bio"
-                                                 multiline rows="3"
+                                    <FormikField label="Event Description"
+                                                 name="desc"
+                                                 multiline rows="5"
                                                  error={errors.desc}
                                                  touch={touched.desc} required/>
                                   </GridItem>
                                 </GridContainer>
-                            </div>
-                               
-                                  
-                                  
-                                  
+                                <GridContainer>
+                                  <GridItem sm={3}>
+                                    <div style={{ margin: "16px 0 8px" }}>
+                                      <Field
+                                        component={DateTimePicker}
+                                        name="start_date"
+                                        label="Start Time"
+                                        required
+                                      />
+                                    </div>
+                                  </GridItem>
+                                  <GridItem sm={3}>
+                                    <div style={{ margin: "16px 0 8px" }}>
+                                      <Field
+                                        component={DateTimePicker}
+                                        name="end_date"
+                                        label="End Time"
+                                        required
+                                      />
+                                    </div>
+                                  </GridItem>
+                                  <GridItem sm={3}>
+
+                                    <Field
+                                      name="timezone"
+                                      label="Select Timezone"
+                                      options={optionsTZ}
+                                      component={Select}
+                                      required
+                                    />
+
+                                  </GridItem>
                                   {/*<GridItem sm={3}>*/}
                                   {/*  <Field*/}
                                   {/*    name="recurring"*/}
@@ -636,7 +666,82 @@ class InterviewerFormDesktop extends React.Component {
                                   {/*    component={Select}*/}
                                   {/*  />*/}
                                   {/*</GridItem>*/}
-                                <div style={{ margin: "15px 0" }}>
+                                </GridContainer>
+                                <GridContainer spacing={3}>
+                                  <GridItem sm={6}>
+                                    <FormikField label="Website / Event Link"
+                                                 name="event_link"
+                                                 error={errors.event_link}
+                                                 touch={touched.event_link}
+                                                 required/>
+                                  </GridItem>
+                                  <GridItem sm={6}>
+                                    <FormikField
+                                      label="Video Call / Media Link (Zoom, Twitch, etc.)"
+                                      name="invite_link"/>
+                                  </GridItem>
+                                </GridContainer>
+                                <Field
+                                  component={CheckboxWithLabel}
+                                  name="zoomLink"
+                                  Label={{ label: "Request a Zoom Pro link (Only valid if no Video Call link given)" }}
+                                  type="checkbox"
+                                  indeterminate={false}
+                                />
+                                <br/>
+                                <GridContainer spacing={3}>
+                                  <GridItem sm={1}>
+                                    <div style={{ paddingTop: "9px" }}>Tags</div>
+                                  </GridItem>
+                                  <GridItem sm={11}>
+                                    <Field
+                                      component={CheckboxWithLabel}
+                                      name="activism_tag"
+                                      Label={{ label: "Activism" }}
+                                      type="checkbox"
+                                      indeterminate={false}
+                                    />
+                                    <Field
+                                      component={CheckboxWithLabel}
+                                      name="covid_tag"
+                                      Label={{ label: "COVID" }}
+                                      type="checkbox"
+                                      indeterminate={false}
+                                    />
+                                    <Field
+                                      component={CheckboxWithLabel}
+                                      name="social_tag"
+                                      Label={{ label: "Social" }}
+                                      type="checkbox"
+                                      indeterminate={false}
+                                    />
+                                    <Field
+                                      component={CheckboxWithLabel}
+                                      name="health_tag"
+                                      Label={{ label: "Health" }}
+                                      type="checkbox"
+                                      indeterminate={false}
+                                    />
+                                    <Field
+                                      component={CheckboxWithLabel}
+                                      name="education_tag"
+                                      Label={{ label: "Education" }}
+                                      type="checkbox"
+                                      indeterminate={false}
+                                    />
+                                  </GridItem>
+                                </GridContainer>
+                                <GridContainer>
+                                  <GridItem sm={12}>
+                                    <FormikField label="Other Tags (Seperate each by semicolon)"
+                                                 placeholder="Separate Each Tag by Semicolon"
+                                                 name="other_tags"/>
+                                  </GridItem>
+                                </GridContainer>
+                              </div>
+
+
+                              <div style={{ margin: "15px 0" }}>
                                 <div style={{
                                   fontFamily: "Poppins",
                                   fontStyle: "normal",
@@ -645,37 +750,31 @@ class InterviewerFormDesktop extends React.Component {
                                   lineHeight: "30px",
                                   color: "#0072CE"
                                 }}>
-                                  Time Availability
+                                  Additional
+                                  Information
                                 </div>
-                                <div style={{
-                                  fontFamily: "Poppins",
-                                  fontStyle: "normal",
-                                  fontWeight: "normal",
-                                  fontSize: "15px",
-                                  lineHeight: "30px",
-                                  color: "gray"}}>
-                                Please follow the specified format. Each block of time must only be 1 hour long.
-                                </div>
-                                <GridContainer spacing={3}>
-                                  <GridItem sm={9}>
-                                    <FormikField label="Time Available (July 5,1:00pm,2:00pm/July 5,4:00pm,5:00pm/etc...)"
-                                                 name="time"
-                                                 error={errors.time}
-                                                 touch={touched.time}
-                                                 required/>
-                                  </GridItem>
-                                  <GridItem sm={3}>
-                                    <Field
-                                      name="timezone"
-                                      label="Select Timezone"
-                                      options={optionsTZ}
-                                      component={Select}
-                                      required
-                                    />
+                                <GridContainer>
+                                  <GridItem sm={12}>
+                                    <FormikField label="Comments" name="comments"
+                                                 multiline
+                                                 rows="5" error={errors.comments}
+                                                 touch={touched.comments}/>
                                   </GridItem>
                                 </GridContainer>
-                                <br/>
-                            </div>
+                                <div>
+                                  By hosting an event you agree to the <a
+                                  href="https://bit.ly/events-policy-docs"
+                                  target="_blank">Columbia Events Policy</a>.
+                                </div>
+                                <Field
+                                  component={CheckboxWithLabel}
+                                  name="agree"
+                                  Label={{ label: "I agree to the Columbia Events Policy" }}
+                                  type="checkbox"
+                                  indeterminate={false}
+                                  required
+                                />
+                              </div>
 
                               <GridContainer>
                                 <GridItem sm={3}>
@@ -698,7 +797,6 @@ class InterviewerFormDesktop extends React.Component {
                           );
                         }}
                       </Formik>
-                    </GridItem>
                   </GridContainer>
                   <div style={{ marginBottom: "50px" }}/>
                   {/* </div> */}
@@ -719,4 +817,4 @@ class InterviewerFormDesktop extends React.Component {
 
 }
 
-export default InterviewerFormDesktop;
+export default EventFormMobile;
