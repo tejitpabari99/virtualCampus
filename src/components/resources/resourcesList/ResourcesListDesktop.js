@@ -2,9 +2,10 @@ import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
-import {ResourcesCard, Heading, CustomButton} from "../..";
+import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
+import {CircularProgress} from "@material-ui/core";
 
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
@@ -15,7 +16,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     return (
       <div>
         <div style={{textAlign:'center'}}>
-          {Object.keys(this.state.myResourcesDict).sort().map(category => {
+          {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
               <Button size="medium"
                       active
@@ -41,11 +42,21 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
 
-        <hr style={{border: "1px solid #0072CE", marginTop: '4%'}} />
+        <div style={{marginTop: '3%'}} />
+
+        <Search data={this.state.myResourcesDisplay}
+                ref={input => this.inputElement = input}
+                onClick={(val) => { this.searchFunc(val) }}
+                onCancel={() => { this.searchFunc('') }}
+                placeholder={"Search resources"}
+                style={{}}
+        />
+
+        <hr style={{border: "1px solid #0072CE", marginTop: '2%'}} />
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}
-        >{this.state.myCategory}</Heading>
+        >{this.state.category}</Heading>
 
         <div style={{
               textAlign:'center',
@@ -53,7 +64,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               paddingLeft: '20px',
               paddingRight: '20px'
             }}
-        >{this.state.myDescription}</div>
+        >{this.state.description}</div>
 
         <GridContainer style={{width: '100%'}}>
           <GridItem xs={3} style={{textAlign:'center'}}>
@@ -63,9 +74,9 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                     paddingBottom: '8px',
                     fontSize:'18px'
                   }}
-            >{this.state.myTagsDescription}</div>
+            >{this.state.tagsDescription}</div>
 
-            {this.state.myTagsDisplay.sort().map((data, idx) => {
+            {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
                 <CoolerButton key={idx} style={{
                                 marginTop: 8,
@@ -73,9 +84,9 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
-                              onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
+                              onClick={this.setTagDisplay.bind(this, this.state.category, data)}
                               otherClickOption={this.deleteTagDisplay.bind(this, data)}
-                              category={this.state.myCategory}
+                              category={this.state.category}
                 >{data}</CoolerButton>
               );
             })}
@@ -96,8 +107,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           </GridItem>
           <GridItem xs={9}>
             <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
-
-              {this.state.myResourcesDisplay.map(data => {
+              {this.state.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
+              {!this.state.activityIndicator && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}
                             sm={6}
