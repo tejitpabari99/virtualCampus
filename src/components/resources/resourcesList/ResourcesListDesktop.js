@@ -2,7 +2,7 @@ import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
-import {ResourcesCard, Heading, CustomButton} from "../..";
+import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 
@@ -41,13 +41,16 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
 
-        <hr style={{border: "1px solid #0072CE", marginTop: '4%'}} />
+        <div style={{marginTop: '2%'}} />
 
         <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
+                placeholder={"Search resources"}
         />
+
+        <hr style={{border: "1px solid #0072CE", marginTop: '2%'}} />
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}
