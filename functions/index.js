@@ -97,11 +97,10 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
     LOCATION: Virtual video call<br/><br/>
     Your interviewer should reach out to you to schedule a video call within the next 24 hours.<br/>
     If you haven't heard from interviewer within 24 hours after this email, please reach them at ${event.host_email}.<br/><br/>
-    If you wish to cancel an appointment you can do it NO LATER than 24 hours before the appointment<br/>
-    by responding to this email and cc'ing your interviewer.<br/>
+    If you wish to cancel an appointment, please notify us NO LATER than 24 hours before the appointment by responding to this email and cc'ing your interviewer.<br/>
     Please see our <a href="https://docs.google.com/document/d/1lAzdx1YNshGhYQ41sTiNDjFdU3_m_vi9BYphfZYsZyU/edit?usp=sharing">
     interview resources</a> and <a href="https://docs.google.com/document/d/1x9kL4-7PeTTY_f5W93sx7WeuSu9_7qRt_ksqkYnkCLg/edit?usp=sharing">
-    guidelines</a> before your start date.<br/><br/>
+    guidelines</a> before the interview.<br/><br/>
     Thanks,<br/>
     CVC`
       const hostText = `Dear ${event.host_name},<br/><br/>
@@ -113,7 +112,7 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
     IMPORTANT: reach out to ${name} at ${email} within the next 24 hours to schedule a video call.<br/>
     Please see our <a href="https://docs.google.com/document/d/1lAzdx1YNshGhYQ41sTiNDjFdU3_m_vi9BYphfZYsZyU/edit?usp=sharing">
     interview resources</a> and <a href="https://docs.google.com/document/d/1x9kL4-7PeTTY_f5W93sx7WeuSu9_7qRt_ksqkYnkCLg/edit?usp=sharing">
-    guidelines</a> before your start date.<br/><br/>
+    guidelines</a> before the interview.<br/><br/>
     Thanks,<br/>
     CVC`
       const attendeeMailOptions = {
