@@ -48,6 +48,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
                 placeholder={"Search resources"}
+                style={{height:'70%'}}
             />
         </div>
 
