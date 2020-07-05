@@ -69,28 +69,28 @@ const initVal = {
 // you can add multiple rules as seen with the "name" scheme
 // you can also add custom feedback messages in the parameters of each error function
 const validationSchema = Yup.object().shape({
-  // name: Yup.string()
-  //   .min(5, "Too Short")
-  //   .required("Required"),
-  // email: Yup.string()
-  //   .email("Please enter a valid email address")
-  //   .required("Required"),
-  // entry_link: Yup.string()
-  //   .url("Please enter a valid URL")
-  //   .required("Required"),
-  // title: Yup.string()
-  //   .required("Required"),
-  // desc: Yup.string()
-  //   .required("Required")
-  //   .max("250", "Please less than 250 characters"),
-  // start_date: Yup.string()
-  //   .required("Required"),
-  // end_date: Yup.string()
-  //   .required("Required"),
-  // timezone: Yup.string()
-  //   .required("Required"),
-  // agree: Yup.boolean("True")
-  //   .required(),
+  name: Yup.string()
+    .min(5, "Too Short")
+    .required("Required"),
+  email: Yup.string()
+    .email("Please enter a valid email address")
+    .required("Required"),
+  entry_link: Yup.string()
+    .url("Please enter a valid URL")
+    .required("Required"),
+  title: Yup.string()
+    .required("Required"),
+  desc: Yup.string()
+    .required("Required")
+    .max("250", "Please less than 250 characters"),
+  start_date: Yup.string()
+    .required("Required"),
+  end_date: Yup.string()
+    .required("Required"),
+  timezone: Yup.string()
+    .required("Required"),
+  agree: Yup.boolean("True")
+    .required(),
   image_link: Yup.string()
     .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
   invite_link: Yup.string()
