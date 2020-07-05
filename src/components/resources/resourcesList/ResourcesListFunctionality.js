@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
+import Fuse from 'fuse.js';
 
 export const CoolerButton = ({children, otherClickOption, category, key, ...other}) => {
   const [isPushed, setIsPushed] = React.useState(true);
@@ -69,7 +70,6 @@ class ResourcesListFunctionality extends React.Component {
       approvedTagsDict = this.makeDisplayTags(allResources);
     }
     approvedTagsDict['All Resources'] = [];
-    console.log(approvedTagsDict);
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: allResources});
     this.setState({ myTagsDict: approvedTagsDict});
@@ -176,7 +176,23 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   //Search function for looking up Resources
+  searchFunc(val, changeDefaultSearchVal = true) {
+    if (changeDefaultSearchVal) {
+      this.setState({ defaultSearchInput: '' });
+    }
+    let allResources = this.state.myResourcesDict['All Resources'];
+    let resourceSearch = [];
+    console.log(val);
 
+    const fuse = new Fuse(this.state.myResourcesDict['All Resources'], options);
+    for(let i=0; i<allResources.length; i+=1) {
+      //if(allResources[i]['title'] == val || allResources[i]['description'] == val){
+      //  resourceSearch.push(allResources[i]);
+      //}
+    }
+
+    this.setState({ myResourcesDisplay: resourceSearch});
+  }
   //Sets the search input for the search functionality
   setSearchInput(input){
     this.setState({ defaultSearchInput: input });
