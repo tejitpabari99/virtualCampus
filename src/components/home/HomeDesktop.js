@@ -219,7 +219,7 @@ export default function HomeDesktop() {
             </Subtitle>
           </div>
           <HomeEvents />
-          <div className={manual.button}>
+          <div className={manual.button} style={{marginLeft:"45%"}}>
               <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
               color={"orange"} size={"large"} />
           </div>

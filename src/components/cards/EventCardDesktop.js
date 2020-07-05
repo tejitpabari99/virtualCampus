@@ -225,13 +225,13 @@ export default function EventCardDesktop({ ele }) {
                   <div style={{textAlign:'left'}}>
                   <CustomButton href={ele.event_link} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
                                 style={{ position: "relative", width: "90%", height: "10%" }} />
-                                <div style={{height:"20px"}} />
+                                <div style={{height:"15px"}} />
                   </div>
                   : ele.invite_link !== '' ?
                     <div style={{textAlign:'left'}}>
                       <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                                   style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"small"}/>
-                      <div style={{height:"20px"}} />
+                      <div style={{height:"15px"}} />
                     </div>
                     : null}
                     {/* Uncomment the button below for testing */}
