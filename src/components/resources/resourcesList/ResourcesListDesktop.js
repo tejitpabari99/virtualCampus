@@ -23,9 +23,9 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                       style={{
                         background: 'rgba(255, 255, 255, 0.85)',
                         position: 'relative',
-                        marginLeft:"2%",
+                        marginLeft:"1%",
                         marginRight:"2%",
-                        marginTop: '3%',
+                        marginTop: '2%',
                         borderRadius: '10px',
 
                         fontFamily: 'Poppins',
@@ -60,7 +60,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             }}
         >{this.state.searchError}</div>
 
-        <hr style={{border: "1px solid #0072CE"}} />
+        <hr style={{border: "1px solid #0072CE", marginTop: '20px'}} />
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}
@@ -68,7 +68,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
 
         <div style={{
               textAlign:'center',
-              paddingTop: '15px',
+              marginTop: '15px',
               paddingLeft: '20px',
               paddingRight: '20px'
             }}
@@ -78,8 +78,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           <GridItem xs={3} style={{textAlign:'center'}}>
             <div style={{
                     textAlign:'center',
-                    paddingTop: '80px',
-                    paddingBottom: '8px',
+                    marginTop: '80px',
+                    marginBottom: '8px',
                     fontSize:'18px'
                   }}
             >{this.state.tagsDescription}</div>
@@ -87,8 +87,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
                 <CoolerButton key={idx} style={{
-                                marginTop: 8,
-                                marginBottom: 8,
+                                marginTop: 6,
+                                marginBottom: 6,
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
@@ -101,10 +101,10 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             })}
 
             <Heading color={'blue'}
-                     style={{fontSize: '28px', textAlign:'center', paddingTop: '30px'}}
+                     style={{fontSize: '28px', textAlign:'center', marginTop: '60px'}}
             >{"Want to add your own resource?"}</Heading>
 
-            <div style={{textAlign:'center', paddingTop: '3%'}}>
+            <div style={{textAlign:'center', marginTop: '3%'}}>
               <CustomButton text={"ADD RESOURCE"}
                             href={"https://forms.gle/BdG5GF1zMgKRGzz3A"}
                             color={"orange"}

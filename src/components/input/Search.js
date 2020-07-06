@@ -23,12 +23,34 @@ export default class Search extends React.Component{
   }
 
   render(){
+   // height of the TextField
+   const height = 44;
+   // magic number which must be set appropriately for height
+   const labelOffset = -6;
+
    let iconCol = this.props.iconColor === undefined ? 'black' : this.props.iconColor
     return(
       <div style={{display:'inline'}}>
         <TextField
-          style={{ width: "100%"}}
+          style={{ width: "100%", height}}
           id="input-with-icon-textfield"
+
+          /* styles the label component */
+          InputLabelProps={{
+            style: {
+              height,
+              ...({ top: `${labelOffset}px` }),
+            },
+          }}
+
+          /* styles the input component */
+          inputProps={{
+              style: {
+                height,
+                padding: '0 14px',
+              },
+          }}
+
           placeholder={this.props.placeholder === undefined ? "Search tutors, subjects and descriptions..."
                                                             : this.props.placeholder}
           value={this.state.searchVal}

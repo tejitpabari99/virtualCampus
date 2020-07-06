@@ -44,7 +44,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'86%', marginLeft:'7%', marginTop: '3%'}}>
+        <div style={{width:'86%', marginLeft:'7%', marginTop: '4%'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -56,12 +56,11 @@ class ResourcesListMobile extends ResourcesListFunctionality {
         <div style={{
               textAlign:'center',
               color: 'red',
-              paddingTop: '15px',
-              paddingBottom: '15px'
+              marginTop: '3%',
             }}
         >{this.state.searchError}</div>
 
-        <hr style={{border: "1px solid #0072CE", marginTop: '5%'}} />
+        <hr style={{border: "1px solid #0072CE", marginTop: '6%'}} />
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}
@@ -69,19 +68,19 @@ class ResourcesListMobile extends ResourcesListFunctionality {
 
         <div style={{
               textAlign:'center',
-              paddingTop: '15px',
+              marginTop: '15px',
               paddingLeft: '20px',
               paddingRight: '20px'
             }}
         >{this.state.description}</div>
 
         <GridContainer style={{width: '100%'}}>
-          <GridItem style={{textAlign:'center', marginBottom:'34px'}}>
+          <GridItem style={{textAlign:'center', marginBottom:'20px'}}>
             {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
                 <CoolerButton key={idx} style={{
-                                marginTop: 8,
-                                marginBottom: 8,
+                                marginTop: 7,
+                                marginBottom: 7,
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
@@ -95,7 +94,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           </GridItem>
           <AddResourceMobile />
           <GridItem>
-            <GridContainer style={{paddingLeft: '30px', paddingRight: '5px', paddingTop: '20px'}}>
+            <GridContainer style={{paddingLeft: '30px', paddingRight: '5px', marginTop: '20px'}}>
               {this.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
               {!this.activityIndicator && this.state.resourcesDisplay.map(data => {
                 return (
