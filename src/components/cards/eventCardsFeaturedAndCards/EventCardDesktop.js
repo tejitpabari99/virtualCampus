@@ -149,18 +149,6 @@ const useStyles = makeStyles(() => ({
     borderRadius: "5px",
     marginRight: "10px",
   },
-  recurringBlock: {
-    display: 'inline-block',
-    fontSize: '10px',
-    backgroundColor: '#FDEEE5',
-    paddingTop: 2, 
-    paddingBottom: 1, 
-    paddingLeft: 12, 
-    paddingRight: 12, 
-    borderRadius: "5px",
-    color: "#FB750D",
-    marginRight: "10px",
-  },
   popularBlock: {
     display: 'inline-block',
     fontSize: '10px',
@@ -172,6 +160,19 @@ const useStyles = makeStyles(() => ({
     borderRadius: "5px",
     color: "#0072CE",
     marginRight: "10px",
+  },
+  recurringBlock: {
+    display: 'inline-block',
+    fontSize: '10px',
+    marginLeft: '10px',
+    backgroundColor: '#FDEEE5',
+    paddingTop: 2,
+    paddingBottom: 1,
+    paddingLeft: 12,
+    paddingRight: 12,
+    borderRadius: "5px",
+    color: "#1BAE0E",
+    position: "relative"
   },
   cardbody: {
     padding: 10,
@@ -329,35 +330,19 @@ export default function EventCardDesktop({ ele }) {
               {displayRecurring && <div className={classes.recurringBlock}>Recurring</div>}
               {displayPopular && <div className={classes.popularBlock}>Popular</div>}
 
-        <div className={classes.tagInfo}>
-        {
-          (() => {     
-            if (ele.start_date <= new Date() && ele.end_date >= new Date()){
-              return(   
-              <div className={classes.happeningBlock}>Happening Now!
-                <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
-              </div>)
-            }
-          })()
-        } 
-        {
-          (() => { 
-            if (ele.recurring != ""){
-              return(   
-                <div className={classes.recurringBlock}>Recurring
-                  <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
-                </div>)
-            }
-          })()
-        }
-          {ele.tags.map((ta, ind) => {
-            if (ta !== "") {
-              return (
-                  <div className={classes.tagBlock}>{ta}</div>
-              );
-            }
-          })}
-        </div>
+              {ele.tags.map((ta, ind) => {
+                if (ta !== "") {
+                  return (
+                      <div className={classes.tagBlock}>{ta}</div>
+                  );
+                }
+              })}
+            </div>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={12}>
+              <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
+            </GridItem>
+        </GridContainer>
 
       </ExpansionPanelSummary>
       <ExpansionPanelDetails style={{ paddingLeft:0, paddingRight:0 }}>
