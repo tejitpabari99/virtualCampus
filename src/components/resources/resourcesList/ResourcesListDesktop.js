@@ -78,7 +78,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           <GridItem xs={3} style={{textAlign:'center'}}>
             <div style={{
                     textAlign:'center',
-                    marginTop: '80px',
+                    marginTop: '120px',
                     marginBottom: '8px',
                     fontSize:'18px'
                   }}
@@ -101,7 +101,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             })}
 
             <Heading color={'blue'}
-                     style={{fontSize: '28px', textAlign:'center', marginTop: '60px'}}
+                     style={{fontSize: '28px', textAlign:'center', paddingTop: '60px'}}
             >{"Want to add your own resource?"}</Heading>
 
             <div style={{textAlign:'center', marginTop: '3%'}}>
