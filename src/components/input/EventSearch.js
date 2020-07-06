@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { InvertColors } from "@material-ui/icons";
 
 const clubs = [
   { name: "Latinx Professional and Educational Network" },
@@ -29,6 +30,9 @@ export default class EventSearch extends React.Component{
       searchVal:'',
       data:this.props.data,
       filter: false,
+      tagList:this.props.tagList,
+      activeTagList: [],
+      hiddenSearch: ''
     }
     this.keyPress = this.keyPress.bind(this);
   }
@@ -44,7 +48,23 @@ export default class EventSearch extends React.Component{
   //   console.log("working")
   //   console.log(changeFilter)
   //   this.setState({filter : changeFilter})
-  // }
+  //
+  async addActiveTag(n)
+  {
+    if(this.state.activeTagList.includes(n))
+    {
+      await this.setState({activeTagList: this.state.activeTagList.filter(arrayItem => arrayItem !== n)})
+    }
+    else
+    {
+      await this.setState({activeTagList: this.state.activeTagList.concat(n)})
+    }
+
+    await this.setState({hiddenSearch : this.state.activeTagList.join(" ")})
+    console.log(this.state.activeTagList)
+    console.log( this.state.activeTagList.join(" "))
+    this.props.onClick(this.state.searchVal, this.state.hiddenSearch)
+  }
   
 
   render(){
@@ -111,8 +131,8 @@ export default class EventSearch extends React.Component{
               }
             }}
           />
-
-          <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal)}}
+          
+          <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal, this.state.hiddenSearch)}}
                 text={"Search"} 
                 style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "139px"}}
                 color={"blue"} size={"large"}
@@ -120,31 +140,17 @@ export default class EventSearch extends React.Component{
 
           <br/>
           <span style={{marginLeft: "20px", marginTop: "27px"}}>Tags</span>
-          <CustomButton 
-                text={"Finance"} 
+
+          {this.props.tagList.map(n => {
+                return(
+                <CustomButton 
+                onClick={() => {this.addActiveTag(n)}}
+                text={n} 
                 style={{width: "80px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
-          <CustomButton 
-                text={"Columbia"} 
-                style={{width: "80px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
-          <CustomButton 
-                text={"Basic Needs"} 
-                style={{width: "110px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
-          <CustomButton 
-                text={"Social"} 
-                style={{width: "80px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
-          <CustomButton 
-                text={"COVID-19"} 
-                style={{width: "85px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
+                color={this.state.activeTagList.includes(n) ? "blueInvert" : "blue"} size={"small"}/>)
+              }
+          )}
+
           <br/>
 
         <Autocomplete

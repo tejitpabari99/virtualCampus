@@ -177,7 +177,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function EventCardDesktopBottom({ ele }) {
-  console.log(ele);
+
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);

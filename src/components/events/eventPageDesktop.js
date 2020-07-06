@@ -116,7 +116,9 @@ class EventsPageDesktop extends React.Component {
       eventSearch: [],
       eventSearchError: '',
       searchVal: "",
-      defaultSearchInput:''
+      defaultSearchInput:'',
+      tagList: [],
+      hiddenSearch: ''
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
@@ -194,6 +196,13 @@ class EventsPageDesktop extends React.Component {
     return events;
   }
 
+  genTagsList(eventsMap)
+  {
+    let tagsList = new Set()
+    eventsMap.map(x => (x.tags.map(y => tagsList.add(y))))
+    tagsList.delete("")
+    return Array.from(tagsList);
+  }
 
   async getEvents() {
     var db = firebase.firestore();
@@ -205,27 +214,58 @@ class EventsPageDesktop extends React.Component {
     if(approvedEvents){
       approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
     }
-    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), permEventsList: approvedEventsMap,
+    approvedEventsMap.sort(function(a,b) {
+      var dateA = a.start_date
+      var dateB = b.start_date
+      return ((dateA < dateB) ? -1 : 1)
+    })
+    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap), permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
 
-  searchFunc(val, changeDefaultSearchVal=true) {
+  async addActiveTag(n)
+  {
+    if(this.state.activeTagList.includes(n))
+    {
+      await this.setState({activeTagList: this.state.activeTagList.filter(arrayItem => arrayItem !== n)})
+    }
+    else
+    {
+      await this.setState({activeTagList: this.state.activeTagList.concat(n)})
+    }
+
+    await this.setState({hiddenSearch : this.state.activeTagList.join(" ")})
+    console.log(this.state.activeTagList)
+    console.log( this.state.activeTagList.join(" "))
+    this.props.onClick(this.state.searchVal, this.state.hiddenSearch)
+  }
+
+  searchFunc(val, hiddenSearchVal = '', changeDefaultSearchVal=true) {
     if(changeDefaultSearchVal){
       this.setState({defaultSearchInput:''});
     }
-    if(!val || val.length===0) {
+    if((!val || val.length===0) && (!hiddenSearchVal || hiddenSearchVal.length===0)) {
       return this.setState({eventSearch: [], activityIndicator: false, eventSearchError: '',
         myEventsList: this.makeEventsList(this.state.permEventsList)});
     }
     this.setState({activityIndicator:true});
     const options = {
       threshold:0.2,
-      distance:1000,
-      keys: ['tags', 'name', "event"]
+      distance:10000,
+      ignoreLocation: true,
+      ignoreFieldNorm: true,
+      findAllMatches: true,
+      keys: ['name', 'tags', 'desc','event']
+
     };
-    const fuse = new Fuse(this.state.permEventsList, options);
-    const output = fuse.search(val);
-    const eventSearch = output;
+
+    let searchList = this.state.permEventsList
+    
+    const fuse = new Fuse(searchList, options);
+    let output = fuse.search(val)
+
+    const eventSearch = output
+
 
     if(!eventSearch || eventSearch.length<=0){
       return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'No Results found',
@@ -233,7 +273,7 @@ class EventsPageDesktop extends React.Component {
     }
     let itemOn = 0
     const approvedEventsMap = eventSearch.map(doc => (eventSearch[itemOn++]['item']));
-
+ 
     // Update events. Note: we don't have to update time again b/c time is already updated
     this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'',
       myEventsList: this.makeEventsList(approvedEventsMap)});
@@ -280,7 +320,7 @@ class EventsPageDesktop extends React.Component {
     if (sizeOfList === 0) {
       noSearchResults = "No events found for that search"
     }
-    console.log("Size: " + sizeOfList)
+
     return (
       <Template active={"schedule"} title={"Events"}>
 
@@ -340,9 +380,11 @@ class EventsPageDesktop extends React.Component {
                 iconColor="#2984CE"
                 data={this.state.data}
                 ref={input => this.inputElement = input}
-                onClick={(val) => { this.searchFunc(val) }}
+                tagList = {this.state.tagList}
+                onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
                 onCancel={() => { this.searchFunc('') }}
         />
+        
         <br />
         <div style={{margin: "40px"}}/>
         <div style={{width: "100%"}}>
