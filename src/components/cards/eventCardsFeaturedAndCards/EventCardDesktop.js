@@ -8,6 +8,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import GridItem from "../../material-kit-components/Grid/GridItem.js";
+import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
+import EventEmailModal from "../EventEmailModal";
 
 const theme = CustomTheme;
 
@@ -56,11 +59,11 @@ const useStyles = makeStyles(() => ({
   },
   nameHeader: {
     fontSize: '20px',
-    position: "absolute",
+    // position: "absolute",
     color: "black",
     whiteSpace: "nowrap",
-    marginTop: "8px",
-    marginLeft: "-5px",
+    // marginTop: "8px",
+    marginLeft: "14px",
     // display:'inline-block'
   },
   orgHeader: {
@@ -115,7 +118,7 @@ const useStyles = makeStyles(() => ({
   tagBlock: {
     display: 'inline-block',
     fontSize: '10px',
-    marginLeft: '10px',
+    marginRight: '10px',
     backgroundColor: '#F2F2F2',
     paddingTop: 2, 
     paddingBottom: 1, 
@@ -126,7 +129,6 @@ const useStyles = makeStyles(() => ({
   happeningBlock: {
     display: 'inline-block',
     fontSize: '10px',
-    marginLeft: '10px',
     backgroundColor: '#F3FFEE',
     paddingTop: 2, 
     paddingBottom: 1, 
@@ -134,7 +136,42 @@ const useStyles = makeStyles(() => ({
     paddingRight: 12, 
     borderRadius: "5px",
     color: "#1BAE0E",
-    position: "relative"
+    marginRight: "10px",
+  },
+  pastBlock: {
+    display: 'inline-block',
+    fontSize: '10px',
+    backgroundColor: '#BDBDBD',
+    paddingTop: 2, 
+    paddingBottom: 1, 
+    paddingLeft: 12, 
+    paddingRight: 12, 
+    borderRadius: "5px",
+    marginRight: "10px",
+  },
+  recurringBlock: {
+    display: 'inline-block',
+    fontSize: '10px',
+    backgroundColor: '#FDEEE5',
+    paddingTop: 2, 
+    paddingBottom: 1, 
+    paddingLeft: 12, 
+    paddingRight: 12, 
+    borderRadius: "5px",
+    color: "#FB750D",
+    marginRight: "10px",
+  },
+  popularBlock: {
+    display: 'inline-block',
+    fontSize: '10px',
+    backgroundColor: '#F2F9FD',
+    paddingTop: 2, 
+    paddingBottom: 1, 
+    paddingLeft: 12, 
+    paddingRight: 12, 
+    borderRadius: "5px",
+    color: "#0072CE",
+    marginRight: "10px",
   },
   cardbody: {
     padding: 10,
@@ -203,6 +240,29 @@ const useStyles = makeStyles(() => ({
     // marginTop: "5%",
     display: "inline-block",
     objectFit: "cover"
+  },
+  calendar: {
+    position: "absolute"
+  },
+  blueLine: {
+    width: "100%",
+    height: "1px",
+    backgroundColor: "lightblue"
+  },
+  websiteButton: {
+    position: "absolute", 
+    bottom: 0, 
+    marginRight: "25px",
+    width: "155px", 
+    height: "35px"
+  },
+  joinButton: {
+    // position: "absolute", 
+    // bottom: 0, 
+    marginRight: "25px",
+    width: "155px", 
+    height: "35px",
+    marginTop: "6px"
   }
 }));
 
@@ -219,6 +279,26 @@ export default function EventCardDesktop({ ele }) {
   const closeDo = () => {
     setOpen(false);
   }
+
+  //if true the alert will say the event is now
+  let displayNow = false
+  let displayPast = false
+  let displayRecurring = false
+  let displayPopular = false
+
+  let today = new Date()
+  if ((new Date(ele.start_date)) < today && (new Date(ele.end_date)) > today) {
+    displayNow = true
+  }
+
+  if ((new Date(ele.start_date)) > today && (new Date(ele.end_date)) > today) {
+    displayPast = true
+  }
+
+  if (ele.recurring != "") {
+    displayRecurring = true
+  }
+
   return (
 
     <div style={{ width: "100%" }}>
@@ -242,34 +322,54 @@ export default function EventCardDesktop({ ele }) {
                 {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
             </div>
         </div>
+        <GridContainer style={{ marginLeft:30, marginRight:0 }}>
+            <GridItem xs={12} sm={12} md={12}>
+            <div className={classes.tagInfo}>
+              {displayNow && <div className={classes.happeningBlock}>Happening Now!</div>}
+              {displayPast && <div className={classes.pastBlock}>Past</div>}
+              {displayRecurring && <div className={classes.recurringBlock}>Recurring</div>}
+              {displayPopular && <div className={classes.popularBlock}>Popular</div>}
 
-        <div className={classes.tagInfo}>
-          <div className={classes.happeningBlock}>Happening Now!
-            <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
-          </div>
-
-          {ele.tags.map((ta, ind) => {
-            if (ta !== "") {
-              return (
-                  <div className={classes.tagBlock}>{ta}</div>
-              );
-            }
-          })}
-        </div>
+              {ele.tags.map((ta, ind) => {
+                if (ta !== "") {
+                  return (
+                      <div className={classes.tagBlock}>{ta}</div>
+                  );
+                }
+              })}
+            </div>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={12}>
+              <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
+            </GridItem>
+        </GridContainer>
 
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails style={{ width: "100%", paddingLeft:0, paddingRight:0 }}>
+      <ExpansionPanelDetails style={{ paddingLeft:0, paddingRight:0 }}>
         {/* put inner stuff here */}
-        <div style={{
-          color: "black",
-          marginLeft: 35,
-          marginRight: 35,
-          marginBottom: 10,
-        }}>{ele.desc}</div>
-        <br/>
-        <div style={{ color: "#4284C8", marginBottom: 5}}>
-          <strong> <AddCalendar info={ele}/></strong>
-      </div>
+        <GridContainer style={{ width: "100%", marginLeft:0, marginRight:0 }}>
+            <GridItem xs={12} sm={12} md={12} style={{paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
+                <div className={classes.blueLine}></div>
+            </GridItem>
+
+            <GridItem xs={9} sm={9} md={9} style={{paddingTop:10, paddingBottom: 10, paddingLeft:40, paddingRight:10}}>
+              <div style={{color: "black", display: "block", fontSize: "14px"}}>{ele.desc}</div>
+            </GridItem>
+            <GridItem xs={3} sm={3} md={3}>
+              {ele.event_link && <CustomButton href={ele.event_link} text={"LEARN MORE"} newTab color={"blue"} size={"medium"} className={classes.websiteButton} />}
+            </GridItem>
+
+            <GridItem xs={9} sm={9} md={9} style={{marginTop: 10, paddingTop:10, paddingBottom: 10, paddingLeft:35, paddingRight:10}}>
+              <div style={{ color: "#4284C8", marginBottom: 5}}>
+                  <strong> <AddCalendar info={ele}/></strong>
+              </div>
+            </GridItem>
+
+            <GridItem xs={3} sm={3} md={3}>
+              {ele.invite_link && <CustomButton onClick={openModalHandler} text={'JOIN EVENT'} newTab color={"blue"} size={"medium"} className={classes.joinButton}/>}
+            </GridItem>
+        </GridContainer>
+        {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>} 
       </ExpansionPanelDetails>
     </ExpansionPanel>
 
