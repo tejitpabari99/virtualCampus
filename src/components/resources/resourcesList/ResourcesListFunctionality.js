@@ -1,7 +1,8 @@
 import React from "react";
 import { CustomButton2 } from "../..";
 import firebase from "../../../firebase";
-import {Descriptions} from "../../../assets/ResourcesData.js"
+import {Descriptions} from "../../../assets/ResourcesData.js";
+import Fuse from 'fuse.js';
 
 
 export const CoolerButton = ({children, otherClickOption, category, key, val, ...other}) => {
@@ -46,6 +47,7 @@ class ResourcesListFunctionality extends React.Component {
       tagsDisplay: [],
       tagsDescription: "",
       tagsResourcesDisplay: {},
+      searchError: ""
     };
     this.getResources();
   }
@@ -65,7 +67,6 @@ class ResourcesListFunctionality extends React.Component {
         approvedTagsDict = this.makeDisplayTags(allResources);
       }
       approvedTagsDict['All Resources'] = [];
-      console.log(approvedTagsDict);
       this.setState({
         resourcesDict: approvedResourcesDict,
         resourcesDisplay: allResources,
@@ -181,14 +182,29 @@ class ResourcesListFunctionality extends React.Component {
 
   //Search function for looking up Resources
   searchFunc(val) {
-    this.setState({ activityIndicator: true });
     let res = [];
     let allResources = this.state.resourcesDict['All Resources'];
-    for(let i in allResources){
-      let resource = allResources[i];
-      if(resource['title'].toLowerCase().includes(val) ||
-          resource['description'].toLowerCase().includes(val)){
-        res.push(resource)
+    let error = "";
+    if(!val || val.length === 0){
+      res = allResources;
+    }
+    else if (val.length<=2) {
+      error = "ERROR: Search term must be more than 2 characters";
+    }
+    else {
+      this.setState({ activityIndicator: true });
+      let fuse = new Fuse(allResources,
+          {threshold: 0.2,
+                    distance: 1000,
+                    keys: ['title', 'description'],
+                    ignoreLocation: true});
+      let output = fuse.search(val);
+
+      for (let i=0; i<output.length; i+=1){
+          res.push(output[i]['item']);
+      }
+      if(output.length == 0){
+        error = "No results found";
       }
     }
     this.setState({
@@ -198,6 +214,7 @@ class ResourcesListFunctionality extends React.Component {
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
       tagsDescription: "",
       tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
+      searchError: error
     });
   }
 }

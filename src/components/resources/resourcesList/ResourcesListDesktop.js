@@ -52,8 +52,15 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             />
         </div>
 
+        <div style={{
+              textAlign:'center',
+              color: 'red',
+              paddingTop: '15px',
+              paddingBottom: '15px'
+            }}
+        >{this.state.searchError}</div>
 
-        <hr style={{border: "1px solid #0072CE", marginTop: '3%'}} />
+        <hr style={{border: "1px solid #0072CE"}} />
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}

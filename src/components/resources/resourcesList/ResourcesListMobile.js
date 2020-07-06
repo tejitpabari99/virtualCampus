@@ -53,6 +53,14 @@ class ResourcesListMobile extends ResourcesListFunctionality {
             />
         </div>
 
+        <div style={{
+              textAlign:'center',
+              color: 'red',
+              paddingTop: '15px',
+              paddingBottom: '15px'
+            }}
+        >{this.state.searchError}</div>
+
         <hr style={{border: "1px solid #0072CE", marginTop: '5%'}} />
 
         <Heading color={'blue'}
