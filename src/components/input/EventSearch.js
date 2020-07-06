@@ -139,7 +139,8 @@ export default class EventSearch extends React.Component{
           />
 
           <br/>
-          <span style={{marginLeft: "20px", marginTop: "27px"}}>Tags</span>
+
+            {/*<span style={{marginLeft: "20px", marginTop: "27px"}}>Tags</span>
 
           {this.props.tagList.map(n => {
                 return(
@@ -149,7 +150,7 @@ export default class EventSearch extends React.Component{
                 style={{width: "80px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
                 color={this.state.activeTagList.includes(n) ? "blueInvert" : "blue"} size={"small"}/>)
               }
-          )}
+          )}*/}
 
           <br/>
 
