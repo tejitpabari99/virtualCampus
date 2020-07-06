@@ -20,7 +20,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
         <div style={{textAlign:'center'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
-              <Button size="medium"
+              <Button size="small"
                       active
                       style={{
                         background: 'rgba(255, 255, 255, 0.85)',
@@ -33,8 +33,8 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                         fontFamily: 'Poppins',
                         fontStyle: 'normal',
                         fontWeight: 'normal',
-                        fontSize: '13px',
-                        lineHeight: '17px',
+                        fontSize: '11px',
+                        lineHeight: '14px',
                         color: '#0072CE'
                       }}
                       onClick={this.setDisplay.bind(this, category)}
