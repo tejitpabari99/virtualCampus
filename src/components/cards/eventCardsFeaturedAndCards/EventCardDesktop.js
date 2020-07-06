@@ -328,6 +328,7 @@ export default function EventCardDesktop({ ele }) {
               {displayNow && <div className={classes.happeningBlock}>Happening Now!</div>}
               {displayPast && <div className={classes.pastBlock}>Past</div>}
               {displayRecurring && <div className={classes.recurringBlock}>Recurring</div>}
+              {displayPopular && <div className={classes.popularBlock}>Popular</div>}
 
               {ele.tags.map((ta, ind) => {
                 if (ta !== "") {
