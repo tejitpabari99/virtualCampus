@@ -19,6 +19,7 @@ import ResourcesFeaturedMobile from "./resources/featured/ResourcesFeaturedMobil
 import ResourcesCard from "./cards/ResourcesCard";
 import AddCalendar from "./events/AddCalendar";
 import CustomButton from "./buttons/CustomButton";
+import CustomButton2 from "./buttons/CustomButton2";
 import HomeEvents from "./home/HomeEvents";
 import HomeDesktop from "./home/HomeDesktop";
 import HomeMobile from "./home/HomeMobile";
@@ -34,7 +35,7 @@ import TutorSearchMapping from './pop-up/blm/TutorSearchMapping'
 export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMember, TeamSection,
         EventCard, EventCardMobile, EventModal, EventEmailModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
-        CustomButton, DesktopMobile,
+        CustomButton, CustomButton2, DesktopMobile,
         Title, Subtitle, Heading, Search, ResourcesList,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesListFunctionality, ResourcesCard,

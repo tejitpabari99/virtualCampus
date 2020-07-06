@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomButton } from "../..";
+import { CustomButton2 } from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
 
@@ -22,15 +22,14 @@ export const CoolerButton = ({children, otherClickOption, category, key, val, ..
   delete other.onClick;
 
   return (
-    <CustomButton
+    <CustomButton2
       onClick={() => {handleClick()}}
       color={
         (isPushed) ? "blue" : "white"
       }
       {...other}
       text={val}
-    >
-    </CustomButton>
+    />
   );
 };
 
