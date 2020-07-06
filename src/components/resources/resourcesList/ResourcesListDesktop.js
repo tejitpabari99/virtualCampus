@@ -88,7 +88,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                               onClick={this.setTagDisplay.bind(this, this.state.category, data)}
                               otherClickOption={this.deleteTagDisplay.bind(this, data)}
                               category={this.state.category}
-                >{data}</CoolerButton>
+                              val={data}
+                />
               );
             })}
 

@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "../../material-kit-components/CustomButtons/Button";
+import { CustomButton } from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
-import Fuse from "fuse.js";
 
-export const CoolerButton = ({children, otherClickOption, category, key, ...other}) => {
+
+export const CoolerButton = ({children, otherClickOption, category, key, val, ...other}) => {
   const [isPushed, setIsPushed] = React.useState(true);
   React.useEffect(() => {
     setIsPushed(true);
@@ -22,15 +22,15 @@ export const CoolerButton = ({children, otherClickOption, category, key, ...othe
   delete other.onClick;
 
   return (
-    <Button
+    <CustomButton
       onClick={() => {handleClick()}}
       color={
-        (isPushed) ? "white" : "grey"
+        (isPushed) ? "blue" : "white"
       }
       {...other}
+      text={val}
     >
-      {children}
-    </Button>
+    </CustomButton>
   );
 };
 
