@@ -152,7 +152,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function EventCardFeaturedDesktop({ ele }) {
-  console.log(ele);
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);

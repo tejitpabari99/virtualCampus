@@ -136,6 +136,19 @@ const useStyles = makeStyles(() => ({
     color: "#1BAE0E",
     position: "relative"
   },
+  recurringBlock: {
+    display: 'inline-block',
+    fontSize: '10px',
+    marginLeft: '10px',
+    backgroundColor: '#FDEEE5',
+    paddingTop: 2, 
+    paddingBottom: 1, 
+    paddingLeft: 12, 
+    paddingRight: 12, 
+    borderRadius: "5px",
+    color: "#1BAE0E",
+    position: "relative"
+  },
   cardbody: {
     padding: 10,
     paddingLeft: 20,
@@ -207,7 +220,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function EventCardDesktop({ ele }) {
-  console.log(ele);
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -231,7 +243,7 @@ export default function EventCardDesktop({ ele }) {
         <div className={classes.flexBox}>
           <img className={classes.image} src={ele.image_link} alt={ele.event}/>
         </div> 
-
+        
         <div className={classes.dateBox}>
             <span className={classes.weekText}>{days[ele.start_date.getDay()]}</span>
             <span className={classes.dateText}>{ele.start_date.getDate()} {months[ele.start_date.getMonth()]}</span>
@@ -244,10 +256,26 @@ export default function EventCardDesktop({ ele }) {
         </div>
 
         <div className={classes.tagInfo}>
-          <div className={classes.happeningBlock}>Happening Now!
-            <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
-          </div>
-
+        {
+          (() => {     
+            if (ele.start_date <= new Date() && ele.end_date >= new Date()){
+              return(   
+              <div className={classes.happeningBlock}>Happening Now!
+                <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
+              </div>)
+            }
+          })()
+        } 
+        {
+          (() => { 
+            if (ele.recurring != ""){
+              return(   
+                <div className={classes.recurringBlock}>Recurring
+                  <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
+                </div>)
+            }
+          })()
+        }
           {ele.tags.map((ta, ind) => {
             if (ta !== "") {
               return (
