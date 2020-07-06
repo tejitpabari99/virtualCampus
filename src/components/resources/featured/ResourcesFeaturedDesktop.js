@@ -20,15 +20,15 @@ const containerStyles = makeStyles(() => ({
   img: {
     position: 'absolute',
     left: '37.26%',
-    top: '11.91%',
+    top: '7.91%',
     objectFit: 'cover',
   },
   card: {
     position: 'absolute',
-    left: '5.3%',
+    left: '3.4%',
     right: '62.74%',
-    top: '11.91%',
-    bottom: '17.75%',
+    top: '7.91%',
+    bottom: '14.5%',
     background: '#FFFFFF',
   },
   category: {
@@ -96,8 +96,8 @@ export default function ResourcesFeaturedDesktop() {
               // console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height='440px' width='100%' className={contStyle.container}/>
-                    <img src={data.img} alt={data.img} height='70.32%' width={'57.3%'} className={contStyle.img}/>
+                    <img src={data.img} alt={data.img} height='410px' width='100%' className={contStyle.container}/>
+                    <img src={data.img} alt={data.img} height='77.5%' width={'59.4%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>
                         {data.category.category
