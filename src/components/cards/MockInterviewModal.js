@@ -88,7 +88,6 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
 
-
     const submitHandler = async values => {
         setLoading(true);
         const name = values.name;
@@ -101,16 +100,22 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             .where("start_date", "==", event.start_date_original)
             .get();
         if (lookUpEvent.size === 0){
-            alert("Could not find event!");
-            window.location.reload();
+            setLoading(false);
+            setSubmitStatus('notFound');
+            closeDo();
+            setTimeout(() => { window.location.reload(); }, 4500);
+
             return;
         } else if (!lookUpEvent.docs[0].data().available){
-            alert("Event already booked!");
-            window.location.reload();
+            setLoading(false);
+            setSubmitStatus('booked');
+            closeDo();
+
+            setTimeout(() => { window.location.reload(); }, 4500);
             return;
         }
         lookUpEvent = lookUpEvent.docs[0];
-        const lookUpEventData = lookUpEvent.data();
+        const localIntervieweeStartTime = `${event.start_date.toLocaleString()} ${event.timeZoneGMT}`;
         const URL = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/bookEvent';
         const token = jwt.sign({
             expiresIn: "24h",
@@ -118,7 +123,8 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                 eventId: lookUpEvent.id,
                 name,
                 email,
-                comments
+                comments,
+                localIntervieweeStartTime
             }
           }, 'ASK KEVIN FOR THE KEY');
         const emailData = {
@@ -126,7 +132,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             to: email,
             subject: "ACTION REQUIRED: Complete your interview signup!",
             text: `Dear ${name},<br/><br/>
-            Confirm your interview with ${lookUpEventData.host_name} at ${lookUpEventData.start_date} 
+            Confirm your interview with ${event.host_name} at ${localIntervieweeStartTime}
             by clicking the link below. It will expire in 24 hours.<br/>
             ${URL}?token=${token}<br/><br/>
             If you do not wish to confirm, no action is required.<br/><br/>
@@ -145,6 +151,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                 closeDo();
             });
     }
+
     return(
         <Modal
             style={{display: 'flex',

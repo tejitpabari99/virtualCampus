@@ -309,6 +309,12 @@ class Technical extends React.Component {
         { this.state.submitStatus == 'failure' &&
           <Alert severity="error">Signup form failed to submit, please try again!</Alert>
         }
+        { this.state.submitStatus == 'notFound' &&
+          <Alert severity="error">Interview session could not be found! Reloading sessions...</Alert>
+        }
+        { this.state.submitStatus == 'booked' &&
+          <Alert severity="error">Interview session already booked! Reload sessions...</Alert>
+        }
         <Title color={"blue"} style={{ padding: '20px', marginTop: 0}}>Mock Tech Interview</Title>
         <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> July 2020</h3>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
