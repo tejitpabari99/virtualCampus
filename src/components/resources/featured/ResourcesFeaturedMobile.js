@@ -94,7 +94,7 @@ export default function ResourcesFeaturedMobile() {
               let data = FeaturedData[key];
               return (
                   <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height={'500px'} width={'100%'} className={contStyle.container}/>
+                    <img src={data.img} alt={data.img} height={'440px'} width={'100%'} className={contStyle.container}/>
                     <img src={data.img} alt={data.img} height={'180px'} width={'86%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>

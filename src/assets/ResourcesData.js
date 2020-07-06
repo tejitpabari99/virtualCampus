@@ -1,7 +1,7 @@
 const FeaturedData = {
   'jobs-internships': {
     title: 'Brain.fm',
-    description: 'Creates music that sounds different and affects you differently to help you be more productive while you work. Designed to enhance your mood, focus, relaxation, sleep, and more!',
+    description: 'Music that helps you be more productive! Designed to enhance your mood, focus, relaxation, sleep, and more!',
     img: 'https://www.brain.fm/assets/img/focus-animation_bcba3d519ff8406664b93fe49a8fa2e8.gif',
     links: {
       website: 'https://www.brain.fm/'
@@ -40,7 +40,7 @@ const FeaturedData = {
   },
   'health': {
     title: 'Supportiv',
-    description: 'Supportiv is a support network that matches users to peers going through similar struggles, in small groups moderated by qualified individuals.',
+    description: 'A support network that matches users going through similar struggles, in small groups moderated by qualified individuals.',
     img: 'https://mk0supportivcomd7q1r.kinstacdn.com/wp-content/uploads/2019/07/2019_07_SocialImage.png',
     links: {
       website: 'https://www.supportiv.com'
@@ -53,7 +53,7 @@ const FeaturedData = {
   },
   'needs': {
     title: 'Fastweb',
-    description: 'Fast connection to scholarships, financial aid, and career advice for those in college. A leading resource that helps students pay for school.',
+    description: 'Fast connection to scholarships, financial aid, and career advice for those in college. A leading resource that helps pay for tuition.',
     img: 'https://www.fastweb.com/uploads/article_photo/photo/2037164/crop635w_google-feature-graphic_1024x500_v2.png',
     links: {
       website: 'https://www.fastweb.com/'
