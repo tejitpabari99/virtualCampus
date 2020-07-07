@@ -9,6 +9,7 @@ import Subtitle from "../components/text/Subtitle";
 import Heading from "../components/text/Heading";
 import Group1 from "../assets/images/blm/Group 1.png"
 import Group34 from "../assets/images/blm/Group 34.png"
+import Group66 from "../assets/images/blm/Group 66.png"
 import { CircularProgress } from '@material-ui/core';
 import firebase from '../firebase'
 
@@ -80,6 +81,7 @@ class cvcBlm extends React.Component {
 
     // this.fetchDonationCompletedData();
     this.fetchData();
+    this.myRef = React.createRef()  
   };
 
   async fetchDonationCompletedData() {
@@ -196,6 +198,10 @@ class cvcBlm extends React.Component {
     this.inputElement.props.onClick(input);
   }
 
+  scrollToMyRef() {
+    window.scrollTo(0, this.myRef.current.offsetTop);
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -222,7 +228,7 @@ class cvcBlm extends React.Component {
           }
         </div>
 
-        <div style={{ backgroundColor: "black", paddingTop: "40px", paddingBottom: "40px" }}>
+        <div style={{ backgroundColor: "black", paddingTop: "40px", paddingBottom: "60px" }}>
           <Title color={"blue"}>#BLM</Title>
           <GridContainer
             style={{
@@ -263,22 +269,22 @@ class cvcBlm extends React.Component {
             style={{ marginTop: "5vw", }}
           >
             <GridItem xs={12} sm={5} style={{ textAlign: "center", width:'85%', marginLeft:'auto', marginRight:'auto'}}>
-              <img src={Group34} style={{ maxWidth: "80%",height: "auto", marginTop:'20px'}} />
-              <br/>
-              <CustomButton style={{margin:"1em"}} text={"Microsoft"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Microsoft')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Google"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Google')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Goldman Sachs"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Goldman')}}/>
-              <br/>
-              <CustomButton style={{margin:"1em"}} text={"McKinsey"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('McKinsey')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Blizzard"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Blizzard')}}/>
-              <CustomButton style={{margin:"1em"}} text={"Saturday Night Live"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Saturday')}}/>
-
+                <img src={Group34} style={{ maxWidth: "100%",height: "auto", width:"72%", marginTop:'20px'}} />
+                <br/>
+                <div style={{marginTop:"1em"}}>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"Microsoft"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Microsoft');}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"Google"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Google')}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"Goldman Sachs"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Goldman')}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"McKinsey"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('McKinsey')}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"Blizzard"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Blizzard')}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"The Observer"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('The Observer')}}/>
+              </div>
             </GridItem>
             <GridItem xs={12} sm={7}>
               <div
@@ -293,7 +299,7 @@ class cvcBlm extends React.Component {
                   lineHeight: "1.1em",
                 }}
               >
-                <Title color={"blue"} style={{marginBottom:'2vw', fontSize:'max(3vw, 24px)', textAlign:'left'}}>Our Mentorship Program</Title>
+                <Title color={"blue"} style={{marginBottom:'3vw', fontSize:'max(3vw, 24px)', textAlign:'left'}}>Our Mentorship Program</Title>
                 <div style={{ marginBottom: "15px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)' }}>
                   <strong> DONATE WHAT YOU CAN </strong><br/> for 30 minutes with any mentor!
                 </div>
@@ -305,11 +311,25 @@ class cvcBlm extends React.Component {
             </GridItem>
           </GridContainer>
         </div>
-
+        <div style={{background:`url(${Group66}) no-repeat`, width:"100%", backgroundSize:"100%",}}> 
+          <GridContainer style={{marginTop: 0, marginBottom: 0}}>
+            <GridItem xs={2}></GridItem>
+            <GridItem xs={2} style={{paddingLeft: 0, paddingRight: 0}}>
+              <Subtitle color={"black"} style={{fontSize:'max(1.5vw,12px)'}}>total donations</Subtitle>
+            </GridItem>
+            <GridItem xs={3} style={{paddingLeft: 0, paddingRight: 0}}>
+              <Title color={"black"} style={{marginBottom:"20px", fontSize:'max(4vw,28x)'}}>$600</Title>
+            </GridItem>
+            <GridItem xs={2} style={{paddingLeft: 0, paddingRight: 0}}>
+              <Subtitle color={"black"}  style={{fontSize:'max(1.5vw,12px)'}}>and counting!</Subtitle>
+            </GridItem>
+            <GridItem xs={2} ></GridItem>
+          </GridContainer>
+        </div>
         <Heading color={"blue"} style={{ margin: "40px" }}>
           Available Sessions
         </Heading>
-        <div style={{maxWidth:"85%", marginLeft: "auto", marginRight: "auto"}}>
+        <div style={{maxWidth:"85%", marginLeft: "auto", marginRight: "auto"}} ref={this.myRef}>
           <Subtitle color={"black"}
                     style={{
                       marginLeft: "auto",
