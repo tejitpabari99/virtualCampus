@@ -89,6 +89,12 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
       if (!event.available){
         return res.status(412).send("Event already booked!");
       }
+      const checkAttendance = await db.collection('technical')
+        .where("attendee_email", "==", email).get();
+      if (checkAttendance.size > 1){
+        return res.status(412).send("You can only sign up for a maximum of 2 sessions!");
+      }
+
       const attendeeText = `Dear ${name},<br/><br/>
         You are now confirmed to attend a Mock Interview session with the Columbia Virtual Campus Team.<br/>
         Please find the details of your appointment below:<br/><br/>
