@@ -75,12 +75,12 @@ class ResourcesListMobile extends ResourcesListFunctionality {
         >{this.state.description}</div>
 
         <GridContainer style={{width: '100%'}}>
-          <GridItem style={{textAlign:'center', marginBottom:'20px'}}>
+          <GridItem style={{marginLeft: '3%', marginRight: '3%', marginBottom:'20px'}}>
             {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
                 <CoolerButton key={idx} style={{
-                                marginTop: 7,
-                                marginBottom: 7,
+                                marginTop: 5,
+                                marginBottom: 5,
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)',
                               }}

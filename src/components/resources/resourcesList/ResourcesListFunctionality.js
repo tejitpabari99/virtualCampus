@@ -45,7 +45,7 @@ class ResourcesListFunctionality extends React.Component {
       resourcesDisplay: [],
       tagsDict: {},
       tagsDisplay: [],
-      tagsDescription: "",
+      tagsDescription: "Filter by tags: ",
       tagsResourcesDisplay: {},
       searchError: ""
     };
@@ -66,13 +66,13 @@ class ResourcesListFunctionality extends React.Component {
         approvedResourcesDict = this.makeDisplayResources(allResources);
         approvedTagsDict = this.makeDisplayTags(allResources);
       }
-      approvedTagsDict['All Resources'] = [];
       this.setState({
+        activityIndicator: false,
         resourcesDict: approvedResourcesDict,
         resourcesDisplay: allResources,
         tagsDict: approvedTagsDict,
-        activityIndicator: false
       });
+      this.setDisplay('All Resources');
     }
     catch (e) {
       console.log('Progress Error', e)
@@ -99,7 +99,7 @@ class ResourcesListFunctionality extends React.Component {
 
   // Creates nested mapping of category to tag to corresponding resources
   makeDisplayTags(resources) {
-    let res = {};
+    let res = {'All Resources':{}};
     for (let i = 0; i < resources.length; i += 1) {
       let ele = resources[i];
       let key = this.toTitleCase(ele['category']['category']);
@@ -111,16 +111,19 @@ class ResourcesListFunctionality extends React.Component {
         if (!(key in res)) {
           res[key] = {};
           res[key][tagName] = [ele];
+          res['All Resources'][tagName] = [ele];
         }
         // if category is already added
         else{
           // if tag exists, add resource
           if(res[key][tagName]){
               res[key][tagName].push(ele);
+              res['All Resources'][tagName].push(ele);
           }
           // if tag doesn't exist, add tag and resource
           else{
-            res[key][tagName] = [ele]
+            res[key][tagName] = [ele];
+            res['All Resources'][tagName] = [ele]
           }
         }
       }
@@ -148,16 +151,9 @@ class ResourcesListFunctionality extends React.Component {
       tagsResourcesDisplay: {},
     });
 
-    if(category !== 'All Resources'){
-      this.setState({
-        tagsDescription: "Filter by tags: "
-      });
-    }
-    else{
-      this.setState({
-        tagsDescription: ""
-      });
-    }
+    this.setState({
+      tagsDescription: "Filter by tags: "
+    });
   }
 
   setTagDisplay(category, tag) {

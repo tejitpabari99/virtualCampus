@@ -67,7 +67,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         >{this.state.category}</Heading>
 
         <div style={{
-              textAlign:'center',
               marginTop: '15px',
               paddingLeft: '20px',
               paddingRight: '20px'
@@ -75,9 +74,9 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         >{this.state.description}</div>
 
         <GridContainer style={{width: '100%'}}>
-          <GridItem xs={3} style={{textAlign:'center'}}>
+          <GridItem xs={3}>
             <div style={{
-                    textAlign:'center',
+                    marginLeft: 16,
                     marginTop: '120px',
                     marginBottom: '8px',
                     fontSize:'18px'
@@ -87,8 +86,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
                 <CoolerButton key={idx} style={{
-                                marginTop: 6,
-                                marginBottom: 6,
+                                marginTop: 5,
+                                marginBottom: 5,
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
