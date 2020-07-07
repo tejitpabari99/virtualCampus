@@ -46,7 +46,7 @@ const useStyles = makeStyles(() => ({
     margin:0
   },
   heading1: {
-    lineHeight: '3vw',
+    // lineHeight: '3vw',
     fontSize: 'min(2.2vw, 28px)',
     color: '#000000 !important',
     textAlign:'left',
@@ -54,13 +54,13 @@ const useStyles = makeStyles(() => ({
     display:'inline-block'
   },
   heading2: {
-    lineHeight: '3vw',
+    // lineHeight: '3vw',
     fontSize: 'min(1.5vw, 20px)',
     color: '#0072CE !important',
     margin: 0,
     textAlign:'left',
     display:'inline-block',
-    marginLeft:'1vw'
+    // marginLeft:'1vw'
   },
   cardTitle,
   eventTitle: {
@@ -134,24 +134,28 @@ const useStyles = makeStyles(() => ({
   },
   monthText: {
     color: "#0072CE",
-    fontSize: "1.3vw",
+    fontSize: "1.1vw",
     textAlign: "center",
     margin: 0,
   },
   image: {
+    height: "100%",
+    width: "100%",
     borderRadius: "11px",
-    height: "min(18vw, 200px)",
-    width: "min(23vw, 300px)",
-    paddginTop:0,
+    paddingTop:0,
     paddingBottom: 0,
     // marginTop: "5%",
     display: "block",
     objectFit: "cover"
+  },
+  img: {
+    // height: "min(12vw, 250px)",
+    height:'100%',
+    width: "min(12vw, 250px)",
   }
 }));
 
 export default function EventCardDesktop({ ele }) {
-  console.log(ele);
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -163,24 +167,32 @@ export default function EventCardDesktop({ ele }) {
   const closeDo = () => {
     setOpen(false);
   }
+  const default_img = "https://i.imgur.com/GP66BiO.png"
   return (
 
     <div style={{ width: "100%" }}>
 
       <Card className={classes.card}>
         <div className={classes.flexBox}>
-          <img className={classes.image} src={ele.image_link} alt={ele.event}/>
+          <div className={classes.img}>
+            <img className={classes.image} src={ele.image_link === "" ? default_img : ele.image_link } alt={ele.event}/>
+          </div>
           <div className={classes.imageBox}>
             <p className={classes.dateText}>{ele.start_date.getDate()}</p>
             <p className={classes.monthText}>{months[ele.start_date.getMonth()]}</p>
           </div>
         </div>
-        <div className={classes.flexBox} style={{width:'100%'}}>
-          <div className={classes.flexBox} style={{padding:0, paddingLeft: '2vw'}}>
+        <div className={classes.flexBox} style={{width:'100%', paddingLeft: '2vw'}}>
+          <div className={classes.flexBox} style={{padding:0}}>
             <h1 className={classes.heading1}> {ele.event} </h1>
-            <h1 className={classes.heading2}>{ele.name}</h1>
+
           </div>
-          <CardBody style={{padding:0, paddingLeft: '2vw', display:'flex', flexDirection:'row', height: '80%'}}>
+          <div className={classes.flexBox} style={{padding:0}}>
+            <h1 className={classes.heading2}>{ele.name}</h1>
+
+          </div>
+
+          <CardBody style={{padding:0, display:'flex', flexDirection:'row'}}>
             <div style={{paddingRight: '1.5vw'}}>
               <div className={classes.timeInfo}>
                 {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} -
@@ -195,9 +207,9 @@ export default function EventCardDesktop({ ele }) {
               </div>
               <p style={{
                 color: "black",
-                minHeight: 55,
-                marginBottom: 0,
-                height:"min(9vw, 105px)",
+                // minHeight: 55,
+                marginBottom: 5,
+                // height:"min(9vw, 105px)",
               }}>{ele.desc}</p>
               <div style={{ color: "#4284C8", marginBottom: 5, marginTop: 'auto' }}>
                 <strong> <AddCalendar info={ele}/></strong>
@@ -219,11 +231,13 @@ export default function EventCardDesktop({ ele }) {
                   <div style={{textAlign:'left'}}>
                   <CustomButton href={ele.event_link} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
                                 style={{ position: "relative", width: "90%", height: "10%" }} />
+                                <div style={{height:"15px"}} />
                   </div>
                   : ele.invite_link !== '' ?
                     <div style={{textAlign:'left'}}>
                       <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                                   style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"small"}/>
+                      <div style={{height:"15px"}} />
                     </div>
                     : null}
                     {/* Uncomment the button below for testing */}
@@ -234,7 +248,6 @@ export default function EventCardDesktop({ ele }) {
             </div>
           </CardBody>
 
-            <div style={{ marginBottom: "-20px" }}/>
         </div>
       </Card>
       <div style={{ color: "#4284C8", backgroundColor: "#4284C8", height: 1 }}/>
