@@ -93,7 +93,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
                               onClick={this.setTagDisplay.bind(this, this.state.category, data)}
-                              otherClickOption={this.deleteTagDisplay.bind(this, data)}
+                              otherClickOption={this.deleteTagDisplay.bind(this, this.state.category, data)}
                               category={this.state.category}
                               val={data}
                 />

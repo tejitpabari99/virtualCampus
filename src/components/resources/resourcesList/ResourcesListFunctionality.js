@@ -158,22 +158,27 @@ class ResourcesListFunctionality extends React.Component {
 
   setTagDisplay(category, tag) {
     this.state.tagsResourcesDisplay[tag] = this.state.tagsDict[category][tag];
-    this.renderTagDisplay()
+    this.renderTagDisplay(category)
   }
 
-  deleteTagDisplay(tag) {
+  deleteTagDisplay(category, tag) {
     delete this.state.tagsResourcesDisplay[tag];
-    this.renderTagDisplay()
+    this.renderTagDisplay(category)
   }
 
-  renderTagDisplay() {
+  renderTagDisplay(category) {
     let allResources = [];
     for(let key in this.state.tagsResourcesDisplay){
       let resourceList = this.state.tagsResourcesDisplay[key];
       allResources.push(...resourceList);
     }
     allResources = Array.from(new Set(allResources));
-    this.setState({ resourcesDisplay: allResources});
+    if(allResources.length == 0){
+      this.setState({ resourcesDisplay: this.state.resourcesDict[category]});
+    }
+    else{
+      this.setState({ resourcesDisplay: allResources});
+    }
   }
 
   //Search function for looking up Resources
