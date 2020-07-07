@@ -67,6 +67,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         >{this.state.category}</Heading>
 
         <div style={{
+              textAlign: 'center',
               marginTop: '15px',
               paddingLeft: '20px',
               paddingRight: '20px'
