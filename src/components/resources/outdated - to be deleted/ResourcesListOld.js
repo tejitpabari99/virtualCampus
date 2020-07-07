@@ -7,12 +7,17 @@ import {ResourcesCard, Heading, CustomButton} from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
 
-const CoolerButton = ({children, ...other}) => {
+const CoolerButton = ({children, otherClickOption, ...other}) => {
   const [isPushed, setIsPushed] = React.useState(true);
   const otherClick = other.onClick.bind({});
   const handleClick = () => {
     setIsPushed(!isPushed);
-    otherClick();
+    if(isPushed){
+      otherClick();
+    }
+    else{
+      otherClickOption();
+    }
   };
   delete other.onClick;
 
@@ -39,7 +44,10 @@ class ResourcesListOld extends React.Component {
       myResourcesDisplay: [],
       myTagsDict: {},
       myTagsDisplay: [],
-      myTagsDescription: ""
+      myTagsDescription: "",
+      allResources: {},
+      myList: {},
+      myKeyList: []
     };
     this.getResources();
   }
@@ -58,7 +66,6 @@ class ResourcesListOld extends React.Component {
       approvedResourcesDict = this.makeDisplayResources(allResources);
       approvedTagsDict = this.makeDisplayTags(allResources);
     }
-    approvedResourcesDict['All Resources'] = allResources;
     approvedTagsDict['All Resources'] = [];
     this.setState({ myResourcesDict: approvedResourcesDict});
     this.setState({ myResourcesDisplay: allResources});
@@ -68,6 +75,7 @@ class ResourcesListOld extends React.Component {
   // Creates mapping of category to corresponding resources
   makeDisplayResources(resources) {
     let res = {};
+    res['All Resources'] = resources;
     for (let i = 0; i < resources.length; i += 1) {
       let ele = resources[i];
       let key = this.toTitleCase(ele['category']['category']);
@@ -113,38 +121,6 @@ class ResourcesListOld extends React.Component {
     return res;
   }
 
-  // Keeps track of whether or not the tag has been clicked
-  makeTagClick(resources) {
-    let val = {};
-    for (let i = 0; i < resources.length; i += 1) {
-      let ele = resources[i];
-      let key = this.toTitleCase(ele['category']['category']);
-      let tag = ele['category']['tags'];
-
-      for(let j = 0; j < tag.length; j++){
-        let tagName = this.toTitleCase(tag[j]);
-        // if category not added yet, add tag and resource
-        if(!(key in val)){
-          val[key] = [tagName];
-          val[key][tagName] = false;
-        }
-        // if category is already added
-        else{
-          // if tag exists, add resource
-          if(val[key][tagName]){
-              val[key][tagName].push(false);
-          }
-          // if tag doesn't exist, add tag and resource
-          else{
-            val[key].push(tagName);
-            val[key][tagName] = false;
-          }
-        }
-      }
-    }
-    return val;
-  }
-
   // Button categories are uppercase
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
@@ -158,7 +134,9 @@ class ResourcesListOld extends React.Component {
         myResourcesDisplay: this.state.myResourcesDict[category],
         myDescription: Descriptions[category],
         myCategory: category,
-        myTagsDisplay: this.state.myTagsDict[category]
+        myTagsDisplay: this.state.myTagsDict[category],
+        myList: {},
+        myKeyList: []
     });
 
     if(category !== 'All Resources'){
@@ -173,18 +151,47 @@ class ResourcesListOld extends React.Component {
     }
   }
 
+
+
   // Display appropriate resources when tags are clicked
-  // NEED TO EDIT
   setTagDisplay(category, tag) {
-    this.setState({
-      myResourcesDisplay: this.state.myTagsDict[category][tag]
-    });
+    let resources = this.state.myTagsDict[category][tag];
+    for (let i=0; i < resources.length; i += 1) {
+       let ele = resources[i];
+       let key = ele['title'];
+
+       if(key in this.state.myList) {
+         let newList = this.state.myList;
+         newList[key]['activeButton'] += 1;
+         this.setState({
+           myList: newList
+         });
+       }
+       //new resource
+       else{
+         let newList = this.state.myList;
+         let keyList = this.state.myKeyList;
+         keyList.push(key);
+         newList[key] = {};
+         newList[key]['resource'] = ele;
+         newList[key]['activeButton'] = 1;
+
+         let allResources = [];
+         for(let j=0; j<keyList.length; j++){
+           allResources.push(newList[keyList[j]]['resource']);
+         }
+         this.setState({
+           myList: newList,
+           myKeyList: keyList,
+           myResourcesDisplay: allResources
+         });
+       }
+     }
   }
-  /*
-  setClickButton(category, tag){
+
+  deleteTagDisplay(category, tag) {
 
   }
-  */
 
   render() {
     return (
@@ -249,6 +256,7 @@ class ResourcesListOld extends React.Component {
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
                               onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
+                              otherClickOption={this.deleteTagDisplay.bind(this, this.state.myCategory, data)}
                 >{data}</CoolerButton>
               );
             })}

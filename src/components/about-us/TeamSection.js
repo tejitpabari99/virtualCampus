@@ -32,6 +32,7 @@ import kevin from "../../assets/images/about-us/TeamMembers/kevin.jpg";
 import rupal from "../../assets/images/about-us/TeamMembers/rupal.jpg";
 import saumya from "../../assets/images/about-us/TeamMembers/saumya.png";
 import bonnie from "../../assets/images/about-us/TeamMembers/bonnie.jpg";
+import jiho from "../../assets/images/about-us/TeamMembers/jiho.jpg";
 import alistair from "../../assets/images/about-us/TeamMembers/alistair.jpg"
 
 const useStyles = makeStyles(styles);
@@ -168,6 +169,9 @@ export default function TeamSection() {
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'22'} name={'Luiz do Valle'} image={luiz} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'CC \'21'} name={'Ji Ho Hyun'} image={jiho} noDescription/>
         </GridItem>
       </GridContainer>
 

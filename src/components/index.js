@@ -2,6 +2,7 @@ import MetaData from "./all/MetaData";
 import CustomTheme from "./all/CustomTheme";
 import CustomHeader from "./all/CustomHeader";
 import Template from "./all/Template";
+import TemplateResources from "./all/TemplateResources";
 import TeamMember from "./about-us/TeamMember";
 import TeamSection from "./about-us/TeamSection";
 import EventCard from "./cards/EventCard";
@@ -11,12 +12,14 @@ import EventEmailModal from "./cards/EventEmailModal";
 import ResourcesList from "./resources/resourcesList/ResourcesList";
 import ResourcesListDesktop from "./resources/resourcesList/ResourcesListDesktop";
 import ResourcesListMobile from "./resources/resourcesList/ResourcesListMobile";
+import ResourcesListFunctionality from "./resources/resourcesList/ResourcesListFunctionality";
 import ResourcesFeatured from "./resources/featured/ResourcesFeatured";
 import ResourcesFeaturedDesktop from "./resources/featured/ResourcesFeaturedDesktop";
 import ResourcesFeaturedMobile from "./resources/featured/ResourcesFeaturedMobile";
 import ResourcesCard from "./cards/ResourcesCard";
 import AddCalendar from "./events/AddCalendar";
 import CustomButton from "./buttons/CustomButton";
+import CustomButton2 from "./buttons/CustomButton2";
 import HomeEvents from "./home/HomeEvents";
 import HomeDesktop from "./home/HomeDesktop";
 import HomeMobile from "./home/HomeMobile";
@@ -39,13 +42,13 @@ import {convertUTCToLocal,
         convertTimestampToDate,
         getTimezoneOptions} from './all/TimeFunctions'
 
-export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
+export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMember, TeamSection,
         EventCard, EventCardMobile, EventModal, EventEmailModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
-        CustomButton, DesktopMobile,
+        CustomButton, CustomButton2, DesktopMobile,
         Title, Subtitle, Heading, Search, ResourcesList,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
-        ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
+        ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesListFunctionality, ResourcesCard,
         BLMCard, TutorExpansionMapping, TutorSearchMapping, 
         convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset,
         dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent}

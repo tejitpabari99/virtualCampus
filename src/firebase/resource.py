@@ -75,7 +75,8 @@ class Resource(object):
         resource_dict["img"], 
         resource_dict["category"]["category"], 
         resource_dict["category"]["tags"], 
-        Links.from_dict(resource_dict["links"]))
+        Links.from_dict(resource_dict["links"])
+        )
 
     def to_dict(self) -> Dict:
         return {
@@ -120,7 +121,7 @@ class Resource(object):
     
     @property
     def tags(self) -> List[str]:
-        return self._title
+        return self._tags
 
     @property
     def links(self) -> Dict[str,str]:
