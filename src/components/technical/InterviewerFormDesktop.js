@@ -38,10 +38,15 @@ const initVal = {
   host_bio: "",
   host_workExp: "",
   host_interviewExp: "",
-  start_date: "",
-  end_date: "",
-  timezone: "",
-  time: "",
+  timezone_1: "",
+  start_time_1: "",
+  end_time_1: "",
+  timezone_2: "",
+  start_time_2: "",
+  end_time_2: "",
+  timezone_3: "",
+  start_time_3: "",
+  end_time_3: ""
 };
 
 let getCurrentLocationForTimeZone = function() {
@@ -68,13 +73,11 @@ const validationSchema = Yup.object().shape({
   host_interviewExp: Yup.string()
     .required("Required")
     .max("100", "Please less than 250 characters"),
-  start_date: Yup.string()
+  timezone_1: Yup.string()
     .required("Required"),
-  end_date: Yup.string()
+  start_time_1: Yup.string()
     .required("Required"),
-  timezone: Yup.string()
-    .required("Required"),
-  time: Yup.string()
+  end_time_1: Yup.string()
     .required("Required")
 });
 
@@ -82,82 +85,31 @@ const TITLE = "ADD EVENT";
 const defaultTimezone = "America/New_York";
 
 
-function formatEmailText(jsonText) {
-  var newText = "";
-  Object.keys(jsonText).map((key, index) => (
-    newText = newText + "\n<br>" + getText(key, jsonText[key])
-  ));
-  return newText;
-}
+function processTime(start_time, end_time){
+    const range_1 = Math.floor(((end_time - start_time) / (1000 * 60 * 60)) % 24);
+    var slots = []
+    var stime_1 = start_time
+    var etime_1 = end_time
+    slots.push(stime_1.toString());
+    if(start_time !== "" && end_time !== ""){
+        for(var i = 0; i < range_1; i++){
+            var time_1 = stime_1;
+            var start = new Date(time_1);
+            start.setHours(start.getHours()+1);
+            slots.push(start.toString());
+            stime_1 = start;
+        }
 
-function getText(key, val) {
-  key = key.replace("_", " ");
-  if (val !== undefined && val !== "")
-    return key + ": " + val;
-  return key + ": not provided";
-}
-
-function processATag(values, key, defKey) {
-
-  if (key.endsWith("_tag") && key !== defKey && values[key] !== "") {
-    if (values[key] == true) {
-      values[defKey] = values[defKey] + key.replace("_tag", "") + ";";
+        return slots;
     }
-  }
+    else{
+        return "";
+    }
+    
 
-  return values[defKey];
+    //return slots;
 }
 
-function cleanTag(values, key) {
-  if (key.endsWith("_tag")) {
-    delete values[key];
-  }
-  return values;
-}
-
-
-function processTags(values) {
-
-  const defKey = "other_tags";
-
-  if (values[defKey].endsWith(";") === false && values[defKey] !== "") {
-    values[defKey] = values[defKey] + ";";
-  }
-
-  Object.keys(values).map((key, index) => (
-    values[defKey] = processATag(values, key, defKey),
-      values = cleanTag(values, key)
-  ));
-  values[defKey] = values[defKey].replace("; ;", ";");
-  values[defKey] = values[defKey].replace(";;", ";");
-  if (values[defKey].endsWith(";")) {
-    values[defKey] = values[defKey].substring(0, values[defKey].length - 1);
-  }
-  values["tags"] = values[defKey].split(";");
-  delete values["tag"];
-  delete values[defKey];
-  return values;
-
-}
-
-
-
-function sendZoomEmail(id, name, from) {
-
-  const emailData = {
-    from: from,
-    subject: "ZOOMLINK: " + name + ". ID: " + id,
-    text: "Event " + name + " needs a zoom link!"
-  };
-
-  Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-    .then(res => {
-      console.log("Success");
-    })
-    .catch(error => {
-      console.log("error");
-    });
-}
 
 let dst = function (loc = getCurrentLocationForTimeZone()) {
 
@@ -291,6 +243,7 @@ function getTimezoneOptions() {
   }
 }
 
+
 const optionsTZ = getTimezoneOptions();
 
 class InterviewerFormDesktop extends React.Component {
@@ -305,145 +258,120 @@ class InterviewerFormDesktop extends React.Component {
     };
 
     this.submitHandler = this.submitHandler.bind(this);
-    this.uploadData = this.uploadData.bind(this);
+    //this.uploadData = this.uploadData.bind(this);
   }
 
   submitHandler(values) {
-    const name = values.host_name;
-    alert(name);
+    const timechosen = values.start_time_1;
+    //processTime(values["start_time_1"], values["end_time_1"]);
+    this.uploadInterview(values);
+  }
+
+  uploadInterview(data){
+
+    // const start = new Date(start_time);
+    // start.setHours(start.getHours()+1);
+    // const diff = end_time - start_time
+    // //console.log(end_time - start_time);
+    // console.log(start_time)
+    // const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    // console.log(hours);
+
+    //   const range_1 = Math.floor(((data["end_time_1"] - data["start_time_1"]) / (1000 * 60 * 60)) % 24);
+    //   var slots_1 = []
+    //   var stime_1 = data["start_time_1"]
+    //   var etime_1 = data["end_time_1"]
+    //   slots_1.push(stime_1.toString());
+    //   for(var i = 0; i < range_1; i++){
+    //     var time_1 = stime_1;
+    //     var start = new Date(time_1);
+    //     start.setHours(start.getHours()+1);
+    //     slots_1.push(start.toString());
+    //     stime_1 = start;
+    //   }
+      //console.log(slots_1)
+
+    var slots = [];
+    const db = firebase.firestore();
+    slots.push(processTime(data["start_time_1"], data["end_time_1"]));
+    slots.push(processTime(data["start_time_2"], data["end_time_2"]));
+    slots.push(processTime(data["start_time_3"], data["end_time_3"]));
+
+    console.log(data["end_time_1"]);
+    console.log(data["end_time_2"]);
+    console.log(data["end_time_3"]);
+
+
+    // console.log(slot_1);
+    // console.log(slot_2);
+    // console.log(slot_3);
+
+    console.log(slots);
+    var times = []
+    for(var k = 0; k < slots.length; k++){
+        if(slots[k] !== ""){
+            times = slots[k];
+            console.log(slots[k]);
+            console.log("Unempty Array");
+            for(var j = 0; j < times.length - 1 && j + 1 < times.length ; j++){
+                const interviewSlot = db.collection("technical").add({
+                    host_name: data["host_name"],
+                    host_email: data["host_email"],
+                    attendee_email: "",
+                    attendee_name: "",
+                    available: true,
+                    host_bio: data["host_bio"],
+                    host_interviewExp: data["host_interviewExp"],
+                    host_workExp: data["host_workExp"],
+                    interview_comments: "",
+                    timezone: "America/Los_Angeles$true",
+                    start_date: slots[k][j],
+                    end_date: slots[k][j+1]
+                  });
+                console.log(slots[k][j]);
+                console.log(slots[k][j + 1]);
+            }
+        }
+    }
+
+    // const interviewSlot = db.collection("technical").add({
+    //     host_name: data["host_name"],
+    //     host_email: data["host_email"],
+    //     attendee_email: "",
+    //     attendee_name: "",
+    //     available: true,
+    //     host_bio: data["host_bio"],
+    //     host_interviewExp: data["host_interviewExp"],
+    //     host_workExp: data["host_workExp"],
+    //     interview_comments: "",
+    //     timezone: "America/Los_Angeles$true",
+    //     start_date: slot_1[0],
+    //     end_date: slot_1[1]
+    //   });
+    // var slots_1 = processTime(data["start_time_1"], data["end_time_1"]);
+    // var slots_2 = processTime(data["start_time_2"], data["end_time_2"]);
+    // var slots_3 = processTime(data["start_time_3"], data["end_time_3"]);
+
+    
+        
+          
+
+    // function writeUserData(userId, name, email, imageUrl) {
+    //     firebase.database().ref('users/' + userId).set({
+    //       username: name,
+    //       email: email,
+    //       profile_picture : imageUrl
+    //     });
+    // }
+
+    // console.log(slots_1);
+    // console.log(slots_2);
+    // console.log(slots_3);
   }
 
 
   // upload to firebase here
-  uploadData(data) {
-
-    data["approved"] = false;
-    data["start_date"] = data["start_date"].toString();
-    data["end_date"] = data["end_date"].toString();
-    const from = data["email"];
-    const subject = "NEW EVENT: " + data["event"];
-    const clientSubject = "Your CVC Event Details: " + data["event"];
-    data = processTags(data);
-    const text = formatEmailText(data);
-    const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
-    const clientEmailData = {
-      to: from,
-      from: "columbiavirtualcampus@gmail.com",
-      subject: clientSubject,
-      text: text
-    };
-
-    const emailData = {
-      from: from,
-      subject: subject,
-      text: text
-    };
-
-
-    const db = firebase.firestore();
-    const newEventRef = db.collection("events").doc();
-    clientEmailData["text"] = "Your New Event Request!\n<br>Here's what we are currently processing:\n <br>" +
-      emailData["text"] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
-      + "Please contact us if any of the above needs corrected or if you have any questions!"
-      + "\n<br>\n<br>Best,\n<br>The CVC Team";
-    emailData["text"] = "New Event Request!\n <br>" +
-      emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
-        + "<br><br>Click here to approve this event: ",
-        approvalUrl.concat(newEventRef.id));
-    emailData["subject"] += ". ID: " + newEventRef.id;
-    newEventRef.set(data)
-      .then(ref => {
-
-        Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-          .then(res => {
-            console.log("Success 1");
-            Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
-              .then(res => {
-                console.log("Success 2");
-                this.setState({ feedbackSubmit: true, activityIndicatory:false });
-              })
-              .catch(error => {
-                this.setState({ errStatus: 3 });
-                console.log("Updated error");
-              });
-          })
-          .catch(error => {
-            this.setState({ errStatus: 1 });
-            console.log("Updated error");
-          });
-      })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-        alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
-      });
-
-    if (data["zoomLink"] && (!data['invite_link'] || data['invite_link']==='')) {
-      sendZoomEmail(newEventRef.id, data["event"], from);
-    }
-
-    return emailData["text"];
-  }
-
-  uploadImage(values) {
-
-    const r = new XMLHttpRequest();
-    const d = new FormData();
-    // const e = document.getElementsByClassName('input-image')[0].files[0]
-    // var u
-    const clientID = "df36f9db0218771";
-
-    d.append("image", values["file"]);
-
-    // Boilerplate for POST request to Imgur
-    r.open("POST", "https://api.imgur.com/3/image/");
-    r.setRequestHeader("Authorization", `Client-ID ${clientID}`);
-    r.onreadystatechange = function() {
-      if (r.status === 200 && r.readyState === 4) {
-        let res = JSON.parse(r.responseText);
-        // this is the link to the uploaded image
-        let imgur = `https://i.imgur.com/${res.data.id}.png`;
-
-        values["file"] = imgur;
-        this.uploadData(values);
-
-      }
-    };
-    // send POST request to Imgur API
-    r.send(d);
-
-    return true;
-  }
-
-  getHeadMessage() {
-
-    if (this.state.errStatus === 4) {
-      return "Oops... Sorry! There was an error handling your request.";
-    } else if (this.state.errStatus === 3 || this.state.errStatus === 1) {
-      return "Thank You! Further Action Required!";
-    } else if (this.state.errStatus === 2) {
-      return "Oops... Sorry! There was an error handling your request.";
-    } else {
-      return "Thank You!";
-    }
-  }
-
-  getBodyMessage() {
-
-    if (this.state.errStatus === 4) {
-      return "We were unable to process your request due to an unexpected error. " +
-        "Please try again. If the problem persists please reach out to us:";
-    } else if (this.state.errStatus === 3 || this.state.errStatus === 1) {
-      return "Please contact us about approving your event! We were unable to automatically email our team."
-        + " Please reach out to us at:";
-    } else if (this.state.errStatus === 2) {
-      return "We were unable to process your request. Please try again. " +
-        "If the problem persists please reach out to us:";
-    } else {
-      return "We look forward to hosting your event on CVC! " +
-        "If there is anything that needs to be updated, please reach out to us.";
-    }
-  }
-
+  
 
   render() {
     if (this.state.activityIndicatory){
@@ -610,32 +538,11 @@ class InterviewerFormDesktop extends React.Component {
                                     <FormikField label="Bio"
                                                  name="host_bio"
                                                  multiline rows="3"
-                                                 error={errors.desc}
-                                                 touch={touched.desc} required/>
+                                                 error={errors.host_bio}
+                                                 touch={touched.host_bio} required/>
                                   </GridItem>
                                 </GridContainer>
                             </div>
-                               
-                                  
-                                  
-                                  
-                                  {/*<GridItem sm={3}>*/}
-                                  {/*  <Field*/}
-                                  {/*    name="recurring"*/}
-                                  {/*    label="Select Recurring"*/}
-                                  {/*    options={[*/}
-                                  {/*      { value: "never", label: "Never" },*/}
-                                  {/*      { value: "daily", label: "Daily" },*/}
-                                  {/*      { value: "weekly", label: "Weekly" },*/}
-                                  {/*      { value: "monthly", label: "Monthly" },*/}
-                                  {/*      {*/}
-                                  {/*        value: "other_recurring",*/}
-                                  {/*        label: "Other"*/}
-                                  {/*      }*/}
-                                  {/*    ]}*/}
-                                  {/*    component={Select}*/}
-                                  {/*  />*/}
-                                  {/*</GridItem>*/}
                                 <div style={{ margin: "15px 0" }}>
                                 <div style={{
                                   fontFamily: "Poppins",
@@ -647,31 +554,93 @@ class InterviewerFormDesktop extends React.Component {
                                 }}>
                                   Time Availability
                                 </div>
-                                <div style={{
-                                  fontFamily: "Poppins",
-                                  fontStyle: "normal",
-                                  fontWeight: "normal",
-                                  fontSize: "15px",
-                                  lineHeight: "30px",
-                                  color: "gray"}}>
-                                Please follow the specified format. Each block of time must only be 1 hour long.
-                                </div>
-                                <GridContainer spacing={3}>
-                                  <GridItem sm={9}>
-                                    <FormikField label="Time Available (July 5,1:00pm,2:00pm/July 5,4:00pm,5:00pm/etc...)"
-                                                 name="time"
-                                                 error={errors.time}
-                                                 touch={touched.time}
-                                                 required/>
+                                <GridContainer>
+                                  <GridItem sm={4}>
+                                    <div style={{ margin: "16px 0 8px" }}>
+                                      <Field
+                                        component={DateTimePicker}
+                                        name="start_time_1"
+                                        label="Start Time"
+                                        required
+                                      />
+                                    </div>
                                   </GridItem>
-                                  <GridItem sm={3}>
+                                  <GridItem sm={4}>
+                                    <div style={{ margin: "16px 0 8px" }}>
+                                      <Field
+                                        component={DateTimePicker}
+                                        name="end_time_1"
+                                        label="End Time"
+                                        required
+                                      />
+                                    </div>
+                                  </GridItem>
+                                  <GridItem sm={4}>
+
                                     <Field
-                                      name="timezone"
+                                      name="timezone_1"
                                       label="Select Timezone"
                                       options={optionsTZ}
                                       component={Select}
                                       required
                                     />
+
+                                  </GridItem>
+                                  <GridItem sm={4}>
+                                    <div style={{ margin: "16px 0 8px" }}>
+                                      <Field
+                                        component={DateTimePicker}
+                                        name="start_time_2"
+                                        label="Start Time"
+                                      />
+                                    </div>
+                                  </GridItem>
+                                  <GridItem sm={4}>
+                                    <div style={{ margin: "16px 0 8px" }}>
+                                      <Field
+                                        component={DateTimePicker}
+                                        name="end_time_2"
+                                        label="End Time"
+                                      />
+                                    </div>
+                                  </GridItem>
+                                  <GridItem sm={4}>
+
+                                    <Field
+                                      name="timezone_2"
+                                      label="Select Timezone"
+                                      options={optionsTZ}
+                                      component={Select}
+                                    />
+
+                                  </GridItem>
+                                  <GridItem sm={4}>
+                                    <div style={{ margin: "16px 0 8px" }}>
+                                      <Field
+                                        component={DateTimePicker}
+                                        name="start_time_3"
+                                        label="Start Time"
+                                      />
+                                    </div>
+                                  </GridItem>
+                                  <GridItem sm={4}>
+                                    <div style={{ margin: "16px 0 8px" }}>
+                                      <Field
+                                        component={DateTimePicker}
+                                        name="end_time_3"
+                                        label="End Time"
+                                      />
+                                    </div>
+                                  </GridItem>
+                                  <GridItem sm={4}>
+
+                                    <Field
+                                      name="timezone_3"
+                                      label="Select Timezone"
+                                      options={optionsTZ}
+                                      component={Select}
+                                    />
+
                                   </GridItem>
                                 </GridContainer>
                                 <br/>
