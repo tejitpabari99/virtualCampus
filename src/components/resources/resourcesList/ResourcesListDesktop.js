@@ -106,7 +106,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
 
             <div style={{textAlign:'center', marginTop: '3%'}}>
               <CustomButton text={"ADD RESOURCE"}
-                            href={"https://forms.gle/BdG5GF1zMgKRGzz3A"}
+                            href={"/resources/add-new-resource"}
                             color={"orange"}
                             size={"large"}
                             style={{marginTop: 10, marginBottom: 25}}
