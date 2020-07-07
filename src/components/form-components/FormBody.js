@@ -11,6 +11,7 @@ import EntryDetails from "../form-components/EntryDetails"
 import Tags from './Tags'
 import AdditionalInfo from './AdditionalInfo'
 import SubmitButton from './SubmitButton'
+import WebsiteAndZoom from "./WebsiteAndZoom"
 
 import Button from "@material-ui/core/Button";
 
@@ -25,11 +26,12 @@ const FormBody = (props) => {
             <Formik
                 initialValues={props.initVal}
                 onSubmit={props.submit}
+                onChange={props.onChange}
                 validationSchema={props.validationSchema}
             >
                 {({ dirty, isValid, errors, touched }) => {
                     return (
-                        <Form>
+                        <Form onChange={props.onChange}>
                             <ContactInfo
                                 errorName={errors.name}
                                 touchedName={touched.name}
@@ -47,10 +49,12 @@ const FormBody = (props) => {
                                 touchedDesc={touched.desc}
                                 imgUpload={props.imgUpload}
                                 fileName={props.fileName}
+                                onChange={props.onChange}
                             />
                             <div>
                                 {props.children}
                             </div>
+                            <WebsiteAndZoom touched={touched} errors={errors}/>
                             <Tags tags={['Activism', 'COVID', 'Social', 'Health', 'Education']} />
                             <AdditionalInfo
                                 errorComments={errors.comments}

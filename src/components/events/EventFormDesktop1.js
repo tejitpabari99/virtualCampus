@@ -19,7 +19,16 @@ import DateFnsUtils from "@date-io/date-fns";
 // utils
 import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
-import { CustomHeader, Template } from "..";
+import {
+  CustomHeader,
+  Template,
+  getOffset,
+  convertDateToUTC,
+  convertTimestampToDate, convertUTCToLocal
+} from "..";
+
+import EventCardDesktop from './../cards/EventCardDesktop'
+import EventCardMobile from './../cards/EventCardMobile'
 import Container from "@material-ui/core/Container";
 
 // backend
@@ -60,28 +69,28 @@ const initVal = {
 // you can add multiple rules as seen with the "name" scheme
 // you can also add custom feedback messages in the parameters of each error function
 const validationSchema = Yup.object().shape({
-  // name: Yup.string()
-  //   .min(5, "Too Short")
-  //   .required("Required"),
-  // email: Yup.string()
-  //   .email("Please enter a valid email address")
-  //   .required("Required"),
-  // entry_link: Yup.string()
-  //   .url("Please enter a valid URL")
-  //   .required("Required"),
-  // title: Yup.string()
-  //   .required("Required"),
-  // desc: Yup.string()
-  //   .required("Required")
-  //   .max("250", "Please less than 250 characters"),
-  // start_date: Yup.string()
-  //   .required("Required"),
-  // end_date: Yup.string()
-  //   .required("Required"),
-  // timezone: Yup.string()
-  //   .required("Required"),
-  // agree: Yup.boolean("True")
-  //   .required(),
+  name: Yup.string()
+    .min(5, "Too Short")
+    .required("Required"),
+  email: Yup.string()
+    .email("Please enter a valid email address")
+    .required("Required"),
+  event_link: Yup.string()
+    .url("Please enter a valid URL")
+    .required("Required"),
+  title: Yup.string()
+    .required("Required"),
+  desc: Yup.string()
+    .required("Required")
+    .max("350", "Please less than 350 characters"),
+  start_date: Yup.string()
+    .required("Required"),
+  end_date: Yup.string()
+    .required("Required"),
+  timezone: Yup.string()
+    .required("Required"),
+  agree: Yup.boolean("True")
+    .required(),
   image_link: Yup.string()
     .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
   invite_link: Yup.string()
@@ -312,6 +321,59 @@ function getTimezoneOptions() {
 
 const optionsTZ = getTimezoneOptions();
 
+let imgurLinkOutside = ""
+const default_img = "https://i.imgur.com/GP66BiO.png"
+let exampleEvent = {
+  agree: true,
+  approved: false,
+  comments: "",
+  desc: "CVC Example Description",
+  email: "columbiavirtualcampus@gmail.com",
+  end_date: "Sun Jul 05 2020 23:59:00 GMT-0400 (Eastern Daylight Time)",
+  entry_link: "",
+  event: "CVC Example",
+  event_link: "http://columbiavirtualcampus.com",
+  image_file: "",
+  image_link: default_img,
+  invite_link: "",
+  name: "Columbia Virtual Campus",
+  recurring: "",
+  start_date: "Sat Jul 04 2020 23:59:00 GMT-0400 (Eastern Daylight Time)",
+  tags: [],
+  timezone: "America/New_York$true",
+  title: "CVC Example"
+}
+
+
+function convertEventsTime(event) {
+  const tzString = event.timezone;
+
+  event.start_date = event.start_date.split("GMT")[0];
+  event.end_date = event.end_date.split("GMT")[0];
+
+  if (event.timezone !== undefined && event.timezone.includes("$")) {
+    // $ splits time and timezone in the event.timezone field in firebase!
+    const tz = tzString.split("$")[0];
+    const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
+    const offset = getOffset(tz, daylightSavings);
+
+    // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
+    // America/New_York should be changed to the user's time zone who created the event, if they
+    // Choose to use their time zone rather than EST.
+    const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
+    const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
+
+    // Second, convert those consts above to user's local time
+    event.start_date = convertUTCToLocal(UTCStart);
+    event.end_date = convertUTCToLocal(UTCEnd);
+    // get timezone to display
+    event.timeZoneGMT = getTimezoneName(getCurrentLocationForTimeZone(), dst());
+  }
+  return event;
+}
+
+let convertedExampleEvent = convertEventsTime(exampleEvent)
+
 class EventFormDesktop extends React.Component {
 
   constructor(props) {
@@ -323,34 +385,46 @@ class EventFormDesktop extends React.Component {
       activityIndicatory: false,
       imgFileValue: "",
       imgurLink: "",
+      sampleEvent: convertedExampleEvent
     };
 
     this.submitHandler = this.submitHandler.bind(this);
     this.uploadData = this.uploadData.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
     this.uploadImage = this.uploadImage.bind(this);
+    this.updateEvent = this.updateEvent.bind(this);
 
   }
 
+  getMonthName() {
+    var d = new Date();
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    return month[d.getMonth()];
+  }
+
   submitHandler(values) {
-    // if (values["file"] !== "" && values["file"] !== undefined) {
-    //   this.uploadImage(values);
-    // } else {
-    //   this.setState({ activityIndicatory: true });
-    //   const b = this.uploadData(values);
-    // }
     if (this.state.imgurLink !== "") {
       values['image_link'] = this.state.imgurLink
     }
-    // console.log(values)
+     console.log(values)
     this.setState({ activityIndicatory: true });
     const b = this.uploadData(values);
   }
 
-
   // upload to firebase here
   uploadData(data) {
-
     data["approved"] = false;
     data["start_date"] = data["start_date"].toString();
     data["end_date"] = data["end_date"].toString();
@@ -359,6 +433,8 @@ class EventFormDesktop extends React.Component {
     const clientSubject = "Your CVC Event Details: " + data["title"];
     data = processTags(data);
     const text = formatEmailText(data);
+    if (data['title'] !== undefined)
+      data['event'] = data['title']
     const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
     const zoomUrl = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=https%3A%2F%2Fcolumbiavirtualcampus.com%2Fevents%2Fhandle-approve&state="
     const clientEmailData = {
@@ -384,12 +460,11 @@ class EventFormDesktop extends React.Component {
     emailData["text"] = "New Event Request!\n <br>" +
       emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
         + "<br><br>Click here to approve this event: ",
-        approvalUrl.concat(newEventRef.id))
-      + "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: "
-      + zoomUrl.concat(newEventRef.id);
+        approvalUrl.concat(newEventRef.id));
     if (data["zoomLink"]) {
-      emailData["text"].concat("\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: ",
-        zoomUrl.concat(newEventRef.id));
+      console.log("Zoom link: " + data["zoomLink"])
+      emailData["text"] += "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: " +
+        zoomUrl.concat(newEventRef.id);
     }
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
@@ -429,7 +504,7 @@ class EventFormDesktop extends React.Component {
     // console.log("congrats, you clicked me.")
     const fileName = fileList[0].name
     const file = fileList[0]
-    // console.log("Filename: " + fileName)
+     console.log("Filename: " + fileName)
     // console.log("File: " + file)
 
     this.uploadImage(file)
@@ -456,6 +531,8 @@ class EventFormDesktop extends React.Component {
         imgur = `https://i.imgur.com/${res.data.id}.png`;
 
         this.setState({ imgurLink: imgur })
+
+        this.updateEvent(undefined)
       }
     };
     // send POST request to Imgur API
@@ -505,7 +582,61 @@ class EventFormDesktop extends React.Component {
     this.inputElement.touch = true;
   }
 
+  updateEvent(data) {
+
+    console.log("Sensed update")
+
+    // First, update image
+    convertedExampleEvent['image_link'] = this.state.imgurLink
+
+    // Data will be undefined if the user pastes an url for the image.
+    // We still want to update the state so it will render image
+    if (data !== undefined) {
+      const name = data.target.name
+      const value = data.target.value
+
+      if (name.substr(-3) === "tag") {
+        // Process button tags
+        this.pushToTags(convertedExampleEvent, value, true);
+
+      } else if (name.substr(-10) === "other_tags") {
+        // Process typed tags
+        convertedExampleEvent[name] = value
+        const prev_tags = convertedExampleEvent['tags']
+        convertedExampleEvent = processTags(convertedExampleEvent)
+        prev_tags.map((object, i) => {
+          if (object.substr(-4) === "_tag")
+            this.pushToTags(convertedExampleEvent, object);
+        })
+
+      } else {
+        // Just simply update the dictionary if other values
+        convertedExampleEvent[name] = value
+      }
+
+      // Just to make sure we have an event and title, they are equivalent
+      convertedExampleEvent['event'] = convertedExampleEvent['title']
+    }
+
+    this.setState({sampleEvent: convertedExampleEvent})
+  }
+
+  pushToTags(event, tag, remove = false) {
+    if (event['tags'].includes(tag) === false) {
+      event['tags'].push(tag)
+    } else if (remove) {
+      // Remove if toggle button turned off
+      event['tags'] = event['tags'].filter(x => x !== tag)
+    }
+  }
+
+  getSampleEvent() {
+    return this.state.sampleEvent
+  }
+
+
   render() {
+    const date = new Date();
     if (this.state.activityIndicatory) {
       return (
         <div style={{ backgroundColor: "white" }}>
@@ -580,6 +711,7 @@ class EventFormDesktop extends React.Component {
                   />
                   <FormBody
                     submit={this.submitHandler}
+                    onChange={this.updateEvent}
                     title="Events"
                     entryTitle="Event Name"
                     initVal={initVal}
@@ -626,6 +758,31 @@ class EventFormDesktop extends React.Component {
             </div>
             {/* </Template > */}
           </MuiPickersUtilsProvider>
+          <Container>
+            <h2 style={{color: "#0072CE", display: "inline"}}>
+              Preview of Your Event&nbsp;
+              <h5 style={{color: "#0072CE", display: "inline"}}>
+                - Date/Time is not updated in previews:
+              </h5>
+            </h2>
+            <br />
+            <h5 style={{color: "#0072CE"}}>Desktop Version:</h5>
+            <Grid >
+              <div style={{ marginBottom: "5%" }}>
+                <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
+                <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
+                  <EventCardDesktop ele={this.getSampleEvent()} key={0}/>
+                </div>
+            </Grid>
+            <h5 style={{color: "#0072CE"}}>Mobile Version (Similar to iPhone X):</h5>
+            <Grid>
+              <div style={{ marginBottom: "5%", width:"380px", wordWrap: "break-word", textAlign:"left"}}>
+                <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
+                <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
+                <EventCardMobile ele={this.getSampleEvent()} key={0}/>
+              </div>
+            </Grid>
+          </Container>
         </Template>
 
       );

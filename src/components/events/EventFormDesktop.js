@@ -68,7 +68,7 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   desc: Yup.string()
     .required("Required")
-    .max("250", "Please less than 250 characters"),
+    .max("350", "Please less than 350 characters"),
   start_date: Yup.string()
     .required("Required"),
   end_date: Yup.string()
