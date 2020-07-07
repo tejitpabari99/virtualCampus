@@ -258,7 +258,7 @@ export default function HomeDesktop() {
         {/*<div className={manual.socialSection} style={{position: "relative", height: "0px", top: "-850px", zIndex:"3"}}>*/}
         <div className={manual.socialSection}>
         <div className={manual.insta} style={{paddingTop:"50px"}}>
-                  <div align="center"  style = {{marginTop: "53px", border:"none"}}>
+                  <div align="center"  style = {{ border:"none"}}>
                       <InstagramEmbed
                           url='https://www.instagram.com/p/CBHN4GMlSkD/'
                           maxWidth={320}
@@ -278,7 +278,7 @@ export default function HomeDesktop() {
                   </div>
               </div>
               <div className={manual.fabo}  style={{paddingTop:"50px"}}>
-                  <div style = {{marginTop: "52px", border:"none"}}
+                  <div style = {{ border:"none"}}
                        className="fb-page"
                        data-href="https://www.facebook.com/columbiavirtualcampus/"
                        data-tabs="timeline"

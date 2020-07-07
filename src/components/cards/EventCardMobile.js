@@ -126,7 +126,7 @@ const useStyles = makeStyles(() => ({
     },
     image:{
         borderRadius: 5,
-        width:"auto",
+        width:"100%",
         height: "100%",
         objectFit: "cover",
         paddingTop: "32px",
