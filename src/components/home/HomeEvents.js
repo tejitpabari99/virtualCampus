@@ -2,10 +2,11 @@ import React from "react"
 import Button from "../material-kit-components/CustomButtons/Button.js";
 import myEventsList from '../../assets/EventsData'
 import { withStyles } from "@material-ui/core/styles";
-import {EventCard, EventModal, CustomButton} from '../'
+import {EventCard, EventModal, CustomButton,
+        getTimezoneName, convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate} from '../'
 import TZ from "countries-and-timezones";
 import firebase from "../../firebase";
-import {getTimezoneName, convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate} from "../../components/all/TimeFunctions"
+import {} from "../../components/all/TimeFunctions"
 
 const useStyles = () => ({
     button4: {
@@ -37,6 +38,23 @@ class Events extends React.Component{
         };
         this.getEvents();
         this.closeDo = this.closeDo.bind(this);
+    }
+    getMonthName() {
+        var d = new Date();
+        var month = new Array();
+        month[0] = "January";
+        month[1] = "February";
+        month[2] = "March";
+        month[3] = "April";
+        month[4] = "May";
+        month[5] = "June";
+        month[6] = "July";
+        month[7] = "August";
+        month[8] = "September";
+        month[9] = "October";
+        month[10] = "November";
+        month[11] = "December";
+        return month[d.getMonth()];
     }
 
     convertEventsTime(event) {
@@ -107,33 +125,19 @@ class Events extends React.Component{
         this.setState({ open: false, count: 0 });
     }
 
-    eventPropStyles(event, start, end, isSelected) {
-        let style = {
-            backgroundColor: "#2984ce"
-        };
-        return { style: style };
-    }
-
-    EventDisplay = ({ event }) => (
-      <div>
-          <div style={{ fontSize: 15, marginBottom: 3 }}>{event.event}</div>
-          <div style={{ fontSize: 13 }}>{this.formatTime(event.start_date.getHours(), event.start_date.getMinutes())} -
-              {this.formatTime(event.end_date.getHours(), event.end_date.getMinutes())}</div>
-      </div>
-    );
-
     render() {
         const { classes } = this.props;
+        const date = new Date();
         return (
-            <div>
-                <div>
-                    {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
-                    {this.state.displayEvents.map((ele, ind) => {
-                        return(<EventCard key={ind} ele={ele} onClick={() => this.attendEvent(ele)}/>)
-                    })}
-                </div>
-                {this.state.displayEvents.length>0 && <div style={{textAlign:"center", marginTop: 20}}>
-                </div>}
+            <div style={{width: "100%"}}>
+            {this.state.displayEvents.length > 0 &&
+                    <div style={{ marginBottom: "5%" }}>
+                        <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
+                        <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 5 }}/>
+                        {this.state.displayEvents.map((ele, ind) => {
+                            return (<EventCard ele={ele} key={ind}/>);
+                        })}
+                    </div>}
             </div>
         )
     }

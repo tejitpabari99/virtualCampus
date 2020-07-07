@@ -28,6 +28,16 @@ import Search from "./input/Search";
 import BLMCard from "./cards/BLMCard";
 import TutorExpansionMapping from './pop-up/blm/TutorExpansionMapping';
 import TutorSearchMapping from './pop-up/blm/TutorSearchMapping'
+import EmailEvent from "./events/EmailEvent";
+import {convertUTCToLocal,
+        convertDateToUTC,
+        getOffset,
+        getCurrentLocationForTimeZone,
+        stdTimezoneOffset,
+        dst,
+        getTimezoneName,
+        convertTimestampToDate,
+        getTimezoneOptions} from './all/TimeFunctions'
 
 export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         EventCard, EventCardMobile, EventModal, EventEmailModal, AddCalendar,
@@ -36,4 +46,6 @@ export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
         Title, Subtitle, Heading, Search, ResourcesList,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
-        BLMCard, TutorExpansionMapping, TutorSearchMapping}
+        BLMCard, TutorExpansionMapping, TutorSearchMapping, 
+        convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset,
+        dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent}

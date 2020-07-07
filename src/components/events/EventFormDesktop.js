@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { CircularProgress } from '@material-ui/core';
 
 //inputs
-import FormikField from "../FormikField/FormikField";
+import FormikField from "../form-components/FormikField";
 import { CheckboxWithLabel, SimpleFileUpload } from "formik-material-ui";
 import { Select } from "material-ui-formik-components/Select";
 
@@ -12,15 +12,13 @@ import { Select } from "material-ui-formik-components/Select";
 import { DateTimePicker } from "formik-material-ui-pickers";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import FileUploadBtn from '../FormikField/FileUploadBtn'
+import FileUploadBtn from '../form-components/FileUploadBtn'
 import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
-import { CustomHeader, Template } from "../";
+import { CustomHeader, Template, getTimezoneOptions } from "../";
 import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
-
-import { getTimezoneOptions } from "../all/TimeFunctions"
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -70,7 +68,7 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   desc: Yup.string()
     .required("Required")
-    .max("250", "Please less than 250 characters"),
+    .max("350", "Please less than 350 characters"),
   start_date: Yup.string()
     .required("Required"),
   end_date: Yup.string()
@@ -204,8 +202,8 @@ class EventFormDesktop extends React.Component {
     data["start_date"] = data["start_date"].toString();
     data["end_date"] = data["end_date"].toString();
     const from = data["email"];
-    const subject = "NEW EVENT: " + data["event"];
-    const clientSubject = "Your CVC Event Details: " + data["event"];
+    const subject = "NEW EVENT: " + data["title"];
+    const clientSubject = "Your CVC Event Details: " + data["title"];
     data = processTags(data);
     const text = formatEmailText(data);
     const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
@@ -234,11 +232,11 @@ class EventFormDesktop extends React.Component {
       emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
         + "<br><br>Click here to approve this event: ",
         approvalUrl.concat(newEventRef.id))
-        + "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: "
-          + zoomUrl.concat(newEventRef.id) ;
+      + "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: "
+      + zoomUrl.concat(newEventRef.id);
     if (data["zoomLink"]) {
       emailData["text"].concat("\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: ",
-          zoomUrl.concat(newEventRef.id));
+        zoomUrl.concat(newEventRef.id));
     }
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
@@ -341,9 +339,9 @@ class EventFormDesktop extends React.Component {
     return ""
   }
 
-  handleImageUpload(){
+  handleImageUpload() {
     console.log(this.inputElement);
-    this.inputElement.props.label="Image Uploaded";
+    this.inputElement.props.label = "Image Uploaded";
     this.inputElement.touch = true;
   }
 
@@ -501,9 +499,9 @@ class EventFormDesktop extends React.Component {
                                   </Grid>
                                   <Grid item sm={6}>
                                     <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
-                                                 name="image_link"
-                                                 error={errors.image_link}
-                                                 touch={touched.image_link}
+                                      name="image_link"
+                                      error={errors.image_link}
+                                      touch={touched.image_link}
                                     />
                                   </Grid>
                                   {/*<Grid item sm={4}>
@@ -516,7 +514,7 @@ class EventFormDesktop extends React.Component {
                                     />
                                   </Grid>
                                   <Grid item sm={2}> */}
-                                    {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
+                                  {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
                                   {/*<FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" onChange={this.imgFileUploadHandler} />
                                   </Grid>*/}
                                 </Grid >

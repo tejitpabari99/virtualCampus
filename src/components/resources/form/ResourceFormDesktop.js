@@ -1,24 +1,18 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-
-import FormikField from "../../FormikField/FormikField"
-// import "../components/form.css"
+import FormikField from "../../form-components/FormikField";
 import { CheckboxWithLabel } from 'formik-material-ui';
-import FileUploadBtn from '../../FormikField/FileUploadBtn'
+import FileUploadBtn from '../../form-components/FileUploadBtn';
 import Button from '@material-ui/core/Button';
-
 import Grid from '@material-ui/core/Grid';
-
-
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "../../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import { CustomHeader } from "../.."
 import Container from '@material-ui/core/Container';
 import firebase from "../../../firebase";
-
-import Categories from "./FormCategories"
+import Categories from "./FormCategories";
 const MainCategories = Categories.FormCategories;
 
 const useStyles = makeStyles(styles);
@@ -177,58 +171,20 @@ const ResourceFormDesktop = (props) => {
     const manual = manualSt();
 
     const submitHandler = (values) => {
-        let vals = JSON.stringify(values);
-        console.log(vals);
-        console.log(values);
-        alert(vals);
-
-        if (values['file'] != '') {
-            uploadImage(values);
-        }
-        else {
-            uploadData(values);
+        if (values["file"] !== "" && values["file"] !== undefined) {
+            this.uploadImage(values);
+        } else {
+            this.setState({ activityIndicatory: true });
+            const b = this.uploadData(values);
         }
     };
 
-    // const imgFileUploadHandler = (fileName) => {
-    //     // console.log("congrats, you clicked me.")
-    //     this.setState({
-    //         imgFileValue: fileName
-    //     })
-    // }
-
-    // upload to firebase here
-    function uploadData(values) {
-        var db = firebase.firestore();
-        var path = values["valueHash"];
-        var newResourceRef = db.collection("resources");
-        console.log(values);
-    }
-
-    function uploadImage(values) {
-        const r = new XMLHttpRequest();
-        const d = new FormData();
-        // const e = document.getElementsByClassName('input-image')[0].files[0]
-        // var u
-        const clientID = 'df36f9db0218771';
-
-        d.append('image', values["file"]);
-
-        // Boilerplate for POST request to Imgur
-        r.open('POST', 'https://api.imgur.com/3/image/');
-        r.setRequestHeader('Authorization', `Client-ID ${clientID}`);
-        r.onreadystatechange = function () {
-            if (r.status === 200 && r.readyState === 4) {
-                let res = JSON.parse(r.responseText);
-                // this is the link to the uploaded image
-                let imgur = `https://i.imgur.com/${res.data.id}.png`;
-
-                values["file"] = imgur;
-                uploadData(values);
-            }
-        };
-        // send POST request to Imgur API
-        r.send(d);
+    const imgFileUploadHandler = (fileName) => {
+        console.log("congrats, you clicked me.")
+        console.log("Filename: " + fileName)
+        this.setState({
+            imgFileValue: fileName
+        })
     }
 
     return (
@@ -248,27 +204,27 @@ const ResourceFormDesktop = (props) => {
                                     href={"mailto:columbiavirtualcampus@gmail.com"}>columbiavirtualcampus@gmail.com</a>.
                             </div>
                         </Grid> */}
-                        <Grid container spacing={10}>
-                            <Grid item xs={4}>
-                                <div style={{
-                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                    fontSize: "36px", lineHeight: "54px", color: "#0072CE"
-                                }}>
-                                    Add a New Resource
+                    <Grid container spacing={10}>
+                        <Grid item xs={4}>
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "36px", lineHeight: "54px", color: "#0072CE"
+                            }}>
+                                Add a New Resource
                           </div>
-                                <div style={{
-                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                    fontSize: "14px", lineHeight: "21px"
-                                }}>
-                                    Thank you for your interest in sharing your project through CVC.
-                                    Please fill out the following form so we can thoroughly promote your resource on our website!
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "14px", lineHeight: "21px"
+                            }}>
+                                Thank you for your interest in sharing your project through CVC.
+                                Please fill out the following form so we can thoroughly promote your resource on our website!
                           </div>
-                                <div style={{
-                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                    fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
-                                }}>
-                                    Questions? Contact us at <br />
-                                    <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+                            <div style={{
+                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
+                            }}>
+                                Questions? Contact us at <br />
+                                <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
                           </div>
                         </Grid>
                         <Grid item xs={8}>
