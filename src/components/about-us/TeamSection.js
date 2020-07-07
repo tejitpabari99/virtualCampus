@@ -157,7 +157,7 @@ export default function TeamSection() {
       <Heading color={'blue'}>Resources Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
-        <GridItem xs={0} sm={0} md={2}/>
+        <GridItem xs={0} sm={0} md={1}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'Barnard \'21'} name={'Tamanna Hussain'} image={tamanna} noDescription/>
         </GridItem>
@@ -202,15 +202,12 @@ export default function TeamSection() {
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
         <GridItem xs={0} sm={0} md={2}/>
-        <GridItem xs={0} sm={0} md={1}/>
+        <GridItem xs={0} sm={0} md={2}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'Barnard \'22'} name={'Caroline Mao'} image={caroline} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'21'} name={'Hayun Chong'} image={hayun} noDescription/>
-        </GridItem>
-        <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'CC \'21'} name={'Rupal Gupta'} image={rupal} noDescription/>
         </GridItem>
       </GridContainer>
     </div>
