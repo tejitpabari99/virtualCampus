@@ -34,8 +34,8 @@ const formatTime = function(hours, min) {
 
 const useStyles = makeStyles(() => ({
     card:{
-        paddingLeft: "5vw",
-        paddingRight: "5vw",
+        paddingLeft: "1.5rem",
+        paddingRight: "1.5rem",
     },
     cardTitle,
     eventTitle: {
@@ -113,8 +113,8 @@ const useStyles = makeStyles(() => ({
       fontSize: 20,
       textAlign: "center",
       marginBottom: "0px",
-      marginTop: "1.5vw",
-        lineHeight: '5vw',
+      marginTop: ".2rem",
+        lineHeight: '1.3rem',
       paddingBottom: "0px"
     },
     monthText:{
@@ -127,10 +127,11 @@ const useStyles = makeStyles(() => ({
     image:{
         borderRadius: 5,
         width:"100%",
-        height: "102px",
+        height: "100%",
         objectFit: "cover",
-        marginTop: "32px",
-        marginBottom: "11px",
+        paddingTop: "32px",
+        paddingBottom: "11px",
+        display: "block",
         // [theme.breakpoints.up('xs')]:{
         //     display:'none'
         // },
@@ -149,14 +150,14 @@ const useStyles = makeStyles(() => ({
         // }
     },
     heading1:{
-        lineHeight: '3vw',
-        fontSize: 'min(5.2vw, 28px)',
+        lineHeight: '1.8rem',
+        fontSize: 'min(5.2vw, 19px)',
         color:'#000000 !important',
         margin: 0
     },
     heading2:{
-        lineHeight: '3vw',
-        fontSize: 'min(4.2vw, 20px)',
+        lineHeight: '1.2rem',
+        fontSize: 'min(4.2vw, 14px)',
         color:'#0072CE !important',
         margin: 0,
         marginTop:'12px',
@@ -171,6 +172,10 @@ const useStyles = makeStyles(() => ({
         borderRadius: "50%",
         display: "inline-block",
       },
+    img: {
+        height: "30vh",
+        width: "100%",
+    }
 }));
 
 export default function EventCardMobile({ele}) {
@@ -186,17 +191,20 @@ export default function EventCardMobile({ele}) {
         setOpen(false);
     }
 
+    const default_img = "https://i.imgur.com/GP66BiO.png"
     return(
         <div className={classes.card}>
             <div style={{position: "relative"}}>
-                <img className={classes.image} src={ele.image_link} />
+                <div className={classes.img}>
+                    <img className={classes.image} src={ele.image_link === "" ? default_img : ele.image_link } alt={ele.event} />
+                </div>
                 <div className={classes.imageBox}>
                   <div className={classes.dateText}>{ele.start_date.getDate()}</div>
                   <div className={classes.monthText}>{months[ele.start_date.getMonth()]}</div>
                 </div>
             </div>
             <div className={classes.cardbody}>
-                <h1 className={classes.heading1}> {ele.event} </h1>
+                <h1 className={classes.heading1} style={{display: "block"}}> {ele.event} </h1>
                 <h1 className={classes.heading2}>{ele.name}</h1>
                 <div className={classes.timeInfo}>
                     {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} - {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
