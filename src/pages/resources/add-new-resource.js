@@ -4,10 +4,10 @@ import * as Yup from "yup";
 import { FormControlLabel, Radio, LinearProgress } from '@material-ui/core';
 
 import { RadioGroup } from 'formik-material-ui';
-import FormikField from "../../components/FormikField/FormikField"
+import FormikField from "../../components/form-components/FormikField"
 // import "../components/form.css"
 import { CheckboxWithLabel } from 'formik-material-ui';
-import FileUploadBtn from '../../components/FormikField/FileUploadBtn'
+// import FileUploadBtn from '../../components/FormikField/FileUploadBtn'
 import Button from '@material-ui/core/Button';
 
 import Grid from '@material-ui/core/Grid';
