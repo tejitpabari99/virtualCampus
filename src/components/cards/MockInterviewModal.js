@@ -1,19 +1,21 @@
+import React, { useState } from "react";
 import Backdrop from "@material-ui/core/Backdrop";
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form} from "formik";
 import * as Yup from "yup";
-import FormikField from "../FormikField/FormikField";
 import Fade from "@material-ui/core/Fade";
-import Button from "../material-kit-components/CustomButtons/Button";
 import Modal from "@material-ui/core/Modal";
-import React from "react";
+import { CircularProgress } from '@material-ui/core';
+import Axios from "axios";
+import * as firebase from "firebase";
+import * as jwt from "jsonwebtoken";
+
+import FormikField from "../FormikField/FormikField";
+import Button from "../material-kit-components/CustomButtons/Button";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
 import {CustomTheme} from "../";
 import GridItem from "../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../material-kit-components/Grid/GridContainer.js";
-import Axios from "axios";
-import * as firebase from "firebase";
-import * as jwt from "jsonwebtoken";
 
 const theme = CustomTheme;
 
@@ -82,10 +84,12 @@ const useStyles = makeStyles ({
     }
 });
 
-export default function MockInterviewModal({open, closeDo, event}) {
+export default function MockInterviewModal({open, closeDo, event, setSubmitStatus}) {
     const classes = useStyles();
+    const [loading, setLoading] = useState(false);
 
     const submitHandler = async values => {
+        setLoading(true);
         const name = values.name;
         const email = values.email;
         const comments = values.comments;
@@ -96,16 +100,22 @@ export default function MockInterviewModal({open, closeDo, event}) {
             .where("start_date", "==", event.start_date_original)
             .get();
         if (lookUpEvent.size === 0){
-            alert("Could not find event!");
-            window.location.reload()
+            setLoading(false);
+            setSubmitStatus('notFound');
+            closeDo();
+            setTimeout(() => { window.location.reload(); }, 4500);
+
             return;
         } else if (!lookUpEvent.docs[0].data().available){
-            alert("Event already booked!");
-            window.location.reload()
+            setLoading(false);
+            setSubmitStatus('booked');
+            closeDo();
+
+            setTimeout(() => { window.location.reload(); }, 4500);
             return;
         }
         lookUpEvent = lookUpEvent.docs[0];
-        const lookUpEventData = lookUpEvent.data();
+        const localIntervieweeStartTime = `${event.start_date.toLocaleString()} ${event.timeZoneGMT}`;
         const URL = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/bookEvent';
         const token = jwt.sign({
             expiresIn: "24h",
@@ -113,7 +123,8 @@ export default function MockInterviewModal({open, closeDo, event}) {
                 eventId: lookUpEvent.id,
                 name,
                 email,
-                comments
+                comments,
+                localIntervieweeStartTime
             }
           }, 'ASK KEVIN FOR THE KEY');
         const emailData = {
@@ -121,16 +132,26 @@ export default function MockInterviewModal({open, closeDo, event}) {
             to: email,
             subject: "ACTION REQUIRED: Complete your interview signup!",
             text: `Dear ${name},<br/><br/>
-            Confirm your interview with ${lookUpEventData.host_name} at ${lookUpEventData.start_date}
-             by clicking this link:<br/>
-            ${URL}?token=${token}`
+            Confirm your interview with ${event.host_name} at ${localIntervieweeStartTime}
+            by clicking the link below. It will expire in 24 hours.<br/>
+            ${URL}?token=${token}<br/><br/>
+            If you do not wish to confirm, no action is required.<br/><br/>
+            Thanks,<br/>
+            CVC`
           };
         Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-          .then(res => {
-              alert("Check your email for confirmation!");
-          });
-        closeDo();
+            .then(res => {
+                setLoading(false);
+                setSubmitStatus('success');
+                closeDo();
+            })
+            .catch(err => {
+                console.log(err);
+                setSubmitStatus('failure');
+                closeDo();
+            });
     }
+
     return(
         <Modal
             style={{display: 'flex',
@@ -195,7 +216,10 @@ export default function MockInterviewModal({open, closeDo, event}) {
                                                     error={errors.comments}
                                                     touch={touched.comments}
                                                     ></FormikField>
-                                    <Button
+                                    { loading ? 
+                                        <CircularProgress/> :
+                                        
+                                        <Button
                                         style={{
                                         background: "white",
                                         border: "1px solid #FB750D",
@@ -207,8 +231,8 @@ export default function MockInterviewModal({open, closeDo, event}) {
                                         }}
                                         type="submit">
                                         Submit
-                                    </Button>
-                                    <p>Check your email to confirm appointment.</p>
+                                        </Button>
+                                    }
                                 </div>
                             </Form>
                           );

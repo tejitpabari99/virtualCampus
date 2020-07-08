@@ -66,13 +66,13 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   host_bio: Yup.string()
     .required("Required")
-    .max("50", "Please less than 250 characters"),
+    .max("50", "Please less than 50 characters"),
   host_workExp: Yup.string()
     .required("Required")
-    .max("100", "Please less than 250 characters"),
+    .max("100", "Please less than 100 characters"),
   host_interviewExp: Yup.string()
     .required("Required")
-    .max("100", "Please less than 250 characters"),
+    .max("100", "Please less than 100 characters"),
   timezone_1: Yup.string()
     .required("Required"),
   start_time_1: Yup.string()
@@ -443,7 +443,7 @@ class InterviewerFormDesktop extends React.Component {
                 <Container>
                   {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
                   <GridContainer spacing={10}>
-                    <GridItem xs={4}>
+                    <GridItem xs={12} sm={12} md={4}>
                       <div style={{
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
                         fontSize: "36px", lineHeight: "54px", color: "#0072CE"
@@ -454,22 +454,22 @@ class InterviewerFormDesktop extends React.Component {
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
                         fontSize: "14px", lineHeight: "21px"
                       }}>
-                        Thank you for your interest in leading a virtual event or activity
-                        through
-                        CVC.
+                        Thank you for your interest in being an interviewer for mock technical 
+                        interviews through CVC.
                         Please fill out the following form so we can provide you with the
                         necessary
-                        resources and appropriate platform on our website!
+                        resources and appropriate platform on our website! We will get back to you shortly 
+                        once you have applied to be an interview
                       </div>
                       <div style={{
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                        fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
+                        fontSize: "14px", lineHeight: "21px", paddingTop: "45px"
                       }}>
                         Questions? Contact us at <br/>
                         <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
                       </div>
                     </GridItem>
-                    <GridItem xs={8}>
+                    <GridItem xs={12} sm={12} md={8}>
                       <Formik
                         initialValues={initVal}
                         onSubmit={this.submitHandler}
@@ -490,14 +490,14 @@ class InterviewerFormDesktop extends React.Component {
                                   Contact
                                 </div>
                                 <GridContainer>
-                                  <GridItem sm={6}>
+                                  <GridItem sm={6} md={6}>
                                     <FormikField label="Full Name"
                                                  name="host_name"
                                                  error={errors.host_name}
                                                  touch={touched.host_name}
                                                  required></FormikField>
                                   </GridItem>
-                                  <GridItem sm={6}>
+                                  <GridItem sm={6} md={6}>
                                     <FormikField label="Email" name="host_email"
                                                  error={errors.host_email}
                                                  touch={touched.host_email}
@@ -519,25 +519,25 @@ class InterviewerFormDesktop extends React.Component {
                                   Technical Experience
                                 </div>
                                 <GridContainer>
-                                  <GridItem sm={6}>
-                                    <FormikField label="Previous Work Experience" name="host_workExp"
+                                  <GridItem sm={6} md={6}>
+                                    <FormikField label="Previous Internship Experiences" name="host_workExp"
                                                  error={errors.host_workExp}
                                                  touch={touched.host_workExp}
                                                  required></FormikField>
                                   </GridItem>
-                                  <GridItem sm={6}>
-                                    <FormikField label="Previous Interview Experience"
+                                  <GridItem sm={6} md={6}>
+                                    <FormikField label="Number of Technical Interviews Completed"
                                                  name="host_interviewExp"
                                                  error={errors.host_interviewExp}
-                                                 touch={touched.host_interviewExp}></FormikField>
+                                                 touch={touched.host_interviewExp} required></FormikField>
                                   </GridItem>
                                 </GridContainer>
 
-                                <GridContainer>
+                                <GridContainer xs={12} sm={12} md={12}>
                                   <GridItem>
                                     <FormikField label="Bio"
                                                  name="host_bio"
-                                                 multiline rows="3"
+                                                 multiline rows="2"
                                                  error={errors.host_bio}
                                                  touch={touched.host_bio} required/>
                                   </GridItem>
@@ -554,8 +554,19 @@ class InterviewerFormDesktop extends React.Component {
                                 }}>
                                   Time Availability
                                 </div>
+                                <div style={{
+                                  fontFamily: "Poppins",
+                                  fontStyle: "normal",
+                                  fontWeight: "normal",
+                                  fontSize: "15px",
+                                  lineHeight: "30px",
+                                  color: "gray"
+                                }}>
+                                  *Please provide at least 1 range of time where you may be available to be an
+                                  interviewer. 
+                                </div>
                                 <GridContainer>
-                                  <GridItem sm={4}>
+                                  <GridItem xs={6} sm={4}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
                                         component={DateTimePicker}
@@ -565,7 +576,7 @@ class InterviewerFormDesktop extends React.Component {
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem sm={4}>
+                                  <GridItem xs={6} sm={4}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
                                         component={DateTimePicker}
@@ -575,7 +586,7 @@ class InterviewerFormDesktop extends React.Component {
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem sm={4}>
+                                  <GridItem xs={12} sm={4}>
 
                                     <Field
                                       name="timezone_1"
@@ -586,7 +597,7 @@ class InterviewerFormDesktop extends React.Component {
                                     />
 
                                   </GridItem>
-                                  <GridItem sm={4}>
+                                  <GridItem xs={6} sm={4}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
                                         component={DateTimePicker}
@@ -595,7 +606,7 @@ class InterviewerFormDesktop extends React.Component {
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem sm={4}>
+                                  <GridItem xs={6} sm={4}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
                                         component={DateTimePicker}
@@ -604,7 +615,7 @@ class InterviewerFormDesktop extends React.Component {
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem sm={4}>
+                                  <GridItem xs={12} sm={4}>
 
                                     <Field
                                       name="timezone_2"
@@ -614,7 +625,7 @@ class InterviewerFormDesktop extends React.Component {
                                     />
 
                                   </GridItem>
-                                  <GridItem sm={4}>
+                                  <GridItem xs={6} sm={4}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
                                         component={DateTimePicker}
@@ -623,7 +634,7 @@ class InterviewerFormDesktop extends React.Component {
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem sm={4}>
+                                  <GridItem xs={6} sm={4}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
                                         component={DateTimePicker}
@@ -632,7 +643,7 @@ class InterviewerFormDesktop extends React.Component {
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem sm={4}>
+                                  <GridItem xs={12} sm={4}>
 
                                     <Field
                                       name="timezone_3"

@@ -1,11 +1,12 @@
 import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
+import Alert from '@material-ui/lab/Alert';
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+
 import { MetaData, EventCard, MockInterviewModal, Template, CustomButton, Title, Intro } from "../components";
 import TZ from "countries-and-timezones";
-import AddIcon from "@material-ui/icons/Add";
 import firebase from "../firebase";
 import Subtitle from "../components/text/Subtitle";
 import interview from "../assets/images/technical/interview.png";
@@ -199,7 +200,6 @@ class Technical extends React.Component {
       open: false,
       event: null,
       myEventsList: [],
-      displayEvents: []
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
@@ -234,36 +234,6 @@ class Technical extends React.Component {
     return event;
   }
 
-  makeDisplayEvents(events) {
-    let arr = [];
-    for (let i = 0; i < events.length; i += 1) {
-      let ele = events[i];
-      if (ele.end_date > new Date()) {
-        arr.push(ele);
-      }
-      if (arr.length === 5) {
-        break;
-      }
-    }
-    return arr;
-  }
-
-  // async componentDidMount() {
-  //   var db = await firebase.firestore();
-  //   var docs = await db.collection('eventsData').get();
-  //   docs.forEach((doc) => {
-  //     console.log(doc);
-  //   })
-  //   var eventsData = [];
-  //   docs.forEach((doc) => {
-  //     var event = doc.data();
-  //     event.startTime = event.startTime.toDate();
-  //     event.endTime = event.endTime.toDate();
-  //     eventsData.push(event);
-  //   });
-  //   this.setState({myEventsList:eventsData})
-  // }
-
 
   async getEvents() {
     var db = firebase.firestore();
@@ -278,9 +248,7 @@ class Technical extends React.Component {
         // To the current user's local time!
         approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
     }
-    console.log(approvedEventsMap);
-    // console.log(approvedEventsMap);
-    this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
+    this.setState({ myEventsList: approvedEventsMap });
   }
 
 
@@ -326,12 +294,27 @@ class Technical extends React.Component {
     </div>
   );
 
+  setSubmitStatus = (status) => {
+    this.setState({submitStatus: status});
+    window.scrollTo(0, 0);
+  }
+
   render() {
     const { classes } = this.props;
     return (
-      <Template active={"technical"} title={"Events"}>
-        <CustomButton href={"/technical/add-interviewer"} text={"ADD NEW EVENT"}
-                        style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
+      <Template active={"technical"} title={"Technical"}>
+        { this.state.submitStatus == 'success' &&
+          <Alert severity="success">Signup form submitted successfully, please check your email to confirm attendance!</Alert>
+        }
+        { this.state.submitStatus == 'failure' &&
+          <Alert severity="error">Signup form failed to submit, please try again!</Alert>
+        }
+        { this.state.submitStatus == 'notFound' &&
+          <Alert severity="error">Interview session could not be found! Reloading sessions...</Alert>
+        }
+        { this.state.submitStatus == 'booked' &&
+          <Alert severity="error">Interview session already booked! Reload sessions...</Alert>
+        }
         <Title color={"blue"} style={{ padding: '20px', marginTop: 0}}>Mock Tech Interview</Title>
         <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> July 2020</h3>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
@@ -345,7 +328,9 @@ class Technical extends React.Component {
                     Do you want to practice your technical interview skills?</p>
                     <p style={{fontSize : "20px", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity to particiapte in one-on-one mock technical interviews with Columbia Univeristy students who have interned at Company1, Company2, Company3, and more.  
                     These one hour tutoring sessions will allow you to pratice real technical interview questions in a setting that resembles a real interview.</p>
-                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at columbiavirtualcampus@gmail.com!</p>
+                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at 
+                    <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
+                 href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com</a>!</p>
                 </GridItem>
         </GridContainer>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
@@ -353,6 +338,7 @@ class Technical extends React.Component {
           views={["month", "week", "day"]}
           localizer={localizer}
           scrollToTime={new Date()}
+          date={new Date('July 12, 2020 0:00:00')}
           events={this.state.myEventsList}
           defaultView={"week"}
           startAccessor="start_date"
@@ -370,7 +356,8 @@ class Technical extends React.Component {
           formats={{ eventTimeRangeFormat: () => null }}
         />
         
-        {this.state.open && <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
+        {this.state.open && 
+          <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>}
       </Template>
     );
   }
