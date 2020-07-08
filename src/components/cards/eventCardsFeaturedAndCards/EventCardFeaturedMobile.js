@@ -177,6 +177,16 @@ export default function EventCardFeaturedMobile({ele}) {
         setOpen(false);
     }
 
+
+    const TITLE_MAX = 25
+    const ORG_MAX = 45
+    if (ele.title.length > TITLE_MAX) {
+        ele.title = ele.title.substring(0, TITLE_MAX - 3) + "..."
+    }
+    if (ele.name.length > ORG_MAX) {
+        ele.name = ele.name.substring(0, ORG_MAX - 3) + "..."
+    }
+
     return(
       <Card className={classes.root}>
 

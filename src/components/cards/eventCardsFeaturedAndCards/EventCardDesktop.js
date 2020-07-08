@@ -58,13 +58,14 @@ const useStyles = makeStyles(() => ({
     margin:0
   },
   nameHeader: {
-    fontSize: '20px',
+    fontSize: '1.25vw',
     // position: "absolute",
     color: "black",
     whiteSpace: "nowrap",
     // marginTop: "8px",
     marginLeft: "14px",
     // display:'inline-block'
+    fontAlign: "left"
   },
   orgHeader: {
     fontSize: '14px',
@@ -94,7 +95,8 @@ const useStyles = makeStyles(() => ({
     // flexDirection: "row",
     // display:'inline-block'
     marginTop: "1px",
-    fontSize: "12px"
+    fontSize: "13px",
+    width: "150px"
   },
   middleDot: {
     height: "5px",
@@ -200,11 +202,11 @@ const useStyles = makeStyles(() => ({
   },
   dateBox: {
     marginLeft: "17px",
-    marginTop: "15px"
+    marginTop: "13px"
   },
   dateText: {
     color: "#0072CE",
-    fontSize: "16px",
+    fontSize: "20px",
     fontWeight: "light",
     marginLeft: "5px",
     // display: "inline-block",
@@ -216,7 +218,7 @@ const useStyles = makeStyles(() => ({
   weekText: {
     fontWeight: 700,
     color: "#0072CE",
-    fontSize: "16px",
+    fontSize: "21px",
   },
   // dateText: {
   //   color: "#0072CE",
@@ -228,7 +230,7 @@ const useStyles = makeStyles(() => ({
   // },
   monthText: {
     color: "#0072CE",
-    fontSize: "1.3vw",
+    fontSize: "1.5vw",
     textAlign: "center",
     margin: 0,
   },
@@ -299,6 +301,21 @@ export default function EventCardDesktop({ ele }) {
     displayRecurring = true
   }
 
+
+
+  const TITLE_MAX = 50
+  const ORG_MAX = 30
+  if (ele.title === undefined)
+    ele.title = ele.event
+  let title = ele.title
+  let organ = ele.name
+  if (title.length > TITLE_MAX) {
+    title = title.substring(0, TITLE_MAX - 3) + "..."
+  }
+  if (ele.name.length > ORG_MAX) {
+    organ = organ.substring(0, ORG_MAX - 3) + "..."
+  }
+
   return (
 
     <div style={{ width: "100%" }}>
@@ -322,7 +339,7 @@ export default function EventCardDesktop({ ele }) {
                 {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
             </div>
         </div>
-        <GridContainer style={{ marginLeft:30, marginRight:0 }}>
+        <GridContainer style={{ marginLeft:0, marginRight:0 }}>
             <GridItem xs={12} sm={12} md={12}>
             <div className={classes.tagInfo}>
               {displayNow && <div className={classes.happeningBlock}>Happening Now!</div>}
@@ -340,7 +357,7 @@ export default function EventCardDesktop({ ele }) {
             </div>
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
-              <div className={classes.nameHeader}> {ele.event} <span className={classes.orgHeader}>{ele.name}</span> </div>
+              <div className={classes.nameHeader}> {title} <span className={classes.orgHeader}>{organ}</span> </div>
             </GridItem>
         </GridContainer>
 

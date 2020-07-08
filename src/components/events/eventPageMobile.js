@@ -181,7 +181,7 @@ class EventsPageDesktop extends React.Component {
   async getEvents() {
     var db = firebase.firestore();
     var approvedEvents = await db.collection("events")
-        .where("approved", "==", false)
+        .where("approved", "==", true)
         .orderBy("start_date", 'asc')
         .get();
     let approvedEventsMap = [];

@@ -177,6 +177,16 @@ export default function EventCardFeaturedDesktop({ ele }) {
   const closeDo = () => {
     setOpen(false);
   }
+
+  const TITLE_MAX = 50
+  const ORG_MAX = 70
+  if (ele.title.length > TITLE_MAX) {
+    ele.title = ele.title.substring(0, TITLE_MAX - 3) + "..."
+  }
+  if (ele.name.length > ORG_MAX) {
+    ele.name = ele.name.substring(0, ORG_MAX - 3) + "..."
+  }
+
   return (
     <Card className={classes.root} style={{marginLeft: "3vw"}}>
 

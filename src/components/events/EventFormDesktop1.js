@@ -27,8 +27,8 @@ import {
   convertTimestampToDate, convertUTCToLocal
 } from "..";
 
-import EventCardDesktop from './../cards/EventCardDesktop'
-import EventCardMobile from './../cards/EventCardMobile'
+import EventCardDesktop from './../cards/eventCardsFeaturedAndCards/EventCardDesktop'
+import EventCardMobile from './../cards/eventCardsFeaturedAndCards/EventCardMobile'
 import Container from "@material-ui/core/Container";
 
 // backend
