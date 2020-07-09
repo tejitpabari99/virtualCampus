@@ -1,6 +1,6 @@
 import React from "react"
 import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
-import InterviewerFormDesktop from "../../components/technical/InterviewerFormDesktop";
+import InterviewerForm from "../../components/technical/InterviewerForm";
 import EventFormMobile from "../../components/events/EventFormMobile";
 
 class Index extends React.Component {
@@ -24,59 +24,12 @@ class Index extends React.Component {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
-  // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
   render() {
-
-    if (this.state.height === -1) {
       return (
         <div>
-          <InterviewerFormDesktop/>
+          <InterviewerForm/>
         </div>
       );
-    }
-    {/* For mobile's screen orientation update */}
-    const isLandscape = this.state.width > this.state.height ? true : false;
-
-    {/* If Tablet:
-            If in portrait, do mobile component
-            else render desktop
-            */}
-    if (isTablet) {
-      if (isLandscape) {
-        return (
-          <div>
-            <InterviewerFormDesktop/>
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <InterviewerFormDesktop/>
-          </div>
-        );
-      }
-
-
-      {/* For mobile component : IE or Edge must go to mobile since they do not support all css */}
-    } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
-      return (
-        <div>
-          <InterviewerFormDesktop/>
-        </div>
-      );
-
-
-      {/* Else: desktop: isBrowser
-            If screen is full size and not weirdly shape: render desktop version
-            Else render mobile version (see above)
-            */}
-    } else {
-      return (
-        <div>
-          <InterviewerFormDesktop/>
-        </div>
-      );
-    }
   }
 }
 

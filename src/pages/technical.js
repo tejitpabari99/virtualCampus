@@ -300,7 +300,6 @@ class Technical extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <Template active={"technical"} title={"Technical"}>
         { this.state.submitStatus == 'success' &&
@@ -327,7 +326,7 @@ class Technical extends React.Component {
                     <p style={{fontSize: "25px", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships and full time positons? 
                     Do you want to practice your technical interview skills?</p>
                     <p style={{fontSize : "20px", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity to particiapte in one-on-one mock technical interviews with Columbia Univeristy students who have interned at Company1, Company2, Company3, and more.  
-                    These one hour tutoring sessions will allow you to pratice real technical interview questions in a setting that resembles a real interview.</p>
+                    These 1 hour tutoring sessions will allow you to pratice real technical interview questions in a setting that resembles a real interview.</p>
                     <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at 
                     <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
                  href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com</a>!</p>
@@ -338,7 +337,7 @@ class Technical extends React.Component {
           views={["month", "week", "day"]}
           localizer={localizer}
           scrollToTime={new Date()}
-          date={new Date('July 12, 2020 0:00:00')}
+          defaultDate={new Date('July 27, 2020 0:00:00')}
           events={this.state.myEventsList}
           defaultView={"week"}
           startAccessor="start_date"
