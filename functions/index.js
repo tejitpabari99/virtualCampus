@@ -66,7 +66,7 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
     }
     let decoded;
     try {
-      decoded = jwt.verify(req.query.token, 'ASK KEVIN FOR THE KEY');
+      decoded = jwt.verify(req.query.token, process.env.JWT_KEY);
     } catch(err) {
       if (err.name === 'TokenExpiredError') {
         return res.status(500).send("Token expired! Please try signing up again.");
@@ -90,7 +90,8 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
         return res.status(412).send("Event already booked!");
       }
       const checkAttendance = await db.collection('technical')
-        .where("attendee_email", "==", email).get();
+        .where("attendee_email", "==", email)
+        .where("available", "==", false).get();
       if (checkAttendance.size > 1){
         return res.status(412).send("You can only sign up for a maximum of 2 sessions!");
       }
