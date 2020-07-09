@@ -51,7 +51,7 @@ class Index extends React.Component {
       } else {
         return (
           <div>
-            <EventFormMobile/>
+            <InterviewerFormDesktop/>
           </div>
         );
       }
@@ -61,7 +61,7 @@ class Index extends React.Component {
     } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
       return (
         <div>
-          <EventFormMobile/>
+          <InterviewerFormDesktop/>
         </div>
       );
 
