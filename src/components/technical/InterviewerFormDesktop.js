@@ -71,8 +71,7 @@ const validationSchema = Yup.object().shape({
     .required("Required")
     .max("100", "Please less than 100 characters"),
   host_interviewExp: Yup.string()
-    .required("Required")
-    .max("100", "Please less than 100 characters"),
+    .required("Required"),
   timezone_1: Yup.string()
     .required("Required"),
   start_time_1: Yup.string()
@@ -246,6 +245,12 @@ function getTimezoneOptions() {
 
 const optionsTZ = getTimezoneOptions();
 
+const interviewExp = [{value: "0-5", label: "0-5"}, {value: "6-10", label: "6-10"}, 
+{value : "11-15", label: "11-15"}, {value: "15-20", label: "15-20"}, {value: "20+", label:"20+"}];
+
+const maxDate = new Date(2020,6,22);
+const minDate = new Date(2020,7,15);
+
 class InterviewerFormDesktop extends React.Component {
 
   constructor(props) {
@@ -262,9 +267,41 @@ class InterviewerFormDesktop extends React.Component {
   }
 
   submitHandler(values) {
-    const timechosen = values.start_time_1;
+    this.setState({activityIndicatory:true });
     //processTime(values["start_time_1"], values["end_time_1"]);
     this.uploadInterview(values);
+    this.setState({feedbackSubmit: true, activityIndicatory: false})
+  }
+
+  getHeadMessage() {
+
+    if (this.state.errStatus === 4) {
+      return "Oops... Sorry! There was an error handling your request.";
+    } else if (this.state.errStatus === 3 || this.state.errStatus === 1) {
+      return "Thank You! Further Action Required!";
+    } else if (this.state.errStatus === 2) {
+      return "Oops... Sorry! There was an error handling your request.";
+    } else {
+      return "Thank You!";
+    }
+  }
+
+  getBodyMessage() {
+
+    if (this.state.errStatus === 4) {
+      return "We were unable to process your request due to an unexpected error. " +
+        "Please try again. If the problem persists please reach out to us:";
+    } else if (this.state.errStatus === 3 || this.state.errStatus === 1) {
+      return "Please contact us about approving your event! We were unable to automatically email our team."
+        + " Please reach out to us at:";
+    } else if (this.state.errStatus === 2) {
+      return "We were unable to process your request. Please try again. " +
+        "If the problem persists please reach out to us:";
+    } else {
+      return "Thank you for expressing interest in being an interviewer for our Mock Technical Interview Event at CVC! " +
+      " Please check your email for updates regarding your finalized schedule! " + 
+      " If there is anything that needs to be updated, please reach out to us. ";
+    }
   }
 
   uploadInterview(data){
@@ -324,7 +361,7 @@ class InterviewerFormDesktop extends React.Component {
                     host_interviewExp: data["host_interviewExp"],
                     host_workExp: data["host_workExp"],
                     interview_comments: "",
-                    timezone: "America/Los_Angeles$true",
+                    timezone: data["timezone_1"],
                     start_date: slots[k][j],
                     end_date: slots[k][j+1]
                   });
@@ -333,42 +370,9 @@ class InterviewerFormDesktop extends React.Component {
             }
         }
     }
-
-    // const interviewSlot = db.collection("technical").add({
-    //     host_name: data["host_name"],
-    //     host_email: data["host_email"],
-    //     attendee_email: "",
-    //     attendee_name: "",
-    //     available: true,
-    //     host_bio: data["host_bio"],
-    //     host_interviewExp: data["host_interviewExp"],
-    //     host_workExp: data["host_workExp"],
-    //     interview_comments: "",
-    //     timezone: "America/Los_Angeles$true",
-    //     start_date: slot_1[0],
-    //     end_date: slot_1[1]
-    //   });
-    // var slots_1 = processTime(data["start_time_1"], data["end_time_1"]);
-    // var slots_2 = processTime(data["start_time_2"], data["end_time_2"]);
-    // var slots_3 = processTime(data["start_time_3"], data["end_time_3"]);
-
-    
-        
-          
-
-    // function writeUserData(userId, name, email, imageUrl) {
-    //     firebase.database().ref('users/' + userId).set({
-    //       username: name,
-    //       email: email,
-    //       profile_picture : imageUrl
-    //     });
-    // }
-
-    // console.log(slots_1);
-    // console.log(slots_2);
-    // console.log(slots_3);
   }
 
+  
 
   // upload to firebase here
   
@@ -376,19 +380,22 @@ class InterviewerFormDesktop extends React.Component {
   render() {
     if (this.state.activityIndicatory){
       return (
-        <div style={{ backgroundColor: "white" }}>
+        //<Template>
           <div style={{ backgroundColor: "white" }}>
-            <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"}/>
-            <div style={{marginTop: '25%', marginLeft:'50%'}}>
-              <CircularProgress />
+            <div style={{ backgroundColor: "white" }}>
+              <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"}/>
+              <div style={{marginTop: '25%', marginLeft:'50%'}}>
+                <CircularProgress />
+              </div>
             </div>
-          </div>
-        </div>
-      )
+          </div> 
+        //</Template>
+        
+      );
     }
     else if (this.state.feedbackSubmit) {
       return (
-        <Template title={'Add New Event'} active={"schedule"}>
+        <Template title={'Sign-up to be an Interviewer'} active={"schedule"}>
           <div style={{
             fontFamily: "Poppins",
             fontStyle: "normal",
@@ -427,8 +434,8 @@ class InterviewerFormDesktop extends React.Component {
                 paddingLeft: "10px",
                 paddingRight: "10px"
               }}
-              href={"/events/add-new-event"}>
-              Add Another Event
+              href={"/"}>
+              Go Back to CVC Homepage
             </Button>
           </div>
         </Template>);
@@ -448,7 +455,7 @@ class InterviewerFormDesktop extends React.Component {
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
                         fontSize: "36px", lineHeight: "54px", color: "#0072CE"
                       }}>
-                        Host a New Event
+                        Sign-up to be an Interviewer
                       </div>
                       <div style={{
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
@@ -526,14 +533,19 @@ class InterviewerFormDesktop extends React.Component {
                                                  required></FormikField>
                                   </GridItem>
                                   <GridItem sm={6} md={6}>
-                                    <FormikField label="Number of Technical Interviews Completed"
-                                                 name="host_interviewExp"
-                                                 error={errors.host_interviewExp}
-                                                 touch={touched.host_interviewExp} required></FormikField>
+                                    <Field
+                                        name="host_interviewExp"
+                                        label="Technical Interviews Completed"
+                                        options={interviewExp}
+                                        component={Select}
+                                        error={errors.host_interviewExp}
+                                        touch={touched.host_interviewExp}
+                                        required
+                                      />
                                   </GridItem>
                                 </GridContainer>
 
-                                <GridContainer xs={12} sm={12} md={12}>
+                                <GridContainer sm={12} md={12}>
                                   <GridItem>
                                     <FormikField label="Bio"
                                                  name="host_bio"
@@ -562,8 +574,8 @@ class InterviewerFormDesktop extends React.Component {
                                   lineHeight: "30px",
                                   color: "gray"
                                 }}>
-                                  *Please provide at least 1 range of time where you may be available to be an
-                                  interviewer. 
+                                  * Please provide at least 1 range of time from 9:00am EDT to 9:00pm EDT where you are available to be an
+                                  interviewer and please ensure that the ranges are on the hour.
                                 </div>
                                 <GridContainer>
                                   <GridItem xs={6} sm={4}>
@@ -618,7 +630,7 @@ class InterviewerFormDesktop extends React.Component {
                                   <GridItem xs={12} sm={4}>
 
                                     <Field
-                                      name="timezone_2"
+                                      name="timezone_1"
                                       label="Select Timezone"
                                       options={optionsTZ}
                                       component={Select}
@@ -646,7 +658,7 @@ class InterviewerFormDesktop extends React.Component {
                                   <GridItem xs={12} sm={4}>
 
                                     <Field
-                                      name="timezone_3"
+                                      name="timezone_1"
                                       label="Select Timezone"
                                       options={optionsTZ}
                                       component={Select}
