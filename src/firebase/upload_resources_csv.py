@@ -48,7 +48,7 @@ if __name__ == "__main__":
     log("\nAdding data to firestore...")
     added = 0
     for index, row in resources_df.iterrows():
-        links = Links(row["android link"], row["card link"], row["facebook"], row["ios link"], row["website"])
+        links = Links(row["card link"], row["website"])
         resource = Resource(row["resource name"], True, row["description"], row["image link"], row["category"], row["tags"].split(", "), links)
         path = "resources" 
         db.collection(path).add(resource.to_dict())

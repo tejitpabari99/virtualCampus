@@ -7,21 +7,28 @@ from resource import Resource, Links
 from firebase_admin import credentials
 
 RESOURCE_COLLECTION = "resources"
+REFERENCE_COLLECTION = "resource_reference_docs"
+REFERENCE_DOCUMENT_NAME = "Resource Tags by Categories"
 
 def main():
     argv = sys.argv
-
+    
     if len(argv) != 2:
         log(f"usage: {argv[0]} <firestore_API_key>")
         sys.exit()
-    
+
     firestore_API_key = argv[1]
-    
+
     db = get_database_client(firestore_API_key)
 
     docs = db.collection(RESOURCE_COLLECTION).stream()
 
-    remove_duplicates(docs)
+    category_tags = get_tags_by_category(docs)
+
+    db.collection(REFERENCE_COLLECTION).document(REFERENCE_DOCUMENT_NAME).set(category_tags)
+
+    log(f"Updated {REFERENCE_COLLECTION}/{REFERENCE_DOCUMENT_NAME} in Firestore")
+    
 
 def log(message:str):
     print(message, file=sys.stderr, flush=True)
@@ -31,23 +38,24 @@ def get_database_client(firestore_API_key:str):
     firebase_admin.initialize_app(cred)
     return firestore.client()
 
-def remove_duplicates(docs):
-    seen = set()
-    total = removed = 0
-    log("Delete duplicates:")
+def get_tags_by_category(docs):
+    category_tags = dict()
+    log("Gathering tags by category...")
     for doc in docs:
         try:
             resource = Resource.from_dict(doc.to_dict())
-            if resource in seen:
-                doc.reference.delete()
-                log(f"\tDocument with title \"{resource.title}\"")
-                removed += 1
+            if resource.category in category_tags:
+                category_tags[resource.category] |= set(resource.tags)
             else:
-                seen.add(resource)
-            total += 1
+                category_tags[resource.category] = set(resource.tags)
         except KeyError:
             log(f"Document with id {doc.id} has incorrect or missing fields")
-    log(f"Found and deleted {removed} duplicates from {total} documents.")
+
+    for category, tags in category_tags.items():
+        category_tags[category] = list(tags)
         
+    log(f"Found {len(category_tags)} categories in total")
+    return category_tags
+
 if __name__ == "__main__":
     main()
