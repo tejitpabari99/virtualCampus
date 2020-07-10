@@ -16,7 +16,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 SPREADSHEET_NAME = "List of Resources"
 WORKSHEET_NAME = "Sheet1"
-UPLOADED_COLUMN = 13
+UPLOADED_COLUMN = 9
 FIREBASE_COLLECTION = "resources" 
 
 def main():
@@ -78,14 +78,10 @@ def get_dataframe(sheet:gspread.models.Worksheet) -> pd.DataFrame:
                 "Resource Name",
                 "Category",
                 "Tags",
-                "Club/Organization",
                 "Description",
                 "Website",
                 "Image Link",
-                "Facebook",
                 "Card Link",
-                "iOS Link",
-                "Android Link",
                 "Ready for Upload",
                 "Uploaded"
                 ]
@@ -131,7 +127,7 @@ def upload_new_resources(new_resources_df:pd.DataFrame, firestore_resources:Dict
     added = 0
     uploaded_rows = list()
     for index, row in new_resources_df.iterrows():
-        links = Links(row["android link"], row["card link"], row["facebook"], row["ios link"], row["website"])
+        links = Links(row["card link"], row["website"])
         resource = Resource(row["resource name"], True, row["description"], row["image link"], row["category"], row["tags"].split(", "), links)
         try:
             if resource not in firestore_resources:
