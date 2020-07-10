@@ -38,15 +38,15 @@ def remove_duplicates(docs):
     for doc in docs:
         try:
             resource = Resource.from_dict(doc.to_dict())
+            if resource in seen:
+                doc.reference.delete()
+                log(f"\tDocument with title \"{resource.title}\"")
+                removed += 1
+            else:
+                seen.add(resource)
+            total += 1
         except KeyError:
             log(f"Document with id {doc.id} has incorrect or missing fields")
-        if resource in seen:
-            doc.reference.delete()
-            log(f"\tDocument with title \"{resource.title}\"")
-            removed += 1
-        else:
-            seen.add(resource)
-        total += 1
     log(f"Found and deleted {removed} duplicates from {total} documents.")
         
 if __name__ == "__main__":

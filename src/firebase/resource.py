@@ -9,8 +9,8 @@ class Links(object):
     @staticmethod
     def from_dict(links_dict: Dict[str,str]):
         return Links(
-            links_dict["cardLink"],
-            links_dict["website"]
+            cardLink=links_dict["cardLink"],
+            website=links_dict["website"]
         )
 
     def to_dict(self) -> Dict[str,str]:
@@ -48,13 +48,14 @@ class Resource(object):
 
     @staticmethod
     def from_dict(resource_dict: Dict):
-        return Resource(resource_dict["title"], 
-        resource_dict["reviewed"], 
-        resource_dict["description"], 
-        resource_dict["img"], 
-        resource_dict["category"]["category"], 
-        resource_dict["category"]["tags"], 
-        Links.from_dict(resource_dict["links"])
+        return Resource(
+        title=resource_dict["title"], 
+        reviewed=resource_dict["reviewed"], 
+        description=resource_dict["description"], 
+        img=resource_dict["img"], 
+        category=resource_dict["category"]["category"], 
+        tags=resource_dict["category"]["tags"], 
+        links=Links.from_dict(resource_dict["links"])
         )
 
     def to_dict(self) -> Dict:
@@ -76,7 +77,7 @@ class Resource(object):
         return self.title == other.title or self.links == other.links
     
     def __hash__(self):
-        return hash((self.title, self.links))
+        return hash(self.title)
 
     @property
     def title(self) -> str:

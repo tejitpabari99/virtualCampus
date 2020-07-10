@@ -15,7 +15,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 SPREADSHEET_NAME = "List of Resources"
-WORKSHEET_NAME = "Sheet1"
+WORKSHEET_NAME = "resources"
 UPLOADED_COLUMN = 9
 FIREBASE_COLLECTION = "resources" 
 
@@ -74,19 +74,11 @@ def get_spreadsheet(sheet_name:str, cred_file:str) -> gspread.models.Spreadsheet
     return client.open(sheet_name)
 
 def get_dataframe(sheet:gspread.models.Worksheet) -> pd.DataFrame:
-    column_names =[
-                "Resource Name",
-                "Category",
-                "Tags",
-                "Description",
-                "Website",
-                "Image Link",
-                "Card Link",
-                "Ready for Upload",
-                "Uploaded"
-                ]
-    FIRST_ROW = 8
-    return pd.DataFrame(sheet.get_all_values(), columns=column_names).iloc[FIRST_ROW:]
+    df = pd.DataFrame(sheet.get_all_values())
+    header = df.iloc[0]
+    df = df[1:]
+    df.columns = header
+    return df
 
 def clean_resources_dataframe(resources_df:pd.DataFrame) -> pd.DataFrame:
     resources_df.columns = map(str.lower, resources_df.columns)
