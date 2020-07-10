@@ -126,7 +126,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                 comments,
                 localIntervieweeStartTime
             }
-          }, 'ASK KEVIN FOR THE KEY');
+          }, process.env.GATSBY_JWT_SECRET_KEY);
         const emailData = {
             from: "columbiavirtualcampus@gmail.com",
             to: email,
