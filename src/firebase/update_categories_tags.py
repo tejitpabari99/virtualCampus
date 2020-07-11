@@ -51,10 +51,12 @@ def get_tags_by_category(docs):
         except KeyError:
             log(f"Document with id {doc.id} has incorrect or missing fields")
 
+    num_tags = 0
     for category, tags in category_tags.items():
         category_tags[category] = list(tags)
+        num_tags += len(tags)
         
-    log(f"Found {len(category_tags)} categories in total")
+    log(f"Found {len(category_tags)} categories and {num_tags} tags in total")
     return category_tags
 
 if __name__ == "__main__":
