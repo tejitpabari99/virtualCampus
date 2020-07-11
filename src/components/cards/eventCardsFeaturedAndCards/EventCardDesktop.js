@@ -11,6 +11,8 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import GridItem from "../../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
 import EventEmailModal from "../EventEmailModal";
+import firebase from "../../../firebase";
+import {handleEventClick} from "./commonEventsFuncs"
 
 const theme = CustomTheme;
 
@@ -282,26 +284,9 @@ export default function EventCardDesktop({ ele }) {
     setOpen(false);
   }
 
-  //if true the alert will say the event is now
-  let displayNow = false
-  let displayPast = false
-  let displayRecurring = false
-  let displayPopular = false
-
-  let today = new Date()
-  if ((new Date(ele.start_date)) < today && (new Date(ele.end_date)) > today) {
-    displayNow = true
+  const handlePopularity = () => {
+    handleEventClick(ele, 1)
   }
-
-  if ((new Date(ele.start_date)) > today && (new Date(ele.end_date)) > today) {
-    displayPast = true
-  }
-
-  if (ele.recurring != "") {
-    displayRecurring = true
-  }
-
-
 
   const TITLE_MAX = 50
   const ORG_MAX = 30
@@ -318,78 +303,84 @@ export default function EventCardDesktop({ ele }) {
 
   return (
 
-    <div style={{ width: "100%" }}>
-    <ExpansionPanel>
-      <ExpansionPanelSummary
-        expandIcon={<ExpandMoreIcon/>}
-        aria-controls="panel1bh-content"
-      >
-        {/* put outer stuff here */}
-        <div className={classes.flexBox}>
-          <img className={classes.image} src={ele.image_link} alt={ele.event}/>
-        </div> 
-        
-        <div className={classes.dateBox}>
-            <span className={classes.weekText}>{days[ele.start_date.getDay()]}</span>
-            <span className={classes.dateText}>{ele.start_date.getDate()} {months[ele.start_date.getMonth()]}</span>
-            {/* <p className={classes.monthText}></p> */}
-            <br/>
-            <div className={classes.timeInfo}>
+      <div style={{width: "100%"}}>
+        <ExpansionPanel onClick={handlePopularity}>
+          <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon/>}
+              aria-controls="panel1bh-content"
+          >
+            {/* put outer stuff here */}
+            <div className={classes.flexBox}>
+              <img className={classes.image} src={ele.image_link} alt={ele.event}/>
+            </div>
+
+            <div className={classes.dateBox}>
+              <span className={classes.weekText}>{days[ele.start_date.getDay()]}</span>
+              <span className={classes.dateText}>{ele.start_date.getDate()} {months[ele.start_date.getMonth()]}</span>
+              {/* <p className={classes.monthText}></p> */}
+              <br/>
+              <div className={classes.timeInfo}>
                 {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} -
                 {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
-            </div>
-        </div>
-        <GridContainer style={{ marginLeft:0, marginRight:0 }}>
-            <GridItem xs={12} sm={12} md={12}>
-            <div className={classes.tagInfo}>
-              {displayNow && <div className={classes.happeningBlock}>Happening Now!</div>}
-              {displayPast && <div className={classes.pastBlock}>Past</div>}
-              {displayRecurring && <div className={classes.recurringBlock}>Recurring</div>}
-              {displayPopular && <div className={classes.popularBlock}>Popular</div>}
-
-              {ele.tags.map((ta, ind) => {
-                if (ta !== "") {
-                  return (
-                      <div className={classes.tagBlock}>{ta}</div>
-                  );
-                }
-              })}
-            </div>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12}>
-              <div className={classes.nameHeader}> {title} <span className={classes.orgHeader}>{organ}</span> </div>
-            </GridItem>
-        </GridContainer>
-
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails style={{ paddingLeft:0, paddingRight:0 }}>
-        {/* put inner stuff here */}
-        <GridContainer style={{ width: "100%", marginLeft:0, marginRight:0 }}>
-            <GridItem xs={12} sm={12} md={12} style={{paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
-                <div className={classes.blueLine}></div>
-            </GridItem>
-
-            <GridItem xs={9} sm={9} md={9} style={{paddingTop:10, paddingBottom: 10, paddingLeft:40, paddingRight:10}}>
-              <div style={{color: "black", display: "block", fontSize: "14px"}}>{ele.desc}</div>
-            </GridItem>
-            <GridItem xs={3} sm={3} md={3}>
-              {ele.event_link && <CustomButton href={ele.event_link} text={"LEARN MORE"} newTab color={"blue"} size={"medium"} className={classes.websiteButton} />}
-            </GridItem>
-
-            <GridItem xs={9} sm={9} md={9} style={{marginTop: 10, paddingTop:10, paddingBottom: 10, paddingLeft:35, paddingRight:10}}>
-              <div style={{ color: "#4284C8", marginBottom: 5}}>
-                  <strong> <AddCalendar info={ele}/></strong>
               </div>
-            </GridItem>
+            </div>
+            <GridContainer style={{marginLeft: 0, marginRight: 0}}>
+              <GridItem xs={12} sm={12} md={12}>
+                <div className={classes.tagInfo}>
+                  {ele.displayNow && <div className={classes.happeningBlock}>Happening Now!</div>}
+                  {ele.displayPast && <div className={classes.pastBlock}>Past</div>}
+                  {ele.displayRecurring && <div className={classes.recurringBlock}>Recurring</div>}
+                  {ele.displayPopular && <div className={classes.popularBlock}>Popular</div>}
 
-            <GridItem xs={3} sm={3} md={3}>
-              {ele.invite_link && <CustomButton onClick={openModalHandler} text={'JOIN EVENT'} newTab color={"blue"} size={"medium"} className={classes.joinButton}/>}
-            </GridItem>
-        </GridContainer>
-        {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>} 
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+                  {ele.tags.map((ta, ind) => {
+                    if (ta !== "") {
+                      return (
+                          <div className={classes.tagBlock}>{ta}</div>
+                      );
+                    }
+                  })}
+                </div>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                <div className={classes.nameHeader}> {title} <span className={classes.orgHeader}>{organ}</span></div>
+              </GridItem>
+            </GridContainer>
 
-    </div>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails style={{paddingLeft: 0, paddingRight: 0}}>
+            {/* put inner stuff here */}
+            <GridContainer style={{width: "100%", marginLeft: 0, marginRight: 0}}>
+              <GridItem xs={12} sm={12} md={12} style={{paddingBottom: 10, paddingLeft: 25, paddingRight: 25}}>
+                <div className={classes.blueLine}></div>
+              </GridItem>
+
+              <GridItem xs={9} sm={9} md={9}
+                        style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 40, paddingRight: 10}}>
+                <div style={{color: "black", display: "block", fontSize: "14px"}}>{ele.desc}</div>
+              </GridItem>
+              <GridItem xs={3} sm={3} md={3}>
+                {ele.event_link &&
+                <CustomButton href={ele.event_link} text={"LEARN MORE"} newTab color={"blue"} size={"medium"}
+                              className={classes.websiteButton}/>}
+              </GridItem>
+
+              <GridItem xs={9} sm={9} md={9}
+                        style={{marginTop: 10, paddingTop: 10, paddingBottom: 10, paddingLeft: 35, paddingRight: 10}}>
+                <div style={{color: "#4284C8", marginBottom: 5}}>
+                  <strong> <AddCalendar info={ele}/></strong>
+                </div>
+              </GridItem>
+
+              <GridItem xs={3} sm={3} md={3}>
+                {ele.invite_link &&
+                <CustomButton onClick={openModalHandler} text={'JOIN EVENT'} newTab color={"blue"} size={"medium"}
+                              className={classes.joinButton}/>}
+              </GridItem>
+            </GridContainer>
+            {open && <EventEmailModal open={open} closeDo={closeDo} event={ele} onClick={handlePopularity}/>}
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+
+      </div>
   );
 }

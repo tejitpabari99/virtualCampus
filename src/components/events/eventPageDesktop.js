@@ -118,10 +118,12 @@ class EventsPageDesktop extends React.Component {
       searchVal: "",
       defaultSearchInput:'',
       tagList: [],
-      hiddenSearch: ''
+      hiddenSearch: '',
+      mainTagsClicked: {past: "", recurring: "", popular: "", now: ""}
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
+    this.handleMainTags = this.handleMainTags.bind(this);
   }
 
   convertEventsTime(event) {
@@ -212,13 +214,34 @@ class EventsPageDesktop extends React.Component {
         .get();
     let approvedEventsMap = [];
     if(approvedEvents){
-      approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
+      approvedEventsMap = approvedEvents.docs.map(doc => {
+
+        let event = this.convertEventsTime(doc.data())
+        event["id"] = doc.id
+        let today = new Date()
+        if ((new Date(event.start_date)) < today && (new Date(event.end_date)) > today) {
+          event["displayNow"] = true
+        } else
+        if ((new Date(event.end_date)) < today) {
+          event["displayPast"] = true
+        }
+        if (event.recurring !== "") {
+          event["displayRecurring"] = true
+        }
+        if (event.popularity > 10) {
+          event["displayPopular"] = true
+        }
+        return event
+
+      }
+      );
     }
     approvedEventsMap.sort(function(a,b) {
       var dateA = a.start_date
       var dateB = b.start_date
       return ((dateA < dateB) ? -1 : 1)
     })
+
     this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap), permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
@@ -307,6 +330,41 @@ class EventsPageDesktop extends React.Component {
       </div>
   );
 
+  handleMainTags(tag) {
+    let newList = this.state.mainTagsClicked
+    if (newList[tag] === "on") {
+      newList[tag] = ""
+    } else {
+      newList[tag] = "on"
+    }
+    this.setState({mainTagsClicked: newList})
+    console.log(this.state.mainTagsClicked)
+  }
+
+  isEventShowable(ele) {
+    ele.tagsForFilter = this.state.mainTagsClicked
+    // Handle tag filter
+    let shouldDisplayRecurring = ele["tagsForFilter"].recurring === "on" ? true : false
+    let shouldDisplayPopular = ele["tagsForFilter"].popular === "on" ? true : false
+    let shouldDisplayPast = ele["tagsForFilter"].past === "on" ? true : false
+    let shouldDisplayNow = ele["tagsForFilter"].now === "on" ? true : false
+
+    ele.displayThisCard = true
+    if (!ele.displayPopular && shouldDisplayPopular)
+      ele.displayThisCard = false
+    if (!ele.displayNow && shouldDisplayNow)
+      ele.displayThisCard = false
+    if (!ele.displayRecurring && shouldDisplayRecurring)
+      ele.displayThisCard = false
+    if (!ele.displayRecurring && shouldDisplayRecurring)
+      ele.displayThisCard = false
+    if (!ele.displayPast && shouldDisplayPast)
+      ele.displayThisCard = false
+    if (ele.displayThisCard && ele.displayPast && !shouldDisplayPast)
+      ele.displayThisCard = false
+
+    return ele.displayThisCard
+  }
 
   render() {
     const { classes } = this.props;
@@ -314,8 +372,16 @@ class EventsPageDesktop extends React.Component {
     const MAX_EVENTS_DISPLAYED = (this.props.width - 200) / 490
     let sizeOfList = 0
     let noSearchResults = ""
+    let eventsList = []
     this.state.myEventsList.map((ele, ind) => {
-      sizeOfList = sizeOfList + 1
+      if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
+        ele.tags = ['none']
+      }
+
+      if (this.isEventShowable(ele)) {
+        sizeOfList = sizeOfList + 1
+        eventsList.push(ele)
+      }
     });
     if (sizeOfList === 0) {
       noSearchResults = "No events found for that search"
@@ -349,25 +415,33 @@ class EventsPageDesktop extends React.Component {
         <div style={{margin: "40px"}}/>
 
         <div style={{flexDirection: "row", display: "flex"}}>
-          <div className={classes.greenBox}>
+          <div className={classes.greenBox}
+               onClick={(tag) => { this.handleMainTags("now") }}
+               style={{cursor: "pointer"}}>
             <div className={classes.greenText}>
               <h4>Happening Now</h4>
             </div>
           </div>
 
-          <div className={classes.blueBox}>
+          <div className={classes.blueBox}
+               onClick={(tag) => { this.handleMainTags("popular") }}
+               style={{cursor: "pointer"}}>
             <div className={classes.blueText}>
               <h4>Popular</h4>
             </div>
           </div>
 
-          <div className={classes.orangeBox}>
+          <div className={classes.orangeBox}
+               onClick={(tag) => { this.handleMainTags("recurring") }}
+               style={{cursor: "pointer"}}>
             <div className={classes.orangeText}>
               <h4>Recurring</h4>
             </div>
           </div>
 
-          <div className={classes.grayBox}>
+          <div className={classes.grayBox}
+               onClick={(tag) => { this.handleMainTags("past") }}
+               style={{cursor: "pointer"}}>
             <div className={classes.grayText}>
               <h4>Past</h4>
             </div>
@@ -422,11 +496,8 @@ class EventsPageDesktop extends React.Component {
           </div>
           <div style= {{flexDirection: "column", display: "flex", paddingTop:"3%", paddingLeft: "3%", width: "75%",
             marginBottom:"3%"}}>
-            {this.state.myEventsList.map((ele, ind) => {
-              if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
-                ele.tags = ['none']
-              }
-              return (<EventCard ele={ele} key={ind}/>);
+            {eventsList.map((ele) => {
+                return (<EventCard ele={ele} />);
             }
             )}
             <div>{noSearchResults}</div>

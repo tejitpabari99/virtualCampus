@@ -8,6 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import {handleEventClick} from "./commonEventsFuncs";
 
 const theme = CustomTheme;
 
@@ -186,13 +187,17 @@ export default function EventCardDesktopBottom({ ele }) {
     setOpen(true)
   }
 
+  const handlePopularity = () => {
+    handleEventClick(ele, 1)
+  }
+
   const closeDo = () => {
     setOpen(false);
   }
   return (
 
     <div style={{ width: "100%" }}>
-    <ExpansionPanel>
+    <ExpansionPanel onClick={handlePopularity}>
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon/>}
         aria-controls="panel1bh-content"

@@ -177,6 +177,14 @@ class EventsPageDesktop extends React.Component {
     return events;
   }
 
+  genTagsList(eventsMap)
+  {
+    let tagsList = new Set()
+    eventsMap.map(x => (x.tags.map(y => tagsList.add(y))))
+    tagsList.delete("")
+    return Array.from(tagsList);
+  }
+
 
   async getEvents() {
     var db = firebase.firestore();
@@ -186,9 +194,19 @@ class EventsPageDesktop extends React.Component {
         .get();
     let approvedEventsMap = [];
     if(approvedEvents){
-      approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
+      approvedEventsMap = approvedEvents.docs.map(doc => {
+        let event = this.convertEventsTime(doc.data())
+        event["id"] = doc.id
+        return event
+      });
     }
-    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), permEventsList: approvedEventsMap,
+    approvedEventsMap.sort(function(a,b) {
+      var dateA = a.start_date
+      var dateB = b.start_date
+      return ((dateA < dateB) ? -1 : 1)
+    })
+
+    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap), permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
 
