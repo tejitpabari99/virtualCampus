@@ -16,9 +16,14 @@ export default class EventSearch extends React.Component{
       tagList: this.props.tagList,
       organizationList: this.props.organizationList,
       activeTagList: [],
-      hiddenSearch: ''
+      hiddenSearch: '',
+      defaultOrganization: 'All clubs / organizations',
+      defaultDate: 'All dates'
     }
     this.keyPress = this.keyPress.bind(this);
+    this.reset = this.reset.bind(this);
+    this.updateClubs = this.updateClubs.bind(this);
+    this.updateDate = this.updateDate.bind(this);
   }
 
   keyPress(e){
@@ -42,6 +47,24 @@ export default class EventSearch extends React.Component{
     }
     this.setState({hiddenSearch : this.state.activeTagList.join(" ")})
     this.props.updateTags(n)
+  }
+
+  updateClubs(data) {
+      const dataText = data.currentTarget.innerText
+      this.setState({defaultOrganization: dataText})
+      this.props.updateClub(dataText)
+  }
+  updateDate(data) {
+    const dataText = data.currentTarget.innerText
+    this.setState({defaultDate: dataText})
+    this.props.updateDate(dataText)
+  }
+
+
+  reset() {
+    this.setState({activeTagList: [], searchVal: '', hiddenSearch: '',
+    defaultOrganization: 'All clubs / organizations', defaultDate: "All dates", filter: false})
+    this.props.resetFilter()
   }
   
 
@@ -136,19 +159,23 @@ export default class EventSearch extends React.Component{
           options={this.props.organizationList}
           getOptionLabel={(option) => option.name}
           style={{ width: 466, marginTop: "20px", marginLeft: "20px", display: "inline-block"}}
-          onChange={this.props.updateClub}
-          renderInput={(params) => <TextField {...params} label="All clubs / organizations" variant="outlined" />}
+          onChange={this.updateClubs}
+          renderInput={(params) => <TextField {...params} label={this.state.defaultOrganization} variant="outlined" />}
         />
 
         <Autocomplete
           options={this.props.dateList}
           getOptionLabel={(option) => option.date}
           style={{ width: 466, marginTop: "20px", marginLeft: "16px", display: "inline-block"}}
-          onChange={this.props.updateDate}
-          renderInput={(param) => <TextField {...param} label="All dates" variant="outlined" />}
+          onChange={this.updateDate}
+          renderInput={(param) => <TextField {...param} label={this.state.defaultDate} variant="outlined" />}
         />
 
-        <div style={{marginLeft: "27px", marginTop: "20px", color: "#0072CE", fontSize: "18px", display: "inline-block", verticalAlign: "middle"}}>Reset</div>
+        <div onClick={this.reset}
+            style={{marginLeft: "27px", marginTop: "20px", cursor: "pointer", color: "#0072CE", fontSize: "18px",
+                display: "inline-block", verticalAlign: "middle"}}>
+            Reset
+        </div>
           
         </div>
 

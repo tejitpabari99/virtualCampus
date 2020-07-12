@@ -172,6 +172,7 @@ class EventsPageDesktop extends React.Component {
     this.updateFilterTags = this.updateFilterTags.bind(this);
     this.updateOrganization = this.updateOrganization.bind(this);
     this.updateDateFilter = this.updateDateFilter.bind(this);
+    this.resetFilter = this.resetFilter.bind(this);
   }
 
   convertEventsTime(event) {
@@ -462,14 +463,47 @@ class EventsPageDesktop extends React.Component {
         ele.displayThisCard = false
     }
 
+    // Handle date
+    if (this.state.dateFilter !== "All") {
+      let d = new Date()
+      const daysApart = Math.abs((ele.start_date.getTime() - d.getTime()) / (3600*24*1000))
+      console.log(daysApart)
+      switch(this.state.dateFilter) {
+        case "This Month Only":
+          if (ele.start_date.getMonth() !== d.getMonth() || ele.start_date.getFullYear() !== d.getFullYear())
+            ele.displayThisCard = false
+        case "Within a Week":
+          if (daysApart > 7)
+            ele.displayThisCard = false
+        case "Within a Month":
+          if (daysApart > 30)
+            ele.displayThisCard = false
+        case "Within 3 Months":
+          if (daysApart > 90)
+            ele.displayThisCard = false
+      }
+    }
     return ele.displayThisCard
   }
 
   updateOrganization(club) {
-    this.setState({clubFilter: club.currentTarget.innerText})
+    this.setState({clubFilter: club})
   }
   updateDateFilter(date) {
-    this.setState({dateFilter: date.currentTarget.innerText})
+    this.setState({dateFilter: date})
+  }
+  resetFilter() {
+    this.setState({
+      eventSearchError: '',
+      searchVal: "",
+      defaultSearchInput: '',
+      hiddenSearch: '',
+      mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
+      filterTagsClicked: {},
+      clubFilter: "All",
+      dateFilter: "This Month Only"
+    });
+    this.searchFunc('')
   }
 
   render() {
@@ -572,6 +606,7 @@ class EventsPageDesktop extends React.Component {
                 updateTags={(tag) => { this.updateFilterTags(tag) }}
                 updateClub={(club) => { this.updateOrganization(club) }}
                 updateDate={(date) => { this.updateDateFilter(date) }}
+                resetFilter={() => { this.resetFilter() }}
                 onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
                 onCancel={() => { this.searchFunc('') }}
         />
