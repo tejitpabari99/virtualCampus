@@ -148,3 +148,104 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
     }
   });
 });
+
+exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== 'GET') {
+      return;
+    }
+  
+    function processTime(start_time, end_time){
+      const range_1 = Math.floor(((end_time - start_time) / (1000 * 60 * 60)) % 24);
+      var slots = []
+      var stime_1 = start_time
+      var etime_1 = end_time
+      slots.push(stime_1.toString());
+      
+      for(var i = 0; i < range_1; i++){
+          var time_1 = stime_1;
+          var start = new Date(time_1);
+          start.setHours(start.getHours()+1);
+          slots.push(start.toString());
+          stime_1 = start;
+      }
+    
+      return slots;
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(req.query.token, process.env.JWT_KEY);
+    } catch(err) {
+      if (err.name === 'TokenExpiredError') {
+        return res.status(500).send("Token expired! Please try signing up again.");
+      }
+      return res.status(500).send("Invalid token! Please try signing up again.");
+    }
+    
+    const host_name = decoded.data.host_name;
+    const host_email = decoded.data.host_email;
+    const host_bio = decoded.data.host_bio;
+    const host_interviewExp = decoded.data.host_interviewExp;
+    const host_workExp = decoded.data.host_workExp;
+    const start_time_1 = decoded.data.start_time_1;
+    const end_time_1 = decoded.data.end_time_1;
+    const start_time_2 = decoded.data.start_time_2;
+    const end_time_2 = decoded.data.end_time_2;
+    const start_time_3 = decoded.data.start_time_3;
+    const end_time_3 = decoded.data.end_time_3;
+    const timezone = decoded.data.timezone;
+    const db = admin.firestore();
+
+    try{
+      const doc = await db.collection('technical').where("host_email", "==", host_email).get()
+      if(doc.size > 1){
+        return res.status(412).send("You have already signed-up to be an interviewer.", doc.data());
+      }
+    } catch(err){
+        return res.status(500).send(err)
+    }
+
+    let slots = [];
+    slots.push(processTime(start_time_1, end_time_1));
+    if(start_time_2 && end_time_2){
+      slots.push(processTime(start_time_2, end_time_2));
+    }
+    if(start_time_3 && end_time_3){
+      slots.push(processTime(start_time_3, end_time_3));
+    }
+  
+    let times = []
+    let scheduled = 0;
+    try {
+      for(var k = 0; k < slots.length; k++){
+          times = slots[k];
+          for(var j = 0; j < times.length - 1 && j + 1 < times.length ; j++){
+              db.collection("technical").add({
+                  host_name,
+                  host_email,
+                  attendee_email: "",
+                  attendee_name: "",
+                  available: true,
+                  host_bio,
+                  host_interviewExp,
+                  host_workExp,
+                  interview_comments: "",
+                  timezone,
+                  start_date: slots[k][j],
+                  end_date: slots[k][j+1]
+                });
+
+              if(scheduled++ == 20){
+                break;
+              }
+          }
+      }
+      
+    } catch (err){
+        return res.status(500).send(err); 
+    }
+
+    return res.status(200).send('Success! You can close this window now.');
+  });
+});
