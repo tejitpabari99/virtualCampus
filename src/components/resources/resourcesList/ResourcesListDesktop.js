@@ -6,6 +6,7 @@ import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
@@ -101,10 +102,23 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             })}
 
             <Heading color={'blue'}
-                     style={{fontSize: '28px', textAlign:'center', paddingTop: '60px'}}
+                     style={{fontSize: '25px', lineHeight: '42px', textAlign:'left', paddingTop: '60px'}}
             >{"Want to add your own resource?"}</Heading>
-
-            <div style={{textAlign:'center', marginTop: '3%'}}>
+            <div style={{
+                width: '285px',
+                height: '80px',
+                textAlign: 'left'
+            }}>
+                <span style={{
+                    fontStyle: 'normal',
+                    fontColor: '#000000',
+                    fontSize: '14px',
+                    lineHeight: '10px'}}>
+                    Thank you for your interest in sharing your resource through CVC.
+                    Please click the button below to fill out a short form.
+                </span>
+            </div>
+            <div style={{textAlign:'left', marginTop: '3%'}}>
               <CustomButton text={"ADD RESOURCE"}
                             href={"/resources/add-new-resource"}
                             color={"orange"}

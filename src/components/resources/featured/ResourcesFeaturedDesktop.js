@@ -89,7 +89,7 @@ export default function ResourcesFeaturedDesktop() {
   const contStyle = containerStyles();
   return (
     <MuiThemeProvider theme={theme}>
-    <Carousel>
+    <Carousel animation={"slide"}>
         {
             Object.keys(FeaturedData).map(key => {
               let data = FeaturedData[key];
