@@ -155,11 +155,10 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
       return;
     }
   
-    function processTime(start_time, end_time){
+    const processTime = (start_time, end_time) => {
       const range_1 = Math.floor(((end_time - start_time) / (1000 * 60 * 60)) % 24);
-      var slots = []
-      var stime_1 = start_time
-      var etime_1 = end_time
+      var slots = [];
+      var stime_1 = start_time;
       slots.push(stime_1.toString());
       
       for(var i = 0; i < range_1; i++){
@@ -169,7 +168,6 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
           slots.push(start.toString());
           stime_1 = start;
       }
-    
       return slots;
     }
 
@@ -196,11 +194,12 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
     const end_time_3 = decoded.data.end_time_3;
     const timezone = decoded.data.timezone;
     const db = admin.firestore();
-
+    
     try{
-      const doc = await db.collection('technical').where("host_email", "==", host_email).get()
+      const doc = await db.collection('technical')
+        .where("host_email", "==", host_email).get();
       if(doc.size > 1){
-        return res.status(412).send("You have already signed-up to be an interviewer.", doc.data());
+        return res.status(412).send("You have already signed-up to be an interviewer.");
       }
     } catch(err){
         return res.status(500).send(err)
@@ -221,7 +220,8 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
       for(var k = 0; k < slots.length; k++){
           times = slots[k];
           for(var j = 0; j < times.length - 1 && j + 1 < times.length ; j++){
-              db.collection("technical").add({
+            /* eslint-disable no-await-in-loop */
+            await db.collection("technical").add({
                   host_name,
                   host_email,
                   attendee_email: "",
@@ -236,16 +236,14 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
                   end_date: slots[k][j+1]
                 });
 
-              if(scheduled++ == 20){
+              if(scheduled++ === 20){
                 break;
               }
           }
       }
-      
+      return res.status(200).send('Success! You can close this window now.');
     } catch (err){
-        return res.status(500).send(err); 
+      return res.status(500).send(err); 
     }
-
-    return res.status(200).send('Success! You can close this window now.');
   });
 });

@@ -252,22 +252,21 @@ class InterviewerForm extends React.Component {
     const end_time_3 = values.end_time_3;
     const timezone = values.timezone;
 
-    // 7/26/2020 1:00 - 5:00 EDT
     const range_1 = `${start_time_1.toLocaleDateString('en')} ${start_time_1.toLocaleTimeString('en-US')} - 
-    ${end_time_1.toLocaleTimeString("en-US")} ${timezone.split("$")[0]}`;
+    ${end_time_1.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
     let range_2;
     let range_3;
     if(start_time_2 !== null || end_time_2 !== null){
       start_time_2 = new Date(start_time_2);
       end_time_2 = new Date(end_time_2);
       range_2 = `${start_time_2.toLocaleDateString('en')} ${start_time_2.toLocaleTimeString('en-US')} - 
-      ${end_time_2.toLocaleTimeString("en-US")} ${timezone.split("$")[0]}`;
+      ${end_time_2.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
     }
     if(start_time_3 !== null || end_time_3 !== null){
       start_time_3 = new Date(start_time_3);
       end_time_3 = new Date(end_time_3);
       range_3 = `${start_time_3.toLocaleDateString('en')} ${start_time_3.toLocaleTimeString('en-US')} - 
-      ${end_time_3.toLocaleTimeString("en-US")} ${timezone.split("$")[0]}`;
+      ${end_time_3.toLocaleTimeString("en-US", {timeZoneName:'short'})}`
     }
     const URL = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/scheduleEvents';
     const token = jwt.sign({
@@ -295,13 +294,14 @@ class InterviewerForm extends React.Component {
         Thanks for signing up! Confirm your availability (listed below) by clicking the link. 
         It will expire in 24 hours.<br/><br/>
         ${range_1}<br/>
-        ${range_2 && `${range_2} <br/>`}
-        ${range_3 && `${range_3} <br/>`}<br/>
+        ${range_2 ? `${range_2} <br/>`: ''}
+        ${range_3 ? `${range_3} <br/>`: ''}<br/>
         ${URL}?token=${token}<br/><br/>
         If you do not wish to confirm, no action is required.<br/><br/>
         Thanks,<br/>
         CVC`
       };
+    console.log(emailData);
     Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
         .then(res => {
           this.setState({submitStatus: "success", activityIndicatory: false});
