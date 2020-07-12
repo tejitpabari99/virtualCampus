@@ -20,9 +20,10 @@ import GridItem from "../material-kit-components/Grid/GridItem";
 // import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import {  CustomHeader, Template } from "..";
 import Container from "@material-ui/core/Container";
-import * as firebase from "firebase";
 import TZ from "countries-and-timezones";
 import * as Events from "../../pages/events";
+import Axios from "axios";
+import * as jwt from "jsonwebtoken";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -31,7 +32,7 @@ const initVal = {
   host_bio: "",
   host_workExp: "",
   host_interviewExp: "",
-  timezone_1: "",
+  timezone: "",
   start_time_1: null,
   end_time_1: null,
   timezone_2: "",
@@ -65,7 +66,7 @@ const validationSchema = Yup.object().shape({
     .max("100", "Please less than 100 characters"),
   host_interviewExp: Yup.string()
     .required("Required"),
-  timezone_1: Yup.string()
+  timezone: Yup.string()
     .required("Required"),
   start_time_1: Yup.string()
     .required("Required")
@@ -77,26 +78,7 @@ const validationSchema = Yup.object().shape({
 
 const defaultTimezone = "America/New_York";
 
-function processTime(start_time, end_time){
-  if (start_time == null || start_time === "" || end_time == null || end_time === ""){
-    return "";
-  }
-  const range_1 = Math.floor(((end_time - start_time) / (1000 * 60 * 60)) % 24);
-  var slots = []
-  var stime_1 = start_time
-  var etime_1 = end_time
-  slots.push(stime_1.toString());
-  
-  for(var i = 0; i < range_1; i++){
-      var time_1 = stime_1;
-      var start = new Date(time_1);
-      start.setHours(start.getHours()+1);
-      slots.push(start.toString());
-      stime_1 = start;
-  }
 
-  return slots;
-}
 
 
 let dst = function (loc = getCurrentLocationForTimeZone()) {
@@ -257,7 +239,77 @@ class InterviewerForm extends React.Component {
 
   submitHandler(values) {
     this.setState({activityIndicatory: true});
-    this.uploadInterview(values);
+    const host_name = values.host_name;
+    const host_email = values.host_email;
+    const host_bio = values.host_bio;
+    const host_interviewExp = values.host_interviewExp;
+    const host_workExp = values.host_workExp;
+    const start_time_1 = new Date(values.start_time_1);
+    const end_time_1 = new Date(values.end_time_1);
+    const start_time_2 = values.start_time_2;
+    const end_time_2 = values.end_time_2;
+    const start_time_3 = values.start_time_3;
+    const end_time_3 = values.end_time_3;
+    const timezone = values.timezone;
+
+    // 7/26/2020 1:00 - 5:00 EDT
+    const range_1 = `${start_time_1.toLocaleDateString('en')} ${start_time_1.toLocaleTimeString('en-US')} - 
+    ${end_time_1.toLocaleTimeString("en-US")} ${timezone.split("$")[0]}`;
+    let range_2;
+    let range_3;
+    if(start_time_2 !== null || end_time_2 !== null){
+      start_time_2 = new Date(start_time_2);
+      end_time_2 = new Date(end_time_2);
+      range_2 = `${start_time_2.toLocaleDateString('en')} ${start_time_2.toLocaleTimeString('en-US')} - 
+      ${end_time_2.toLocaleTimeString("en-US")} ${timezone.split("$")[0]}`;
+    }
+    if(start_time_3 !== null || end_time_3 !== null){
+      start_time_3 = new Date(start_time_3);
+      end_time_3 = new Date(end_time_3);
+      range_3 = `${start_time_3.toLocaleDateString('en')} ${start_time_3.toLocaleTimeString('en-US')} - 
+      ${end_time_3.toLocaleTimeString("en-US")} ${timezone.split("$")[0]}`;
+    }
+    const URL = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/scheduleEvents';
+    const token = jwt.sign({
+        expiresIn: "24h",
+        data: {
+          host_name,
+          host_email,
+          host_bio,
+          host_interviewExp,
+          host_workExp,
+          start_time_1,
+          end_time_1,
+          start_time_2,
+          end_time_2,
+          start_time_3,
+          end_time_3,
+          timezone
+        }
+      }, process.env.GATSBY_JWT_SECRET_KEY);
+    const emailData = {
+        from: "columbiavirtualcampus@gmail.com",
+        to: host_email,
+        subject: "ACTION REQUIRED: Complete your interviewer signup!",
+        text: `Dear ${host_name},<br/><br/>
+        Thanks for signing up! Confirm your availability (listed below) by clicking the link. 
+        It will expire in 24 hours.<br/><br/>
+        ${range_1}<br/>
+        ${range_2 && `${range_2} <br/>`}
+        ${range_3 && `${range_3} <br/>`}<br/>
+        ${URL}?token=${token}<br/><br/>
+        If you do not wish to confirm, no action is required.<br/><br/>
+        Thanks,<br/>
+        CVC`
+      };
+    Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
+        .then(res => {
+          this.setState({submitStatus: "success", activityIndicatory: false});
+        })
+        .catch(err => {
+            console.log(err);
+            this.setState({submitStatus: "error", activityIndicatory: false});
+        });
   }
 
   getHeadMessage() {
@@ -280,65 +332,6 @@ class InterviewerForm extends React.Component {
     }
   }
 
-  uploadInterview(data){
-
-    // const start = new Date(start_time);
-    // start.setHours(start.getHours()+1);
-    // const diff = end_time - start_time
-    // //console.log(end_time - start_time);
-    // console.log(start_time)
-    // const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    // console.log(hours);
-
-    //   const range_1 = Math.floor(((data["end_time_1"] - data["start_time_1"]) / (1000 * 60 * 60)) % 24);
-    //   var slots_1 = []
-    //   var stime_1 = data["start_time_1"]
-    //   var etime_1 = data["end_time_1"]
-    //   slots_1.push(stime_1.toString());
-    //   for(var i = 0; i < range_1; i++){
-    //     var time_1 = stime_1;
-    //     var start = new Date(time_1);
-    //     start.setHours(start.getHours()+1);
-    //     slots_1.push(start.toString());
-    //     stime_1 = start;
-    //   }
-      //console.log(slots_1)
-
-    var slots = [];
-    const db = firebase.firestore();
-    slots.push(processTime(data["start_time_1"], data["end_time_1"]));
-    slots.push(processTime(data["start_time_2"], data["end_time_2"]));
-    slots.push(processTime(data["start_time_3"], data["end_time_3"]));
-
-    console.log(slots);
-    var times = []
-    try {
-      for(var k = 0; k < slots.length; k++){
-        if(slots[k] !== "" && slots[k] !== null){
-            times = slots[k];
-            for(var j = 0; j < times.length - 1 && j + 1 < times.length ; j++){
-                db.collection("technical").add({
-                    host_name: data["host_name"],
-                    host_email: data["host_email"],
-                    attendee_email: "",
-                    attendee_name: "",
-                    available: true,
-                    host_bio: data["host_bio"],
-                    host_interviewExp: data["host_interviewExp"],
-                    host_workExp: data["host_workExp"],
-                    interview_comments: "",
-                    timezone: data["timezone_1"],
-                    start_date: slots[k][j],
-                    end_date: slots[k][j+1]
-                  });
-            }
-        }
-      }
-    } catch (err){
-      this.setState({ submitStatus: "error", activityIndicatory: false})
-    }
-    this.setState({ submitStatus: "success", activityIndicatory: false})
-  }
 
   restrictEndTime(state, date){
     this.setState({state: date});
@@ -450,6 +443,7 @@ class InterviewerForm extends React.Component {
                         validationSchema={validationSchema}
                       >
                         {({ dirty, isValid, errors, touched }) => {
+                          console.log(errors);
                           return (
                             <Form>
                               <div style={{ margin: "15px 0" }}>
@@ -573,7 +567,7 @@ class InterviewerForm extends React.Component {
                                   </GridItem>
                                   <GridItem xs={12} sm={4}>
                                     <Field
-                                      name="timezone_1"
+                                      name="timezone"
                                       label="Select Timezone"
                                       options={optionsTZ}
                                       component={Select}
@@ -606,7 +600,7 @@ class InterviewerForm extends React.Component {
                                   <GridItem xs={12} sm={4}>
 
                                     <Field
-                                      name="timezone_1"
+                                      name="timezone"
                                       label="Select Timezone"
                                       options={optionsTZ}
                                       component={Select}
@@ -638,7 +632,7 @@ class InterviewerForm extends React.Component {
                                   </GridItem>
                                   <GridItem xs={12} sm={4}>
                                     <Field
-                                      name="timezone_1"
+                                      name="timezone"
                                       label="Select Timezone"
                                       options={optionsTZ}
                                       component={Select}
