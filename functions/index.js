@@ -49,7 +49,7 @@ exports.approveEvent = functions.https.onRequest((req, res) => {
       if (req.method !== 'GET') {
         return;
       }
-      var db = admin.firestore();
+      let db = admin.firestore();
       db.collection('events').doc(req.query.eventId).update({ approved: true })
         .then(() => {
           return res.status(200).send("success");
@@ -156,14 +156,16 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
     }
   
     const processTime = (start_time, end_time) => {
-      const range_1 = Math.floor(((end_time - start_time) / (1000 * 60 * 60)) % 24);
-      var slots = [];
-      var stime_1 = start_time;
+      start_time = new Date(start_time);
+      end_time = new Date(end_time);
+      const range = Math.floor(((end_time - start_time) / (1000 * 60 * 60)) % 24);
+      let slots = [];
+      let stime_1 = start_time;
       slots.push(stime_1.toString());
       
-      for(var i = 0; i < range_1; i++){
-          var time_1 = stime_1;
-          var start = new Date(time_1);
+      for(let i = 0; i < range; i++){
+          let time_1 = stime_1;
+          let start = new Date(time_1);
           start.setHours(start.getHours()+1);
           slots.push(start.toString());
           stime_1 = start;
@@ -213,13 +215,13 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
     if(start_time_3 && end_time_3){
       slots.push(processTime(start_time_3, end_time_3));
     }
-  
+    
     let times = []
     let scheduled = 0;
     try {
-      for(var k = 0; k < slots.length; k++){
+      for(let k = 0; k < slots.length; k++){
           times = slots[k];
-          for(var j = 0; j < times.length - 1 && j + 1 < times.length ; j++){
+          for(let j = 0; j < times.length - 1 && j + 1 < times.length ; j++){
             /* eslint-disable no-await-in-loop */
             await db.collection("technical").add({
                   host_name,

@@ -535,9 +535,10 @@ class InterviewerForm extends React.Component {
                                   lineHeight: "30px",
                                   color: "black"
                                 }}>
-                                  * Please provide at least 1 range of time from <strong>{minDate.toDateString()}</strong> to 
-                                  <strong> {maxDate.toDateString()}</strong> where you are available to be an
-                                  interviewer and please ensure that the ranges are <strong>on the hour</strong>.
+                                  * Please provide your availability from <strong>{minDate.toDateString()}</strong> to 
+                                  <strong> {maxDate.toDateString()}</strong> and please ensure that the ranges are 
+                                  <strong>on the hour</strong>. We will select a few hours from these ranges and schedule 
+                                  sessions for you.
                                 </div>
                                 <GridContainer>
                                   <GridItem xs={6} sm={4}>
