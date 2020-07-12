@@ -136,6 +136,7 @@ export default class EventSearch extends React.Component{
           options={this.props.organizationList}
           getOptionLabel={(option) => option.name}
           style={{ width: 466, marginTop: "20px", marginLeft: "20px", display: "inline-block"}}
+          onChange={this.props.updateClub}
           renderInput={(params) => <TextField {...params} label="All clubs / organizations" variant="outlined" />}
         />
 
@@ -143,6 +144,7 @@ export default class EventSearch extends React.Component{
           options={this.props.dateList}
           getOptionLabel={(option) => option.date}
           style={{ width: 466, marginTop: "20px", marginLeft: "16px", display: "inline-block"}}
+          onChange={this.props.updateDate}
           renderInput={(param) => <TextField {...param} label="All dates" variant="outlined" />}
         />
 

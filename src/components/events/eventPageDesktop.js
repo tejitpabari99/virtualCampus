@@ -159,15 +159,19 @@ class EventsPageDesktop extends React.Component {
       defaultSearchInput:'',
       tagList: [],
       organizationList:[],
-      dateList:[{"date": "Within a week"}, {"date": "Within a Month"}, {"date": "Within 3 Months"}],
+      dateList:[{"date": "This Month Only"}, {"date": "Within a Week"}, {"date": "Within a Month"}, {"date": "Within 3 Months"}, {"date": "All"}],
       hiddenSearch: '',
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
-      filterTagsClicked: {}
+      filterTagsClicked: {},
+      clubFilter: "All",
+      dateFilter: "This Month Only"
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
     this.handleMainTags = this.handleMainTags.bind(this);
-    this.updateFilterTags = this.updateFilterTags.bind(this)
+    this.updateFilterTags = this.updateFilterTags.bind(this);
+    this.updateOrganization = this.updateOrganization.bind(this);
+    this.updateDateFilter = this.updateDateFilter.bind(this);
   }
 
   convertEventsTime(event) {
@@ -253,6 +257,7 @@ class EventsPageDesktop extends React.Component {
   genOrganizationList(eventsMap)
   {
     let organizations = []
+    organizations.push({"name": "All"})
     eventsMap.map(x => {
       organizations.push({"name": x.name})
     })
@@ -260,7 +265,6 @@ class EventsPageDesktop extends React.Component {
   }
 
   updateFilterTags(tag) {
-    console.log("HERERE")
     let x = this.state.filterTagsClicked
     if (x[tag] === undefined) {
       x[tag] = tag
@@ -408,7 +412,7 @@ class EventsPageDesktop extends React.Component {
 
   isEventShowable(ele) {
     ele.tagsForFilter = this.state.mainTagsClicked
-    // Handle tag filter
+    // Handle main tags filter
     let shouldDisplayRecurring = ele["tagsForFilter"].recurring === "on" ? true : false
     let shouldDisplayPopular = ele["tagsForFilter"].popular === "on" ? true : false
     let shouldDisplayPast = ele["tagsForFilter"].past === "on" ? true : false
@@ -428,6 +432,7 @@ class EventsPageDesktop extends React.Component {
     if (ele.displayThisCard && ele.displayPast && !shouldDisplayPast)
       ele.displayThisCard = false
 
+    // Process regular tag filter
     let filterPass = true
     if (ele.displayThisCard === true) {
       Object.keys(this.state.filterTagsClicked).map(x => {
@@ -435,10 +440,8 @@ class EventsPageDesktop extends React.Component {
         console.log(x)
         if (this.state.filterTagsClicked[x] !== undefined) {
           ele.tags.map(y => {
-            console.log(y + " tag")
             if (x.toLowerCase() === y.toLowerCase()) {
               found = true
-              console.log(x + " found")
             }
           })
 
@@ -453,7 +456,20 @@ class EventsPageDesktop extends React.Component {
       ele.displayThisCard = false
     }
 
+    // Handle Organization
+    if (this.state.clubFilter !== "All") {
+      if (this.state.clubFilter !== ele.name)
+        ele.displayThisCard = false
+    }
+
     return ele.displayThisCard
+  }
+
+  updateOrganization(club) {
+    this.setState({clubFilter: club.currentTarget.innerText})
+  }
+  updateDateFilter(date) {
+    this.setState({dateFilter: date.currentTarget.innerText})
   }
 
   render() {
@@ -554,6 +570,8 @@ class EventsPageDesktop extends React.Component {
                 organizationList = {this.state.organizationList}
                 dateList = {this.state.dateList}
                 updateTags={(tag) => { this.updateFilterTags(tag) }}
+                updateClub={(club) => { this.updateOrganization(club) }}
+                updateDate={(date) => { this.updateDateFilter(date) }}
                 onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
                 onCancel={() => { this.searchFunc('') }}
         />
