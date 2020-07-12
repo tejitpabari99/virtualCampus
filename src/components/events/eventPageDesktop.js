@@ -47,10 +47,20 @@ const useStyles = () => ({
     marginRight: "20px",
     boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)"
   },
+  greenBoxSelected: {
+    backgroundColor: "white",
+    height: "100px",
+    width: "25%",
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: "#1BAE0E",
+    marginRight: "20px",
+    boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
+  },
   greenText: {
     color:"#1BAE0E",
     textAlign: "left",
-    marginTop: "50px",
+    marginTop: "60px",
     marginLeft: "10px"
   },
   blueBox: {
@@ -63,10 +73,20 @@ const useStyles = () => ({
     marginRight: "20px",
     boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)"
   },
+  blueBoxSelected: {
+    backgroundColor: "white",
+    height: "100px",
+    width: "25%",
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: "#0072CE",
+    marginRight: "20px",
+    boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
+  },
   blueText: {
     color:"#0072CE",
     textAlign: "left",
-    marginTop: "50px",
+    marginTop: "60px",
     marginLeft: "10px"
   },
   orangeBox: {
@@ -79,10 +99,20 @@ const useStyles = () => ({
     marginRight: "20px",
     boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)"
   },
+  orangeBoxSelected: {
+    backgroundColor: "white",
+    height: "100px",
+    width: "25%",
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: "#FB750D",
+    marginRight: "20px",
+    boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
+  },
   orangeText: {
     color:"#FB750D",
     textAlign: "left",
-    marginTop: "50px",
+    marginTop: "60px",
     marginLeft: "10px"
   },
   grayBox: {
@@ -95,10 +125,20 @@ const useStyles = () => ({
     marginRight: "0px",
     boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)"
   },
+  grayBoxSelected: {
+    backgroundColor: "white",
+    height: "100px",
+    width: "25%",
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: "#515151",
+    marginRight: "0px",
+    boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
+  },
   grayText: {
-    color:"black",
     textAlign: "left",
-    marginTop: "50px",
+    marginTop: "60px",
+    color: "#515151",
     marginLeft: "10px"
   },
 
@@ -118,12 +158,16 @@ class EventsPageDesktop extends React.Component {
       searchVal: "",
       defaultSearchInput:'',
       tagList: [],
+      organizationList:[],
+      dateList:[{"date": "Within a week"}, {"date": "Within a Month"}, {"date": "Within 3 Months"}],
       hiddenSearch: '',
-      mainTagsClicked: {past: "", recurring: "", popular: "", now: ""}
+      mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
+      filterTagsClicked: {}
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
     this.handleMainTags = this.handleMainTags.bind(this);
+    this.updateFilterTags = this.updateFilterTags.bind(this)
   }
 
   convertEventsTime(event) {
@@ -206,6 +250,26 @@ class EventsPageDesktop extends React.Component {
     return Array.from(tagsList);
   }
 
+  genOrganizationList(eventsMap)
+  {
+    let organizations = []
+    eventsMap.map(x => {
+      organizations.push({"name": x.name})
+    })
+    return organizations;
+  }
+
+  updateFilterTags(tag) {
+    console.log("HERERE")
+    let x = this.state.filterTagsClicked
+    if (x[tag] === undefined) {
+      x[tag] = tag
+    } else {
+      x[tag] = undefined
+    }
+    this.setState({filterTagsClicked: x})
+  }
+
   async getEvents() {
     var db = firebase.firestore();
     var approvedEvents = await db.collection("events")
@@ -242,7 +306,9 @@ class EventsPageDesktop extends React.Component {
       return ((dateA < dateB) ? -1 : 1)
     })
 
-    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap), permEventsList: approvedEventsMap,
+    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap),
+      organizationList: this.genOrganizationList(approvedEventsMap),
+      permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
 
@@ -338,7 +404,6 @@ class EventsPageDesktop extends React.Component {
       newList[tag] = "on"
     }
     this.setState({mainTagsClicked: newList})
-    console.log(this.state.mainTagsClicked)
   }
 
   isEventShowable(ele) {
@@ -363,6 +428,31 @@ class EventsPageDesktop extends React.Component {
     if (ele.displayThisCard && ele.displayPast && !shouldDisplayPast)
       ele.displayThisCard = false
 
+    let filterPass = true
+    if (ele.displayThisCard === true) {
+      Object.keys(this.state.filterTagsClicked).map(x => {
+        let found = false
+        console.log(x)
+        if (this.state.filterTagsClicked[x] !== undefined) {
+          ele.tags.map(y => {
+            console.log(y + " tag")
+            if (x.toLowerCase() === y.toLowerCase()) {
+              found = true
+              console.log(x + " found")
+            }
+          })
+
+          if (found === false) {
+            filterPass = false
+          }
+        }
+      })
+    }
+
+    if (filterPass === false) {
+      ele.displayThisCard = false
+    }
+
     return ele.displayThisCard
   }
 
@@ -373,6 +463,7 @@ class EventsPageDesktop extends React.Component {
     let sizeOfList = 0
     let noSearchResults = ""
     let eventsList = []
+    console.log(this.state.filterTagsClicked)
     this.state.myEventsList.map((ele, ind) => {
       if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
         ele.tags = ['none']
@@ -386,6 +477,11 @@ class EventsPageDesktop extends React.Component {
     if (sizeOfList === 0) {
       noSearchResults = "No events found for that search"
     }
+
+    let grayBox = this.state.mainTagsClicked.past === "on" ? classes.grayBoxSelected : classes.grayBox
+    let blueBox = this.state.mainTagsClicked.popular === "on" ? classes.blueBoxSelected : classes.blueBox
+    let orangeBox = this.state.mainTagsClicked.recurring === "on" ? classes.orangeBoxSelected : classes.orangeBox
+    let greenBox = this.state.mainTagsClicked.now === "on" ? classes.greenBoxSelected : classes.greenBox
 
     return (
       <Template active={"schedule"} title={"Events"}>
@@ -415,7 +511,7 @@ class EventsPageDesktop extends React.Component {
         <div style={{margin: "40px"}}/>
 
         <div style={{flexDirection: "row", display: "flex"}}>
-          <div className={classes.greenBox}
+          <div className={greenBox}
                onClick={(tag) => { this.handleMainTags("now") }}
                style={{cursor: "pointer"}}>
             <div className={classes.greenText}>
@@ -423,7 +519,7 @@ class EventsPageDesktop extends React.Component {
             </div>
           </div>
 
-          <div className={classes.blueBox}
+          <div className={blueBox}
                onClick={(tag) => { this.handleMainTags("popular") }}
                style={{cursor: "pointer"}}>
             <div className={classes.blueText}>
@@ -431,7 +527,7 @@ class EventsPageDesktop extends React.Component {
             </div>
           </div>
 
-          <div className={classes.orangeBox}
+          <div className={orangeBox}
                onClick={(tag) => { this.handleMainTags("recurring") }}
                style={{cursor: "pointer"}}>
             <div className={classes.orangeText}>
@@ -439,7 +535,7 @@ class EventsPageDesktop extends React.Component {
             </div>
           </div>
 
-          <div className={classes.grayBox}
+          <div className={grayBox}
                onClick={(tag) => { this.handleMainTags("past") }}
                style={{cursor: "pointer"}}>
             <div className={classes.grayText}>
@@ -455,6 +551,9 @@ class EventsPageDesktop extends React.Component {
                 data={this.state.data}
                 ref={input => this.inputElement = input}
                 tagList = {this.state.tagList}
+                organizationList = {this.state.organizationList}
+                dateList = {this.state.dateList}
+                updateTags={(tag) => { this.updateFilterTags(tag) }}
                 onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
                 onCancel={() => { this.searchFunc('') }}
         />

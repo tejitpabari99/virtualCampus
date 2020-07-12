@@ -4,24 +4,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
 import {CustomButton} from "../";
-import ClearIcon from '@material-ui/icons/Clear';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { InvertColors } from "@material-ui/icons";
-
-const clubs = [
-  { name: "Latinx Professional and Educational Network" },
-  { name: "CU Generation"},
-  { name: "Ecoreps"},
-]
-const eventDates = [
-  { date: "July 3" },
-  { date: "July 30"},
-  { date: "August 2"},
-]
-
 
 export default class EventSearch extends React.Component{
   constructor(props) {
@@ -30,7 +13,8 @@ export default class EventSearch extends React.Component{
       searchVal:'',
       data:this.props.data,
       filter: false,
-      tagList:this.props.tagList,
+      tagList: this.props.tagList,
+      organizationList: this.props.organizationList,
       activeTagList: [],
       hiddenSearch: ''
     }
@@ -49,21 +33,15 @@ export default class EventSearch extends React.Component{
   //   console.log(changeFilter)
   //   this.setState({filter : changeFilter})
   //
-  async addActiveTag(n)
+  addActiveTag(n)
   {
-    if(this.state.activeTagList.includes(n))
-    {
-      await this.setState({activeTagList: this.state.activeTagList.filter(arrayItem => arrayItem !== n)})
+    if(this.state.activeTagList.includes(n)) {
+      this.setState({activeTagList: this.state.activeTagList.filter(arrayItem => arrayItem !== n)})
+    } else {
+      this.setState({activeTagList: this.state.activeTagList.concat(n)})
     }
-    else
-    {
-      await this.setState({activeTagList: this.state.activeTagList.concat(n)})
-    }
-
-    await this.setState({hiddenSearch : this.state.activeTagList.join(" ")})
-    console.log(this.state.activeTagList)
-    console.log( this.state.activeTagList.join(" "))
-    this.props.onClick(this.state.searchVal, this.state.hiddenSearch)
+    this.setState({hiddenSearch : this.state.activeTagList.join(" ")})
+    this.props.updateTags(n)
   }
   
 
@@ -140,29 +118,29 @@ export default class EventSearch extends React.Component{
 
           <br/>
 
-            {/*<span style={{marginLeft: "20px", marginTop: "27px"}}>Tags</span>
+            <span style={{marginLeft: "20px", marginTop: "27px"}}>Tags</span>
 
           {this.props.tagList.map(n => {
                 return(
                 <CustomButton 
                 onClick={() => {this.addActiveTag(n)}}
                 text={n} 
-                style={{width: "80px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
+                style={{height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px", borderColor:"#0072CE"}}
                 color={this.state.activeTagList.includes(n) ? "blueInvert" : "blue"} size={"small"}/>)
               }
-          )}*/}
+          )}
 
           <br/>
 
         <Autocomplete
-          options={clubs}
+          options={this.props.organizationList}
           getOptionLabel={(option) => option.name}
           style={{ width: 466, marginTop: "20px", marginLeft: "20px", display: "inline-block"}}
           renderInput={(params) => <TextField {...params} label="All clubs / organizations" variant="outlined" />}
         />
 
         <Autocomplete
-          options={eventDates}
+          options={this.props.dateList}
           getOptionLabel={(option) => option.date}
           style={{ width: 466, marginTop: "20px", marginLeft: "16px", display: "inline-block"}}
           renderInput={(param) => <TextField {...param} label="All dates" variant="outlined" />}
