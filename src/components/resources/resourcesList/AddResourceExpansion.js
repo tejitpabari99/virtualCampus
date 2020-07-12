@@ -9,11 +9,14 @@ import {CustomButton} from "../../index";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
-    marginLeft: '30px'
+    position: 'relative',
+    maxWidth: '100%',
+    marginTop: '15px',
+    marginBottom: '15px',
   },
   panel:{
-    background: 'rgba(242, 249, 253, 0.75)'
+    background: 'rgba(242, 249, 253, 0.75)',
+    width: '100vw',
   },
   heading: {
     fontSize: theme.typography.pxToRem(20),
@@ -41,16 +44,16 @@ export default function AddResourcesMobile() {
     <div className={classes.root}>
       <ExpansionPanel className={classes.panel}>
         <ExpansionPanelSummary
+          style={{ width: '95%' }}
           expandIcon={<ExpandMoreIcon style={{ color: "#0072CE" }} />}
           aria-controls="panel1a-content"
-          id="panel1a-header"
         >
-          <Typography style={{ width:"240px", height:"58px", marginLeft:'5px', marginTop:'6px' }} className={classes.heading}>
+          <Typography style={{ width:"240px", height:"58px", marginLeft:'30px', marginTop:'6px' }} className={classes.heading}>
               Want to add your own resource?
           </Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography className={classes.desc} style={{marginLeft: '5px', textAlign:"left"}}>
+        <ExpansionPanelDetails style={{ height: '170px' }}>
+          <Typography className={classes.desc} style={{marginLeft: '30px', marginRight: '20px', textAlign:"left"}}>
               Thank you for your interest in sharing your resource through CVC.
               Please click the button below to fill out a short form.
             <br />
