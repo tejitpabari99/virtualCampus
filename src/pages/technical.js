@@ -222,12 +222,12 @@ class Technical extends React.Component {
       // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
       // America/New_York should be changed to the user's time zone who created the event, if they
       // Choose to use their time zone rather than EST.
-      const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
-      const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
+      //const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
+      //const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
 
       // Second, convert those consts above to user's local time
-      event.start_date = convertUTCToLocal(UTCStart);
-      event.end_date = convertUTCToLocal(UTCEnd);
+      event.start_date = convertUTCToLocal(event.start_date);
+      event.end_date = convertUTCToLocal(event.end_date);
       // get timezone to display
       event.timeZoneGMT = getTimezoneName(getCurrentLocationForTimeZone(), dst());
     }
