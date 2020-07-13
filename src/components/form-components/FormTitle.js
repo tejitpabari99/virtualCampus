@@ -30,11 +30,13 @@ const useStyles = makeStyles(() => ({
 
 }))
 
+
+
 const FormTitle = (props) => {
     const classes = useStyles()
 
-    return (
-        <Grid item xs={4}>
+    const info = (
+        <div>
             <div className={classNames(classes.root, classes.title)}>
                 {props.title}
             </div>
@@ -48,9 +50,21 @@ const FormTitle = (props) => {
             <div className={classNames(classes.root, classes.smallTitle, classes.topBuffer)}>
                 View a Live Preview of Your Event at the Bottom of Page Before You Submit!
             </div>
-        </Grid>
-
+        </div>
     )
+
+    let wrapper = info
+
+    if (props.desktop) {
+        wrapper = (
+            <Grid item xs={4}>
+                {info}
+            </Grid>
+        )
+    }
+
+    return wrapper
+
 }
 
 export default FormTitle

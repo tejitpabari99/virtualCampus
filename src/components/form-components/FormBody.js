@@ -16,13 +16,9 @@ import WebsiteAndZoom from "./WebsiteAndZoom"
 import Button from "@material-ui/core/Button";
 
 
-const useStyles = makeStyles(() => {
-
-})
-
 const FormBody = (props) => {
-    return (
-        <Grid item xs={8}>
+    const content = (
+        <div>
             <Formik
                 initialValues={props.initVal}
                 onSubmit={props.submit}
@@ -39,6 +35,7 @@ const FormBody = (props) => {
                                 touchedEmail={touched.email}
                             />
                             <EntryDetails
+
                                 title={props.title}
                                 entryTitle={props.entryTitle}
                                 errorTitle={errors.title}
@@ -54,8 +51,11 @@ const FormBody = (props) => {
                             <div>
                                 {props.children}
                             </div>
-                            <WebsiteAndZoom touched={touched} errors={errors}/>
-                            <Tags tags={['Activism', 'COVID', 'Social', 'Health', 'Education']} />
+                            <WebsiteAndZoom
+                                touched={touched}
+                                errors={errors} />
+                            <Tags
+                                tags={['Activism', 'COVID', 'Social', 'Health', 'Education']} />
                             <AdditionalInfo
                                 errorComments={errors.comments}
                                 touchedComments={touched.comments}
@@ -65,8 +65,21 @@ const FormBody = (props) => {
                     )
                 }}
             </Formik>
-        </Grid>
+        </div>
     )
+
+    let wrapper = content
+
+    if (props.desktop != null) {
+        wrapper = (
+            <Grid item xs={8}>
+                {content}
+            </Grid>
+        )
+    }
+
+    return wrapper
+
 }
 
 export default FormBody
