@@ -32,6 +32,9 @@ import kevin from "../../assets/images/about-us/TeamMembers/kevin.jpg";
 import rupal from "../../assets/images/about-us/TeamMembers/rupal.jpg";
 import saumya from "../../assets/images/about-us/TeamMembers/saumya.png";
 import bonnie from "../../assets/images/about-us/TeamMembers/bonnie.jpg";
+import jiho from "../../assets/images/about-us/TeamMembers/jiho.jpg";
+import alistair from "../../assets/images/about-us/TeamMembers/alistair.jpg"
+import tiffeny from "../../assets/images/about-us/TeamMembers/tiffeny.png"
 
 const useStyles = makeStyles(styles);
 
@@ -57,7 +60,7 @@ export default function TeamSection() {
           <TeamMember position={'Co Founder'} name={'Tejit Pabari'}
                       image={tejit}
                       description={'I am a junior studying CS in the Intelligence System track. ' +
-                      'My experience includes App and Web dev, along with a few AI/NLP projects.' +
+                      'My experience includes App and Web dev, along with a few AI/NLP projects. ' +
                       'Apart from coding, I love watching Anime and TV Shows!'}
                       facebook={"https://www.facebook.com/tejit.pabari"}
                       github={"https://github.com/tejitpabari99"}
@@ -107,7 +110,18 @@ export default function TeamSection() {
                       linkedin={"https://www.linkedin.com/in/canfer-akbulut/"}
           />
         </GridItem>
-        <GridItem xs={0} sm={0} md={4}>
+        <GridItem xs={0} sm={0} md={2}>
+        </GridItem>
+          <GridItem xs={12} sm={6} md={4}>
+            <TeamMember position={'Events Lead'} name={'James Mastran'}
+                        image={james}
+                        description={'I\'m a Senior studying Computer Engineering in SEAS. ' +
+                        'Previously, I attended Washington & Jefferson College where I earned a BA in CIS. '+
+                        'I am excited to intern at Capital One this Summer.'}
+                        github={"https://github.com/mastranj"}
+                        facebook={"https://www.facebook.com/james.mastran/"}
+                        linkedin={"https://www.linkedin.com/in/james-mastran-247754187/"}
+            />
         </GridItem>
         <GridItem xs={12} sm={6} md={4}>
           <TeamMember position={'Faculty Advisor'} name={'Lydia Chilton'}
@@ -126,13 +140,7 @@ export default function TeamSection() {
       <Heading color={'blue'}>Events Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
-        <GridItem xs={0} sm={0} md={1}/>
-        <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'SEAS \'21'} name={'James Mastran'} image={james} noDescription/>
-        </GridItem>
-        <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'Barnard \'20'} name={'Claire Adams'} image={claire} noDescription/>
-        </GridItem>
+          <GridItem xs={0} sm={0} md={2}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'Barnard \'22'} name={'Hariti Patel'} image={hariti} noDescription/>
         </GridItem>
@@ -142,23 +150,32 @@ export default function TeamSection() {
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'21'} name={'Bonnie Wang'} image={bonnie} noDescription/>
         </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'SEAS \'21'} name={'Alistair Kapadia'} image={alistair} noDescription/>
+        </GridItem>
       </GridContainer>
 
       <Heading color={'blue'}>Resources Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
-        <GridItem xs={0} sm={0} md={2}/>
+        <GridItem xs={0} sm={0} md={1}/>
         <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'Barnard \'21'} name={'Tamanna Hussain'} image={tamanna} noDescription/>
+          <TeamMember position={'CC \'21'} name={'Daniella Truong'} image={daniella} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'CC \'21'} name={'Ji Ho Hyun'} image={jiho} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'SEAS \'22'} name={'Luiz do Valle'} image={luiz} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'CC \'21'} name={'Michelle Lin'} image={michelle} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'CC \'21'} name={'Daniella Truong'} image={daniella} noDescription/>
+          <TeamMember position={'Barnard \'21'} name={'Tamanna Hussain'} image={tamanna} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'SEAS \'22'} name={'Luiz do Valle'} image={luiz} noDescription/>
+          <TeamMember position={'SEAS \'22'} name={'Tiffeny Chen'} image={tiffeny} noDescription/>
         </GridItem>
       </GridContainer>
 
@@ -189,15 +206,12 @@ export default function TeamSection() {
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
         <GridItem xs={0} sm={0} md={2}/>
-        <GridItem xs={0} sm={0} md={1}/>
+        <GridItem xs={0} sm={0} md={2}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'Barnard \'22'} name={'Caroline Mao'} image={caroline} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'21'} name={'Hayun Chong'} image={hayun} noDescription/>
-        </GridItem>
-        <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'CC \'21'} name={'Rupal Gupta'} image={rupal} noDescription/>
         </GridItem>
       </GridContainer>
     </div>

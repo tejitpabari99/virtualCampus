@@ -2,16 +2,14 @@ import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { MetaData, EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
-import TZ from "countries-and-timezones";
-import AddIcon from "@material-ui/icons/Add";
+import "../components/events/react-big-calendar.css";
+import { EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
 import firebase from "../firebase";
 import Fuse from 'fuse.js';
-import Subtitle from "../components/text/Subtitle";
 import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
-  getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate}
+  getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
   from "../components/all/TimeFunctions"
+import CustomToolbar from "../components/events/CalendarToolBar"
 
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({
@@ -21,7 +19,6 @@ const useStyles = () => ({
   }
 
 });
-
 
 class Events extends React.Component {
   constructor(props) {
@@ -45,7 +42,6 @@ class Events extends React.Component {
   convertEventsTime(event) {
     const tzString = event.timezone;
 
-    // Remove redudancy (AKA remove the evidence -.0)
     event.start_date = event.start_date.split("GMT")[0];
     event.end_date = event.end_date.split("GMT")[0];
 
@@ -174,15 +170,34 @@ class Events extends React.Component {
   }
 
   EventDisplay = ({ event }) => (
-    <div>
-      <div style={{ fontSize: 15, marginBottom: 3 }}>{event.event}</div>
-      <div style={{ fontSize: 13 }}>{this.formatTime(event.start_date.getHours(), event.start_date.getMinutes())} -
-        {this.formatTime(event.end_date.getHours(), event.end_date.getMinutes())}</div>
+    <div style={{height:"1.2em"}}>
+      <div style={{ fontSize: ".7em" }}>{event.event}</div>
     </div>
   );
 
+
+  getMonthName() {
+    var d = new Date();
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    return month[d.getMonth()];
+  }
+
   render() {
     const { classes } = this.props;
+    const date = new Date();
+
     return (
       <Template active={"schedule"} title={"Events"}>
         <Title color={"blue"}>All Events</Title>
@@ -192,7 +207,7 @@ class Events extends React.Component {
         </div>
         {this.state.displayEvents.length > 0 &&
         <div style={{ marginBottom: "5%" }}>
-          <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> June 2020</h3>
+          <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
           <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
           {this.state.displayEvents.map((ele, ind) => {
               return (<EventCard ele={ele} key={ind}/>);
@@ -207,7 +222,7 @@ class Events extends React.Component {
 
         /><br />
         <Calendar
-          views={["month", "week", "day"]}
+          views={["month"]}
           localizer={localizer}
           scrollToTime={new Date()}
           events={this.state.myEventsList}
@@ -222,7 +237,8 @@ class Events extends React.Component {
           }}
           eventPropGetter={this.eventPropStyles}
           components={{
-            event: this.EventDisplay
+            event: this.EventDisplay,
+            toolbar: CustomToolbar
           }}
           formats={{ eventTimeRangeFormat: () => null }}
         />
@@ -231,5 +247,7 @@ class Events extends React.Component {
     );
   }
 }
+
+
 
 export default withStyles(useStyles)(Events);

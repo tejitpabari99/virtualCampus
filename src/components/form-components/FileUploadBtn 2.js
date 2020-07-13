@@ -33,7 +33,8 @@ const FileUploadBtn = (props) => {
                 // onChange={props.onChange}
                 onChange={e => {
                     // onChange([...e.target.files]);
-                    onChange(e.target.files[0].name);
+                    onChange(e.target.files);
+                    // onChange(e.target.files[0].name);
                     // console.log(e.target.files[0].name)
                 }}
             />
