@@ -63,7 +63,7 @@ const containerStyles = makeStyles(() => ({
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '8px',
-    lineHeight: '20px',
+    lineHeight: '6px',
     textAlign: 'center',
   },
   description: {
@@ -113,9 +113,7 @@ export default function ResourcesFeaturedMobile() {
                         <p>
                           {data.category.tags.map(ele => {
                             return (
-                              <Button disabled className={contStyle.button} style={{width: '66px', height: '25px'}}>
-                                {ele}
-                              </Button>
+                              <CustomButton text={ele} size={'small'} color={"blue"} disabled className={contStyle.button}/>
                             )
                           })}
                         </p>

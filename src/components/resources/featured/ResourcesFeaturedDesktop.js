@@ -89,7 +89,7 @@ export default function ResourcesFeaturedDesktop() {
   const contStyle = containerStyles();
   return (
     <MuiThemeProvider theme={theme}>
-    <Carousel animation={"slide"}>
+    <Carousel>
         {
             Object.keys(FeaturedData).map(key => {
               let data = FeaturedData[key];
@@ -115,9 +115,7 @@ export default function ResourcesFeaturedDesktop() {
                         <p>
                           {data.category.tags.map(ele => {
                             return (
-                              <Button size={'small'} disabled className={contStyle.button}>
-                                {ele}
-                              </Button>
+                              <CustomButton text={ele} size={'small'} color={"blue"} disabled className={contStyle.button}/>
                             )
                           })}
                         </p>
