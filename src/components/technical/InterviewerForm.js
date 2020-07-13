@@ -301,7 +301,6 @@ class InterviewerForm extends React.Component {
         Thanks,<br/>
         CVC`
       };
-    console.log(emailData);
     Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
         .then(res => {
           this.setState({submitStatus: "success", activityIndicatory: false});
@@ -330,11 +329,6 @@ class InterviewerForm extends React.Component {
       return "We were unable to process your request due to an unexpected error. " +
         "Please try again. If the problem persists please reach out to us:";
     }
-  }
-
-
-  restrictEndTime(state, date){
-    this.setState({state: date});
   }
 
   render() {
@@ -443,7 +437,6 @@ class InterviewerForm extends React.Component {
                         validationSchema={validationSchema}
                       >
                         {({ dirty, isValid, errors, touched }) => {
-                          console.log(errors);
                           return (
                             <Form>
                               <div style={{ margin: "15px 0" }}>
@@ -499,8 +492,6 @@ class InterviewerForm extends React.Component {
                                         label="Technical Interviews Completed"
                                         options={interviewExp}
                                         component={Select}
-                                        error={errors.host_interviewExp}
-                                        touch={touched.host_interviewExp}
                                         required
                                       />
                                   </GridItem>
@@ -549,7 +540,6 @@ class InterviewerForm extends React.Component {
                                         label="Start Time"
                                         minDate={minDate}
                                         maxDate={maxDate}
-                                        onAccept={date => this.setState({ end_time_1: date })}
                                         required
                                       />
                                     </div>
@@ -583,7 +573,6 @@ class InterviewerForm extends React.Component {
                                         label="Start Time"
                                         minDate={minDate}
                                         maxDate={maxDate}
-                                        onAccept={date => this.setState({ end_time_2: date })}
                                       />
                                     </div>
                                   </GridItem>
@@ -616,7 +605,6 @@ class InterviewerForm extends React.Component {
                                         label="Start Time"
                                         minDate={minDate}
                                         maxDate={maxDate}
-                                        onAccept={date => this.setState({ end_time_3: date })}
                                       />
                                     </div>
                                   </GridItem>
