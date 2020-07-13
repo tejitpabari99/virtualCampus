@@ -145,7 +145,7 @@ class ResourcesListFunctionality extends React.Component {
       description: Descriptions[category],
       category: category,
       tagsDisplay: Object.keys(this.state.tagsDict[category]),
-      tagsResourcesDisplay: {},
+      tagsResourcesDisplay: {}
     });
 
     if(category !== 'All Resources'){
@@ -182,37 +182,42 @@ class ResourcesListFunctionality extends React.Component {
 
   //Search function for looking up Resources
   searchFunc(val) {
-    let res = [];
-    let allResources = this.state.resourcesDict['All Resources'];
-    let error = "";
-    if(!val || val.length === 0){
-      res = allResources;
-    }
-    else if (val.length<=2) {
-      error = "*Search term must be more than 2 characters*";
-    }
-    else {
-      this.setState({ activityIndicator: true });
-      let fuse = new Fuse(allResources, {keys: ['title', 'description']});
-      let output = fuse.search(val);
+      let res = [];
+      let allResources = this.state.resourcesDict['All Resources'];
+      let error = "";
+      if(!val || val.length === 0){
+        res = allResources;
+      }
+      else if (val.length<=2) {
+        error = "ERROR: Search term must be more than 2 characters";
+      }
+      else {
+        this.setState({ activityIndicator: true });
+        let fuse = new Fuse(allResources,
+            {threshold: 0.2,
+                      distance: 1000,
+                      keys: ['title', 'description'],
+                      ignoreLocation: true});
+        let output = fuse.search(val);
 
-      for (let i=0; i<output.length; i+=1){
-          res.push(output[i]['item']);
+        for (let i=0; i<output.length; i+=1){
+            res.push(output[i]['item']);
+        }
+        if(output.length == 0){
+          error = "No results found";
+        }
       }
-      if(output.length == 0){
-        error = "*No results found*";
-      }
+      this.setState({
+        resourcesDisplay: res,
+        activityIndicator: false,
+        category: "All Resources",
+        description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
+        tagsDescription: "",
+        tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
+        searchError: error
+      });
     }
-    this.setState({
-      resourcesDisplay: res,
-      activityIndicator: false,
-      category: "All Resources",
-      description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
-      tagsDescription: "",
-      tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
-      searchError: error
-    });
   }
-}
+
 
 export default ResourcesListFunctionality;

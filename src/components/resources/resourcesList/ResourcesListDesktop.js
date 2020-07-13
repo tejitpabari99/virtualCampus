@@ -7,6 +7,29 @@ import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress} from "@material-ui/core";
 
+export const SingleButton = ({children, ...other}) => {
+  const [isPushed, setIsPushed] = React.useState(true);
+  const otherClick = other.onClick.bind({});
+  const handleClick = () => {
+   setIsPushed(!isPushed);
+   if(isPushed){
+     otherClick();
+   }
+  };
+  delete other.onClick;
+  return (
+    <Button
+      onClick={() => {handleClick()}}
+      color={
+        (isPushed) ? "white" : "red"
+      }
+      {...other}
+    >
+      {children}
+    </Button>
+  );
+};
+
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
@@ -18,14 +41,12 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         <div style={{textAlign:'center'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
-              <Button size="medium"
-                      active
+              <SingleButton
                       style={{
-                        background: 'rgba(255, 255, 255, 0.85)',
                         position: 'relative',
-                        marginLeft:"2%",
+                        marginLeft:"1%",
                         marginRight:"2%",
-                        marginTop: '3%',
+                        marginTop: '2%',
                         borderRadius: '10px',
 
                         fontFamily: 'Poppins',
@@ -36,8 +57,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                         color: '#0072CE'
                       }}
                       onClick={this.setDisplay.bind(this, category)}
-                      value={{category}}
-              >{category}</Button>
+              >{category}</SingleButton>
             );
           })}
         </div>
