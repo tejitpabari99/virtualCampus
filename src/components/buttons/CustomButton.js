@@ -114,10 +114,6 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px black"
     },
   },
-  blueNoHover:{
-    color: '#0072CE !important',
-    border: "1px solid #0072CE",
-  },
   whiteNoHover:{
     color: 'white !important',
     border: "1px solid white",
@@ -151,7 +147,7 @@ CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
   color: PropTypes.oneOf(["white", "white2", "black", "orange", "blue",
-    "blueInvert", "orangeInvert", "blueNoHover", "whiteNoHover"]),
+    "blueInvert", "orangeInvert", "whiteNoHover"]),
   size: PropTypes.oneOf(["large","small", "medium"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,

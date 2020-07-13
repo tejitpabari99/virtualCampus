@@ -26,7 +26,7 @@ export const CoolerButton = ({children, otherClickOption, category, key, val, ..
     <CustomButton
       onClick={() => {handleClick()}}
       color={
-        (isPushed) ? "blueNoHover" : "whiteNoHover"
+        (isPushed) ? "blue" : "whiteNoHover"
       }
       {...other}
       text={val}
