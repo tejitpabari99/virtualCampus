@@ -17,10 +17,11 @@ class HandleApprove extends React.Component {
             myEventsList: null,
             headings: null,
             params: queryString.parse(this.props.location.search),
-            eventInfo: 0
+            eventInfo: 0,
+            token: ""
         };
 
-
+        this.updateToken = this.updateToken.bind(this)
         this.run = this.run.bind(this);
     }
 
@@ -138,12 +139,12 @@ class HandleApprove extends React.Component {
                             Axios.post(requestUrl, options)
                                 .then(res => {
                                     this.setState({response: "Success. Created zoom meeting:"
-                                                        + "\nJoin url: " + res.data.join_url
-                                                        + "\n Host Link: " + res.data.start_url
-                                                        + "\n PW: " + options.body.password
-                                                        + "\n\nAttempting to put into database..."});
+                                            + "\nJoin url: " + res.data.join_url
+                                            + "\n Host Link: " + res.data.start_url
+                                            + "\n PW: " + options.body.password
+                                            + "\n\nAttempting to put into database..."});
                                     this.updateZoomLink(this.state.params.state, res.data.join_url, res.data.start_url,
-                                                            options.body.password);
+                                        options.body.password);
                                 })
                                 .catch(error => {
                                     this.setState({response: "Failure! Could not add meeting: " + error})
@@ -204,15 +205,15 @@ class HandleApprove extends React.Component {
 
                 if (event["approved"] == false) {
                     approveText = "Click to Approve"
-                    //approveLink = "..."
-                               // + this.state.myEventsId[index]
+                    approveLink = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent2?eventId="
+                        + this.state.myEventsId[index] + "&tok=" + this.state.token
                 }
 
                 return (
                     <tr key={this.state.myEventsId[index]} style={even ? {backgroundColor: "#dddddd"} : {}}>
                         <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px", borderSpacing: "0px"}}>
                             <a  style={{color: "black"}}
-                                href={approveLink}>
+                                href={approveLink} target="_blank">
                                 {approveText}
                             </a>
                         </td>
@@ -226,13 +227,13 @@ class HandleApprove extends React.Component {
                                 if (num === "tags") {
                                     return (<td key={j}
                                                 style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
-                                                        borderSpacing: "0px", color: "black"}}>
+                                                    borderSpacing: "0px", color: "black"}}>
                                         {JSON.stringify(event[num])}</td>)
                                 } else if (num !== "approved" && num !== "zoomLink") {
-                                        return (<td key={j}
-                                                    style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
-                                                            borderSpacing: "0px", color: "black"}}>
-                                            {event[num]}</td>)
+                                    return (<td key={j}
+                                                style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
+                                                    borderSpacing: "0px", color: "black"}}>
+                                        {event[num]}</td>)
                                 }
                             })
                         }
@@ -254,17 +255,17 @@ class HandleApprove extends React.Component {
                 <tr key="Heading" >
                     {/*<td style={{border: "1px solid black", width: "50px"}}>ID</td>*/}
                     <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
-                                borderSpacing: "0px", color: "black"}}>
+                        borderSpacing: "0px", color: "black"}}>
                         <b>Approve Link</b></td>
                     <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
-                                borderSpacing: "0px", color: "black"}}>
+                        borderSpacing: "0px", color: "black"}}>
                         <b>Generate Zoom Link</b></td>
                     {
                         temp.map((num, j) => {
                             if (num !== "zoomLink" && num !== "approved")
                                 return (<td key={j}
                                             style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
-                                                    borderSpacing: "0px", color: "black"}}>
+                                                borderSpacing: "0px", color: "black"}}>
                                     <b>{num}</b></td>)
                         })
                     }
@@ -311,6 +312,9 @@ class HandleApprove extends React.Component {
             .then(res => console.log(res.json())) //returns array of data
             .then(res => this.setState({ res })); //assign state to array res
     }
+    updateToken(data) {
+        this.setState({token: data.target.value})
+    }
     render() {
 
         /*if (this.verify() === false) {
@@ -330,10 +334,12 @@ class HandleApprove extends React.Component {
         } else if (this.state.state === 0) {
             return (
                 <div style={{background: "white", fontSize:"1rem", paddingLeft:"1%"}}>
+                    <input type="text" id="fname" name="fname" onChange={this.updateToken}/><br/><br/>
+
                     <table id='events'>
                         <tbody>
-                            {this.getHeading()}
-                            {this.renderTableData()}
+                        {this.getHeading()}
+                        {this.renderTableData()}
                         </tbody>
                     </table>
                 </div>

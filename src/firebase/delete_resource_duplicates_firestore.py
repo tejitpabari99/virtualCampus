@@ -6,6 +6,7 @@ from firebase_admin import firestore
 from resource import Resource, Links
 from firebase_admin import credentials
 
+RESOURCE_COLLECTION = "resources"
 
 def main():
     argv = sys.argv
@@ -15,11 +16,10 @@ def main():
         sys.exit()
     
     firestore_API_key = argv[1]
-    COLLECTION = "resources"
-
+    
     db = get_database_client(firestore_API_key)
 
-    docs = db.collection(COLLECTION).stream()
+    docs = db.collection(RESOURCE_COLLECTION).stream()
 
     remove_duplicates(docs)
 
@@ -36,14 +36,17 @@ def remove_duplicates(docs):
     total = removed = 0
     log("Delete duplicates:")
     for doc in docs:
-        resource = Resource.from_dict(doc.to_dict())
-        if resource in seen:
-            doc.reference.delete()
-            log(f"\tDocument with title \"{resource.title}\"")
-            removed += 1
-        else:
-            seen.add(resource)
-        total += 1
+        try:
+            resource = Resource.from_dict(doc.to_dict())
+            if resource in seen:
+                doc.reference.delete()
+                log(f"\tDocument with title \"{resource.title}\"")
+                removed += 1
+            else:
+                seen.add(resource)
+            total += 1
+        except KeyError:
+            log(f"Document with id {doc.id} has incorrect or missing fields")
     log(f"Found and deleted {removed} duplicates from {total} documents.")
         
 if __name__ == "__main__":

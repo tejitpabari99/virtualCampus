@@ -9,8 +9,9 @@ import Subtitle from "../components/text/Subtitle";
 import Heading from "../components/text/Heading";
 import Group1 from "../assets/images/blm/Group 1.png"
 import Group34 from "../assets/images/blm/Group 34.png"
+import Group66 from "../assets/images/blm/Group 66.png"
 import { CircularProgress } from '@material-ui/core';
-import firebase from '../firebase';
+import firebase from '../firebase'
 
 import Fuse from 'fuse.js';
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -80,6 +81,7 @@ class cvcBlm extends React.Component {
 
     // this.fetchDonationCompletedData();
     this.fetchData();
+    this.myRef = React.createRef()  
   };
 
   async fetchDonationCompletedData() {
@@ -196,33 +198,21 @@ class cvcBlm extends React.Component {
     this.inputElement.props.onClick(input);
   }
 
+  scrollToMyRef() {
+    window.scrollTo(0, this.myRef.current.offsetTop);
+  }
+
   render() {
     const { classes } = this.props;
     return (
-      <Template active={"cvc-blm"} title={"#BLM"} styleContainer={{padding:0}} styleMain={{marginBottom:0}}>
+      <Template active={"cvc-blm"} title={"#BLM"} styleContainer={{paddingLeft:0, paddingRight:0}}>
         <Helmet>
           <meta property="og:title" content="Columbia Virtual Campus #BLM" />
           <meta property="og:url" content="http://columbiavirtualcampus.com/cvc-blm" />
           <meta property="og:description" content="Support the Black Community" />
         </Helmet>
-        <div style={{ marginBottom: 20, width: '100%' }}>
-          {
-            this.state.donationCompleted !== 0 &&
-            <div style={{ maxWidth: "70%", marginLeft: "auto", marginRight: "auto", }}>
-              <Heading color={"blue"} style={{ marginTop: "10px" }}>
-                Donation Received
-              </Heading>
-              <div style={{ display: 'inline' }}>
-                <LinearProgress variant="determinate" value={this.state.donationCompleted}
-                                style={{ width: '90%', display: 'inline-block', marginRight: 10, verticalAlign: 'middle' }} />
-                <span>${this.state.donationReceived} of {this.state.donationGoal}</span>
-              </div>
 
-            </div>
-          }
-        </div>
-
-        <div style={{ backgroundColor: "black", paddingTop: "40px", paddingBottom: "40px" }}>
+        <div style={{ backgroundColor: "black", paddingTop: "40px", paddingBottom: "60px" }}>
           <Title color={"blue"}>#BLM</Title>
           <GridContainer
             style={{
@@ -247,7 +237,7 @@ class cvcBlm extends React.Component {
                   and Breonna Taylor, Columbia Virtual Campus stands in solidarity
                   with black students, faculty, staff, and affiliates.
                 </div>
-                <div style={{ color: "#adadad", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw' }}>
+                <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw' }}>
                   We recognize the horrific history of antiblack racism worldwide,
                   and through our tutoring program, we hope to uplift black voices
                   and provide financial support for organizations led by and in
@@ -263,22 +253,22 @@ class cvcBlm extends React.Component {
             style={{ marginTop: "5vw", }}
           >
             <GridItem xs={12} sm={5} style={{ textAlign: "center", width:'85%', marginLeft:'auto', marginRight:'auto'}}>
-              <img src={Group34} style={{ maxWidth: "80%",height: "auto", marginTop:'20px'}} />
-              <br/>
-              <CustomButton style={{margin: '1em'}} text={"Microsoft"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Microsoft')}}/>
-              <CustomButton style={{margin: '1em'}} text={"Google"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Google')}}/>
-              <CustomButton style={{margin: '1em'}} text={"Goldman Sachs"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Goldman')}}/>
-              <br/>
-              <CustomButton style={{margin: '1em', marginTop:0}} text={"McKinsey"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('McKinsey')}}/>
-              <CustomButton style={{margin: '1em', marginTop:0}} text={"Blizzard"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Blizzard')}}/>
-              <CustomButton style={{margin: '1em', marginTop:0}} text={"The Observer"}
-                            color={'orangeInvert'} size={'medium'} onClick={() => { this.setSearchInput('Observer')}}/>
-
+                <img src={Group34} style={{ maxWidth: "100%",height: "auto", width:"72%", marginTop:'20px'}} />
+                <br/>
+                <div style={{marginTop:"1em"}}>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"Microsoft"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Microsoft');}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"Google"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Google')}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"Goldman Sachs"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Goldman')}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"McKinsey"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('McKinsey')}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"Blizzard"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('Blizzard')}}/>
+                  <CustomButton style={{margin:"1em", width: "13em"}} text={"The Observer"}
+                                color={'orangeInvert'} size={'medium'} onClick={() => { this.scrollToMyRef(); this.setSearchInput('The Observer')}}/>
+              </div>
             </GridItem>
             <GridItem xs={12} sm={7}>
               <div
@@ -293,11 +283,11 @@ class cvcBlm extends React.Component {
                   lineHeight: "1.1em",
                 }}
               >
-                <Title color={"blue"} style={{marginBottom:'2vw', fontSize:'max(3vw, 24px)', textAlign:'left'}}>Our Mentorship Program</Title>
+                <Title color={"blue"} style={{marginBottom:'3vw', fontSize:'max(3vw, 24px)', textAlign:'left'}}>Our Mentorship Program</Title>
                 <div style={{ marginBottom: "15px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)' }}>
                   <strong> DONATE WHAT YOU CAN </strong><br/> for 30 minutes with any mentor!
                 </div>
-                <div style={{ color: "#adadad", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'1vw' }}>
+                <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'1vw' }}>
                   Columbia Virtual Campus is offering a one-on-one mentorship service in which 100% of fees are donated to
                   organizations supporting the black community.
                 </div>
@@ -305,11 +295,25 @@ class cvcBlm extends React.Component {
             </GridItem>
           </GridContainer>
         </div>
-
+        <div style={{background:`url(${Group66}) no-repeat`, width:"100%", backgroundSize:"100%",}}> 
+          <GridContainer style={{marginTop: 0, marginBottom: 0}}>
+            <GridItem xs={2}></GridItem>
+            <GridItem xs={2} style={{paddingLeft: 0, paddingRight: 0}}>
+              <Subtitle color={"black"} style={{fontSize:'max(1.5vw,12px)'}}>total donations</Subtitle>
+            </GridItem>
+            <GridItem xs={3} style={{paddingLeft: 0, paddingRight: 0}}>
+              <Title color={"black"} style={{marginBottom:"20px", fontSize:'max(4vw,28x)'}}>$1100</Title>
+            </GridItem>
+            <GridItem xs={2} style={{paddingLeft: 0, paddingRight: 0}}>
+              <Subtitle color={"black"}  style={{fontSize:'max(1.5vw,12px)'}}>and counting!</Subtitle>
+            </GridItem>
+            <GridItem xs={2} ></GridItem>
+          </GridContainer>
+        </div>
         <Heading color={"blue"} style={{ margin: "40px" }}>
           Available Sessions
         </Heading>
-        <div style={{maxWidth:"85%", marginLeft: "auto", marginRight: "auto"}}>
+        <div style={{maxWidth:"85%", marginLeft: "auto", marginRight: "auto"}} ref={this.myRef}>
           <Subtitle color={"black"}
                     style={{
                       marginLeft: "auto",
@@ -319,7 +323,7 @@ class cvcBlm extends React.Component {
                     }}>
             <ol style={{paddingLeft:'15px'}}>
               <li><strong> Choose a mentor </strong> from below and register for a time. </li>
-              <li><strong> Receive an email </strong> with a link to make your donation before you begin your session. </li>
+              <li><strong> Receive an email </strong> with a CustomButton to make your donation before you begin your session. </li>
               <li><strong> Donate any amount </strong> to access your session with these amazing mentors! </li>
             </ol>
           </Subtitle>
@@ -335,9 +339,8 @@ class cvcBlm extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={10} style={{paddingLeft:0}}>
               {Object.keys(companies).map((value, index) =>
-                <CustomButton text={value} color={'blue'} key={index}
-                              style={{ fontSize: "0.7em", margin: "0.5em"}}
-                              onClick={() => { this.setSearchInput(companies[value]) }}/>
+                <CustomButton text={value} color={'blue'} key={index} style={{
+                  fontSize: "0.7em", margin: "0.5em"}} onClick={() => { this.setSearchInput(companies[value]) }}/>
               )}
             </GridItem>
           </GridContainer>
@@ -386,18 +389,6 @@ class cvcBlm extends React.Component {
           }
         </div>
         }
-        <GridContainer style={{backgroundColor:'black', color:'white', marginTop:'50px', padding: '50px'}}>
-          <GridItem xs={12} sm={6}>
-            <div style={{ marginBottom: "15px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)'}}>
-              Want to sign up as a tutor? Specify your schedule, area of expertise and credentials.
-            </div>
-          </GridItem>
-          <GridItem xs={0} sm={3}>
-          </GridItem>
-          <GridItem xs={12} sm={2}>
-            <CustomButton text={'Sign up to Tutor'} size={'large'} color={'blackWhite'} href={'https://forms.gle/g2WMk2LwY25o3WT98'} newTab/>
-          </GridItem>
-        </GridContainer>
       </Template>
     );
   }

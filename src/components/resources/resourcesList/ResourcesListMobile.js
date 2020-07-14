@@ -4,203 +4,23 @@ import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCard, Heading, CustomButton} from "../..";
-import firebase from "../../../firebase";
-import {Descriptions} from "../../../assets/ResourcesData.js"
+import {ResourcesCard, Heading, CustomButton, Search} from "../..";
+import ResourcesListFunctionality from "./ResourcesListFunctionality"
+import {CoolerButton} from "./ResourcesListFunctionality"
+import { CircularProgress } from '@material-ui/core';
 
-const CoolerButton = ({children, otherClickOption, ...other}) => {
-  const [isPushed, setIsPushed] = React.useState(true);
-  const otherClick = other.onClick.bind({});
-  const handleClick = () => {
-    setIsPushed(!isPushed);
-    if(isPushed){
-      otherClick();
-    }
-    else{
-      otherClickOption();
-    }
-  };
-  delete other.onClick;
-
-  return (
-    <Button
-      onClick={() => {handleClick()}}
-      color={
-        (isPushed) ? "white" : "grey"
-      }
-      {...other}
-    >
-      {children}
-    </Button>
-  );
-};
-
-class ResourcesListMobile extends React.Component {
+class ResourcesListMobile extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
-    this.state = {
-      myCategory: "All Resources",
-      myDescription: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
-      myResourcesDict: {},
-      myResourcesDisplay: [],
-      myTagsDict: {},
-      myTagsDisplay: [],
-      myTagsDescription: "",
-      allResources: {},
-      myList: {},
-      myKeyList: []
-    };
-    this.getResources();
-  }
-
-  // Get resources from Firestore
-  // Set initial resources/tags and display on website
-  async getResources() {
-    let approvedResourcesDict = {};
-    let allResources = [];
-    let approvedTagsDict = {};
-
-    let db = firebase.firestore();
-    let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
-    if(approvedResources){
-      allResources = approvedResources.docs.map(doc => doc.data());
-      approvedResourcesDict = this.makeDisplayResources(allResources);
-      approvedTagsDict = this.makeDisplayTags(allResources);
-    }
-    approvedTagsDict['All Resources'] = [];
-    this.setState({ myResourcesDict: approvedResourcesDict});
-    this.setState({ myResourcesDisplay: allResources});
-    this.setState({ myTagsDict: approvedTagsDict});
-  }
-
-  // Creates mapping of category to corresponding resources
-  makeDisplayResources(resources) {
-    let res = {};
-    res['All Resources'] = resources;
-    for (let i = 0; i < resources.length; i += 1) {
-      let ele = resources[i];
-      let key = this.toTitleCase(ele['category']['category']);
-      if (key in res) {
-        res[key].push(ele)
-      }
-      else {
-        res[key] = [ele]
-      }
-    }
-    return res;
-  }
-
-  // Creates nested mapping of category to tag to corresponding resources
-  makeDisplayTags(resources) {
-    let res = {};
-    for (let i = 0; i < resources.length; i += 1) {
-      let ele = resources[i];
-      let key = this.toTitleCase(ele['category']['category']);
-      let tag = ele['category']['tags'];
-
-      for(let j = 0; j < tag.length; j++){
-        let tagName = this.toTitleCase(tag[j]);
-        // if category not added yet, add tag and resource
-        if (!(key in res)) {
-          res[key] = [tagName];
-          res[key][tagName] = [ele];
-        }
-        // if category is already added
-        else{
-          // if tag exists, add resource
-          if(res[key][tagName]){
-              res[key][tagName].push(ele);
-          }
-          // if tag doesn't exist, add tag and resource
-          else{
-            res[key].push(tagName);
-            res[key][tagName] = [ele]
-          }
-        }
-      }
-    }
-    return res;
-  }
-
-  // Button categories are uppercase
-  toTitleCase(str) {
-    return str.replace(/\w\S*/g, function(txt){
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-  }
-
-  // Display appropriate resources when category button is clicked
-  setDisplay(category) {
-    this.setState({
-        myResourcesDisplay: this.state.myResourcesDict[category],
-        myDescription: Descriptions[category],
-        myCategory: category,
-        myTagsDisplay: this.state.myTagsDict[category],
-        myList: {},
-        myKeyList: []
-    });
-
-    if(category !== 'All Resources'){
-      this.setState({
-        myTagsDescription: "Filter by tags: "
-      });
-    }
-    else{
-      this.setState({
-        myTagsDescription: ""
-      });
-    }
-  }
-
-
-
-  // Display appropriate resources when tags are clicked
-  setTagDisplay(category, tag) {
-    let resources = this.state.myTagsDict[category][tag];
-    for (let i=0; i < resources.length; i += 1) {
-       let ele = resources[i];
-       let key = ele['title'];
-
-       if(key in this.state.myList) {
-         let newList = this.state.myList;
-         newList[key]['activeButton'] += 1;
-         this.setState({
-           myList: newList
-         });
-       }
-       //new resource
-       else{
-         let newList = this.state.myList;
-         let keyList = this.state.myKeyList;
-         keyList.push(key);
-         newList[key] = {};
-         newList[key]['resource'] = ele;
-         newList[key]['activeButton'] = 1;
-
-         let allResources = [];
-         for(let j=0; j<keyList.length; j++){
-           allResources.push(newList[keyList[j]]['resource']);
-         }
-         this.setState({
-           myList: newList,
-           myKeyList: keyList,
-           myResourcesDisplay: allResources
-         });
-       }
-     }
-  }
-
-  deleteTagDisplay(category, tag) {
-
   }
 
   render() {
     return (
       <div>
         <div style={{textAlign:'center'}}>
-          {Object.keys(this.state.myResourcesDict).sort().map(category => {
+          {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
-              <Button size="medium"
+              <Button size="small"
                       active
                       style={{
                         background: 'rgba(255, 255, 255, 0.85)',
@@ -213,8 +33,8 @@ class ResourcesListMobile extends React.Component {
                         fontFamily: 'Poppins',
                         fontStyle: 'normal',
                         fontWeight: 'normal',
-                        fontSize: '13px',
-                        lineHeight: '17px',
+                        fontSize: '11px',
+                        lineHeight: '14px',
                         color: '#0072CE'
                       }}
                       onClick={this.setDisplay.bind(this, category)}
@@ -224,40 +44,59 @@ class ResourcesListMobile extends React.Component {
           })}
         </div>
 
-        <hr style={{border: "1px solid #0072CE", marginTop: '4%'}} />
-
-        <Heading color={'blue'}
-                 style={{textAlign:'center', marginTop: '30px'}}
-        >{this.state.myCategory}</Heading>
+        <div style={{width:'86%', marginLeft:'7%', marginTop: '4%'}}>
+            <Search data={this.state.myResourcesDisplay}
+                ref={input => this.inputElement = input}
+                onClick={(val) => { this.searchFunc(val) }}
+                onCancel={() => { this.searchFunc('') }}
+                placeholder={"Search resources"}
+            />
+        </div>
 
         <div style={{
               textAlign:'center',
-              paddingTop: '15px',
+              color: 'red',
+              marginTop: '3%',
+            }}
+        >{this.state.searchError}</div>
+
+        <hr style={{border: "1px solid #0072CE", marginTop: '6%'}} />
+
+        <Heading color={'blue'}
+                 style={{textAlign:'center', marginTop: '30px'}}
+        >{this.state.category}</Heading>
+
+        <div style={{
+              textAlign:'center',
+              marginTop: '15px',
               paddingLeft: '20px',
               paddingRight: '20px'
             }}
-        >{this.state.myDescription}</div>
+        >{this.state.description}</div>
 
         <GridContainer style={{width: '100%'}}>
-          <GridItem style={{textAlign:'center', marginBottom:'34px'}}>
-            {this.state.myTagsDisplay.sort().map(data => {
+          <GridItem style={{marginLeft: '3%', marginRight: '3%', marginBottom:'20px'}}>
+            {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
-                <CoolerButton style={{
-                                marginTop: 8,
-                                marginBottom: 8,
+                <CoolerButton key={idx} style={{
+                                marginTop: 5,
+                                marginBottom: 5,
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
-                              onClick={this.setTagDisplay.bind(this, this.state.myCategory, data)}
-                              otherClickOption={this.deleteTagDisplay.bind(this, this.state.myCategory, data)}
-                >{data}</CoolerButton>
+                              onClick={this.setTagDisplay.bind(this, this.state.category, data)}
+                              otherClickOption={this.deleteTagDisplay.bind(this, this.state.category, data)}
+                              category={this.state.category}
+                              val={data}
+                />
               );
             })}
           </GridItem>
           <AddResourceMobile />
           <GridItem>
-            <GridContainer style={{paddingLeft: '30px', paddingRight: '5px', paddingTop: '20px'}}>
-              {this.state.myResourcesDisplay.map(data => {
+            <GridContainer style={{paddingLeft: '30px', paddingRight: '5px', marginTop: '20px'}}>
+              {this.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
+              {!this.activityIndicator && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}
                             sm={6}

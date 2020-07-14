@@ -53,17 +53,17 @@ const containerStyles = makeStyles(() => ({
     color: '#0072CE'
   },
   button: {
-    background: '#FFFFFF',
+    background: 'rgba(255, 255, 255, 0.85)',
     position: 'relative',
     marginLeft: '3%',
     bottom: '42.65%',
-    borderRadius: '30px',
+    borderRadius: '5px',
     zIndex: 10,
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '8px',
-    lineHeight: '20px',
+    lineHeight: '6px',
     textAlign: 'center',
   },
   description: {
@@ -92,10 +92,9 @@ export default function ResourcesFeaturedMobile() {
         {
             Object.keys(FeaturedData).map(key => {
               let data = FeaturedData[key];
-              console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height={'500px'} width={'100%'} className={contStyle.container}/>
+                    <img src={data.img} alt={data.img} height={'440px'} width={'100%'} className={contStyle.container}/>
                     <img src={data.img} alt={data.img} height={'180px'} width={'86%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>
@@ -114,9 +113,7 @@ export default function ResourcesFeaturedMobile() {
                         <p>
                           {data.category.tags.map(ele => {
                             return (
-                              <Button className={contStyle.button} style={{width: '53px', height: '21px'}}>
-                                {ele}
-                              </Button>
+                              <CustomButton text={ele} size={'small'} color={"blue"} disabled className={contStyle.button}/>
                             )
                           })}
                         </p>
