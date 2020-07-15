@@ -1,7 +1,7 @@
 import React from "react"
 import { isMobile, isTablet, isEdge, isIE } from "react-device-detect";
-import EventFormDesktop from "../../components/events/EventFormDesktop1";
-import EventFormMobile from "../../components/events/EventFormMobile";
+import EventFormDesktop from "../../components/events/EventFormDesktop";
+import EventFormMobile from "../../components/events/EventFormMobile1";
 
 class Index extends React.Component {
 

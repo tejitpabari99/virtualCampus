@@ -396,34 +396,30 @@ class EventFormMobile extends React.Component {
             {/* <Template active={'schedule'}> */}
             <Container>
               {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
-              <div>
-                <div>
-                  <div style={{
-                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                    fontSize: "36px", lineHeight: "54px", color: "#0072CE"
-                  }}>
-                    Host a New Event
+              <div style={{
+                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                fontSize: "36px", lineHeight: "54px", color: "#0072CE"
+              }}>
+                Host a New Event
                         </div>
-                  <div style={{
-                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                    fontSize: "14px", lineHeight: "21px"
-                  }}>
-                    Thank you for your interest in leading a virtual event or activity
-                    through
-                    CVC.
-                    Please fill out the following form so we can provide you with the
-                    necessary
-                    resources and appropriate platform on our website!
+              <div style={{
+                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                fontSize: "14px", lineHeight: "21px"
+              }}>
+                Thank you for your interest in leading a virtual event or activity
+                through
+                CVC.
+                Please fill out the following form so we can provide you with the
+                necessary
+                resources and appropriate platform on our website!
                         </div>
-                  <div style={{
-                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                    fontSize: "14px", lineHeight: "21px", paddingTop: "33px"
-                  }}>
-                    Questions? Contact us at <br />
-                    <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+              <div style={{
+                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                fontSize: "14px", lineHeight: "21px", paddingTop: "33px"
+              }}>
+                Questions? Contact us at <br />
+                <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
                         </div>
-                </div>
-              </div>
 
               <Formik
                 initialValues={initVal}

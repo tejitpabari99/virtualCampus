@@ -15,10 +15,10 @@ const Tags = (props) => {
   return (
     <div >
       <Grid container spacing={2}>
-        <Grid item sm={1}>
+        <Grid item sm={1} xs={12}>
           <div style={{ paddingTop: '8px' }}>Tags</div>
         </Grid>
-        <Grid item sm={11}>
+        <Grid item sm={11} xs={12}>
           {tags.map(tag => {
             return (
               <Field
@@ -34,7 +34,7 @@ const Tags = (props) => {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item sm={12}>
+        <Grid item xs={12}>
           <FormikField label="Other Tags: Please separate by either Semicolons or Commas (e.g. 'tag1;tag2' or 'tag1,tag2')"
             placeholder="Separate Each Tag by Semicolon"
             name="other_tags" />
