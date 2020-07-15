@@ -8,10 +8,10 @@ import {
     convertUTCToLocal, dst, getCurrentLocationForTimeZone,
     getOffset,
     getTimezoneName
-} from "../all/TimeFunctions";
+} from "../";
 
 
-class EventAlert extends React.Component{
+class EventAlert extends React.Component {
     constructor(props) {
         super(props);
         this.state={
@@ -21,9 +21,9 @@ class EventAlert extends React.Component{
             myEventsList: []
         };
         this.getEvents();
-        this.closeDo = this.closeDo.bind(this);   
+        this.closeDo = this.closeDo.bind(this);
     }
-    
+
     async getEvents() {
         var db = firebase.firestore();
         var approvedEvents = await db.collection("events")
@@ -32,9 +32,9 @@ class EventAlert extends React.Component{
         if(approvedEvents){
             approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
         }
-        this.setState({ myEventsList: approvedEventsMap });   
+        this.setState({ myEventsList: approvedEventsMap });
     }
-    
+
     convertEventsTime(event) {
         const tzString = event.timezone;
 
@@ -62,9 +62,9 @@ class EventAlert extends React.Component{
         }
         return event;
     }
-   
+
     //const eventAlert = ({timeUntil = 30, styling = {}}) => {
-    eventAlert(){
+    eventAlert() {
 
         //if true the alert will appear
         let displayAlert = false
@@ -87,7 +87,7 @@ class EventAlert extends React.Component{
                     displayNow = true
                     break
                 }
-                
+
                 //otherwise check if any event is in the specified timeframe
                 const eventdiff = parseInt(((new Date(e.start_date)).getTime() - today.getTime()) / 60000)
                 if (eventdiff > 0 && eventdiff < minDiff) {
@@ -144,7 +144,7 @@ class EventAlert extends React.Component{
             }
         }
 
-        return [alert,displayAlert]
+        return [alert, displayAlert]
     }
 
     closeDo() {

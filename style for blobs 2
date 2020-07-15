@@ -1,0 +1,67 @@
+
+    wave: {
+        position: "relative",
+        height: "100px",
+        width: "100%",
+        backgroundColor: "#F6C09F",
+        transform: "rotate(180deg) scaleX(-1)",
+        '&::before': {
+            content: `''`,
+            display: "block",
+            position: "absolute",
+            borderRadius: "75% 55%",
+            width: "25%",
+            height: "100%",
+            backgroundColor: "white",
+            left: "-5%",
+            top: "35%",
+            borderRight: "80px solid white",
+            borderTop: "80px solid white"
+        },
+        '&::after': {
+            content: `''`,
+            display: "block",
+            position: "absolute",
+            borderRadius: "10% 70%",
+            width: "70%",
+            height: "100%",
+            backgroundColor: "#F6C09F",
+            right: "0%",
+            top: "22%"
+        }
+    }
+	
+	
+	---------------------------------------
+	ORiginal
+	#wave {
+  position: relative;
+  height: 70px;
+  width: 600px;
+  background: #e0efe3;
+  transform: rotate(180deg) scaleX(-1);
+}
+
+#wave:before {
+        content: "";
+        display: block;
+        position: absolute;
+        border-radius: 100% 55%;
+        width: 340px;
+    height: 80px;
+    background-color: white;
+    right: -5px;
+    top: 40px;
+}
+
+#wave:after {
+        content: "";
+        display: block;
+        position: absolute;
+        border-radius: 100% 55%;
+        width: 300px;
+    height: 70px;
+    background-color: #e0efe3;
+    left: 0;
+    top: 27px;
+}
