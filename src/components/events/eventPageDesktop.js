@@ -13,7 +13,6 @@ import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
 import CustomToolbar from "../events/CalendarToolBar"
 import ArrowForward from '@material-ui/icons/ArrowForwardIosOutlined';
 
-
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({
   addNewButton: {
@@ -260,7 +259,7 @@ class EventsPageDesktop extends React.Component {
     };
 
     let searchList = this.state.permEventsList
-    
+
     const fuse = new Fuse(searchList, options);
     let output = fuse.search(val)
 
@@ -273,7 +272,7 @@ class EventsPageDesktop extends React.Component {
     }
     let itemOn = 0
     const approvedEventsMap = eventSearch.map(doc => (eventSearch[itemOn++]['item']));
- 
+
     // Update events. Note: we don't have to update time again b/c time is already updated
     this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'',
       myEventsList: this.makeEventsList(approvedEventsMap)});
@@ -327,9 +326,7 @@ class EventsPageDesktop extends React.Component {
         <div className={classes.mainBox}>
             <div className={classes.mainText} style={{paddingLeft: "4%"}}>
               <h2 style={{fontSize: "2.5vw"}}>All Events</h2>
-              <p style={{fontSize: "1.5vw"}}>Check out our virtual events!</p>
-              <CustomButton href={"/events"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
-                  style={{ marginTop: 10, marginBottom: 25, marginLeft: "-10px" }} color={"blue2"} size={"large"}/>
+              <p style={{fontSize: "1.2vw"}}>Check out our virtual events!</p>
             </div>
             <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
               {this.state.displayEvents.map((ele, ind) => {
@@ -384,7 +381,7 @@ class EventsPageDesktop extends React.Component {
                 onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
                 onCancel={() => { this.searchFunc('') }}
         />
-        
+
         <br />
         <div style={{margin: "40px"}}/>
         <div style={{width: "100%"}}>

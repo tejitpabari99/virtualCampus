@@ -8,6 +8,11 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import GridItem from "../../material-kit-components/Grid/GridItem.js";
+import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
+import EventModal from "./../EventModal";
+//import EventModalMobile from "./../EventModalMobile";
+//import EventEmailModal from "./../EventEmailModal";
 
 const theme = CustomTheme;
 
@@ -57,18 +62,15 @@ const useStyles = makeStyles(() => ({
   nameHeader: {
     fontSize: '14px',
     lineHeight: "21px",
-    position: "absolute",
+    position: "relative",
     color: "black",
-    whiteSpace: "nowrap",
-    marginLeft: "10px",
+    marginLeft: "-5px",
   },
   orgHeader: {
     fontSize: '10px',
     lineHeight: "15px",
     color: '#0072CE',
-    marginLeft:'10px',
-    marginTop: "20px",
-
+    marginLeft: "-5px",
   },
   eventTitle: {
     color: "black",
@@ -88,13 +90,13 @@ const useStyles = makeStyles(() => ({
   },
   tagInfo: {
     marginTop: "8px",
-    marginLeft: "5px",
+    marginLeft: "-5px",
   },
   tagBlock: {
     display: 'inline-block',
     fontSize: '10px',
-    marginLeft: '10px',
     backgroundColor: '#F2F2F2',
+    marginLeft: "-5px",
     paddingTop: 2,
     paddingBottom: 1,
     paddingLeft: 12,
@@ -104,8 +106,8 @@ const useStyles = makeStyles(() => ({
   happeningBlock: {
     display: 'inline-block',
     fontSize: '10px',
-    marginLeft: '10px',
     backgroundColor: '#F3FFEE',
+    marginLeft: "-5px",
     paddingTop: 2,
     paddingBottom: 1,
     paddingLeft: 12,
@@ -168,11 +170,23 @@ const useStyles = makeStyles(() => ({
   },
   verticalLine: {
     borderLeft: "1px solid rgba(185, 217, 235, 0.5)",
-    height: "70px"
+    height: "70px",
   },
-  horizontalLine: {
-    borderTop: "1px solid rgba(185, 217, 235, 0.5)",
-    height: "100%"
+  blueLine: {
+    width: "100%",
+    height: "1px",
+    backgroundColor: "lightblue"
+  },
+  websiteButton: {
+    position: "absolute",
+    bottom: 0,
+    width: "150px",
+    height: "35px"
+  },
+  joinButton: {
+    width: "150px",
+    height: "35px",
+    marginTop: "6px"
   }
 }));
 
@@ -192,57 +206,67 @@ export default function EventCardDesktopBottom({ ele }) {
   return (
 
     <div style={{ width: "100%" }}>
-    <ExpansionPanel>
-      <ExpansionPanelSummary
-        expandIcon={<ExpandMoreIcon/>}
-        aria-controls="panel1bh-content"
-      >
-        {/* put outer stuff here */}
+        <GridContainer onClick={openModalHandler} style={{ width: "100%", marginLeft: '0', marginRight: '0', marginTop: '0' }}>
+            <GridItem xs={3} sm={3} md={3}>
+                <div className={classes.dateBox}>
+                    <span className={classes.weekText}>{days[ele.start_date.getDay()]}</span>
+                    <span className={classes.dateText}>{ele.start_date.getDate()} {months[ele.start_date.getMonth()]}</span>
+                    {/* <p className={classes.monthText}></p> */}
+                    <br/>
+                    <div className={classes.timeInfo}>
+                        {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} -
+                        {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
+                    </div>
+                </div>
+            </GridItem>
 
-        <div className={classes.dateBox}>
-            <span className={classes.weekText}>{days[ele.start_date.getDay()]}</span>
-            <span className={classes.dateText}>{ele.start_date.getDate()} {months[ele.start_date.getMonth()]}</span>
-            {/* <p className={classes.monthText}></p> */}
-            <br/>
-            <div className={classes.timeInfo}>
-                {formatTime(ele.start_date.getHours(), ele.start_date.getMinutes())} -
-                {formatTime(ele.end_date.getHours(), ele.end_date.getMinutes())} {ele.timeZoneGMT}
-            </div>
-        </div>
+            <GridItem xs={1} sm={1} md={1}>
+                <div className={classes.verticalLine}/>
+            </GridItem>
 
-        <div className={classes.verticalLine} />
+            <GridItem xs={7} sm={7} md={7}>
+                <div className={classes.tagInfo}>
+                  <div className={classes.happeningBlock}>Happening Now</div>
+                  {ele.tags.map((ta, ind) => {
+                    return (
+                      <div className={classes.tagBlock}>{ta}</div>
+                    );
+                  })}
 
-        <div className={classes.tagInfo}>
-          <div className={classes.happeningBlock}>Happening Now</div>
-          {ele.tags.map((ta, ind) => {
-            return (
-              <div className={classes.tagBlock}>{ta}</div>
-            );
-          })}
+                  <div className={classes.nameHeader}> {ele.event} </div>
+                  <div className={classes.orgHeader}>{ele.name}</div>
+                </div>
+            </GridItem>
+          </GridContainer>
+          {open && <EventModal open={open} closeDo={closeDo} event={ele}/>}
+        <GridContainer style={{ width: "100%", marginLeft:0, marginRight:0, marginTop:0 }}>
+            <GridItem xs={12} sm={12} md={12} style={{paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
+                <div className={classes.blueLine}></div>
+            </GridItem>
 
-          <div className={classes.nameHeader}> {ele.event} </div>
-          <div className={classes.orgHeader}>{ele.name}</div>
-        </div>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails style={{ width: "100%"}}>
-        {/* put inner stuff here */}
+            <GridItem xs={3} sm={3} md={3}>
+                <img className={classes.image} src={ele.image_link} alt={ele.event}/>
+                <div style={{marginTop: "10px"}} />
+                <div style={{ color: "#4284C8", marginBottom: 5}}>
+                  <strong> <AddCalendar info={ele}/></strong>
+                </div>
+            </GridItem>
 
-        <div className={classes.flexBox}>
-          <img className={classes.image} src={ele.image_link} alt={ele.event}/>
-          <div style={{marginTop: "10px"}} />
-          <div style={{ color: "#4284C8", marginBottom: 5}}>
-            <strong> <AddCalendar info={ele}/></strong>
-          </div>
-        </div>
+            <GridItem xs={9} sm={9} md={9}>
+                <div style={{color: "black",fontSize: "14px", marginBottom: "10px"}}>
+                  {ele.desc}
+                </div>
+            </GridItem>
 
-        <div style={{color: "black", marginLeft: 10, marginRight: 35,
-          width: "70%", marginBottom: 10,fontSize: "14px"}}>
-          {ele.desc}
-        </div>
-        <br/>
+            <GridItem xs={6} sm={6} md={6} style={{marginTop: "35px"}}>
+              {ele.event_link && <CustomButton href={ele.event_link} text={"LEARN MORE"} newTab color={"blue"} size={"large"} className={classes.websiteButton} />}
+            </GridItem>
 
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+            <GridItem xs={6} sm={6} md={6}>
+              {ele.invite_link && <CustomButton onClick={openModalHandler} text={'JOIN EVENT'} newTab color={"blue"} size={"large"} className={classes.joinButton}/>}
+            
+            </GridItem>
+        </GridContainer>
 
     </div>
   );

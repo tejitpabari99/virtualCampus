@@ -16,7 +16,12 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import Carousel from 'react-material-ui-carousel';
+import ScrollableAnchor from 'react-scrollable-anchor';
+import {goToAnchor, configureAnchors} from 'react-scrollable-anchor';
+import queryString from 'query-string';
 
+//configureAnchors({offset: -2500});
 
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({
@@ -46,13 +51,15 @@ const useStyles = () => ({
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#F3FFEE",
-    marginRight: "10px",
+    padding: 0,
+    marginLeft: "30%",
+    marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   greenText: {
     color:"#1BAE0E",
     textAlign: "left",
-    marginTop: "30px",
+    marginTop: "50px",
     marginLeft: "5px",
     fontSize: "14px"
   },
@@ -63,7 +70,9 @@ const useStyles = () => ({
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#F2F9FD",
-    marginRight: "10px",
+    padding: 0,
+    marginLeft: "30%",
+    marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   blueText: {
@@ -80,7 +89,9 @@ const useStyles = () => ({
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#FDEEE5",
-    marginRight: "10px",
+    padding: 0,
+    marginLeft: "30%",
+    marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   orangeText: {
@@ -97,7 +108,9 @@ const useStyles = () => ({
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#BDBDBD",
-    marginRight: "0px",
+    padding: 0,
+    marginLeft: "30%",
+    marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   grayText: {
@@ -106,9 +119,38 @@ const useStyles = () => ({
     marginTop: "50px",
     marginLeft: "5px"
   },
-
+  footerStyle: {
+    fontSize: "20px",
+    color: "white",
+    textAlign: "right",
+    padding: "20px",
+    position: "fixed",
+    left: "0",
+    bottom: "0",
+    height: "60px",
+    width: "100%"
+  }
 });
-class EventsPageDesktop extends React.Component {
+
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3,
+    slidesToSlide: 3 // optional, default to 1.
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+    slidesToSlide: 2 // optional, default to 1.
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1
+  }
+};
+
+class EventsPageMobile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -121,11 +163,16 @@ class EventsPageDesktop extends React.Component {
       eventSearchMobile: [],
       eventSearchMobileError: '',
       searchVal: "",
-      defaultSearchInput:''
+      defaultSearchInput:'',
+      calendarExpandText: "Show"
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
   }
+
+//scrollToEvent(el) {
+    //goToAnchor(el, true);
+//}
 
   convertEventsTime(event) {
     const tzString = event.timezone;
@@ -186,7 +233,11 @@ class EventsPageDesktop extends React.Component {
         .get();
     let approvedEventsMap = [];
     if(approvedEvents){
-      approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
+      approvedEventsMap = approvedEvents.docs.map(doc => {
+        let doc_data = this.convertEventsTime(doc.data());
+        doc_data['id'] = doc.id;
+        return (doc_data);
+      });
     }
     this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap) });
@@ -250,6 +301,20 @@ class EventsPageDesktop extends React.Component {
       </div>
   );
 
+updateCalendarExpandText() {
+  if (this.state.calendarExpandText == "Show") {
+    this.setState({calendarExpandText: "Hide"});
+    console.log("made hide");
+  }
+  else {
+    this.setState({calendarExpandText: "Show"});
+    console.log("made show");
+  }
+}
+
+getCalendarText() {
+  return this.state.calendarExpandText;
+}
 
   render() {
     const { classes } = this.props;
@@ -270,52 +335,57 @@ class EventsPageDesktop extends React.Component {
           <div className={classes.mainBox}>
             <div className={classes.mainText} style={{paddingLeft: "15%"}}>
               <h2 style={{fontSize: "24px"}}>All Events</h2>
-              <p style={{fontSize: "14px"}}>Check out our virtual events!</p>
-              <CustomButton href={"/events"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
-                            style={{ fontSize: "14px", marginTop: 10, marginLeft: "-2.5px" }} color={"blue2"} size={"large"}/>
+              <p style={{fontSize: "14px", marginRight: "35px"}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
-            <div style= {{flexDirection: "column", display: "flex", marginLeft: "15%", marginRight:"15%"}}>
-              {this.state.displayEvents.map((ele, ind) => {
-                if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
+            <div style={{align: "center"}}>
+            <Carousel>
+                {this.state.displayEvents.map((ele, ind) => {
+                  if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
 
-                  if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
-                    ele.tags = ['none']
+                    if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
+                      ele.tags = ['none']
+                    }
+
+                    numEventsDisplayed = numEventsDisplayed + 1
+                    return (
+                      <div style={{overflow:'hidden'}}>
+                          <EventCardFeatured /*onClick={this.scrollToEvent(ele.id)}*/ ele={ele} key={ind}/> <br />
+                      </div>
+                    );
                   }
+                })}
 
-                  numEventsDisplayed = numEventsDisplayed + 1
-                  return (<div> <EventCardFeatured ele={ele} key={ind}/> <br /> </div>);
-                }
-              })}
+            </Carousel>
             </div>
           </div>
 
           <div style={{margin: "40px"}}/>
 
-          <div style={{flexDirection: "row", display: "flex"}}>
-            <div className={classes.greenBox}>
-              <div className={classes.greenText}>
-                <h4 style = {{fontSize: "14px"}}>Happening Now</h4>
-              </div>
-            </div>
+          <Carousel>
+                <div className={classes.greenBox}>
+                  <div className={classes.greenText}>
+                    <h4 style = {{fontSize: "14px"}}>Happening Now</h4>
+                  </div>
+                </div>
 
-            <div className={classes.blueBox}>
-              <div className={classes.blueText}>
-                <h4 style = {{fontSize: "14px"}}>Popular</h4>
-              </div>
-            </div>
+                <div className={classes.blueBox}>
+                  <div className={classes.blueText}>
+                    <h4 style = {{fontSize: "14px"}}>Popular</h4>
+                  </div>
+                </div>
 
-            <div className={classes.orangeBox}>
-              <div className={classes.orangeText}>
-                <h4 style = {{fontSize: "14px"}}>Recurring</h4>
-              </div>
-            </div>
+                <div className={classes.orangeBox}>
+                  <div className={classes.orangeText}>
+                    <h4 style = {{fontSize: "14px"}}>Recurring</h4>
+                  </div>
+                </div>
 
-            <div className={classes.grayBox}>
-              <div className={classes.grayText}>
-                <h4 style = {{fontSize: "14px"}}>Past</h4>
-              </div>
-            </div>
-          </div>
+                <div className={classes.grayBox}>
+                  <div className={classes.grayText}>
+                    <h4 style = {{fontSize: "14px"}}>Past</h4>
+                  </div>
+                </div>
+          </Carousel>
 
           <div style={{margin: "40px"}}/>
 
@@ -330,9 +400,10 @@ class EventsPageDesktop extends React.Component {
           <div style={{margin: "40px"}}/>
           <ExpansionPanel>
             <ExpansionPanelSummary
+              //onClick={this.updateCalendarExpandText()}
               expandIcon={<ExpandMoreIcon style={{color: "#0072CE"}}/>}
             >
-              <h5 style={{color: "#0072CE"}}>Show Calendar</h5>
+              <h5 style={{color: "#0072CE"}}>{this.getCalendarText()} Calendar</h5>
             </ExpansionPanelSummary>
 
             <ExpansionPanelDetails style={{ width: "100%", paddingLeft:0, paddingRight:0 }}>
@@ -371,20 +442,28 @@ class EventsPageDesktop extends React.Component {
                     if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
                       ele.tags = ['none']
                     }
-                    return (<EventCard ele={ele} key={ind}/>);
+                    //console.log(ele.id);
+                    return (
+                      //<ScrollableAnchor id={ele.id}>
+                        <EventCard ele={ele} key={ind}/>
+                      //</ScrollableAnchor>
+                    );
                   }
               )}
               <div>{noSearchResults}</div>
           </div>
-
-          <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Want to do more?</Title>
-          <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h5>
-          <div style={{ textAlign: "left" }}>
-            <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
-                          style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
+          <div>
+            <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Want to do more?</Title>
+            <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h5>
+            <div style={{ textAlign: "left" }}>
+              <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
+                            style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
+            </div>
           </div>
-
-
+          <footer className={classes.footerStyle}>
+              <CustomButton href={"/events/add-new-event"} text={"Want to do more?"}
+                            style={{fontSize: "13px"}} color={"blueRound"} size={"large"}/>
+          </footer>
         </Template>
     );
   }
@@ -392,4 +471,4 @@ class EventsPageDesktop extends React.Component {
 
 
 
-export default withStyles(useStyles)(EventsPageDesktop);
+export default withStyles(useStyles)(EventsPageMobile);

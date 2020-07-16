@@ -112,6 +112,21 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
   },
+  blueRound: {
+    width: "164px",
+    height: "41px",
+    right: "24px",
+    bottom: "24px",
+    backgroundColor: "#C4EAFF",
+    color: "#0072CE",
+    boxShadow: "4px 4px 14px rgba(0, 0, 0, 0.1)",
+    borderRadius: "22px",
+    "&:hover": {
+      color: '#0072CE !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px #0072CE50"
+    },
+  },
   blackWhite:{
     color: 'white !important',
     backgroundColor: 'black',
