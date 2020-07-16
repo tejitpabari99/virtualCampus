@@ -44,7 +44,7 @@ import { PhoneCallback } from "@material-ui/icons";
 const initVal = {
   name: "",
   email: "",
-  event: "",
+  title: "",
   desc: "",
   other_tags: "",
   image_file: "",
@@ -53,7 +53,7 @@ const initVal = {
   end_date: "",
   timezone: "",
   recurring: "",
-  event_link: "",
+  entry_link: "",
   invite_link: "",
   comments: "",
   tag: "",
@@ -72,32 +72,36 @@ const initVal = {
 // you can also add custom feedback messages in the parameters of each error function
 const validationSchema = Yup.object().shape({
   name: Yup.string()
-    .min(5, "Too Short")
-    .required("Required"),
+      .min(5, "Too Short")
+      .required("Required"),
   email: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Required"),
+      .email("Please enter a valid email address")
+      .required("Required"),
   event_link: Yup.string()
-    .url("Please enter a valid URL")
-    .required("Required"),
-  event: Yup.string()
-    .required("Required"),
+      .url("Please enter a valid URL")
+      .required("Required"),
+  title: Yup.string()
+      .required("Required"),
   desc: Yup.string()
-    .required("Required")
-    .max("250", "Please less than 250 characters"),
+      .required("Required")
+      .max("350", "Please less than 350 characters"),
   start_date: Yup.string()
-    .required("Required"),
+      .required("Required"),
   end_date: Yup.string()
-    .required("Required"),
+      .required("Required"),
   timezone: Yup.string()
-    .required("Required"),
+      .required("Required"),
   agree: Yup.boolean("True")
-    .required(),
+      .required(),
   image_link: Yup.string()
-    .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
+      .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
   invite_link: Yup.string()
-    .url("Please enter a valid URL")
+      .url("Please enter a valid URL")
 });
+
+let getCurrentLocationForTimeZone = function () {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
 
 const TITLE = "ADD EVENT";
 const defaultTimezone = "America/New_York";
@@ -106,7 +110,7 @@ const defaultTimezone = "America/New_York";
 function formatEmailText(jsonText) {
   var newText = "";
   Object.keys(jsonText).map((key, index) => (
-    newText = newText + "\n<br>" + getText(key, jsonText[key])
+      newText = newText + "\n<br>" + getText(key, jsonText[key])
   ));
   return newText;
 }
@@ -139,17 +143,24 @@ function cleanTag(values, key) {
 function processTags(values) {
 
   const defKey = "other_tags";
+  if (defKey in values === false)
+    return values;
+
+  // Because we want commas and semicolons to be separated upon, let's make them equivalent:
+  console.log(values[defKey])
+  values[defKey] = values[defKey].split(",").join(";")
+  console.log("after: " + values[defKey])
 
   if (values[defKey].endsWith(";") === false && values[defKey] !== "") {
     values[defKey] = values[defKey] + ";";
   }
 
   Object.keys(values).map((key, index) => (
-    values[defKey] = processATag(values, key, defKey),
-    values = cleanTag(values, key)
+      values[defKey] = processATag(values, key, defKey),
+          values = cleanTag(values, key)
   ));
-  values[defKey] = values[defKey].replace("; ;", ";");
-  values[defKey] = values[defKey].replace(";;", ";");
+  values[defKey] = values[defKey].split("; ;").join(";");
+  values[defKey] = values[defKey].split(";;").join(";");
   if (values[defKey].endsWith(";")) {
     values[defKey] = values[defKey].substring(0, values[defKey].length - 1);
   }
@@ -170,15 +181,171 @@ function sendZoomEmail(id, name, from) {
   };
 
   Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-    .then(res => {
-      console.log("Success");
-    })
-    .catch(error => {
-      console.log("error");
-    });
+      .then(res => {
+        console.log("Success");
+      })
+      .catch(error => {
+        console.log("error");
+      });
+}
+
+let dst = function (loc = getCurrentLocationForTimeZone()) {
+
+  // If user selects EST time:
+  if (loc === "America/New_York") {
+    const today = new Date();
+    var DSTDateStart;
+    var DSTDateEnd;
+    switch (today.getFullYear()) {
+      case 2020:
+        DSTDateStart = new Date(Date.UTC(2020, 2, 8, 7));
+        DSTDateEnd = new Date(Date.UTC(2020, 10, 1, 6));
+        break;
+      case 2021:
+        DSTDateStart = new Date(Date.UTC(2021, 2, 14, 7));
+        DSTDateEnd = new Date(Date.UTC(2021, 10, 7, 6));
+        break;
+      case 2022:
+        DSTDateStart = new Date(Date.UTC(2022, 2, 13, 7));
+        DSTDateEnd = new Date(Date.UTC(2022, 10, 6, 6));
+        break;
+    }
+    if (today.getTime() >= DSTDateStart.getTime() && today.getTime() < DSTDateEnd.getTime()) {
+      // console.log("true");
+      return true;
+    }
+    // console.log("false");
+    return false;
+  }
+
+  // If user selects local time:
+  if (TZ.getTimezone(loc).utcOffset === TZ.getTimezone(loc).dstOffset) {
+    return false;
+  }
+  const date = new Date();
+  return date.getTimezoneOffset()
+  // < Events.stdTimezoneOffset();
+}
+
+let getTimezoneName = function (loc = getCurrentLocationForTimeZone(), dstN = null) {
+  if (!dstN) { dstN = dst() }
+  const gmt = TZ.getTimezone(loc).utcOffsetStr;
+  var str = "GMT" + gmt;
+
+  if (gmt === "-01:00")
+    return "CAT";
+  if (gmt === "-02:00")
+    return "BET";
+  if (gmt === "-03:00")
+    return "AGT";
+  if (gmt === "-03:30")
+    return "CNT";
+  if (gmt === "-04:00")
+    return "PRT";
+  if (gmt === "-05:00")
+    return dst ? "EDT" : "EST";
+  if (gmt === "-06:00")
+    return dst ? "CDT" : "CST";
+  if (gmt === "-07:00")
+    return dst ? "MDT" : "MST";
+  if (gmt === "-08:00")
+    return dst ? "PDT" : "PST";
+  if (gmt === "-09:00")
+    return dst ? "ADT" : "AST";
+  if (gmt === "-10:00")
+    return dst ? "HDT" : "HST";
+  if (gmt === "-11:00")
+    return "MIT";
+  if (gmt === "+12:00")
+    return dst ? "NDT" : "NST";
+  if (gmt === "+11:00")
+    return dst ? "SDT" : "SST";
+  if (gmt === "+10:00")
+    return "AET";
+  if (gmt === "+09:30")
+    return dst ? "ACDT" : "ACST";
+  if (gmt === "+09:00")
+    return dst ? "JDT" : "JST";
+  if (gmt === "+08:00")
+    return "CTT";
+  if (gmt === "+07:00")
+    return dst ? "VDT" : "VST";
+  if (gmt === "+06:00")
+    return dst ? "BDT" : "BST";
+  if (gmt === "+05:30")
+    return dst ? "IDT" : "IST";
+  if (gmt === "+05:00")
+    return "PLT";
+  if (gmt === "+04:00")
+    return "NET";
+  if (gmt === "+03:30")
+    return "MET";
+  if (gmt === "+03:00")
+    return "EAT";
+  if (gmt === "+02:00")
+    return "EET";
+  if (gmt === "+01:00")
+    return "ECT";
+
+  if (dstN)
+    return str + " DST";
+  return str;
 }
 
 const optionsTZ = getTimezoneOptions();
+
+let imgurLinkOutside = ""
+const default_img = "https://i.imgur.com/GP66BiO.png"
+let exampleEvent = {
+  agree: true,
+  approved: false,
+  comments: "",
+  desc: "CVC Example Description",
+  email: "columbiavirtualcampus@gmail.com",
+  end_date: "Sun Jul 05 2020 23:59:00 GMT-0400 (Eastern Daylight Time)",
+  entry_link: "",
+  event: "CVC Example",
+  event_link: "http://columbiavirtualcampus.com",
+  image_file: "",
+  image_link: default_img,
+  invite_link: "",
+  name: "Columbia Virtual Campus",
+  recurring: "",
+  start_date: "Sat Jul 04 2020 23:59:00 GMT-0400 (Eastern Daylight Time)",
+  tags: [],
+  timezone: "America/New_York$true",
+  title: "CVC Example"
+}
+
+
+function convertEventsTime(event) {
+  const tzString = event.timezone;
+
+  event.start_date = event.start_date.split("GMT")[0];
+  event.end_date = event.end_date.split("GMT")[0];
+
+  if (event.timezone !== undefined && event.timezone.includes("$")) {
+    // $ splits time and timezone in the event.timezone field in firebase!
+    const tz = tzString.split("$")[0];
+    const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
+    const offset = getOffset(tz, daylightSavings);
+
+    // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
+    // America/New_York should be changed to the user's time zone who created the event, if they
+    // Choose to use their time zone rather than EST.
+    const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
+    const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
+
+    // Second, convert those consts above to user's local time
+    event.start_date = convertUTCToLocal(UTCStart);
+    event.end_date = convertUTCToLocal(UTCEnd);
+    // get timezone to display
+    event.timeZoneGMT = getTimezoneName(getCurrentLocationForTimeZone(), dst());
+  }
+  return event;
+}
+
+let convertedExampleEvent = convertEventsTime(exampleEvent)
 
 class EventFormMobile extends React.Component {
 
@@ -188,12 +355,36 @@ class EventFormMobile extends React.Component {
     this.state = {
       feedbackSubmit: false,
       errStatus: 0,
-      imgFileValue: "",
       activityIndicatory: false,
+      imgFileValue: "",
+      imgurLink: "",
+      sampleEvent: convertedExampleEvent
     };
 
     this.submitHandler = this.submitHandler.bind(this);
     this.uploadData = this.uploadData.bind(this);
+    this.handleImageUpload = this.handleImageUpload.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
+    this.updateEvent = this.updateEvent.bind(this);
+
+  }
+
+  getMonthName() {
+    var d = new Date();
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    return month[d.getMonth()];
   }
 
   submitHandler(values) {
@@ -207,16 +398,18 @@ class EventFormMobile extends React.Component {
 
   // upload to firebase here
   uploadData(data) {
-
     data["approved"] = false;
     data["start_date"] = data["start_date"].toString();
     data["end_date"] = data["end_date"].toString();
     const from = data["email"];
-    const subject = "NEW EVENT: " + data["event"];
-    const clientSubject = "Your CVC Event Details: " + data["event"];
+    const subject = "NEW EVENT: " + data["title"];
+    const clientSubject = "Your CVC Event Details: " + data["title"];
     data = processTags(data);
     const text = formatEmailText(data);
+    if (data['title'] !== undefined)
+      data['event'] = data['title']
     const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
+    const zoomUrl = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=https%3A%2F%2Fcolumbiavirtualcampus.com%2Fevents%2Fhandle-approve&state="
     const clientEmailData = {
       to: from,
       from: "columbiavirtualcampus@gmail.com",
@@ -234,42 +427,47 @@ class EventFormMobile extends React.Component {
     const db = firebase.firestore();
     const newEventRef = db.collection("events").doc();
     clientEmailData["text"] = "Your New Event Request!\n<br>Here's what we are currently processing:\n <br>" +
-      emailData["text"] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
-      + "Please contact us if any of the above needs corrected or if you have any questions!"
-      + "\n<br>\n<br>Best,\n<br>The CVC Team";
+        emailData["text"] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
+        + "Please contact us if any of the above needs corrected or if you have any questions!"
+        + "\n<br>\n<br>Best,\n<br>The CVC Team";
     emailData["text"] = "New Event Request!\n <br>" +
-      emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
-        + "<br><br>Click here to approve this event: ",
-        approvalUrl.concat(newEventRef.id));
+        emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
+            + "<br><br>Click here to approve this event: ",
+            approvalUrl.concat(newEventRef.id));
+    if (data["zoomLink"]) {
+      console.log("Zoom link: " + data["zoomLink"])
+      emailData["text"] += "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: " +
+          zoomUrl.concat(newEventRef.id);
+    }
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
-      .then(ref => {
+        .then(ref => {
 
-        Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-          .then(res => {
-            console.log("Success 1");
-            Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
+          Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
               .then(res => {
-                console.log("Success 2");
-                this.setState({ feedbackSubmit: true, activityIndicatory: false });
+                console.log("Success 1");
+                Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
+                    .then(res => {
+                      console.log("Success 2");
+                      this.setState({ feedbackSubmit: true, activityIndicatory: false });
+                    })
+                    .catch(error => {
+                      this.setState({ errStatus: 3 });
+                      console.log("Updated error");
+                    });
               })
               .catch(error => {
-                this.setState({ errStatus: 3 });
+                this.setState({ errStatus: 1 });
                 console.log("Updated error");
               });
-          })
-          .catch(error => {
-            this.setState({ errStatus: 1 });
-            console.log("Updated error");
-          });
-      })
-      .catch(function (error) {
-        console.error("Error adding document: ", error);
-        alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
-      });
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+          alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
+        });
 
     if (data["zoomLink"]) {
-      sendZoomEmail(newEventRef.id, data["event"], from);
+      //sendZoomEmail(newEventRef.id, data["event"], from);
     }
 
     return emailData["text"];
@@ -331,16 +529,16 @@ class EventFormMobile extends React.Component {
 
     if (this.state.errStatus === 4) {
       return "We were unable to process your request due to an unexpected error. " +
-        "Please try again. If the problem persists please reach out to us:";
+          "Please try again. If the problem persists please reach out to us:";
     } else if (this.state.errStatus === 3 || this.state.errStatus === 1) {
       return "Please contact us about approving your event! We were unable to automatically email our team."
-        + " Please reach out to us at:";
+          + " Please reach out to us at:";
     } else if (this.state.errStatus === 2) {
       return "We were unable to process your request. Please try again. " +
-        "If the problem persists please reach out to us:";
+          "If the problem persists please reach out to us:";
     } else {
       return "We look forward to hosting your event on CVC! " +
-        "If there is anything that needs to be updated, please reach out to us.";
+          "If there is anything that needs to be updated, please reach out to us.";
     }
   }
 
@@ -355,6 +553,58 @@ class EventFormMobile extends React.Component {
     console.log(this.inputElement);
     this.inputElement.props.label = "Image Uploaded";
     this.inputElement.touch = true;
+  }
+
+  updateEvent(data) {
+
+    console.log("Sensed update")
+
+    // First, update image
+    convertedExampleEvent['image_link'] = this.state.imgurLink
+
+    // Data will be undefined if the user pastes an url for the image.
+    // We still want to update the state so it will render image
+    if (data !== undefined) {
+      const name = data.target.name
+      const value = data.target.value
+
+      if (name.substr(-3) === "tag") {
+        // Process button tags
+        this.pushToTags(convertedExampleEvent, value, true);
+
+      } else if (name.substr(-10) === "other_tags") {
+        // Process typed tags
+        convertedExampleEvent[name] = value
+        const prev_tags = convertedExampleEvent['tags']
+        convertedExampleEvent = processTags(convertedExampleEvent)
+        prev_tags.map((object, i) => {
+          if (object.substr(-4) === "_tag")
+            this.pushToTags(convertedExampleEvent, object);
+        })
+
+      } else {
+        // Just simply update the dictionary if other values
+        convertedExampleEvent[name] = value
+      }
+
+      // Just to make sure we have an event and title, they are equivalent
+      convertedExampleEvent['event'] = convertedExampleEvent['title']
+    }
+
+    this.setState({ sampleEvent: convertedExampleEvent })
+  }
+
+  pushToTags(event, tag, remove = false) {
+    if (event['tags'].includes(tag) === false) {
+      event['tags'].push(tag)
+    } else if (remove) {
+      // Remove if toggle button turned off
+      event['tags'] = event['tags'].filter(x => x !== tag)
+    }
+  }
+
+  getSampleEvent() {
+    return this.state.sampleEvent
   }
 
   render() {
@@ -483,24 +733,13 @@ class EventFormMobile extends React.Component {
               </div>
             </h2>
             <br />
-            <h5 style={{ color: "#0072CE" }}>Desktop Version:</h5>
-            <Grid >
-              <div style={{ marginBottom: "5%" }}>
-                <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}>
-                  {/* {this.getMonthName()} {date.getFullYear()} */}
-                </h3>
-                <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }} />
-                {/* <EventCardDesktop ele={this.getSampleEvent()} key={0} /> */}
-              </div>
-            </Grid>
-            <h5 style={{ color: "#0072CE" }}>Mobile Version (Similar to iPhone X):</h5>
             <Grid>
-              <div style={{ marginBottom: "5%", width: "380px", wordWrap: "break-word", textAlign: "left" }}>
+              <div>
                 <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}>
-                  {/* {this.getMonthName()} {date.getFullYear()} */}
+                  {/* {this.getMonthName()} {date.getFullYear()}*/}
                 </h3>
                 <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }} />
-                {/* <EventCardMobile ele={this.getSampleEvent()} key={0} /> */}
+                <EventCardMobile ele={this.getSampleEvent()} key={0} />
               </div>
             </Grid>
           </Container>
