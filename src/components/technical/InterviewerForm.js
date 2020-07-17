@@ -24,8 +24,10 @@ import {  CustomHeader, Template } from "..";
 import Container from "@material-ui/core/Container";
 import TZ from "countries-and-timezones";
 import * as Events from "../../pages/events";
-import Axios from "axios";
+import Axios, { post } from "axios";
 import * as jwt from "jsonwebtoken";
+
+
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -46,7 +48,8 @@ const initVal = {
   day_3: "",
   start_time_3: null,
   end_time_3: null,
-  time_comments: ""
+  time_comments: "",
+  resume: ""
 };
 
 let getCurrentLocationForTimeZone = function() {
@@ -81,7 +84,10 @@ const validationSchema = Yup.object().shape({
     .nullable(),
   end_time_1: Yup.string()
     .required("Required")
-    .nullable()
+    .nullable(),
+  resume: Yup.string()
+    .url("Please enter a valid URL")
+    .required("Required")
 });
 
 const defaultTimezone = "America/New_York";
@@ -231,8 +237,6 @@ const daysOfWeek = [{value: 1, label: "Monday"}, {value: 2, label: "Tuesday"},
 {value: 3, label: "Wednesday"}, {value: 4, label: "Thursday"}, {value: 5, label: "Friday"},
 {value: 6, label: "Saturday"}, {value: 0, label:"Sunday"}];
 
-const maxDate = new Date('August 2, 2020');
-const minDate = new Date('July 27, 2020');
 
 class InterviewerForm extends React.Component {
 
@@ -325,6 +329,7 @@ class InterviewerForm extends React.Component {
     const end_time_3 = values.end_time_3;
     const timezone = values.timezone;
     const time_comments = values.time_comments;
+    const resume = values.resume;
 
     this.test(values);
     const range_1 = ` ${daysOfWeek[day_1].label} ${start_time_1.toLocaleTimeString('en-US')} - 
@@ -361,7 +366,8 @@ class InterviewerForm extends React.Component {
           day_3,
           start_time_3,
           end_time_3,
-          timezone
+          timezone,
+          resume
         }
       }, process.env.GATSBY_JWT_SECRET_KEY);
     const emailData = {
@@ -391,7 +397,7 @@ class InterviewerForm extends React.Component {
 
   getHeadMessage() {
     if (this.state.submitStatus == "success") {
-      return "Thank You!";
+      return "Thank you! Please check your email for confirmation.";
     } else {
       return "Oops... Sorry! There was an error handling your request.";
     }
@@ -401,7 +407,7 @@ class InterviewerForm extends React.Component {
 
     if (this.state.submitStatus == "success") {
       return "Thank you for expressing interest in being an interviewer for our Mock Technical Interview Event at CVC! " +
-      " Please check your email for updates regarding your finalized schedule! " + 
+      " Please check your email to confirm your sign-up! " + 
       " If there is anything that needs to be updated, please reach out to us. ";
     } else {
       return "We were unable to process your request due to an unexpected error. " +
@@ -556,6 +562,7 @@ class InterviewerForm extends React.Component {
                                 }}>
                                   Technical Experience
                                 </div>
+                                * Note: this information will be shared with potential interviewees.
                                 <GridContainer>
                                   <GridItem sm={6} md={6}>
                                     <FormikField label="Previous Internship Experiences" name="host_workExp"
@@ -563,7 +570,7 @@ class InterviewerForm extends React.Component {
                                                  touch={touched.host_workExp}
                                                  required></FormikField>
                                   </GridItem>
-                                  <GridItem sm={6} md={6}>
+                                  <GridItem sm={6} md={6}>  
                                     <Field
                                         name="host_interviewExp"
                                         label="Technical Interviews Completed"
@@ -578,10 +585,19 @@ class InterviewerForm extends React.Component {
                                   <GridItem sm={12} md={12}>
                                     <FormikField label="Bio"
                                                  name="host_bio"
-                                                 multiline rows="1"
                                                  error={errors.host_bio}
                                                  touch={touched.host_bio} required/>
                                   </GridItem>
+                                </GridContainer>
+                                <GridContainer>
+                                  <GridItem sm={12} md={12}>
+                                    <FormikField label="Resume Link or LinkedIn Profile"
+                                                 name="resume"
+                                                 error={errors.resume}
+                                                 touch={touched.resume} required/>
+
+                                  </GridItem>
+
                                 </GridContainer>
                             </div>
                                 <div style={{ margin: "15px 0" }}>
@@ -775,5 +791,7 @@ class InterviewerForm extends React.Component {
 
 
 }
+
+
 
 export default InterviewerForm;
