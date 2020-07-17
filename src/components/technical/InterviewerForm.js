@@ -22,8 +22,10 @@ import {  CustomHeader, Template } from "..";
 import Container from "@material-ui/core/Container";
 import TZ from "countries-and-timezones";
 import * as Events from "../../pages/events";
-import Axios from "axios";
+import Axios, { post } from "axios";
 import * as jwt from "jsonwebtoken";
+
+
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -41,6 +43,7 @@ const initVal = {
   timezone_3: "",
   start_time_3: null,
   end_time_3: null,
+  resume: ""
 };
 
 let getCurrentLocationForTimeZone = function() {
@@ -73,7 +76,10 @@ const validationSchema = Yup.object().shape({
     .nullable(),
   end_time_1: Yup.string()
     .required("Required")
-    .nullable()
+    .nullable(),
+  resume: Yup.string()
+    .url("Please enter a valid URL")
+    .required("Required")
 });
 
 const defaultTimezone = "America/New_York";
@@ -222,6 +228,7 @@ const interviewExp = [{value: "0-5", label: "0-5"}, {value: "6-10", label: "6-10
 const maxDate = new Date('August 2, 2020');
 const minDate = new Date('July 27, 2020');
 
+
 class InterviewerForm extends React.Component {
 
   constructor(props) {
@@ -237,6 +244,7 @@ class InterviewerForm extends React.Component {
 
   }
 
+
   submitHandler(values) {
     this.setState({activityIndicatory: true});
     const host_name = values.host_name;
@@ -251,6 +259,7 @@ class InterviewerForm extends React.Component {
     const start_time_3 = values.start_time_3;
     const end_time_3 = values.end_time_3;
     const timezone = values.timezone;
+    const resume = values.resume;
 
     const range_1 = `${start_time_1.toLocaleDateString('en')} ${start_time_1.toLocaleTimeString('en-US')} - 
     ${end_time_1.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
@@ -283,7 +292,8 @@ class InterviewerForm extends React.Component {
           end_time_2,
           start_time_3,
           end_time_3,
-          timezone
+          timezone,
+          resume
         }
       }, process.env.GATSBY_JWT_SECRET_KEY);
     const emailData = {
@@ -313,7 +323,7 @@ class InterviewerForm extends React.Component {
 
   getHeadMessage() {
     if (this.state.submitStatus == "success") {
-      return "Thank You!";
+      return "Thank you! Please check your email for confirmation.";
     } else {
       return "Oops... Sorry! There was an error handling your request.";
     }
@@ -323,7 +333,7 @@ class InterviewerForm extends React.Component {
 
     if (this.state.submitStatus == "success") {
       return "Thank you for expressing interest in being an interviewer for our Mock Technical Interview Event at CVC! " +
-      " Please check your email for updates regarding your finalized schedule! " + 
+      " Please check your email to confirm your sign-up! " + 
       " If there is anything that needs to be updated, please reach out to us. ";
     } else {
       return "We were unable to process your request due to an unexpected error. " +
@@ -479,6 +489,7 @@ class InterviewerForm extends React.Component {
                                 }}>
                                   Technical Experience
                                 </div>
+                                * Note: this information will be shared with potential interviewees.
                                 <GridContainer>
                                   <GridItem sm={6} md={6}>
                                     <FormikField label="Previous Internship Experiences" name="host_workExp"
@@ -486,7 +497,7 @@ class InterviewerForm extends React.Component {
                                                  touch={touched.host_workExp}
                                                  required></FormikField>
                                   </GridItem>
-                                  <GridItem sm={6} md={6}>
+                                  <GridItem sm={6} md={6}>  
                                     <Field
                                         name="host_interviewExp"
                                         label="Technical Interviews Completed"
@@ -501,10 +512,19 @@ class InterviewerForm extends React.Component {
                                   <GridItem sm={12} md={12}>
                                     <FormikField label="Bio"
                                                  name="host_bio"
-                                                 multiline rows="1"
                                                  error={errors.host_bio}
                                                  touch={touched.host_bio} required/>
                                   </GridItem>
+                                </GridContainer>
+                                <GridContainer>
+                                  <GridItem sm={12} md={12}>
+                                    <FormikField label="Resume Link or LinkedIn Profile"
+                                                 name="resume"
+                                                 error={errors.resume}
+                                                 touch={touched.resume} required/>
+
+                                  </GridItem>
+
                                 </GridContainer>
                             </div>
                                 <div style={{ margin: "15px 0" }}>
@@ -528,7 +548,7 @@ class InterviewerForm extends React.Component {
                                 }}>
                                   * Please provide your availability from <strong>{minDate.toDateString()}</strong> to 
                                   <strong> {maxDate.toDateString()}</strong> and please ensure that the ranges are 
-                                  <strong>on the hour</strong>. We will select a few hours from these ranges and schedule 
+                                  <strong> on the hour</strong>. We will select a few hours from these ranges and schedule 
                                   sessions for you.
                                 </div>
                                 <GridContainer>
@@ -672,5 +692,7 @@ class InterviewerForm extends React.Component {
 
 
 }
+
+
 
 export default InterviewerForm;
