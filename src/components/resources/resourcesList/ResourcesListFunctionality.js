@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomButton2 } from "../..";
+import { CustomButton } from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js";
 import Fuse from 'fuse.js';
@@ -23,10 +23,10 @@ export const CoolerButton = ({children, otherClickOption, category, key, val, ..
   delete other.onClick;
 
   return (
-    <CustomButton2
+    <CustomButton
       onClick={() => {handleClick()}}
       color={
-        (isPushed) ? "blue" : "white"
+        (isPushed) ? "blue" : "whiteNoHover"
       }
       {...other}
       text={val}
