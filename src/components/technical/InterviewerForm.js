@@ -2,7 +2,6 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { CircularProgress } from '@material-ui/core';
-import { RRule, RRuleSet, rrulestr } from 'rrule';
 
 //inputs
 import FormikField from "../FormikField/FormikField";
@@ -34,7 +33,6 @@ const initVal = {
   host_name: "",
   host_email: "",
   host_bio: "",
-  host_workExp: "",
   host_interviewExp: "",
   timezone: "",
   day_1: "",
@@ -70,9 +68,6 @@ const validationSchema = Yup.object().shape({
   host_bio: Yup.string()
     .required("Required")
     .max("50", "Please less than 50 characters"),
-  host_workExp: Yup.string()
-    .required("Required")
-    .max("100", "Please less than 100 characters"),
   host_interviewExp: Yup.string()
     .required("Required"),
   day_1: Yup.string()
@@ -233,9 +228,9 @@ const optionsTZ = getTimezoneOptions();
 const interviewExp = [{value: "0-5", label: "0-5"}, {value: "6-10", label: "6-10"}, 
 {value : "11-15", label: "11-15"}, {value: "15-20", label: "15-20"}, {value: "20+", label:"20+"}];
 
-const daysOfWeek = [{value: 1, label: "Monday"}, {value: 2, label: "Tuesday"}, 
+const daysOfWeek = [{value: 0, label:"Sunday"}, {value: 1, label: "Monday"}, {value: 2, label: "Tuesday"}, 
 {value: 3, label: "Wednesday"}, {value: 4, label: "Thursday"}, {value: 5, label: "Friday"},
-{value: 6, label: "Saturday"}, {value: 0, label:"Sunday"}];
+{value: 6, label: "Saturday"}];
 
 
 class InterviewerForm extends React.Component {
@@ -277,14 +272,14 @@ class InterviewerForm extends React.Component {
 
     // day is an int representing day of week, 0 = sunday
     const getDates = day => {
-      let temp = startDate;
+      let temp = new Date(startDate);
       while(temp.getDay() != day){
         temp.setDate(temp.getDate() + 1);
       }
       let dates = [[temp.getDate(), temp.getMonth(), temp.getFullYear()]];
       while(temp < endDate){
         const temp_res = new Date(temp.setDate(temp.getDate() + 7));
-        if (temp < endDate){
+        if (temp > endDate){
           break;
         }
         dates.push([temp_res.getDate(), temp_res.getMonth(), temp_res.getFullYear()]);
@@ -292,23 +287,35 @@ class InterviewerForm extends React.Component {
       return dates;
     }
 
-    let events = []
+    const getAllDates = day => {
+      let events = []
+      const dates = getDates(day)
+      dates.forEach( date => {
+        const temp_date = date[0], temp_month = date[1], temp_year = date[2];
+        const start_time = values.start_time_1
+        start_time.setDate(temp_date);
+        start_time.setMonth(temp_month);
+        start_time.setFullYear(temp_year);
+        const end_time = values.end_time_1;
+        end_time.setDate(temp_date);
+        end_time.setMonth(temp_month);
+        end_time.setFullYear(temp_year);
+        events.push(processTime(start_time, end_time));
+      });
+      return events
+    }
+
+    
     // list of dates in between start and end date
     // corresponding to each day of the week (every monday)
-    const dates = getDates(values.day_1)
-    dates.forEach( date => {
-      const temp_date = date[0], temp_month = date[1], temp_year = date[2];
-      const start_time = values.start_time_1
-      start_time.setDate(temp_date);
-      start_time.setMonth(temp_month);
-      start_time.setFullYear(temp_year);
-      const end_time = values.end_time_1;
-      end_time.setDate(temp_date);
-      end_time.setMonth(temp_month);
-      end_time.setFullYear(temp_year);
-      events.push(processTime(start_time, end_time));
-    });
-    console.log(events);
+    let all_events = getAllDates(values.day_1)
+    if (values.day_2){
+      getAllDates(values.day_2).forEach( arr => all_events.push(arr));
+    }
+    if (values.day_3){
+      getAllDates(values.day_3).forEach( arr => all_events.push(arr));
+    }
+    console.log(all_events);
   }
 
   submitHandler(values) {
@@ -317,21 +324,21 @@ class InterviewerForm extends React.Component {
     const host_email = values.host_email;
     const host_bio = values.host_bio;
     const host_interviewExp = values.host_interviewExp;
-    const host_workExp = values.host_workExp;
     const day_1 = values.day_1;
     const start_time_1 = new Date(values.start_time_1);
+    start_time_1.setSeconds(0);
     const end_time_1 = new Date(values.end_time_1);
+    end_time_1.setSeconds(0);
     const day_2 = values.day_2;
-    const start_time_2 = values.start_time_2;
-    const end_time_2 = values.end_time_2;
+    let start_time_2 = values.start_time_2;
+    let end_time_2 = values.end_time_2;
     const day_3 = values.day_3;
-    const start_time_3 = values.start_time_3;
-    const end_time_3 = values.end_time_3;
+    let start_time_3 = values.start_time_3;
+    let end_time_3 = values.end_time_3;
     const timezone = values.timezone;
     const time_comments = values.time_comments;
     const resume = values.resume;
 
-    this.test(values);
     const range_1 = ` ${daysOfWeek[day_1].label} ${start_time_1.toLocaleTimeString('en-US')} - 
     ${end_time_1.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
     let range_2;
@@ -339,12 +346,16 @@ class InterviewerForm extends React.Component {
     if(start_time_2 !== null || end_time_2 !== null){
       start_time_2 = new Date(start_time_2);
       end_time_2 = new Date(end_time_2);
+      start_time_2.setSeconds(0);
+      end_time_2.setSeconds(0);
       range_2 = `${daysOfWeek[day_2].label} ${start_time_2.toLocaleTimeString('en-US')} - 
       ${end_time_2.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
     }
     if(start_time_3 !== null || end_time_3 !== null){
       start_time_3 = new Date(start_time_3);
       end_time_3 = new Date(end_time_3);
+      start_time_3.setSeconds(0);
+      end_time_3.setSeconds(0);
       range_3 = `${daysOfWeek[day_3].label} ${start_time_3.toLocaleTimeString('en-US')} - 
       ${end_time_3.toLocaleTimeString("en-US", {timeZoneName:'short'})}`
     }
@@ -356,7 +367,6 @@ class InterviewerForm extends React.Component {
           host_email,
           host_bio,
           host_interviewExp,
-          host_workExp,
           day_1,
           start_time_1,
           end_time_1,
@@ -367,6 +377,7 @@ class InterviewerForm extends React.Component {
           start_time_3,
           end_time_3,
           timezone,
+          time_comments,
           resume
         }
       }, process.env.GATSBY_JWT_SECRET_KEY);
@@ -380,11 +391,12 @@ class InterviewerForm extends React.Component {
         ${range_1}<br/>
         ${range_2 ? `${range_2} <br/>`: ''}
         ${range_3 ? `${range_3} <br/>`: ''}<br/>
-        <a href="${URL}?token=${token}">Click this link to to Confirm</a><br/><br/>
+        <a href="${URL}?token=${token}">Click this link to confirm</a><br/><br/>
         If you do not wish to confirm, no action is required.<br/><br/>
         Thanks,<br/>
         CVC`
       };
+    this.test(values);
     Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
         .then(res => {
           this.setState({submitStatus: "success", activityIndicatory: false});
@@ -565,10 +577,10 @@ class InterviewerForm extends React.Component {
                                 * Note: this information will be shared with potential interviewees.
                                 <GridContainer>
                                   <GridItem sm={6} md={6}>
-                                    <FormikField label="Previous Internship Experiences" name="host_workExp"
-                                                 error={errors.host_workExp}
-                                                 touch={touched.host_workExp}
-                                                 required></FormikField>
+                                    <FormikField label="Bio"
+                                                 name="host_bio"
+                                                 error={errors.host_bio}
+                                                 touch={touched.host_bio} required/>
                                   </GridItem>
                                   <GridItem sm={6} md={6}>  
                                     <Field
@@ -578,15 +590,6 @@ class InterviewerForm extends React.Component {
                                         component={Select}
                                         required
                                       />
-                                  </GridItem>
-                                </GridContainer>
-
-                                <GridContainer>
-                                  <GridItem sm={12} md={12}>
-                                    <FormikField label="Bio"
-                                                 name="host_bio"
-                                                 error={errors.host_bio}
-                                                 touch={touched.host_bio} required/>
                                   </GridItem>
                                 </GridContainer>
                                 <GridContainer>
@@ -620,7 +623,7 @@ class InterviewerForm extends React.Component {
                                   color: "black"
                                 }}>
                                   * Please provide your availability between <strong>Monday, August 3rd</strong> to
-                                  <strong>Monday, August 24th</strong> by choosing a time range for a given day in the week.
+                                  <strong> Monday, August 24th</strong> by choosing a time range for a given day in the week.
                                   We will select a few hours from these ranges and schedule sessions for you.
                                 </div>
                                 <GridContainer>
