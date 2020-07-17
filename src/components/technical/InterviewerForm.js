@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { CircularProgress } from '@material-ui/core';
+import { RRule, RRuleSet, rrulestr } from 'rrule';
 
 //inputs
 import FormikField from "../FormikField/FormikField";
@@ -9,9 +10,10 @@ import "../FormikField/FormikField.css";
 import { Select } from "material-ui-formik-components/Select";
 
 //Date and time input
-import { DateTimePicker } from "formik-material-ui-pickers";
+import { TimePicker } from "formik-material-ui-pickers";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+//import { TimePicker } from '@material-ui/pickers';
 
 import Button from "@material-ui/core/Button";
 import GridContainer from "../material-kit-components/Grid/GridContainer";
@@ -33,14 +35,18 @@ const initVal = {
   host_workExp: "",
   host_interviewExp: "",
   timezone: "",
+  day_1: "",
   start_time_1: null,
   end_time_1: null,
   timezone_2: "",
+  day_2: "",
   start_time_2: null,
   end_time_2: null,
   timezone_3: "",
+  day_3: "",
   start_time_3: null,
   end_time_3: null,
+  time_comments: ""
 };
 
 let getCurrentLocationForTimeZone = function() {
@@ -65,6 +71,8 @@ const validationSchema = Yup.object().shape({
     .required("Required")
     .max("100", "Please less than 100 characters"),
   host_interviewExp: Yup.string()
+    .required("Required"),
+  day_1: Yup.string()
     .required("Required"),
   timezone: Yup.string()
     .required("Required"),
@@ -219,6 +227,10 @@ const optionsTZ = getTimezoneOptions();
 const interviewExp = [{value: "0-5", label: "0-5"}, {value: "6-10", label: "6-10"}, 
 {value : "11-15", label: "11-15"}, {value: "15-20", label: "15-20"}, {value: "20+", label:"20+"}];
 
+const daysOfWeek = [{value: 1, label: "Monday"}, {value: 2, label: "Tuesday"}, 
+{value: 3, label: "Wednesday"}, {value: 4, label: "Thursday"}, {value: 5, label: "Friday"},
+{value: 6, label: "Saturday"}, {value: 0, label:"Sunday"}];
+
 const maxDate = new Date('August 2, 2020');
 const minDate = new Date('July 27, 2020');
 
@@ -237,6 +249,64 @@ class InterviewerForm extends React.Component {
 
   }
 
+  test(values){
+    const startDate = new Date(Date.UTC(2020, 7, 3));
+    const endDate = new Date(Date.UTC(2020, 7, 26));
+
+    const processTime = (start_time, end_time) => {
+      start_time = new Date(start_time);
+      end_time = new Date(end_time);
+      const range = Math.floor(((end_time - start_time) / (1000 * 60 * 60)) % 24);
+      let slots = [];
+      let stime_1 = start_time;
+      slots.push(stime_1.toString());
+      
+      for(let i = 0; i < range; i++){
+          let time_1 = stime_1;
+          let start = new Date(time_1);
+          start.setHours(start.getHours()+1);
+          slots.push(start.toString());
+          stime_1 = start;
+      }
+      return slots;
+    }
+
+    // day is an int representing day of week, 0 = sunday
+    const getDates = day => {
+      let temp = startDate;
+      while(temp.getDay() != day){
+        temp.setDate(temp.getDate() + 1);
+      }
+      let dates = [[temp.getDate(), temp.getMonth(), temp.getFullYear()]];
+      while(temp < endDate){
+        const temp_res = new Date(temp.setDate(temp.getDate() + 7));
+        if (temp < endDate){
+          break;
+        }
+        dates.push([temp_res.getDate(), temp_res.getMonth(), temp_res.getFullYear()]);
+      }
+      return dates;
+    }
+
+    let events = []
+    // list of dates in between start and end date
+    // corresponding to each day of the week (every monday)
+    const dates = getDates(values.day_1)
+    dates.forEach( date => {
+      const temp_date = date[0], temp_month = date[1], temp_year = date[2];
+      const start_time = values.start_time_1
+      start_time.setDate(temp_date);
+      start_time.setMonth(temp_month);
+      start_time.setFullYear(temp_year);
+      const end_time = values.end_time_1;
+      end_time.setDate(temp_date);
+      end_time.setMonth(temp_month);
+      end_time.setFullYear(temp_year);
+      events.push(processTime(start_time, end_time));
+    });
+    console.log(events);
+  }
+
   submitHandler(values) {
     this.setState({activityIndicatory: true});
     const host_name = values.host_name;
@@ -244,28 +314,33 @@ class InterviewerForm extends React.Component {
     const host_bio = values.host_bio;
     const host_interviewExp = values.host_interviewExp;
     const host_workExp = values.host_workExp;
+    const day_1 = values.day_1;
     const start_time_1 = new Date(values.start_time_1);
     const end_time_1 = new Date(values.end_time_1);
+    const day_2 = values.day_2;
     const start_time_2 = values.start_time_2;
     const end_time_2 = values.end_time_2;
+    const day_3 = values.day_3;
     const start_time_3 = values.start_time_3;
     const end_time_3 = values.end_time_3;
     const timezone = values.timezone;
+    const time_comments = values.time_comments;
 
-    const range_1 = `${start_time_1.toLocaleDateString('en')} ${start_time_1.toLocaleTimeString('en-US')} - 
+    this.test(values);
+    const range_1 = ` ${daysOfWeek[day_1].label} ${start_time_1.toLocaleTimeString('en-US')} - 
     ${end_time_1.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
     let range_2;
     let range_3;
     if(start_time_2 !== null || end_time_2 !== null){
       start_time_2 = new Date(start_time_2);
       end_time_2 = new Date(end_time_2);
-      range_2 = `${start_time_2.toLocaleDateString('en')} ${start_time_2.toLocaleTimeString('en-US')} - 
+      range_2 = `${daysOfWeek[day_2].label} ${start_time_2.toLocaleTimeString('en-US')} - 
       ${end_time_2.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
     }
     if(start_time_3 !== null || end_time_3 !== null){
       start_time_3 = new Date(start_time_3);
       end_time_3 = new Date(end_time_3);
-      range_3 = `${start_time_3.toLocaleDateString('en')} ${start_time_3.toLocaleTimeString('en-US')} - 
+      range_3 = `${daysOfWeek[day_3].label} ${start_time_3.toLocaleTimeString('en-US')} - 
       ${end_time_3.toLocaleTimeString("en-US", {timeZoneName:'short'})}`
     }
     const URL = 'https://us-central1-columbia-virtual-campus.cloudfunctions.net/scheduleEvents';
@@ -277,10 +352,13 @@ class InterviewerForm extends React.Component {
           host_bio,
           host_interviewExp,
           host_workExp,
+          day_1,
           start_time_1,
           end_time_1,
+          day_2,
           start_time_2,
           end_time_2,
+          day_3,
           start_time_3,
           end_time_3,
           timezone
@@ -296,7 +374,7 @@ class InterviewerForm extends React.Component {
         ${range_1}<br/>
         ${range_2 ? `${range_2} <br/>`: ''}
         ${range_3 ? `${range_3} <br/>`: ''}<br/>
-        ${URL}?token=${token}<br/><br/>
+        <a href="${URL}?token=${token}">Click this link to to Confirm</a><br/><br/>
         If you do not wish to confirm, no action is required.<br/><br/>
         Thanks,<br/>
         CVC`
@@ -337,7 +415,7 @@ class InterviewerForm extends React.Component {
         //<Template>
           <div style={{ backgroundColor: "white" }}>
             <div style={{ backgroundColor: "white" }}>
-              <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"}/>
+              <CustomHeader active={"technical"} brand={"VIRTUAL CAMPUS"}/>
               <div style={{marginTop: '25%', marginLeft:'50%'}}>
                 <CircularProgress />
               </div>
@@ -349,7 +427,7 @@ class InterviewerForm extends React.Component {
     }
     else if (this.state.submitStatus !== '') {
       return (
-        <Template title={'Sign-up to be an Interviewer'} active={"schedule"}>
+        <Template title={'Sign-up to be an Interviewer'} active={"technical"}>
           <div style={{
             fontFamily: "Poppins",
             fontStyle: "normal",
@@ -396,9 +474,8 @@ class InterviewerForm extends React.Component {
 
     } else {
       return (
-        <Template title={'Sign-up to be an Interviewer'} active={"schedule"}>
+        <Template title={'Sign-up to be an Interviewer'} active={"technical"}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            {/* <Template active={'schedule'}> */}
             <div>
               <div style={{ backgroundColor: "white" }}>
                 <Container>
@@ -526,37 +603,41 @@ class InterviewerForm extends React.Component {
                                   lineHeight: "30px",
                                   color: "black"
                                 }}>
-                                  * Please provide your availability from <strong>{minDate.toDateString()}</strong> to 
-                                  <strong> {maxDate.toDateString()}</strong> and please ensure that the ranges are 
-                                  <strong>on the hour</strong>. We will select a few hours from these ranges and schedule 
-                                  sessions for you.
+                                  * Please provide your availability between <strong>Monday, August 3rd</strong> to
+                                  <strong>Monday, August 24th</strong> by choosing a time range for a given day in the week.
+                                  We will select a few hours from these ranges and schedule sessions for you.
                                 </div>
                                 <GridContainer>
-                                  <GridItem xs={6} sm={4}>
+                                <GridItem xs={6} sm={3} md={3}>
+                                    <Field
+                                        name="day_1"
+                                        label="Day of the Week"
+                                        options={daysOfWeek}
+                                        component={Select}
+                                        required
+                                      />
+                                  </GridItem>
+                                  <GridItem xs={6} sm={3} md={3}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
-                                        component={DateTimePicker}
+                                        component={TimePicker}
                                         name="start_time_1"
                                         label="Start Time"
-                                        minDate={minDate}
-                                        maxDate={maxDate}
                                         required
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem xs={6} sm={4}>
+                                  <GridItem xs={6} sm={3} md={3}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
-                                        component={DateTimePicker}
+                                        component={TimePicker}
                                         name="end_time_1"
                                         label="End Time"
-                                        minDate={this.state.end_time_1 ? this.state.end_time_1 : minDate}
-                                        maxDate={this.state.end_time_1 ? this.state.end_time_1 : maxDate}
                                         required
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem xs={12} sm={4}>
+                                  <GridItem xs={6} sm={3} md={3}>
                                     <Field
                                       name="timezone"
                                       label="Select Timezone"
@@ -565,29 +646,33 @@ class InterviewerForm extends React.Component {
                                       required
                                     />
                                   </GridItem>
-                                  <GridItem xs={6} sm={4}>
+                                  <GridItem xs={6} sm={3} md={3}>
+                                    <Field
+                                        name="day_2"
+                                        label="Day of the Week"
+                                        options={daysOfWeek}
+                                        component={Select}
+                                      />
+                                  </GridItem>
+                                  <GridItem xs={6} sm={3} md={3}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
-                                        component={DateTimePicker}
+                                        component={TimePicker}
                                         name="start_time_2"
                                         label="Start Time"
-                                        minDate={minDate}
-                                        maxDate={maxDate}
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem xs={6} sm={4}>
+                                  <GridItem xs={6} sm={3} md={3}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
-                                        component={DateTimePicker}
+                                        component={TimePicker}
                                         name="end_time_2"
                                         label="End Time"
-                                        minDate={this.state.end_time_2 ? this.state.end_time_2 : minDate}
-                                        maxDate={this.state.end_time_2 ? this.state.end_time_2 : maxDate}
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem xs={12} sm={4}>
+                                  <GridItem xs={6} sm={3} md={3}>
 
                                     <Field
                                       name="timezone"
@@ -597,35 +682,57 @@ class InterviewerForm extends React.Component {
                                     />
 
                                   </GridItem>
-                                  <GridItem xs={6} sm={4}>
+                                  <GridItem xs={6} sm={3} md={3}>
+                                    <Field
+                                        name="day_3"
+                                        label="Day of the Week"
+                                        options={daysOfWeek}
+                                        component={Select}
+                                      />
+                                  </GridItem>
+                                  <GridItem xs={6} sm={3} md={3}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
-                                        component={DateTimePicker}
+                                        component={TimePicker}
                                         name="start_time_3"
                                         label="Start Time"
-                                        minDate={minDate}
-                                        maxDate={maxDate}
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem xs={6} sm={4}>
+                                  <GridItem xs={6} sm={3} md={3}>
                                     <div style={{ margin: "16px 0 8px" }}>
                                       <Field
-                                        component={DateTimePicker}
+                                        component={TimePicker}
                                         name="end_time_3"
                                         label="End Time"
-                                        minDate={this.state.end_time_3 ? this.state.end_time_3 : minDate}
-                                        maxDate={this.state.end_time_3 ? this.state.end_time_3 : maxDate}
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem xs={12} sm={4}>
+                                  <GridItem xs={6} sm={3} md={3}>
                                     <Field
                                       name="timezone"
                                       label="Select Timezone"
                                       options={optionsTZ}
                                       component={Select}
                                     />
+                                  </GridItem>
+                                </GridContainer>
+                                <div style={{padding: "15px"}}></div>
+                                <div style={{
+                                  fontFamily: "Poppins",
+                                  fontStyle: "normal",
+                                  fontWeight: "normal",
+                                  fontSize: "20px",
+                                  lineHeight: "30px",
+                                  color: "#0072CE"
+                                }}>
+                                  Comments regarding Time Availability
+                                </div>
+                                <GridContainer>
+                                  <GridItem sm={12} md={12}>
+                                    <FormikField label="Time Availability"
+                                                 name="time_comments"
+                                                 multiline rows="2"/>
                                   </GridItem>
                                 </GridContainer>
                                 <br/>
@@ -658,11 +765,7 @@ class InterviewerForm extends React.Component {
                   {/* </div> */}
                 </Container>
               </div>
-
-
             </div>
-
-            {/* </Template > */}
           </MuiPickersUtilsProvider>
         </Template>
 
