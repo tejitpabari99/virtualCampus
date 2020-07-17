@@ -10,8 +10,8 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import GridItem from "../../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
-import EventModal from "./../EventModal";
-//import EventModalMobile from "./../EventModalMobile";
+//import EventModal from "./../EventModal";
+import EventModalMobile from "./../EventModalMobile";
 //import EventEmailModal from "./../EventEmailModal";
 
 const theme = CustomTheme;
@@ -96,7 +96,9 @@ const useStyles = makeStyles(() => ({
     display: 'inline-block',
     fontSize: '10px',
     backgroundColor: '#F2F2F2',
-    marginLeft: "-5px",
+    marginLeft: "-3px",
+    marginRight: "7px",
+    marginBottom: "7px",
     paddingTop: 2,
     paddingBottom: 1,
     paddingLeft: 12,
@@ -108,6 +110,8 @@ const useStyles = makeStyles(() => ({
     fontSize: '10px',
     backgroundColor: '#F3FFEE',
     marginLeft: "-5px",
+    marginRight: "7px",
+    marginBottom: "7px",
     paddingTop: 2,
     paddingBottom: 1,
     paddingLeft: 12,
@@ -170,12 +174,15 @@ const useStyles = makeStyles(() => ({
   },
   verticalLine: {
     borderLeft: "1px solid rgba(185, 217, 235, 0.5)",
-    height: "70px",
+    height: "130px",
+    marginTop: "10px",
+    marginBottom: "10px"
   },
   blueLine: {
     width: "100%",
     height: "1px",
-    backgroundColor: "lightblue"
+    backgroundColor: "rgba(185, 217, 235, 0.5)",
+    marginTop: "10px"
   },
   websiteButton: {
     position: "absolute",
@@ -237,37 +244,11 @@ export default function EventCardDesktopBottom({ ele }) {
                   <div className={classes.orgHeader}>{ele.name}</div>
                 </div>
             </GridItem>
-          </GridContainer>
-          {open && <EventModal open={open} closeDo={closeDo} event={ele}/>}
-        <GridContainer style={{ width: "100%", marginLeft:0, marginRight:0, marginTop:0 }}>
-            <GridItem xs={12} sm={12} md={12} style={{paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
+            <GridItem xs={12} sm={12} md={12}>
                 <div className={classes.blueLine}></div>
             </GridItem>
-
-            <GridItem xs={3} sm={3} md={3}>
-                <img className={classes.image} src={ele.image_link} alt={ele.event}/>
-                <div style={{marginTop: "10px"}} />
-                <div style={{ color: "#4284C8", marginBottom: 5}}>
-                  <strong> <AddCalendar info={ele}/></strong>
-                </div>
-            </GridItem>
-
-            <GridItem xs={9} sm={9} md={9}>
-                <div style={{color: "black",fontSize: "14px", marginBottom: "10px"}}>
-                  {ele.desc}
-                </div>
-            </GridItem>
-
-            <GridItem xs={6} sm={6} md={6} style={{marginTop: "35px"}}>
-              {ele.event_link && <CustomButton href={ele.event_link} text={"LEARN MORE"} newTab color={"blue"} size={"large"} className={classes.websiteButton} />}
-            </GridItem>
-
-            <GridItem xs={6} sm={6} md={6}>
-              {ele.invite_link && <CustomButton onClick={openModalHandler} text={'JOIN EVENT'} newTab color={"blue"} size={"large"} className={classes.joinButton}/>}
-            
-            </GridItem>
-        </GridContainer>
-
+          </GridContainer>
+          {open && <EventModalMobile open={open} closeDo={closeDo} event={ele}/>}
     </div>
   );
 }

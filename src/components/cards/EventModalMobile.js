@@ -2,13 +2,23 @@ import Backdrop from "@material-ui/core/Backdrop";
 import { makeStyles } from '@material-ui/core/styles';
 import Fade from "@material-ui/core/Fade";
 import classNames from "classnames";
-import Button from "../material-kit-components/CustomButtons/Button";
+import Button2 from "../material-kit-components/CustomButtons/Button";
 import Modal from "@material-ui/core/Modal";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import React, { useState } from "react";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
 import {CustomTheme, AddCalendar, CustomButton, EmailEvent} from "../";
 import GridItem from "../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../material-kit-components/Grid/GridContainer.js";
+import clsx from 'clsx';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
 
 const theme = CustomTheme;
 
@@ -46,19 +56,16 @@ const formatTime = function(hours, min) {
 
 const useStyles = makeStyles ({
     modal: {
-        display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        width: "100%",
+        length: "200px"
     },
     paper: {
         backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        maxWidth: 500,
-        margin: 25
     },
-    cardTitle,
     textMuted: {
         color: "#6c757d"
     },
@@ -155,7 +162,6 @@ const useStyles = makeStyles ({
     dateBox: {
       marginLeft: "3px",
       marginTop: "15px",
-      marginRight: "15px"
     },
     dateText: {
       color: "#0072CE",
@@ -183,7 +189,9 @@ const useStyles = makeStyles ({
     },
     verticalLine: {
       borderLeft: "1px solid rgba(185, 217, 235, 0.5)",
-      height: "70px",
+      height: "130px",
+      marginTop: "10px",
+      marginBottom: "10px"
     },
     blueLine: {
       width: "100%",
@@ -193,19 +201,133 @@ const useStyles = makeStyles ({
     websiteButton: {
       position: "absolute",
       bottom: 0,
-      width: "150px",
+      width: "165px",
       height: "35px"
     },
     joinButton: {
-      width: "150px",
+      width: "165px",
       height: "35px",
-      marginTop: "6px"
+      marginTop: "6px",
+      marginLeft: "-10px"
+    },
+    list: {
+    width: 250,
+    },
+    fullList: {
+      width: 'auto',
     }
 });
 
 export default function EventModalMobile({open, closeDo, event}) {
     const classes = useStyles();
+
+    const [state, setState] = React.useState({
+      bottom: false,
+    });
+
+    const toggleDrawer = (anchor, open) => (event) => {
+      if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+        return;
+      }
+
+      setState({ ...state, [anchor]: open });
+    };
+
+    const list = (anchor) => (
+      <div
+        className={clsx(classes.list, {
+          [classes.fullList]: anchor === 'bottom',
+        })}
+        role="presentation"
+        onClick={toggleDrawer(anchor, false)}
+        onKeyDown={toggleDrawer(anchor, false)}
+      >
+          <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px" }}>
+              <GridItem xs={3} sm={3} md={3}>
+                  <div className={classes.dateBox}>
+                      <span className={classes.weekText}>{days[event.start_date.getDay()]}</span>
+                      <span className={classes.dateText}>{event.start_date.getDate()} {months[event.start_date.getMonth()]}</span>
+
+                      <br/>
+                      <div className={classes.timeInfo}>
+                          {formatTime(event.start_date.getHours(), event.start_date.getMinutes())} -
+                          {formatTime(event.end_date.getHours(), event.end_date.getMinutes())} {event.timeZoneGMT}
+                      </div>
+                  </div>
+              </GridItem>
+
+              <GridItem xs={1} sm={1} md={1}>
+                  <div className={classes.verticalLine}/>
+              </GridItem>
+
+              <GridItem xs={7} sm={7} md={7}>
+                  <div className={classes.tagInfo}>
+                    <div className={classes.happeningBlock}>Happening Now</div>
+                    {event.tags.map((ta, ind) => {
+                      return (
+                        <div className={classes.tagBlock}>{ta}</div>
+                      );
+                    })}
+
+                    <div className={classes.nameHeader}> {event.event} </div>
+                    <div className={classes.orgHeader}>{event.name}</div>
+                  </div>
+              </GridItem>
+            </GridContainer>
+          <GridContainer style={{ width: "100%", marginLeft:0, marginRight:0, marginTop:0 }}>
+              <GridItem xs={12} sm={12} md={12} style={{paddingBottom: 10,}}>
+                  <div className={classes.blueLine}></div>
+              </GridItem>
+
+              <GridItem xs={3} sm={3} md={3}>
+                  <img className={classes.image} src={event.image_link} alt={event.event}/>
+                  <div style={{marginTop: "10px"}} />
+                  <div style={{ color: "#4284C8", marginBottom: 5}}>
+                    <strong> <AddCalendar info={event}/></strong>
+                  </div>
+              </GridItem>
+
+              <GridItem xs={9} sm={9} md={9}>
+                  <div style={{color: "black",fontSize: "14px", marginBottom: "10px"}}>
+                    {event.desc}
+                  </div>
+              </GridItem>
+
+              <GridItem xs={6} sm={6} md={6} style={{marginTop: "35px"}}>
+                {event.event_link && <CustomButton href={event.event_link} text={"LEARN MORE"} newTab color={"blue"} size={"xlarge"} className={classes.websiteButton} />}
+              </GridItem>
+
+              <GridItem xs={6} sm={6} md={6}>
+                {event.invite_link && <CustomButton text={'JOIN EVENT'} newTab color={"blue"} size={"xlarge"} className={classes.joinButton}/>}
+              </GridItem>
+          </GridContainer>
+      </div>
+    );
+
+
     return(
+
+      <div>
+      {['bottom'].map((anchor) => (
+        <React.Fragment key={anchor}>
+          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <SwipeableDrawer
+            anchor={anchor}
+            open={state[anchor]}
+            onClose={toggleDrawer(anchor, false)}
+            onOpen={toggleDrawer(anchor, true)}
+          >
+            {list(anchor)}
+          </SwipeableDrawer>
+        </React.Fragment>
+      ))}
+    </div>
+
+
+
+
+
+      /*
         <Modal
             style={{display: 'flex',
                 alignItems: 'center',
@@ -222,12 +344,18 @@ export default function EventModalMobile({open, closeDo, event}) {
             }}
         >
             <Fade in={open}>
+            <div style={{backgroundColor: theme.palette.background.paper,
+                border: '2px solid #000',
+                boxShadow: theme.shadows[5],
+                padding: theme.spacing(2, 4, 3),
+                maxWidth: 500,
+                margin: 25}}>
                 <GridContainer style={{ width: "100%", marginLeft: '0', marginRight: '0', marginTop: '0' }}>
                     <GridItem xs={3} sm={3} md={3}>
                         <div className={classes.dateBox}>
                             <span className={classes.weekText}>{days[event.start_date.getDay()]}</span>
                             <span className={classes.dateText}>{event.start_date.getDate()} {months[event.start_date.getMonth()]}</span>
-                            
+
                             <br/>
                             <div className={classes.timeInfo}>
                                 {formatTime(event.start_date.getHours(), event.start_date.getMinutes())} -
@@ -281,7 +409,10 @@ export default function EventModalMobile({open, closeDo, event}) {
                       {event.invite_link && <CustomButton text={'JOIN EVENT'} newTab color={"blue"} size={"large"} className={classes.joinButton}/>}
                     </GridItem>
                 </GridContainer>
+            </div>
             </Fade>
         </Modal>
-    )
+        */
+
+    );
 }
