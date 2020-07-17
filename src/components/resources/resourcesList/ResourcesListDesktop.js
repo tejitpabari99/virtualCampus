@@ -7,6 +7,9 @@ import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import CustomDropdown from "../../material-kit-components/Header/HeaderLinks";
+import styles from "../../../assets/material-kit-assets/jss/material-kit-react/components/headerLinksStyle.js";
+import List from "@material-ui/core/List";
 
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
@@ -61,6 +64,10 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 placeholder={"Search resources"}
                 style={{height:'70%'}}
             />
+
+            <List >
+            </List>
+
         </div>
 
         <div style={{

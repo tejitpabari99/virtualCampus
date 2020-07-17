@@ -47,8 +47,7 @@ class ResourcesListFunctionality extends React.Component {
       tagsDisplay: [],
       tagsDescription: "Filter by tags: ",
       tagsResourcesDisplay: {},
-      searchError: "",
-      categoryList: []
+      searchError: ""
     };
     this.getResources();
   }
@@ -130,19 +129,6 @@ class ResourcesListFunctionality extends React.Component {
             res['All Resources'][tagName] = [ele]
           }
         }
-      }
-    }
-    return res;
-  }
-
-  //Creates list of categories for category button functionality
-  getCategoryList(resources){
-    let res = ['All Resources'];
-    for(let i=0; i< resources.length; i+= 1){
-      let ele = resources[i];
-      let key = this.toTitleCase(ele['category']['category']);
-      if(!(res.includes(key))){
-        res.push(key);
       }
     }
     return res;
