@@ -353,7 +353,7 @@ class InterviewerForm extends React.Component {
         Thanks,<br/>
         CVC`
       };
-      
+
       Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData, { timeout: 5000})
         .then(res => {
           this.setState({submitStatus: "success", activityIndicatory: false});
@@ -408,7 +408,7 @@ class InterviewerForm extends React.Component {
     }
     else if (this.state.submitStatus !== '') {
       return (
-        <Template title={'Sign-up to be an Interviewer'} active={"technical"}>
+        <Template title={'Sign up to be an Interviewer'} active={"technical"}>
           <div style={{
             fontFamily: "Poppins",
             fontStyle: "normal",
@@ -472,7 +472,7 @@ class InterviewerForm extends React.Component {
 
     } else {
       return (
-        <Template title={'Sign-up to be an Interviewer'} active={"technical"}>
+        <Template title={'Sign up to be an Interviewer'} active={"technical"}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div>
               <div style={{ backgroundColor: "white" }}>
@@ -484,7 +484,7 @@ class InterviewerForm extends React.Component {
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
                         fontSize: "36px", lineHeight: "54px", color: "#0072CE"
                       }}>
-                        Sign-up to be an Interviewer
+                        Sign up to be an Interviewer
                       </div>
                       <div style={{
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
@@ -496,12 +496,20 @@ class InterviewerForm extends React.Component {
                         necessary resources and appropriate platform on our website! We will get back to you shortly 
                         once you have applied.
                       </div>
+
                       <div style={{
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
                         fontSize: "14px", lineHeight: "21px", paddingTop: "45px"
                       }}>
                         Questions? Contact us at <br/>
                         <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+                      </div>
+                      <div style={{
+                        fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                        fontSize: "24px", lineHeight: "36px", color: "#0072CE", paddingTop: "45px"
+                      }}>
+                        Join our new virtual space for students to connect while developing
+                        technical skills
                       </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={8}>
