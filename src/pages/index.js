@@ -1,6 +1,6 @@
-import React from "react"
-import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
-import {HomeDesktop, HomeMobile} from '../components'
+import React from "react";
+import { isEdge, isIE, isMobile, isTablet } from "react-device-detect";
+import { HomeDesktop, HomeMobile } from '../components';
 
 class Index extends React.Component {
 
@@ -30,6 +30,7 @@ class Index extends React.Component {
             return (
                 <div>
                     <HomeDesktop/>
+
                 </div>
             );
         }

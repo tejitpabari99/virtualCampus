@@ -5,13 +5,20 @@ import classNames from "classnames";
 
 let formatDescription = function(desc, eve, type){
     var lineBreak = "\\n";
+    var website = "https://columbiavirtualcampus.com"
 
     if (type === "Google") {
         lineBreak = "%0D%0A"
+        website = "<a href='https://columbiavirtualcampus.com'>https://columbiavirtualcampus.com/</a>"
     }
 
     let d = desc + lineBreak + lineBreak;
-    d += eve.event + " link: " + eve.invite_link + lineBreak + lineBreak
+    //d += eve.event + " link: " + eve.invite_link + lineBreak + lineBreak
+    if (eve.event_link !== undefined)
+        d += eve.event + " website: " + eve.event_link + lineBreak + lineBreak
+
+    d += "Please visit "+website+" for more events like this! If you would like the zoom link to "+eve.event
+        +", please enter your university email address on our website for the event you wish to attend."
     return d;
 };
 
@@ -85,10 +92,10 @@ export default function AddCalendar({info}) {
     const startTimeFmt = yearStart + monthStart + dayOfMonthStart + "T" + hourStart + minuteStart + "00";
     const endTimeFmt = yearEnd + monthEnd + dayOfMonthEnd + "T" + hourEnd + minuteEnd + "00";
 
-    let descGoogleCal = formatDescription(info.desc, info.invite_link, "Google");
-    let descOutlookCal = formatDescription(info.desc, info.invite_link, "Outlook");
-    let desciCal = formatDescription(info.desc, info.invite_link, "iCal");
-    let loc = info.invite_link;
+    let descGoogleCal = formatDescription(info.desc, info, "Google");
+    let descOutlookCal = formatDescription(info.desc, info, "Outlook");
+    let desciCal = formatDescription(info.desc, info, "iCal");
+    let loc = info.event_link;
     // Create links or .ics text. Note: .ics works for outlook and apple
     const googleLink = "https://calendar.google.com/calendar/r/eventedit?"
         + "dates="+startTimeFmt+"/"+endTimeFmt+"&location="+loc

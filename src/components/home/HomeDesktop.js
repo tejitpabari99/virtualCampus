@@ -2,9 +2,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 import React from "react";
 import landingImage from "../../assets/images/home/graphic.png";
+import hostEventPic from "../../assets/images/home/hostAnEvent.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { CustomButton, CustomHeader, MetaData, Subtitle, Title } from "./../../components";
+import { CustomButton, CustomHeader, MetaData, Subtitle, Title} from "./../../components";
 import HomeEvents from './HomeEvents';
+import HomeResourcesList from "./HomeResourcesList.js";
+import { Helmet } from 'react-helmet';
+import InstagramEmbed from 'react-instagram-embed';
+import Orange from "./orange.svg";
+import Blue from "./blue.svg";
+
 
 
 const useStyles = makeStyles(styles);
@@ -66,22 +73,112 @@ const manualSt = makeStyles(() => ({
     height: "max(90vh, 31vw)",
     width: "100%",
   },
-  button: {
-    background: "#FFFFFF",
-    color: '#FB750D !important',
-    border: "1px solid #FB750D",
-    boxSizing: "border-box",
-    borderRadius: "10px",
-    "&:hover,&:focus": {
-      color: 'white !important',
-      backgroundColor: '#FB750D',
-    },
-  },
   eventsSection: {
-    position: 'relative',
-    left: '0px',
-    background: 'transparent',
+    flexDirection: "column",
+    position: "relative",
   },
+    hostsSection: {
+        flexDirection: "column",
+        position: "relative",
+        backgroundImage: `url(${hostEventPic})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100% auto"
+    },
+  eventPic: {
+    height: "100%",
+    width: "100%",
+    objectFit: "cover"
+  },
+  eventText: {
+    position: "relative",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    color:"white",
+    textAlign: "center",
+    lineHeight: '2.5vw',
+    marginTop: "15px",
+  },
+  resourcesSection: {
+    position: 'relative'
+  },
+  button: {
+      boxShadow: 'none',
+      fontSize: '1.1rem',
+      width: 150,
+      backgroundColor: 'white',
+      paddingTop: 10,
+      paddingBottom: 10,
+      color: '#F1945B !important',
+      marginLeft: "37.5%"
+  },
+  button2: {
+      boxShadow: 'none',
+      fontSize: '1.1rem',
+      width: 150,
+      paddingTop: 10,
+      paddingBottom: 10,
+      color: '#F1945B !important',
+      marginLeft: "37.5%"
+  },
+  socialSection: {
+    textAlign: "center",
+  },
+/*  insta: {
+    width: "50%",
+    height: "850px",
+    backgroundColor: "transparent",
+    color: "black",
+    float: "left",
+    padding:"0px",
+    marginTop: "0px",
+  },
+insta2: {
+    width: "55%",
+    height: "850px",
+    float: "left",
+    backgroundColor: "transparent"
+},
+    instaBg: {
+        backgroundImage: `url(${Orange})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "103%"
+    },
+    faboBg: {
+        backgroundImage: `url(${Blue})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100%"
+    },
+  fabo: {
+    width: "50%",
+    height: "850px",
+    backgroundColor: "transparent",
+    color: "white",
+    float: "right",
+    paddingTop:"3px",
+    marginTop: "3px",
+  },
+    fabo2: {
+        width: "100%",
+        height: "850px",
+        backgroundColor: "transparent"
+    }*/
+        insta: {
+        width: "50%",
+        height: "100vh",
+        backgroundColor: "#F6C09F",
+        color: "black",
+        float: "left",
+        padding:"0px",
+        marginTop: "0px",
+    },
+    fabo: {
+    width: "50%",
+        height: "100vh",
+        backgroundColor: "#82B7E8",
+        color: "white",
+        float: "right",
+        padding:"0px",
+        margin: "0px",
+},
 
 }));
 
@@ -92,6 +189,9 @@ export default function HomeDesktop() {
   manual = manualSt();
   return (
     <div style={{ background: "white" }}>
+      <Helmet>
+            <script async={true} defer={true} crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=2186738638294469&autoLogAppEvents=1" />
+      </Helmet>
       <MetaData title={'Columbia Virtual Campus'} />
       <CustomHeader active={''} brand={''}/>
       <div className={classNames(manual.landing)}>
@@ -111,23 +211,93 @@ export default function HomeDesktop() {
 
       <div style={{ marginBottom: "2.5vh", background: "transparent" }} />
       <div className={classNames(classes.main, manual.eventsSection)} style={{ textAlign: 'left' }}>
-        <div className={classes.container} id="explore">
+        <div id="explore" style={{marginLeft: "7%", marginRight: "7%", width:"86%"}}>
           <Title color={"blue"}>Upcoming Events</Title>
           <div style={{ textAlign: "center" }}>
             <Subtitle color={'black'} className={manual.toAllSubHeadingUpEvents}>
-              Do you or your club want to host your own event on Columbia Virtual Campus?
-                  <br /> Answer some short questions to get started!
-                </Subtitle>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
-              color={"orange"} size={"large"} />
-            <div style={{ marginBottom: "40px" }} />
+              Find out what's happening on campus, virtually.
+            </Subtitle>
           </div>
           <HomeEvents />
-          <div style={{ marginBottom: "100px" }} />
+          <div className={manual.button} style={{marginLeft:"45%"}}>
+              <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
+              color={"orange"} size={"large"} />
+          </div>
+          <div style={{ marginBottom: "40px" }} />
         </div>
       </div>
+
+      <div className={manual.hostsSection}>
+          <div className={manual.eventText} style={{height:"100%"}}>
+            <br /><br /><br />
+            <h2>Want to host an event?</h2>
+            <h5>Looking to host you own event on Columbia Virtual Campus?</h5>
+            <h5>Answer some questions to <strong>start leading.</strong></h5>
+            <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
+            color={"white2"} size={"large"} />
+            <br /><br /><br /><br />
+        </div>
+      </div>
+
+      <div className={manual.resourcesSection} style={{paddingTop:"40px"}}>
+        <div className={classes.container} id="resources">
+          <Title color={"blue"}>Top Resources</Title>
+          <HomeResourcesList />
+        </div>
+        <div className={manual.button} style={{marginLeft: "42%"}}>
+            <CustomButton href={'/resources'}  text={'SEE ALL RESOURCES'}
+            color={"orange"} size={"large"}/>
+        </div>
+      </div>
+      <div style={{ marginBottom: "40px" }} />
+
+        {/*<div style={{height: "100vh"}}>
+          <div className={classNames(manual.insta2, manual.instaBg)}  style={{paddingTop:"50px", zIndex:"1"}} />
+          <div className={classNames(manual.fabo2, manual.faboBg)}  style={{paddingTop:"50px", zIndex:"0"}} />*/}
+
+        {/*<div className={manual.socialSection} style={{position: "relative", height: "0px", top: "-850px", zIndex:"3"}}>*/}
+        <div className={manual.socialSection}>
+        <div className={manual.insta} style={{paddingTop:"50px"}}>
+                  <div align="center"  style = {{ border:"none"}}>
+                      <InstagramEmbed
+                          url='https://www.instagram.com/p/CBHN4GMlSkD/'
+                          maxWidth={320}
+                          hideCaption={true}
+                          containerTagName='div'
+                          protocol=''
+                          injectScript
+                          onLoading={() => {}}
+                          onSuccess={() => {}}
+                          onAfterRender={() => {}}
+                          onFailure={() => {}}
+                      />
+                  </div>
+                  <div style={{marginTop: "50px", color: "black", borderColor: "black"}}>
+                      <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'}
+                                    color={"black"} size={"large"} />
+                  </div>
+              </div>
+              <div className={manual.fabo}  style={{paddingTop:"50px"}}>
+                  <div style = {{ border:"none"}}
+                       className="fb-page"
+                       data-href="https://www.facebook.com/columbiavirtualcampus/"
+                       data-tabs="timeline"
+                       data-width="320"
+                       data-height="527"
+                       data-small-header="true"
+                       data-adapt-container-width="true"
+                       data-hide-cover="false"
+                       data-show-facepile="false"
+                  >
+                  </div>
+                  <div style={{marginTop: "50px"}}>
+                      <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"}/>
+                  </div>
+              </div>
+          </div>
+        {/*}</div>*/}
+
+
     </div>
   )
 };
