@@ -12,6 +12,9 @@ import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
   from "../all/TimeFunctions"
 import CustomToolbar from "../events/CalendarToolBar"
 import ArrowForward from '@material-ui/icons/ArrowForwardIosOutlined';
+import ScrollableAnchor from 'react-scrollable-anchor';
+import {configureAnchors} from 'react-scrollable-anchor';
+configureAnchors({offset: -120});
 
 
 const localizer = momentLocalizer(moment);
@@ -552,7 +555,9 @@ class EventsPageDesktop extends React.Component {
                     }
 
                     numEventsDisplayed = numEventsDisplayed + 1
-                    return (<EventCardFeatured ele={ele} key={ind}/>);
+                    return (<a href={"#" + ele.id} onClick={() => {this.setState({eventIdClicked: ele.id})}}>
+                              <EventCardFeatured ele={ele} key={ind} />
+                            </a>);
                   }
               })}
             </div>
@@ -649,7 +654,15 @@ class EventsPageDesktop extends React.Component {
           <div style= {{flexDirection: "column", display: "flex", paddingTop:"3%", paddingLeft: "3%", width: "75%",
             marginBottom:"3%"}}>
             {eventsList.map((ele) => {
-                return (<EventCard ele={ele} />);
+
+                return (
+                    <ScrollableAnchor >
+                        <div id={ele.id} style={{paddingBottom: "30px"}}>
+                            <EventCard ele={ele} key={ele.id}/>
+                        </div>
+                    </ScrollableAnchor>
+                );
+
             }
             )}
             <div>{noSearchResults}</div>

@@ -32,6 +32,7 @@ import kevin from "../../assets/images/about-us/TeamMembers/kevin.jpg";
 import rupal from "../../assets/images/about-us/TeamMembers/rupal.jpg";
 import saumya from "../../assets/images/about-us/TeamMembers/saumya.png";
 import bonnie from "../../assets/images/about-us/TeamMembers/bonnie.jpg";
+import jiho from "../../assets/images/about-us/TeamMembers/jiho.jpg";
 import alistair from "../../assets/images/about-us/TeamMembers/alistair.jpg"
 
 const useStyles = makeStyles(styles);
@@ -156,7 +157,7 @@ export default function TeamSection() {
       <Heading color={'blue'}>Resources Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
-        <GridItem xs={0} sm={0} md={2}/>
+        <GridItem xs={0} sm={0} md={1}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'Barnard \'21'} name={'Tamanna Hussain'} image={tamanna} noDescription/>
         </GridItem>
@@ -168,6 +169,9 @@ export default function TeamSection() {
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'22'} name={'Luiz do Valle'} image={luiz} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'CC \'21'} name={'Ji Ho Hyun'} image={jiho} noDescription/>
         </GridItem>
       </GridContainer>
 
@@ -198,15 +202,12 @@ export default function TeamSection() {
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
         <GridItem xs={0} sm={0} md={2}/>
-        <GridItem xs={0} sm={0} md={1}/>
+        <GridItem xs={0} sm={0} md={2}/>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'Barnard \'22'} name={'Caroline Mao'} image={caroline} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'21'} name={'Hayun Chong'} image={hayun} noDescription/>
-        </GridItem>
-        <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'CC \'21'} name={'Rupal Gupta'} image={rupal} noDescription/>
         </GridItem>
       </GridContainer>
     </div>

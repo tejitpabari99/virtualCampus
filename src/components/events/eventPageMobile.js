@@ -16,6 +16,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ScrollableAnchor, {goToAnchor} from "react-scrollable-anchor";
 
 
 const localizer = momentLocalizer(moment);
@@ -123,7 +124,6 @@ class EventsPageDesktop extends React.Component {
       searchVal: "",
       defaultSearchInput:''
     };
-    this.getEvents();
     this.closeDo = this.closeDo.bind(this);
   }
 
@@ -269,6 +269,15 @@ class EventsPageDesktop extends React.Component {
   );
 
 
+  async componentDidMount() {
+    await this.getEvents();
+    goToAnchor(this.props.event, true);
+  }
+
+  clickFeaturedEvent(eventId) {
+    goToAnchor(eventId, true);
+  }
+
   render() {
     const { classes } = this.props;
     let numEventsDisplayed = 0
@@ -301,7 +310,7 @@ class EventsPageDesktop extends React.Component {
                   }
 
                   numEventsDisplayed = numEventsDisplayed + 1
-                  return (<div> <EventCardFeatured ele={ele} key={ind}/> <br /> </div>);
+                  return (<EventCardFeatured ele={ele} onClick={this.clickFeaturedEvent(ele.id)} style={{cursor:"pointer"}}/>);
                 }
               })}
             </div>
@@ -389,7 +398,10 @@ class EventsPageDesktop extends React.Component {
                     if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
                       ele.tags = ['none']
                     }
-                    return (<EventCard ele={ele} key={ind}/>);
+                    return (<ScrollableAnchor id={ele.id}>
+                              <EventCard ele={ele} key={ele.id}/>
+                            </ScrollableAnchor>
+                    );
                   }
               )}
               <div>{noSearchResults}</div>

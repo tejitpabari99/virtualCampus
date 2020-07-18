@@ -5,6 +5,7 @@ import CustomButton from "../buttons/CustomButton";
 import {CustomTheme} from "../";
 import {makeStyles} from "@material-ui/core/styles";
 import {cardTitle} from "../../assets/material-kit-assets/jss/material-kit-react";
+
 import {handleEventClick} from "../cards/eventCardsFeaturedAndCards/commonEventsFuncs";
 const theme = CustomTheme;
 

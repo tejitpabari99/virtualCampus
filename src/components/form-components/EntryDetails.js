@@ -27,7 +27,7 @@ const EntryDetails = (props) => {
     <div style={{ margin: "15px 0 0 0" }}>
       <div className={classNames(classes.root, classes.title)}>
         {props.title}&nbsp;
-        <div style={{ fontSize: "13px", display: "inline" }}>
+        <div style={{fontSize: "13px", display:"inline"}}>
           (preferred image size/proportionality is 300px by 175px)
         </div>
       </div>

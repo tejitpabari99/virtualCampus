@@ -20,15 +20,15 @@ const containerStyles = makeStyles(() => ({
   img: {
     position: 'absolute',
     left: '37.26%',
-    top: '11.91%',
+    top: '7.91%',
     objectFit: 'cover',
   },
   card: {
     position: 'absolute',
-    left: '5.3%',
+    left: '3.4%',
     right: '62.74%',
-    top: '11.91%',
-    bottom: '17.75%',
+    top: '7.91%',
+    bottom: '14.5%',
     background: '#FFFFFF',
   },
   category: {
@@ -56,16 +56,15 @@ const containerStyles = makeStyles(() => ({
   button: {
     background: 'rgba(255, 255, 255, 0.85)',
     position: 'relative',
-    marginLeft:"3%",
-    marginBottom: 0,
-    borderRadius: '20px',
+    marginLeft: '3%',
+    borderRadius: '5px',
     zIndex: 10,
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '10px',
-    lineHeight: '14px',
-    textAlign: 'center'
+    lineHeight: '10px',
+    textAlign: 'center',
   },
   description: {
     position: 'relative',
@@ -73,8 +72,9 @@ const containerStyles = makeStyles(() => ({
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: 'vw',
-    lineHeight: '18px',
-    color: '#000000'
+    lineHeight: '17px',
+    color: '#000000',
+    paddingTop: '5px'
   },
 }));
 
@@ -96,8 +96,8 @@ export default function ResourcesFeaturedDesktop() {
               // console.log(data);
               return (
                   <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height='500px' width='100%' className={contStyle.container}/>
-                    <img src={data.img} alt={data.img} height='70.32%' width={'57.3%'} className={contStyle.img}/>
+                    <img src={data.img} alt={data.img} height='410px' width='100%' className={contStyle.container}/>
+                    <img src={data.img} alt={data.img} height='77.5%' width={'59.4%'} className={contStyle.img}/>
                     <div className={contStyle.card} >
                       <p className={contStyle.category}>
                         {data.category.category
@@ -115,7 +115,7 @@ export default function ResourcesFeaturedDesktop() {
                         <p>
                           {data.category.tags.map(ele => {
                             return (
-                              <Button className={contStyle.button}>
+                              <Button size={'small'} disabled className={contStyle.button}>
                                 {ele}
                               </Button>
                             )
@@ -123,13 +123,12 @@ export default function ResourcesFeaturedDesktop() {
                         </p>
 
                         <p className={contStyle.description}>
-                          <br/>
                           {data.description}
                         </p>
 
                         <p>
-                          <CustomButton text={"Explore!"} href={data.links.website}
-                            color={"orange"} size={"2.3vw"} style={{marginTop: 15, marginBottom: 25, position:'relative'}}/>
+                          <CustomButton text={"Explore"} href={data.links.website}
+                            color={"orange"} size={"2.3vw"} style={{marginTop: 25, marginBottom: 25, position:'relative'}}/>
                         </p>
 
                       </p>

@@ -25,7 +25,6 @@ const WebsiteAndZoom = (props) => {
 
   return (
     <div style={{ margin: "15px 0 0 0" }}>
-
       <div className={classNames(classes.root, classes.title)}>
         Links&nbsp;
         <div style={{ fontSize: "13px", display: "inline" }}>

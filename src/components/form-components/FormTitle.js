@@ -30,8 +30,6 @@ const useStyles = makeStyles(() => ({
 
 }))
 
-
-
 const FormTitle = (props) => {
     const classes = useStyles()
 
@@ -64,7 +62,6 @@ const FormTitle = (props) => {
     }
 
     return wrapper
-
 }
 
 export default FormTitle
