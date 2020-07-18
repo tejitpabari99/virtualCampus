@@ -154,23 +154,75 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
     if (req.method !== 'GET') {
       return;
     }
+    const startDate = new Date(Date.UTC(2020, 7, 3));
+    const endDate = new Date(Date.UTC(2020, 7, 24));
   
     const processTime = (start_time, end_time) => {
-      start_time = new Date(start_time);
-      end_time = new Date(end_time);
-      const range = Math.floor(((end_time - start_time) / (1000 * 60 * 60)) % 24);
+      const start = new Date(start_time);
+      const end = new Date(end_time);
+      const range = Math.round((end - start) / (1000 * 60 * 60));
+
       let slots = [];
-      let stime_1 = start_time;
+      let stime_1 = new Date(start_time);
       slots.push(stime_1.toString());
       
+      let time_1;
+      let temp;
       for(let i = 0; i < range; i++){
-          let time_1 = stime_1;
-          let start = new Date(time_1);
-          start.setHours(start.getHours()+1);
-          slots.push(start.toString());
-          stime_1 = start;
+        time_1 = stime_1;
+        temp = new Date(time_1);
+        temp.setHours(temp.getHours()+1);
+        slots.push(temp.toString());
+        stime_1 = temp;
       }
       return slots;
+    }
+  
+    // day is an int representing day of week, 0 = sunday
+    const getDatesFromDay = day => {
+      let temp = new Date(startDate);
+      while(temp.getDay() !== day){
+        temp.setDate(temp.getDate() + 1);
+      }
+      let dates = [[temp.getDate(), temp.getMonth(), temp.getFullYear()]];
+      while(temp < endDate){
+        const temp_res = new Date(temp.setDate(temp.getDate() + 7));
+        if (temp > endDate){
+          break;
+        }
+        dates.push([temp_res.getDate(), temp_res.getMonth(), temp_res.getFullYear()]);
+      }
+      return dates;
+    }
+
+    const getDatesTimesOfDay = (day, values) => {
+      let events = [];
+      const dates = getDatesFromDay(day);
+      const start_time = new Date(values.start_time);
+      const end_time = new Date(values.end_time);
+
+      dates.forEach( date => {
+        let temp_date = date[0], temp_month = date[1], temp_year = date[2];
+        // set start_time and end_time with correct date, month, year
+        start_time.setDate(temp_date);
+        start_time.setMonth(temp_month);
+        start_time.setFullYear(temp_year);
+
+        // CAREFUL: USER CANNOT PASS IN END TIME BEFORE START TIME
+        // TODO: what happens if date is end of month? end of year?
+        if (start_time.getHours() > end_time.getHours()){
+          end_time.setDate(temp_date+1);
+        } else {
+          end_time.setDate(temp_date);
+        }
+
+        end_time.setMonth(temp_month);
+        end_time.setFullYear(temp_year);
+
+        // split start_time and end_time range into hours sessions
+        events.push(processTime(start_time, end_time));
+      });
+      return events
     }
 
     let decoded;
@@ -187,14 +239,19 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
     const host_email = decoded.data.host_email;
     const host_bio = decoded.data.host_bio;
     const host_interviewExp = decoded.data.host_interviewExp;
-    const host_workExp = decoded.data.host_workExp;
-    const start_time_1 = decoded.data.start_time_1;
-    const end_time_1 = decoded.data.end_time_1;
-    const start_time_2 = decoded.data.start_time_2;
-    const end_time_2 = decoded.data.end_time_2;
-    const start_time_3 = decoded.data.start_time_3;
-    const end_time_3 = decoded.data.end_time_3;
+    const day_1 = decoded.data.day_1;
+    const start_time_1 = new Date(decoded.data.start_time_1);
+    const end_time_1 = new Date(decoded.data.end_time_1);
+    const day_2 = decoded.data.day_2;
+    const start_time_2 = day_2 !== "" ? new Date(decoded.data.start_time_2): decoded.data.start_time_2;
+    const end_time_2 = day_2 !== "" ? new Date(decoded.data.end_time_2): decoded.data.end_time_2;
+    const day_3 = decoded.data.day_3;
+    const start_time_3 = day_3 !== "" ? new Date(decoded.data.start_time_3): decoded.data.start_time_3;
+    const end_time_3 = day_3 !== "" ? new Date(decoded.data.end_time_3): decoded.data.end_time_3;
     const timezone = decoded.data.timezone;
+    const time_comments = decoded.data.time_comments;
+    const resume = decoded.data.resume;
+    const week_availability = decoded.data.week_availability;
     const db = admin.firestore();
     
     try{
@@ -206,43 +263,44 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
     } catch(err){
         return res.status(500).send(err)
     }
-
-    let slots = [];
-    slots.push(processTime(start_time_1, end_time_1));
-    if(start_time_2 && end_time_2){
-      slots.push(processTime(start_time_2, end_time_2));
-    }
-    if(start_time_3 && end_time_3){
-      slots.push(processTime(start_time_3, end_time_3));
-    }
     
-    let times = []
-    let scheduled = 0;
+    // combine all arrays of dates
+    let all_dates = getDatesTimesOfDay(day_1, {start_time: start_time_1, end_time: end_time_1});
+    if(day_2 !== ""){
+      getDatesTimesOfDay(day_2, {start_time: start_time_2, end_time: end_time_2}).forEach(
+        arr => all_dates.push(arr));
+    }
+    if(day_3 !== ""){
+      getDatesTimesOfDay(day_3, {start_time: start_time_3, end_time: end_time_3}).forEach(
+        arr => all_dates.push(arr));
+    }
     try {
-      for(let k = 0; k < slots.length; k++){
-          times = slots[k];
-          for(let j = 0; j < times.length - 1 && j + 1 < times.length ; j++){
-            /* eslint-disable no-await-in-loop */
-            await db.collection("technical").add({
-                  host_name,
-                  host_email,
-                  attendee_email: "",
-                  attendee_name: "",
-                  available: true,
-                  host_bio,
-                  host_interviewExp,
-                  host_workExp,
-                  interview_comments: "",
-                  timezone,
-                  start_date: slots[k][j],
-                  end_date: slots[k][j+1]
-                });
+      let scheduled = 0;
+      all_dates.forEach((slots) => {
+        for (let i = 0; i < slots.length - 1; i++){
+          db.collection("technical").add({
+            host_name,
+            host_email,
+            attendee_email: "",
+            attendee_name: "",
+            available: true,
+            host_bio,
+            host_interviewExp,
+            interview_comments: "",
+            timezone,
+            time_comments,
+            resume,
+            approved: false,
+            week_availability,
+            start_date: slots[i],
+            end_date: slots[i+1]
+          });
 
-              if(scheduled++ === 20){
-                break;
-              }
+          if(scheduled++ === 60){
+            break;
           }
-      }
+        }
+      });
       return res.status(200).send('Success! You can close this window now.');
     } catch (err){
       return res.status(500).send(err); 

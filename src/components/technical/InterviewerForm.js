@@ -258,75 +258,6 @@ class InterviewerForm extends React.Component {
 
   }
 
-  test(values){
-    const startDate = new Date(Date.UTC(2020, 7, 3));
-    const endDate = new Date(Date.UTC(2020, 7, 26));
-
-    const processTime = (start_time, end_time) => {
-      start_time = new Date(start_time);
-      end_time = new Date(end_time);
-      const range = Math.floor(((end_time - start_time) / (1000 * 60 * 60)) % 24);
-      let slots = [];
-      let stime_1 = start_time;
-      slots.push(stime_1.toString());
-      
-      for(let i = 0; i < range; i++){
-          let time_1 = stime_1;
-          let start = new Date(time_1);
-          start.setHours(start.getHours()+1);
-          slots.push(start.toString());
-          stime_1 = start;
-      }
-      return slots;
-    }
-
-    // day is an int representing day of week, 0 = sunday
-    const getDates = day => {
-      let temp = new Date(startDate);
-      while(temp.getDay() != day){
-        temp.setDate(temp.getDate() + 1);
-      }
-      let dates = [[temp.getDate(), temp.getMonth(), temp.getFullYear()]];
-      while(temp < endDate){
-        const temp_res = new Date(temp.setDate(temp.getDate() + 7));
-        if (temp > endDate){
-          break;
-        }
-        dates.push([temp_res.getDate(), temp_res.getMonth(), temp_res.getFullYear()]);
-      }
-      return dates;
-    }
-
-    const getAllDates = day => {
-      let events = []
-      const dates = getDates(day)
-      dates.forEach( date => {
-        const temp_date = date[0], temp_month = date[1], temp_year = date[2];
-        const start_time = values.start_time_1
-        start_time.setDate(temp_date);
-        start_time.setMonth(temp_month);
-        start_time.setFullYear(temp_year);
-        const end_time = values.end_time_1;
-        end_time.setDate(temp_date);
-        end_time.setMonth(temp_month);
-        end_time.setFullYear(temp_year);
-        events.push(processTime(start_time, end_time));
-      });
-      return events
-    }
-
-    
-    // list of dates in between start and end date
-    // corresponding to each day of the week (every monday)
-    let all_events = getAllDates(values.day_1)
-    if (values.day_2){
-      getAllDates(values.day_2).forEach( arr => all_events.push(arr));
-    }
-    if (values.day_3){
-      getAllDates(values.day_3).forEach( arr => all_events.push(arr));
-    }
-    console.log(all_events);
-  }
 
   submitHandler(values) {
     this.setState({activityIndicatory: true});
@@ -354,15 +285,14 @@ class InterviewerForm extends React.Component {
       this.setState({submitStatus: "timeError", activityIndicatory: false});
       return;
     }
-    else if(new Date(end_time_2) < new Date(start_time_2)){
+    if(new Date(end_time_2) < new Date(start_time_2)){
       this.setState({submitStatus: "timeError", activityIndicatory: false});
       return;
     }
-    else if(new Date(end_time_3) < new Date(start_time_3)){
+    if(new Date(end_time_3) < new Date(start_time_3)){
       this.setState({submitStatus: "timeError", activityIndicatory: false});
       return;
     }
-
 
     const range_1 = ` ${daysOfWeek[day_1].label} ${start_time_1.toLocaleTimeString('en-US')} - 
     ${end_time_1.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
@@ -412,7 +342,8 @@ class InterviewerForm extends React.Component {
         to: host_email,
         subject: "ACTION REQUIRED: Complete your interviewer signup!",
         text: `Dear ${host_name},<br/><br/>
-        Thanks for signing up! Confirm your availability (listed below) by clicking the link. 
+        Thanks for signing up! Confirm your weekly availability (listed below) from 
+        August 3rd to August 24th by clicking the link. 
         It will expire in 24 hours.<br/><br/>
         ${range_1}<br/>
         ${range_2 ? `${range_2} <br/>`: ''}
@@ -422,8 +353,8 @@ class InterviewerForm extends React.Component {
         Thanks,<br/>
         CVC`
       };
-    this.test(values);
-    Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
+
+      Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData, { timeout: 5000})
         .then(res => {
           this.setState({submitStatus: "success", activityIndicatory: false});
         })
@@ -605,7 +536,16 @@ class InterviewerForm extends React.Component {
                                 }}>
                                   Technical Experience
                                 </div>
-                                * Note: this information will be shared with potential interviewees.
+                                <div style={{
+                                  fontFamily: "Poppins",
+                                  fontStyle: "normal",
+                                  fontWeight: "normal",
+                                  fontSize: "15px",
+                                  lineHeight: "30px",
+                                  color: "black"
+                                }}>
+                                  * Note: this information will be shared with potential interviewees.
+                                </div>
                                 <GridContainer>
                                   <GridItem sm={6} md={6}>
                                     <FormikField label="Bio"
@@ -655,6 +595,7 @@ class InterviewerForm extends React.Component {
                                 }}>
                                   * Please provide your availability between <strong>Monday, August 3rd</strong> to
                                   <strong> Monday, August 24th</strong> by choosing a time range for a given day in the week.
+                                   Ensure times are <strong>on the hour.</strong>
                                 </div>
                                 
                                 <GridContainer>

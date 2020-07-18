@@ -5,10 +5,9 @@ import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-import { MetaData, EventCard, MockInterviewModal, Template, CustomButton, Title, Intro } from "../components";
+import { MockInterviewModal, Template, Title, } from "../components";
 import TZ from "countries-and-timezones";
 import firebase from "../firebase";
-import Subtitle from "../components/text/Subtitle";
 import interview from "../assets/images/technical/interview.png";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
@@ -206,7 +205,7 @@ class Technical extends React.Component {
   }
 
   convertEventsTime(event) {
-    const tzString = event.timezone;
+    // const tzString = event.timezone;
     event.start_date_original = event.start_date;
 
     // Remove redudancy (AKA remove the evidence -.0)
@@ -215,9 +214,9 @@ class Technical extends React.Component {
 
     if (event.timezone !== undefined && event.timezone.includes("$")) {
       // $ splits time and timezone in the event.timezone field in firebase!
-      const tz = tzString.split("$")[0];
-      const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
-      const offset = getOffset(tz, daylightSavings);
+      // const tz = tzString.split("$")[0];
+      // const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
+      // const offset = getOffset(tz, daylightSavings);
 
       // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
       // America/New_York should be changed to the user's time zone who created the event, if they
@@ -302,16 +301,16 @@ class Technical extends React.Component {
   render() {
     return (
       <Template active={"technical"} title={"Technical"}>
-        { this.state.submitStatus == 'success' &&
+        { this.state.submitStatus === 'success' &&
           <Alert severity="success">Signup form submitted successfully, please check your email to confirm attendance!</Alert>
         }
-        { this.state.submitStatus == 'failure' &&
+        { this.state.submitStatus === 'failure' &&
           <Alert severity="error">Signup form failed to submit, please try again!</Alert>
         }
-        { this.state.submitStatus == 'notFound' &&
+        { this.state.submitStatus === 'notFound' &&
           <Alert severity="error">Interview session could not be found! Reloading sessions...</Alert>
         }
-        { this.state.submitStatus == 'booked' &&
+        { this.state.submitStatus === 'booked' &&
           <Alert severity="error">Interview session already booked! Reload sessions...</Alert>
         }
         <Title color={"blue"} style={{ padding: '20px', marginTop: 0}}>Mock Tech Interview</Title>

@@ -1,7 +1,5 @@
 import React from "react"
-import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
 import InterviewerForm from "../../components/technical/InterviewerForm";
-import EventFormMobile from "../../components/events/EventFormMobile";
 
 class Index extends React.Component {
 
