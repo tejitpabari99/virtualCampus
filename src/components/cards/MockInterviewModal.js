@@ -10,7 +10,7 @@ import Axios from "axios";
 import * as firebase from "firebase";
 import * as jwt from "jsonwebtoken";
 
-import FormikField from "../FormikField/FormikField";
+import FormikField from "../form-components/FormikField";
 import Button from "../material-kit-components/CustomButtons/Button";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
 import {CustomTheme} from "../";
@@ -103,6 +103,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             setLoading(false);
             setSubmitStatus('notFound');
             closeDo();
+            window.scrollTo({ top: 0 });
             setTimeout(() => { window.location.reload(); }, 4500);
 
             return;
@@ -110,7 +111,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             setLoading(false);
             setSubmitStatus('booked');
             closeDo();
-
+            window.scrollTo({ top: 0 });
             setTimeout(() => { window.location.reload(); }, 4500);
             return;
         }
@@ -144,6 +145,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                 setLoading(false);
                 setSubmitStatus('success');
                 closeDo();
+                window.scrollTo({ top: 0 });
             })
             .catch(err => {
                 console.log(err);
@@ -208,7 +210,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                                                     error={errors.name}
                                                     touch={touched.name}
                                                     required></FormikField>
-                                    <FormikField label="Email" name="email"
+                                    <FormikField label="Columbia/Barnard Email" name="email"
                                                     error={errors.email}
                                                     touch={touched.email}
                                                     required></FormikField>

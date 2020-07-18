@@ -4,8 +4,7 @@ import * as Yup from "yup";
 import { CircularProgress } from '@material-ui/core';
 
 //inputs
-import FormikField from "../FormikField/FormikField";
-import "../FormikField/FormikField.css";
+import FormikField from "../form-components/FormikField";
 import { Select } from "material-ui-formik-components/Select";
 
 //Date and time input
@@ -436,6 +435,7 @@ class InterviewerForm extends React.Component {
             </div>
             <br/>
             <br/>
+            { this.state.submitStatus === "success" ?
             <Button
               style={{
                 background: "white",
@@ -449,7 +449,23 @@ class InterviewerForm extends React.Component {
               }}
               href={"/"}>
               Go Back to CVC Homepage
+            </Button> :
+            <Button
+              style={{
+                background: "white",
+                border: "1px solid #FB750D",
+                borderRadius: "10px",
+                boxSizing: "border-box",
+                color: "#FB750D",
+                boxShadow: "none",
+                paddingLeft: "10px",
+                paddingRight: "10px"
+              }}
+              onClick={() => window.location.reload()}>
+              Try again
             </Button>
+          }
+            
           </div>
         </Template>);
 
@@ -518,7 +534,7 @@ class InterviewerForm extends React.Component {
                                                  required></FormikField>
                                   </GridItem>
                                   <GridItem sm={6} md={6}>
-                                    <FormikField label="Email" name="host_email"
+                                    <FormikField label="Columbia/Barnard Email" name="host_email"
                                                  error={errors.host_email}
                                                  touch={touched.host_email}
                                                  required></FormikField>
@@ -559,6 +575,9 @@ class InterviewerForm extends React.Component {
                                         label="Technical Interviews Completed"
                                         options={interviewExp}
                                         component={Select}
+                                        style={{
+                                          marginTop: 0
+                                        }}
                                         required
                                       />
                                   </GridItem>
@@ -775,6 +794,9 @@ class InterviewerForm extends React.Component {
                                         options={weekAvailability}
                                         component={Select}
                                         required
+                                        style={{
+                                          marginTop: 0
+                                        }}
                                       />
                                   </GridItem>
                                   <GridItem xs={12} sm={6} md={6}>
