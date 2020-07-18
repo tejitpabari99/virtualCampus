@@ -4,8 +4,9 @@ import Alert from '@material-ui/lab/Alert';
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import Button from "@material-ui/core/Button";
 
-import { MockInterviewModal, Template, Title, } from "../components";
+import { MockInterviewModal, Template, Title, Subtitle, } from "../components";
 import TZ from "countries-and-timezones";
 import firebase from "../firebase";
 import interview from "../assets/images/technical/interview.png";
@@ -301,7 +302,29 @@ class Technical extends React.Component {
   render() {
     return (
       <Template active={"technical"} title={"Technical"}>
-        { this.state.submitStatus === 'success' &&
+        <center>
+        <Title color={"blue"} style={{ marginBottom: '20px', marginTop: '9%'}}>MOCK CODING INTERVIEWS: COMING SOON</Title>
+        <div style={{width:"60%"}}>
+          <Subtitle  style={{ padding: '10px', marginBottom: '10px', fontSize:'calc(12px + 1vw)', lineHeight:'calc(12px + 1.5vw)'}}>
+            CVC is starting a new initiative to allow current computer science students at Columbia and Barnard
+            to sign up for virtual mock technical coding interviews with a more experienced student or alum. 
+          </Subtitle>
+          <Button
+            style={{
+              background: "white",
+              border: "1px solid #FB750D",
+              borderRadius: "10px",
+              boxSizing: "border-box",
+              color: "#FB750D",
+              boxShadow: "none",
+            }}
+            href={"/technical/add-interviewer"}>
+            Sign up to be a mock interviewer
+          </Button>
+        </div>
+        </center>
+
+        {/* { this.state.submitStatus === 'success' &&
           <Alert severity="success">Signup form submitted successfully, please check your email to confirm attendance!</Alert>
         }
         { this.state.submitStatus === 'failure' &&
@@ -355,7 +378,7 @@ class Technical extends React.Component {
         />
         
         {this.state.open && 
-          <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>}
+          <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>} */}
       </Template>
     );
   }
