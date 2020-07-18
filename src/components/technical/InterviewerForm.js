@@ -280,15 +280,15 @@ class InterviewerForm extends React.Component {
     const resume = values.resume;
     const week_availability = values.week_availability;
 
-    if(end_time_1 < start_time_1){
+    if(end_time_1 <= start_time_1){
       this.setState({submitStatus: "timeError", activityIndicatory: false});
       return;
     }
-    if(new Date(end_time_2) < new Date(start_time_2)){
+    if(new Date(end_time_2) <= new Date(start_time_2)){
       this.setState({submitStatus: "timeError", activityIndicatory: false});
       return;
     }
-    if(new Date(end_time_3) < new Date(start_time_3)){
+    if(new Date(end_time_3) <= new Date(start_time_3)){
       this.setState({submitStatus: "timeError", activityIndicatory: false});
       return;
     }
