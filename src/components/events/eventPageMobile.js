@@ -474,7 +474,9 @@ getCalendarText() {
                       ele.tags = ['none']
                     }
                     return (
+                            <div style={{borderBottom: "solid 3px #E7E7E7"}}>
                               <EventCard ele={ele} key={ele.id}/>
+                            </div>
 
                     );
                   }

@@ -66,12 +66,14 @@ const useStyles = makeStyles(() => ({
     position: "relative",
     color: "black",
     marginLeft: "-5px",
+    marginRight: "-30px"
   },
   orgHeader: {
     fontSize: '10px',
     lineHeight: "15px",
     color: '#0072CE',
     marginLeft: "-5px",
+    paddingBottom: "5px"
   },
   eventTitle: {
     color: "black",
@@ -92,6 +94,7 @@ const useStyles = makeStyles(() => ({
   tagInfo: {
     marginTop: "8px",
     marginLeft: "-5px",
+    paddingTop: "2px"
   },
   tagBlock: {
     display: 'inline-block',
@@ -145,15 +148,16 @@ const useStyles = makeStyles(() => ({
     width: "5%"
   },
   dateBox: {
-    marginLeft: "3px",
+    marginLeft: "1px",
     marginTop: "15px",
-    marginRight: "15px"
+    marginRight: "15px",
+    width: "100%"
   },
   dateText: {
     color: "#0072CE",
     fontSize: "14px",
     fontWeight: "light",
-    marginLeft: "5px",
+    marginLeft: "2px",
   },
   weekText: {
     fontWeight: 700,
@@ -175,7 +179,7 @@ const useStyles = makeStyles(() => ({
   },
   verticalLine: {
     borderLeft: "1px solid rgba(185, 217, 235, 0.5)",
-    height: "130px",
+    height: "90px",
     marginTop: "10px",
     marginBottom: "10px"
   },
@@ -219,11 +223,14 @@ export default function EventCardDesktopBottom({ ele }) {
   return (
 
     <div style={{ width: "100%" }}>
-        <GridContainer onClick={openModalHandler} style={{ width: "100%", marginLeft: '0', marginRight: '0', marginTop: '0' }}>
-            <GridItem xs={3} sm={3} md={3}>
+        <GridContainer onClick={openModalHandler}
+                       style={{ width: "100%", marginLeft: '0', marginRight: '0', marginTop: '0', marginBottom: '0'}}>
+            <GridItem xs={3} sm={3} md={3} style={{paddingRight:"0px", paddingLeft: "3px"}}>
                 <div className={classes.dateBox}>
-                    <span className={classes.weekText}>{days[ele.start_date.getDay()]}</span>
-                    <span className={classes.dateText}>{ele.start_date.getDate()} {months[ele.start_date.getMonth()]}</span>
+                  <div style={{display: "inline"}}>
+                    <div className={classes.weekText} style={{display: "inline"}}>{days[ele.start_date.getDay()]} </div>
+                    <div className={classes.dateText} style={{display: "inline"}}>{ele.start_date.getDate()} {months[ele.start_date.getMonth()]}</div>
+                  </div>
                     {/* <p className={classes.monthText}></p> */}
                     <br/>
                     <div className={classes.timeInfo}>
@@ -237,7 +244,7 @@ export default function EventCardDesktopBottom({ ele }) {
                 <div className={classes.verticalLine}/>
             </GridItem>
 
-            <GridItem xs={7} sm={7} md={7}>
+            <GridItem xs={7} sm={7} md={7} style={{paddingRight: "0px"}}>
                 <div className={classes.tagInfo}>
                   <div className={classes.happeningBlock}>Happening Now</div>
                   {ele.tags.map((ta, ind) => {
@@ -249,9 +256,6 @@ export default function EventCardDesktopBottom({ ele }) {
                   <div className={classes.nameHeader}> {ele.event} </div>
                   <div className={classes.orgHeader}>{ele.name}</div>
                 </div>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12}>
-                <div className={classes.blueLine}></div>
             </GridItem>
           </GridContainer>
           {open && <EventModalMobile open={open} closeDo={closeDo} event={ele}/>}
