@@ -49,13 +49,15 @@ const initVal = {
   start_time_3: null,
   end_time_3: null,
   time_comments: "",
-  resume: ""
+  resume: "",
+  week_availability: ""
 };
 
 let getCurrentLocationForTimeZone = function() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
+const moment = require("moment");
 // here you can add make custom requirements for specific input fields
 // you can add multiple rules as seen with the "name" scheme
 // you can also add custom feedback messages in the parameters of each error function
@@ -79,14 +81,17 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   timezone: Yup.string()
     .required("Required"),
-  start_time_1: Yup.string()
+  start_time_1: Yup.date()
     .required("Required")
     .nullable(),
-  end_time_1: Yup.string()
+  end_time_1: Yup.date()
     .required("Required")
+    //.min(Yup.ref('start_time_1'), "End time must be after start time")
     .nullable(),
   resume: Yup.string()
     .url("Please enter a valid URL")
+    .required("Required"),
+  week_availability: Yup.string()
     .required("Required")
 });
 
@@ -237,6 +242,11 @@ const daysOfWeek = [{value: 1, label: "Monday"}, {value: 2, label: "Tuesday"},
 {value: 3, label: "Wednesday"}, {value: 4, label: "Thursday"}, {value: 5, label: "Friday"},
 {value: 6, label: "Saturday"}, {value: 0, label:"Sunday"}];
 
+const weekAvailability = [{value: 1, label: "1"}, {value: 2, label: "2"}, 
+{value: 3, label: "3"}, {value: 4, label: "4"}, {value: 5, label: "5"},
+{value: 6, label: "6"}, {value: 7, label:"7"}, {value: 8, label: "8"}, 
+{value: 9, label: "9"}, {value: 10, label: "10"}];
+
 
 class InterviewerForm extends React.Component {
 
@@ -330,6 +340,21 @@ class InterviewerForm extends React.Component {
     const timezone = values.timezone;
     const time_comments = values.time_comments;
     const resume = values.resume;
+    const week_availability = values.week_availability;
+
+    if(end_time_1 < start_time_1){
+      this.setState({submitStatus: "timeError", activityIndicatory: false});
+      return;
+    }
+    else if(new Date(end_time_2) < new Date(start_time_2)){
+      this.setState({submitStatus: "timeError", activityIndicatory: false});
+      return;
+    }
+    else if(new Date(end_time_3) < new Date(start_time_3)){
+      this.setState({submitStatus: "timeError", activityIndicatory: false});
+      return;
+    }
+
 
     this.test(values);
     const range_1 = ` ${daysOfWeek[day_1].label} ${start_time_1.toLocaleTimeString('en-US')} - 
@@ -367,7 +392,9 @@ class InterviewerForm extends React.Component {
           start_time_3,
           end_time_3,
           timezone,
-          resume
+          resume,
+          time_comments,
+          week_availability
         }
       }, process.env.GATSBY_JWT_SECRET_KEY);
     const emailData = {
@@ -398,6 +425,8 @@ class InterviewerForm extends React.Component {
   getHeadMessage() {
     if (this.state.submitStatus == "success") {
       return "Thank you! Please check your email for confirmation.";
+    } else if(this.state.submitStatus == "timeError"){
+      return "Sorry! There was an issue handling your time availability. ";
     } else {
       return "Oops... Sorry! There was an error handling your request.";
     }
@@ -409,9 +438,13 @@ class InterviewerForm extends React.Component {
       return "Thank you for expressing interest in being an interviewer for our Mock Technical Interview Event at CVC! " +
       " Please check your email to confirm your sign-up! " + 
       " If there is anything that needs to be updated, please reach out to us. ";
-    } else {
+    } else if(this.state.submitStatus == "timeError"){
+      return "Please make sure your end time is after your start time and try again. " + 
+      " If the problem persists please reach out to us: ";
+    }
+    else {
       return "We were unable to process your request due to an unexpected error. " +
-        "Please try again. If the problem persists please reach out to us:";
+        "Please try again. If the problem persists please reach out to us!";
     }
   }
 
@@ -499,7 +532,7 @@ class InterviewerForm extends React.Component {
                         fontSize: "14px", lineHeight: "21px"
                       }}>
                         Thank you for your interest in being an interviewer for mock technical 
-                        interviews through CVC.
+                        coding interviews through CVC.
                         Please fill out the following form so we can provide you with the
                         necessary
                         resources and appropriate platform on our website! We will get back to you shortly 
@@ -520,6 +553,7 @@ class InterviewerForm extends React.Component {
                         validationSchema={validationSchema}
                       >
                         {({ dirty, isValid, errors, touched }) => {
+                          //console.log(errors);
                           return (
                             <Form>
                               <div style={{ margin: "15px 0" }}>
@@ -549,8 +583,6 @@ class InterviewerForm extends React.Component {
                                   </GridItem>
                                 </GridContainer>
                               </div>
-
-
                               <div style={{ margin: "15px 0" }}>
                                 <div style={{
                                   fontFamily: "Poppins",
@@ -620,11 +652,25 @@ class InterviewerForm extends React.Component {
                                   color: "black"
                                 }}>
                                   * Please provide your availability between <strong>Monday, August 3rd</strong> to
-                                  <strong>Monday, August 24th</strong> by choosing a time range for a given day in the week.
-                                  We will select a few hours from these ranges and schedule sessions for you.
+                                  <strong> Monday, August 24th</strong> by choosing a time range for a given day in the week.
                                 </div>
+                                
                                 <GridContainer>
-                                <GridItem xs={6} sm={3} md={3}>
+                                <GridItem xs={12} sm={12} md={12}>
+                                <div style={{
+                                  fontFamily: "Poppins",
+                                  fontStyle: "normal",
+                                  fontWeight: "bold",
+                                  fontSize: "15px",
+                                  lineHeight: "30px",
+                                  marginTop: "10px",
+                                  paddingTop: "10px",
+                                  color: "#F1945B"
+                                }}>
+                                  Time Availability 1
+                                </div> 
+                                </GridItem>
+                                <GridItem xs={12} sm={3} md={3}>
                                     <Field
                                         name="day_1"
                                         label="Day of the Week"
@@ -639,6 +685,7 @@ class InterviewerForm extends React.Component {
                                         component={TimePicker}
                                         name="start_time_1"
                                         label="Start Time"
+                                        error={errors.start_time_1}
                                         required
                                       />
                                     </div>
@@ -649,11 +696,12 @@ class InterviewerForm extends React.Component {
                                         component={TimePicker}
                                         name="end_time_1"
                                         label="End Time"
+                                        error={errors.end_time_1}
                                         required
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem xs={6} sm={3} md={3}>
+                                  <GridItem xs={12} sm={3} md={3}>
                                     <Field
                                       name="timezone"
                                       label="Select Timezone"
@@ -662,7 +710,21 @@ class InterviewerForm extends React.Component {
                                       required
                                     />
                                   </GridItem>
-                                  <GridItem xs={6} sm={3} md={3}>
+                                  <GridItem xs={12} sm={12} md={12}>
+                                      <div style={{
+                                      fontFamily: "Poppins",
+                                      fontStyle: "normal",
+                                      fontWeight: "bold",
+                                      fontSize: "15px",
+                                      lineHeight: "30px",
+                                      marginTop: "10px",
+                                      paddingTop: "10px",
+                                      color: "#F1945B"
+                                    }}>
+                                      Time Availability 2
+                                    </div> 
+                                  </GridItem>
+                                  <GridItem xs={12} sm={3} md={3}>
                                     <Field
                                         name="day_2"
                                         label="Day of the Week"
@@ -688,7 +750,7 @@ class InterviewerForm extends React.Component {
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem xs={6} sm={3} md={3}>
+                                  <GridItem xs={12} sm={3} md={3}>
 
                                     <Field
                                       name="timezone"
@@ -698,7 +760,21 @@ class InterviewerForm extends React.Component {
                                     />
 
                                   </GridItem>
-                                  <GridItem xs={6} sm={3} md={3}>
+                                  <GridItem xs={12} sm={12} md={12}>
+                                      <div style={{
+                                      fontFamily: "Poppins",
+                                      fontStyle: "normal",
+                                      fontWeight: "bold",
+                                      fontSize: "15px",
+                                      lineHeight: "30px",
+                                      marginTop: "10px",
+                                      paddingTop: "10px",
+                                      color: "#F1945B"
+                                    }}>
+                                      Time Availability 3
+                                    </div> 
+                                  </GridItem>
+                                  <GridItem xs={12} sm={3} md={3}>
                                     <Field
                                         name="day_3"
                                         label="Day of the Week"
@@ -724,7 +800,7 @@ class InterviewerForm extends React.Component {
                                       />
                                     </div>
                                   </GridItem>
-                                  <GridItem xs={6} sm={3} md={3}>
+                                  <GridItem xs={12} sm={3} md={3}>
                                     <Field
                                       name="timezone"
                                       label="Select Timezone"
@@ -733,22 +809,35 @@ class InterviewerForm extends React.Component {
                                     />
                                   </GridItem>
                                 </GridContainer>
-                                <div style={{padding: "15px"}}></div>
-                                <div style={{
-                                  fontFamily: "Poppins",
-                                  fontStyle: "normal",
-                                  fontWeight: "normal",
-                                  fontSize: "20px",
-                                  lineHeight: "30px",
-                                  color: "#0072CE"
-                                }}>
-                                  Comments regarding Time Availability
-                                </div>
+                                <div style={{padding: "10px"}}></div>
                                 <GridContainer>
-                                  <GridItem sm={12} md={12}>
-                                    <FormikField label="Time Availability"
+                                <GridItem xs={12} sm={12} md={12}>
+                                      <div style={{
+                                      fontFamily: "Poppins",
+                                      fontStyle: "normal",
+                                      fontWeight: "bold",
+                                      fontSize: "15px",
+                                      lineHeight: "30px",
+                                      marginTop: "10px",
+                                      paddingTop: "10px",
+                                      color: "#F1945B"
+                                    }}>
+                                      Additional Information
+                                    </div> 
+                                  </GridItem>
+                                <GridItem xs={12} sm={6} md={6}>
+                                    <Field
+                                        name="week_availability"
+                                        label="Maximum number of interviews per week"
+                                        options={weekAvailability}
+                                        component={Select}
+                                        required
+                                      />
+                                  </GridItem>
+                                  <GridItem xs={12} sm={6} md={6}>
+                                    <FormikField label="Comments on Time Availability"
                                                  name="time_comments"
-                                                 multiline rows="2"/>
+                                                 multiline rows="1"/>
                                   </GridItem>
                                 </GridContainer>
                                 <br/>
