@@ -221,26 +221,12 @@ const useStyles = makeStyles ({
 export default function EventModalMobile({open, closeDo, event}) {
     const classes = useStyles();
 
-    const [state, setState] = React.useState({
-      bottom: false,
-    });
-
-    const toggleDrawer = (anchor, open) => (event) => {
-      if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-        return;
-      }
-
-      setState({ ...state, [anchor]: open });
-    };
-
     const list = (anchor) => (
       <div
         className={clsx(classes.list, {
           [classes.fullList]: anchor === 'bottom',
         })}
         role="presentation"
-        onClick={toggleDrawer(anchor, false)}
-        onKeyDown={toggleDrawer(anchor, false)}
       >
           <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px" }}>
               <GridItem xs={3} sm={3} md={3}>
@@ -312,7 +298,7 @@ export default function EventModalMobile({open, closeDo, event}) {
         <React.Fragment key={anchor}>
           <SwipeableDrawer
             anchor={anchor}
-            open={true}
+            open={open}
             onClose={closeDo}
           >
             {list(anchor)}

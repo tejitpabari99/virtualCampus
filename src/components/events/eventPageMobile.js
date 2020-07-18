@@ -341,8 +341,22 @@ getCalendarText() {
 
   render() {
     const { classes } = this.props;
+
+    // Prepare featured events
+    const MAX_EVENTS_DISPLAYED = 4
     let numEventsDisplayed = 0
-    const MAX_EVENTS_DISPLAYED = 2
+    let featuredEvents = {}
+    {this.state.displayEvents.map((ele) => {
+      if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
+        numEventsDisplayed = numEventsDisplayed + 1
+        if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
+          ele.tags = ['none']
+        }
+        featuredEvents[ele.id] = ele
+      }
+    })}
+
+    // See how many events we are displaying even with filter
     let sizeOfList = 0
     let noSearchResults = ""
     this.state.myEventsList.map((ele, ind) => {
@@ -362,20 +376,12 @@ getCalendarText() {
             </div>
             <div style={{align: "center"}}>
             <Carousel>
-                {this.state.displayEvents.map((ele, ind) => {
-                  if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
-
-                    if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
-                      ele.tags = ['none']
-                    }
-
-                    numEventsDisplayed = numEventsDisplayed + 1
+                {Object.keys(featuredEvents).map((ele) => {
                     return (
-                      <div style={{overflow:'hidden'}}>
-                          <EventCardFeatured /*onClick={this.scrollToEvent(ele.id)}*/ ele={ele} key={ind}/> <br />
+                      <div style={{overflow:'hidden', width: "100%"}}>
+                          <EventCardFeatured /*onClick={this.scrollToEvent(ele.id)}*/ ele={featuredEvents[ele]} key={ele}/> <br />
                       </div>
                     );
-                  }
                 })}
             </Carousel>
             </div>
@@ -384,6 +390,7 @@ getCalendarText() {
           <div style={{margin: "40px"}}/>
 
           <Carousel>
+              <div>
                 <div className={classes.greenBox}>
                   <div className={classes.greenText}>
                     <h4 style = {{fontSize: "14px"}}>Happening Now</h4>
@@ -395,7 +402,8 @@ getCalendarText() {
                     <h4 style = {{fontSize: "14px"}}>Popular</h4>
                   </div>
                 </div>
-
+              </div>
+              <div>
                 <div className={classes.orangeBox}>
                   <div className={classes.orangeText}>
                     <h4 style = {{fontSize: "14px"}}>Recurring</h4>
@@ -407,6 +415,7 @@ getCalendarText() {
                     <h4 style = {{fontSize: "14px"}}>Past</h4>
                   </div>
                 </div>
+              </div>
           </Carousel>
 
           <div style={{margin: "40px"}}/>
