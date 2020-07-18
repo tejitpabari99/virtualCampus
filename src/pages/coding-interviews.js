@@ -307,7 +307,7 @@ class Technical extends React.Component {
         <div style={{width:"60%"}}>
           <Subtitle  style={{ padding: '10px', marginBottom: '10px', fontSize:'calc(12px + 1vw)', lineHeight:'calc(12px + 1.5vw)'}}>
             CVC is starting a new initiative to allow current computer science students at Columbia and Barnard
-            to sign up for virtual mock technical coding interviews with a more experienced student or alum. 
+            to sign up for virtual mock technical coding interviews with a more experienced student or alum.
           </Subtitle>
           <Button
             style={{
@@ -318,7 +318,7 @@ class Technical extends React.Component {
               color: "#FB750D",
               boxShadow: "none",
             }}
-            href={"/technical/add-interviewer"}>
+            href={"/coding-interviews/add-interviewer"}>
             Sign up to be a mock interviewer
           </Button>
         </div>
@@ -345,11 +345,11 @@ class Technical extends React.Component {
                     <img src={interview} style={{width: "350px", height: "300px", marginLeft: "-20px"}}></img>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={8}>
-                    <p style={{fontSize: "25px", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships and full time positons? 
+                    <p style={{fontSize: "25px", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships and full time positons?
                     Do you want to practice your technical interview skills?</p>
-                    <p style={{fontSize : "20px", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity to particiapte in one-on-one mock technical interviews with Columbia Univeristy students who have interned at Company1, Company2, Company3, and more.  
+                    <p style={{fontSize : "20px", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity to particiapte in one-on-one mock technical interviews with Columbia Univeristy students who have interned at Company1, Company2, Company3, and more.
                     These 1 hour tutoring sessions will allow you to pratice real technical interview questions in a setting that resembles a real interview.</p>
-                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at 
+                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at
                     <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
                  href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com</a>!</p>
                 </GridItem>
@@ -376,8 +376,8 @@ class Technical extends React.Component {
           }}
           formats={{ eventTimeRangeFormat: () => null }}
         />
-        
-        {this.state.open && 
+
+        {this.state.open &&
           <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>} */}
       </Template>
     );
