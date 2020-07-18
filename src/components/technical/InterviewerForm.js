@@ -116,10 +116,8 @@ let dst = function (loc = getCurrentLocationForTimeZone()) {
         break;
     }
     if (today.getTime() >= DSTDateStart.getTime() && today.getTime() < DSTDateEnd.getTime()) {
-      console.log("true");
       return true;
     }
-    console.log("false");
     return false;
   }
 
@@ -284,11 +282,11 @@ class InterviewerForm extends React.Component {
       this.setState({submitStatus: "timeError", activityIndicatory: false});
       return;
     }
-    if(new Date(end_time_2) <= new Date(start_time_2)){
+    if(end_time_2 !== null && start_time_2 !== null && new Date(end_time_2) <= new Date(start_time_2)){
       this.setState({submitStatus: "timeError", activityIndicatory: false});
       return;
     }
-    if(new Date(end_time_3) <= new Date(start_time_3)){
+    if(end_time_3 !== null && start_time_3 !== null && new Date(end_time_3) <= new Date(start_time_3)){
       this.setState({submitStatus: "timeError", activityIndicatory: false});
       return;
     }
@@ -297,7 +295,7 @@ class InterviewerForm extends React.Component {
     ${end_time_1.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
     let range_2;
     let range_3;
-    if(start_time_2 !== null || end_time_2 !== null){
+    if(start_time_2 !== null && end_time_2 !== null){
       start_time_2 = new Date(start_time_2);
       end_time_2 = new Date(end_time_2);
       start_time_2.setSeconds(0);
@@ -305,7 +303,7 @@ class InterviewerForm extends React.Component {
       range_2 = `${daysOfWeek[day_2].label} ${start_time_2.toLocaleTimeString('en-US')} - 
       ${end_time_2.toLocaleTimeString("en-US", {timeZoneName:'short'})}`;
     }
-    if(start_time_3 !== null || end_time_3 !== null){
+    if(start_time_3 !== null && end_time_3 !== null){
       start_time_3 = new Date(start_time_3);
       end_time_3 = new Date(end_time_3);
       start_time_3.setSeconds(0);
@@ -341,18 +339,21 @@ class InterviewerForm extends React.Component {
         to: host_email,
         subject: "ACTION REQUIRED: Complete your interviewer signup!",
         text: `Dear ${host_name},<br/><br/>
-        Thanks for signing up! Confirm your weekly availability (listed below) from 
-        August 3rd to August 24th by clicking the link. 
-        It will expire in 24 hours.<br/><br/>
+        Thanks for your interest in being a mock interviewer! Complete your submission by confirming your weekly 
+        availability from August 3rd to August 24th by clicking the link below (will expire in 24 hours).
+        Should we find you a good fit for our program, we will get back to you with a schedule from the times you have given.
+        <br/><br/>
         ${range_1}<br/>
         ${range_2 ? `${range_2} <br/>`: ''}
-        ${range_3 ? `${range_3} <br/>`: ''}<br/>
+        ${range_3 ? `${range_3} <br/>`: ''}
+        maximum interviews per week: ${week_availability}<br/><br/>
+
         <a href="${URL}?token=${token}">Click this link to confirm</a><br/><br/>
-        If you do not wish to confirm, no action is required.<br/><br/>
+        If this information is not correct, please try submitting again. If you do not wish to complete your submission, no action is required.<br/><br/>
         Thanks,<br/>
         CVC`
       };
-
+      
       Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData, { timeout: 5000})
         .then(res => {
           this.setState({submitStatus: "success", activityIndicatory: false});
@@ -365,7 +366,7 @@ class InterviewerForm extends React.Component {
 
   getHeadMessage() {
     if (this.state.submitStatus == "success") {
-      return "Thank you! Please check your email for confirmation.";
+      return "Thank you! Complete your signup by checking your email for confirmation.";
     } else if(this.state.submitStatus == "timeError"){
       return "Sorry! There was an issue handling your time availability. ";
     } else {
@@ -419,7 +420,7 @@ class InterviewerForm extends React.Component {
             textAlign: "center",
             paddingTop: "16%"
           }}>
-            <div style={{ fontSize: "2.5rem" }}> {this.getHeadMessage()} </div>
+            <div style={{ fontSize: "2rem" }}> {this.getHeadMessage()} </div>
             <br/>
             <br/>
             <div style={{
@@ -492,8 +493,7 @@ class InterviewerForm extends React.Component {
                         Thank you for your interest in being an interviewer for mock technical 
                         coding interviews through CVC.
                         Please fill out the following form so we can provide you with the
-                        necessary
-                        resources and appropriate platform on our website! We will get back to you shortly 
+                        necessary resources and appropriate platform on our website! We will get back to you shortly 
                         once you have applied.
                       </div>
                       <div style={{
@@ -511,7 +511,6 @@ class InterviewerForm extends React.Component {
                         validationSchema={validationSchema}
                       >
                         {({ dirty, isValid, errors, touched }) => {
-                          //console.log(errors);
                           return (
                             <Form>
                               <div style={{ margin: "15px 0" }}>
@@ -612,9 +611,10 @@ class InterviewerForm extends React.Component {
                                   lineHeight: "30px",
                                   color: "black"
                                 }}>
-                                  * Please provide your availability between <strong>Monday, August 3rd</strong> to
-                                  <strong> Monday, August 24th</strong> by choosing a time range for a given day in the week.
-                                   Ensure times are <strong>on the hour.</strong>
+                                  * Please provide your availability on a typical day of the week between 
+                                  <strong> Monday, August 3rd</strong> to
+                                  <strong> Monday, August 24th</strong>.
+                                  Ensure times are on the hour and ranges are at least one hour long.
                                 </div>
                                 
                                 <GridContainer>
