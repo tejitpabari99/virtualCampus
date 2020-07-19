@@ -21,6 +21,7 @@ import Carousel from 'react-material-ui-carousel';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import {goToAnchor, configureAnchors} from 'react-scrollable-anchor';
 import queryString from 'query-string';
+import EventSearchMobile from "../input/EventSearchMobile";
 
 //configureAnchors({offset: -2500});
 
@@ -57,10 +58,22 @@ const useStyles = () => ({
     marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
+  greenBoxSelected: {
+    backgroundColor: "white",
+    height: "82px",
+    width: "137px",
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: "#1BAE0E",
+    padding: 0,
+    marginLeft: "30%",
+    marginRight: "25%",
+    boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
+  },
   greenText: {
     color:"#1BAE0E",
     textAlign: "left",
-    marginTop: "50px",
+    marginTop: "25px",
     marginLeft: "5px",
     fontSize: "14px"
   },
@@ -75,6 +88,18 @@ const useStyles = () => ({
     marginLeft: "30%",
     marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
+  },
+  blueBoxSelected: {
+    backgroundColor: "white",
+    height: "82px",
+    width: "137px",
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: "#0072CE",
+    padding: 0,
+    marginLeft: "30%",
+    marginRight: "25%",
+    boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
   },
   blueText: {
     color:"#0072CE",
@@ -95,6 +120,18 @@ const useStyles = () => ({
     marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
+  orangeBoxSelected: {
+    backgroundColor: "white",
+    height: "82px",
+    width: "137px",
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: "#FB750D",
+    padding: 0,
+    marginLeft: "30%",
+    marginRight: "25%",
+    boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
+  },
   orangeText: {
     color:"#FB750D",
     textAlign: "left",
@@ -113,6 +150,18 @@ const useStyles = () => ({
     marginLeft: "30%",
     marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
+  },
+  grayBoxSelected: {
+    backgroundColor: "white",
+    height: "82px",
+    width: "137px",
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: "black",
+    padding: 0,
+    marginLeft: "30%",
+    marginRight: "25%",
+    boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
   },
   grayText: {
     color:"black",
@@ -165,9 +214,23 @@ class EventsPageMobile extends React.Component {
       eventSearchMobileError: '',
       searchVal: "",
       defaultSearchInput:'',
-      calendarExpandText: "Show"
+      calendarExpandText: "Show",
+      tagList: [],
+      organizationList:[],
+      dateList:[{"date": "This Month Only"}, {"date": "Within a Week"}, {"date": "Within a Month"}, {"date": "Within 3 Months"}, {"date": "All"}],
+      hiddenSearch: '',
+      mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
+      filterTagsClicked: {},
+      clubFilter: "All",
+      dateFilter: "This Month Only"
     };
+    this.getEvents();
     this.closeDo = this.closeDo.bind(this);
+    this.handleMainTags = this.handleMainTags.bind(this);
+    this.updateFilterTags = this.updateFilterTags.bind(this);
+    this.updateOrganization = this.updateOrganization.bind(this);
+    this.updateDateFilter = this.updateDateFilter.bind(this);
+    this.resetFilter = this.resetFilter.bind(this);
   }
 
 //scrollToEvent(el) {
@@ -242,10 +305,26 @@ class EventsPageMobile extends React.Component {
     let approvedEventsMap = [];
     if(approvedEvents){
       approvedEventsMap = approvedEvents.docs.map(doc => {
-        let event = this.convertEventsTime(doc.data())
-        event["id"] = doc.id
-        return event
-      });
+
+            let event = this.convertEventsTime(doc.data())
+            event["id"] = doc.id
+            let today = new Date()
+            if ((new Date(event.start_date)) < today && (new Date(event.end_date)) > today) {
+              event["displayNow"] = true
+            } else
+            if ((new Date(event.end_date)) < today) {
+              event["displayPast"] = true
+            }
+            if (event.recurring !== "") {
+              event["displayRecurring"] = true
+            }
+            if (event.popularity > 10) {
+              event["displayPopular"] = true
+            }
+            return event
+
+          }
+      );
     }
     approvedEventsMap.sort(function(a,b) {
       var dateA = a.start_date
@@ -253,7 +332,9 @@ class EventsPageMobile extends React.Component {
       return ((dateA < dateB) ? -1 : 1)
     })
 
-    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap), permEventsList: approvedEventsMap,
+    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap),
+      organizationList: this.genOrganizationList(approvedEventsMap),
+      permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
 
@@ -315,6 +396,111 @@ class EventsPageMobile extends React.Component {
       </div>
   );
 
+  handleMainTags(tag) {
+    let newList = this.state.mainTagsClicked
+    if (newList[tag] === "on") {
+      newList[tag] = ""
+    } else {
+      newList[tag] = "on"
+    }
+    this.setState({mainTagsClicked: newList})
+  }
+
+  isEventShowable(ele) {
+    ele.tagsForFilter = this.state.mainTagsClicked
+    // Handle main tags filter
+    let shouldDisplayRecurring = ele["tagsForFilter"].recurring === "on" ? true : false
+    let shouldDisplayPopular = ele["tagsForFilter"].popular === "on" ? true : false
+    let shouldDisplayPast = ele["tagsForFilter"].past === "on" ? true : false
+    let shouldDisplayNow = ele["tagsForFilter"].now === "on" ? true : false
+
+    ele.displayThisCard = true
+    if (!ele.displayPopular && shouldDisplayPopular)
+      ele.displayThisCard = false
+    if (!ele.displayNow && shouldDisplayNow)
+      ele.displayThisCard = false
+    if (!ele.displayRecurring && shouldDisplayRecurring)
+      ele.displayThisCard = false
+    if (!ele.displayRecurring && shouldDisplayRecurring)
+      ele.displayThisCard = false
+    if (!ele.displayPast && shouldDisplayPast)
+      ele.displayThisCard = false
+    if (ele.displayThisCard && ele.displayPast && !shouldDisplayPast)
+      ele.displayThisCard = false
+
+    // Process regular tag filter
+    let filterPass = true
+    if (ele.displayThisCard === true) {
+      Object.keys(this.state.filterTagsClicked).map(x => {
+        let found = false
+        console.log(x)
+        if (this.state.filterTagsClicked[x] !== undefined) {
+          ele.tags.map(y => {
+            if (x.toLowerCase() === y.toLowerCase()) {
+              found = true
+            }
+          })
+
+          if (found === false) {
+            filterPass = false
+          }
+        }
+      })
+    }
+
+    if (filterPass === false) {
+      ele.displayThisCard = false
+    }
+
+    // Handle Organization
+    if (this.state.clubFilter !== "All") {
+      if (this.state.clubFilter !== ele.name)
+        ele.displayThisCard = false
+    }
+
+    // Handle date
+    if (this.state.dateFilter !== "All") {
+      let d = new Date()
+      const daysApart = Math.abs((ele.start_date.getTime() - d.getTime()) / (3600*24*1000))
+      console.log(daysApart)
+      switch(this.state.dateFilter) {
+        case "This Month Only":
+          if (ele.start_date.getMonth() !== d.getMonth() || ele.start_date.getFullYear() !== d.getFullYear())
+            ele.displayThisCard = false
+        case "Within a Week":
+          if (daysApart > 7)
+            ele.displayThisCard = false
+        case "Within a Month":
+          if (daysApart > 30)
+            ele.displayThisCard = false
+        case "Within 3 Months":
+          if (daysApart > 90)
+            ele.displayThisCard = false
+      }
+    }
+    return ele.displayThisCard
+  }
+
+  updateOrganization(club) {
+    this.setState({clubFilter: club})
+  }
+  updateDateFilter(date) {
+    this.setState({dateFilter: date})
+  }
+  resetFilter() {
+    this.setState({
+      eventSearchError: '',
+      searchVal: "",
+      defaultSearchInput: '',
+      hiddenSearch: '',
+      mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
+      filterTagsClicked: {},
+      clubFilter: "All",
+      dateFilter: "This Month Only"
+    });
+    this.searchFunc('')
+  }
+
 updateCalendarExpandText() {
   if (this.state.calendarExpandText == "Show") {
     this.setState({calendarExpandText: "Hide"});
@@ -330,13 +516,32 @@ getCalendarText() {
   return this.state.calendarExpandText;
 }
 
-  async componentDidMount() {
-    await this.getEvents();
-    goToAnchor(this.props.event, true);
+  genTagsList(eventsMap)
+  {
+    let tagsList = new Set()
+    eventsMap.map(x => (x.tags.map(y => tagsList.add(y))))
+    tagsList.delete("")
+    return Array.from(tagsList);
   }
 
-  clickFeaturedEvent(eventId) {
-    goToAnchor(eventId, true);
+  genOrganizationList(eventsMap)
+  {
+    let organizations = []
+    organizations.push({"name": "All"})
+    eventsMap.map(x => {
+      organizations.push({"name": x.name})
+    })
+    return organizations;
+  }
+
+  updateFilterTags(tag) {
+    let x = this.state.filterTagsClicked
+    if (x[tag] === undefined) {
+      x[tag] = tag
+    } else {
+      x[tag] = undefined
+    }
+    this.setState({filterTagsClicked: x})
   }
 
   render() {
@@ -359,13 +564,27 @@ getCalendarText() {
     // See how many events we are displaying even with filter
     let sizeOfList = 0
     let noSearchResults = ""
+    let eventsList = []
     this.state.myEventsList.map((ele, ind) => {
-      sizeOfList = sizeOfList + 1
+      if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
+        ele.tags = ['none']
+      }
+
+      if (this.isEventShowable(ele)) {
+        sizeOfList = sizeOfList + 1
+        eventsList.push(ele)
+      }
     });
     if (sizeOfList === 0) {
       noSearchResults = "No events found for that search"
     }
     console.log("Size: " + sizeOfList)
+
+    let grayBox = this.state.mainTagsClicked.past === "on" ? classes.grayBoxSelected : classes.grayBox
+    let blueBox = this.state.mainTagsClicked.popular === "on" ? classes.blueBoxSelected : classes.blueBox
+    let orangeBox = this.state.mainTagsClicked.recurring === "on" ? classes.orangeBoxSelected : classes.orangeBox
+    let greenBox = this.state.mainTagsClicked.now === "on" ? classes.greenBoxSelected : classes.greenBox
+
     return (
         <Template active={"schedule"} title={"Events"}>
 
@@ -388,53 +607,67 @@ getCalendarText() {
           </div>
 
           <div style={{margin: "40px"}}/>
-
           <Carousel>
-              <div>
-                <div className={classes.greenBox}>
-                  <div className={classes.greenText}>
-                    <h4 style = {{fontSize: "14px"}}>Happening Now</h4>
-                  </div>
-                </div>
-
-                <div className={classes.blueBox}>
-                  <div className={classes.blueText}>
-                    <h4 style = {{fontSize: "14px"}}>Popular</h4>
-                  </div>
-                </div>
+            <div className={greenBox}
+                 onClick={(tag) => { this.handleMainTags("now") }}
+                 style={{cursor: "pointer"}}>
+              <div className={classes.greenText}>
+                <h4>Happening Now</h4>
               </div>
-              <div>
-                <div className={classes.orangeBox}>
-                  <div className={classes.orangeText}>
-                    <h4 style = {{fontSize: "14px"}}>Recurring</h4>
-                  </div>
-                </div>
+            </div>
 
-                <div className={classes.grayBox}>
-                  <div className={classes.grayText}>
-                    <h4 style = {{fontSize: "14px"}}>Past</h4>
-                  </div>
-                </div>
+            <div className={blueBox}
+                 onClick={(tag) => { this.handleMainTags("popular") }}
+                 style={{cursor: "pointer"}}>
+              <div className={classes.blueText}>
+                <h4>Popular</h4>
               </div>
+            </div>
+
+            <div className={orangeBox}
+                 onClick={(tag) => { this.handleMainTags("recurring") }}
+                 style={{cursor: "pointer"}}>
+              <div className={classes.orangeText}>
+                <h4>Recurring</h4>
+              </div>
+            </div>
+
+            <div className={grayBox}
+                 onClick={(tag) => { this.handleMainTags("past") }}
+                 style={{cursor: "pointer"}}>
+              <div className={classes.grayText}>
+                <h4>Past</h4>
+              </div>
+            </div>
           </Carousel>
 
           <div style={{margin: "40px"}}/>
 
-          <EventSearch placeholder="Search all virtual events."
-                       iconColor="#2984CE"
-                       data={this.state.data}
-                       ref={input => this.inputElement = input}
-                       onClick={(val) => { this.searchFunc(val) }}
-                       onCancel={() => { this.searchFunc('') }}
+          <EventSearchMobile placeholder="Search all virtual events."
+             iconColor="#2984CE"
+             data={this.state.data}
+             ref={input => this.inputElement = input}
+             tagList = {this.state.tagList}
+             organizationList = {this.state.organizationList}
+             dateList = {this.state.dateList}
+             updateTags={(tag) => { this.updateFilterTags(tag) }}
+             updateClub={(club) => { this.updateOrganization(club) }}
+             updateDate={(date) => { this.updateDateFilter(date) }}
+             resetFilter={() => { this.resetFilter() }}
+             onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
+             onCancel={() => { this.searchFunc('') }}
           />
           <br />
-          <div style={{margin: "40px"}}/>
-          <ExpansionPanel>
+          <div style={{margin: "20px"}}/>
+          <ExpansionPanel style={{boxShadow: "none", border: "none", display: "inline-block",
+            width: "100%", textAlign: "right"}}>
             <ExpansionPanelSummary
               //onClick={this.updateCalendarExpandText()}
               expandIcon={<ExpandMoreIcon style={{color: "#0072CE"}}/>}
             >
-              <h5 style={{color: "#0072CE"}}>{this.getCalendarText()} Calendar</h5>
+              <h5 style={{textAlign: "left", display: "inline", width: "53%",
+                color: "#828282", fontSize: "14px", lineHeight: "21px"}}> {sizeOfList} events found</h5>
+              <h5 style={{textAlign: "right", color: "#0072CE"}}>{this.getCalendarText()} Calendar</h5>
             </ExpansionPanelSummary>
 
             <ExpansionPanelDetails style={{ width: "100%", paddingLeft:0, paddingRight:0 }}>
@@ -467,9 +700,9 @@ getCalendarText() {
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
-          <div style={{margin: "40px"}}/>
+          <div style={{margin: "00px"}}/>
           <div style= {{flexDirection: "column", display: "flex",width: "100%", marginBottom:"3%"}}>
-              {this.state.myEventsList.map((ele, ind) => {
+              {eventsList.map((ele) => {
                     if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
                       ele.tags = ['none']
                     }
@@ -482,14 +715,6 @@ getCalendarText() {
                   }
               )}
               <div>{noSearchResults}</div>
-          </div>
-          <div>
-            <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Want to do more?</Title>
-            <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h5>
-            <div style={{ textAlign: "left" }}>
-              <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
-                            style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
-            </div>
           </div>
           <footer className={classes.footerStyle}>
               <CustomButton href={"/events/add-new-event"} text={"Want to do more?"}

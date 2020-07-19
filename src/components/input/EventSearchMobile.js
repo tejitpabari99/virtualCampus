@@ -11,27 +11,24 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-const clubs = [
-  { name: "Latinx Professional and Educational Network" },
-  { name: "CU Generation"},
-  { name: "Ecoreps"},
-]
-const eventDates = [
-  { date: "July 3" },
-  { date: "July 30"},
-  { date: "August 2"},
-]
-
-
 export default class EventSearchMobile extends React.Component{
   constructor(props) {
     super(props);
-    this.state={
-      searchVal:'',
-      data:this.props.data,
-      filter: false,
-    }
-    this.keyPress = this.keyPress.bind(this);
+      this.state={
+          searchVal:'',
+          data:this.props.data,
+          filter: false,
+          tagList: this.props.tagList,
+          organizationList: this.props.organizationList,
+          activeTagList: [],
+          hiddenSearch: '',
+          defaultOrganization: 'All clubs / organizations',
+          defaultDate: 'All dates'
+      }
+      this.keyPress = this.keyPress.bind(this);
+      this.reset = this.reset.bind(this);
+      this.updateClubs = this.updateClubs.bind(this);
+      this.updateDate = this.updateDate.bind(this);
   }
 
   keyPress(e){
@@ -48,6 +45,35 @@ export default class EventSearchMobile extends React.Component{
   // }
 
 
+    addActiveTag(n)
+    {
+        if(this.state.activeTagList.includes(n)) {
+            this.setState({activeTagList: this.state.activeTagList.filter(arrayItem => arrayItem !== n)})
+        } else {
+            this.setState({activeTagList: this.state.activeTagList.concat(n)})
+        }
+        this.setState({hiddenSearch : this.state.activeTagList.join(" ")})
+        this.props.updateTags(n)
+    }
+
+    updateClubs(data) {
+        const dataText = data.currentTarget.innerText
+        this.setState({defaultOrganization: dataText})
+        this.props.updateClub(dataText)
+    }
+    updateDate(data) {
+        const dataText = data.currentTarget.innerText
+        this.setState({defaultDate: dataText})
+        this.props.updateDate(dataText)
+    }
+
+
+    reset() {
+        this.setState({activeTagList: [], searchVal: '', hiddenSearch: '',
+            defaultOrganization: 'All clubs / organizations', defaultDate: "All dates", filter: false})
+        this.props.resetFilter()
+    }
+
   render(){
    let iconCol = this.props.iconColor === undefined ? 'black' : this.props.iconColor
     if (this.state.filter) {
@@ -56,7 +82,7 @@ export default class EventSearchMobile extends React.Component{
         <div style={{display:'inline', padding: '18px'}}>
           <TextField
             style={{
-              width: "85%",
+              width: "90%",
               borderColor: "#0072CE",
               backgroundColor: "white",
               marginBottom: "20px",
@@ -75,22 +101,32 @@ export default class EventSearchMobile extends React.Component{
               },
               startAdornment: (
                 <div>
-                  <InputAdornment position="end">
+                  <InputAdornment position="start">
                     <IconButton onClick={() => {this.props.onClick(this.state.searchVal)}}>
                         <SearchIcon style={{color:iconCol}}/>
                     </IconButton>
                   </InputAdornment>
                 </div>
               ),
-              endAdornment: (
-                <div>
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => {this.setState({filter : false})}}>
-                        <FilterIcon style={{color: "#f2f9fd"}}/>
+                endAdornment: (
+                <button type="button" style={{
+                    height: "55px",
+                    width: "60px",
+                    background: "#0072CE",
+                    borderColor: "#f2f9fd",
+                    fontFamily: "Poppins",
+                    fontSize: "20px",
+                    color: "#f2f9fd",
+                    boxShadow: 0,
+                    padding: 0,
+                    fontAlign: "center"
+                }}
+                onClick={() => {this.setState({filter : false})}}>
+                    <IconButton onClick={() => {this.setState({filter : false})}} >
+                        <FilterIcon style={{color: "#f2f9fd"}} />
                     </IconButton>
-                  </InputAdornment>
-                </div>
-              ),
+                </button>
+                ),
               classes: {
                 notchedOutline: {
                   borderWidth: '1px',
@@ -107,58 +143,40 @@ export default class EventSearchMobile extends React.Component{
               }
             }}
           />
-
-          <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal)}}
-                text={"Search"}
-                style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "139px"}}
-                color={"blue"} size={"large"}
-          />
-
           <br/>
           <span style={{marginLeft: "20px", marginTop: "27px"}}>Tags</span>
-          <CustomButton
-                text={"Finance"}
-                style={{width: "80px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
-          <CustomButton
-                text={"Columbia"}
-                style={{width: "80px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
-          <CustomButton
-                text={"Basic Needs"}
-                style={{width: "110px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
-          <CustomButton
-                text={"Social"}
-                style={{width: "80px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
-          <CustomButton
-                text={"COVID-19"}
-                style={{width: "85px", height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px"}}
-                color={"blue"} size={"small"}
-          />
-          <br/>
 
-        <Autocomplete
-          options={clubs}
-          getOptionLabel={(option) => option.name}
-          style={{ width: 466, marginTop: "20px", marginLeft: "20px", display: "inline-block"}}
-          renderInput={(params) => <TextField {...params} label="All clubs / organizations" variant="outlined" />}
-        />
+            {this.props.tagList.map(n => {
+                    return(
+                        <CustomButton
+                            onClick={() => {this.addActiveTag(n)}}
+                            text={n}
+                            style={{height: "30px", fontSize: "12px", borderRadius: "5px", marginLeft: "10px", borderColor:"#0072CE"}}
+                            color={this.state.activeTagList.includes(n) ? "blueInvert" : "blue"} size={"small"}/>)
+                }
+            )}
+            <br />
+            <Autocomplete
+                options={this.props.organizationList}
+                getOptionLabel={(option) => option.name}
+                style={{ width: "90%", marginTop: "20px", marginLeft: "20px", display: "inline-block"}}
+                onChange={this.updateClubs}
+                renderInput={(params) => <TextField {...params} label={this.state.defaultOrganization} variant="outlined" />}
+            />
 
-        <Autocomplete
-          options={eventDates}
-          getOptionLabel={(option) => option.date}
-          style={{ width: 466, marginTop: "20px", marginLeft: "16px", display: "inline-block"}}
-          renderInput={(param) => <TextField {...param} label="All dates" variant="outlined" />}
-        />
+            <Autocomplete
+                options={this.props.dateList}
+                getOptionLabel={(option) => option.date}
+                style={{ width: "90%", marginTop: "20px", marginLeft: "16px", display: "inline-block"}}
+                onChange={this.updateDate}
+                renderInput={(param) => <TextField {...param} label={this.state.defaultDate} variant="outlined" />}
+            />
 
-        <div style={{marginLeft: "27px", marginTop: "20px", color: "#0072CE", fontSize: "18px", display: "inline-block", verticalAlign: "middle"}}>Reset</div>
-
+            <div onClick={this.reset}
+                 style={{marginLeft: "27px", marginTop: "20px", cursor: "pointer", color: "#0072CE", fontSize: "18px",
+                     display: "inline-block", verticalAlign: "middle"}}>
+                Reset
+            </div>
         </div>
 
       )
@@ -168,7 +186,7 @@ export default class EventSearchMobile extends React.Component{
         <div style={{display:'inline', padding: '18px'}}>
           <TextField
             style={{
-              width: "85%",
+              width: "90%",
               borderColor: "#0072CE",
               backgroundColor: "white",
               marginBottom: "20px",
@@ -194,15 +212,26 @@ export default class EventSearchMobile extends React.Component{
                   </InputAdornment>
                 </div>
               ),
-              endAdornment: (
-                <div>
+            endAdornment: (
+                <button type="button" style={{
+                    height: "55px",
+                    width: "60px",
+                    background: "#f2f9fd",
+                    borderColor: "#f2f9fd",
+                    fontFamily: "Poppins",
+                    fontSize: "20px",
+                    color: "#0072CE",
+                    boxShadow: 0,
+                    padding: 0
+                    }}
+                onClick={() => {this.setState({filter : true})}}>
                   <InputAdornment position="end">
                     <IconButton onClick={() => {this.setState({filter : false})}}>
-                        <FilterIcon style={{color: "#f2f9fd"}}/>
+                      <FilterIcon style={{color: "#0072CE"}}/>
                     </IconButton>
                   </InputAdornment>
-                </div>
-              ),
+                </button>
+            ),
               classes: {
                 notchedOutline: {
                   borderWidth: '1px',
@@ -218,12 +247,6 @@ export default class EventSearchMobile extends React.Component{
                 },
               }
             }}
-          />
-
-          <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal)}}
-                text={"Search"}
-                style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "139px"}}
-                color={"blue"} size={"large"}
           />
       </div>
       )

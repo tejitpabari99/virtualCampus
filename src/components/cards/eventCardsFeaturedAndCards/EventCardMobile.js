@@ -124,6 +124,54 @@ const useStyles = makeStyles(() => ({
     color: "#1BAE0E",
     position: "relative"
   },
+  happeningBlock: {
+    display: 'inline-block',
+    fontSize: '10px',
+    backgroundColor: '#F3FFEE',
+    paddingTop: 2,
+    paddingBottom: 1,
+    paddingLeft: 12,
+    paddingRight: 12,
+    borderRadius: "5px",
+    color: "#1BAE0E",
+    marginRight: "10px",
+  },
+  pastBlock: {
+    display: 'inline-block',
+    fontSize: '10px',
+    backgroundColor: '#BDBDBD',
+    paddingTop: 2,
+    paddingBottom: 1,
+    paddingLeft: 12,
+    paddingRight: 12,
+    borderRadius: "5px",
+    marginRight: "10px",
+  },
+  popularBlock: {
+    display: 'inline-block',
+    fontSize: '10px',
+    backgroundColor: '#F2F9FD',
+    paddingTop: 2,
+    paddingBottom: 1,
+    paddingLeft: 12,
+    paddingRight: 12,
+    borderRadius: "5px",
+    color: "#0072CE",
+    marginRight: "10px",
+  },
+  recurringBlock: {
+    display: 'inline-block',
+    fontSize: '10px',
+    marginLeft: '10px',
+    backgroundColor: '#FDEEE5',
+    paddingTop: 2,
+    paddingBottom: 1,
+    paddingLeft: 12,
+    paddingRight: 12,
+    borderRadius: "5px",
+    color: "#1BAE0E",
+    position: "relative"
+  },
   cardbody: {
     padding: 10,
     paddingLeft: 20,
@@ -246,11 +294,17 @@ export default function EventCardDesktopBottom({ ele }) {
 
             <GridItem xs={7} sm={7} md={7} style={{paddingRight: "0px"}}>
                 <div className={classes.tagInfo}>
-                  <div className={classes.happeningBlock}>Happening Now</div>
+                  {ele.displayNow && <div className={classes.happeningBlock}>Happening Now!</div>}
+                  {ele.displayPast && <div className={classes.pastBlock}>Past</div>}
+                  {ele.displayRecurring && <div className={classes.recurringBlock}>Recurring</div>}
+                  {ele.displayPopular && <div className={classes.popularBlock}>Popular</div>}
+
                   {ele.tags.map((ta, ind) => {
-                    return (
-                      <div className={classes.tagBlock}>{ta}</div>
-                    );
+                    if (ta !== "") {
+                      return (
+                          <div className={classes.tagBlock}>{ta}</div>
+                      );
+                    }
                   })}
 
                   <div className={classes.nameHeader}> {ele.event} </div>

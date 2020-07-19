@@ -113,15 +113,25 @@ const useStyles = makeStyles ({
       marginLeft: "-5px",
     },
     tagBlock: {
-      display: 'inline-block',
-      fontSize: '10px',
-      backgroundColor: '#F2F2F2',
-      marginLeft: "-5px",
-      paddingTop: 2,
-      paddingBottom: 1,
-      paddingLeft: 12,
-      paddingRight: 12,
-      borderRadius: "5px",
+        display: 'inline-block',
+        fontSize: '10px',
+        backgroundColor: '#F2F2F2',
+        marginLeft: "-3px",
+        marginRight: "7px",
+        marginBottom: "7px",
+        paddingTop: 2,
+        paddingBottom: 1,
+        paddingLeft: 12,
+        paddingRight: 12,
+        borderRadius: "5px",
+    },
+    horizontalLine: {
+        borderTop: "5px solid #D9D9D9",
+        width: "15%",
+        textAlign: "center",
+        marginTop: "20px",
+        borderRadius: "25px",
+        marginLeft: "42%"
     },
     happeningBlock: {
       display: 'inline-block',
@@ -228,6 +238,7 @@ export default function EventModalMobile({open, closeDo, event}) {
         })}
         role="presentation"
       >
+          <div className={classes.horizontalLine} />
           <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px" }}>
               <GridItem xs={3} sm={3} md={3}>
                   <div className={classes.dateBox}>
@@ -248,12 +259,18 @@ export default function EventModalMobile({open, closeDo, event}) {
 
               <GridItem xs={7} sm={7} md={7}>
                   <div className={classes.tagInfo}>
-                    <div className={classes.happeningBlock}>Happening Now</div>
-                    {event.tags.map((ta, ind) => {
-                      return (
-                        <div className={classes.tagBlock}>{ta}</div>
-                      );
-                    })}
+                      {event.displayNow && <div className={classes.happeningBlock}>Happening Now!</div>}
+                      {event.displayPast && <div className={classes.pastBlock}>Past</div>}
+                      {event.displayRecurring && <div className={classes.recurringBlock}>Recurring</div>}
+                      {event.displayPopular && <div className={classes.popularBlock}>Popular</div>}
+
+                      {event.tags.map((ta, ind) => {
+                          if (ta !== "") {
+                              return (
+                                  <div className={classes.tagBlock}>{ta}</div>
+                              );
+                          }
+                      })}
 
                     <div className={classes.nameHeader}> {event.event} </div>
                     <div className={classes.orgHeader}>{event.name}</div>
