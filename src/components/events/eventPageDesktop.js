@@ -538,62 +538,63 @@ class EventsPageDesktop extends React.Component {
     return (
       <Template active={"schedule"} title={"Events"}>
 
-        <div className={classes.mainBox}>
-            <div className={classes.mainText} style={{paddingLeft: "4%"}}>
-              <h2 style={{fontSize: "2.5vw"}}>All Events</h2>
-              <p style={{fontSize: "1.2vw"}}>Check out our virtual events!</p>
-            </div>
-            <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
-              {this.state.displayEvents.map((ele, ind) => {
-                  if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
+        <div className={classes.mainBox} style={{paddingLeft:"10%", paddingRight:"10%"}}>
+          <div className={classes.mainText} style={{paddingLeft: "4%"}}>
+            <h2 style={{fontSize: "2.5vw"}}>All Events</h2>
+            <p style={{fontSize: "1.2vw"}}>Check out our virtual events!</p>
+          </div>
+          <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
+            {this.state.displayEvents.map((ele, ind) => {
+              if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
 
-                    if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
-                      ele.tags = ['none']
-                    }
-
-                    numEventsDisplayed = numEventsDisplayed + 1
-                    return (<a href={"#" + ele.id} onClick={() => {this.setState({eventIdClicked: ele.id})}}>
-                              <EventCardFeatured ele={ele} key={ind} />
-                            </a>);
-                  }
-              })}
-            </div>
+                if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
+                  ele.tags = ['none']
+                }
+                numEventsDisplayed = numEventsDisplayed + 1
+                return (<a href={"#" + ele.id} onClick={() => {this.setState({eventIdClicked: ele.id})}}>
+                  <EventCardFeatured ele={ele} key={ind} />
+                </a>);
+              }
+            })}
+          </div>
         </div>
 
+
+      <div style={{marginLeft: 'auto', marginRight: 'auto', maxWidth: "1500px"}}>
         <div style={{margin: "40px"}}/>
 
         <div style={{flexDirection: "row", display: "flex"}}>
-          <div className={greenBox}
+          <a href={"#"} className={greenBox}
                onClick={(tag) => { this.handleMainTags("now") }}
                style={{cursor: "pointer"}}>
             <div className={classes.greenText}>
               <h4>Happening Now</h4>
             </div>
-          </div>
+          </a>
 
-          <div className={blueBox}
+          <a href={"#"} className={blueBox}
                onClick={(tag) => { this.handleMainTags("popular") }}
                style={{cursor: "pointer"}}>
             <div className={classes.blueText}>
               <h4>Popular</h4>
             </div>
-          </div>
+          </a>
 
-          <div className={orangeBox}
+          <a href={"#"} className={orangeBox}
                onClick={(tag) => { this.handleMainTags("recurring") }}
                style={{cursor: "pointer"}}>
             <div className={classes.orangeText}>
               <h4>Recurring</h4>
             </div>
-          </div>
+          </a>
 
-          <div className={grayBox}
+          <a href={"#"} className={grayBox}
                onClick={(tag) => { this.handleMainTags("past") }}
                style={{cursor: "pointer"}}>
             <div className={classes.grayText}>
               <h4>Past</h4>
             </div>
-          </div>
+          </a>
         </div>
 
         <div style={{margin: "40px"}}/>
@@ -648,8 +649,9 @@ class EventsPageDesktop extends React.Component {
                             style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
             </div>
           </div>
-          <div style= {{flexDirection: "column", display: "flex", paddingTop:"3%", paddingLeft: "3%", width: "75%",
+          <div style= {{flexDirection: "column", display: "flex", paddingTop:"1%", paddingLeft: "3%", width: "75%",
             marginBottom:"3%"}}>
+            <div style={{paddingBottom: "1%", color: "#828282", fontSize: "18px"}}> {sizeOfList} Events Found </div>
             {eventsList.map((ele) => {
 
                 return (
@@ -665,7 +667,7 @@ class EventsPageDesktop extends React.Component {
             <div>{noSearchResults}</div>
           </div>
         </div>
-
+      </div>
       </Template>
     );
   }
