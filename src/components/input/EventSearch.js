@@ -17,10 +17,13 @@ const clubs = [
   { name: "Ecoreps"},
 ]
 const eventDates = [
-  { date: "July 3" },
-  { date: "July 30"},
-  { date: "August 2"},
+  { date: "Within 24 hours" },
+  { date: "Within a week"},
+  { date: "Within a month"},
+  { date: "Within 3 months"},
 ]
+
+const backgroundImg = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fthecolorhouse.com%2Fproducts%2F2066-70-light-blue&psig=AOvVaw0NA_iVY8peuMPpilYfdTx4&ust=1595225247274000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJD1r6jT2OoCFQAAAAAdAAAAABAD"
 
 
 export default class EventSearch extends React.Component{
@@ -72,10 +75,10 @@ export default class EventSearch extends React.Component{
     if (this.state.filter) { 
       return(
         // <div style={{display:'inline', backgroundColor: '#F2F9FD', padding: '18px', height: "100%", width: "100%"}}>
-        <div style={{display:'inline', padding: '18px'}}>
+        <div style={{display:'inline', padding: '18px', position: 'absolute'}}>
           <TextField
             style={{
-              width: "85%",
+              width: "70%",
               borderColor: "#0072CE",
               backgroundColor: "white",
               marginBottom: "20px",
@@ -131,10 +134,9 @@ export default class EventSearch extends React.Component{
               }
             }}
           />
-          
           <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal, this.state.hiddenSearch)}}
                 text={"Search"} 
-                style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "139px"}}
+                style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "10%"}}
                 color={"blue"} size={"large"}
           />
 
@@ -157,29 +159,27 @@ export default class EventSearch extends React.Component{
         <Autocomplete
           options={clubs}
           getOptionLabel={(option) => option.name}
-          style={{ width: 466, marginTop: "20px", marginLeft: "20px", display: "inline-block"}}
+          style={{ width: "30%", marginTop: "20px", marginLeft: "20px", display: "inline-block"}}
           renderInput={(params) => <TextField {...params} label="All clubs / organizations" variant="outlined" />}
         />
 
         <Autocomplete
           options={eventDates}
           getOptionLabel={(option) => option.date}
-          style={{ width: 466, marginTop: "20px", marginLeft: "16px", display: "inline-block"}}
+          style={{ width: "30%", marginTop: "20px", marginLeft: "16px", display: "inline-block"}}
           renderInput={(param) => <TextField {...param} label="All dates" variant="outlined" />}
         />
 
         <div style={{marginLeft: "27px", marginTop: "20px", color: "#0072CE", fontSize: "18px", display: "inline-block", verticalAlign: "middle"}}>Reset</div>
           
         </div>
-
       )
     } else {
       return(
-        // <div style={{display:'inline', backgroundColor: '#F2F9FD', padding: '18px', height: "100%", width: "100%"}}>
         <div style={{display:'inline', padding: '18px'}}>
           <TextField
             style={{
-              width: "85%",
+              width: "70%",
               borderColor: "#0072CE",
               backgroundColor: "white",
               marginBottom: "20px",
@@ -238,7 +238,7 @@ export default class EventSearch extends React.Component{
 
           <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal)}}
                 text={"Search"} 
-                style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "139px"}}
+                style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "10%"}}
                 color={"blue"} size={"large"}
           />
       </div>

@@ -63,8 +63,8 @@ const useStyles = makeStyles(() => ({
     fontSize: '1.25vw',
     // position: "absolute",
     color: "black",
-    whiteSpace: "nowrap",
-    // marginTop: "8px",
+    // whiteSpace: "nowrap",
+    marginTop: "6px",
     marginLeft: "14px",
     // display:'inline-block'
     fontAlign: "left"
@@ -288,7 +288,7 @@ export default function EventCardDesktop({ ele }) {
     handleEventClick(ele, 1)
   }
 
-  const TITLE_MAX = 50
+  const TITLE_MAX = 120
   const ORG_MAX = 30
   if (ele.title === undefined)
     ele.title = ele.event
@@ -303,7 +303,7 @@ export default function EventCardDesktop({ ele }) {
 
   return (
 
-      <div style={{width: "100%"}}>
+      <div style={{width: "100%", marginBottom: "5px"}}>
         <ExpansionPanel onClick={handlePopularity}>
           <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon/>}
@@ -313,7 +313,6 @@ export default function EventCardDesktop({ ele }) {
             <div className={classes.flexBox}>
               <img className={classes.image} src={ele.image_link} alt={ele.event}/>
             </div>
-
             <div className={classes.dateBox}>
               <span className={classes.weekText}>{days[ele.start_date.getDay()]}</span>
               <span className={classes.dateText}>{ele.start_date.getDate()} {months[ele.start_date.getMonth()]}</span>

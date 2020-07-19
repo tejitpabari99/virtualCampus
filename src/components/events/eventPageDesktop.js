@@ -389,121 +389,121 @@ class EventsPageDesktop extends React.Component {
 
     return (
       <Template active={"schedule"} title={"Events"}>
+        <div style={{marginLeft: 'auto', marginRight: 'auto', maxWidth: "1500px"}}>
+          <div className={classes.mainBox}>
+              <div className={classes.mainText} style={{paddingLeft: "4%"}}>
+                <h2 style={{fontSize: "2.5vw"}}>All Events</h2>
+                <p style={{fontSize: "1.5vw"}}>Check out our virtual events!</p>
+                <CustomButton href={"/events"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
+                    style={{ marginTop: 10, marginBottom: 25, marginLeft: "-10px" }} color={"blue2"} size={"large"}/>
+              </div>
+              <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
+                {this.state.displayEvents.map((ele, ind) => {
+                    if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
 
-        <div className={classes.mainBox}>
-            <div className={classes.mainText} style={{paddingLeft: "4%"}}>
-              <h2 style={{fontSize: "2.5vw"}}>All Events</h2>
-              <p style={{fontSize: "1.5vw"}}>Check out our virtual events!</p>
-              <CustomButton href={"/events"} text={"SEE FEATURED"} endIcon={<ArrowForward/>}
-                  style={{ marginTop: 10, marginBottom: 25, marginLeft: "-10px" }} color={"blue2"} size={"large"}/>
-            </div>
-            <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
-              {this.state.displayEvents.map((ele, ind) => {
-                  if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
+                      if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
+                        ele.tags = ['none']
+                      }
 
-                    if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
-                      ele.tags = ['none']
+                      numEventsDisplayed = numEventsDisplayed + 1
+                      return (<EventCardFeatured ele={ele} key={ind}/>);
                     }
+                })}
+              </div>
+          </div>
 
-                    numEventsDisplayed = numEventsDisplayed + 1
-                    return (<EventCardFeatured ele={ele} key={ind}/>);
-                  }
-              })}
+          <div style={{margin: "40px"}}/>
+
+          <div style={{flexDirection: "row", display: "flex"}}>
+            <div className={classes.greenBox}
+                onClick={(tag) => { this.handleMainTags("now") }}
+                style={{cursor: "pointer"}}>
+              <div className={classes.greenText}>
+                <h4>Happening Now</h4>
+              </div>
             </div>
-        </div>
 
-        <div style={{margin: "40px"}}/>
+            <div className={classes.blueBox}
+                onClick={(tag) => { this.handleMainTags("popular") }}
+                style={{cursor: "pointer"}}>
+              <div className={classes.blueText}>
+                <h4>Popular</h4>
+              </div>
+            </div>
 
-        <div style={{flexDirection: "row", display: "flex"}}>
-          <div className={classes.greenBox}
-               onClick={(tag) => { this.handleMainTags("now") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.greenText}>
-              <h4>Happening Now</h4>
+            <div className={classes.orangeBox}
+                onClick={(tag) => { this.handleMainTags("recurring") }}
+                style={{cursor: "pointer"}}>
+              <div className={classes.orangeText}>
+                <h4>Recurring</h4>
+              </div>
+            </div>
+
+            <div className={classes.grayBox}
+                onClick={(tag) => { this.handleMainTags("past") }}
+                style={{cursor: "pointer"}}>
+              <div className={classes.grayText}>
+                <h4>Past</h4>
+              </div>
             </div>
           </div>
 
-          <div className={classes.blueBox}
-               onClick={(tag) => { this.handleMainTags("popular") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.blueText}>
-              <h4>Popular</h4>
+          <div style={{margin: "40px"}}/>
+
+          <EventSearch placeholder="Search all virtual events."
+                  iconColor="#2984CE"
+                  data={this.state.data}
+                  ref={input => this.inputElement = input}
+                  tagList = {this.state.tagList}
+                  onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
+                  onCancel={() => { this.searchFunc('') }}
+          />
+          
+          <br />
+          <div style={{margin: "40px"}}/>
+          <div style={{width: "100%"}}>
+            <div style={{width: "25%", float:"left", marginBottom:"3%"}}>
+              <Calendar
+                  views={["month"]}
+                  localizer={localizer}
+                  scrollToTime={new Date()}
+                  events={this.state.myEventsList}
+                  defaultView={"month"}
+                  startAccessor="start_date"
+                  endAccessor="end_date"
+                  allDayAccessor="allDay"
+                  showMultiDayTimes
+                  style={{ height: 550 }}
+                  onSelectEvent={(event) => {
+                    this.setState({ open: true, event });
+                  }}
+                  eventPropGetter={this.eventPropStyles}
+                  components={{
+                    event: this.EventDisplay,
+                    toolbar: CustomToolbar
+                  }}
+                  formats={{ eventTimeRangeFormat: () => null }}
+              />
+              {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
+
+
+              <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Want to do more?</Title>
+              <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h5>
+              <div style={{ textAlign: "left" }}>
+                <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
+                              style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
+              </div>
             </div>
-          </div>
-
-          <div className={classes.orangeBox}
-               onClick={(tag) => { this.handleMainTags("recurring") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.orangeText}>
-              <h4>Recurring</h4>
+            <div style= {{flexDirection: "column", display: "flex", paddingTop:"3%", paddingLeft: "3%", width: "75%",
+              marginBottom:"3%"}}>
+              {eventsList.map((ele) => {
+                  return (<EventCard ele={ele} />);
+              }
+              )}
+              <div>{noSearchResults}</div>
             </div>
-          </div>
-
-          <div className={classes.grayBox}
-               onClick={(tag) => { this.handleMainTags("past") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.grayText}>
-              <h4>Past</h4>
-            </div>
-          </div>
-        </div>
-
-        <div style={{margin: "40px"}}/>
-
-        <EventSearch placeholder="Search all virtual events."
-                iconColor="#2984CE"
-                data={this.state.data}
-                ref={input => this.inputElement = input}
-                tagList = {this.state.tagList}
-                onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
-                onCancel={() => { this.searchFunc('') }}
-        />
-        
-        <br />
-        <div style={{margin: "40px"}}/>
-        <div style={{width: "100%"}}>
-          <div style={{width: "25%", float:"left", marginBottom:"3%"}}>
-            <Calendar
-                views={["month"]}
-                localizer={localizer}
-                scrollToTime={new Date()}
-                events={this.state.myEventsList}
-                defaultView={"month"}
-                startAccessor="start_date"
-                endAccessor="end_date"
-                allDayAccessor="allDay"
-                showMultiDayTimes
-                style={{ height: 550 }}
-                onSelectEvent={(event) => {
-                  this.setState({ open: true, event });
-                }}
-                eventPropGetter={this.eventPropStyles}
-                components={{
-                  event: this.EventDisplay,
-                  toolbar: CustomToolbar
-                }}
-                formats={{ eventTimeRangeFormat: () => null }}
-            />
-            {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
-
-
-            <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Want to do more?</Title>
-            <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h5>
-            <div style={{ textAlign: "left" }}>
-              <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
-                            style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
-            </div>
-          </div>
-          <div style= {{flexDirection: "column", display: "flex", paddingTop:"3%", paddingLeft: "3%", width: "75%",
-            marginBottom:"3%"}}>
-            {eventsList.map((ele) => {
-                return (<EventCard ele={ele} />);
-            }
-            )}
-            <div>{noSearchResults}</div>
           </div>
         </div>
-
       </Template>
     );
   }
