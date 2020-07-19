@@ -557,6 +557,7 @@ getCalendarText() {
         if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
           ele.tags = ['none']
         }
+
         featuredEvents[ele.id] = ele
       }
     })}
@@ -597,9 +598,10 @@ getCalendarText() {
             <Carousel>
                 {Object.keys(featuredEvents).map((ele) => {
                     return (
-                      <div style={{overflow:'hidden', width: "100%"}}>
-                          <EventCardFeatured /*onClick={this.scrollToEvent(ele.id)}*/ ele={featuredEvents[ele]} key={ele}/> <br />
-                      </div>
+                        <a href={"#" + ele}
+                           style={{overflow:'hidden', width: "100%"}}>
+                          <EventCardFeatured ele={featuredEvents[ele]} key={ele}/> <br />
+                      </a>
                     );
                 })}
             </Carousel>
@@ -707,9 +709,11 @@ getCalendarText() {
                       ele.tags = ['none']
                     }
                     return (
-                            <div style={{borderBottom: "solid 3px #E7E7E7"}}>
+                        <ScrollableAnchor >
+                          <div id={ele.id} style={{borderBottom: "solid 3px #E7E7E7"}}>
                               <EventCard ele={ele} key={ele.id}/>
                             </div>
+                        </ScrollableAnchor>
 
                     );
                   }

@@ -551,7 +551,7 @@ class EventsPageDesktop extends React.Component {
                   ele.tags = ['none']
                 }
                 numEventsDisplayed = numEventsDisplayed + 1
-                return (<a href={"#" + ele.id} onClick={() => {this.setState({eventIdClicked: ele.id})}}>
+                return (<a href={"#" + ele.id} >
                   <EventCardFeatured ele={ele} key={ind} />
                 </a>);
               }
