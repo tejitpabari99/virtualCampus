@@ -29,8 +29,9 @@ class ResourcesListMobile extends ResourcesListFunctionality {
             return (
               <Button size="small"
                       active={(this.state.activeTags === category)}
+                      simple
                       style={{
-                        backgroundColor: (this.state.activeTags === category) ? "gray" : "white",
+                        backgroundColor: (this.state.activeTags === category) ? "#F2F2F2" : "white",
                         position: 'relative',
                         marginLeft:"2%",
                         marginRight:"2%",

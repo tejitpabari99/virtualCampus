@@ -150,9 +150,6 @@ class ResourcesListFunctionality extends React.Component {
 
   // Button categories are uppercase
   toTitleCase(str) {
-    if(str == 'blm'){
-      return 'BLM';
-    }
     return str.replace(/\w\S*/g, function(txt){
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
