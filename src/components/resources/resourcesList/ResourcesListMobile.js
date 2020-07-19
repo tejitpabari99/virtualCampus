@@ -7,7 +7,7 @@ import Button from "../../material-kit-components/CustomButtons/Button";
 import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Select, MenuItem } from '@material-ui/core';
 
 class ResourcesListMobile extends ResourcesListFunctionality {
   constructor(props) {
@@ -54,13 +54,24 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'86%', marginLeft:'7%', marginTop: '4%'}}>
+        <div style={{width:'86%', marginTop: '3%', float:'left'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
                 placeholder={"Search resources"}
             />
+        </div>
+        <div style={{marginLeft:'2%', marginTop: '3%', float:"right"}}>
+            <Select
+              labelId="label"
+              id="select"
+              value={this.state.selection}
+              onChange={this.handleChange}
+            >
+              <MenuItem value={1}>Sort by</MenuItem>
+              <MenuItem value={2}>Alphabetical</MenuItem>
+            </Select>
         </div>
 
         <div style={{
