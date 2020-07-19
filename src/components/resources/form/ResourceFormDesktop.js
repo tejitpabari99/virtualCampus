@@ -357,7 +357,7 @@ const ResourceFormDesktop = (props) => {
                                     fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
                                     fontSize: "14px", lineHeight: "21px"
                                 }}>
-                                    Thank you for your interest in sharing your project through CVC.
+                                    Thank you for your interest in sharing your resource through CVC.
                                     Please fill out the following form so we can thoroughly promote your resource on our website!
                           </div>
                                 <div style={{
