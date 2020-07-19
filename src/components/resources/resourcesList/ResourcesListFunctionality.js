@@ -47,7 +47,8 @@ class ResourcesListFunctionality extends React.Component {
       tagsDisplay: [],
       tagsDescription: "Filter by tags: ",
       tagsResourcesDisplay: {},
-      searchError: ""
+      searchError: "",
+      categoryList: []
     };
     this.getResources();
   }
@@ -58,6 +59,7 @@ class ResourcesListFunctionality extends React.Component {
     let approvedResourcesDict = {};
     let allResources = [];
     let approvedTagsDict = {};
+    let approvedCategories = [];
     try{
       let db = firebase.firestore();
       let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
@@ -65,12 +67,14 @@ class ResourcesListFunctionality extends React.Component {
         allResources = approvedResources.docs.map(doc => doc.data());
         approvedResourcesDict = this.makeDisplayResources(allResources);
         approvedTagsDict = this.makeDisplayTags(allResources);
+        approvedCategories = this.getCategoryList(allResources);
       }
       this.setState({
         activityIndicator: false,
         resourcesDict: approvedResourcesDict,
         resourcesDisplay: allResources,
         tagsDict: approvedTagsDict,
+        categoryList: approvedCategories
       });
       this.setDisplay('All Resources');
     }
@@ -131,11 +135,21 @@ class ResourcesListFunctionality extends React.Component {
     return res;
   }
 
+  //Creates list of categories for category button functionality
+  getCategoryList(resources){
+    let res = ['All Resources'];
+    for(let i=0; i< resources.length; i+= 1){
+      let ele = resources[i];
+      let key = this.toTitleCase(ele['category']['category']);
+      if(!(res.includes(key))){
+        res.push(key);
+      }
+    }
+    return res;
+  }
+
   // Button categories are uppercase
   toTitleCase(str) {
-    if(str == 'blm'){
-      return 'BLM';
-    }
     return str.replace(/\w\S*/g, function(txt){
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
@@ -149,9 +163,6 @@ class ResourcesListFunctionality extends React.Component {
       category: category,
       tagsDisplay: Object.keys(this.state.tagsDict[category]),
       tagsResourcesDisplay: {},
-    });
-
-    this.setState({
       tagsDescription: "Filter by tags: "
     });
   }

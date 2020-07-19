@@ -11,6 +11,13 @@ import Typography from "@material-ui/core/Typography";
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
+    this.state = {...this.state, activeTags: ""}
+  }
+
+  handleClick(tagName){
+    this.setState({
+      activeTags: tagName
+    });
   }
 
   render() {
@@ -20,9 +27,10 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
               <Button size="medium"
-                      active
+                      active={(this.state.activeTags === category)}
+                      simple
                       style={{
-                        background: 'rgba(255, 255, 255, 0.85)',
+                        backgroundColor: (this.state.activeTags === category) ? "#F2F2F2" : "white",
                         position: 'relative',
                         marginLeft:"1%",
                         marginRight:"2%",
@@ -33,10 +41,13 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                         fontStyle: 'normal',
                         fontWeight: 'normal',
                         fontSize: '13px',
-                        lineHeight: '17px',
+                        lineHeight: '20px',
                         color: '#0072CE'
                       }}
-                      onClick={this.setDisplay.bind(this, category)}
+                      onClick={() =>{
+                        this.setDisplay.bind(this, category)();
+                        this.handleClick.bind(this)(category);
+                      }}
                       value={{category}}
               >{category}</Button>
             );
