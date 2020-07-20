@@ -94,7 +94,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                     marginBottom: '8px',
                     fontSize:'18px'
                   }}
-            >{this.state.tagsDescription}</div>
+            >Filter by tags: </div>
 
             {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
