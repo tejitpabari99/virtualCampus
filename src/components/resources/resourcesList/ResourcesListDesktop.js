@@ -5,8 +5,7 @@ import Button from "../../material-kit-components/CustomButtons/Button";
 import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import {CircularProgress} from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+import {CircularProgress, Select, MenuItem} from "@material-ui/core";
 
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
@@ -54,7 +53,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'86%', marginLeft:'7%', marginTop: '3%'}}>
+        <div style={{width:'86%', marginTop: '3%', float:"left"}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -63,16 +62,27 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 style={{height:'70%'}}
             />
         </div>
+        <div style={{marginLeft:'2%', marginTop: '3%', float:"right"}}>
+            <Select
+              labelId="label"
+              id="select"
+              value={this.state.selection}
+              onChange={this.handleChange}
+            >
+              <MenuItem value={1}>Sort by</MenuItem>
+              <MenuItem value={2}>Alphabetical</MenuItem>
+            </Select>
+        </div>
 
         <div style={{
               textAlign:'center',
               color: 'red',
-              paddingTop: '15px',
-              paddingBottom: '15px'
+              paddingTop: '30px',
+              paddingBottom: '30px'
             }}
         >{this.state.searchError}</div>
 
-        <hr style={{border: "1px solid #0072CE", marginTop: '20px'}} />
+        <hr style={{border: "1px solid #0072CE", marginTop: '40px'}} />
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}
