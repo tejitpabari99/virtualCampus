@@ -228,7 +228,7 @@ function getTimezoneOptions() {
 const optionsTZ = getTimezoneOptions();
 
 const interviewExp = [{value: "0-5", label: "0-5"}, {value: "6-10", label: "6-10"}, 
-{value : "11-15", label: "11-15"}, {value: "15-20", label: "15-20"}, {value: "20+", label:"20+"}];
+{value : "11-15", label: "11-15"}, {value: "16-20", label: "16-20"}, {value: "20+", label:"20+"}];
 
 const daysOfWeek = [{value: 0, label:"Sunday"}, {value: 1, label: "Monday"}, {value: 2, label: "Tuesday"}, 
 {value: 3, label: "Wednesday"}, {value: 4, label: "Thursday"}, {value: 5, label: "Friday"},
@@ -491,26 +491,38 @@ class InterviewerForm extends React.Component {
                         fontSize: "14px", lineHeight: "21px"
                       }}>
                         Thank you for your interest in being an interviewer for mock technical 
-                        coding interviews through CVC.
+                        coding interviews (August 3rd to August 24th) through CVC.
                         Please fill out the following form so we can provide you with the
-                        necessary resources and appropriate platform on our website! We will get back to you shortly 
-                        once you have applied.
-                      </div>
-
-                      <div style={{
-                        fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                        fontSize: "14px", lineHeight: "21px", paddingTop: "45px"
-                      }}>
-                        Questions? Contact us at <br/>
-                        <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+                        necessary resources and appropriate platform on our website!
                       </div>
                       <div style={{
                         fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
                         fontSize: "24px", lineHeight: "36px", color: "#0072CE", paddingTop: "45px"
                       }}>
-                        Join our new virtual space for students to connect while developing
+                        You control your commitment
+                      </div>
+                      <div style={{
+                        fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                        fontSize: "14px", lineHeight: "21px"
+                      }}>
+                        Tell us how much you want to work and we'll match
+                        you with interviewees!
+                      </div>
+                      <div style={{
+                        fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                        fontSize: "24px", lineHeight: "36px", color: "#0072CE", paddingTop: "45px"
+                      }}>
+                        A new virtual space for students to connect  and develop
                         technical skills
                       </div>
+                      <div style={{
+                        fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                        fontSize: "14px", lineHeight: "21px"
+                      }}>
+                        Issues with this form? Fill this <a href={"https://forms.gle/UtYHJFR9jbhrLVJ99"}>form</a> out instead. Questions? Contact us at <br/>
+                        <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+                      </div>
+
                     </GridItem>
                     <GridItem xs={12} sm={12} md={8}>
                       <Formik
@@ -518,7 +530,7 @@ class InterviewerForm extends React.Component {
                         onSubmit={this.submitHandler}
                         validationSchema={validationSchema}
                       >
-                        {({ dirty, isValid, errors, touched }) => {
+                        {({ dirty, isValid, errors, touched, handleChange }) => {
                           return (
                             <Form>
                               <div style={{ margin: "15px 0" }}>
@@ -619,9 +631,10 @@ class InterviewerForm extends React.Component {
                                   lineHeight: "30px",
                                   color: "black"
                                 }}>
-                                  * Please provide your availability on a typical day of the week between 
+                                  * This event will run from
                                   <strong> Monday, August 3rd</strong> to
                                   <strong> Monday, August 24th</strong>.
+                                  Please provide your availability on a typical day of the week between those days.
                                   Ensure times are on the hour and ranges are at least one hour long.
                                 </div>
                                 
@@ -795,10 +808,21 @@ class InterviewerForm extends React.Component {
                                       Additional Information
                                     </div> 
                                   </GridItem>
-                                <GridItem xs={12} sm={6} md={6}>
+                                <GridItem xs={12}>
+                                    <div style={{
+                                      fontFamily: "Poppins",
+                                      fontStyle: "normal",
+                                      fontWeight: "normal",
+                                      fontSize: "15px",
+                                      lineHeight: "30px",
+                                      color: "black"
+                                    }}>
+                                      What is the maximum number of interviews (each interview is 1 hour long) you would give per week?
+                                    </div>
+                                  
                                     <Field
                                         name="week_availability"
-                                        label="Maximum number of interviews per week"
+                                        label="Max interviews per week"
                                         options={weekAvailability}
                                         component={Select}
                                         required
@@ -807,7 +831,7 @@ class InterviewerForm extends React.Component {
                                         }}
                                       />
                                   </GridItem>
-                                  <GridItem xs={12} sm={6} md={6}>
+                                  <GridItem xs={12}>
                                     <FormikField label="Comments on Time Availability"
                                                  name="time_comments"
                                                  multiline rows="1"/>
