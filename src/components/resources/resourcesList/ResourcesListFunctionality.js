@@ -4,7 +4,10 @@ import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js";
 import Fuse from 'fuse.js';
 
-
+/**
+* Custom tag button for selection/deselection
+* @return {CustomButton}: Tag that can be selected or deselected to show more specific resources
+*/
 export const CoolerButton = ({children, otherClickOption, category, key, val, ...other}) => {
   const [isPushed, setIsPushed] = React.useState(true);
   React.useEffect(() => {
@@ -45,19 +48,22 @@ class ResourcesListFunctionality extends React.Component {
       resourcesDisplay: [],
       tagsDict: {},
       tagsDisplay: [],
-      tagsDescription: "Filter by tags: ",
       tagsResourcesDisplay: {},
-      searchError: ""
+      searchError: "",
+      categoryList: []
     };
     this.getResources();
   }
 
-  // Get resources from Firestore
-  // Set initial resources/tags and display on website
+  /**
+  * Get resources from Firestore
+  * Set initial resources/tags and display on website
+  */
   async getResources() {
     let approvedResourcesDict = {};
     let allResources = [];
     let approvedTagsDict = {};
+    let approvedCategories = [];
     try{
       let db = firebase.firestore();
       let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
@@ -65,12 +71,14 @@ class ResourcesListFunctionality extends React.Component {
         allResources = approvedResources.docs.map(doc => doc.data());
         approvedResourcesDict = this.makeDisplayResources(allResources);
         approvedTagsDict = this.makeDisplayTags(allResources);
+        approvedCategories = this.getCategoryList(allResources);
       }
       this.setState({
         activityIndicator: false,
         resourcesDict: approvedResourcesDict,
         resourcesDisplay: allResources,
         tagsDict: approvedTagsDict,
+        categoryList: approvedCategories
       });
       this.setDisplay('All Resources');
     }
@@ -80,7 +88,12 @@ class ResourcesListFunctionality extends React.Component {
   }
 
 
-  // Creates mapping of category to corresponding resources
+  /**
+  * Creates mapping of category to corresponding resources
+  * @param  {List} resources: List of resources
+  * @return {Dict} res: Dictionary with categories (Social, All Resources, etc) as keys,
+    * list of corresponding resources as values
+  */
   makeDisplayResources(resources) {
     let res = {};
     res['All Resources'] = resources;
@@ -97,7 +110,14 @@ class ResourcesListFunctionality extends React.Component {
     return res;
   }
 
-  // Creates nested mapping of category to tag to corresponding resources
+  /**
+  * Creates nested mapping of category to tag to corresponding resources
+  * @param  {List} resources: List of resources
+  * @return {Dict} res: Nested dictionary with categories (Social, All Resources, etc) as keys of outer dict,
+    * inner dict as values of outer dict,
+    * tags (BLM, Job, etc) as keys of inner dict,
+    * list of corresponding resources as values of inner dict
+  */
   makeDisplayTags(resources) {
     let res = {'All Resources':{}};
     for (let i = 0; i < resources.length; i += 1) {
@@ -131,17 +151,40 @@ class ResourcesListFunctionality extends React.Component {
     return res;
   }
 
-  // Button categories are uppercase
-  toTitleCase(str) {
-    if(str == 'blm'){
-      return 'BLM';
+  /**
+  * Creates list of categories for category button functionality
+  * @param  {List} resources: List of resources
+  * @return {List} res: List of category names (Social, Basic Needs, etc) with first letter of each word capitalized
+  */
+  getCategoryList(resources){
+    let res = ['All Resources'];
+    for(let i=0; i< resources.length; i+= 1){
+      let ele = resources[i];
+      let key = this.toTitleCase(ele['category']['category']);
+      if(!(res.includes(key))){
+        res.push(key);
+      }
     }
+    return res;
+  }
+
+  /**
+  * Make first letter of each word in each category uppercase (e.g. jobs/ internships -> Jobs/ Internships)
+  * @param  {String} str: Category name
+  * @return {List} res: Category name with the first letter of each word capitalized
+  */
+  toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
 
-  // Display appropriate resources when category button is clicked
+  /**
+  * Display appropriate resources when category button is clicked (resourcesDisplay)
+  * Set corresponding category description (description), category title (category), and tags (tagsDisplay)
+  * Empty tag selection cache (tagsResourcesDisplay)
+  * @param  {String} category: Category name
+  */
   setDisplay(category) {
     this.setState({
       resourcesDisplay: this.state.resourcesDict[category],
@@ -150,22 +193,35 @@ class ResourcesListFunctionality extends React.Component {
       tagsDisplay: Object.keys(this.state.tagsDict[category]),
       tagsResourcesDisplay: {},
     });
-
-    this.setState({
-      tagsDescription: "Filter by tags: "
-    });
   }
 
+  /**
+  * Add selected tags (keys) along with list of corresponding resources (values) to tagsResourcesDisplay dict
+  * Takes all resources present in the dict, renders list of resources, sets resource display to these resources
+  * @param  {String} category: Currently selected category
+  * @param  {String} tag: Selected tag
+  */
   setTagDisplay(category, tag) {
     this.state.tagsResourcesDisplay[tag] = this.state.tagsDict[category][tag];
     this.renderTagDisplay(category)
   }
 
+  /**
+  * Delete selected tags (keys) along with list of corresponding resources (values) from tagsResourcesDisplay dict
+  * Takes remaining resources present in the dict, renders list of resources, sets resource display to these resources
+  * @param  {String} category: Currently selected category
+  * @param  {String} tag: Deselected tag
+  */
   deleteTagDisplay(category, tag) {
     delete this.state.tagsResourcesDisplay[tag];
     this.renderTagDisplay(category)
   }
 
+  /**
+  * Takes all resources present in the dict, renders list of resources, sets resource display to these resources
+  * If no resources present in dict (all tags deselected), set resources display to all resources in the category
+  * @param  {String} category: Category that's been selected
+  */
   renderTagDisplay(category) {
     let allResources = [];
     for(let key in this.state.tagsResourcesDisplay){
@@ -181,7 +237,10 @@ class ResourcesListFunctionality extends React.Component {
     }
   }
 
-  //Search function for looking up Resources
+  /**
+  * Search function for looking up Resources with error messages
+  * @param  {String} val: Query that's typed into the search bar
+  */
   searchFunc(val) {
     let res = [];
     let allResources = this.state.resourcesDict['All Resources'];
@@ -213,7 +272,6 @@ class ResourcesListFunctionality extends React.Component {
       activityIndicator: false,
       category: "All Resources",
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
-      tagsDescription: "",
       tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
       searchError: error
     });

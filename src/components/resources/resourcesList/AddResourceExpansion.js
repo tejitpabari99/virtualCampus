@@ -42,7 +42,7 @@ export default function AddResourcesMobile() {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel className={classes.panel}>
+      <ExpansionPanel elevation={0} className={classes.panel}>
         <ExpansionPanelSummary
           style={{ width: '95%' }}
           expandIcon={<ExpandMoreIcon style={{ color: "#0072CE" }} />}
