@@ -64,6 +64,7 @@ class ResourcesListFunctionality extends React.Component {
     let approvedResources = [];
     let approvedResourcesDict = {};
     let allResources = [];
+    let approvedCategories = [];
     let approvedTagsDict = {};
     
     try{
@@ -97,6 +98,7 @@ class ResourcesListFunctionality extends React.Component {
       if(approvedResources){
       
         allResources = approvedResources;
+        approvedCategories = this.getCategoryList(allResources);
         approvedResourcesDict = this.makeDisplayResources(allResources);
         approvedTagsDict = this.makeDisplayTags(allResources);
       
