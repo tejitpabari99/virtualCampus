@@ -27,9 +27,9 @@ const EntryDetails = (props) => {
     <div style={{ margin: "15px 0 0 0" }}>
       <div className={classNames(classes.root, classes.title)}>
         {props.title}&nbsp;
-        <div style={{ fontSize: "13px", display: "inline" }}>
+        {/* <div style={{ fontSize: "13px", display: "inline" }}>
           (preferred image size/proportionality is 300px by 175px)
-        </div>
+        </div> */}
       </div>
       <Grid container spacing={2}>
         <Grid item sm={6} xs={12}>
@@ -41,21 +41,14 @@ const EntryDetails = (props) => {
             required
           />
         </Grid>
-        {/* <Grid item sm={6}>
-          <FormikField
-            label="Logo / Image Link (Preferred: Imgur URL)"
-            name="image_link"
-            error={props.errorImgLink}  
-            touch={props.touchedImgLink}
-          />
-        </Grid> */}
         <Grid item sm={4} xs={12}>
           <FormikField
-            label={props.fileName === "" ? "Logo / Image Link (Preferred: Imgur URL)" : props.fileName}
+            label={props.fileName === "" ? "Logo / Image Link" : props.fileName}
             error={props.errorImgLink}
             touch={props.touchedImgLink}
             name="image_link"
             value={props.fileName}
+            popover={"300 x 175 px preferred. If no picture is chosen, a stock photo based on category will be chosen for you."}
           />
         </Grid>
         <Grid item sm={2} xs={12}>

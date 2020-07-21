@@ -32,7 +32,8 @@ const ContactInfo = (props) => {
             name="name"
             error={props.errorName}
             touch={props.touchedName}
-            required />
+            required
+          />
         </Grid>
         <Grid item sm={6} xs={12}>
           <FormikField label="Email" name="email"
