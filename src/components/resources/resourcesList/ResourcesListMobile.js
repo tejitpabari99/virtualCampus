@@ -12,6 +12,13 @@ import { CircularProgress } from '@material-ui/core';
 class ResourcesListMobile extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
+    this.state = {...this.state, activeTags: ""}
+  }
+
+  handleClick(tagName){
+    this.setState({
+      activeTags: tagName
+    });
   }
 
   render() {
@@ -21,9 +28,10 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
               <Button size="small"
-                      active
+                      active={(this.state.activeTags === category)}
+                      simple
                       style={{
-                        background: 'rgba(255, 255, 255, 0.85)',
+                        backgroundColor: (this.state.activeTags === category) ? "#F2F2F2" : "white",
                         position: 'relative',
                         marginLeft:"2%",
                         marginRight:"2%",
@@ -37,7 +45,10 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                         lineHeight: '14px',
                         color: '#0072CE'
                       }}
-                      onClick={this.setDisplay.bind(this, category)}
+                      onClick={() =>{
+                        this.setDisplay.bind(this, category)();
+                        this.handleClick.bind(this)(category);
+                      }}
                       value={{category}}
               >{category}</Button>
             );
