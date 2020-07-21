@@ -3,6 +3,7 @@ import { CustomButton } from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js";
 import Fuse from 'fuse.js';
+import { Dvr } from "@material-ui/icons";
 
 
 export const CoolerButton = ({children, otherClickOption, category, key, val, ...other}) => {
@@ -55,16 +56,45 @@ class ResourcesListFunctionality extends React.Component {
   // Get resources from Firestore
   // Set initial resources/tags and display on website
   async getResources() {
+    let approvedResources = [];
     let approvedResourcesDict = {};
     let allResources = [];
     let approvedTagsDict = {};
+    
     try{
+      
       let db = firebase.firestore();
-      let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
+      let arr = [];
+
+      // had to reference the existing category names
+      let category_ref = await db.collection('/resource_reference_docs').doc('Resource Tags by Categories').get();
+      
+      Object.keys(category_ref.data()).forEach(function(key){
+        arr.push(key);
+      })
+      
+      var i;
+      for (i = 0; i < arr.length; i++)
+      {
+
+        // changed the loop to retrieve from resource by iterating through each category
+        var name = arr[i];
+        var template = "/resource/" + name + "/" + name;
+        let all_reviewed = await db.collection(template).where("reviewed", "==", true).get();
+        
+        all_reviewed.forEach(doc =>
+        {
+          approvedResources.push(doc.data());
+        });
+
+      }
+      
       if(approvedResources){
-        allResources = approvedResources.docs.map(doc => doc.data());
+      
+        allResources = approvedResources;
         approvedResourcesDict = this.makeDisplayResources(allResources);
         approvedTagsDict = this.makeDisplayTags(allResources);
+      
       }
       this.setState({
         activityIndicator: false,

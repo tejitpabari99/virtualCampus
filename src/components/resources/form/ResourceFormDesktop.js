@@ -2,7 +2,6 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { FormControlLabel, Radio, LinearProgress } from '@material-ui/core';
-
 import { RadioGroup } from 'formik-material-ui';
 import FormikField from "../../FormikField/FormikField"
 // import "../components/form.css"
