@@ -52,7 +52,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'86%', marginTop: '3%', float:"left"}}>
+        <div style={{width:'82%', marginTop: '3%', display: 'inline-block', marginLeft: '3%'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -61,7 +61,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 style={{height:'70%'}}
             />
         </div>
-        <div style={{marginLeft:'2%', marginTop: '3%', float:"right"}}>
+        <div style={{width:'12%', marginLeft:'2%', marginTop: '3%', display: 'inline-block'}}>
             <Select
               labelId="label"
               id="select"
@@ -76,12 +76,12 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         <div style={{
               textAlign:'center',
               color: 'red',
-              paddingTop: '30px',
-              paddingBottom: '30px'
+              paddingTop: '15px',
+              paddingBottom: '15px'
             }}
         >{this.state.searchError}</div>
 
-        <hr style={{border: "1px solid #0072CE", marginTop: '40px'}} />
+        <hr style={{border: "1px solid #0072CE", marginTop: '20px'}} />
 
         <Heading color={'blue'}
                  style={{textAlign:'center', marginTop: '30px'}}

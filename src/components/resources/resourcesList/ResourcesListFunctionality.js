@@ -48,7 +48,8 @@ class ResourcesListFunctionality extends React.Component {
       tagsDescription: "Filter by tags: ",
       tagsResourcesDisplay: {},
       searchError: "",
-      selection: 1
+      selection: 1,
+      event: {}
     };
     this.getResources();
     //this.handleChange = this.handleChange.bind(this);
@@ -151,13 +152,14 @@ class ResourcesListFunctionality extends React.Component {
       category: category,
       tagsDisplay: Object.keys(this.state.tagsDict[category]),
       tagsResourcesDisplay: {},
-      tagsDescription: "Filter by tags: "
+      tagsDescription: "Filter by tags: ",
+      selection: 1
     });
   }
 
   setTagDisplay(category, tag) {
     this.state.tagsResourcesDisplay[tag] = this.state.tagsDict[category][tag];
-    this.renderTagDisplay(category)
+    this.renderTagDisplay(category);
   }
 
   deleteTagDisplay(category, tag) {
@@ -173,10 +175,14 @@ class ResourcesListFunctionality extends React.Component {
     }
     allResources = Array.from(new Set(allResources));
     if(allResources.length == 0){
-      this.setState({ resourcesDisplay: this.state.resourcesDict[category]});
+      this.setState({ resourcesDisplay: this.state.resourcesDict[category]}, function () {
+        this.handleChange(this.state.event);
+      });
     }
     else{
-      this.setState({ resourcesDisplay: allResources});
+      this.setState({ resourcesDisplay: allResources}, function () {
+        this.handleChange(this.state.event);
+      });
     }
   }
 
@@ -218,13 +224,10 @@ class ResourcesListFunctionality extends React.Component {
     });
   }
 
-  filterSort(){
-
-  }
   //change the value of selection based on dropdown menu selection
   handleChange = (event, index, value) => { 
     //alphabetical sort
-    if(event.target.value === 2){
+    if((event.target.value && event.target.value === 2) || this.state.selection === 2){
       let array = this.state.resourcesDisplay;
       array.sort(function(a, b){
         let titleA=a.title.toLowerCase(), titleB=b.title.toLowerCase();
@@ -238,9 +241,14 @@ class ResourcesListFunctionality extends React.Component {
       });
       this.setState({
         resourcesDisplay: array,
-        selection: event.target.value
+        selection: event.target.value,
+        event: event
       });
     }
+
+    this.setState({
+      event: event
+    });
   }
 }
 
