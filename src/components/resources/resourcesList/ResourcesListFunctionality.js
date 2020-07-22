@@ -264,7 +264,10 @@ class ResourcesListFunctionality extends React.Component {
     });
   }
 
-  //change the value of selection based on dropdown menu selection
+  /**
+  * Function that sorts the filter based on dropdown menu selection
+  * @param  event: Received from <Search> element that has the value of the filter sort
+  */
   handleChange = (event, index, value) => { 
     //alphabetical sort
     if((event.target.value && event.target.value === 2) || this.state.selection === 2){
