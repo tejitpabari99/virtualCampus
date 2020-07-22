@@ -2,9 +2,8 @@
 import sys
 import firebase_admin
 from typing import List, Dict
-from firebase_admin import firestore
-from resource import Resource, Links
-from firebase_admin import credentials
+from firebase_admin import credentials, firestore
+from resource import Links, Resource
 
 RESOURCE_COLLECTION = "resources"
 

@@ -27,8 +27,9 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             return (
               <Button size="medium"
                       active={(this.state.activeTags === category)}
+                      simple
                       style={{
-                        backgroundColor: (this.state.activeTags === category) ? "gray" : "white",
+                        backgroundColor: (this.state.activeTags === category) ? "#F2F2F2" : "white",
                         position: 'relative',
                         marginLeft:"1%",
                         marginRight:"2%",
@@ -39,7 +40,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                         fontStyle: 'normal',
                         fontWeight: 'normal',
                         fontSize: '13px',
-                        lineHeight: '17px',
+                        lineHeight: '20px',
                         color: '#0072CE'
                       }}
                       onClick={() =>{
@@ -103,7 +104,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                     marginBottom: '8px',
                     fontSize:'18px'
                   }}
-            >{this.state.tagsDescription}</div>
+            >Filter by tags: </div>
 
             {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
