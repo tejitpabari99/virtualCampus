@@ -243,7 +243,7 @@ class ResourcesListFunctionality extends React.Component {
       let fuse = new Fuse(allResources,
           {threshold: 0.2,
                     distance: 1000,
-                    keys: ['title', 'description'],
+                    keys: ['title', 'description', 'category.tags'],
                     ignoreLocation: true});
       let output = fuse.search(val);
 
