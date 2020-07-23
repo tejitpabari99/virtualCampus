@@ -4,6 +4,13 @@ import { Field, ErrorMessage } from "formik"
 import InputBase from '@material-ui/core/InputBase';
 import FormControl from '@material-ui/core/FormControl';
 
+// help popover
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import Typography from '@material-ui/core/Typography';
+import { Help } from '@material-ui/icons';
+import Popover from '@material-ui/core/Popover';
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
         // padding: '2px 4px',
@@ -42,7 +49,18 @@ const useStyles = makeStyles((theme) => ({
     },
     required: {
         paddingLeft: '30px',
-    }
+    },
+    help: {
+        position: "absolute",
+        top: '10px',
+        left: '200px'
+    },
+    popover: {
+        pointerEvents: 'none',
+    },
+    paper: {
+        padding: theme.spacing(1),
+    },
 }))
 
 const CustomTextField = (props) => {
@@ -68,6 +86,54 @@ const CustomTextField = (props) => {
         inputClasses = [classes.input, classes.required].join(' ')
     }
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handlePopoverOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    let mark = null
+    if (props.popover) {
+
+
+        mark = (
+            <div className={classes.help}>
+                <HelpOutlineIcon
+                    aria-owns={open ? 'mouse-over-popover' : undefined}
+                    aria-haspopup="true"
+                    onMouseEnter={handlePopoverOpen}
+                    onMouseLeave={handlePopoverClose}
+                    color="action"
+                />
+                <Popover
+                    id="mouse-over-popover"
+                    className={classes.popover}
+                    classes={{
+                        paper: classes.paper,
+                    }}
+                    open={open}
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                    onClose={handlePopoverClose}
+                    disableRestoreFocus
+                >
+                    <Typography>{props.popover}</Typography>
+                </Popover>
+            </div>
+        )
+    }
 
     let errorDiv = null
     let wrapper = classes.root
@@ -113,6 +179,7 @@ const CustomTextField = (props) => {
             {dot}
             {InputElement}
             {/* {errorDiv} */}
+            {mark}
         </FormControl>
 
     )

@@ -5,6 +5,7 @@ import classNames from "classnames";
 import Grid from '@material-ui/core/Grid';
 import FormikField from "../form-components/FormikField"
 import { Field, Form } from "formik";
+import { Select } from "material-ui-formik-components/Select";
 import { CheckboxWithLabel } from "formik-material-ui";
 
 const useStyles = makeStyles(() => ({
@@ -22,6 +23,18 @@ const useStyles = makeStyles(() => ({
 
 const WebsiteAndZoom = (props) => {
   const classes = useStyles()
+  const linkOptions = [
+    {
+      value: 'registration',
+      label: 'Registration Link'
+    },
+    {
+      value: 'meeting_link',
+      label: 'Meeting Link'
+    }
+  ]
+
+
 
   return (
     <div style={{ margin: "15px 0 0 0" }}>
@@ -32,18 +45,33 @@ const WebsiteAndZoom = (props) => {
         </div>
       </div>
       <Grid container spacing={2}>
-        <Grid item sm={6} xs={12}>
+        <Grid item sm={4} xs={12}>
           <FormikField label="Website / Event Link"
             name="event_link"
             error={props.errors.event_link}
             touch={props.touched.event_link}
+          />
+        </Grid>
+
+        <Grid item sm={4} xs={12}>
+          <FormikField
+            label="Video/Media Link"
+            name="invite_link"
+            error={props.errors.invite_link}
+            touch={props.touched.invite_link}
             required />
         </Grid>
 
-        <Grid item sm={6} xs={12}>
-          <FormikField
-            label="Video/Media Link (Zoom, Twitch, etc.)"
-            name="invite_link" />
+        <Grid item sm={4} xs={12}>
+          <Field
+            name="link_type"
+            label="Link Type"
+            options={linkOptions}
+            component={Select}
+            error={props.errors.link_type}
+            touch={props.touched.link_type}
+            required
+          />
         </Grid>
       </Grid >
       <Field

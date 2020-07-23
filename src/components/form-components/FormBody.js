@@ -50,8 +50,15 @@ const FormBody = (props) => {
                             <div>
                                 {props.children}
                             </div>
-                            <WebsiteAndZoom touched={touched} errors={errors}/>
-                            <Tags tags={['Activism', 'COVID', 'Social', 'Health', 'Education']} />
+
+                            <WebsiteAndZoom
+                                touched={touched}
+                                errors={errors} />
+                            <Tags
+                                tags={['Activism', 'COVID', 'Social', 'Health', 'Education']}
+                                touched={touched}
+                                errors={errors}
+                            />
                             <AdditionalInfo
                                 errorComments={errors.comments}
                                 touchedComments={touched.comments}

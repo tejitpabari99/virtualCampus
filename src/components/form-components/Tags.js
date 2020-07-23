@@ -19,7 +19,7 @@ const Tags = (props) => {
           <div style={{ paddingTop: '8px' }}>Tags</div>
         </Grid>
         <Grid item sm={11} xs={12}>
-          {tags.map(tag => {
+          {tags.map((tag, ind) => {
             return (
               <Field
                 component={CheckboxWithLabel}
@@ -28,6 +28,7 @@ const Tags = (props) => {
                 type="checkbox"
                 indeterminate={false}
                 color="default"
+                key={"tag_" + ind}
               ></Field>
             )
           })}
@@ -35,12 +36,16 @@ const Tags = (props) => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <FormikField label="Other Tags: Please separate by either Semicolons or Commas (e.g. 'tag1;tag2' or 'tag1,tag2')"
+          <FormikField
+            label="Other Tags: Please separate by either Semicolons or Commas (e.g. 'tag1;tag2' or 'tag1,tag2')"
             placeholder="Separate Each Tag by Semicolon"
-            name="other_tags" />
+            name="other_tags"
+            touch={props.touched.other_tags}
+            error={props.errors.other_tags}
+          />
         </Grid>
       </Grid >
-    </div>
+    </div >
   )
 }
 

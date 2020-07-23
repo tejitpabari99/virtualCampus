@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { CircularProgress } from '@material-ui/core';
+import "./test.css";
 
 //form settings
 import * as Yup from "yup";
@@ -53,6 +54,7 @@ const initVal = {
   recurring: "",
   entry_link: "",
   invite_link: "",
+  link_type: "",
   comments: "",
   tag: "",
   games_tag: "",
@@ -76,13 +78,12 @@ const validationSchema = Yup.object().shape({
     .email("Please enter a valid email address")
     .required("Required"),
   event_link: Yup.string()
-    .url("Please enter a valid URL")
-    .required("Required"),
+    .url("Please enter a valid URL"),
   title: Yup.string()
     .required("Required"),
   desc: Yup.string()
     .required("Required")
-    .max("350", "Please less than 350 characters"),
+    .max("600", "Please less than 600 characters"),
   start_date: Yup.string()
     .required("Required"),
   end_date: Yup.string()
@@ -94,7 +95,9 @@ const validationSchema = Yup.object().shape({
   image_link: Yup.string()
     .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
   invite_link: Yup.string()
-    .url("Please enter a valid URL")
+    .required()
+    .url("Please enter a valid URL"),
+  link_type: Yup.string()
 });
 
 let getCurrentLocationForTimeZone = function () {
@@ -724,24 +727,20 @@ class EventFormDesktop extends React.Component {
                   >
                     <Grid container spacing={2}>
                       <Grid item sm={3}>
-                        <div style={{ margin: "16px 0 8px" }}>
-                          <Field
-                            component={DateTimePicker}
-                            name="start_date"
-                            label="Start Time"
-                            required
-                          />
-                        </div>
+                        <Field
+                          component={DateTimePicker}
+                          name="start_date"
+                          label="Start Time"
+                          required
+                        />
                       </Grid>
                       <Grid item sm={3}>
-                        <div style={{ margin: "16px 0 8px" }}>
-                          <Field
-                            component={DateTimePicker}
-                            name="end_date"
-                            label="End Time"
-                            required
-                          />
-                        </div>
+                        <Field
+                          component={DateTimePicker}
+                          name="end_date"
+                          label="End Time"
+                          required
+                        />
                       </Grid>
                       <Grid item sm={3}>
                         <Field
