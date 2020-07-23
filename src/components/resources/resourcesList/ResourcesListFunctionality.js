@@ -270,7 +270,7 @@ class ResourcesListFunctionality extends React.Component {
   */
   handleChange = (event, index, value) => { 
     //alphabetical sort
-    if((event.target.value && event.target.value === 2) || this.state.selection === 2){
+    if(event.target!== undefined && event.target.value === 2){
       let array = this.state.resourcesDisplay;
       array.sort(function(a, b){
         let titleA=a.title.toLowerCase(), titleB=b.title.toLowerCase();
@@ -289,9 +289,13 @@ class ResourcesListFunctionality extends React.Component {
       });
     }
 
-    this.setState({
-      event: event
-    });
+    else if(event.target!==undefined && event.target.value === 1){
+      this.setState({
+        event: event,
+        selection: event.target.value
+      });
+    }
+
   }
 }
 
