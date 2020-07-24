@@ -530,15 +530,6 @@ updateCalendarExpandText() {
 getCalendarText() {
   return this.state.calendarExpandText;
 }
-
-  genTagsList(eventsMap)
-  {
-    let tagsList = new Set()
-    eventsMap.map(x => (x.tags.map(y => tagsList.add(y))))
-    tagsList.delete("")
-    return Array.from(tagsList);
-  }
-
   genOrganizationList(eventsMap)
   {
     let organizations = []
