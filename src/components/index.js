@@ -8,6 +8,7 @@ import TeamSection from "./about-us/TeamSection";
 import EventCardFeatured from "./cards/eventCardsFeaturedAndCards/EventCardFeatured";
 import EventCard from "./cards/eventCardsFeaturedAndCards/EventCard";
 import EventModal from "./cards/EventModal";
+import MockInterviewModal from "./cards/MockInterviewModal";
 import EventEmailModal from "./cards/EventEmailModal";
 import ResourcesList from "./resources/resourcesList/ResourcesList";
 import ResourcesListDesktop from "./resources/resourcesList/ResourcesListDesktop";
@@ -45,13 +46,15 @@ import {convertUTCToLocal,
 import EventsPageDesktop from "./events/eventPageDesktop";
 import EventsPageMobile from "./events/eventPageMobile";
 
-export {MetaData, CustomTheme, CustomHeader, Template, TeamMember, TeamSection,
-        EventCard, EventCardFeatured, EventModal, EventEmailModal, AddCalendar,
-        HomeEvents, HomeMobile, HomeDesktop, EventsPageDesktop, EventsPageMobile,
-        CustomButton, DesktopMobile,
-        Title, Subtitle, Heading, EventSearch, Search, ResourcesList,
+export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMember, TeamSection,
+        EventCard, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
+        HomeEvents, HomeMobile, HomeDesktop,
+        EventsPageMobile, EventsPageDesktop,
+        CustomButton, CustomButton2, DesktopMobile,
+        Title, Subtitle, Heading, Search, ResourcesList,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
         BLMCard, TutorExpansionMapping, TutorSearchMapping, 
         convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset,
-        dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent}
+        dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent,
+        EventCardFeatured, EventSearch}

@@ -83,48 +83,40 @@ export default Events;
     const fuse = new Fuse(this.state.permEventsList, options);
     const output = fuse.search(val);
     const eventSearch = output;
-
     if(!eventSearch || eventSearch.length<=0){
       return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'No Results found',
                                 myEventsList: []});
     }
     let itemOn = 0
     const approvedEventsMap = eventSearch.map(doc => (eventSearch[itemOn++]['item']));
-
     // Update events. Note: we don't have to update time again b/c time is already updated
     this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'',
                          myEventsList: approvedEventsMap});
   }
-  
+
   formatTime(hours, min) {
     let h = hours > 12 ? hours - 12 : hours;
     let m = min < 10 ? "0" + min.toString() : min.toString();
     let add = hours > 12 ? "PM" : "AM";
     return h + ":" + m + add;
   }
-
   attendEvent(ele) {
     this.setState({ open: true, event: ele });
   }
-
   closeDo() {
     this.setState({ open: false, count: 0 });
   }
-
   eventPropStyles(event, start, end, isSelected) {
     let style = {
       backgroundColor: "#2984ce"
     };
     return { style: style };
   }
-
   EventDisplay = ({ event }) => (
     <div style={{height:"1.2em"}}>
       <div style={{ fontSize: ".7em" }}>{event.event}</div>
     </div>
   );
-
-
   getMonthName() {
     var d = new Date();
     var month = new Array();
@@ -142,11 +134,9 @@ export default Events;
     month[11] = "December";
     return month[d.getMonth()];
   }
-
   render() {
     const { classes } = this.props;
     const date = new Date();
-
     return (
       <Template active={"schedule"} title={"Events"}>
         <Title color={"blue"}>All Events</Title>
@@ -172,7 +162,6 @@ export default Events;
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
-
         /><br />
         <Calendar
           views={["month"]}
@@ -200,8 +189,5 @@ export default Events;
     );
   }
 }
-
-
-
 export default withStyles(useStyles)(Events);
 >>>>>>> master*/
