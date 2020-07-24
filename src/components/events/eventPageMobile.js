@@ -285,14 +285,6 @@ class EventsPageMobile extends React.Component {
     return events;
   }
 
-  genTagsList(eventsMap)
-  {
-    let tagsList = new Set()
-    eventsMap.map(x => (x.tags.map(y => tagsList.add(y))))
-    tagsList.delete("")
-    return Array.from(tagsList);
-  }
-
 
   async getEvents() {
     var db = firebase.firestore();
@@ -530,14 +522,36 @@ updateCalendarExpandText() {
 getCalendarText() {
   return this.state.calendarExpandText;
 }
+
+  genTagsList(eventsMap)
+  {
+    let tagsList = new Set()
+    eventsMap.map(x => (x.tags.map(y =>
+        tagsList.add(y.toUpperCase().trim())
+    )))
+    tagsList.delete("")
+    return Array.from(tagsList).sort(function(a, b) {
+      if(a < b) return -1;
+      if(a > b) return 1;
+      return 0;
+    })
+  }
+
   genOrganizationList(eventsMap)
   {
     let organizations = []
-    organizations.push({"name": "All"})
     eventsMap.map(x => {
-      organizations.push({"name": x.name})
+      organizations.push({"name": x.name.trim()})
     })
-    return organizations;
+    let sorted = organizations.sort(function(a, b) {
+      if(a.name < b.name) return -1;
+      if(a.name > b.name) return 1;
+      return 0;
+    })
+    let all = []
+    all.push({"name": "All"})
+    sorted.map(x => all.push(x))
+    return all
   }
 
   updateFilterTags(tag) {
