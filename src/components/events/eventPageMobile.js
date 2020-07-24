@@ -3,6 +3,7 @@ import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../events/react-big-calendar-mobile.css";
+import { Link, Element, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import { EventCardFeatured, EventCard, EventModal, Template, CustomButton, Title, EventSearch }
   from "../";
 import firebase from "../../firebase";
@@ -16,12 +17,11 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-
+import EventSearchMobile from "../input/EventSearchMobile";
 import Carousel from 'react-material-ui-carousel';
 import ScrollableAnchor from 'react-scrollable-anchor';
-import {goToAnchor, configureAnchors} from 'react-scrollable-anchor';
-import queryString from 'query-string';
-import EventSearchMobile from "../input/EventSearchMobile";
+import {configureAnchors} from 'react-scrollable-anchor';
+configureAnchors({offset: -120});
 
 //configureAnchors({offset: -2500});
 
@@ -512,6 +512,23 @@ updateCalendarExpandText() {
   }
 }
 
+
+  async componentDidMount() {
+    await this.getEvents();
+    let event = this.props.event
+    // goToAnchor(event, true);
+    if (event){
+      console.log(event);
+      scroller.scrollTo(event, {
+        // duration: 1500,
+        // delay: 100,
+        smooth: true,
+        // containerId: 'ContainerElementID',
+        offset: -100, // Scrolls to element + 50 pixels down the page
+      })
+    }
+  }
+
 getCalendarText() {
   return this.state.calendarExpandText;
 }
@@ -709,11 +726,11 @@ getCalendarText() {
                       ele.tags = ['none']
                     }
                     return (
-                        <ScrollableAnchor >
+                        <Element name={ele.id} >
                           <div id={ele.id} style={{borderBottom: "solid 3px #E7E7E7"}}>
                               <EventCard ele={ele} key={ele.id}/>
                             </div>
-                        </ScrollableAnchor>
+                        </Element>
 
                     );
                   }

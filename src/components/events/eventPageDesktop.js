@@ -3,6 +3,7 @@ import moment from "moment";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../events/react-big-calendar.css";
+import { Link, Element, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import { EventCardFeatured, EventCard, EventModal, Template, CustomButton, Title, EventSearch }
   from "../";
 import firebase from "../../firebase";
@@ -11,7 +12,6 @@ import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
   getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
   from "../all/TimeFunctions"
 import CustomToolbar from "../events/CalendarToolBar"
-import ArrowForward from '@material-ui/icons/ArrowForwardIosOutlined';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import {configureAnchors} from 'react-scrollable-anchor';
 configureAnchors({offset: -120});
@@ -203,6 +203,22 @@ class EventsPageDesktop extends React.Component {
       event.timeZoneGMT = getTimezoneName(getCurrentLocationForTimeZone(), dst());
     }
     return event;
+  }
+
+  async componentDidMount() {
+    await this.getEvents();
+    let event = this.props.event
+    // goToAnchor(event, true);
+    if (event){
+      console.log(event);
+      scroller.scrollTo(event, {
+        // duration: 1500,
+        // delay: 100,
+        smooth: true,
+        // containerId: 'ContainerElementID',
+        offset: -100, // Scrolls to element + 50 pixels down the page
+      })
+    }
   }
 
   // TODO(claire): These are the new functions to use the Google Calendar API instead.
@@ -656,9 +672,11 @@ class EventsPageDesktop extends React.Component {
 
                 return (
                     <ScrollableAnchor >
+                      <Element name={ele.id}>
                         <div id={ele.id} style={{paddingBottom: "30px"}}>
                             <EventCard ele={ele} key={ele.id}/>
                         </div>
+                      </Element>
                     </ScrollableAnchor>
                 );
 
