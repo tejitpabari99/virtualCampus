@@ -218,7 +218,7 @@ const useStyles = makeStyles ({
       width: "165px",
       height: "35px",
       marginTop: "6px",
-      marginLeft: "-10px"
+      marginLeft: "-12px"
     },
     list: {
     width: 250,
@@ -231,12 +231,26 @@ const useStyles = makeStyles ({
 export default function EventModalMobile({open, closeDo, event}) {
     const classes = useStyles();
 
+    const [state, setState] = React.useState({
+      bottom: false,
+    });
+
+    const toggleDrawer = (anchor, open) => (event) => {
+      if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+        return;
+      }
+
+      setState({ ...state, [anchor]: open});
+    };
+
     const list = (anchor) => (
       <div
         className={clsx(classes.list, {
           [classes.fullList]: anchor === 'bottom',
         })}
         role="presentation"
+        //onClick={toggleDrawer(anchor, false)}
+        //onKeyDown={toggleDrawer(anchor, false)}
       >
           <div className={classes.horizontalLine} />
           <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px" }}>
@@ -317,103 +331,15 @@ export default function EventModalMobile({open, closeDo, event}) {
             anchor={anchor}
             open={open}
             onClose={closeDo}
+            //open={state[anchor]}
+            //onClose={toggleDrawer(anchor, false)}
+            onOpen={toggleDrawer(anchor, true)}
+
           >
             {list(anchor)}
           </SwipeableDrawer>
         </React.Fragment>
       ))}
     </div>
-
-
-
-
-
-      /*
-        <Modal
-            style={{display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'}}
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={open}
-            onClose={closeDo}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-                timeout: 500,
-            }}
-        >
-            <Fade in={open}>
-            <div style={{backgroundColor: theme.palette.background.paper,
-                border: '2px solid #000',
-                boxShadow: theme.shadows[5],
-                padding: theme.spacing(2, 4, 3),
-                maxWidth: 500,
-                margin: 25}}>
-                <GridContainer style={{ width: "100%", marginLeft: '0', marginRight: '0', marginTop: '0' }}>
-                    <GridItem xs={3} sm={3} md={3}>
-                        <div className={classes.dateBox}>
-                            <span className={classes.weekText}>{days[event.start_date.getDay()]}</span>
-                            <span className={classes.dateText}>{event.start_date.getDate()} {months[event.start_date.getMonth()]}</span>
-
-                            <br/>
-                            <div className={classes.timeInfo}>
-                                {formatTime(event.start_date.getHours(), event.start_date.getMinutes())} -
-                                {formatTime(event.end_date.getHours(), event.end_date.getMinutes())} {event.timeZoneGMT}
-                            </div>
-                        </div>
-                    </GridItem>
-
-                    <GridItem xs={1} sm={1} md={1}>
-                        <div className={classes.verticalLine}/>
-                    </GridItem>
-
-                    <GridItem xs={7} sm={7} md={7}>
-                        <div className={classes.tagInfo}>
-                          <div className={classes.happeningBlock}>Happening Now</div>
-                          {event.tags.map((ta, ind) => {
-                            return (
-                              <div className={classes.tagBlock}>{ta}</div>
-                            );
-                          })}
-
-                          <div className={classes.nameHeader}> {event.event} </div>
-                          <div className={classes.orgHeader}>{event.name}</div>
-                        </div>
-                    </GridItem>
-                  </GridContainer>
-                <GridContainer style={{ width: "100%", marginLeft:0, marginRight:0, marginTop:0 }}>
-                    <GridItem xs={12} sm={12} md={12} style={{paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
-                        <div className={classes.blueLine}></div>
-                    </GridItem>
-
-                    <GridItem xs={3} sm={3} md={3}>
-                        <img className={classes.image} src={event.image_link} alt={event.event}/>
-                        <div style={{marginTop: "10px"}} />
-                        <div style={{ color: "#4284C8", marginBottom: 5}}>
-                          <strong> <AddCalendar info={event}/></strong>
-                        </div>
-                    </GridItem>
-
-                    <GridItem xs={9} sm={9} md={9}>
-                        <div style={{color: "black",fontSize: "14px", marginBottom: "10px"}}>
-                          {event.desc}
-                        </div>
-                    </GridItem>
-
-                    <GridItem xs={6} sm={6} md={6} style={{marginTop: "35px"}}>
-                      {event.event_link && <CustomButton href={event.event_link} text={"LEARN MORE"} newTab color={"blue"} size={"large"} className={classes.websiteButton} />}
-                    </GridItem>
-
-                    <GridItem xs={6} sm={6} md={6}>
-                      {event.invite_link && <CustomButton text={'JOIN EVENT'} newTab color={"blue"} size={"large"} className={classes.joinButton}/>}
-                    </GridItem>
-                </GridContainer>
-            </div>
-            </Fade>
-        </Modal>
-        */
-
     );
 }

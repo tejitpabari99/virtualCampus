@@ -569,7 +569,7 @@ class EventsPageDesktop extends React.Component {
 
         <div className={classes.mainBox} style={{paddingLeft:"10%", paddingRight:"10%"}}>
           <div className={classes.mainText} style={{paddingLeft: "4%"}}>
-            <h2 style={{fontSize: "2.5vw"}}>All Events</h2>
+            <h2 style={{fontSize: "2.5vw"}}>Featured Events</h2>
             <p style={{fontSize: "1.2vw"}}>Check out our virtual events!</p>
           </div>
           <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>

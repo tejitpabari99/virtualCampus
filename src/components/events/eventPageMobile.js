@@ -36,7 +36,8 @@ const useStyles = () => ({
     borderColor: "#3B5998",
     borderWidth: "thick",
     paddingTop: "30px",
-    marginLeft: "-4%"
+    marginLeft: "-4%",
+    marginBottom: "20px"
   },
   mainText: {
     marginLeft: "10px",
@@ -177,7 +178,12 @@ const useStyles = () => ({
     bottom: "0",
     height: "60px",
     width: "100%"
-  }
+  },
+  blueLine: {
+    width: "100%",
+    height: "1px",
+    backgroundColor: "lightblue"
+  },
 });
 
 const responsive = {
@@ -377,7 +383,34 @@ class EventsPageMobile extends React.Component {
     let style = {
       backgroundColor: "#2984ce"
     };
-    return { style: style };
+    let nowStyle = {
+      backgroundColor: "#F3FFEE"
+    }
+    let pastStyle = {
+      backgroundColor: "#BDBDBD"
+    }
+    let popularStyle = {
+      backgroundColor: "#F2F9FD"
+    }
+    let recurringStyle = {
+      backgroundColor: "#FDEEE5"
+    }
+
+    if (event.displayNow) {
+      return {style: nowStyle};
+    }
+    else if (event.displayPast) {
+      return {style: pastStyle};
+    }
+    else if (event.displayPopular) {
+      return {style: popularStyle};
+    }
+    else if (event.displayRecurring) {
+      return {style: recurringStyle};
+    }
+    else {
+      return {style: style};
+    }
   }
 
   EventDisplay = ({ event }) => (
@@ -681,15 +714,16 @@ getCalendarText() {
           />
           <br />
           <div style={{margin: "20px"}}/>
-          <ExpansionPanel style={{boxShadow: "none", border: "none", display: "inline-block",
-            width: "100%", textAlign: "right"}}>
+          <ExpansionPanel style={{boxShadow: "none", border: "none", borderBottom: "solid 1px rgba(185, 217, 235, 0.5)",
+           display: "inline-block", width: "100%", textAlign: "right"}}>
             <ExpansionPanelSummary
               //onClick={this.updateCalendarExpandText()}
               expandIcon={<ExpandMoreIcon style={{color: "#0072CE"}}/>}
             >
-              <h5 style={{textAlign: "left", display: "inline", width: "53%",
-                color: "#828282", fontSize: "14px", lineHeight: "21px"}}> {sizeOfList} events found</h5>
-              <h5 style={{textAlign: "right", color: "#0072CE"}}>{this.getCalendarText()} Calendar</h5>
+                <h5 style={{textAlign: "left", display: "inline", width: "53%", marginTop: "13px",
+                  color: "#828282", fontSize: "14px", lineHeight: "21px"}}> {sizeOfList} events found</h5>
+                <h5 style={{textAlign: "right", color: "#0072CE"}}>{this.getCalendarText()} Calendar</h5>
+
             </ExpansionPanelSummary>
 
             <ExpansionPanelDetails style={{ width: "100%", paddingLeft:0, paddingRight:0 }}>
