@@ -643,7 +643,7 @@ class EventsPageDesktop extends React.Component {
 
 
             <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Want to do more?</Title>
-            <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h5>
+            <h5>Looking to host you own event on Columbia Virtual Campus? Answer some questions to start leading.</h5>
             <div style={{ textAlign: "left" }}>
               <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
                             style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>

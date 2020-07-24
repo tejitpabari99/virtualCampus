@@ -124,18 +124,6 @@ const useStyles = makeStyles(() => ({
     color: "#1BAE0E",
     position: "relative"
   },
-  happeningBlock: {
-    display: 'inline-block',
-    fontSize: '10px',
-    backgroundColor: '#F3FFEE',
-    paddingTop: 2,
-    paddingBottom: 1,
-    paddingLeft: 12,
-    paddingRight: 12,
-    borderRadius: "5px",
-    color: "#1BAE0E",
-    marginRight: "10px",
-  },
   pastBlock: {
     display: 'inline-block',
     fontSize: '10px',
