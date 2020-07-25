@@ -568,9 +568,12 @@ class EventsPageDesktop extends React.Component {
       <Template active={"schedule"} title={"Events"}>
 
         <div className={classes.mainBox} style={{paddingLeft:"10%", paddingRight:"10%"}}>
-          <div className={classes.mainText} style={{paddingLeft: "4%"}}>
-            <h2 style={{fontSize: "2.5vw"}}>All Events</h2>
-            <p style={{fontSize: "1.2vw"}}>Check out our virtual events!</p>
+          <div className={classes.mainText} style={{paddingLeft: "4%", width:500}}>
+            <h2 style={{fontSize:40}}>Featured Events</h2>
+            <p style={{fontSize: 20}}>Some of our most popular upcoming events, activities, and discussions, to keep on your radar.
+              <br /> <br />
+              Register ASAP. Limited seats available for some events.
+            </p>
           </div>
           <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
             {this.state.displayEvents.map((ele, ind) => {
