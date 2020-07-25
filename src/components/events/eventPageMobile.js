@@ -744,8 +744,8 @@ getCalendarText() {
               <div>{noSearchResults}</div>
           </div>
           <footer className={classes.footerStyle}>
-              <CustomButton href={"/events/add-new-event"} text={"Want to do more?"}
-                            style={{fontSize: "13px"}} color={"blueRound"} size={"large"}/>
+              <CustomButton href={"/events/add-new-event"} text={"Want to add an event?"}
+                            style={{fontSize: "11px"}} color={"blueRound"} size={"large"}/>
           </footer>
         </Template>
     );

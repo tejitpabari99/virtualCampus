@@ -674,8 +674,10 @@ class EventsPageDesktop extends React.Component {
             {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
 
 
-            <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Want to do more?</Title>
-            <h5>Looking to host you own event on Columbia Virtual Campus? Answer some questions to start leading.</h5>
+            <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Looking for people who share <strong>your</strong> interests?</Title>
+            <h5>1. Submit a topic and time using our form.</h5>
+            <h5>2. Let us host and share the event on our website.</h5>
+            <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
             <div style={{ textAlign: "left" }}>
               <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
                             style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
