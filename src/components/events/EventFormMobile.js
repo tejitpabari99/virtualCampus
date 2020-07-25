@@ -39,6 +39,7 @@ import Axios from "axios";
 import TZ from "countries-and-timezones";
 import * as Events from "../../pages/events";
 import { PhoneCallback } from "@material-ui/icons";
+import {CheckboxWithLabel} from "formik-material-ui";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -77,9 +78,9 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
       .email("Please enter a valid email address")
       .required("Required"),
-  event_link: Yup.string()
-      .url("Please enter a valid URL")
-      .required("Required"),
+  // event_link: Yup.string()
+  //     .url("Please enter a valid URL")
+  //     .required("Required"),
   title: Yup.string()
       .required("Required"),
   desc: Yup.string()
@@ -95,8 +96,8 @@ const validationSchema = Yup.object().shape({
       .required(),
   image_link: Yup.string()
       .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
-  invite_link: Yup.string()
-      .url("Please enter a valid URL")
+  // invite_link: Yup.string()
+  //     .url("Please enter a valid URL")
 });
 
 let getCurrentLocationForTimeZone = function () {
@@ -560,14 +561,25 @@ class EventFormMobile extends React.Component {
     console.log("Sensed update")
 
     // First, update image
-    convertedExampleEvent['image_link'] = this.state.imgurLink
+    if (this.state.imgurLink !== "")
+      convertedExampleEvent['image_link'] = this.state.imgurLink === "" ? default_img : this.state.imgurLink
 
     // Data will be undefined if the user pastes an url for the image.
     // We still want to update the state so it will render image
+
+
     if (data !== undefined) {
       const name = data.target.name
       const value = data.target.value
-
+      if (name === "image_link") {
+        if (value === "") {
+          this.setState({imgurLink: default_img, imgFileValue: ""})
+          convertedExampleEvent['image_link'] = default_img
+        } else {
+          this.setState({imgurLink: value, imgFileValue: ""})
+          convertedExampleEvent['image_link'] = value
+        }
+      }
       if (name.substr(-3) === "tag") {
         // Process button tags
         this.pushToTags(convertedExampleEvent, value, true);
@@ -676,8 +688,10 @@ class EventFormMobile extends React.Component {
             {/* <Template active={'schedule'}> */}
             <Container>
               <FormTitle
-                title="Host a New Event"
-                desc="Thank you for your interest in leading a virtual event or activity through CVC. Please fill out the following form so we can provide you with the necessary resources and appropriate platform on our website!"
+                title="Add a New Event"
+                desc="Thank you for your interest in creating a virtual event or activity through CVC.
+                Please fill out the following form so we can provide you with the necessary resources and
+                appropriate platform on our website!"
               />
               <FormBody
                 submit={this.submitHandler}
@@ -720,18 +734,26 @@ class EventFormMobile extends React.Component {
                     />
                   </Grid>
                 </Grid>
+                <br />
+                <Field
+                    component={CheckboxWithLabel}
+                    name="allowedToBeFacebookEvent"
+                    Label={{ label: "Allow CVC to make this a facebook event? (Check out our facebook page: www.facebook.com/columbiavirtualcampus)" }}
+                    type="checkbox"
+                    indeterminate={false}
+                />
               </FormBody>
               <div style={{ marginBottom: "50px" }} />
             </Container>
             {/* </Template > */}
           </MuiPickersUtilsProvider>
           <Container>
-            <h2 style={{ color: "#0072CE", display: "inline" }}>
-              Preview of Your Event&nbsp;
-              <div style={{ color: "#0072CE", display: "inline" }}>
-                - Date/Time is not updated in previews:
-              </div>
-            </h2>
+            <h3 style={{ color: "#0072CE", display: "inline" }}>
+              <span style={{display: "block"}}>Preview of Your Event</span>
+              <h5 style={{ color: "#0072CE", display: "inline", fontSize: "12px"}}>
+                Date/Time is not updated in previews:
+              </h5>
+            </h3>
             <br />
             <Grid>
               <div>

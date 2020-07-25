@@ -4,6 +4,8 @@ import classNames from "classnames";
 
 import Grid from '@material-ui/core/Grid';
 import FormikField from "../form-components/FormikField"
+import {Field} from "formik";
+import {CheckboxWithLabel} from "formik-material-ui";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -39,9 +41,17 @@ const ContactInfo = (props) => {
           <FormikField label="Email" name="email"
             error={props.errorEmail}
             touch={props.touchedEmail}
+            popover={"Not published to our website. Used only if we need to contact you with a question about your event."}
             required />
         </Grid>
       </Grid>
+      <Field
+          component={CheckboxWithLabel}
+          name="displayNameToggle"
+          Label={{ label: "Check this box if you would like your name/organization to be listed as the event host. Otherwise, CVC will be listed as the host." }}
+          type="checkbox"
+          indeterminate={false}
+      />
     </div>
   )
 }
