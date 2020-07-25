@@ -47,25 +47,21 @@ const useStyles = () => ({
   greenBox: {
     backgroundColor: "#F3FFEE",
     height: "82px",
-    width: "137px",
+    width: "200px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#F3FFEE",
     padding: 0,
-    marginLeft: "30%",
-    marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   greenBoxSelected: {
     backgroundColor: "white",
     height: "82px",
-    width: "137px",
+    width: "200px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#1BAE0E",
     padding: 0,
-    marginLeft: "30%",
-    marginRight: "25%",
     boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
   },
   greenText: {
@@ -78,25 +74,23 @@ const useStyles = () => ({
   blueBox: {
     backgroundColor: "#F2F9FD",
     height: "82px",
-    width: "137px",
+    width: "200px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#F2F9FD",
     padding: 0,
-    marginLeft: "30%",
-    marginRight: "25%",
+    marginLeft: "5%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   blueBoxSelected: {
     backgroundColor: "white",
     height: "82px",
-    width: "137px",
+    width: "200px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#0072CE",
     padding: 0,
-    marginLeft: "30%",
-    marginRight: "25%",
+    marginLeft: "5%",
     boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
   },
   blueText: {
@@ -109,25 +103,21 @@ const useStyles = () => ({
   orangeBox: {
     backgroundColor: "#FDEEE5",
     height: "82px",
-    width: "137px",
+    width: "200px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#FDEEE5",
     padding: 0,
-    marginLeft: "30%",
-    marginRight: "25%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   orangeBoxSelected: {
     backgroundColor: "white",
     height: "82px",
-    width: "137px",
+    width: "200px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#FB750D",
     padding: 0,
-    marginLeft: "30%",
-    marginRight: "25%",
     boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
   },
   orangeText: {
@@ -140,25 +130,23 @@ const useStyles = () => ({
   grayBox: {
     backgroundColor: "#BDBDBD",
     height: "82px",
-    width: "137px",
+    width: "200px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "#BDBDBD",
     padding: 0,
-    marginLeft: "30%",
-    marginRight: "25%",
+    marginLeft: "5%",
     boxShadow: "2px 2px 48px rgba(0, 0, 0, 0.1)"
   },
   grayBoxSelected: {
     backgroundColor: "white",
     height: "82px",
-    width: "137px",
+    width: "200px",
     borderStyle: "solid",
     borderRadius: "10px",
     borderColor: "black",
     padding: 0,
-    marginLeft: "30%",
-    marginRight: "25%",
+    marginLeft: "5%",
     boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
   },
   grayText: {
@@ -635,39 +623,42 @@ getCalendarText() {
           </div>
 
           <div style={{margin: "40px"}}/>
-          <Carousel>
-            <div className={greenBox}
-                 onClick={(tag) => { this.handleMainTags("now") }}
-                 style={{cursor: "pointer"}}>
+          <div style={{flexDirection: "row", display: "flex"}}>
+            <a href={"#"} className={greenBox}
+               onClick={(tag) => { this.handleMainTags("now") }}
+               style={{cursor: "pointer"}}>
               <div className={classes.greenText}>
-                <h4>Happening Now</h4>
+                <h4>Happening<br />Now</h4>
               </div>
-            </div>
+            </a>
 
-            <div className={blueBox}
-                 onClick={(tag) => { this.handleMainTags("popular") }}
-                 style={{cursor: "pointer"}}>
+            <a href={"#"} className={blueBox}
+               onClick={(tag) => { this.handleMainTags("popular") }}
+               style={{cursor: "pointer"}}>
               <div className={classes.blueText}>
                 <h4>Popular</h4>
               </div>
-            </div>
+            </a>
+          </div>
 
-            <div className={orangeBox}
-                 onClick={(tag) => { this.handleMainTags("recurring") }}
-                 style={{cursor: "pointer"}}>
+          <div style={{margin: "20px"}}/>
+          <div style={{flexDirection: "row", display: "flex"}}>
+            <a href={"#"} className={orangeBox}
+               onClick={(tag) => { this.handleMainTags("recurring") }}
+               style={{cursor: "pointer"}}>
               <div className={classes.orangeText}>
                 <h4>Recurring</h4>
               </div>
-            </div>
+            </a>
 
-            <div className={grayBox}
-                 onClick={(tag) => { this.handleMainTags("past") }}
-                 style={{cursor: "pointer"}}>
+            <a href={"#"} className={grayBox}
+               onClick={(tag) => { this.handleMainTags("past") }}
+               style={{cursor: "pointer"}}>
               <div className={classes.grayText}>
                 <h4>Past</h4>
               </div>
-            </div>
-          </Carousel>
+            </a>
+          </div>
 
           <div style={{margin: "40px"}}/>
 
