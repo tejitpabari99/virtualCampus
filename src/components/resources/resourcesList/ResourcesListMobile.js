@@ -7,7 +7,7 @@ import Button from "../../material-kit-components/CustomButtons/Button";
 import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import { CircularProgress, NativeSelect, MenuItem } from '@material-ui/core';
+import { CircularProgress, Select, MenuItem } from '@material-ui/core';
 
 class ResourcesListMobile extends ResourcesListFunctionality {
   constructor(props) {
@@ -55,7 +55,6 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div>
         <div style={{width:'70%', marginTop: '3%', display: 'inline-block'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
@@ -65,7 +64,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
             />
         </div>
         <div style={{width:'20%', marginLeft:'2%', marginTop: '3%', display: 'inline-block'}}>
-            <NativeSelect
+            <Select
               labelId="label"
               id="select"
               value={this.state.selection}
@@ -73,8 +72,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
             >
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
-            </NativeSelect>
-        </div>
+            </Select>
         </div>
 
         <div style={{
