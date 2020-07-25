@@ -5,8 +5,7 @@ import Button from "../../material-kit-components/CustomButtons/Button";
 import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import {CircularProgress} from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+import {CircularProgress, Select, MenuItem} from "@material-ui/core";
 
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
@@ -54,7 +53,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'86%', marginLeft:'7%', marginTop: '3%'}}>
+        <div style={{width:'82%', marginTop: '3%', display: 'inline-block', marginLeft: '3%', textAlign: "center", verticalAlign: 'middle'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -62,6 +61,17 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 placeholder={"Search resources"}
                 style={{height:'70%'}}
             />
+        </div>
+        <div style={{width:'12%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+            <Select
+              labelId="label"
+              id="select"
+              value={this.state.selection}
+              onChange={this.handleChange}
+            >
+              <MenuItem value={1}>Sort by</MenuItem>
+              <MenuItem value={2}>Alphabetical</MenuItem>
+            </Select>
         </div>
 
         <div style={{

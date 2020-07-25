@@ -50,9 +50,11 @@ class ResourcesListFunctionality extends React.Component {
       tagsDisplay: [],
       tagsResourcesDisplay: {},
       searchError: "",
-      categoryList: []
+      selection: 1,
+      event: {}
     };
     this.getResources();
+    //this.handleChange = this.handleChange.bind(this);
   }
 
   /**
@@ -63,7 +65,6 @@ class ResourcesListFunctionality extends React.Component {
     let approvedResourcesDict = {};
     let allResources = [];
     let approvedTagsDict = {};
-    let approvedCategories = [];
     try{
       let db = firebase.firestore();
       let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
@@ -71,14 +72,12 @@ class ResourcesListFunctionality extends React.Component {
         allResources = approvedResources.docs.map(doc => doc.data());
         approvedResourcesDict = this.makeDisplayResources(allResources);
         approvedTagsDict = this.makeDisplayTags(allResources);
-        approvedCategories = this.getCategoryList(allResources);
       }
       this.setState({
         activityIndicator: false,
         resourcesDict: approvedResourcesDict,
         resourcesDisplay: allResources,
-        tagsDict: approvedTagsDict,
-        categoryList: approvedCategories
+        tagsDict: approvedTagsDict
       });
       this.setDisplay('All Resources');
     }
@@ -152,23 +151,6 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   /**
-  * Creates list of categories for category button functionality
-  * @param  {List} resources: List of resources
-  * @return {List} res: List of category names (Social, Basic Needs, etc) with first letter of each word capitalized
-  */
-  getCategoryList(resources){
-    let res = ['All Resources'];
-    for(let i=0; i< resources.length; i+= 1){
-      let ele = resources[i];
-      let key = this.toTitleCase(ele['category']['category']);
-      if(!(res.includes(key))){
-        res.push(key);
-      }
-    }
-    return res;
-  }
-
-  /**
   * Make first letter of each word in each category uppercase (e.g. jobs/ internships -> Jobs/ Internships)
   * @param  {String} str: Category name
   * @return {List} res: Category name with the first letter of each word capitalized
@@ -192,6 +174,7 @@ class ResourcesListFunctionality extends React.Component {
       category: category,
       tagsDisplay: Object.keys(this.state.tagsDict[category]),
       tagsResourcesDisplay: {},
+      selection: 1
     });
   }
 
@@ -203,7 +186,7 @@ class ResourcesListFunctionality extends React.Component {
   */
   setTagDisplay(category, tag) {
     this.state.tagsResourcesDisplay[tag] = this.state.tagsDict[category][tag];
-    this.renderTagDisplay(category)
+    this.renderTagDisplay(category);
   }
 
   /**
@@ -230,10 +213,14 @@ class ResourcesListFunctionality extends React.Component {
     }
     allResources = Array.from(new Set(allResources));
     if(allResources.length == 0){
-      this.setState({ resourcesDisplay: this.state.resourcesDict[category]});
+      this.setState({ resourcesDisplay: this.state.resourcesDict[category]}, function () {
+        this.handleChange(this.state.event);
+      });
     }
     else{
-      this.setState({ resourcesDisplay: allResources});
+      this.setState({ resourcesDisplay: allResources}, function () {
+        this.handleChange(this.state.event);
+      });
     }
   }
 
@@ -256,7 +243,7 @@ class ResourcesListFunctionality extends React.Component {
       let fuse = new Fuse(allResources,
           {threshold: 0.2,
                     distance: 1000,
-                    keys: ['title', 'description'],
+                    keys: ['title', 'description', 'category.tags'],
                     ignoreLocation: true});
       let output = fuse.search(val);
 
@@ -275,6 +262,40 @@ class ResourcesListFunctionality extends React.Component {
       tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
       searchError: error
     });
+  }
+
+  /**
+  * Function that sorts the filter based on dropdown menu selection
+  * @param  event: Received from <Search> element that has the value of the filter sort
+  */
+  handleChange = (event, index, value) => { 
+    //alphabetical sort
+    if(event.target!== undefined && event.target.value === 2){
+      let array = this.state.resourcesDisplay;
+      array.sort(function(a, b){
+        let titleA=a.title.toLowerCase(), titleB=b.title.toLowerCase();
+        if(titleA < titleB){
+          return -1;
+        }
+        if(titleA > titleB){
+          return 1;
+        }
+        return 0;
+      });
+      this.setState({
+        resourcesDisplay: array,
+        selection: event.target.value,
+        event: event
+      });
+    }
+
+    else if(event.target!==undefined && event.target.value === 1){
+      this.setState({
+        event: event,
+        selection: event.target.value
+      });
+    }
+
   }
 }
 
