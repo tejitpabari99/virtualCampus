@@ -541,7 +541,8 @@ getCalendarText() {
   {
     let organizations = []
     eventsMap.map(x => {
-      organizations.push({"name": x.name.trim()})
+      if (x.displayNameToggleOff === undefined)
+        organizations.push({"name": x.name.trim()})
     })
     let sorted = organizations.sort(function(a, b) {
       if(a.name < b.name) return -1;
@@ -593,6 +594,8 @@ getCalendarText() {
 
       if (this.isEventShowable(ele)) {
         sizeOfList = sizeOfList + 1
+        if (ele.displayNameToggleOff)
+          ele.name = "Columbia Virtual Campus"
         eventsList.push(ele)
       }
     });

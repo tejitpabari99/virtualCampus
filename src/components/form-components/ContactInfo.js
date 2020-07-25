@@ -47,8 +47,8 @@ const ContactInfo = (props) => {
       </Grid>
       <Field
           component={CheckboxWithLabel}
-          name="displayNameToggle"
-          Label={{ label: "Check this box if you would like your name/organization to be listed as the event host. Otherwise, CVC will be listed as the host." }}
+          name="displayNameToggleOff"
+          Label={{ label: "Check this box if you do not want your name/organization listed on our website and instead we will put CVC as the host." }}
           type="checkbox"
           indeterminate={false}
       />
