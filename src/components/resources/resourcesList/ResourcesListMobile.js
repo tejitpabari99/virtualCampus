@@ -55,7 +55,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'70%', marginTop: '3%', display: 'inline-block'}}>
+        <div style={{width:'80%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -63,7 +63,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                 placeholder={"Search resources"}
             />
         </div>
-        <div style={{width:'20%', marginLeft:'2%', marginTop: '3%', display: 'inline-block'}}>
+        <div style={{width:'17%', marginLeft:'3%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <Select
               labelId="label"
               id="select"
