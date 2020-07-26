@@ -5,11 +5,16 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../components/events/react-big-calendar.css";
 import { EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
 import firebase from "../firebase";
+import { Link, Element, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+// import ScrollableAnchor from 'react-scrollable-anchor';
+// import {goToAnchor, configureAnchors} from 'react-scrollable-anchor';
+import queryString from 'query-string';
 import Fuse from 'fuse.js';
 import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
   getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
   from "../components/all/TimeFunctions"
-import CustomToolbar from "../components/events/CalendarToolBar"
+import CustomToolbar from "../components/events/CalendarToolBar";
+// configureAnchors({offset: -100});
 
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({
@@ -35,7 +40,6 @@ class Events extends React.Component {
       searchVal: "",
       defaultSearchInput:''
     };
-    this.getEvents();
     this.closeDo = this.closeDo.bind(this);
   }
 
@@ -66,6 +70,23 @@ class Events extends React.Component {
     return event;
   }
 
+  async componentDidMount() {
+    await this.getEvents();
+    let query = queryString.parse(this.props.location.search);
+    let {event} = query;
+    // goToAnchor(event, true);
+    if (event){
+        console.log(event);
+        scroller.scrollTo(event, {
+          // duration: 1500,
+          // delay: 100,
+          smooth: true,
+          // containerId: 'ContainerElementID',
+          offset: -100, // Scrolls to element + 50 pixels down the page
+        })
+    }
+  }
+
   // TODO(claire): These are the new functions to use the Google Calendar API instead.
   // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/events#resource
   // makeDisplayEvents(events) {
@@ -89,31 +110,29 @@ class Events extends React.Component {
   // }
 
   makeDisplayEvents(events) {
-    let arr = [];
-    for (let i = 0; i < events.length; i += 1) {
-      let ele = events[i];
+    let approvedEventsMap = {};
+    Object.keys(events).map((k, ind) => {
+      let ele = events[k];
       if (ele.end_date > new Date()) {
-        arr.push(ele);
+        approvedEventsMap[k] = ele;
       }
-      if (arr.length === 5) {
-        break;
-      }
-    }
-    return arr;
+    });
+    return approvedEventsMap;
   }
 
 
   async getEvents() {
-    var db = firebase.firestore();
-    var approvedEvents = await db.collection("events")
+    let db = firebase.firestore();
+    let approvedEvents = await db.collection("events")
       .where("approved", "==", true)
       .orderBy("start_date", 'asc')
       .get();
-    let approvedEventsMap = [];
+    let approvedEventsMap = {};
     if(approvedEvents){
-      approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
+      approvedEvents.docs.map(doc => approvedEventsMap[doc.id]=this.convertEventsTime(doc.data()));
+      // approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
     }
-    this.setState({ myEventsList: approvedEventsMap, permEventsList: approvedEventsMap,
+    this.setState({ myEventsList: Object.values(approvedEventsMap), permEventsList: Object.values(approvedEventsMap),
                          displayEvents:this.makeDisplayEvents(approvedEventsMap) });
   }
 
@@ -146,7 +165,7 @@ class Events extends React.Component {
     this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'',
                          myEventsList: approvedEventsMap});
   }
-  
+
   formatTime(hours, min) {
     let h = hours > 12 ? hours - 12 : hours;
     let m = min < 10 ? "0" + min.toString() : min.toString();
@@ -205,12 +224,18 @@ class Events extends React.Component {
           <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
                         style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
         </div>
-        {this.state.displayEvents.length > 0 &&
+        {Object.keys(this.state.displayEvents).length > 0 &&
         <div style={{ marginBottom: "5%" }}>
           <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
           <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
-          {this.state.displayEvents.map((ele, ind) => {
-              return (<EventCard ele={ele} key={ind}/>);
+          {Object.keys(this.state.displayEvents).map((k, ind) => {
+              return (
+                // <ScrollableAnchor >
+                <Element name={k}>
+                  <EventCard ele={this.state.displayEvents[k]} key={k}/>
+                </Element>
+                // </ScrollableAnchor>
+                );
           })}
         </div>}
         <Search placeholder="Search Events by Name and/or Tags"
