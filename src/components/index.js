@@ -8,6 +8,7 @@ import TeamSection from "./about-us/TeamSection";
 import EventCard from "./cards/EventCard";
 import EventCardMobile from "./cards/EventCardMobile";
 import EventModal from "./cards/EventModal";
+import MockInterviewModal from "./cards/MockInterviewModal";
 import EventEmailModal from "./cards/EventEmailModal";
 import ResourcesList from "./resources/resourcesList/ResourcesList";
 import ResourcesListDesktop from "./resources/resourcesList/ResourcesListDesktop";
@@ -43,7 +44,7 @@ import {convertUTCToLocal,
         getTimezoneOptions} from './all/TimeFunctions'
 
 export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMember, TeamSection,
-        EventCard, EventCardMobile, EventModal, EventEmailModal, AddCalendar,
+        EventCard, EventCardMobile, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         CustomButton, CustomButton2, DesktopMobile,
         Title, Subtitle, Heading, Search, ResourcesList,

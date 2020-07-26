@@ -167,7 +167,10 @@ class HandleApprove extends React.Component {
     async getEvents() {
         var db = firebase.firestore()
         let options = []
-        var approvedEvents = await db.collection("events").get()
+        var approvedEvents = await db.collection("events")
+          .orderBy("approved", 'asc')
+          .orderBy("start_date", 'asc')
+          .get();
         let approvedEventsMap = [];
         let approvedEventsId = []
         if(approvedEvents){
@@ -222,6 +225,9 @@ class HandleApprove extends React.Component {
                                 {zoomLinkText}
                             </a>
                         </td>
+                        <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px"}}>
+                            {this.state.myEventsId[index]}
+                        </td>
                         {
                             this.state.headings.map((num, j) => {
                                 if (num === "tags") {
@@ -260,11 +266,14 @@ class HandleApprove extends React.Component {
                     <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
                         borderSpacing: "0px", color: "black"}}>
                         <b>Generate Zoom Link</b></td>
+                    <td style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
+                        borderSpacing: "0px", color: "black"}}>
+                        <b>EventID</b></td>
                     {
                         temp.map((num, j) => {
                             if (num !== "zoomLink" && num !== "approved")
                                 return (<td key={j}
-                                            style={{border: "1px solid #dddddd", textAlign: "left", width:"50px",
+                                            style={{border: "1px solid #dddddd", textAlign: "left", width:"5px",
                                                 borderSpacing: "0px", color: "black"}}>
                                     <b>{num}</b></td>)
                         })
@@ -284,7 +293,7 @@ class HandleApprove extends React.Component {
             this.state.myEventsList.map((event, index) => {
                 var arr = [];
                 var size = 0
-                Object.keys(event).forEach(function (key) {
+                Object.keys(event).forEach(function (key, ind) {
                     arr.push(key);
                     size = size + 1
                 });
