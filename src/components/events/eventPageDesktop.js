@@ -597,12 +597,13 @@ class EventsPageDesktop extends React.Component {
           </div>
         </div>
 
+      <Element name= "startEvents" id={"startEvents"} />
 
       <div style={{marginLeft: 'auto', marginRight: 'auto', maxWidth: "1500px"}}>
         <div style={{margin: "40px"}}/>
 
         <div style={{flexDirection: "row", display: "flex"}}>
-          <a href={"#"} className={greenBox}
+          <a href={"#startEvents"} className={greenBox}
                onClick={(tag) => { this.handleMainTags("now") }}
                style={{cursor: "pointer"}}>
             <div className={classes.greenText}>
@@ -610,7 +611,7 @@ class EventsPageDesktop extends React.Component {
             </div>
           </a>
 
-          <a href={"#"} className={blueBox}
+          <a href={"#startEvents"} className={blueBox}
                onClick={(tag) => { this.handleMainTags("popular") }}
                style={{cursor: "pointer"}}>
             <div className={classes.blueText}>
@@ -618,7 +619,7 @@ class EventsPageDesktop extends React.Component {
             </div>
           </a>
 
-          <a href={"#"} className={orangeBox}
+          <a href={"#startEvents"} className={orangeBox}
                onClick={(tag) => { this.handleMainTags("recurring") }}
                style={{cursor: "pointer"}}>
             <div className={classes.orangeText}>
@@ -626,7 +627,7 @@ class EventsPageDesktop extends React.Component {
             </div>
           </a>
 
-          <a href={"#"} className={grayBox}
+          <a href={"#startEvents"} className={grayBox}
                onClick={(tag) => { this.handleMainTags("past") }}
                style={{cursor: "pointer"}}>
             <div className={classes.grayText}>
