@@ -12,6 +12,7 @@ import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
   getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
   from "../all/TimeFunctions"
 import CustomToolbar from "../events/CalendarToolBar"
+import {CircularProgress} from "@material-ui/core";
 import ScrollableAnchor from 'react-scrollable-anchor';
 import {configureAnchors} from 'react-scrollable-anchor';
 configureAnchors({offset: -120});
@@ -166,7 +167,8 @@ class EventsPageDesktop extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only"
+      dateFilter: "This Month Only",
+      loadingEvents: true,
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
@@ -346,7 +348,8 @@ class EventsPageDesktop extends React.Component {
     this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap),
       organizationList: this.genOrganizationList(approvedEventsMap),
       permEventsList: approvedEventsMap,
-      displayEvents:this.makeDisplayEvents(approvedEventsMap) });
+      displayEvents:this.makeDisplayEvents(approvedEventsMap),
+      loadingEvents: false });
   }
 
   async addActiveTag(n)
@@ -374,7 +377,7 @@ class EventsPageDesktop extends React.Component {
       return this.setState({eventSearch: [], activityIndicator: false, eventSearchError: '',
         myEventsList: this.makeEventsList(this.state.permEventsList)});
     }
-    this.setState({activityIndicator:true});
+    this.setState({activityIndicator:true, loadingEvents:true});
     const options = {
       threshold:0.2,
       distance:10000,
@@ -401,7 +404,7 @@ class EventsPageDesktop extends React.Component {
     const approvedEventsMap = eventSearch.map(doc => (eventSearch[itemOn++]['item']));
 
     // Update events. Note: we don't have to update time again b/c time is already updated
-    this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'',
+    this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'', loadingEvents: false,
       myEventsList: this.makeEventsList(approvedEventsMap)});
   }
 
@@ -689,7 +692,8 @@ class EventsPageDesktop extends React.Component {
           <div style= {{flexDirection: "column", display: "flex", paddingTop:"1%", paddingLeft: "3%", width: "75%",
             marginBottom:"3%"}}>
             <div style={{paddingBottom: "1%", color: "#828282", fontSize: "18px"}}> {sizeOfList} Events Found </div>
-            {eventsList.map((ele) => {
+            {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
+            {!this.state.loadingEvents && eventsList.map((ele) => {
 
                 return (
                     <ScrollableAnchor >
@@ -703,7 +707,7 @@ class EventsPageDesktop extends React.Component {
 
             }
             )}
-            <div>{noSearchResults}</div>
+            <div>{!this.state.loadingEvents && noSearchResults}</div>
           </div>
         </div>
       </div>
