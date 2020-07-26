@@ -634,9 +634,9 @@ getCalendarText() {
         <Template active={"schedule"} title={"Events"}>
 
           <div className={classes.mainBox}>
-            <div className={classes.mainText} style={{paddingLeft: "10%", paddingRight: "10%"}}>
-              <h2 style={{fontSize:30}}>Featured Events</h2>
-              <p style={{fontSize: 16}}>Some of our most popular upcoming events, activities, and discussions, to keep on your radar.
+            <div className={classes.mainText} style={{paddingLeft: "20%", paddingRight: "20%"}}>
+              <h2 style={{fontSize:26}}>Featured Events</h2>
+              <p style={{fontSize: 14}}>Some of our most popular upcoming events, activities, and discussions, to keep on your radar.
                 <br /> <br />
                 Register ASAP. Limited seats available for some events.
               </p>
