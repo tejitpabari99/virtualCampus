@@ -286,6 +286,8 @@ class ResourcesListFunctionality extends React.Component {
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
       tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
       searchError: error
+    }, function () {
+      this.handleChange(this.state.event);
     });
   }
 
