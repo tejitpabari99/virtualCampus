@@ -14,6 +14,7 @@ import { CustomButton, AddCalendar, CustomTheme } from "../../";
 import EventEmailModal from "./../EventEmailModal"
 import Heading1 from "../../text/Heading1";
 import Heading2 from "../../text/Heading2";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const theme = CustomTheme;
 
@@ -193,11 +194,16 @@ export default function EventCardFeaturedMobile({ele}) {
       <Card className={classes.root}>
 
           <div className={classes.mediaContainer}>
-            <CardMedia
+            {/* <CardMedia
               component="img"
               height="50.26%"
               className={classes.media}
               image={ele.image_link}
+            /> */}
+            <LazyLoadImage
+              height="50.26%"
+              className={classes.media}
+              src={ele.image_link}
             />
             <div className={classes.imgOverlay}/>
 
