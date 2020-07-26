@@ -192,17 +192,17 @@ export default function EventCardFeaturedDesktop({ ele }) {
     <Card className={classes.root} style={{marginLeft: "3vw"}}>
 
         <div className={classes.mediaContainer}>
-          {/* <CardMedia
+          <CardMedia
             component="img"
             height="50.26%"
             className={classes.media}
             image={ele.image_link}
-          /> */}
-          <LazyLoadImage
+          />
+          {/* <LazyLoadImage
             height="50.26%"
             className={classes.media}
             src={ele.image_link}
-          />
+          /> */}
           <div className={classes.imgOverlay}/>
 
           {ele.tags.map((ta, ind) => {
