@@ -79,11 +79,13 @@ export default class EventSearchMobile extends React.Component{
     if (this.state.filter) {
       return(
         // <div style={{display:'inline', backgroundColor: '#F2F9FD', padding: '18px', height: "100%", width: "100%"}}>
+        <div style={{backgroundColor: "#F2F9FD", paddingTop: "20px", paddingBottom: "20px"}}>
         <div style={{display:'inline', padding: '18px'}}>
           <TextField
             style={{
               width: "90%",
-              borderColor: "#0072CE",
+              border: "solid 1.5px #0072CE",
+              borderRadius: "12px",
               backgroundColor: "white",
               marginBottom: "20px",
             }}
@@ -100,7 +102,7 @@ export default class EventSearchMobile extends React.Component{
                 borderColor: "#0072CE"
               },
               startAdornment: (
-                <div>
+                <div style={{marginLeft: "-15px"}}>
                   <InputAdornment position="start">
                     <IconButton onClick={() => {this.props.onClick(this.state.searchVal)}}>
                         <SearchIcon style={{color:iconCol}}/>
@@ -110,14 +112,14 @@ export default class EventSearchMobile extends React.Component{
               ),
                 endAdornment: (
                 <button type="button" style={{
-                    height: "55px",
-                    width: "60px",
+                    height: "60px",
+                    width: "65px",
                     background: "#0072CE",
-                    borderColor: "#f2f9fd",
-                    fontFamily: "Poppins",
-                    fontSize: "20px",
+                    border: "solid 1px #0072CE",
+                    borderRadius: "10px",
+                    borderShadow: "0px",
                     color: "#f2f9fd",
-                    boxShadow: 0,
+                    boxShadow: "0px",
                     padding: 0,
                     fontAlign: "center"
                 }}
@@ -159,7 +161,8 @@ export default class EventSearchMobile extends React.Component{
             <Autocomplete
                 options={this.props.organizationList}
                 getOptionLabel={(option) => option.name}
-                style={{ width: "90%", marginTop: "20px", marginLeft: "20px", display: "inline-block"}}
+                style={{ width: "90%", marginTop: "20px", marginLeft: "10px", display: "inline-block",
+                backgroundColor: "white", border: "solid 1px #0072CE", borderRadius: "10px"}}
                 onChange={this.updateClubs}
                 renderInput={(params) => <TextField {...params} label={this.state.defaultOrganization} variant="outlined" />}
             />
@@ -167,27 +170,30 @@ export default class EventSearchMobile extends React.Component{
             <Autocomplete
                 options={this.props.dateList}
                 getOptionLabel={(option) => option.date}
-                style={{ width: "90%", marginTop: "20px", marginLeft: "16px", display: "inline-block"}}
+                style={{ width: "90%", marginTop: "20px", marginLeft: "10px", display: "inline-block",
+                backgroundColor: "white", border: "solid 1px #0072CE", borderRadius: "10px"}}
                 onChange={this.updateDate}
                 renderInput={(param) => <TextField {...param} label={this.state.defaultDate} variant="outlined" />}
             />
 
             <div onClick={this.reset}
-                 style={{marginLeft: "27px", marginTop: "20px", cursor: "pointer", color: "#0072CE", fontSize: "18px",
+                 style={{marginLeft: "10px", marginTop: "20px", cursor: "pointer", color: "#0072CE", fontSize: "18px",
                      display: "inline-block", verticalAlign: "middle"}}>
                 Reset
             </div>
         </div>
-
+        </div>
       )
     } else {
       return(
         // <div style={{display:'inline', backgroundColor: '#F2F9FD', padding: '18px', height: "100%", width: "100%"}}>
+
         <div style={{display:'inline', padding: '18px'}}>
           <TextField
             style={{
               width: "90%",
-              borderColor: "#0072CE",
+              border: "solid 1.5px #0072CE",
+              borderRadius: "12px",
               backgroundColor: "white",
               marginBottom: "20px",
             }}
@@ -204,7 +210,7 @@ export default class EventSearchMobile extends React.Component{
                 borderColor: "#0072CE"
               },
               startAdornment: (
-                <div>
+                <div style={{marginLeft: "-15px"}}>
                   <InputAdornment position="end">
                     <IconButton onClick={() => {this.props.onClick(this.state.searchVal)}}>
                         <SearchIcon style={{color:iconCol}}/>
@@ -214,16 +220,18 @@ export default class EventSearchMobile extends React.Component{
               ),
             endAdornment: (
                 <button type="button" style={{
-                    height: "55px",
+                    height: "60px",
                     width: "60px",
-                    background: "#f2f9fd",
-                    borderColor: "#f2f9fd",
-                    fontFamily: "Poppins",
-                    fontSize: "20px",
-                    color: "#0072CE",
-                    boxShadow: 0,
-                    padding: 0
-                    }}
+                    backgroundColor: "#F2F9FD",
+                    border: "solid 1px #F2F9FD",
+                    borderRadius: "10px",
+                    borderShadow: "0px",
+                    color: "#f2f9fd",
+                    boxShadow: "0px",
+                    padding: 0,
+                    marginBottom: "1px",
+                    fontAlign: "center"
+                  }}
                 onClick={() => {this.setState({filter : true})}}>
                   <InputAdornment position="end">
                     <IconButton onClick={() => {this.setState({filter : false})}}>
@@ -249,6 +257,7 @@ export default class EventSearchMobile extends React.Component{
             }}
           />
       </div>
+
       )
     }
   }
