@@ -8,14 +8,16 @@ import { EventCardFeatured, EventCard, EventModal, Template, CustomButton, Title
   from "../";
 import firebase from "../../firebase";
 import Fuse from 'fuse.js';
-import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
-  getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
+import {
+  getTimezoneName, convertUTCToLocal, convertDateToUTC,
+  getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate
+}
   from "../all/TimeFunctions"
 import CustomToolbar from "../events/CalendarToolBar"
-import {CircularProgress} from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import ScrollableAnchor from 'react-scrollable-anchor';
-import {configureAnchors} from 'react-scrollable-anchor';
-configureAnchors({offset: -10});
+import { configureAnchors } from 'react-scrollable-anchor';
+configureAnchors({ offset: -10 });
 
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({
@@ -37,7 +39,7 @@ const useStyles = () => ({
   },
   mainText: {
     marginLeft: "10px",
-    color:"white",
+    color: "white",
     textAlign: "left"
   },
   greenBox: {
@@ -61,7 +63,7 @@ const useStyles = () => ({
     boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
   },
   greenText: {
-    color:"#1BAE0E",
+    color: "#1BAE0E",
     textAlign: "left",
     marginTop: "60px",
     marginLeft: "10px"
@@ -87,7 +89,7 @@ const useStyles = () => ({
     boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
   },
   blueText: {
-    color:"#0072CE",
+    color: "#0072CE",
     textAlign: "left",
     marginTop: "60px",
     marginLeft: "10px"
@@ -113,7 +115,7 @@ const useStyles = () => ({
     boxShadow: "6px 6px 6px rgba(0, 0, 0, 0.1)"
   },
   orangeText: {
-    color:"#FB750D",
+    color: "#FB750D",
     textAlign: "left",
     marginTop: "60px",
     marginLeft: "10px"
@@ -159,12 +161,12 @@ class EventsPageDesktop extends React.Component {
       eventSearch: [],
       eventSearchError: '',
       searchVal: "",
-      defaultSearchInput:'',
+      defaultSearchInput: '',
       tagList: [],
-      organizationList:[],
-      dateList:[{"date": "This Month Only"}, {"date": "Within a Week"}, {"date": "Within a Month"}, {"date": "Within 3 Months"}, {"date": "All"}],
+      organizationList: [],
+      dateList: [{ "date": "This Month Only" }, { "date": "Within a Week" }, { "date": "Within a Month" }, { "date": "Within 3 Months" }, { "date": "All" }],
       hiddenSearch: '',
-      mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
+      mainTagsClicked: { past: "", recurring: "", popular: "", now: "" },
       filterTagsClicked: {},
       clubFilter: "All",
       dateFilter: "This Month Only",
@@ -211,7 +213,7 @@ class EventsPageDesktop extends React.Component {
     await this.getEvents();
     let event = this.props.event
     // goToAnchor(event, true);
-    if (event){
+    if (event) {
       console.log(event);
       scroller.scrollTo(event, {
         // duration: 1500,
@@ -267,34 +269,32 @@ class EventsPageDesktop extends React.Component {
     return events;
   }
 
-  genTagsList(eventsMap)
-  {
+  genTagsList(eventsMap) {
     let tagsList = new Set()
     eventsMap.map(x => (x.tags.map(y =>
-          tagsList.add(y.toUpperCase().trim())
+      tagsList.add(y.toUpperCase().trim())
     )))
     tagsList.delete("")
-    return Array.from(tagsList).sort(function(a, b) {
-      if(a < b) return -1;
-      if(a > b) return 1;
+    return Array.from(tagsList).sort(function (a, b) {
+      if (a < b) return -1;
+      if (a > b) return 1;
       return 0;
     })
   }
 
-  genOrganizationList(eventsMap)
-  {
+  genOrganizationList(eventsMap) {
     let organizations = []
     eventsMap.map(x => {
       if (x.displayNameToggleOff === undefined)
-        organizations.push({"name": x.name.trim()})
+        organizations.push({ "name": x.name.trim() })
     })
-    let sorted = organizations.sort(function(a, b) {
-      if(a.name < b.name) return -1;
-      if(a.name > b.name) return 1;
+    let sorted = organizations.sort(function (a, b) {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
       return 0;
     })
     let all = []
-    all.push({"name": "All"})
+    all.push({ "name": "All" })
     sorted.map(x => all.push(x))
     return all
   }
@@ -306,17 +306,17 @@ class EventsPageDesktop extends React.Component {
     } else {
       x[tag] = undefined
     }
-    this.setState({filterTagsClicked: x})
+    this.setState({ filterTagsClicked: x })
   }
 
   async getEvents() {
     var db = firebase.firestore();
     var approvedEvents = await db.collection("events")
-        .where("approved", "==", true)
-        .orderBy("start_date", 'asc')
-        .get();
+      .where("approved", "==", true)
+      .orderBy("start_date", 'asc')
+      .get();
     let approvedEventsMap = [];
-    if(approvedEvents){
+    if (approvedEvents) {
       approvedEventsMap = approvedEvents.docs.map(doc => {
 
         let event = this.convertEventsTime(doc.data())
@@ -325,9 +325,9 @@ class EventsPageDesktop extends React.Component {
         if ((new Date(event.start_date)) < today && (new Date(event.end_date)) > today) {
           event["displayNow"] = true
         } else
-        if ((new Date(event.end_date)) < today) {
-          event["displayPast"] = true
-        }
+          if ((new Date(event.end_date)) < today) {
+            event["displayPast"] = true
+          }
         if (event.recurring !== "") {
           event["displayRecurring"] = true
         }
@@ -339,52 +339,53 @@ class EventsPageDesktop extends React.Component {
       }
       );
     }
-    approvedEventsMap.sort(function(a,b) {
+    approvedEventsMap.sort(function (a, b) {
       var dateA = a.start_date
       var dateB = b.start_date
       return ((dateA < dateB) ? -1 : 1)
     })
 
-    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap),
+    this.setState({
+      myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap),
       organizationList: this.genOrganizationList(approvedEventsMap),
       permEventsList: approvedEventsMap,
-      displayEvents:this.makeDisplayEvents(approvedEventsMap),
-      loadingEvents: false });
+      displayEvents: this.makeDisplayEvents(approvedEventsMap),
+      loadingEvents: false
+    });
   }
 
-  async addActiveTag(n)
-  {
-    if(this.state.activeTagList.includes(n))
-    {
-      await this.setState({activeTagList: this.state.activeTagList.filter(arrayItem => arrayItem !== n)})
+  async addActiveTag(n) {
+    if (this.state.activeTagList.includes(n)) {
+      await this.setState({ activeTagList: this.state.activeTagList.filter(arrayItem => arrayItem !== n) })
     }
-    else
-    {
-      await this.setState({activeTagList: this.state.activeTagList.concat(n)})
+    else {
+      await this.setState({ activeTagList: this.state.activeTagList.concat(n) })
     }
 
-    await this.setState({hiddenSearch : this.state.activeTagList.join(" ")})
+    await this.setState({ hiddenSearch: this.state.activeTagList.join(" ") })
     console.log(this.state.activeTagList)
-    console.log( this.state.activeTagList.join(" "))
+    console.log(this.state.activeTagList.join(" "))
     this.props.onClick(this.state.searchVal, this.state.hiddenSearch)
   }
 
-  searchFunc(val, hiddenSearchVal = '', changeDefaultSearchVal=true) {
-    if(changeDefaultSearchVal){
-      this.setState({defaultSearchInput:''});
+  searchFunc(val, hiddenSearchVal = '', changeDefaultSearchVal = true) {
+    if (changeDefaultSearchVal) {
+      this.setState({ defaultSearchInput: '' });
     }
-    if((!val || val.length===0) && (!hiddenSearchVal || hiddenSearchVal.length===0)) {
-      return this.setState({eventSearch: [], activityIndicator: false, eventSearchError: '',
-        myEventsList: this.makeEventsList(this.state.permEventsList)});
+    if ((!val || val.length === 0) && (!hiddenSearchVal || hiddenSearchVal.length === 0)) {
+      return this.setState({
+        eventSearch: [], activityIndicator: false, eventSearchError: '',
+        myEventsList: this.makeEventsList(this.state.permEventsList)
+      });
     }
-    this.setState({activityIndicator:true, loadingEvents:true});
+    this.setState({ activityIndicator: true, loadingEvents: true });
     const options = {
-      threshold:0.2,
-      distance:10000,
+      threshold: 0.2,
+      distance: 10000,
       ignoreLocation: true,
       ignoreFieldNorm: true,
       findAllMatches: true,
-      keys: ['name', 'tags', 'desc','event']
+      keys: ['name', 'tags', 'desc', 'event']
 
     };
 
@@ -396,16 +397,20 @@ class EventsPageDesktop extends React.Component {
     const eventSearch = output
 
 
-    if(!eventSearch || eventSearch.length<=0){
-      return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'No Results found',
-        myEventsList: []});
+    if (!eventSearch || eventSearch.length <= 0) {
+      return this.setState({
+        eventSearch: [], activityIndicator: false, eventSearchError: 'No Results found',
+        myEventsList: []
+      });
     }
     let itemOn = 0
     const approvedEventsMap = eventSearch.map(doc => (eventSearch[itemOn++]['item']));
 
     // Update events. Note: we don't have to update time again b/c time is already updated
-    this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'', loadingEvents: false,
-      myEventsList: this.makeEventsList(approvedEventsMap)});
+    this.setState({
+      eventSearch: eventSearch, activityIndicator: false, eventSearchError: '', loadingEvents: false,
+      myEventsList: this.makeEventsList(approvedEventsMap)
+    });
   }
 
   formatTime(hours, min) {
@@ -427,13 +432,40 @@ class EventsPageDesktop extends React.Component {
     let style = {
       backgroundColor: "#2984ce"
     };
-    return { style: style };
+    let nowStyle = {
+      backgroundColor: "#F3FFEE"
+    }
+    let pastStyle = {
+      backgroundColor: "#BDBDBD"
+    }
+    let popularStyle = {
+      backgroundColor: "#F2F9FD"
+    }
+    let recurringStyle = {
+      backgroundColor: "#FDEEE5"
+    }
+
+    if (event.displayNow) {
+      return { style: nowStyle };
+    }
+    else if (event.displayPast) {
+      return { style: pastStyle };
+    }
+    else if (event.displayPopular) {
+      return { style: popularStyle };
+    }
+    else if (event.displayRecurring) {
+      return { style: recurringStyle };
+    }
+    else {
+      return { style: style };
+    }
   }
 
   EventDisplay = ({ event }) => (
-      <div style={{height:"1.2em"}}>
-        <div style={{ fontSize: ".7em" }}>{event.event === undefined ? event.title : event.event}</div>
-      </div>
+    <div style={{ height: "1.2em" }}>
+      <div style={{ fontSize: ".7em" }}>{event.event === undefined ? event.title : event.event}</div>
+    </div>
   );
 
   handleMainTags(tag) {
@@ -443,7 +475,7 @@ class EventsPageDesktop extends React.Component {
     } else {
       newList[tag] = "on"
     }
-    this.setState({mainTagsClicked: newList})
+    this.setState({ mainTagsClicked: newList })
   }
 
   isEventShowable(ele) {
@@ -501,9 +533,9 @@ class EventsPageDesktop extends React.Component {
     // Handle date
     if (this.state.dateFilter !== "All") {
       let d = new Date()
-      const daysApart = Math.abs((ele.start_date.getTime() - d.getTime()) / (3600*24*1000))
+      const daysApart = Math.abs((ele.start_date.getTime() - d.getTime()) / (3600 * 24 * 1000))
       console.log(daysApart)
-      switch(this.state.dateFilter) {
+      switch (this.state.dateFilter) {
         case "This Month Only":
           if (ele.start_date.getMonth() !== d.getMonth() || ele.start_date.getFullYear() !== d.getFullYear())
             ele.displayThisCard = false
@@ -522,10 +554,10 @@ class EventsPageDesktop extends React.Component {
   }
 
   updateOrganization(club) {
-    this.setState({clubFilter: club})
+    this.setState({ clubFilter: club })
   }
   updateDateFilter(date) {
-    this.setState({dateFilter: date})
+    this.setState({ dateFilter: date })
   }
   resetFilter() {
     this.setState({
@@ -533,7 +565,7 @@ class EventsPageDesktop extends React.Component {
       searchVal: "",
       defaultSearchInput: '',
       hiddenSearch: '',
-      mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
+      mainTagsClicked: { past: "", recurring: "", popular: "", now: "" },
       filterTagsClicked: {},
       clubFilter: "All",
       dateFilter: "This Month Only"
@@ -573,15 +605,15 @@ class EventsPageDesktop extends React.Component {
     return (
       <Template active={"schedule"} title={"Events"}>
 
-        <div className={classes.mainBox} style={{paddingLeft:"10%", paddingRight:"10%"}}>
-          <div className={classes.mainText} style={{paddingLeft: "4%", width:500}}>
-            <h2 style={{fontSize:40}}>Featured Events</h2>
-            <p style={{fontSize: 20}}>Some of our most popular upcoming events, activities, and discussions, to keep on your radar.
+        <div className={classes.mainBox} style={{ paddingLeft: "10%", paddingRight: "10%" }}>
+          <div className={classes.mainText} style={{ paddingLeft: "4%", width: 500 }}>
+            <h2 style={{ fontSize: 40 }}>Featured Events</h2>
+            <p style={{ fontSize: 20 }}>Some of our most popular upcoming events, activities, and discussions, to keep on your radar.
               <br /> <br />
               Register ASAP. Limited seats available for some events.
             </p>
           </div>
-          <div style= {{flexDirection: "row", display: "flex", marginLeft: "40px"}}>
+          <div style={{ flexDirection: "row", display: "flex", marginLeft: "40px" }}>
             {this.state.displayEvents.map((ele, ind) => {
               if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
 
@@ -598,65 +630,65 @@ class EventsPageDesktop extends React.Component {
         </div>
 
 
-      <div style={{marginLeft: 'auto', marginRight: 'auto', maxWidth: "1500px"}}>
-        <div style={{margin: "40px"}}/>
+        <div style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: "1500px" }}>
+          <div style={{ margin: "40px" }} />
 
-        <div style={{flexDirection: "row", display: "flex"}}>
-          <a href={"#"} className={greenBox}
-               onClick={(tag) => { this.handleMainTags("now") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.greenText}>
-              <h4>Happening Now</h4>
-            </div>
-          </a>
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <a href={"#"} className={greenBox}
+              onClick={(tag) => { this.handleMainTags("now") }}
+              style={{ cursor: "pointer" }}>
+              <div className={classes.greenText}>
+                <h4>Happening Now</h4>
+              </div>
+            </a>
 
-          <a href={"#"} className={blueBox}
-               onClick={(tag) => { this.handleMainTags("popular") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.blueText}>
-              <h4>Popular</h4>
-            </div>
-          </a>
+            <a href={"#"} className={blueBox}
+              onClick={(tag) => { this.handleMainTags("popular") }}
+              style={{ cursor: "pointer" }}>
+              <div className={classes.blueText}>
+                <h4>Popular</h4>
+              </div>
+            </a>
 
-          <a href={"#"} className={orangeBox}
-               onClick={(tag) => { this.handleMainTags("recurring") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.orangeText}>
-              <h4>Recurring</h4>
-            </div>
-          </a>
+            <a href={"#"} className={orangeBox}
+              onClick={(tag) => { this.handleMainTags("recurring") }}
+              style={{ cursor: "pointer" }}>
+              <div className={classes.orangeText}>
+                <h4>Recurring</h4>
+              </div>
+            </a>
 
-          <a href={"#"} className={grayBox}
-               onClick={(tag) => { this.handleMainTags("past") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.grayText}>
-              <h4>Past</h4>
-            </div>
-          </a>
-        </div>
+            <a href={"#"} className={grayBox}
+              onClick={(tag) => { this.handleMainTags("past") }}
+              style={{ cursor: "pointer" }}>
+              <div className={classes.grayText}>
+                <h4>Past</h4>
+              </div>
+            </a>
+          </div>
 
-        <div style={{margin: "40px"}}/>
+          <div style={{ margin: "40px" }} />
 
-        <EventSearch placeholder="Search all virtual events."
-                iconColor="#2984CE"
-                data={this.state.data}
-                ref={input => this.inputElement = input}
-                tagList = {this.state.tagList}
-                organizationList = {this.state.organizationList}
-                dateList = {this.state.dateList}
-                updateTags={(tag) => { this.updateFilterTags(tag) }}
-                updateClub={(club) => { this.updateOrganization(club) }}
-                updateDate={(date) => { this.updateDateFilter(date) }}
-                resetFilter={() => { this.resetFilter() }}
-                onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
-                onCancel={() => { this.searchFunc('') }}
-        />
+          <EventSearch placeholder="Search all virtual events."
+            iconColor="#2984CE"
+            data={this.state.data}
+            ref={input => this.inputElement = input}
+            tagList={this.state.tagList}
+            organizationList={this.state.organizationList}
+            dateList={this.state.dateList}
+            updateTags={(tag) => { this.updateFilterTags(tag) }}
+            updateClub={(club) => { this.updateOrganization(club) }}
+            updateDate={(date) => { this.updateDateFilter(date) }}
+            resetFilter={() => { this.resetFilter() }}
+            onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
+            onCancel={() => { this.searchFunc('') }}
+          />
 
-        <br />
-        <div style={{margin: "40px"}}/>
-        <div style={{width: "100%"}}>
-          <div style={{width: "25%", float:"left", marginBottom:"3%"}}>
-            <Calendar
+          <br />
+          <div style={{ margin: "40px" }} />
+          <div style={{ width: "100%" }}>
+            <div style={{ width: "25%", float: "left", marginBottom: "3%" }}>
+              <Calendar
                 views={["month"]}
                 localizer={localizer}
                 scrollToTime={new Date()}
@@ -676,41 +708,43 @@ class EventsPageDesktop extends React.Component {
                   toolbar: CustomToolbar
                 }}
                 formats={{ eventTimeRangeFormat: () => null }}
-            />
-            {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event}/>}
+              />
+              {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} />}
 
 
-            <Title color={"blue"} style={{textAlign:"left", fontSize:"2rem"}}>Looking for people who share <strong>your</strong> interests?</Title>
-            <h5>1. Submit a topic and time using our form.</h5>
-            <h5>2. Let us host and share the event on our website.</h5>
-            <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
-            <div style={{ textAlign: "left" }}>
-              <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
-                            style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
+              <Title color={"blue"} style={{ textAlign: "left", fontSize: "2rem" }}>Looking for people who share <strong>your</strong> interests?</Title>
+              <h5>1. Submit a topic and time using our form.</h5>
+              <h5>2. Let us host and share the event on our website.</h5>
+              <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
+              <div style={{ textAlign: "left" }}>
+                <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
+                  style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"} />
+              </div>
             </div>
-          </div>
-          <div style= {{flexDirection: "column", display: "flex", paddingTop:"1%", paddingLeft: "3%", width: "75%",
-            marginBottom:"3%"}}>
-            <div style={{paddingBottom: "1%", color: "#828282", fontSize: "18px"}}> {sizeOfList} Events Found </div>
-            {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
-            {!this.state.loadingEvents && eventsList.map((ele) => {
+            <div style={{
+              flexDirection: "column", display: "flex", paddingTop: "1%", paddingLeft: "3%", width: "75%",
+              marginBottom: "3%"
+            }}>
+              <div style={{ paddingBottom: "1%", color: "#828282", fontSize: "18px" }}> {sizeOfList} Events Found </div>
+              {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
+              {!this.state.loadingEvents && eventsList.map((ele) => {
 
                 return (
-                    <ScrollableAnchor >
-                      <Element name={ele.id}>
-                        <div id={ele.id} style={{paddingBottom: "30px"}}>
-                            <EventCard ele={ele} key={ele.id}/>
-                        </div>
-                      </Element>
-                    </ScrollableAnchor>
+                  <ScrollableAnchor >
+                    <Element name={ele.id}>
+                      <div id={ele.id} style={{ paddingBottom: "30px" }}>
+                        <EventCard ele={ele} key={ele.id} />
+                      </div>
+                    </Element>
+                  </ScrollableAnchor>
                 );
 
-            }
-            )}
-            <div>{!this.state.loadingEvents && noSearchResults}</div>
+              }
+              )}
+              <div>{!this.state.loadingEvents && noSearchResults}</div>
+            </div>
           </div>
         </div>
-      </div>
       </Template>
     );
   }

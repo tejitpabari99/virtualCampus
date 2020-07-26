@@ -38,7 +38,7 @@ import Axios from "axios";
 import TZ from "countries-and-timezones";
 import * as Events from "../../pages/events";
 import { PhoneCallback } from "@material-ui/icons";
-import {CheckboxWithLabel} from "formik-material-ui";
+import { CheckboxWithLabel } from "formik-material-ui";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -78,8 +78,6 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email address")
     .required("Required"),
-  // event_link: Yup.string()
-  //   .url("Please enter a valid URL"),
   title: Yup.string()
     .required("Required"),
   desc: Yup.string()
@@ -95,10 +93,10 @@ const validationSchema = Yup.object().shape({
     .required(),
   image_link: Yup.string()
     .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
-  // invite_link: Yup.string()
-  //   .required()
-  //   .url("Please enter a valid URL"),
-  // link_type: Yup.string()
+  invite_link: Yup.string()
+    .required()
+    .url("Please enter a valid URL"),
+  link_type: Yup.string()
 });
 
 let getCurrentLocationForTimeZone = function () {
@@ -602,10 +600,10 @@ class EventFormDesktop extends React.Component {
       const value = data.target.value
       if (name === "image_link") {
         if (value === "") {
-          this.setState({imgurLink: default_img, imgFileValue: ""})
+          this.setState({ imgurLink: default_img, imgFileValue: "" })
           convertedExampleEvent['image_link'] = default_img
         } else {
-          this.setState({imgurLink: value, imgFileValue: ""})
+          this.setState({ imgurLink: value, imgFileValue: "" })
           convertedExampleEvent['image_link'] = value
         }
       }
@@ -766,11 +764,12 @@ class EventFormDesktop extends React.Component {
                     </Grid >
                     <br />
                     <Field
-                        component={CheckboxWithLabel}
-                        name="allowedToBeFacebookEvent"
-                        Label={{ label: "Allow CVC to make this a facebook event? (Check out our facebook page: www.facebook.com/columbiavirtualcampus)" }}
-                        type="checkbox"
-                        indeterminate={false}
+                      component={CheckboxWithLabel}
+                      name="allowedToBeFacebookEvent"
+                      Label={{ label: "Allow CVC to make this a facebook event?" }}
+                      type="checkbox"
+                      color="default"
+                      indeterminate={false}
                     />
                   </FormBody>
                 </Grid >
@@ -782,10 +781,10 @@ class EventFormDesktop extends React.Component {
           </MuiPickersUtilsProvider>
           <Container>
             <h3 style={{ color: "#0072CE", display: "inline" }}>
-              <span style={{display: "block"}}>Preview of Your Event</span>
-              <h5 style={{ color: "#0072CE", display: "inline", fontSize: "12px"}}>
+              <span style={{ display: "block" }}>Preview of Your Event</span>
+              <div style={{ color: "#0072CE", display: "inline", fontSize: "12px" }}>
                 Date/Time is not updated in previews:
-              </h5>
+              </div>
             </h3>
             <br />
             <Grid >
