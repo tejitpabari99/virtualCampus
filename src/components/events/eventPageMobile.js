@@ -304,7 +304,7 @@ class EventsPageMobile extends React.Component {
             if (event.recurring !== "") {
               event["displayRecurring"] = true
             }
-            if (event.popularity > 10) {
+            if (event.popularity > 50) {
               event["displayPopular"] = true
             }
             return event

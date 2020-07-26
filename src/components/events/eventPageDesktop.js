@@ -15,7 +15,7 @@ import CustomToolbar from "../events/CalendarToolBar"
 import {CircularProgress} from "@material-ui/core";
 import ScrollableAnchor from 'react-scrollable-anchor';
 import {configureAnchors} from 'react-scrollable-anchor';
-configureAnchors({offset: -10});
+configureAnchors({offset: -100});
 
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({
@@ -218,7 +218,7 @@ class EventsPageDesktop extends React.Component {
         // delay: 100,
         smooth: true,
         // containerId: 'ContainerElementID',
-        offset: -10, // Scrolls to element + 50 pixels down the page
+        offset: -100, // Scrolls to element + 50 pixels down the page
       })
     }
   }
@@ -331,7 +331,7 @@ class EventsPageDesktop extends React.Component {
         if (event.recurring !== "") {
           event["displayRecurring"] = true
         }
-        if (event.popularity > 10) {
+        if (event.popularity > 50) {
           event["displayPopular"] = true
         }
         return event
