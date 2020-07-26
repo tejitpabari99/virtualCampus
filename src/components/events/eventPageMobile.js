@@ -18,6 +18,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import EventSearchMobile from "../input/EventSearchMobile";
 import Carousel from 'react-material-ui-carousel';
+import {CircularProgress} from "@material-ui/core";
 import {configureAnchors} from 'react-scrollable-anchor';
 configureAnchors({offset: -120});
 
@@ -214,7 +215,8 @@ class EventsPageMobile extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only"
+      dateFilter: "This Month Only",
+      loadingEvents: true,
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
@@ -319,7 +321,8 @@ class EventsPageMobile extends React.Component {
     this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap),
       organizationList: this.genOrganizationList(approvedEventsMap),
       permEventsList: approvedEventsMap,
-      displayEvents:this.makeDisplayEvents(approvedEventsMap) });
+      displayEvents:this.makeDisplayEvents(approvedEventsMap),
+      loadingEvents: false });
   }
 
   searchFunc(val, changeDefaultSearchVal=true) {
@@ -330,7 +333,7 @@ class EventsPageMobile extends React.Component {
       return this.setState({eventSearchMobile: [], activityIndicator: false, eventSearchMobileError: '',
         myEventsList: this.makeEventsList(this.state.permEventsList)});
     }
-    this.setState({activityIndicator:true});
+    this.setState({activityIndicator:true, loadingEvents:true});
     const options = {
       threshold:0.2,
       distance:1000,
@@ -348,7 +351,7 @@ class EventsPageMobile extends React.Component {
     const approvedEventsMap = eventSearchMobile.map(doc => (eventSearchMobile[itemOn++]['item']));
 
     // Update events. Note: we don't have to update time again b/c time is already updated
-    this.setState({eventSearchMobile:eventSearchMobile, activityIndicator:false, eventSearchMobileError:'',
+    this.setState({eventSearchMobile:eventSearchMobile, activityIndicator:false, eventSearchMobileError:'', loadingEvents:false,
       myEventsList: this.makeEventsList(approvedEventsMap)});
   }
 
@@ -755,7 +758,8 @@ getCalendarText() {
           </ExpansionPanel>
           <div style={{margin: "00px"}}/>
           <div style= {{flexDirection: "column", display: "flex",width: "100%", marginBottom:"3%"}}>
-              {eventsList.map((ele) => {
+              {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
+              {!this.state.loadingEvents && eventsList.map((ele) => {
                     if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
                       ele.tags = ['none']
                     }
@@ -769,7 +773,7 @@ getCalendarText() {
                     );
                   }
               )}
-              <div>{noSearchResults}</div>
+              <div>{!this.state.loadingEvents && noSearchResults}</div>
           </div>
           <footer className={classes.footerStyle}>
               <CustomButton href={"/events/add-new-event"} text={"Want to add an event?"}
