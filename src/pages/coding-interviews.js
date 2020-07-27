@@ -343,7 +343,7 @@ class Technical extends React.Component {
 
   render() {
     return (
-      <Template active={"technical"} title={"Technical"}>
+      <Template active={"technical"} title={"Coding interviews"}>
         { this.state.submitStatus === 'success' &&
           <Alert severity="success">Signup form submitted successfully, please check your email to confirm attendance!</Alert>
         }
@@ -359,19 +359,20 @@ class Technical extends React.Component {
         { this.state.submitStatus === 'max' &&
           <Alert severity="error">Interviewer has already reached their limit for the week! Reload sessions...</Alert>
         }
-        <Title color={"blue"} style={{ padding: '20px', marginTop: 0}}>Mock Tech Interview</Title>
-        <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> July 2020</h3>
+        <Title color={"blue"} style={{  padding: '20px', marginTop: 0}}>Mock Coding Interviews</Title>
+        <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "1.3em", fontWeight: 100 }}> August 3rd - August 24th, 2020</h3>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
         <GridContainer
             style={{marginTop:"2em", marginBottom:"2em", marginLeft: 0, marginRight: 0, textAlign:'center'}}>
-                <GridItem xs={12} sm={12} md={4}>
+                <GridItem xs={12} sm={12} md={5}>
                     <img src={interview} style={{width: "350px", height: "300px", marginLeft: "-20px"}}></img>
                 </GridItem>
-                <GridItem xs={12} sm={12} md={8}>
-                    <p style={{fontSize: "25px", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships and full time positons? 
-                    Do you want to practice your technical interview skills?</p>
-                    <p style={{fontSize : "20px", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity to participate in one-on-one mock technical coding interviews
-                     with Columbia Univeristy students and alumni who have interned at Microsoft, Facebook, Google and more.  
+                <GridItem xs={12} sm={12} md={7} style={{ marginTop:"1.2em", width:"50em"}}>
+                    <p style={{fontSize: "1.4em", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships or full time positons? 
+                    Do you want to practice your coding interview skills?</p>
+                    <p style={{fontSize : "1.1em", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity for Columbia University students
+                    to participate in one-on-one mock technical coding interviews
+                     with fellow students and alumni who have interned at Microsoft, Facebook, Google and more.  
                     These 1 hour interview sessions will allow you to pratice real technical interview questions while connecting with a fellow Columbia student.</p>
                     <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at 
                     <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
@@ -379,11 +380,11 @@ class Technical extends React.Component {
                 </GridItem>
         </GridContainer>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
+        <Title color={"blue"} style={{marginBottom:"2%", marginTop: "2%"}} >Sign up here!</Title>
         <Calendar
           views={["month", "week", "day"]}
           localizer={localizer}
-          scrollToTime={new Date()}
-          defaultDate={new Date('July 27, 2020 0:00:00')}
+          defaultDate={new Date('August 3, 2020 0:00:00')}
           events={this.state.myEventsList}
           defaultView={"week"}
           startAccessor="start_date"

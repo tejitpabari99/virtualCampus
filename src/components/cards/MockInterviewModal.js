@@ -171,7 +171,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             text: `Dear ${name},<br/><br/>
             Confirm your interview with ${event.host_name} at ${localIntervieweeStartTime}
             by clicking the link below. It will expire in 24 hours.<br/>
-            ${URL}?token=${token}<br/><br/>
+            <a href=${URL}?token=${token}>Click this link to confirm<a/><br/><br/>
             If you do not wish to confirm, no action is required.<br/><br/>
             Thanks,<br/>
             CVC`
@@ -223,6 +223,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                     </GridContainer>
                     <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3, marginBottom: "0.7em"}}/>
                     <p>{event.host_bio}</p> 
+                    <a href={event.resume}><p>{event.resume}</p></a> 
                     <Formik
                         validationSchema={validationSchema}
                         onSubmit={submitHandler}
@@ -240,7 +241,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                                     lineHeight: "30px",
                                     color: "#0072CE"
                                     }}>
-                                    Signup for a mock interview here!
+                                    Sign up for this session:
                                     </div>
                                     <FormikField label="Name" name="name"
                                                     error={errors.name}
