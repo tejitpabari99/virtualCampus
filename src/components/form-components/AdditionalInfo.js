@@ -29,7 +29,7 @@ const AdditionalInfo = (props) => {
         Additional Information
             </div>
       <Grid container spacing={2}>
-        <Grid item sm={12}>
+        <Grid item xs={12}>
           <FormikField
             label="Comments"
             name="comments"

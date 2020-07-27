@@ -203,7 +203,7 @@ export default function HomeDesktop() {
             Columbia Virtual Campus
               </h1>
           <h1 className={classNames(manual.toAllSubHeading)}>
-            Navigate Columbia and Barnard by keeping track of upcoming virtual events and online resources
+              Your one stop-shop for all things social, career, academic, and well-being. Thank us later.
               </h1>
           <CustomButton href={"/events"} text={'EXPLORE'} color={"orange"} size={"large"} />
         </div>
@@ -212,10 +212,10 @@ export default function HomeDesktop() {
       <div style={{ marginBottom: "2.5vh", background: "transparent" }} />
       <div className={classNames(classes.main, manual.eventsSection)} style={{ textAlign: 'left' }}>
         <div id="explore" style={{marginLeft: "7%", marginRight: "7%", width:"86%"}}>
-          <Title color={"blue"}>Upcoming Events</Title>
+          <Title color={"blue"}>What’s happening?</Title>
           <div style={{ textAlign: "center" }}>
             <Subtitle color={'black'} className={manual.toAllSubHeadingUpEvents}>
-              Find out what's happening on campus, virtually.
+              Here to cancel the 100 sq foot floor lounge. Hang out, talk, and meet new friends.
             </Subtitle>
           </div>
           <HomeEvents />
@@ -230,10 +230,11 @@ export default function HomeDesktop() {
       <div className={manual.hostsSection}>
           <div className={manual.eventText} style={{height:"100%"}}>
             <br /><br /><br />
-            <h2>Want to host an event?</h2>
-            <h5>Looking to host you own event on Columbia Virtual Campus?</h5>
-            <h5>Answer some questions to <strong>start leading.</strong></h5>
-            <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
+            <h2>Looking for people who share <strong>your</strong> interests?</h2>
+            <h5>1. Submit a topic and time using our form.</h5>
+            <h5>2. Let us host and share the event on our website.</h5>
+            <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
+            <CustomButton href={'/events/add-new-event'}  text={'Start Socializing'}
             color={"white2"} size={"large"} />
             <br /><br /><br /><br />
         </div>
@@ -258,7 +259,7 @@ export default function HomeDesktop() {
         {/*<div className={manual.socialSection} style={{position: "relative", height: "0px", top: "-850px", zIndex:"3"}}>*/}
         <div className={manual.socialSection}>
         <div className={manual.insta} style={{paddingTop:"50px"}}>
-                  <div align="center"  style = {{ border:"none"}}>
+                  <div align="center"  style = {{ border:"none"}}>=
                       <InstagramEmbed
                           url='https://www.instagram.com/p/CBHN4GMlSkD/'
                           maxWidth={320}

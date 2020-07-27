@@ -5,6 +5,8 @@ import CustomButton from "../buttons/CustomButton";
 import {CustomTheme} from "../";
 import {makeStyles} from "@material-ui/core/styles";
 import {cardTitle} from "../../assets/material-kit-assets/jss/material-kit-react";
+
+import {handleEventClick} from "../cards/eventCardsFeaturedAndCards/commonEventsFuncs";
 const theme = CustomTheme;
 
 
@@ -104,6 +106,7 @@ export default function EventModal({open, closeDo, event, isModal}) {
 
         Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
             .then(res => {
+                handleEventClick(event, 5)
                 setEmailNotSubmitted(false)
                 console.log(res)
             })

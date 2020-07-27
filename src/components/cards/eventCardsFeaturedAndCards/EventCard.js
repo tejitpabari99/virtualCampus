@@ -3,7 +3,7 @@ import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
 import EventCardDesktop from './EventCardDesktop'
 import EventCardMobile from './EventCardMobile'
 
-class EventCard extends React.Component {
+class EventCardHighlight extends React.Component {
 
   constructor(props) {
     super(props);
@@ -81,4 +81,4 @@ class EventCard extends React.Component {
   }
 }
 
-export default EventCard;
+export default EventCardHighlight;
