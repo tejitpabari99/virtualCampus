@@ -5,6 +5,7 @@ import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Button from "@material-ui/core/Button";
+import { CircularProgress } from '@material-ui/core';
 
 import { MockInterviewModal, Template, Title, Subtitle, } from "../components";
 import TZ from "countries-and-timezones";
@@ -200,6 +201,7 @@ class Technical extends React.Component {
       open: false,
       event: null,
       myEventsList: [],
+      loadingEvents: true,
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
@@ -214,18 +216,7 @@ class Technical extends React.Component {
     event.end_date = event.end_date.split("GMT")[0];
 
     if (event.timezone !== undefined && event.timezone.includes("$")) {
-      // $ splits time and timezone in the event.timezone field in firebase!
-      // const tz = tzString.split("$")[0];
-      // const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
-      // const offset = getOffset(tz, daylightSavings);
-
-      // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
-      // America/New_York should be changed to the user's time zone who created the event, if they
-      // Choose to use their time zone rather than EST.
-      //const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
-      //const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
-
-      // Second, convert those consts above to user's local time
+      // Convert those consts above to user's local time
       event.start_date = convertUTCToLocal(event.start_date);
       event.end_date = convertUTCToLocal(event.end_date);
       // get timezone to display
@@ -234,7 +225,7 @@ class Technical extends React.Component {
     return event;
   }
 
-  maxInterviewsCheck(events) {
+  maxWeeklyInterviewsCheck(events) {
 
     // create a interviewer email to events for this week map
     let interviewerEventsMap = new Map()
@@ -279,23 +270,24 @@ class Technical extends React.Component {
     });
   }
 
-  async getEvents() {
+  getEvents() {
     const db = firebase.firestore();
-    const approvedEvents = await db.collection("technical")
-    // .where("approved", "==", true)
-    .get();
-    let approvedEventsMap = [];
-    if(approvedEvents){
-        // TODO
-        // MAY NEED TO CHANGE:
-        // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
-        // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
-        // However, convertEventsTime should be run on every event, converting the time and timezone of the event
-        // To the current user's local time!
-        approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
-    }
-    this.maxInterviewsCheck(approvedEventsMap);
-    this.setState({ myEventsList: approvedEventsMap });
+    db.collection("technical")
+    .where("approved", "==", true)
+    .get().then(approvedEvents => {
+      let approvedEventsMap = [];
+      if(approvedEvents){
+          // TODO
+          // MAY NEED TO CHANGE:
+          // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
+          // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
+          // However, convertEventsTime should be run on every event, converting the time and timezone of the event
+          // To the current user's local time!
+          approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
+      }
+      this.maxWeeklyInterviewsCheck(approvedEventsMap);
+      this.setState({ myEventsList: approvedEventsMap, loadingEvents: false });
+    });
   }
 
 
@@ -386,26 +378,29 @@ class Technical extends React.Component {
         </GridContainer>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
         <Title color={"blue"} style={{marginBottom:"2%", marginTop: "2%"}} >Sign up here!</Title>
-        <Calendar
-          views={["month", "week", "day"]}
-          localizer={localizer}
-          defaultDate={new Date('August 3, 2020 0:00:00')}
-          events={this.state.myEventsList}
-          defaultView={"week"}
-          startAccessor="start_date"
-          endAccessor="end_date"
-          allDayAccessor="allDay"
-          showMultiDayTimes
-          style={{ height: 550 }}
-          onSelectEvent={(event) => {
-            this.setState({ open: true, event });
-          }}
-          eventPropGetter={this.eventPropStyles}
-          components={{
-            event: this.EventDisplay
-          }}
-          formats={{ eventTimeRangeFormat: () => null }}
-        />
+        { this.state.loadingEvents ? 
+          <CircularProgress/> :
+          <Calendar
+            views={["month", "week", "day"]}
+            localizer={localizer}
+            defaultDate={new Date('August 3, 2020 0:00:00')}
+            events={this.state.myEventsList}
+            defaultView={"week"}
+            startAccessor="start_date"
+            endAccessor="end_date"
+            allDayAccessor="allDay"
+            showMultiDayTimes
+            style={{ height: 550 }}
+            onSelectEvent={(event) => {
+              this.setState({ open: true, event });
+            }}
+            eventPropGetter={this.eventPropStyles}
+            components={{
+              event: this.EventDisplay
+            }}
+            formats={{ eventTimeRangeFormat: () => null }}
+          />
+        }
         
         {this.state.open && 
           <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>}
