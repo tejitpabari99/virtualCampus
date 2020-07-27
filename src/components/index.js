@@ -17,10 +17,11 @@ import ResourcesListFunctionality from "./resources/resourcesList/ResourcesListF
 import ResourcesFeatured from "./resources/featured/ResourcesFeatured";
 import ResourcesFeaturedDesktop from "./resources/featured/ResourcesFeaturedDesktop";
 import ResourcesFeaturedMobile from "./resources/featured/ResourcesFeaturedMobile";
+import ResourceFormDesktop from "./resources/form/ResourceFormDesktop";
+import ResourceFormMobile from "./resources/form/ResourceFormMobile";
 import ResourcesCard from "./cards/ResourcesCard";
 import AddCalendar from "./events/AddCalendar";
 import CustomButton from "./buttons/CustomButton";
-import CustomButton2 from "./buttons/CustomButton2";
 import HomeEvents from "./home/HomeEvents";
 import HomeDesktop from "./home/HomeDesktop";
 import HomeMobile from "./home/HomeMobile";
@@ -50,8 +51,8 @@ export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMe
         EventCard, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         EventsPageMobile, EventsPageDesktop,
-        CustomButton, CustomButton2, DesktopMobile,
-        Title, Subtitle, Heading, Search, ResourcesList,
+        CustomButton, DesktopMobile,
+        Title, Subtitle, Heading, Search, ResourcesList, ResourceFormDesktop, ResourceFormMobile,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
         BLMCard, TutorExpansionMapping, TutorSearchMapping, 

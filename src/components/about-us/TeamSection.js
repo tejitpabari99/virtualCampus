@@ -34,6 +34,7 @@ import saumya from "../../assets/images/about-us/TeamMembers/saumya.png";
 import bonnie from "../../assets/images/about-us/TeamMembers/bonnie.jpg";
 import jiho from "../../assets/images/about-us/TeamMembers/jiho.jpg";
 import alistair from "../../assets/images/about-us/TeamMembers/alistair.jpg"
+import tiffeny from "../../assets/images/about-us/TeamMembers/tiffeny.png"
 
 const useStyles = makeStyles(styles);
 
@@ -159,19 +160,22 @@ export default function TeamSection() {
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
         <GridItem xs={0} sm={0} md={1}/>
         <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'Barnard \'21'} name={'Tamanna Hussain'} image={tamanna} noDescription/>
-        </GridItem>
-        <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'CC \'21'} name={'Michelle Lin'} image={michelle} noDescription/>
-        </GridItem>
-        <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'CC \'21'} name={'Daniella Truong'} image={daniella} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'CC \'21'} name={'Ji Ho Hyun'} image={jiho} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'22'} name={'Luiz do Valle'} image={luiz} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'CC \'21'} name={'Ji Ho Hyun'} image={jiho} noDescription/>
+          <TeamMember position={'CC \'21'} name={'Michelle Lin'} image={michelle} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'Barnard \'21'} name={'Tamanna Hussain'} image={tamanna} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'SEAS \'22'} name={'Tiffeny Chen'} image={tiffeny} noDescription/>
         </GridItem>
       </GridContainer>
 

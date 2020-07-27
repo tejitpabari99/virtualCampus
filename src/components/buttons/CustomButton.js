@@ -137,6 +137,11 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px black"
     },
   },
+  whiteNoHover:{
+    color: 'white !important',
+    border: "1px solid white",
+    backgroundColor: '#0072CE',
+  },
   rounded: {
     borderRadius: "30px"
   },
@@ -164,7 +169,8 @@ export default function CustomButton({href, text, color, size, rounded, onClick,
 CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(["orange", "blue", "blueInvert", "orangeInvert"]),
+  color: PropTypes.oneOf(["white", "white2", "black", "orange", "blue",
+    "blueInvert", "orangeInvert", "whiteNoHover"]),
   size: PropTypes.oneOf(["large","small", "medium"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,

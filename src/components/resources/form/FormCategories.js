@@ -1,51 +1,28 @@
-const FormCategories = {
-  'needs': {
-      title: 'Basic Needs',
-      options: [
-        "Finances",
-        "Food",
-        "Columbia",
-        "International Students"
-     ],
-   },
-  'career': {
-      title: 'Career',
-      options: [
-        "Learning",
-        "Volunteer",
-        "Internship",
-        "Job",
-        "Columbia",
-        "International Students"
-     ],
-   },
-  'covid': {
-      title: 'COVID-19',
-      options: [
-        "Live Updates",
-        "Columbia"
-     ],
-   },
-  'health': {
-      title: 'Health',
-      options: [
-        "Mental",
-        "Columbia",
-        "Physical"
-     ],
-   },
-  'social': {
-      title: 'Social',
-      options: [
-        "Recreation",
-        "Staying Connected",
-        "Columbia",
-        "International Students",
-        "Games"
-     ],
-   }
-};
+import firebase from "../../../firebase";
 
-module.exports = {
-  FormCategories: FormCategories
-};
+
+
+var Categories = {};
+var db = firebase.firestore();
+var docRef = db.collection("resource_reference_docs").doc("Resource Tags by Categories");
+
+docRef.get().then(function(doc) {
+    if (doc.exists) {
+        // console.log("Document data:", doc.data());
+        Object.keys(doc.data()).forEach(key =>{
+            
+            Categories[key] = doc.data()[key];
+
+        });
+        // Categories["data"]=doc.data();
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});
+
+
+
+export default Categories;
