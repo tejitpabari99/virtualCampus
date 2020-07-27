@@ -235,42 +235,47 @@ class Technical extends React.Component {
   }
 
   maxInterviewsCheck(events) {
-    const startOfWeek = new Date()
-    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 7) // subtract to get earlier sunday
-    startOfWeek.setHours(0,0,0,0); // set to midnight
-
-    const endOfWeek = new Date()
-    endOfWeek.setMonth(8)
-    endOfWeek.setDate(startOfWeek.getDate() + 6) // add to get next saturday
-    endOfWeek.setHours(23, 59, 59, 59)
 
     // create a interviewer email to events for this week map
     let interviewerEventsMap = new Map()
     events.forEach(event => {
-      if(event.start_date > startOfWeek && event.end_date < endOfWeek){
-        if (interviewerEventsMap.has(event.host_email)){
-          interviewerEventsMap.get(event.host_email).push(event);
-        } else {
-          interviewerEventsMap.set(event.host_email, [event]);
+      const startOfWeek = new Date(event.start_date);
+      startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()); // subtract to get earlier sunday
+      startOfWeek.setHours(0,0,0,0); // set to midnight
+
+      // { interviewer email : { first day of week : [events] } }
+      if (interviewerEventsMap.has(event.host_email)){
+        if (interviewerEventsMap.get(event.host_email).has(startOfWeek.toString())){
+          interviewerEventsMap.get(event.host_email).get(startOfWeek.toString()).push(event);
         }
+        else {
+          interviewerEventsMap.get(event.host_email).set(startOfWeek.toString(), [event]);
+        }
+      } else {
+        interviewerEventsMap.set(event.host_email, new Map([[startOfWeek.toString(), [event]]]));
       }
     });
-    interviewerEventsMap.forEach((value, key) => {
-      // get number of taken sessions
-      let count = 0;
-      value.forEach(event => {
-        if(!event.available){
-          count++
+
+    // for each interviewer
+    interviewerEventsMap.forEach(interviewer => {
+      // for each week
+      interviewer.forEach(week => {
+        // get number of taken sessions
+        let count = 0;
+        week.forEach(event => {
+          if(!event.available){
+            count++
+          }
+        });
+  
+        // if number is >= max interviewer given, mark all as unavailable
+        // note this week not change value in database, but simply marks it in the UI
+        if(count >= week[0].week_availability){
+          week.forEach(event => {
+            event.available = false;
+          });   
         }
       });
-
-      // if number is >= max interviewer given, mark all as unavailable
-      // note this does not change value in database, but simply marks it in the UI
-      if(count >= value[0].week_availability){
-        value.forEach(event => {
-          event.available = false;
-        });   
-      }
     });
   }
 

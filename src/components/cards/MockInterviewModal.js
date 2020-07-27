@@ -91,15 +91,6 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
     const submitHandler = async values => {
         setLoading(true);
 
-        const startOfWeek = new Date()
-        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 7) // subtract to get earlier sunday
-        startOfWeek.setHours(0,0,0,0); // set to midnight
-    
-        const endOfWeek = new Date()
-        endOfWeek.setMonth(8)
-        endOfWeek.setDate(startOfWeek.getDate() + 6) // add to get next saturday
-        endOfWeek.setHours(23, 59, 59, 59)
-
         const name = values.name;
         const email = values.email;
         const comments = values.comments;
@@ -129,6 +120,15 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
         let lookUpHostEvent = await db.collection("technical")
             .where("host_email", "==", event.host_email)
             .get();
+            
+        const startOfWeek = new Date(event.start_date);
+        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()) // subtract to get earlier sunday
+        startOfWeek.setHours(0,0,0,0); // set to midnight
+    
+        const endOfWeek = new Date(event.start_date);
+        endOfWeek.setDate(startOfWeek.getDate() + 6) // add to get next saturday
+        endOfWeek.setHours(23, 59, 59, 59)
+
         let count = 0
         let start;
         let end;
@@ -141,7 +141,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                 count++;
             }
         }
-        console.log(count);
+
         if (count >= tempEvent.week_availability){
             // if host is past limit
             setLoading(false);
