@@ -167,7 +167,7 @@ class EventsPageDesktop extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only",
+      dateFilter: "All",
       loadingEvents: true,
     };
     this.getEvents();
@@ -297,6 +297,7 @@ class EventsPageDesktop extends React.Component {
     all.push({"name": "All"})
     sorted.map(x => all.push(x))
     return all
+
   }
 
   updateFilterTags(tag) {
@@ -573,7 +574,7 @@ class EventsPageDesktop extends React.Component {
     return (
       <Template active={"schedule"} title={"Events"}>
 
-        <div className={classes.mainBox} style={{paddingLeft:"10%", paddingRight:"10%"}}>
+        <div className={classes.mainBox} style={{ paddingRight:"10%"}}>
           <div className={classes.mainText} style={{paddingLeft: "4%", width:500}}>
             <h2 style={{fontSize:40}}>Featured Events</h2>
             <p style={{fontSize: 20}}>Some of our most popular upcoming events, activities, and discussions, to keep on your radar.
