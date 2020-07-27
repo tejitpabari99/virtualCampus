@@ -234,10 +234,51 @@ class Technical extends React.Component {
     return event;
   }
 
+  maxInterviewsCheck(events) {
+    const startOfWeek = new Date()
+    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 7) // subtract to get earlier sunday
+    startOfWeek.setHours(0,0,0,0); // set to midnight
+
+    const endOfWeek = new Date()
+    endOfWeek.setMonth(8)
+    endOfWeek.setDate(startOfWeek.getDate() + 6) // add to get next saturday
+    endOfWeek.setHours(23, 59, 59, 59)
+
+    // create a interviewer email to events for this week map
+    let interviewerEventsMap = new Map()
+    events.forEach(event => {
+      if(event.start_date > startOfWeek && event.end_date < endOfWeek){
+        if (interviewerEventsMap.has(event.host_email)){
+          interviewerEventsMap.get(event.host_email).push(event);
+        } else {
+          interviewerEventsMap.set(event.host_email, [event]);
+        }
+      }
+    });
+    interviewerEventsMap.forEach((value, key) => {
+      // get number of taken sessions
+      let count = 0;
+      value.forEach(event => {
+        if(!event.available){
+          count++
+        }
+      });
+
+      // if number is >= max interviewer given, mark all as unavailable
+      // note this does not change value in database, but simply marks it in the UI
+      if(count >= value[0].week_availability){
+        value.forEach(event => {
+          event.available = false;
+        });   
+      }
+    });
+  }
 
   async getEvents() {
-    var db = firebase.firestore();
-    var approvedEvents = await db.collection("technical").get();
+    const db = firebase.firestore();
+    const approvedEvents = await db.collection("technical")
+    // .where("approved", "==", true)
+    .get();
     let approvedEventsMap = [];
     if(approvedEvents){
         // TODO
@@ -248,6 +289,7 @@ class Technical extends React.Component {
         // To the current user's local time!
         approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
     }
+    this.maxInterviewsCheck(approvedEventsMap);
     this.setState({ myEventsList: approvedEventsMap });
   }
 
@@ -302,29 +344,7 @@ class Technical extends React.Component {
   render() {
     return (
       <Template active={"technical"} title={"Technical"}>
-        <center>
-        <Title color={"blue"} style={{ marginBottom: '20px', marginTop: '9%'}}>MOCK CODING INTERVIEWS: COMING SOON</Title>
-        <div style={{width:"60%"}}>
-          <Subtitle  style={{ padding: '10px', marginBottom: '10px', fontSize:'calc(12px + 1vw)', lineHeight:'calc(12px + 1.5vw)'}}>
-            CVC is starting a new initiative to allow current computer science students at Columbia and Barnard
-            to sign up for virtual mock technical coding interviews with a more experienced student or alum. 
-          </Subtitle>
-          <Button
-            style={{
-              background: "white",
-              border: "1px solid #FB750D",
-              borderRadius: "10px",
-              boxSizing: "border-box",
-              color: "#FB750D",
-              boxShadow: "none",
-            }}
-            href={"/technical/add-interviewer"}>
-            Sign up to be a mock interviewer
-          </Button>
-        </div>
-        </center>
-
-        {/* { this.state.submitStatus === 'success' &&
+        { this.state.submitStatus === 'success' &&
           <Alert severity="success">Signup form submitted successfully, please check your email to confirm attendance!</Alert>
         }
         { this.state.submitStatus === 'failure' &&
@@ -335,6 +355,9 @@ class Technical extends React.Component {
         }
         { this.state.submitStatus === 'booked' &&
           <Alert severity="error">Interview session already booked! Reload sessions...</Alert>
+        }
+        { this.state.submitStatus === 'max' &&
+          <Alert severity="error">Interviewer has already reached their limit for the week! Reload sessions...</Alert>
         }
         <Title color={"blue"} style={{ padding: '20px', marginTop: 0}}>Mock Tech Interview</Title>
         <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> July 2020</h3>
@@ -347,8 +370,9 @@ class Technical extends React.Component {
                 <GridItem xs={12} sm={12} md={8}>
                     <p style={{fontSize: "25px", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships and full time positons? 
                     Do you want to practice your technical interview skills?</p>
-                    <p style={{fontSize : "20px", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity to particiapte in one-on-one mock technical interviews with Columbia Univeristy students who have interned at Company1, Company2, Company3, and more.  
-                    These 1 hour tutoring sessions will allow you to pratice real technical interview questions in a setting that resembles a real interview.</p>
+                    <p style={{fontSize : "20px", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity to participate in one-on-one mock technical coding interviews
+                     with Columbia Univeristy students and alumni who have interned at Microsoft, Facebook, Google and more.  
+                    These 1 hour interview sessions will allow you to pratice real technical interview questions while connecting with a fellow Columbia student.</p>
                     <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at 
                     <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
                  href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com</a>!</p>
@@ -378,7 +402,7 @@ class Technical extends React.Component {
         />
         
         {this.state.open && 
-          <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>} */}
+          <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>}
       </Template>
     );
   }

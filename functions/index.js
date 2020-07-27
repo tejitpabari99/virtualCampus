@@ -212,7 +212,6 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
         start_time.setFullYear(temp_year);
 
         // CAREFUL: USER CANNOT PASS IN END TIME BEFORE START TIME
-        // TODO: what happens if date is end of month? end of year?
         if (start_time.getHours() > end_time.getHours()){
           end_time.setDate(temp_date+1);
         } else {

@@ -90,6 +90,16 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
 
     const submitHandler = async values => {
         setLoading(true);
+
+        const startOfWeek = new Date()
+        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 7) // subtract to get earlier sunday
+        startOfWeek.setHours(0,0,0,0); // set to midnight
+    
+        const endOfWeek = new Date()
+        endOfWeek.setMonth(8)
+        endOfWeek.setDate(startOfWeek.getDate() + 6) // add to get next saturday
+        endOfWeek.setHours(23, 59, 59, 59)
+
         const name = values.name;
         const email = values.email;
         const comments = values.comments;
@@ -100,16 +110,42 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             .where("start_date", "==", event.start_date_original)
             .get();
         if (lookUpEvent.size === 0){
+            // if event cannot be found
             setLoading(false);
             setSubmitStatus('notFound');
             closeDo();
             window.scrollTo({ top: 0 });
             setTimeout(() => { window.location.reload(); }, 4500);
-
             return;
         } else if (!lookUpEvent.docs[0].data().available){
+            // if event is not available
             setLoading(false);
             setSubmitStatus('booked');
+            closeDo();
+            window.scrollTo({ top: 0 });
+            setTimeout(() => { window.location.reload(); }, 4500);
+            return;
+        }
+        let lookUpHostEvent = await db.collection("technical")
+            .where("host_email", "==", event.host_email)
+            .get();
+        let count = 0
+        let start;
+        let end;
+        let tempEvent;
+        for(let i = 0; i < lookUpHostEvent.size; i++){
+            tempEvent = lookUpHostEvent.docs[i].data();
+            start = new Date(tempEvent.start_date);
+            end = new Date(tempEvent.end_date);
+            if(start > startOfWeek && end < endOfWeek && !tempEvent.available){
+                count++;
+            }
+        }
+        console.log(count);
+        if (count >= tempEvent.week_availability){
+            // if host is past limit
+            setLoading(false);
+            setSubmitStatus('max');
             closeDo();
             window.scrollTo({ top: 0 });
             setTimeout(() => { window.location.reload(); }, 4500);
