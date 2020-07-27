@@ -5,15 +5,16 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../components/events/react-big-calendar.css";
 import { EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
 import firebase from "../firebase";
-import ScrollableAnchor from 'react-scrollable-anchor';
-import {goToAnchor, configureAnchors} from 'react-scrollable-anchor';
+import { Link, Element, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+// import ScrollableAnchor from 'react-scrollable-anchor';
+// import {goToAnchor, configureAnchors} from 'react-scrollable-anchor';
 import queryString from 'query-string';
 import Fuse from 'fuse.js';
 import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
   getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
   from "../components/all/TimeFunctions"
 import CustomToolbar from "../components/events/CalendarToolBar";
-configureAnchors({offset: -100});
+// configureAnchors({offset: -100});
 
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({
@@ -73,7 +74,17 @@ class Events extends React.Component {
     await this.getEvents();
     let query = queryString.parse(this.props.location.search);
     let {event} = query;
-    goToAnchor(event, true);
+    // goToAnchor(event, true);
+    if (event){
+        console.log(event);
+        scroller.scrollTo(event, {
+          // duration: 1500,
+          // delay: 100,
+          smooth: true,
+          // containerId: 'ContainerElementID',
+          offset: -100, // Scrolls to element + 50 pixels down the page
+        })
+    }
   }
 
   // TODO(claire): These are the new functions to use the Google Calendar API instead.
@@ -154,7 +165,7 @@ class Events extends React.Component {
     this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'',
                          myEventsList: approvedEventsMap});
   }
-  
+
   formatTime(hours, min) {
     let h = hours > 12 ? hours - 12 : hours;
     let m = min < 10 ? "0" + min.toString() : min.toString();
@@ -219,9 +230,11 @@ class Events extends React.Component {
           <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
           {Object.keys(this.state.displayEvents).map((k, ind) => {
               return (
-                <ScrollableAnchor id={k}>
+                // <ScrollableAnchor >
+                <Element name={k}>
                   <EventCard ele={this.state.displayEvents[k]} key={k}/>
-                </ScrollableAnchor>
+                </Element>
+                // </ScrollableAnchor>
                 );
           })}
         </div>}
