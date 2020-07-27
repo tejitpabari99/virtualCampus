@@ -5,8 +5,8 @@ import Template from "./all/Template";
 import TemplateResources from "./all/TemplateResources";
 import TeamMember from "./about-us/TeamMember";
 import TeamSection from "./about-us/TeamSection";
-import EventCard from "./cards/EventCard";
-import EventCardMobile from "./cards/EventCardMobile";
+import EventCardFeatured from "./cards/eventCardsFeaturedAndCards/EventCardFeatured";
+import EventCard from "./cards/eventCardsFeaturedAndCards/EventCard";
 import EventModal from "./cards/EventModal";
 import MockInterviewModal from "./cards/MockInterviewModal";
 import EventEmailModal from "./cards/EventEmailModal";
@@ -29,6 +29,7 @@ import Subtitle from "./text/Subtitle";
 import Heading from "./text/Heading";
 import DesktopMobile from "./all/DesktopMobile";
 import Search from "./input/Search";
+import EventSearch from "./input/EventSearch";
 import BLMCard from "./cards/BLMCard";
 import TutorExpansionMapping from './pop-up/blm/TutorExpansionMapping';
 import TutorSearchMapping from './pop-up/blm/TutorSearchMapping'
@@ -42,14 +43,18 @@ import {convertUTCToLocal,
         getTimezoneName,
         convertTimestampToDate,
         getTimezoneOptions} from './all/TimeFunctions'
+import EventsPageDesktop from "./events/eventPageDesktop";
+import EventsPageMobile from "./events/eventPageMobile";
 
 export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMember, TeamSection,
-        EventCard, EventCardMobile, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
+        EventCard, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
+        EventsPageMobile, EventsPageDesktop,
         CustomButton, CustomButton2, DesktopMobile,
         Title, Subtitle, Heading, Search, ResourcesList,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
-        ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesListFunctionality, ResourcesCard,
+        ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
         BLMCard, TutorExpansionMapping, TutorSearchMapping, 
         convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset,
-        dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent}
+        dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent,
+        EventCardFeatured, EventSearch}

@@ -60,7 +60,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           active={props.active==='schedule'}
         >
-          Events
+          Socialize
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
