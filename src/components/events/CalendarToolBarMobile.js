@@ -25,8 +25,8 @@ export default function CustomToolbar(toolbar) {
         const date = moment(toolbar.date);
         return (
             <span style={{display: "inline-block", float: "left", fontFamily: "Poppins", fontWeight: "normal",
-                fontStyle: "normal", lineHeight: "133%", color: "#0072CE", fontSize:"2.3em", paddingBottom:".2em",
-                paddingLeft: "1em"}}>
+                fontStyle: "normal", lineHeight: "133%", color: "#0072CE", fontSize:"20px", paddingBottom:"10px",
+                paddingLeft: "10px", paddingTop: "20px"}}>
             <span> {date.format('MMMM')} </span>
             <span> {date.format('YYYY')} </span>
           </span>
@@ -34,12 +34,12 @@ export default function CustomToolbar(toolbar) {
     };
 
     return (
-        <div>
+        <div style={{backgroundColor: "#F2F9FD"}}>
             <label>
                 {label()}
             </label>
 
-            <div style={{display: "inline-block", float: "right", paddingTop: ".8em", paddingRight: "1em"}}>
+            <div style={{display: "inline-block", float: "right", paddingTop: "20px", paddingRight: "1em"}}>
                 <div style={{display: "inline-block", cursor: "pointer"}} onClick={goToBack}>
                     <LeftArrowIcon style={{ fontSize: "1.5em", color:"#959595" }}/>
                 </div>

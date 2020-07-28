@@ -227,7 +227,7 @@ button.rbc-input::-moz-focus-inner {
     height: 100%;
     background-color: #F2F9FD;
     border: none !important;
-    border-radius: 25px; }
+    border-radius: 0px; }
 
 .rbc-month-header {
     display: flex;
@@ -251,6 +251,8 @@ button.rbc-input::-moz-focus-inner {
     padding-right: 5px;
     text-align: right; }
 .rbc-date-cell.rbc-now {
+    border: 2px solid #c4eaff;
+    border-bottom: none;
     font-weight: bold; }
 .rbc-date-cell > a, .rbc-date-cell > a:active, .rbc-date-cell > a:visited {
     color: inherit;

@@ -65,11 +65,36 @@ class ResourcesListFunctionality extends React.Component {
     let approvedResourcesDict = {};
     let allResources = [];
     let approvedTagsDict = {};
+    let approvedResources = [];
     try{
       let db = firebase.firestore();
-      let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
+      // let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
+      let arr = [];
+
+      // had to reference the existing category names
+      let category_ref = await db.collection('/resource_reference_docs').doc('Resource Tags by Categories').get();
+
+      Object.keys(category_ref.data()).forEach(function(key){
+        arr.push(key);
+      });
+
+      for (let i = 0; i < arr.length; i++)
+      {
+
+        // changed the loop to retrieve from resource by iterating through each category
+        let name = arr[i];
+        let template = "/resource/" + name + "/" + name;
+        let all_reviewed = await db.collection(template).where("reviewed", "==", true).get();
+
+        all_reviewed.forEach(doc =>
+        {
+          approvedResources.push(doc.data());
+        });
+
+      }
+
       if(approvedResources){
-        allResources = approvedResources.docs.map(doc => doc.data());
+        allResources = approvedResources;
         approvedResourcesDict = this.makeDisplayResources(allResources);
         approvedTagsDict = this.makeDisplayTags(allResources);
       }
@@ -89,7 +114,7 @@ class ResourcesListFunctionality extends React.Component {
 
   /**
   * Creates mapping of category to corresponding resources
-  * @param  {List} resources: List of resources
+  * @param  {[]} resources: List of resources
   * @return {Dict} res: Dictionary with categories (Social, All Resources, etc) as keys,
     * list of corresponding resources as values
   */
@@ -111,7 +136,7 @@ class ResourcesListFunctionality extends React.Component {
 
   /**
   * Creates nested mapping of category to tag to corresponding resources
-  * @param  {List} resources: List of resources
+  * @param  {[]} resources: List of resources
   * @return {Dict} res: Nested dictionary with categories (Social, All Resources, etc) as keys of outer dict,
     * inner dict as values of outer dict,
     * tags (BLM, Job, etc) as keys of inner dict,
@@ -153,7 +178,7 @@ class ResourcesListFunctionality extends React.Component {
   /**
   * Make first letter of each word in each category uppercase (e.g. jobs/ internships -> Jobs/ Internships)
   * @param  {String} str: Category name
-  * @return {List} res: Category name with the first letter of each word capitalized
+  * @return {[]} res: Category name with the first letter of each word capitalized
   */
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt){
@@ -261,6 +286,8 @@ class ResourcesListFunctionality extends React.Component {
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
       tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
       searchError: error
+    }, function () {
+      this.handleChange(this.state.event);
     });
   }
 

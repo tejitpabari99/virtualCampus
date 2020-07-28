@@ -14,7 +14,7 @@ const manualSt = makeStyles(() => ({
     margin: "0.5vh 0 0 0",
     willChange: "box-shadow, transform",
     transition:
-        "box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+      "box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
     textAlign: "center",
     whiteSpace: "nowrap",
     verticalAlign: "middle",
@@ -64,6 +64,14 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
   },
+  blue2: {
+    color: 'white !important',
+    paddingLeft: "00px",
+    backgroundColor: "#3B5998",
+    "&:hover": {
+      color: '#EEEEEE !important',
+    }
+  },
   black:{
     color: 'black !important',
     border: "1px solid black",
@@ -104,6 +112,21 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
   },
+  blueRound: {
+    width: "164px",
+    height: "41px",
+    right: "24px",
+    bottom: "24px",
+    backgroundColor: "#C4EAFF",
+    color: "#0072CE",
+    boxShadow: "4px 4px 14px rgba(0, 0, 0, 0.1)",
+    borderRadius: "22px",
+    "&:hover": {
+      color: '#0072CE !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px #0072CE50"
+    },
+  },
   blackWhite:{
     color: 'white !important',
     backgroundColor: 'black',
@@ -135,11 +158,11 @@ export default function CustomButton({href, text, color, size, rounded, onClick,
   });
 
   return (
-      <Button {...rest} className={btnClasses} onClick={onClick}
-              target={newTab?'_blank':''} rel="noopener noreferrer"
-              href={href}>
-        <span className={classNames(manual.buttonSpan)}>{text}</span>
-      </Button>
+    <Button {...rest} className={btnClasses} onClick={onClick}
+            target={newTab?'_blank':''} rel="noopener noreferrer"
+            href={href}>
+      <span className={classNames(manual.buttonSpan)}>{text}</span>
+    </Button>
   )
 }
 
