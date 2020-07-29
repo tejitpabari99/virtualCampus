@@ -223,7 +223,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                     </GridContainer>
                     <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3, marginBottom: "0.7em"}}/>
                     <p>{event.host_bio}</p> 
-                    <a href={event.resume}><p style={{overflowWrap: "break-word"}}>{event.resume}</p></a> 
+                    <a href={event.resume} target="_blank"><p style={{overflowWrap: "break-word"}}>{event.resume}</p></a> 
                     <Formik
                         validationSchema={validationSchema}
                         onSubmit={submitHandler}
