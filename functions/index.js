@@ -95,8 +95,8 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
       const checkAttendance = await db.collection('technical')
         .where("attendee_email", "==", email)
         .where("available", "==", false).get();
-      if (checkAttendance.size > 1){
-        return res.status(412).send("You can only sign up for a maximum of 2 sessions!");
+      if (checkAttendance.size > 2){
+        return res.status(412).send("You can only sign up for a maximum of 3 sessions!");
       }
 
       const attendeeText = `Dear ${name},<br/><br/>
@@ -212,6 +212,7 @@ exports.scheduleEvents = functions.https.onRequest(async (req, res) => {
         start_time.setFullYear(temp_year);
 
         // CAREFUL: USER CANNOT PASS IN END TIME BEFORE START TIME
+        // THIS LOGIC DOESNT WORK
         if (start_time.getHours() > end_time.getHours()){
           end_time.setDate(temp_date+1);
         } else {
