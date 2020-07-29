@@ -1,10 +1,15 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import FormikField from "../../form-components/FormikField";
+import { FormControlLabel, Radio, LinearProgress } from '@material-ui/core';
+
+import { RadioGroup } from 'formik-material-ui';
+import FormikField from "../../FormikField/FormikField"
+// import "../components/form.css"
 import { CheckboxWithLabel } from 'formik-material-ui';
-import FileUploadBtn from '../../form-components/FileUploadBtn';
+import FileUploadBtn from '../../FormikField/FileUploadBtn'
 import Button from '@material-ui/core/Button';
+
 import Grid from '@material-ui/core/Grid';
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,8 +17,8 @@ import styles from "../../../assets/material-kit-assets/jss/material-kit-react/v
 import { CustomHeader } from "../.."
 import Container from '@material-ui/core/Container';
 import firebase from "../../../firebase";
-import Categories from "./FormCategories";
-const MainCategories = Categories.FormCategories;
+import Categories from "./FormCategories"
+
 
 const useStyles = makeStyles(styles);
 const manualSt = makeStyles(() => ({
@@ -137,12 +142,6 @@ const initVal = {
     project_link: '',
     comments: '',
     category: '',
-    needs_tag: '',
-    career_tag: '',
-    covid_tag: '',
-    health_tag: '',
-    social_tag: '',
-    other_tag: '',
     agree: '',
 };
 
@@ -162,6 +161,10 @@ const validationSchema = Yup.object().shape({
         .required('Required')
         .max('250', "Please enter less than 250 characters"),
     agree: Yup.boolean('True')
+        .required(),
+
+    // added category validation for radio group
+    category: Yup.string()
         .required()
 
 });
@@ -169,62 +172,200 @@ const validationSchema = Yup.object().shape({
 const ResourceFormDesktop = (props) => {
     const classes = useStyles();
     const manual = manualSt();
+    const [value, setValue] = React.useState('');
+    const [error, setError] = React.useState(false);
+    const handleChange = (event) => {
+        setValue(event.target.value);
+        
+      };
+    
+    // console.log(Categories)
+    var category = Object.keys(Categories)
 
-    const submitHandler = (values) => {
-        if (values["file"] !== "" && values["file"] !== undefined) {
-            this.uploadImage(values);
-        } else {
-            this.setState({ activityIndicatory: true });
-            const b = this.uploadData(values);
+    
+    // added state variable to keep track of current category
+    var state = {}
+    category.forEach(ele => state[ele] = false);
+    var tags = Categories;
+    state['other']=false;
+    var arr = [];
+
+
+    const submitHandler = (values, {resetForm}) => {
+        
+        // had to create new object to upload to firestore
+        var new_entry = {
+            
+            // added name and email fields for new entries--
+            // useful info to store in Firestore moving forward
+
+            name: "",
+            email: "",
+
+            category: {
+                category: "",
+                tags: [],
+            },
+            
+            description: "",
+            img: "",
+            links: {
+                androidLink: "",
+                cardLink: "",
+                facebook: "",
+                iosLink: "",
+                website: "",
+            },
+            reviewed: false,
+            title: ""
+        };
+
+        // created a variable called id to track the tags, since difference categories could have the same name for a tag
+        var id = '';
+        // alert(values['category'])
+
+        // category['category'] field
+        if (values['category']!='7other'){
+            id = values['category'].toString()[0];
+            new_entry["category"]["category"] = values['category'].slice(1);    
         }
+
+        // case in which selected category is 'other'
+        else
+        {
+            if(values['other category'])
+            {
+                id = values['other category'].toString()[0];
+                new_entry["category"]["category"] = values['other category'].toString();
+            }
+            else
+            {
+                new_entry["category"]["category"] = values['category'].slice(1);    
+
+            }
+            
+        }
+        
+        for (var prop in values) {
+            
+            // finding tags
+            var tag_idx = prop.indexOf('tag');
+            if (tag_idx != -1)
+            {
+                if (prop[0]=='7')
+                {
+                    new_entry['category']['tags'].push(values[prop]);
+                }
+                else if (prop[0] == id)
+                {
+                    new_entry['category']['tags'].push(prop.slice(tag_idx + 3));
+                }
+
+            }
+
+            // name field
+            if (prop === 'name' || prop === 'email')
+            {
+                new_entry[prop] = values[prop];
+            }
+            
+            // etc.
+            if (prop === "desc")
+            {
+                new_entry["description"] = values[prop];
+            }
+            else if (prop === "image_link")
+            {
+                new_entry["img"] = values[prop];
+            }
+            else if (prop === "project_name")
+            {
+                new_entry["title"] = values[prop];
+            }
+            else if (prop === "project_link")
+            {
+                new_entry["links"]["website"] = values[prop];                    
+            }
+
+                  
+          }
+        
+        // alert(JSON.stringify(new_entry));
+        
+        // calling function uploadData to send to firestore
+        uploadData(new_entry);
+        
+        // resetting the form once an entry has been submitted
+        resetForm({values: ''});
+        
     };
 
-    const imgFileUploadHandler = (fileName) => {
-        console.log("congrats, you clicked me.")
-        console.log("Filename: " + fileName)
-        this.setState({
-            imgFileValue: fileName
-        })
+
+    // upload to firebase here
+    function uploadData(values) {
+
+        // calling firestore and adding new values
+        var db = firebase.firestore();
+        var newResourceRef = db.collection("resources");
+        newResourceRef.add(values);
+        
+    }
+
+    // now that posting image files isn't an option, this function is obsolete....?
+    function uploadImage(values) {
+        const r = new XMLHttpRequest();
+        const d = new FormData();
+        // const e = document.getElementsByClassName('input-image')[0].files[0]
+        // var u
+        const clientID = 'df36f9db0218771';
+
+        d.append('image', values["img"]);
+
+        // Boilerplate for POST request to Imgur
+        r.open('POST', 'https://api.imgur.com/3/image/');
+        r.setRequestHeader('Authorization', `Client-ID ${clientID}`);
+        r.onreadystatechange = function () {
+            if (r.status === 200 && r.readyState === 4) {
+                let res = JSON.parse(r.responseText);
+                // this is the link to the uploaded image
+                let imgur = `https://i.imgur.com/${res.data.id}.png`;
+
+                values["img"] = imgur;
+                uploadData(values);
+            }
+        };
+        // send POST request to Imgur API
+        r.send(d);
     }
 
     return (
+
         <div>
             <CustomHeader active={'resources'} brand={"VIRTUAL CAMPUS"}></CustomHeader>
             <div className={classNames(classes.mainOther, manual.main)}>
                 <Container maxWidth='lg' style={{ paddingTop: '76px' }}>
-                    {/* <Grid container spacing={8}>
-                        <Grid item xs={4}>
-                            <div className={classNames(manual.toAll, manual.title)}>Add a New Resource</div>
-                            <div className={classNames(manual.toAll, manual.detail)}>
-                                Thank you for your interest in sharing your project through CVC.
-                                Please fill out the following form so we can thoroughly promote your resource on our website!
-                            </div>
-                            <div className={classNames(manual.toAll, manual.detail)} style={{ paddingTop: '87px' }}>
-                                Questions? Contact us at: <a style={{ textAlign: "center", color: "#4284C8" }}
-                                    href={"mailto:columbiavirtualcampus@gmail.com"}>columbiavirtualcampus@gmail.com</a>.
-                            </div>
-                        </Grid> */}
-                    <Grid container spacing={10}>
-                        <Grid item xs={4}>
-                            <div style={{
-                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                fontSize: "36px", lineHeight: "54px", color: "#0072CE"
-                            }}>
-                                Add a New Resource
+                   
+                        <Grid container spacing={10}>
+                            <Grid item xs={4}>
+                                <div style={{
+                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                    fontSize: "36px", lineHeight: "54px", color: "#0072CE"
+                                }}>
+                                    Add a New Resource
                           </div>
-                            <div style={{
-                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                fontSize: "14px", lineHeight: "21px"
-                            }}>
-                                Thank you for your interest in sharing your project through CVC.
-                                Please fill out the following form so we can thoroughly promote your resource on our website!
+                                <div style={{
+                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                    fontSize: "14px", lineHeight: "21px"
+                                }}>
+                                    Thank you for your interest in sharing your resource through CVC.
+                                    Please fill out the following form so we can thoroughly promote your resource on our website!
                           </div>
-                            <div style={{
-                                fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                                fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
-                            }}>
-                                Questions? Contact us at <br />
-                                <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
+                                <div style={{
+                                    fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
+                                    fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
+                                }}>
+                                    Questions? Contact us at <br />
+                                    <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
                           </div>
                         </Grid>
                         <Grid item xs={8}>
@@ -232,6 +373,7 @@ const ResourceFormDesktop = (props) => {
                                 {({ dirty, isValid, errors, touched }) => {
                                     return (
                                         <Form>
+                                            
                                             <div className={manual.section}>
                                                 <div className={classNames(manual.toAll, manual.subtitle)}>Contact</div>
                                                 <Grid container spacing={2}>
@@ -244,7 +386,7 @@ const ResourceFormDesktop = (props) => {
                                                         </div>
                                                     </Grid>
                                                 </Grid>
-                                            </div>
+                                                </div>
 
                                             <div className={manual.section}>
                                                 <div className={classNames(manual.toAll, manual.subtitle)} style={{ marginTop: '30px' }}>Resource</div>
@@ -263,35 +405,7 @@ const ResourceFormDesktop = (props) => {
                                                             />
                                                         </div>
                                                     </Grid>
-                                                    {/*<Grid item sm={2}>*/}
-                                                    {/*    /!* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> *!/*/}
-                                                    {/*    /!* <CustomButton text={"Upload File"} color={"blue"} size={"small"}/> *!/*/}
-                                                    {/*    /!* <Field*/}
-                                                    {/*        name='image_file'*/}
-                                                    {/*        component={FileUpload}*/}
-                                                    {/*    /> *!/*/}
-                                                    {/*    /!* <input*/}
-                                                    {/*        name='image_file'*/}
-                                                    {/*        type='file'*/}
-                                                    {/*        id='file_upload'*/}
-                                                    {/*        style={{ display: 'none' }}*/}
-                                                    {/*    />*/}
-                                                    {/*    <label htmlFor="file_upload">*/}
-                                                    {/*        <div>*/}
-                                                    {/*            <Button className={classNames(manual.toAll, manual.uploadBtn)} variant="outlined" component="span">*/}
-                                                    {/*                Upload File*/}
-                                                    {/*            </Button>*/}
-                                                    {/*        </div>*/}
-                                                    {/*    </label> *!/*/}
-                                                    {/*    <FileUploadBtn*/}
-                                                    {/*        text="Upload"*/}
-                                                    {/*        name='file'*/}
-                                                    {/*        label='Image Upload'*/}
-                                                    {/*        id="fileUpload"*/}
-                                                    {/*    // onChange={this.imgFileUploadHandler}*/}
-                                                    {/*    />*/}
-
-                                                    {/*</Grid>*/}
+                                                    
                                                 </Grid>
 
                                                 <Grid container spacing={2}>
@@ -311,57 +425,523 @@ const ResourceFormDesktop = (props) => {
                                                         <div style={{ marginLeft: '35px', paddingTop: '9px', height: '15px', width: '70px' }}>Category</div>
                                                     </Grid>
                                                     <Grid item sm={10}>
+                                                    
+  
                                                         <div className="buttons">
-                                                            {/* {Object.keys(MainCategories).map(category => {
-                                                                return (
-                                                                    <Button name="category" className={classNames(manual.toAll, manual.categoryBtn)}>{MainCategories[category]['title']}</Button>
-                                                                );
-                                                            })} */}
-                                                            <Grid item sm={11}>
-                                                                <Field
-                                                                    component={CheckboxWithLabel}
-                                                                    name="needs_tag"
-                                                                    Label={{ label: "Needs" }}
-                                                                    type="checkbox"
-                                                                    indeterminate={false}
+                                                            
+                                                            <Grid item sm={20}>
+                                                                
+                                                                <Field id = "unique" component={RadioGroup} row={true} name="category" value={value} onChange={handleChange} required>
+                                                          
+                                                                {category[0]
+                                                                ? <span >
+                                                                    <FormControlLabel
+                                                                        value={'0'+category[0]}
+                                                                        control={<Radio row/>}                                                                        
+                                                                        label = {category[0]}
+                                                                        onClick ={()=>{
+                                                                            Object.keys(state).forEach(ele => state[ele] = false)
+                                                                            state[category[0]] = true;  
+                                                                        }}
+                                                                    />
+                                                                </span>
+                                                                : ""  
+                                                                }
+
+                                                                {category[1]
+                                                                ? <span >
+                                                                    <FormControlLabel
+                                                                    value={'1'+category[1]}
+                                                                    control={<Radio row/>}
+                                                                    label = {category[1]}
+                                                                    onClick ={()=>{    
+                                                                        Object.keys(state).forEach(ele => state[ele] = false)                                                                       
+                                                                        state[category[1]] = true;            
+                                                                    }}
+                                                                    
                                                                 />
-                                                                <Field
-                                                                    component={CheckboxWithLabel}
-                                                                    name="career_tag"
-                                                                    Label={{ label: "Career" }}
-                                                                    type="checkbox"
-                                                                    indeterminate={false}
-                                                                />
-                                                                <Field
-                                                                    component={CheckboxWithLabel}
-                                                                    name="covid_tag"
-                                                                    Label={{ label: "COVID" }}
-                                                                    type="checkbox"
-                                                                    indeterminate={false}
-                                                                />
-                                                                <Field
-                                                                    component={CheckboxWithLabel}
-                                                                    name="health_tag"
-                                                                    Label={{ label: "Health" }}
-                                                                    type="checkbox"
-                                                                    indeterminate={false}
-                                                                />
-                                                                <Field
-                                                                    component={CheckboxWithLabel}
-                                                                    name="social_tag"
-                                                                    Label={{ label: "Social" }}
-                                                                    type="checkbox"
-                                                                    indeterminate={false}
-                                                                />
+                                                                </span>
+                                                                : ""  
+                                                                }
+
+                                                                {category[2]
+                                                                ? <span >
+                                                                    <FormControlLabel
+                                                                        value={'2'+category[2]}
+                                                                        control={<Radio row/>}                                                                        
+                                                                        label = {category[2]}
+                                                                        onClick ={()=>{
+                                                                            Object.keys(state).forEach(ele => state[ele] = false)
+                                                                            state[category[2]] = true;  
+                                                                        }}
+                                                                    />
+                                                                </span>
+                                                                : ""  
+                                                                }
+
+                                                                {category[3]
+                                                                ? <span >
+                                                                    <FormControlLabel
+                                                                        value={'3'+category[3]}
+                                                                        control={<Radio row/>}                                                                        
+                                                                        label = {category[3]}
+                                                                        onClick ={()=>{
+                                                                            Object.keys(state).forEach(ele => state[ele] = false)
+                                                                            state[category[3]] = true;  
+                                                                        }}
+                                                                    />
+                                                                </span>
+                                                                : ""  
+                                                                }
+                                                                {category[4]
+                                                                ? <span >
+                                                                    <FormControlLabel
+                                                                        value={'4'+category[4]}
+                                                                        control={<Radio row/>}
+                                                                        label = {category[4]}
+                                                                        onClick ={()=>{
+                                                                            Object.keys(state).forEach(ele => state[ele] = false)                                                                            
+                                                                            state[category[4]] = true;  
+                                                                        }}
+                                                                    />
+                                                                </span>
+                                                                : ""  
+                                                                }
+                                                                {category[5]
+                                                                ? <span >
+                                                                    <FormControlLabel
+                                                                        value={'5'+category[5]}
+                                                                        control={<Radio row/>}                                                                        
+                                                                        label = {category[5]}
+                                                                        onClick ={()=>{
+                                                                            Object.keys(state).forEach(ele => state[ele] = false)                                                                            
+                                                                            state[category[5]] = true;  
+
+                                                                        }}
+                                                                    />
+                                                                </span>
+                                                                : ""  
+                                                                }
+
+                                                                {category[6]
+                                                                ? <span >
+                                                                    <FormControlLabel
+                                                                        value={'6'+ category[6]}
+                                                                        control={<Radio row/>}                                                                        
+                                                                        label = {category[6]}
+                                                                        onClick ={()=>{
+                                                                            Object.keys(state).forEach(ele => state[ele] = false)                                                                            
+                                                                            state[category[6]] = true;  
+                                                                        }}
+                                                                    />
+                                                                </span>
+                                                                : ""  
+                                                                }
+                                                                <span >
+                                                                <Grid container spacing={10}>
+                                                                <Grid item sm={2}>
+                                                                    <FormControlLabel
+                                                                        value="7other"
+                                                                        control={<Radio row/>}
+                                                                        label = "other"
+                                                                        onClick ={()=>{
+                                                                            Object.keys(state).forEach(ele => state[ele] = false)
+                                                                            state['other'] = true;
+                                                                            
+                                                                        }}
+                                                                    />
+                                                                </Grid>
+
+                                                                    {state['other']
+                                                                    ?
+                                                                    
+                                                                    
+                                                                    <Grid item sm={8}>
+
+                                                                        <FormikField
+                                                                            label="other category"
+                                                                            name="other category"
+                                                                        />
+                                                                    </Grid>
+                                                                    : ""
+                                                                    }
+                                                                </Grid>    
+
+                                                                </span>
+
+                                                                </Field>
+                                                                
                                                             </Grid>
                                                         </div>
                                                     </Grid>
-                                                    <Grid item sm={12}>
-                                                        <FormikField label="Other Tags (Seperate each by semicolon)"
-                                                            placeholder="Separate Each Tag by Semicolon"
-                                                            name="other_tags" />
                                                     </Grid>
-                                                </Grid>
+
+                                                    <Grid container spacing={2}>
+                                                    <Grid item sm={2}>
+                                                        <div className={manual.dot} style={{ paddingTop: '9px' }}>•</div>
+                                                        <div style={{ marginLeft: '35px', paddingTop: '9px', height: '15px', width: '70px' }}>Tags</div>
+                                                    </Grid>
+                                                    <Grid item sm={10}>
+                                                    
+  
+                                                        <div className="buttons">
+                                                            
+                                                            <Grid item sm={11}>
+                                                            
+                                                            {/* 1st category's tags */}
+                                                            {state[category[0]]
+                                                                ? <span >
+                                                                {tags[category[0]][0]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"0tag" + tags[category[0]][0]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[0]][0] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                            
+                                                                        />
+                                                                    : ""
+                                                                    }
+                                                                    
+                                                                    {tags[category[0]][1]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"0tag" + tags[category[0]][1]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[0]][1] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                    {tags[category[0]][2]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"0tag" + tags[category[0]][2]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[0]][2] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}                                                                           
+                                                                        
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                    </span>
+                                                                : <span></span>  
+                                                                }
+                                                                
+                                                            {/* 2nd category's tags */}
+                                                            {state[category[1]]
+                                                                ?   <span >
+                                                                    {tags[category[1]][0]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"1tag" + tags[category[1]][0]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[1]][0] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    : ""
+                                                                    }
+                                                                    
+                                                                    {tags[category[1]][1]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"1tag" + tags[category[1]][1]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[1]][1] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                    {tags[category[1]][2]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"1tag" + tags[category[1]][2]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[1]][2] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                </span>
+                                                                : <span></span>  
+                                                                }
+
+                                                            {/* 3rd category's tags */}
+                                                            {state[category[2]]
+                                                                ?   <span >
+                                                                    {tags[category[2]][0]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"2tag" + tags[category[2]][0]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[2]][0] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    : ""
+                                                                    }
+                                                                    
+                                                                    {tags[category[2]][1]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"2tag"+tags[category[2]][1]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[2]][1] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                    {tags[category[2]][2]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel }
+                                                                            name={"2tag" + tags[category[2]][2]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[2]][2] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                </span>
+                                                                : <span></span>   
+                                                                }
+                                                            {/* 4th category's tags */}
+                                                            {state[category[3]]
+                                                                ?   <span >
+                                                                    {tags[category[3]][0]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"3tag" + tags[category[3]][0]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[3]][0] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    : ""
+                                                                    }
+                                                                    
+                                                                    {tags[category[3]][1]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"3tag" + tags[category[3]][1]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[3]][1] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                    {tags[category[3]][2]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"3tag" + tags[category[3]][2]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[3]][2] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                </span>
+                                                                : ""  
+                                                                }
+                                                            {/* 5th category's tags */}
+                                                            {state[category[4]]
+                                                                ?   <span >
+                                                                    {tags[category[4]][0]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"4tag" + tags[category[4]][0]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[4]][0] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    : ""
+                                                                    }
+                                                                    
+                                                                    {tags[category[4]][1]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"4tag" + tags[category[4]][1]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[4]][1] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                    {tags[category[4]][2]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"4tag" + tags[category[4]][2]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[4]][2] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                </span>
+                                                                : ""  
+                                                            }
+                                                            {/* 6th category's tags */}
+                                                            {state[category[5]]
+                                                                ?   <span >
+                                                                    {tags[category[5]][0]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"5tag" + tags[category[5]][0]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[5]][0] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    : ""
+                                                                    }
+                                                                    
+                                                                    {tags[category[5]][1]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"5tag"+tags[category[5]][1]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[5]][1] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                    {tags[category[5]][2]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"5tag"+tags[category[5]][2]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[5]][2] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                </span>
+                                                                : ""  
+                                                                }
+                                                            {/* 7th category's tags */}
+                                                            {state[category[6]]
+                                                                ?   <span >
+                                                                    {tags[category[6]][0]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"6tag" + tags[category[6]][0]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[6]][0] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    : ""
+                                                                    }
+                                                                    
+                                                                    {tags[category[6]][1]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"6tag" + tags[category[6]][1]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[6]][1] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                    {tags[category[6]][2]
+                                                                    ?
+                                                                    <Field
+                                                                            component={CheckboxWithLabel}
+                                                                            name={"6tag" + tags[category[6]][2]}
+                                                                            checked = {false}
+                                                                            Label={{ label: tags[category[6]][2] }}
+                                                                            type="checkbox"
+                                                                            indeterminate={false}
+                                                                        />
+                                                                    
+                                                                    : ""
+                                                                    }
+                                                                </span>
+                                                                : ""  
+                                                                }
+                                                            {state['other']
+                                                                ? <span >
+                                                                    <Grid container spacing={4} >
+                                                    
+                                                                        <Grid item sm={3}>
+                                                                            <div>
+                                                                                <FormikField
+                                                                                    label="Tag 1"
+                                                                                    name={"7tagother1"}
+                                                                    
+                                                                                />
+                                                                                <FormikField
+                                                                                    label="Tag 2"
+                                                                                    name={"7tagother2"}
+                                                                    
+                                                                                />
+                                                                                <FormikField
+                                                                                    label="Tag 3"
+                                                                                    name={"7tagother3"}
+                                                                                
+                                                                                />
+                                                                            </div>
+                                                                        </Grid>
+                                                                        
+                                                                    </Grid>
+
+                                                                </span>                                                                    
+                                                                : ""
+                                                                }
+                                           
+                                                            </Grid>
+                                                        </div>
+                                                    </Grid>
+                                                    </Grid>
+                        
                                             </div>
 
                                             <div className={manual.section} style={{ marginTop: '30px' }}>
@@ -397,10 +977,11 @@ const ResourceFormDesktop = (props) => {
                         </Grid>
                     </Grid>
                     <div style={{ marginBottom: "50px" }} />
-                    {/* </div> */}
+                
                 </Container>
             </div>
         </div >
+        
     );
 };
 

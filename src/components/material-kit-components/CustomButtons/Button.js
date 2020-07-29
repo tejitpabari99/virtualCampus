@@ -50,6 +50,7 @@ const RegularButton = React.forwardRef((props, ref) => {
     [classes.justIcon]: justIcon,
     [className]: className
   });
+  
   return (
     <Button {...rest} ref={ref} className={classNames(btnClasses)}
             style={{fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif', color:activeColor, ...style}}>

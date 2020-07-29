@@ -34,6 +34,7 @@ import saumya from "../../assets/images/about-us/TeamMembers/saumya.png";
 import bonnie from "../../assets/images/about-us/TeamMembers/bonnie.jpg";
 import jiho from "../../assets/images/about-us/TeamMembers/jiho.jpg";
 import alistair from "../../assets/images/about-us/TeamMembers/alistair.jpg"
+import tiffeny from "../../assets/images/about-us/TeamMembers/tiffeny.png"
 
 const useStyles = makeStyles(styles);
 
@@ -100,27 +101,17 @@ export default function TeamSection() {
           />
         </GridItem>
         <GridItem xs={12} sm={6} md={4}>
-          <TeamMember position={'Outreach Lead'} name={'Canfer Akbulut'}
-                      image={canfer}
-                      description={'I\'m am a Junior in CC ' +
-                      'studying Psychology and Statistics. Currently, I work at two psychology labs focusing ' +
-                      'on clinical, developmental, and social research. Talk to me about LoZ: Breath of the Wild!'}
-                      facebook={"https://www.facebook.com/profile.php?id=100001279952259"}
-                      linkedin={"https://www.linkedin.com/in/canfer-akbulut/"}
+          <TeamMember position={'Events Lead'} name={'James Mastran'}
+                      image={james}
+                      description={'I\'m a Senior studying Computer Engineering in SEAS. ' +
+                      'Previously, I attended Washington & Jefferson College where I earned a BA in CIS. '+
+                      'I am excited to intern at Capital One this Summer.'}
+                      github={"https://github.com/mastranj"}
+                      facebook={"https://www.facebook.com/james.mastran/"}
+                      linkedin={"https://www.linkedin.com/in/james-mastran-247754187/"}
           />
         </GridItem>
-        <GridItem xs={0} sm={0} md={2}>
-        </GridItem>
-          <GridItem xs={12} sm={6} md={4}>
-            <TeamMember position={'Events Lead'} name={'James Mastran'}
-                        image={james}
-                        description={'I\'m a Senior studying Computer Engineering in SEAS. ' +
-                        'Previously, I attended Washington & Jefferson College where I earned a BA in CIS. '+
-                        'I am excited to intern at Capital One this Summer.'}
-                        github={"https://github.com/mastranj"}
-                        facebook={"https://www.facebook.com/james.mastran/"}
-                        linkedin={"https://www.linkedin.com/in/james-mastran-247754187/"}
-            />
+        <GridItem xs={0} sm={3} md={4}>
         </GridItem>
         <GridItem xs={12} sm={6} md={4}>
           <TeamMember position={'Faculty Advisor'} name={'Lydia Chilton'}
@@ -157,21 +148,23 @@ export default function TeamSection() {
       <Heading color={'blue'}>Resources Team</Heading>
       <GridContainer className={classes.section}
                      style={{marginTop:0, paddingTop: 0, paddingBottom: 0, marginBottom:0, textAlign:'center'}}>
-        <GridItem xs={0} sm={0} md={1}/>
-        <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'Barnard \'21'} name={'Tamanna Hussain'} image={tamanna} noDescription/>
-        </GridItem>
-        <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'CC \'21'} name={'Michelle Lin'} image={michelle} noDescription/>
-        </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'CC \'21'} name={'Daniella Truong'} image={daniella} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'CC \'21'} name={'Ji Ho Hyun'} image={jiho} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
           <TeamMember position={'SEAS \'22'} name={'Luiz do Valle'} image={luiz} noDescription/>
         </GridItem>
         <GridItem xs={4} sm={3} md={2}>
-          <TeamMember position={'CC \'21'} name={'Ji Ho Hyun'} image={jiho} noDescription/>
+          <TeamMember position={'CC \'21'} name={'Michelle Lin'} image={michelle} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'Barnard \'21'} name={'Tamanna Hussain'} image={tamanna} noDescription/>
+        </GridItem>
+        <GridItem xs={4} sm={3} md={2}>
+          <TeamMember position={'SEAS \'22'} name={'Tiffeny Chen'} image={tiffeny} noDescription/>
         </GridItem>
       </GridContainer>
 

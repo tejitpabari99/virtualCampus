@@ -5,11 +5,18 @@ import Button from "../../material-kit-components/CustomButtons/Button";
 import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import {CircularProgress} from "@material-ui/core";
+import {CircularProgress, Select, MenuItem} from "@material-ui/core";
 
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
+    this.state = {...this.state, activeTags: ""}
+  }
+
+  handleClick(tagName){
+    this.setState({
+      activeTags: tagName
+    });
   }
 
   render() {
@@ -19,9 +26,10 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
               <Button size="medium"
-                      active
+                      active={(this.state.activeTags === category)}
+                      simple
                       style={{
-                        background: 'rgba(255, 255, 255, 0.85)',
+                        backgroundColor: (this.state.activeTags === category) ? "#F2F2F2" : "white",
                         position: 'relative',
                         marginLeft:"1%",
                         marginRight:"2%",
@@ -32,17 +40,20 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                         fontStyle: 'normal',
                         fontWeight: 'normal',
                         fontSize: '13px',
-                        lineHeight: '17px',
+                        lineHeight: '20px',
                         color: '#0072CE'
                       }}
-                      onClick={this.setDisplay.bind(this, category)}
+                      onClick={() =>{
+                        this.setDisplay.bind(this, category)();
+                        this.handleClick.bind(this)(category);
+                      }}
                       value={{category}}
               >{category}</Button>
             );
           })}
         </div>
 
-        <div style={{width:'86%', marginLeft:'7%', marginTop: '3%'}}>
+        <div style={{width:'82%', marginTop: '3%', display: 'inline-block', marginLeft: '3%', textAlign: "center", verticalAlign: 'middle'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -50,6 +61,17 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 placeholder={"Search resources"}
                 style={{height:'70%'}}
             />
+        </div>
+        <div style={{width:'12%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+            <Select
+              labelId="label"
+              id="select"
+              value={this.state.selection}
+              onChange={this.handleChange}
+            >
+              <MenuItem value={1}>Sort by</MenuItem>
+              <MenuItem value={2}>Alphabetical</MenuItem>
+            </Select>
         </div>
 
         <div style={{
@@ -82,7 +104,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                     marginBottom: '8px',
                     fontSize:'18px'
                   }}
-            >{this.state.tagsDescription}</div>
+            >Filter by tags: </div>
 
             {this.state.tagsDisplay.sort().map((data, idx) => {
               return (
@@ -101,12 +123,25 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             })}
 
             <Heading color={'blue'}
-                     style={{fontSize: '28px', textAlign:'center', paddingTop: '60px'}}
+                     style={{fontSize: '25px', lineHeight: '42px', textAlign:'left', paddingTop: '60px'}}
             >{"Want to add your own resource?"}</Heading>
-
-            <div style={{textAlign:'center', marginTop: '3%'}}>
+            <div style={{
+                width: '285px',
+                height: '80px',
+                textAlign: 'left'
+            }}>
+                <span style={{
+                    fontStyle: 'normal',
+                    fontColor: '#000000',
+                    fontSize: '14px',
+                    lineHeight: '10px'}}>
+                    Thank you for your interest in sharing your resource through CVC.
+                    Please click the button below to fill out a short form.
+                </span>
+            </div>
+            <div style={{textAlign:'left', marginTop: '3%'}}>
               <CustomButton text={"ADD RESOURCE"}
-                            href={"https://forms.gle/BdG5GF1zMgKRGzz3A"}
+                            href={"/resources/add-new-resource"}
                             color={"orange"}
                             size={"large"}
                             style={{marginTop: 10, marginBottom: 25}}

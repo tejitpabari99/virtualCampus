@@ -7,11 +7,18 @@ import Button from "../../material-kit-components/CustomButtons/Button";
 import {ResourcesCard, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Select, MenuItem } from '@material-ui/core';
 
 class ResourcesListMobile extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
+    this.state = {...this.state, activeTags: ""}
+  }
+
+  handleClick(tagName){
+    this.setState({
+      activeTags: tagName
+    });
   }
 
   render() {
@@ -21,9 +28,10 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
               <Button size="small"
-                      active
+                      active={(this.state.activeTags === category)}
+                      simple
                       style={{
-                        background: 'rgba(255, 255, 255, 0.85)',
+                        backgroundColor: (this.state.activeTags === category) ? "#F2F2F2" : "white",
                         position: 'relative',
                         marginLeft:"2%",
                         marginRight:"2%",
@@ -37,20 +45,34 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                         lineHeight: '14px',
                         color: '#0072CE'
                       }}
-                      onClick={this.setDisplay.bind(this, category)}
+                      onClick={() =>{
+                        this.setDisplay.bind(this, category)();
+                        this.handleClick.bind(this)(category);
+                      }}
                       value={{category}}
               >{category}</Button>
             );
           })}
         </div>
 
-        <div style={{width:'86%', marginLeft:'7%', marginTop: '4%'}}>
+        <div style={{width:'80%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
                 placeholder={"Search resources"}
             />
+        </div>
+        <div style={{width:'17%', marginLeft:'3%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+            <Select
+              labelId="label"
+              id="select"
+              value={this.state.selection}
+              onChange={this.handleChange}
+            >
+              <MenuItem value={1}>Sort by</MenuItem>
+              <MenuItem value={2}>Alphabetical</MenuItem>
+            </Select>
         </div>
 
         <div style={{

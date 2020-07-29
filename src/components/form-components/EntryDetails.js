@@ -26,13 +26,10 @@ const EntryDetails = (props) => {
   return (
     <div style={{ margin: "15px 0 0 0" }}>
       <div className={classNames(classes.root, classes.title)}>
-        {props.title}&nbsp;
-        <div style={{fontSize: "13px", display:"inline"}}>
-          (preferred image size/proportionality is 300px by 175px)
-        </div>
+        {props.title}
       </div>
       <Grid container spacing={2}>
-        <Grid item sm={6}>
+        <Grid item sm={6} xs={12}>
           <FormikField
             label={props.entryTitle}
             name="title"
@@ -41,24 +38,17 @@ const EntryDetails = (props) => {
             required
           />
         </Grid>
-        {/* <Grid item sm={6}>
+        <Grid item sm={4} xs={12}>
           <FormikField
-            label="Logo / Image Link (Preferred: Imgur URL)"
-            name="image_link"
-            error={props.errorImgLink}  
-            touch={props.touchedImgLink}
-          />
-        </Grid> */}
-        <Grid item sm={4}>
-          <FormikField
-            label={props.fileName === "" ? "Logo / Image Link (Preferred: Imgur URL)" : props.fileName}
+            label={props.fileName === "" ? "Logo / Image Link" : props.fileName}
             error={props.errorImgLink}
             touch={props.touchedImgLink}
             name="image_link"
             value={props.fileName}
+            popover={"300 x 175 px preferred. If no picture is chosen, a stock photo based on category will be chosen for you."}
           />
         </Grid>
-        <Grid item sm={2}>
+        <Grid item sm={2} xs={12}>
           <FileUploadBtn
             text="Upload"
             name='image_file'
@@ -69,7 +59,7 @@ const EntryDetails = (props) => {
         </Grid>
       </Grid >
       <Grid container spacing={2}>
-        <Grid item sm={12}>
+        <Grid item xs={12}>
           <FormikField label="Event Description"
             name="desc"
             multiline rows="5"
