@@ -51,11 +51,11 @@ export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMe
         EventCard, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         EventsPageMobile, EventsPageDesktop,
-        CustomButton, CustomButton2, DesktopMobile,
+        CustomButton, DesktopMobile,
         Title, Subtitle, Heading, Search, ResourcesList, ResourceFormDesktop, ResourceFormMobile,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
-        BLMCard, TutorExpansionMapping, TutorSearchMapping, 
+        BLMCard, TutorExpansionMapping, TutorSearchMapping,
         convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset,
         dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent,
         EventCardFeatured, EventSearch}

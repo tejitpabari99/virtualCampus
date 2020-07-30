@@ -255,6 +255,7 @@ class ResourcesListFunctionality extends React.Component {
   */
   searchFunc(val) {
     let res = [];
+    let tagArray = [];
     let allResources = this.state.resourcesDict['All Resources'];
     let error = "";
     if(!val || val.length === 0){
@@ -274,17 +275,29 @@ class ResourcesListFunctionality extends React.Component {
 
       for (let i=0; i<output.length; i+=1){
           res.push(output[i]['item']);
+
+          for(let j=0; j<output[i]['item']['category']['tags'].length; j+=1){
+            if(!(tagArray.includes(output[i]['item']['category']['tags'][j]))){
+              tagArray.push(output[i]['item']['category']['tags'][j]);
+            }
+          }
       }
       if(output.length == 0){
         error = "No results found";
       }
     }
+
+/*
+    console.log(Object.keys(this.state.tagsDict['All Resources']));
+    console.log("hi");
+    console.log(tagArray);
+    */
     this.setState({
       resourcesDisplay: res,
       activityIndicator: false,
       category: "All Resources",
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
-      tagsDisplay: Object.keys(this.state.tagsDict['All Resources']),
+      tagsDisplay: tagArray,
       searchError: error
     }, function () {
       this.handleChange(this.state.event);
