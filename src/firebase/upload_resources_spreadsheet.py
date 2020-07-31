@@ -17,7 +17,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 SPREADSHEET_NAME = "List of Resources"
 WORKSHEET_NAME = "resources"
 UPLOADED_COLUMN = 9
-FIREBASE_COLLECTION = "resources" 
+FIREBASE_COLLECTION = "resource" 
 
 def main():
     argv = sys.argv
@@ -103,14 +103,15 @@ def get_database_client(firestore_API_key:str):
     return firestore.client()
 
 def get_resources_in_firesbase(db) -> Dict[Resource, str]:
-    docs = db.collection(FIREBASE_COLLECTION).stream()
+    category_docs = db.collection(FIREBASE_COLLECTION).stream()
     firestore_resources = dict()
-    for doc in docs:
-        try:
-            resource = Resource.from_dict(doc.to_dict())
-        except KeyError:
-            log(f"Document with id {doc.id} in Firestore has incorrect or missing fields")
-        firestore_resources[resource] = doc.id
+    for category_doc in category_docs:
+        for doc in category_doc.reference.collection(category_doc.id).stream():
+            try:
+                resource = Resource.from_dict(doc.to_dict())
+            except KeyError:
+                log(f"Document with id {doc.id} in Firestore has incorrect or missing fields")
+            firestore_resources[resource] = doc.id
     return firestore_resources
 
 def upload_new_resources(new_resources_df:pd.DataFrame, firestore_resources:Dict[Resource, str], db, sheet:gspread.models.Worksheet) -> List[int]:
@@ -122,12 +123,15 @@ def upload_new_resources(new_resources_df:pd.DataFrame, firestore_resources:Dict
         links = Links(row["card link"], row["website"])
         resource = Resource(row["resource name"], True, row["description"], row["image link"], row["category"], row["tags"].split(", "), links)
         try:
+            category_document = db.collection(FIREBASE_COLLECTION).document(resource.category)
             if resource not in firestore_resources:
-                db.collection(FIREBASE_COLLECTION).add(resource.to_dict())
-                log(f"\tAdded {row['resource name']} to {FIREBASE_COLLECTION}")
+                category_document.update({"resource_list": firestore.ArrayUnion([resource.title])}) # Update resource list
+                category_document.update({"tag_list": firestore.ArrayUnion(resource.tags)}) # Update tag list
+                category_document.collection(resource.category).add(resource.to_dict()) # Add new document to collection
+                log(f"\tAdded {row['resource name']} to {FIREBASE_COLLECTION}/{category_document.id}")
             else:
-                db.collection(FIREBASE_COLLECTION).document(firestore_resources[resource]).set(resource.to_dict())
-                log(f"\tUpdated {row['resource name']} in {FIREBASE_COLLECTION}")
+                category_document.collection(resource.category).document(firestore_resources[resource]).set(resource.to_dict())
+                log(f"\tUpdated {row['resource name']} in {FIREBASE_COLLECTION}/{category_document.id}")
         except:
             log(f"Error uploading data to firestore. {added} / {length} resources uploaded successfully")
             return uploaded_rows
