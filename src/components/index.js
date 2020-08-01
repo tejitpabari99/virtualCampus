@@ -13,7 +13,6 @@ import EventEmailModal from "./cards/EventEmailModal";
 import ResourcesList from "./resources/resourcesList/ResourcesList";
 import ResourcesListDesktop from "./resources/resourcesList/ResourcesListDesktop";
 import ResourcesListMobile from "./resources/resourcesList/ResourcesListMobile";
-import ResourcesListFunctionality from "./resources/resourcesList/ResourcesListFunctionality";
 import ResourcesFeatured from "./resources/featured/ResourcesFeatured";
 import ResourcesFeaturedDesktop from "./resources/featured/ResourcesFeaturedDesktop";
 import ResourcesFeaturedMobile from "./resources/featured/ResourcesFeaturedMobile";
