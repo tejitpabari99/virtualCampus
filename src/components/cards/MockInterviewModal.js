@@ -117,6 +117,26 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             setTimeout(() => { window.location.reload(); }, 4500);
             return;
         }
+        
+        let time = new Date(lookUpEvent.docs[0].data().start_date);
+        let timeDate = time.getDate();
+        let currentTime = new Date();
+        let currentDate = currentTime.getDate();
+
+        // let testTime = new Date(2020, 7, 6);
+        // let testDate = testTime.getDate();
+
+        if(timeDate - currentDate <= 2){
+            setLoading(false);
+            setSubmitStatus('tooSoon');
+            closeDo();
+            window.scrollTo({top: 0});
+            setTimeout(() => { window.location.reload(); }, 4500);
+            return;
+        }
+
+
+
         let lookUpHostEvent = await db.collection("technical")
             .where("host_email", "==", event.host_email)
             .get();
