@@ -61,7 +61,7 @@ class ResourcesListFunctionality extends React.Component {
   * Set initial resources/tags and display on website
   */
   async getResources() {
-    let approvedResourcesDict = {};
+    let approvedResourcesDict = {"All Resources":[]};
     let allResources = [];
     try{
       let db = firebase.firestore();
@@ -87,12 +87,11 @@ class ResourcesListFunctionality extends React.Component {
         all_reviewed.forEach(doc =>
         {
           categoryResources.push(doc.data());
-          allResources.push(doc.data());
+          approvedResourcesDict["All Resources"].push(doc.data());
         });
 
         approvedResourcesDict[this.toTitleCase(name)] = categoryResources;
       }
-      approvedResourcesDict["All Resources"] = allResources;
 
       this.setState({
         activityIndicator: false,
@@ -118,9 +117,11 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   /**
-  * Display appropriate resources when category button is clicked (resourcesDisplay)
-  * Set corresponding category description (description), category title (category), and tags (tagsDisplay)
-  * Empty tag selection cache (tagsResourcesDisplay)
+  * resourcesDisplay: Display appropriate resources when category button is clicked
+  * description: Set corresponding category description
+  * category: Set category title
+  * tagsDisplay: Set tag buttons
+  * tagsResourcesDisplay: Cache of what tags/corresponding resources are selected, currently empty
   * @param  {String} category: Category name
   */
   setDisplay(category) {
@@ -138,7 +139,7 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   /**
-  * Make tags based on the resources that are currently displayed
+  * Make tag buttons based on the resources that are currently displayed
   * @param  {[]} resources: Category name
   */
   makeTags(resources) {
@@ -164,8 +165,7 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   /**
-  * Add selected tags (keys) along with list of corresponding resources (values) to tagsResourcesDisplay dict
-  * Takes all resources present in the dict, renders list of resources, sets resource display to these resources
+  * Renders resources when a tag is selected
   * @param  {String} tag: Selected tag
   */
   setTagDisplay(tag) {
@@ -174,8 +174,7 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   /**
-  * Delete selected tags (keys) along with list of corresponding resources (values) from tagsResourcesDisplay dict
-  * Takes remaining resources present in the dict, renders list of resources, sets resource display to these resources
+  * Renders resources when a tag is deselected
   * @param  {String} tag: Deselected tag
   */
   deleteTagDisplay(tag) {
@@ -184,8 +183,7 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   /**
-  * Takes all resources present in the dict, renders list of resources, sets resource display to these resources
-  * If no resources present in dict (all tags deselected), set resources display to all resources in the category
+  * Renders the resources according to which tags are selected/not selected
   */
   renderTagDisplay() {
     let allResources = [].concat.apply([], Object.values(this.state.tagsResourcesDisplay));
