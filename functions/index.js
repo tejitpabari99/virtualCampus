@@ -123,7 +123,7 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
         CVC`;
       const attendeeMailOptions = {
         from: "columbiavirtualcampus@gmail.com",
-        replyTo: "columbiavirtualcampus@gmail.com",
+        replyTo: event.host_email,
         to: email,
         subject: "Your interview has been confirmed!",
         text: attendeeText,
@@ -131,7 +131,7 @@ exports.bookEvent = functions.https.onRequest(async (req, res) => {
       };
       const hostMailOptions = {
         from: "columbiavirtualcampus@gmail.com",
-        replyTo: "columbiavirtualcampus@gmail.com",
+        replyTo: email,
         to: event.host_email,
         subject: `ACTION REQUIRED: ${name} has signed up for an interview!`,
         text: hostText,
