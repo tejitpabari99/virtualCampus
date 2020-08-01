@@ -51,7 +51,7 @@ export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMe
         EventCard, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         EventsPageMobile, EventsPageDesktop,
-        CustomButton, CustomButton2, DesktopMobile,
+        CustomButton, DesktopMobile,
         Title, Subtitle, Heading, Search, ResourcesList, ResourceFormDesktop, ResourceFormMobile,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
