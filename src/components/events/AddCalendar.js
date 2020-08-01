@@ -18,7 +18,7 @@ let formatDescription = function(desc, eve, type){
         d += eve.event + " website: " + eve.event_link + lineBreak + lineBreak
 
     d += "Please visit "+website+" for more events like this! If you would like the zoom link to "+eve.event
-        +", please enter your university email address on our website for the event you wish to attend."
+        +", please visit the event card on our website " + eve.event_link + " and submit your university email address in the textbox"
     return d;
 };
 

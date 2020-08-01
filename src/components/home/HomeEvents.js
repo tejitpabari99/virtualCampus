@@ -2,7 +2,7 @@ import React from "react"
 import Button from "../material-kit-components/CustomButtons/Button.js";
 import myEventsList from '../../assets/EventsData'
 import { withStyles } from "@material-ui/core/styles";
-import {EventCard, EventModal, CustomButton,
+import {EventCardHighlight, EventModal, CustomButton, EventCard,
         getTimezoneName, convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate} from '../'
 import TZ from "countries-and-timezones";
 import firebase from "../../firebase";

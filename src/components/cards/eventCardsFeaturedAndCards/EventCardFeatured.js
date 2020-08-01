@@ -1,9 +1,9 @@
 import React from "react"
-import { isMobile, isTablet, isEdge, isIE } from "react-device-detect";
-import EventFormDesktop from "../../components/events/EventFormDesktop";
-import EventFormMobile from "../../components/events/EventFormMobile";
+import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
+import EventCardHighlightDesktop from './EventCardFeaturedDesktop'
+import EventCardHighlightMobile from './EventCardFeaturedMobile'
 
-class Index extends React.Component {
+class EventCardFeatured extends React.Component {
 
   constructor(props) {
     super(props);
@@ -26,15 +26,16 @@ class Index extends React.Component {
 
   // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
   render() {
+    const {ele, onClick} = this.props;
 
     if (this.state.height === -1) {
       return (
         <div>
-          <EventFormDesktop />
+          <EventCardHighlightDesktop ele={ele} onClick={onClick}/>
         </div>
       );
     }
-    {/* For mobile's screen orientation update */ }
+    {/* For mobile's screen orientation update */}
     const isLandscape = this.state.width > this.state.height ? true : false;
 
     {/* If Tablet:
@@ -45,23 +46,23 @@ class Index extends React.Component {
       if (isLandscape) {
         return (
           <div>
-            <EventFormDesktop />
+            <EventCardHighlightDesktop ele={ele} onClick={onClick}/>
           </div>
         );
       } else {
         return (
           <div>
-            <EventFormMobile />
+            <EventCardHighlightMobile ele={ele} onClick={onClick}/>
           </div>
         );
       }
 
 
-      {/* For mobile component : IE or Edge must go to mobile since they do not support all css */ }
+      {/* For mobile component : IE or Edge must go to mobile since they do not support all css */}
     } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
       return (
         <div>
-          <EventFormMobile />
+          <EventCardHighlightMobile ele={ele} onClick={onClick}/>
         </div>
       );
 
@@ -73,11 +74,11 @@ class Index extends React.Component {
     } else {
       return (
         <div>
-          <EventFormDesktop />
+          <EventCardHighlightDesktop ele={ele} onClick={onClick}/>
         </div>
       );
     }
   }
 }
 
-export default Index;
+export default EventCardFeatured;
