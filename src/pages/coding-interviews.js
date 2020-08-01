@@ -227,32 +227,17 @@ class Technical extends React.Component {
   
   //Note: This function assumes that the dates are all in the same month
   signUpTimeCheck(events){
-    //let count = 0
     events.forEach(event => {
-      
-
       let currentTime = new Date();
       let currentDate = currentTime.getDate();
-      
-
-      let testTime = new Date(2020, 7, 18);
-      //console.log(testTime);
-      let testDate = testTime.getDate();
-      //console.log(testDate)
 
       let eventTime = new Date(event.start_date);
-      //console.log(eventTime)
       let eventDate = eventTime.getDate()
-      //console.log(eventDate)  
-
-      
       
       if(eventDate - currentDate <= 2 ){
         event.available = false;
-        //count++;
       }
     })
-    //console.log(count)
   }
 
   maxWeeklyInterviewsCheck(events) {
