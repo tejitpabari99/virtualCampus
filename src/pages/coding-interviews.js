@@ -224,6 +224,36 @@ class Technical extends React.Component {
     }
     return event;
   }
+  
+  //Note: This function assumes that the dates are all in the same month
+  signUpTimeCheck(events){
+    //let count = 0
+    events.forEach(event => {
+      
+
+      let currentTime = new Date();
+      let currentDate = currentTime.getDate();
+      
+
+      let testTime = new Date(2020, 7, 18);
+      //console.log(testTime);
+      let testDate = testTime.getDate();
+      //console.log(testDate)
+
+      let eventTime = new Date(event.start_date);
+      //console.log(eventTime)
+      let eventDate = eventTime.getDate()
+      //console.log(eventDate)  
+
+      
+      
+      if(eventDate - currentDate <= 2 ){
+        event.available = false;
+        //count++;
+      }
+    })
+    //console.log(count)
+  }
 
   maxWeeklyInterviewsCheck(events) {
 
@@ -286,6 +316,7 @@ class Technical extends React.Component {
           approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
       }
       this.maxWeeklyInterviewsCheck(approvedEventsMap);
+      this.signUpTimeCheck(approvedEventsMap);
       this.setState({ myEventsList: approvedEventsMap, loadingEvents: false });
     });
   }
@@ -308,6 +339,7 @@ class Technical extends React.Component {
 
   eventPropStyles(event, start, end, isSelected) {
     let style;
+
     if(event.available === true){
       style = {
         backgroundColor: "#2984ce"
@@ -355,6 +387,9 @@ class Technical extends React.Component {
         }
         { this.state.submitStatus === 'max' &&
           <Alert severity="error">Interviewer has already reached their limit for the week! Reload sessions...</Alert>
+        }
+        { this.state.submitStatus === 'tooSoon' &&
+          <Alert severity="error">You can't sign up for this session because it is too soon! Reloading sessions...</Alert>
         }
         <Title color={"blue"} style={{  padding: '20px', marginTop: 0}}>Mock Coding Interviews</Title>
         <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "1.3em", fontWeight: 100 }}> August 3rd - August 24th, 2020</h3>
