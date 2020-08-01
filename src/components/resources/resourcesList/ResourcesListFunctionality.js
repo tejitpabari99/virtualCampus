@@ -275,10 +275,10 @@ class ResourcesListFunctionality extends React.Component {
 
       for (let i=0; i<output.length; i+=1){
           res.push(output[i]['item']);
-
-          for(let j=0; j<output[i]['item']['category']['tags'].length; j+=1){
-            if(!(tagArray.includes(output[i]['item']['category']['tags'][j]))){
-              tagArray.push(output[i]['item']['category']['tags'][j]);
+          let resourceTags = output[i]['item']['category']['tags'];
+          for(let j=0; j<resourceTags.length; j+=1){
+            if(!(tagArray.includes(resourceTags[j]))){
+              tagArray.push(resourceTags[j]);
             }
           }
       }
