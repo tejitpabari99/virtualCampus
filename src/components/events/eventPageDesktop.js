@@ -167,7 +167,7 @@ class EventsPageDesktop extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only",
+      dateFilter: "All",
       loadingEvents: true,
     };
     this.getEvents();
@@ -536,7 +536,7 @@ class EventsPageDesktop extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only"
+      dateFilter: "All"
     });
     this.searchFunc('')
   }
@@ -558,6 +558,8 @@ class EventsPageDesktop extends React.Component {
         sizeOfList = sizeOfList + 1
         if (ele.displayNameToggleOff)
           ele.name = "Columbia Virtual Campus"
+        if (ele.id === this.props.event)
+          ele.openExpansion = true
         eventsList.push(ele)
       }
     });
