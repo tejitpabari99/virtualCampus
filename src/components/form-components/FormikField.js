@@ -30,6 +30,7 @@ const FormikField = (props) => {
         multiTog = true
     }
 
+
     return (
         <div style={{ margin: '2px 0 8px 0' }}>
             <Field
@@ -44,6 +45,7 @@ const FormikField = (props) => {
                 rows={props.rows}
                 placeholder={props.label}
                 isValid={valid}
+                popover={props.popover}
             />
         </div>
     )

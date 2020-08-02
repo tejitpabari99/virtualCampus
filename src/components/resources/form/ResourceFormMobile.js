@@ -171,20 +171,20 @@ const validationSchema = Yup.object().shape({
 
 });
 
-const ResourceFormDesktop = (props) => {
+const ResourceFormMobile = (props) => {
     const classes = useStyles();
     const manual = manualSt();
     const [value, setValue] = React.useState('');
     const [error, setError] = React.useState(false);
     const handleChange = (event) => {
         setValue(event.target.value);
-        
+
       };
-    
+
     // console.log(Categories)
     var category = Object.keys(Categories)
 
-    
+
     // added state variable to keep track of current category
     var state = {}
     category.forEach(ele => state[ele] = false);
@@ -194,10 +194,10 @@ const ResourceFormDesktop = (props) => {
 
 
     const submitHandler = (values, {resetForm}) => {
-        
+
         // had to create new object to upload to firestore
         var new_entry = {
-            
+
             // added name and email fields for new entries--
             // useful info to store in Firestore moving forward
 
@@ -208,7 +208,7 @@ const ResourceFormDesktop = (props) => {
                 category: "",
                 tags: [],
             },
-            
+
             description: "",
             img: "",
             links: {
@@ -229,7 +229,7 @@ const ResourceFormDesktop = (props) => {
         // category['category'] field
         if (values['category']!='7other'){
             id = values['category'].toString()[0];
-            new_entry["category"]["category"] = values['category'].slice(1);    
+            new_entry["category"]["category"] = values['category'].slice(1);
         }
 
         // case in which selected category is 'other'
@@ -242,14 +242,14 @@ const ResourceFormDesktop = (props) => {
             }
             else
             {
-                new_entry["category"]["category"] = values['category'].slice(1);    
+                new_entry["category"]["category"] = values['category'].slice(1);
 
             }
-            
+
         }
-        
+
         for (var prop in values) {
-            
+
             // finding tags
             var tag_idx = prop.indexOf('tag');
             if (tag_idx != -1)
@@ -270,7 +270,6 @@ const ResourceFormDesktop = (props) => {
             {
                 new_entry[prop] = values[prop];
             }
-            
             // etc.
             if (prop === "desc")
             {
@@ -286,20 +285,20 @@ const ResourceFormDesktop = (props) => {
             }
             else if (prop === "project_link")
             {
-                new_entry["links"]["website"] = values[prop];                    
+                new_entry["links"]["website"] = values[prop];
             }
 
-                  
+
           }
-        
+
         // alert(JSON.stringify(new_entry));
-        
+
         // calling function uploadData to send to firestore
         uploadData(new_entry);
-        
+
         // resetting the form once an entry has been submitted
         resetForm({values: ''});
-        
+
     };
 
 
@@ -310,7 +309,6 @@ const ResourceFormDesktop = (props) => {
         var db = firebase.firestore();
         var newResourceRef = db.collection("resources");
         newResourceRef.add(values);
-        
     }
 
     // now that posting image files isn't an option, this function is obsolete....?
@@ -410,7 +408,6 @@ const ResourceFormDesktop = (props) => {
                                                     </div>
                                                 </Grid>
                                             </Grid>
-                                           
 
                                             <Grid container spacing={2}>
                                                 <Grid item xs={12}>
@@ -437,20 +434,19 @@ const ResourceFormDesktop = (props) => {
                                                             })} */}
                                                         <Grid item sm={30}>
                                                         <Field id = "unique" component={RadioGroup} row={true} name="category" value={value} onChange={handleChange} required>
-                                                          
                                                           {category[0]
                                                           ? <span >
                                                               <FormControlLabel
                                                                   value={'0'+category[0]}
-                                                                  control={<Radio row/>}                                                                        
+                                                                  control={<Radio row/>}
                                                                   label = {category[0]}
                                                                   onClick ={()=>{
                                                                       Object.keys(state).forEach(ele => state[ele] = false)
-                                                                      state[category[0]] = true;  
+                                                                      state[category[0]] = true;
                                                                   }}
                                                               />
                                                           </span>
-                                                          : ""  
+                                                          : ""
                                                           }
 
                                                           {category[1]
@@ -459,44 +455,44 @@ const ResourceFormDesktop = (props) => {
                                                               value={'1'+category[1]}
                                                               control={<Radio row/>}
                                                               label = {category[1]}
-                                                              onClick ={()=>{    
-                                                                  Object.keys(state).forEach(ele => state[ele] = false)                                                                       
-                                                                  state[category[1]] = true;            
+                                                              onClick ={()=>{
+                                                                  Object.keys(state).forEach(ele => state[ele] = false)
+                                                                  state[category[1]] = true;
                                                               }}
-                                                              
+
                                                           />
                                                           </span>
-                                                          : ""  
+                                                          : ""
                                                           }
 
                                                           {category[2]
                                                           ? <span >
                                                               <FormControlLabel
                                                                   value={'2'+category[2]}
-                                                                  control={<Radio row/>}                                                                        
+                                                                  control={<Radio row/>}
                                                                   label = {category[2]}
                                                                   onClick ={()=>{
                                                                       Object.keys(state).forEach(ele => state[ele] = false)
-                                                                      state[category[2]] = true;  
+                                                                      state[category[2]] = true;
                                                                   }}
                                                               />
                                                           </span>
-                                                          : ""  
+                                                          : ""
                                                           }
 
                                                           {category[3]
                                                           ? <span >
                                                               <FormControlLabel
                                                                   value={'3'+category[3]}
-                                                                  control={<Radio row/>}                                                                        
+                                                                  control={<Radio row/>}
                                                                   label = {category[3]}
                                                                   onClick ={()=>{
                                                                       Object.keys(state).forEach(ele => state[ele] = false)
-                                                                      state[category[3]] = true;  
+                                                                      state[category[3]] = true;
                                                                   }}
                                                               />
                                                           </span>
-                                                          : ""  
+                                                          : ""
                                                           }
                                                           {category[4]
                                                           ? <span >
@@ -505,42 +501,42 @@ const ResourceFormDesktop = (props) => {
                                                                   control={<Radio row/>}
                                                                   label = {category[4]}
                                                                   onClick ={()=>{
-                                                                      Object.keys(state).forEach(ele => state[ele] = false)                                                                            
-                                                                      state[category[4]] = true;  
+                                                                      Object.keys(state).forEach(ele => state[ele] = false)
+                                                                      state[category[4]] = true;
                                                                   }}
                                                               />
                                                           </span>
-                                                          : ""  
+                                                          : ""
                                                           }
                                                           {category[5]
                                                           ? <span >
                                                               <FormControlLabel
                                                                   value={'5'+category[5]}
-                                                                  control={<Radio row/>}                                                                        
+                                                                  control={<Radio row/>}
                                                                   label = {category[5]}
                                                                   onClick ={()=>{
-                                                                      Object.keys(state).forEach(ele => state[ele] = false)                                                                            
-                                                                      state[category[5]] = true;  
+                                                                      Object.keys(state).forEach(ele => state[ele] = false)
+                                                                      state[category[5]] = true;
 
                                                                   }}
                                                               />
                                                           </span>
-                                                          : ""  
+                                                          : ""
                                                           }
 
                                                           {category[6]
                                                           ? <span >
                                                               <FormControlLabel
                                                                   value={'6'+ category[6]}
-                                                                  control={<Radio row/>}                                                                        
+                                                                  control={<Radio row/>}
                                                                   label = {category[6]}
                                                                   onClick ={()=>{
-                                                                      Object.keys(state).forEach(ele => state[ele] = false)                                                                            
-                                                                      state[category[6]] = true;  
+                                                                      Object.keys(state).forEach(ele => state[ele] = false)
+                                                                      state[category[6]] = true;
                                                                   }}
                                                               />
                                                           </span>
-                                                          : ""  
+                                                          : ""
                                                           }
                                                           <span >
                                                           <Grid container spacing={10}>
@@ -552,15 +548,14 @@ const ResourceFormDesktop = (props) => {
                                                                   onClick ={()=>{
                                                                       Object.keys(state).forEach(ele => state[ele] = false)
                                                                       state['other'] = true;
-                                                                      
                                                                   }}
                                                               />
                                                           </Grid>
 
                                                               {state['other']
                                                               ?
-                                                              
-                                                              
+
+
                                                               <Grid item sm={2}>
 
                                                                   <FormikField
@@ -570,7 +565,7 @@ const ResourceFormDesktop = (props) => {
                                                               </Grid>
                                                               : ""
                                                               }
-                                                          </Grid>    
+                                                          </Grid>
 
                                                           </span>
 
@@ -584,12 +579,12 @@ const ResourceFormDesktop = (props) => {
                                                         <div style={{ marginLeft: '35px', paddingTop: '9px', height: '15px', width: '70px' }}>Tags</div>
                                                     </Grid>
                                                     <Grid item sm={10}>
-                                                    
-  
+
+
                                                         <div className="buttons">
-                                                            
+
                                                             <Grid item sm={11}>
-                                                            
+
                                                             {/* 1st category's tags */}
                                                             {state[category[0]]
                                                                 ? <span >
@@ -602,11 +597,11 @@ const ResourceFormDesktop = (props) => {
                                                                             Label={{ label: tags[category[0]][0] }}
                                                                             type="checkbox"
                                                                             indeterminate={false}
-                                                                            
+
                                                                         />
                                                                     : ""
                                                                     }
-                                                                    
+
                                                                     {tags[category[0]][1]
                                                                     ?
                                                                     <Field
@@ -617,7 +612,6 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
                                                                     : ""
                                                                     }
                                                                     {tags[category[0]][2]
@@ -628,16 +622,16 @@ const ResourceFormDesktop = (props) => {
                                                                             checked = {false}
                                                                             Label={{ label: tags[category[0]][2] }}
                                                                             type="checkbox"
-                                                                            indeterminate={false}                                                                           
-                                                                        
+                                                                            indeterminate={false}
+
                                                                         />
-                                                                    
+
                                                                     : ""
                                                                     }
                                                                     </span>
-                                                                : <span></span>  
+                                                                : <span></span>
                                                                 }
-                                                                
+
                                                             {/* 2nd category's tags */}
                                                             {state[category[1]]
                                                                 ?   <span >
@@ -653,7 +647,6 @@ const ResourceFormDesktop = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-                                                                    
                                                                     {tags[category[1]][1]
                                                                     ?
                                                                     <Field
@@ -664,7 +657,6 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
                                                                     : ""
                                                                     }
                                                                     {tags[category[1]][2]
@@ -677,11 +669,11 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
+
                                                                     : ""
                                                                     }
                                                                 </span>
-                                                                : <span></span>  
+                                                                : <span></span>
                                                                 }
 
                                                             {/* 3rd category's tags */}
@@ -699,7 +691,6 @@ const ResourceFormDesktop = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-                                                                    
                                                                     {tags[category[2]][1]
                                                                     ?
                                                                     <Field
@@ -710,7 +701,6 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
                                                                     : ""
                                                                     }
                                                                     {tags[category[2]][2]
@@ -723,11 +713,11 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
+
                                                                     : ""
                                                                     }
                                                                 </span>
-                                                                : <span></span>   
+                                                                : <span></span>
                                                                 }
                                                             {/* 4th category's tags */}
                                                             {state[category[3]]
@@ -744,7 +734,6 @@ const ResourceFormDesktop = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-                                                                    
                                                                     {tags[category[3]][1]
                                                                     ?
                                                                     <Field
@@ -755,7 +744,6 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
                                                                     : ""
                                                                     }
                                                                     {tags[category[3]][2]
@@ -768,11 +756,11 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
+
                                                                     : ""
                                                                     }
                                                                 </span>
-                                                                : ""  
+                                                                : ""
                                                                 }
                                                             {/* 5th category's tags */}
                                                             {state[category[4]]
@@ -789,7 +777,6 @@ const ResourceFormDesktop = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-                                                                    
                                                                     {tags[category[4]][1]
                                                                     ?
                                                                     <Field
@@ -800,7 +787,6 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
                                                                     : ""
                                                                     }
                                                                     {tags[category[4]][2]
@@ -813,11 +799,11 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
+
                                                                     : ""
                                                                     }
                                                                 </span>
-                                                                : ""  
+                                                                : ""
                                                             }
                                                             {/* 6th category's tags */}
                                                             {state[category[5]]
@@ -834,7 +820,6 @@ const ResourceFormDesktop = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-                                                                    
                                                                     {tags[category[5]][1]
                                                                     ?
                                                                     <Field
@@ -845,7 +830,6 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
                                                                     : ""
                                                                     }
                                                                     {tags[category[5]][2]
@@ -858,11 +842,11 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
+
                                                                     : ""
                                                                     }
                                                                 </span>
-                                                                : ""  
+                                                                : ""
                                                                 }
                                                             {/* 7th category's tags */}
                                                             {state[category[6]]
@@ -879,7 +863,6 @@ const ResourceFormDesktop = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-                                                                    
                                                                     {tags[category[6]][1]
                                                                     ?
                                                                     <Field
@@ -890,7 +873,6 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
                                                                     : ""
                                                                     }
                                                                     {tags[category[6]][2]
@@ -903,46 +885,43 @@ const ResourceFormDesktop = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-                                                                    
+
                                                                     : ""
                                                                     }
                                                                 </span>
-                                                                : ""  
+                                                                : ""
                                                                 }
                                                             {state['other']
                                                                 ? <span >
-                                                                    
-                                                    
+
+
                                                                         <Grid item sm={3}>
                                                                             <div>
                                                                             <Grid item sm={2}>
 
-                                                                    
                                                                             </Grid>
                                                                                 <FormikField
                                                                                     label="Tag 1"
                                                                                     name={"7tagother1"}
-                                                                    
                                                                                 />
                                                                                 <FormikField
                                                                                     label="Tag 2"
                                                                                     name={"7tagother2"}
-                                                                    
                                                                                 />
                                                                                 <FormikField
                                                                                     label="Tag 3"
                                                                                     name={"7tagother3"}
-                                                                                
+
                                                                                 />
                                                                             </div>
                                                                         </Grid>
-                                                                        
-                                                                    
 
-                                                                </span>                                                                    
+
+
+                                                                </span>
                                                                 : ""
                                                                 }
-                                           
+
                                                             </Grid>
                                                         </div>
                                                     </Grid>
@@ -989,4 +968,4 @@ const ResourceFormDesktop = (props) => {
     );
 };
 
-export default ResourceFormDesktop;
+export default ResourceFormMobile;

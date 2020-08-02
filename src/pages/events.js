@@ -1,130 +1,79 @@
-import { withStyles } from "@material-ui/core/styles";
-import moment from "moment";
 import React from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import "../components/events/react-big-calendar.css";
-import { EventCard, EventModal, Template, CustomButton, Title, Search } from "../components";
-import firebase from "../firebase";
-import Fuse from 'fuse.js';
-import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
-  getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
-  from "../components/all/TimeFunctions"
-import CustomToolbar from "../components/events/CalendarToolBar"
-
-const localizer = momentLocalizer(moment);
-const useStyles = () => ({
-  addNewButton: {
-    boxShadow: "none",
-    fontSize: 20
-  }
-
-});
-
+import { isEdge, isIE, isMobile, isTablet } from "react-device-detect";
+import { EventsPageDesktop, EventsPageMobile } from '../components';
+import queryString from 'query-string';
 class Events extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      event: null,
-      count: 0,
-      myEventsList: [],
-      permEventsList: [],
-      displayEvents: [],
-      eventSearch: [],
-      eventSearchError: '',
-      searchVal: "",
-      defaultSearchInput:''
-    };
-    this.getEvents();
-    this.closeDo = this.closeDo.bind(this);
-  }
-
-  convertEventsTime(event) {
-    const tzString = event.timezone;
-
-    event.start_date = event.start_date.split("GMT")[0];
-    event.end_date = event.end_date.split("GMT")[0];
-
-    if (event.timezone !== undefined && event.timezone.includes("$")) {
-      // $ splits time and timezone in the event.timezone field in firebase!
-      const tz = tzString.split("$")[0];
-      const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
-      const offset = getOffset(tz, daylightSavings);
-
-      // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
-      // America/New_York should be changed to the user's time zone who created the event, if they
-      // Choose to use their time zone rather than EST.
-      const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
-      const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
-
-      // Second, convert those consts above to user's local time
-      event.start_date = convertUTCToLocal(UTCStart);
-      event.end_date = convertUTCToLocal(UTCEnd);
-      // get timezone to display
-      event.timeZoneGMT = getTimezoneName(getCurrentLocationForTimeZone(), dst());
+    constructor(props) {
+        super(props);
+        this.state = { width: 0, height: -1, goToEvent: "" };
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
-    return event;
-  }
-
-  // TODO(claire): These are the new functions to use the Google Calendar API instead.
-  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/events#resource
-  // makeDisplayEvents(events) {
-  //   let arr = [];
-  //   for (let i = 0; i < events.length; i += 1) {
-  //     let ele = events[i];
-  //     if (ele.end > new Date().toISOString()) {
-  //       arr.push(ele);
-  //     }
-  //     if (arr.length === 5) {
-  //       break;
-  //     }
-  //   }
-  //   return arr;
-  // }
-
-  // async getEvents() {
-  //   getCalendarEvents((events) => {
-  //     this.setState({ myEventsList: events, displayEvents: this.makeDisplayEvents(events) });
-  //   })
-  // }
-
-  makeDisplayEvents(events) {
-    let arr = [];
-    for (let i = 0; i < events.length; i += 1) {
-      let ele = events[i];
-      if (ele.end_date > new Date()) {
-        arr.push(ele);
-      }
-      if (arr.length === 5) {
-        break;
-      }
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+        let query = queryString.parse(this.props.location.search);
+        const {event} = query;
+        this.setState({goToEvent: event})
     }
-    return arr;
-  }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    }
 
 
-  async getEvents() {
-    var db = firebase.firestore();
-    var approvedEvents = await db.collection("events")
-      .where("approved", "==", true)
-      .orderBy("start_date", 'asc')
-      .get();
-    let approvedEventsMap = [];
-    if(approvedEvents){
-      approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
+    // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
+    render() {
+        if (this.state.height === -1) {
+            return (
+                <div>
+                    <EventsPageDesktop/>
+                </div>
+            );
+        }
+        {/* For mobile's screen orientation update */}
+        const isLandscape = this.state.width > this.state.height ? true : false;
+        {/* If Tablet:
+            If in portrait, do mobile component
+            else render desktop
+            */}
+        if (isTablet) {
+            if (isLandscape) {
+                return (
+                    <div>
+                        <EventsPageDesktop width={this.state.width} event={this.state.goToEvent}/>
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <EventsPageMobile isLandscape={isLandscape} width={this.state.width} event={this.state.goToEvent}/>
+                    </div>
+                );
+            }
+            {/* For mobile component : IE or Edge must go to mobile since they do not support all css */}
+        } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
+            return (
+                <div>
+                    <EventsPageMobile isLandscape={isLandscape} width={this.state.width} event={this.state.goToEvent}/>
+                </div>
+            );
+            {/* Else: desktop: isBrowser
+            If screen is full size and not weirdly shape: render desktop version
+            Else render mobile version (see above)
+            */}
+        } else {
+            return (
+                <div>
+                    <EventsPageDesktop width={this.state.width} event={this.state.goToEvent}/>
+                </div>
+            );
+        }
     }
-    this.setState({ myEventsList: approvedEventsMap, permEventsList: approvedEventsMap,
-                         displayEvents:this.makeDisplayEvents(approvedEventsMap) });
-  }
-
-  searchFunc(val, changeDefaultSearchVal=true) {
-    if(changeDefaultSearchVal){
-      this.setState({defaultSearchInput:''});
-    }
-    if(!val || val.length===0) {
-      return this.setState({eventSearch: [], activityIndicator: false, eventSearchError: '',
-                                 myEventsList: this.state.permEventsList});
-    }
+}
+export default Events;
+/*=======
     this.setState({activityIndicator:true});
     const options = {
       threshold:0.2,
@@ -134,48 +83,40 @@ class Events extends React.Component {
     const fuse = new Fuse(this.state.permEventsList, options);
     const output = fuse.search(val);
     const eventSearch = output;
-
     if(!eventSearch || eventSearch.length<=0){
       return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'No Results found',
                                 myEventsList: []});
     }
     let itemOn = 0
     const approvedEventsMap = eventSearch.map(doc => (eventSearch[itemOn++]['item']));
-
     // Update events. Note: we don't have to update time again b/c time is already updated
     this.setState({eventSearch:eventSearch, activityIndicator:false, eventSearchError:'',
                          myEventsList: approvedEventsMap});
   }
-  
+
   formatTime(hours, min) {
     let h = hours > 12 ? hours - 12 : hours;
     let m = min < 10 ? "0" + min.toString() : min.toString();
     let add = hours > 12 ? "PM" : "AM";
     return h + ":" + m + add;
   }
-
   attendEvent(ele) {
     this.setState({ open: true, event: ele });
   }
-
   closeDo() {
     this.setState({ open: false, count: 0 });
   }
-
   eventPropStyles(event, start, end, isSelected) {
     let style = {
       backgroundColor: "#2984ce"
     };
     return { style: style };
   }
-
   EventDisplay = ({ event }) => (
     <div style={{height:"1.2em"}}>
       <div style={{ fontSize: ".7em" }}>{event.event}</div>
     </div>
   );
-
-
   getMonthName() {
     var d = new Date();
     var month = new Array();
@@ -193,11 +134,9 @@ class Events extends React.Component {
     month[11] = "December";
     return month[d.getMonth()];
   }
-
   render() {
     const { classes } = this.props;
     const date = new Date();
-
     return (
       <Template active={"schedule"} title={"Events"}>
         <Title color={"blue"}>All Events</Title>
@@ -205,12 +144,16 @@ class Events extends React.Component {
           <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
                         style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
         </div>
-        {this.state.displayEvents.length > 0 &&
+        {Object.keys(this.state.displayEvents).length > 0 &&
         <div style={{ marginBottom: "5%" }}>
           <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
           <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }}/>
-          {this.state.displayEvents.map((ele, ind) => {
-              return (<EventCard ele={ele} key={ind}/>);
+          {Object.keys(this.state.displayEvents).map((k, ind) => {
+              return (
+                <ScrollableAnchor id={k}>
+                  <EventCard ele={this.state.displayEvents[k]} key={k}/>
+                </ScrollableAnchor>
+                );
           })}
         </div>}
         <Search placeholder="Search Events by Name and/or Tags"
@@ -219,7 +162,6 @@ class Events extends React.Component {
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
                 onCancel={() => { this.searchFunc('') }}
-
         /><br />
         <Calendar
           views={["month"]}
@@ -247,7 +189,5 @@ class Events extends React.Component {
     );
   }
 }
-
-
-
 export default withStyles(useStyles)(Events);
+>>>>>>> master*/

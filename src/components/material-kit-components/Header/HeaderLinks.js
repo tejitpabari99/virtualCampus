@@ -45,12 +45,12 @@ export default function HeaderLinks(props) {
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="/cvc-blm"
+          href="/coding-interviews"
           color="transparent"
           className={classes.navLink}
-          active={props.active==='cvc-blm'}
+          active={props.active==='technical'}
         >
-          #BLM
+          Coding Interviews
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -60,7 +60,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           active={props.active==='schedule'}
         >
-          Events
+          Socialize
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
