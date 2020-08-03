@@ -13,6 +13,8 @@ import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
   from "../all/TimeFunctions"
 import CustomToolbar from "../events/CalendarToolBar"
 import {CircularProgress} from "@material-ui/core";
+import GridItem from "../material-kit-components/Grid/GridItem.js";
+import GridContainer from "../material-kit-components/Grid/GridContainer.js";
 import ScrollableAnchor from 'react-scrollable-anchor';
 import {configureAnchors} from 'react-scrollable-anchor';
 configureAnchors({offset: -100});
@@ -537,7 +539,7 @@ class EventsPageDesktop extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only"
+      dateFilter: "All"
     });
     this.searchFunc('')
   }
@@ -559,6 +561,8 @@ class EventsPageDesktop extends React.Component {
         sizeOfList = sizeOfList + 1
         if (ele.displayNameToggleOff)
           ele.name = "Columbia Virtual Campus"
+        if (ele.id === this.props.event)
+          ele.openExpansion = true
         eventsList.push(ele)
       }
     });
@@ -639,6 +643,8 @@ class EventsPageDesktop extends React.Component {
 
         <div style={{margin: "40px"}}/>
 
+        <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px"}}>
+        <GridItem xs={12} sm={12} md={12}>
         <EventSearch placeholder="Search all virtual events."
                 iconColor="#2984CE"
                 data={this.state.data}
@@ -653,6 +659,8 @@ class EventsPageDesktop extends React.Component {
                 onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
                 onCancel={() => { this.searchFunc('') }}
         />
+        </GridItem>
+        </GridContainer>
 
         <br />
         <div style={{margin: "40px"}}/>

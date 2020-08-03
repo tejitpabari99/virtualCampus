@@ -242,7 +242,7 @@ export default function EventCardDesktopBottom({ ele }) {
 
   const classes = useStyles();
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(ele.openModal);
 
   const openModalHandler = () => {
     setOpen(true)
