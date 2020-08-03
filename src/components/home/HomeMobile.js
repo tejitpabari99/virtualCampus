@@ -10,7 +10,7 @@ import styles from "../../assets/material-kit-assets/jss/material-kit-react/view
 import Button from "./../material-kit-components/CustomButtons/Button.js";
 import {MetaData, CustomHeader, CustomButton, Title, Subtitle} from "../";
 import HomeResourcesList from "./HomeResourcesList.js";
-import * as Events from './../../pages/events.js';
+import * as Events from './../../pages/socalize';
 import InstagramEmbed from 'react-instagram-embed';
 import { Helmet } from 'react-helmet';
 

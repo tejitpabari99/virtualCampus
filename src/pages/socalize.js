@@ -2,7 +2,7 @@ import React from "react";
 import { isEdge, isIE, isMobile, isTablet } from "react-device-detect";
 import { EventsPageDesktop, EventsPageMobile } from '../components';
 import queryString from 'query-string';
-class Events extends React.Component {
+class Socalize extends React.Component {
     constructor(props) {
         super(props);
         this.state = { width: 0, height: -1, goToEvent: "" };
@@ -72,7 +72,7 @@ class Events extends React.Component {
         }
     }
 }
-export default Events;
+export default Socalize;
 /*=======
     this.setState({activityIndicator:true});
     const options = {

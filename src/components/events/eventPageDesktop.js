@@ -211,7 +211,7 @@ class EventsPageDesktop extends React.Component {
 
   async componentDidMount() {
     await this.getEvents();
-    let event = this.props.event
+    let event = this.props.event;
     // goToAnchor(event, true);
     if (event){
       console.log(event);
