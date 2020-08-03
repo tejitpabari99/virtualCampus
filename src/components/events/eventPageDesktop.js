@@ -226,7 +226,7 @@ class EventsPageDesktop extends React.Component {
   }
 
   // TODO(claire): These are the new functions to use the Google Calendar API instead.
-  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/events#resource
+  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/socalize#resource
   // makeDisplayEvents(events) {
   //   let arr = [];
   //   for (let i = 0; i < events.length; i += 1) {
@@ -695,7 +695,7 @@ class EventsPageDesktop extends React.Component {
             <h5>2. Let us host and share the event on our website.</h5>
             <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
             <div style={{ textAlign: "left" }}>
-              <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
+              <CustomButton href={"/socalize/add-new-event"} text={"ADD NEW EVENT"}
                             style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
             </div>
           </div>

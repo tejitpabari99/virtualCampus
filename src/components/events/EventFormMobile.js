@@ -675,7 +675,7 @@ class EventFormMobile extends React.Component {
                 paddingLeft: "10px",
                 paddingRight: "10px"
               }}
-              href={"/events/add-new-event"}>
+              href={"/socalize/add-new-event"}>
               Add Another Event
               </Button>
           </div>

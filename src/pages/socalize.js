@@ -141,7 +141,7 @@ export default Socalize;
       <Template active={"schedule"} title={"Events"}>
         <Title color={"blue"}>All Events</Title>
         <div style={{ textAlign: "center" }}>
-          <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
+          <CustomButton href={"/socalize/add-new-event"} text={"ADD NEW EVENT"}
                         style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
         </div>
         {Object.keys(this.state.displayEvents).length > 0 &&
