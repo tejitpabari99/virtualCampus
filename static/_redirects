@@ -1,4 +1,4 @@
 # Redirect /events to /socalize
+/events event=:event    /socalize event=:event
 /events                 /socalize
 /events/*               /socalize/:splat
-/events event=:event    /socalize event=:event
