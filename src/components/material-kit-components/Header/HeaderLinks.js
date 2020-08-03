@@ -55,7 +55,7 @@ export default function HeaderLinks(props) {
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="/socalize"
+          href="/socialize"
           color="transparent"
           className={classes.navLink}
           active={props.active==='schedule'}
