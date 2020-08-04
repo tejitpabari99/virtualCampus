@@ -13,6 +13,8 @@ import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
   from "../all/TimeFunctions"
 import CustomToolbar from "../events/CalendarToolBar"
 import {CircularProgress} from "@material-ui/core";
+import GridItem from "../material-kit-components/Grid/GridItem.js";
+import GridContainer from "../material-kit-components/Grid/GridContainer.js";
 import ScrollableAnchor from 'react-scrollable-anchor';
 import {configureAnchors} from 'react-scrollable-anchor';
 configureAnchors({offset: -100});
@@ -167,7 +169,7 @@ class EventsPageDesktop extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only",
+      dateFilter: "All",
       loadingEvents: true,
     };
     this.getEvents();
@@ -209,7 +211,7 @@ class EventsPageDesktop extends React.Component {
 
   async componentDidMount() {
     await this.getEvents();
-    let event = this.props.event
+    let event = this.props.event;
     // goToAnchor(event, true);
     if (event){
       console.log(event);
@@ -224,7 +226,7 @@ class EventsPageDesktop extends React.Component {
   }
 
   // TODO(claire): These are the new functions to use the Google Calendar API instead.
-  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/events#resource
+  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/socalize#resource
   // makeDisplayEvents(events) {
   //   let arr = [];
   //   for (let i = 0; i < events.length; i += 1) {
@@ -297,6 +299,7 @@ class EventsPageDesktop extends React.Component {
     all.push({"name": "All"})
     sorted.map(x => all.push(x))
     return all
+
   }
 
   updateFilterTags(tag) {
@@ -536,7 +539,7 @@ class EventsPageDesktop extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only"
+      dateFilter: "All"
     });
     this.searchFunc('')
   }
@@ -558,6 +561,8 @@ class EventsPageDesktop extends React.Component {
         sizeOfList = sizeOfList + 1
         if (ele.displayNameToggleOff)
           ele.name = "Columbia Virtual Campus"
+        if (ele.id === this.props.event)
+          ele.openExpansion = true
         eventsList.push(ele)
       }
     });
@@ -573,7 +578,7 @@ class EventsPageDesktop extends React.Component {
     return (
       <Template active={"schedule"} title={"Events"}>
 
-        <div className={classes.mainBox} style={{paddingLeft:"10%", paddingRight:"10%"}}>
+        <div className={classes.mainBox} style={{ paddingRight:"10%"}}>
           <div className={classes.mainText} style={{paddingLeft: "4%", width:500}}>
             <h2 style={{fontSize:40}}>Featured Events</h2>
             <p style={{fontSize: 20}}>Some of our most popular upcoming events, activities, and discussions, to keep on your radar.
@@ -638,6 +643,8 @@ class EventsPageDesktop extends React.Component {
 
         <div style={{margin: "40px"}}/>
 
+        <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px"}}>
+        <GridItem xs={12} sm={12} md={12}>
         <EventSearch placeholder="Search all virtual events."
                 iconColor="#2984CE"
                 data={this.state.data}
@@ -652,6 +659,8 @@ class EventsPageDesktop extends React.Component {
                 onClick={(val, hiddenSearch) => { this.searchFunc(val, hiddenSearch) }}
                 onCancel={() => { this.searchFunc('') }}
         />
+        </GridItem>
+        </GridContainer>
 
         <br />
         <div style={{margin: "40px"}}/>
@@ -686,7 +695,7 @@ class EventsPageDesktop extends React.Component {
             <h5>2. Let us host and share the event on our website.</h5>
             <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
             <div style={{ textAlign: "left" }}>
-              <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
+              <CustomButton href={"/socalize/add-new-event"} text={"ADD NEW EVENT"}
                             style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
             </div>
           </div>

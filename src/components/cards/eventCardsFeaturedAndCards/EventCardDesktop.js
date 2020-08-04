@@ -304,7 +304,7 @@ export default function EventCardDesktop({ ele }) {
   return (
 
       <div style={{width: "100%", marginBottom: "5px"}}>
-        <ExpansionPanel onClick={handlePopularity}>
+        <ExpansionPanel onClick={handlePopularity} defaultExpanded={ele.openExpansion}>
           <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon/>}
               aria-controls="panel1bh-content"
