@@ -474,15 +474,15 @@ const ResourceFormDesktop = (props) => {
                                                                     ? <span >
                                                                         <FormControlLabel
                                                                             value={'0'+category[0]}
-                                                                            control={<Radio row/>}
-                                                                            label = {category[0]}
+                                                                            control={<Radio row/>}                                                                        
+                                                                            label = {category[0].replace('_','/')}
                                                                             onClick ={()=>{
                                                                                 Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state[category[0]] = true;
+                                                                                state[category[0]] = true;  
                                                                             }}
                                                                         />
                                                                     </span>
-                                                                    : ""
+                                                                    : ""  
                                                                     }
 
                                                                     {category[1]
@@ -490,89 +490,89 @@ const ResourceFormDesktop = (props) => {
                                                                         <FormControlLabel
                                                                         value={'1'+category[1]}
                                                                         control={<Radio row/>}
-                                                                        label = {category[1]}
-                                                                        onClick ={()=>{
-                                                                            Object.keys(state).forEach(ele => state[ele] = false)
-                                                                            state[category[1]] = true;
+                                                                        label = {category[1].replace('_','/')}
+                                                                        onClick ={()=>{    
+                                                                            Object.keys(state).forEach(ele => state[ele] = false)                                                                       
+                                                                            state[category[1]] = true;            
                                                                         }}
-
+                                                                        
                                                                     />
                                                                     </span>
-                                                                    : ""
+                                                                    : ""  
                                                                     }
 
                                                                     {category[2]
                                                                     ? <span >
                                                                         <FormControlLabel
                                                                             value={'2'+category[2]}
-                                                                            control={<Radio row/>}
-                                                                            label = {category[2]}
+                                                                            control={<Radio row/>}                                                                        
+                                                                            label = {category[2].replace('_','/')}
                                                                             onClick ={()=>{
                                                                                 Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state[category[2]] = true;
+                                                                                state[category[2]] = true;  
                                                                             }}
                                                                         />
                                                                     </span>
-                                                                    : ""
+                                                                    : ""  
                                                                     }
 
                                                                     {category[3]
                                                                     ? <span >
                                                                         <FormControlLabel
                                                                             value={'3'+category[3]}
-                                                                            control={<Radio row/>}
-                                                                            label = {category[3]}
+                                                                            control={<Radio row/>}                                                                        
+                                                                            label = {category[3].replace('_','/')}
                                                                             onClick ={()=>{
                                                                                 Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state[category[3]] = true;
+                                                                                state[category[3]] = true;  
                                                                             }}
                                                                         />
                                                                     </span>
-                                                                    : ""
+                                                                    : ""  
                                                                     }
                                                                     {category[4]
                                                                     ? <span >
                                                                         <FormControlLabel
                                                                             value={'4'+category[4]}
                                                                             control={<Radio row/>}
-                                                                            label = {category[4]}
+                                                                            label = {category[4].replace('_','/')}
                                                                             onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state[category[4]] = true;
+                                                                                Object.keys(state).forEach(ele => state[ele] = false)                                                                            
+                                                                                state[category[4]] = true;  
                                                                             }}
                                                                         />
                                                                     </span>
-                                                                    : ""
+                                                                    : ""  
                                                                     }
                                                                     {category[5]
                                                                     ? <span >
                                                                         <FormControlLabel
                                                                             value={'5'+category[5]}
-                                                                            control={<Radio row/>}
-                                                                            label = {category[5]}
+                                                                            control={<Radio row/>}                                                                        
+                                                                            label = {category[5].replace('_','/')}
                                                                             onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state[category[5]] = true;
+                                                                                Object.keys(state).forEach(ele => state[ele] = false)                                                                            
+                                                                                state[category[5]] = true;  
 
                                                                             }}
                                                                         />
                                                                     </span>
-                                                                    : ""
+                                                                    : ""  
                                                                     }
 
                                                                     {category[6]
                                                                     ? <span >
                                                                         <FormControlLabel
                                                                             value={'6'+ category[6]}
-                                                                            control={<Radio row/>}
-                                                                            label = {category[6]}
+                                                                            control={<Radio row/>}                                                                        
+                                                                            label = {category[6].replace('_','/')}
                                                                             onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state[category[6]] = true;
+                                                                                Object.keys(state).forEach(ele => state[ele] = false)                                                                            
+                                                                                state[category[6]] = true;  
                                                                             }}
                                                                         />
                                                                     </span>
-                                                                    : ""
+                                                                    : ""  
                                                                     }
                                                                     <span >
                                                                     <Grid container spacing={10}>
@@ -584,7 +584,7 @@ const ResourceFormDesktop = (props) => {
                                                                             onClick ={()=>{
                                                                                 Object.keys(state).forEach(ele => state[ele] = false)
                                                                                 state['other'] = true;
-
+                                                                                
                                                                             }}
                                                                         />
                                                                     </Grid>
