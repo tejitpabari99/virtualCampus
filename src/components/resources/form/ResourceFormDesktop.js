@@ -17,7 +17,7 @@ import { CustomHeader } from "../.."
 import Container from '@material-ui/core/Container';
 import firebase from "../../../firebase";
 import Categories from "./FormCategories"
-
+import {CustomButton} from "../../index";
 
 const useStyles = makeStyles(styles);
 const manualSt = makeStyles(() => ({
@@ -187,7 +187,6 @@ const ResourceFormDesktop = (props) => {
     category.forEach(ele => state[ele] = false);
     var tags = Categories;
     state['other']=false;
-    var arr = [];
 
 
     const submitHandler = (values, {resetForm}) => {
@@ -289,26 +288,66 @@ const ResourceFormDesktop = (props) => {
                   
           }
         
-        // alert(JSON.stringify(new_entry));
+        // checking number of selected tags
+        if (new_entry["category"]["tags"].length > 2)
+        {
+            // too many
+            alert("Please select at most two tags");
+            var values2 = values
+            for (var prop in values) {
+            
+                // finding tags
+                var tag_idx = prop.indexOf('tag');
+                if (tag_idx != -1)
+                {
+                    delete values2[prop];
+    
+                }
+            }
+            
+            resetForm({values: values2});
+           
+        }
+        else if (new_entry["category"]["tags"].length == 0)
+        {
+            // too few
+            alert("Please select at least one tag");
+            resetForm({values: values});
+            
+            
+        }
         
-        // calling function uploadData to send to firestore
-        uploadData(new_entry);
+        else
+        {
+            // calling function uploadData to send to firestore
+            uploadData(new_entry);
+            
+            // redirecting to Thank You page
+            window.location.replace("/ThankYou");
+
+        }
         
-        // resetting the form once an entry has been submitted
-        resetForm({values: ''});
         
     };
-
-
-    // upload to firebase here
-    function uploadData(values) {
-
-        // calling firestore and adding new values
+    // changed upload path to new 'resource' collection, and added an update resource_list functionality
+    function uploadData(values)
+    {
+        var category = values["category"]["category"];
         var db = firebase.firestore();
-        var newResourceRef = db.collection("resources");
+        var resourceDoc = db.collection("resource").doc(category);
+        
+        var title = values["title"]
+
+        // you can directly update arrays in Firestore! 
+        resourceDoc.update({
+            resource_list: firebase.firestore.FieldValue.arrayUnion(title)
+        });
+        var name = "resource/" + category + "/resources";
+        var newResourceRef = db.collection(name);
         newResourceRef.add(values);
         
     }
+    
 
     // now that posting image files isn't an option, this function is obsolete....?
     function uploadImage(values) {
@@ -391,7 +430,7 @@ const ResourceFormDesktop = (props) => {
                                                 <div className={classNames(manual.toAll, manual.subtitle)} style={{ marginTop: '30px' }}>Resource</div>
                                                 <Grid container spacing={2} >
                                                     <Grid item sm={6}>
-                                                        <FormikField label="Project Name" name="project_name" error={errors.project_name} touch={touched.project_name} required ></FormikField>
+                                                        <FormikField label="Name" name="project_name" error={errors.project_name} touch={touched.project_name} required ></FormikField>
                                                     </Grid>
                                                     <Grid item sm={6}>
                                                         <div>
@@ -437,7 +476,7 @@ const ResourceFormDesktop = (props) => {
                                                                     <FormControlLabel
                                                                         value={'0'+category[0]}
                                                                         control={<Radio row/>}                                                                        
-                                                                        label = {category[0]}
+                                                                        label = {category[0].replace('_','/')}
                                                                         onClick ={()=>{
                                                                             Object.keys(state).forEach(ele => state[ele] = false)
                                                                             state[category[0]] = true;  
@@ -452,7 +491,7 @@ const ResourceFormDesktop = (props) => {
                                                                     <FormControlLabel
                                                                     value={'1'+category[1]}
                                                                     control={<Radio row/>}
-                                                                    label = {category[1]}
+                                                                    label = {category[1].replace('_','/')}
                                                                     onClick ={()=>{    
                                                                         Object.keys(state).forEach(ele => state[ele] = false)                                                                       
                                                                         state[category[1]] = true;            
@@ -468,7 +507,7 @@ const ResourceFormDesktop = (props) => {
                                                                     <FormControlLabel
                                                                         value={'2'+category[2]}
                                                                         control={<Radio row/>}                                                                        
-                                                                        label = {category[2]}
+                                                                        label = {category[2].replace('_','/')}
                                                                         onClick ={()=>{
                                                                             Object.keys(state).forEach(ele => state[ele] = false)
                                                                             state[category[2]] = true;  
@@ -483,7 +522,7 @@ const ResourceFormDesktop = (props) => {
                                                                     <FormControlLabel
                                                                         value={'3'+category[3]}
                                                                         control={<Radio row/>}                                                                        
-                                                                        label = {category[3]}
+                                                                        label = {category[3].replace('_','/')}
                                                                         onClick ={()=>{
                                                                             Object.keys(state).forEach(ele => state[ele] = false)
                                                                             state[category[3]] = true;  
@@ -497,7 +536,7 @@ const ResourceFormDesktop = (props) => {
                                                                     <FormControlLabel
                                                                         value={'4'+category[4]}
                                                                         control={<Radio row/>}
-                                                                        label = {category[4]}
+                                                                        label = {category[4].replace('_','/')}
                                                                         onClick ={()=>{
                                                                             Object.keys(state).forEach(ele => state[ele] = false)                                                                            
                                                                             state[category[4]] = true;  
@@ -511,7 +550,7 @@ const ResourceFormDesktop = (props) => {
                                                                     <FormControlLabel
                                                                         value={'5'+category[5]}
                                                                         control={<Radio row/>}                                                                        
-                                                                        label = {category[5]}
+                                                                        label = {category[5].replace('_','/')}
                                                                         onClick ={()=>{
                                                                             Object.keys(state).forEach(ele => state[ele] = false)                                                                            
                                                                             state[category[5]] = true;  
@@ -527,7 +566,7 @@ const ResourceFormDesktop = (props) => {
                                                                     <FormControlLabel
                                                                         value={'6'+ category[6]}
                                                                         control={<Radio row/>}                                                                        
-                                                                        label = {category[6]}
+                                                                        label = {category[6].replace('_','/')}
                                                                         onClick ={()=>{
                                                                             Object.keys(state).forEach(ele => state[ele] = false)                                                                            
                                                                             state[category[6]] = true;  
