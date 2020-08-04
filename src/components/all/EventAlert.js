@@ -131,7 +131,7 @@ class EventAlert extends React.Component {
                 }
             }
 
-            if (event.invite_link.length > 0) {
+            if (event.invite_link && event.invite_link.length > 0) {
                 if (isMobile) {
                     alert.push(<span
                         style={{display: 'inline-block', paddingLeft: '5px'}}> <a

@@ -21,7 +21,7 @@ import GridItem from "../material-kit-components/Grid/GridItem";
 import {  CustomHeader, Template } from "..";
 import Container from "@material-ui/core/Container";
 import TZ from "countries-and-timezones";
-import * as Events from "../../pages/events";
+import * as Events from "../../pages/socalize";
 import Axios, { post } from "axios";
 import * as jwt from "jsonwebtoken";
 
