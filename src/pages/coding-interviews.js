@@ -391,9 +391,9 @@ class Technical extends React.Component {
                     to participate in one-on-one mock technical coding interviews
                      with fellow students and alumni who have interned at Microsoft, Facebook, Google and more.  
                     These 1 hour interview sessions will allow you to pratice real technical interview questions while connecting with a fellow Columbia student.</p>
-                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at 
+                    <p style={{fontSize : "18px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Please fill out the 
                     <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
-                 href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com</a>!</p>
+                 href={"https://docs.google.com/forms/d/e/1FAIpQLSfc5yiAoceGTiaKIvqYNTw5kXCfn_wwgAP3C27DJpgqpnvaSQ/viewform"}> form</a>!</p>
                 </GridItem>
         </GridContainer>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
