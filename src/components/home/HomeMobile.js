@@ -2,8 +2,16 @@ import React from "react"
 import classNames from "classnames";
 import HomeEvents from './HomeEvents';
 import { makeStyles } from "@material-ui/core/styles";
-import landingImage from "../../assets/images/home/graphic.png";
-import hostEventPic from "../../assets/images/home/hostAnEvent.png";
+import landingImage from "../../assets/images/home/MainGraphic.png";
+import HostEventPic from "../../assets/images/home/HostEventPic.png";
+import Mentoring1 from "../../assets/images/home/BlueWaveMobile1.png";
+import Mentoring2 from "../../assets/images/home/BlueWaveMobile2.png";
+import Mentoring3 from "../../assets/images/home/BlueWaveMobile3.png";
+import BlmImage from "../../assets/images/home/BlmImageMobile.png";
+import Bubbles1 from "../../assets/images/home/BubblesMobile1.png";
+import Bubbles2 from "../../assets/images/home/BubblesMobile2.png";
+import OrangeBlob from "../../assets/images/home/OrangeBlobMobile.png";
+import BlueBlob from "../../assets/images/home/BlueBlobMobile.png";
 import facebookPic from "../../assets/images/home/facebook.png";
 import instagramPic from "../../assets/images/home/instagram.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
@@ -13,6 +21,11 @@ import HomeResourcesList from "./HomeResourcesList.js";
 import * as Events from './../../pages/events.js';
 import InstagramEmbed from 'react-instagram-embed';
 import { Helmet } from 'react-helmet';
+import InstaIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(styles);
 
@@ -68,9 +81,10 @@ const manualPortrait = makeStyles(() => ({
     background: `url(${landingImage})`,
     backgroundSize: '110% auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '97% bottom',
-    height: "70vh",
-    width: "100%"
+    backgroundPosition: 'center max(40%, 20px)',
+    height: "max(100vh, 31vw)",
+    width: "95%",
+    marginBottom: "-300px"
   },
   button:{
     background: "#FFFFFF",
@@ -103,6 +117,73 @@ const manualPortrait = makeStyles(() => ({
   socialSection: {
     textAlign: "center",
   },
+  upcomingEventsBox: {
+    width: "320px",
+    height: '162px',
+    borderRadius: '30px',
+    backgroundColor: "#0072CE",
+    marginBottom: "10px",
+    marginLeft: "25px",
+  },
+  hostEventPicBox: {
+    width: "300px",
+    height: "210px",
+    marginLeft: "35px"
+  },
+  mentoring1: {
+    background: `url(${Mentoring1})`,
+    backgroundRepeat: 'no-repeat',
+    marginTop: "40px",
+    height: "300px",
+    width: "600px",
+    marginBottom: "-165px"
+  },
+  mentoring2: {
+    background: `url(${Mentoring2})`,
+    backgroundRepeat: 'no-repeat',
+    height: "400px",
+    width: "600px",
+    marginBottom: "-270px"
+  },
+  mentoring3: {
+    background: `url(${Mentoring3})`,
+    backgroundRepeat: 'no-repeat',
+    height: "400px",
+    width: "600px",
+    marginBottom: "-210px"
+  },
+  blmImage: {
+    background: `url(${BlmImage})`,
+    backgroundRepeat: 'no-repeat',
+    height: "100px",
+    width: "100px",
+    marginLeft: "140px"
+  },
+  bubbles1: {
+    marginLeft: "10px",
+    width: "140px",
+    height: "100px"
+  },
+  bubbles2: {
+    marginLeft: "120px",
+    width: "60px",
+    height: "50px"
+  },
+  blueBlob: {
+    width: "100%",
+    height: "1500px",
+    marginTop: "50px"
+  },
+  orangeBlob: {
+    width: "100%",
+    height: "800px",
+    marginTop: "-2360px"
+  },
+  largeIcon: {
+    width: "50px",
+    height: "50px",
+    marginBottom: "-20px"
+  },
   insta: {
     width: "100%",
     height: "900px",
@@ -119,6 +200,13 @@ const manualPortrait = makeStyles(() => ({
     padding:"0px",
     margin: "0px",
   },
+  footer: {
+    width: "100%",
+    height: "400px",
+    backgroundColor: "#0072CE",
+    color: "white",
+    marginTop: "50px"
+  }
 }));
 
 
@@ -172,7 +260,7 @@ const manualLandscape = makeStyles(() => ({
   },
   landing: {
     background: `url(${landingImage})`,
-    backgroundSize: '52% auto',
+    backgroundSize: '40%',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: '100% bottom',
     height: "80vh",
@@ -183,14 +271,6 @@ const manualLandscape = makeStyles(() => ({
     border: "1px solid #FB750D",
     boxSizing: "border-box",
     borderRadius: "10px",
-  },
-  hostsSection: {
-    height: "70vh",
-    flexDirection: "column",
-    position: "relative",
-    backgroundImage: `url(${hostEventPic})`,
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "100% auto"
   },
   eventsSection: {
     position:'relative',
@@ -233,7 +313,6 @@ const manualLandscape = makeStyles(() => ({
     padding:"0px",
     margin: "0px",
   },
-
 }));
 export default function HomeMobile({isLandscape}) {
   const classes = useStyles();
@@ -273,42 +352,57 @@ export default function HomeMobile({isLandscape}) {
         </div>
       </div>
 
+      <div className={manual.upcomingEventsBox}>
+          <br/>
+          <p style={{color: "white", fontSize: "24px", textAlign: "center"}}> Upcoming Events </p>
+          <p style={{color: "white", fontSize: "12px", textAlign: "center"}}> Find out what's happening on campus, virtually.</p>
+          <div style={{marginTop: "10px", textAlign: "center"}}>
+            <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
+            color={"white2"} size={"large"} />
+          </div>
+      </div>
+
       <div style={{marginBottom: "5px", background: "transparent"}}/>
       <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign:'left',  background: "transparent"}}>
           <div className={classes.container} id="explore">
-            <Title color={"blue"}>What’s happening?</Title>
-            <div style={{textAlign: "center"}}>
-              <h1 className={classNames(manual.toAllSubHeadingUpEvents)}>
-                Here to cancel the 100 sq foot floor lounge. Hang out, talk, and meet new friends.
-              </h1>
-            </div>
             <HomeEvents/>
-            <div style={{textAlign:'center'}}>
-              <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
-                            color={"orange"} size={"large"}/>
-              <div style={{marginBottom: "10px"}}/>
-            </div>
           </div>
       </div>
 
-      <div className={manual.hostsSection}>
-        <img className={manual.eventPic} src={hostEventPic} alt="HostEventPic"/>
-          <div className={manual.eventText}>
-            <h3 style={{paddingTop:"22px"}}>Looking for people who share <strong>your</strong> interests?</h3>
-            <h5 style={{fontSize: "14px"}}>1. Submit a topic and time using our form.</h5>
-            <h5 style={{fontSize: "14px"}}>2. Let us host and share the event on our website.</h5>
-            <h5 style={{fontSize: "14px"}}>3. Share your interest with your friends, meet new people, and have fun!</h5>
-            <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
-                          color={"white2"} size={"large"}/>
-            <div style={{paddingBottom:"22px"}} />
-          </div>
+      <img className={manual.hostEventPicBox} src={HostEventPic} />
+      <h2 style={{color:"#0072CE", fontSize: "24px", textAlign: "center"}}>Want to host an event?</h2>
+      <p style={{color:"black", fontSize: "12px", textAlign: "center", maxWidth: "280px", marginLeft: "50px"}}>Looking to host your own event on Columbia Virtual Campus? Answer some questions to <strong>start leading.</strong></p>
+      <br/>
+      <div style={{marginTop: "-20px", textAlign: "center"}}>
+        <CustomButton href={'/add-new-event'}  text={'HOST AN EVENT'}
+        color={"orange"} size={"large"}/>
       </div>
 
-      <div style={{marginBottom: "50px" }} />
+      <div className={manual.mentoring1}>
+          <br/> <br/>
+          <div className={manual.blmImage}> </div>
+      </div>
+      <div className={manual.mentoring2}>
+          <h1 style={{fontSize: "24px", textAlign: "center", marginLeft: "-230px", marginTop: "20px"}}> #BLM</h1>
+          <h1 style={{fontSize: "24px", textAlign: "center", marginLeft: "-230px", marginTop: "-5px"}}> Our Mentorship Program</h1>
+          <h3 style={{fontSize: "16px", textAlign: "center", marginLeft: "-230px", marginTop: "0px"}}> DONATE WHAT YOU CAN</h3>
+          <h3 style={{fontSize: "16px", textAlign: "center", marginLeft: "-230px", marginTop: "-5px"}}> for 30 minutes with any mentor!</h3>
+
+      </div>
+      <div className={manual.mentoring3}>
+          <p style={{fontSize: "12px", textAlign: "center", marginLeft: "-230px"}}> Columbia Virtual Campus is offering a one-on-one </p>
+
+          <p style={{fontSize: "12px", textAlign: "center", marginLeft: "-230px", marginTop: "-5px"}}> mentoring service in which 100% of fees are donated to </p>
+          <p style={{fontSize: "12px", textAlign: "center", marginLeft: "-230px", marginTop: "-5px"}}> organizations upporting the black community. </p>
+          <CustomButton href={'/coding-interviews'}  text={'SCHEDULE A SESSION'}
+          color={"orange2"} size={"large"} style={{textAlign: "center", marginLeft: "120px", marginTop: "15px"}}/>
+      </div>
+
+        <h1 style={{color: "#0072CE", fontSize: "24px", maxWidth: "300px", textAlign: "center", marginLeft: "45px", marginBottom: "-50px"}}> Take a look at our Resources!</h1>
+
 
       <div className={manual.resourcesSection}>
         <div className={classes.container} id="resources">
-          <Title color={"blue"}>Top Resources</Title>
           <HomeResourcesList />
         </div>
         <div style={{marginBottom: "-20px" }} />
@@ -319,15 +413,16 @@ export default function HomeMobile({isLandscape}) {
       </div>
       <div style={{marginBottom: "50px" }} />
 
-      <div className={manual.socialSection}>
-          <div className={manual.insta}>
-              <br/>
-              <br/>
-              <h2 style={{marginTop: "50px"}}></h2>
-              <h4 style={{marginTop: "20px"}}>
-              </h4>
-              <br/>
-              <div align="center"  style = {{marginTop: "30px", border:"none"}}>
+      <div>
+        <img className={manual.bubbles1} src={Bubbles1}/>
+        <img className={manual.bubbles2} src={Bubbles2}/>
+      </div>
+
+      <div>
+        <img className={manual.blueBlob} src={BlueBlob}/>
+        <img className={manual.orangeBlob} src={OrangeBlob}/>
+        <div>
+            <div style={{ border:"none", marginLeft: "25px", marginTop: "-1490px"}}>
                 <InstagramEmbed
                     url='https://www.instagram.com/p/CBHN4GMlSkD/'
                     maxWidth={320}
@@ -340,35 +435,65 @@ export default function HomeMobile({isLandscape}) {
                     onAfterRender={() => {}}
                     onFailure={() => {}}
                 />
-              </div>
-              <div style={{marginTop: "30px"}}>
-                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"} />
-              </div>
-          </div>
-          <div className={manual.fabo}>
-              <br/>
-              <br/>
-              <h2 style={{marginTop: "0px"}}></h2>
-              <h4 style={{marginTop: "20px"}}>
-              </h4>
-              <br/>
-              <div style = {{marginTop: "52px", border:"none"}}
-                   className="fb-page"
-                   data-href="https://www.facebook.com/columbiavirtualcampus/"
-                   data-tabs="timeline"
-                   data-width="320"
-                   data-height="527"
-                   data-small-header="true"
-                   data-adapt-container-width="true"
-                   data-hide-cover="false"
-                   data-show-facepile="false"
-              >
-              </div>
-              <div style={{marginTop: "50px"}}>
-                  <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"} newTab/>
-              </div>
-          </div>
+            </div>
+            <div style={{marginLeft: "130px", marginTop: "60px", color: "black", borderColor: "black", marginBottom: "150px"}}>
+                    <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'INSTAGRAM'}
+                          startIcon={<InstaIcon />} color={"black"} size={"large"} />
+            </div>
+        </div>
+        <div>
+            <div style={{ border:"none", marginTop: "400px", marginLeft: "30px"}}
+                     className="fb-page"
+                     data-href="https://www.facebook.com/columbiavirtualcampus/"
+                     data-tabs="timeline"
+                     data-width="320"
+                     data-height="527"
+                     data-small-header="true"
+                     data-adapt-container-width="true"
+                     data-hide-cover="false"
+                     data-show-facepile="false"
+                >
+            </div>
+            <div style={{marginTop: "50px", marginLeft: "130px"}}>
+                <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'FACEBOOK'}
+                    startIcon={<FacebookIcon />} color={"black2"} size={"large"}/>
+            </div>
+        </div>
       </div>
+
+      <div className={manual.footer} />
+          <h2 style={{color: "white", fontSize: "24px", marginLeft: "30px", marginTop: "-360px"}}> Columbia Virtual Campus </h2>
+          <h2 style={{color: "white", fontSize: "16px", marginTop: "0px", marginLeft: "30px"}}> Columbia, <i>virtually</i>.</h2>
+      <div style={{color: "white", fontSize: "14px", marginLeft: "30px", marginTop: "30px"}}>
+          <a href={""} style={{color: "white"}}> Home </a> <br/>
+          <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
+          <a href={"/events"} style={{color: "white"}}> Socialize </a> <br/>
+          <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>
+          <a href={"/about-us"} style={{color: "white"}}> About Us </a> <br/>
+          <a href={"/contact-us"} style={{color: "white"}}> Contact Us </a> <br/>
+      </div>
+
+      <div style={{color: "white", fontSize: "14px", marginLeft: "200px", marginTop: "-145px"}}>
+          <a href={"/events/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
+          <a href={"/resources/add-new-resource"} style={{color: "white"}}> Add a Resource </a> <br/>
+          <a href={"/coding-interviews/add-interviewer"} style={{color: "white"}}> Be a Mock Interviewer </a> <br/>
+      </div>
+
+      <div style={{marginRight: "0px"}}>
+        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "20px", marginTop: "90px"}} href={"https://www.instagram.com/columbiavirtualcampus/"}>
+            <InstaIcon style={{color: "white", fontSize: 40}}/>
+        </IconButton>
+        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "10px", marginTop: "90px"}} href={"https://www.facebook.com/columbiavirtualcampus/"}>
+            <FacebookIcon style={{color: "white", fontSize: 40}}/>
+        </IconButton>
+        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "10px", marginTop: "90px"}} href={"https://www.linkedin.com/company/columbia-virtual-campus/"}>
+            <LinkedInIcon style={{color: "white", fontSize: 40}}/>
+        </IconButton>
+        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "10px", marginTop: "90px"}} href={"mailto:columbiavirtualcampus@gmail.com"}>
+            <MailOutlineIcon style={{color: "white", fontSize: 40}}/>
+        </IconButton>
+      </div>
+
 
     </div>
     )
