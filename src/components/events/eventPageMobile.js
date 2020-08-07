@@ -215,7 +215,7 @@ class EventsPageMobile extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only",
+      dateFilter: "All",
       loadingEvents: true,
     };
     this.getEvents();
@@ -510,7 +510,7 @@ class EventsPageMobile extends React.Component {
       mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
-      dateFilter: "This Month Only"
+      dateFilter: "All"
     });
     this.searchFunc('')
   }
@@ -620,6 +620,8 @@ getCalendarText() {
         sizeOfList = sizeOfList + 1
         if (ele.displayNameToggleOff)
           ele.name = "Columbia Virtual Campus"
+        if (ele.id === this.props.event)
+          ele.openModal = true
         eventsList.push(ele)
       }
     });
@@ -778,7 +780,7 @@ getCalendarText() {
               <div>{!this.state.loadingEvents && noSearchResults}</div>
           </div>
           <footer className={classes.footerStyle}>
-              <CustomButton href={"/events/add-new-event"} text={"Want to add an event?"}
+              <CustomButton href={"/socalize/add-new-event"} text={"Want to add an event?"}
                             style={{fontSize: "11px"}} color={"blueRound"} size={"large"}/>
           </footer>
         </Template>

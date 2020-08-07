@@ -37,7 +37,7 @@ import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
 import TZ from "countries-and-timezones";
-import * as Events from "../../pages/events";
+import * as Events from "../../pages/socalize";
 import { PhoneCallback } from "@material-ui/icons";
 import {CheckboxWithLabel} from "formik-material-ui";
 
@@ -675,7 +675,7 @@ class EventFormMobile extends React.Component {
                 paddingLeft: "10px",
                 paddingRight: "10px"
               }}
-              href={"/events/add-new-event"}>
+              href={"/socalize/add-new-event"}>
               Add Another Event
               </Button>
           </div>

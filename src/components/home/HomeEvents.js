@@ -94,21 +94,44 @@ class Events extends React.Component{
 
     async getEvents() {
         var db = firebase.firestore();
-        var approvedEvents = await db.collection("events").where("approved", "==", true).get();
+        var approvedEvents = await db.collection("events")
+            .where("approved", "==", true)
+            .orderBy("start_date", 'asc')
+            .get();
         let approvedEventsMap = [];
         if(approvedEvents){
-            // TODO
-            // MAY NEED TO CHANGE:
-            // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
-            // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
-            // However, convertEventsTime should be run on every event, converting the time and timezone of the event
-            // To the current user's local time!
-            approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
+            approvedEventsMap = approvedEvents.docs.map(doc => {
+
+                    let event = this.convertEventsTime(doc.data())
+                    event["id"] = doc.id
+                    let today = new Date()
+                    if ((new Date(event.start_date)) < today && (new Date(event.end_date)) > today) {
+                        event["displayNow"] = true
+                    } else
+                    if ((new Date(event.end_date)) < today) {
+                        event["displayPast"] = true
+                    }
+                    if (event.recurring !== "") {
+                        event["displayRecurring"] = true
+                    }
+                    if (event.popularity > 50) {
+                        event["displayPopular"] = true
+                    }
+                    return event
+
+                }
+            );
         }
-        console.log(approvedEventsMap);
-        // console.log(approvedEventsMap);
-        this.setState({ myEventsList: approvedEventsMap, displayEvents:this.makeDisplayEvents(approvedEventsMap) });
+        approvedEventsMap.sort(function(a,b) {
+            var dateA = a.start_date
+            var dateB = b.start_date
+            return ((dateA < dateB) ? -1 : 1)
+        })
+
+        this.setState({ myEventsList: approvedEventsMap,
+                             displayEvents: this.makeDisplayEvents(approvedEventsMap) });
     }
+
 
     formatTime(hours, min) {
         let h = hours > 12 ? hours - 12 : hours;

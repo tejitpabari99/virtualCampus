@@ -4,6 +4,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
 import {CustomButton} from "../";
+import GridItem from "../material-kit-components/Grid/GridItem.js";
+import GridContainer from "../material-kit-components/Grid/GridContainer.js";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 export default class EventSearch extends React.Component{
@@ -73,11 +75,15 @@ export default class EventSearch extends React.Component{
         if (this.state.filter) {
             return(
                 // <div style={{display:'inline', backgroundColor: '#F2F9FD', padding: '18px', height: "100%", width: "100%"}}>
-                <div style={{backgroundColor: "#F2F9FD", paddingTop: "20px", paddingBottom: "20px"}}>
-                <div style={{display:'inline', padding: '18px'}}>
+                //<div style={{backgroundColor: "#F2F9FD", paddingTop: "20px", paddingBottom: "20px"}}>
+                //<div style={{display:'inline'}}>
+                <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px",
+                    backgroundColor: "#F2F9FD", paddingTop: "20px", paddingBottom: "20px"}}>
+
+                    <GridItem xs={8} sm={8} md={8}>
                     <TextField
                         style={{
-                            width: "85%",
+                            width: "105%",
                             borderColor: "#0072CE",
                             backgroundColor: "white",
                             marginBottom: "20px",
@@ -133,13 +139,15 @@ export default class EventSearch extends React.Component{
                             }
                         }}
                     />
+                    </GridItem>
 
+                    <GridItem xs={4} sm={4} md={4}>
                     <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal, this.state.hiddenSearch)}}
                                    text={"Search"}
                                    style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "139px"}}
                                    color={"blue"} size={"large"}
                     />
-
+                    </GridItem>
                     <br/>
 
                     <span style={{marginLeft: "20px", marginTop: "27px"}}>Tags</span>
@@ -177,18 +185,20 @@ export default class EventSearch extends React.Component{
                              display: "inline-block", verticalAlign: "middle"}}>
                         Reset
                     </div>
-
-                </div>
-                </div>
+                </GridContainer>
+                //</div>
+                //</div>
 
             )
         } else {
             return(
                 // <div style={{display:'inline', backgroundColor: '#F2F9FD', padding: '18px', height: "100%", width: "100%"}}>
-                <div style={{display:'inline', padding: '18px'}}>
+                //<div style={{display:'inline', padding: '18px'}}>
+                <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px", paddingRight: "10px"}}>
+                    <GridItem xs={8} sm={8} md={8}>
                     <TextField
                         style={{
-                            width: "85%",
+                            width: "115%",
                             borderColor: "#0072CE",
                             backgroundColor: "white",
                             marginBottom: "20px",
@@ -244,13 +254,18 @@ export default class EventSearch extends React.Component{
                             }
                         }}
                     />
+                    </GridItem>
 
+                    <GridItem xs={4} sm={4} md={4}>
                     <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal)}}
                                    text={"Search"}
-                                   style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "139px"}}
+                                   style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "130px", marginTop: "1px", width: "139px"}}
                                    color={"blue"} size={"large"}
                     />
-                </div>
+                    </GridItem>
+
+
+                </GridContainer>
             )
         }
     }
