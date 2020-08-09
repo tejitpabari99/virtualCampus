@@ -16,8 +16,8 @@ import {
 import CustomToolbar from "../events/CalendarToolBar"
 import { CircularProgress } from "@material-ui/core";
 import ScrollableAnchor from 'react-scrollable-anchor';
-import {configureAnchors} from 'react-scrollable-anchor';
-configureAnchors({offset: -100});
+import { configureAnchors } from 'react-scrollable-anchor';
+configureAnchors({ offset: -100 });
 
 const localizer = momentLocalizer(moment);
 const useStyles = () => ({
@@ -629,14 +629,13 @@ class EventsPageDesktop extends React.Component {
           </div>
         </div>
 
-      <Element name= "startEvents" id={"startEvents"} />
+        <Element name="startEvents" id={"startEvents"} />
 
-<<<<<<< HEAD
         <div style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: "1500px" }}>
           <div style={{ margin: "40px" }} />
 
           <div style={{ flexDirection: "row", display: "flex" }}>
-            <a href={"#"} className={greenBox}
+            <a href={"#startEvents"} className={greenBox}
               onClick={(tag) => { this.handleMainTags("now") }}
               style={{ cursor: "pointer" }}>
               <div className={classes.greenText}>
@@ -644,7 +643,7 @@ class EventsPageDesktop extends React.Component {
               </div>
             </a>
 
-            <a href={"#"} className={blueBox}
+            <a href={"#startEvents"} className={blueBox}
               onClick={(tag) => { this.handleMainTags("popular") }}
               style={{ cursor: "pointer" }}>
               <div className={classes.blueText}>
@@ -652,7 +651,7 @@ class EventsPageDesktop extends React.Component {
               </div>
             </a>
 
-            <a href={"#"} className={orangeBox}
+            <a href={"#startEvents"} className={orangeBox}
               onClick={(tag) => { this.handleMainTags("recurring") }}
               style={{ cursor: "pointer" }}>
               <div className={classes.orangeText}>
@@ -660,7 +659,7 @@ class EventsPageDesktop extends React.Component {
               </div>
             </a>
 
-            <a href={"#"} className={grayBox}
+            <a href={"#startEvents"} className={grayBox}
               onClick={(tag) => { this.handleMainTags("past") }}
               style={{ cursor: "pointer" }}>
               <div className={classes.grayText}>
@@ -668,44 +667,6 @@ class EventsPageDesktop extends React.Component {
               </div>
             </a>
           </div>
-=======
-      <div style={{marginLeft: 'auto', marginRight: 'auto', maxWidth: "1500px"}}>
-        <div style={{margin: "40px"}}/>
-
-        <div style={{flexDirection: "row", display: "flex"}}>
-          <a href={"#startEvents"} className={greenBox}
-               onClick={(tag) => { this.handleMainTags("now") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.greenText}>
-              <h4>Happening Now</h4>
-            </div>
-          </a>
-
-          <a href={"#startEvents"} className={blueBox}
-               onClick={(tag) => { this.handleMainTags("popular") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.blueText}>
-              <h4>Popular</h4>
-            </div>
-          </a>
-
-          <a href={"#startEvents"} className={orangeBox}
-               onClick={(tag) => { this.handleMainTags("recurring") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.orangeText}>
-              <h4>Recurring</h4>
-            </div>
-          </a>
-
-          <a href={"#startEvents"} className={grayBox}
-               onClick={(tag) => { this.handleMainTags("past") }}
-               style={{cursor: "pointer"}}>
-            <div className={classes.grayText}>
-              <h4>Past</h4>
-            </div>
-          </a>
-        </div>
->>>>>>> e574ec8548cd64438c0a97e7e5d6cd64ecfa3ce1
 
           <div style={{ margin: "40px" }} />
 

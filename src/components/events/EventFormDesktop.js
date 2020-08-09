@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import { Field } from "formik"
 import FormTitle from "../form-components/FormTitle"
 import FormBody from "../form-components/FormBody"
+import FormikField from "../form-components/FormikField"
 import { Select } from "material-ui-formik-components/Select";
 import FileUploadBtn from '../form-components/FileUploadBtn'
 
@@ -37,7 +38,7 @@ import * as firebase from "firebase";
 import Axios from "axios";
 import TZ from "countries-and-timezones";
 import * as Events from "../../pages/events";
-import { PhoneCallback } from "@material-ui/icons";
+import { PhoneCallback, ErrorSharp } from "@material-ui/icons";
 import { CheckboxWithLabel } from "formik-material-ui";
 
 // set an init value first so the input is "controlled" by default
@@ -88,6 +89,9 @@ const validationSchema = Yup.object().shape({
   end_date: Yup.string()
     .required("Required"),
   timezone: Yup.string()
+    .required("Required"),
+  attendants: Yup.number()
+    .integer("Please enter an integer")
     .required("Required"),
   agree: Yup.boolean("True")
     .required(),
@@ -758,6 +762,13 @@ class EventFormDesktop extends React.Component {
                           label="Select Timezone"
                           options={optionsTZ}
                           component={Select}
+                          required
+                        />
+                      </Grid>
+                      <Grid item sm={3}>
+                        <FormikField
+                          label="Attendant Cap"
+                          name="attendants"
                           required
                         />
                       </Grid>
