@@ -345,7 +345,7 @@ class EventsPageMobile extends React.Component {
 
     if(!eventSearchMobile || eventSearchMobile.length<=0){
       return this.setState({eventSearchMobile:[], activityIndicator:false, eventSearchMobileError:'No Results found',
-        myEventsList: []});
+        myEventsList: [], loadingEvents:false,});
     }
     let itemOn = 0
     const approvedEventsMap = eventSearchMobile.map(doc => (eventSearchMobile[itemOn++]['item']));
