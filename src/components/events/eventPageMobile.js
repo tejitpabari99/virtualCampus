@@ -304,7 +304,7 @@ class EventsPageMobile extends React.Component {
             if (event.recurring !== "") {
               event["displayRecurring"] = true
             }
-            if (event.popularity > 10) {
+            if (event.popularity > 50) {
               event["displayPopular"] = true
             }
             return event
@@ -659,8 +659,9 @@ getCalendarText() {
           </div>
 
           <div style={{margin: "40px"}}/>
+          <Element name= "startEvents" id={"startEvents"} />
           <div style={{flexDirection: "row", display: "flex"}}>
-            <a href={"#"} className={greenBox}
+            <a href={"#startEvents"} className={greenBox}
                onClick={(tag) => { this.handleMainTags("now") }}
                style={{cursor: "pointer"}}>
               <div className={classes.greenText}>
@@ -668,7 +669,7 @@ getCalendarText() {
               </div>
             </a>
 
-            <a href={"#"} className={blueBox}
+            <a href={"#startEvents"} className={blueBox}
                onClick={(tag) => { this.handleMainTags("popular") }}
                style={{cursor: "pointer"}}>
               <div className={classes.blueText}>
@@ -679,7 +680,7 @@ getCalendarText() {
 
           <div style={{margin: "20px"}}/>
           <div style={{flexDirection: "row", display: "flex"}}>
-            <a href={"#"} className={orangeBox}
+            <a href={"#startEvents"} className={orangeBox}
                onClick={(tag) => { this.handleMainTags("recurring") }}
                style={{cursor: "pointer"}}>
               <div className={classes.orangeText}>
@@ -687,7 +688,7 @@ getCalendarText() {
               </div>
             </a>
 
-            <a href={"#"} className={grayBox}
+            <a href={"#startEvents"} className={grayBox}
                onClick={(tag) => { this.handleMainTags("past") }}
                style={{cursor: "pointer"}}>
               <div className={classes.grayText}>
@@ -757,6 +758,7 @@ getCalendarText() {
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <div style={{margin: "00px"}}/>
+
           <div style= {{flexDirection: "column", display: "flex",width: "100%", marginBottom:"3%"}}>
               {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
               {!this.state.loadingEvents && eventsList.map((ele) => {

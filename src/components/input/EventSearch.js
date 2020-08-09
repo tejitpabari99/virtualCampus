@@ -73,6 +73,7 @@ export default class EventSearch extends React.Component{
         if (this.state.filter) {
             return(
                 // <div style={{display:'inline', backgroundColor: '#F2F9FD', padding: '18px', height: "100%", width: "100%"}}>
+                <div style={{backgroundColor: "#F2F9FD", paddingTop: "20px", paddingBottom: "20px"}}>
                 <div style={{display:'inline', padding: '18px'}}>
                     <TextField
                         style={{
@@ -177,6 +178,7 @@ export default class EventSearch extends React.Component{
                         Reset
                     </div>
 
+                </div>
                 </div>
 
             )
