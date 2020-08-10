@@ -152,11 +152,9 @@ class Events extends React.Component{
         const { classes } = this.props;
         const date = new Date();
         return (
-            <div style={{width: "100%"}}>
+            <div style={{width: "85%"}}>
             {this.state.displayEvents.length > 0 &&
                     <div style={{ marginBottom: "5%" }}>
-                        <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
-                        <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 5 }}/>
                         {this.state.displayEvents.map((ele, ind) => {
                             return (<EventCard ele={ele} key={ind}/>);
                         })}
