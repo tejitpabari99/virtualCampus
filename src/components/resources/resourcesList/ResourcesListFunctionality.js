@@ -3,6 +3,7 @@ import { CustomButton } from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js";
 import Fuse from 'fuse.js';
+import { Dvr } from "@material-ui/icons";
 
 /**
 * Custom tag button for selection/deselection
@@ -64,6 +65,7 @@ class ResourcesListFunctionality extends React.Component {
     let approvedResourcesDict = {"All Resources":[]};
     let allResources = [];
     try{
+      
       let db = firebase.firestore();
       // let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
       let arr = [];
@@ -251,7 +253,7 @@ class ResourcesListFunctionality extends React.Component {
   * Function that sorts the filter based on dropdown menu selection
   * @param  event: Received from <Search> element that has the value of the filter sort
   */
-  handleChange = (event, index, value) => { 
+  handleChange = (event, index, value) => {
     // alphabetical sort
     if (event.target!== undefined && event.target.value === 2){
       let array = this.state.resourcesDisplay;
