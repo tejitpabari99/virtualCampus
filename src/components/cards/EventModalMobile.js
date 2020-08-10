@@ -19,6 +19,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import EventEmailModal from "./EventEmailModal";
+import {handleEventClick} from "./eventCardsFeaturedAndCards/commonEventsFuncs"
 
 const theme = CustomTheme;
 
@@ -235,6 +237,20 @@ export default function EventModalMobile({open, closeDo, event}) {
       bottom: false,
     });
 
+    const [openEE, setOpenEE] = React.useState(false);
+
+    const openModalHandler = () => {
+      setOpenEE(true)
+    }
+
+    const closeDoEE = () => {
+      setOpenEE(false);
+    }
+
+    const handlePopularity = () => {
+      handleEventClick(event, 1)
+    }
+
     const toggleDrawer = (anchor, open) => (event) => {
       if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
         return;
@@ -315,8 +331,9 @@ export default function EventModalMobile({open, closeDo, event}) {
               </GridItem>
 
               <GridItem xs={6} sm={6} md={6}>
-                {event.invite_link && <CustomButton text={'JOIN EVENT'} newTab color={"blue"} size={"xlarge"} className={classes.joinButton}/>}
+                {event.invite_link && <CustomButton text={'JOIN EVENT'} onClick={openModalHandler} newTab color={"blue"} size={"xlarge"} className={classes.joinButton}/>}
               </GridItem>
+              {openEE && <EventEmailModal open={openEE} closeDo={closeDoEE} event={event} onClick={handlePopularity}/>}
           </GridContainer>
       </div>
     );
@@ -331,6 +348,7 @@ export default function EventModalMobile({open, closeDo, event}) {
             anchor={anchor}
             open={open}
             onClose={closeDo}
+            transitionDuration={{enter: 2000}}
             //open={state[anchor]}
             //onClose={toggleDrawer(anchor, false)}
             onOpen={toggleDrawer(anchor, true)}
