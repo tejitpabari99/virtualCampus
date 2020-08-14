@@ -156,6 +156,7 @@ class EventsPageDesktop extends React.Component {
       event: null,
       count: 0,
       myEventsList: [],
+      eventsListWithIdKey: {},
       permEventsList: [],
       displayEvents: [],
       eventSearch: [],
@@ -214,7 +215,10 @@ class EventsPageDesktop extends React.Component {
     let event = this.props.event
     // goToAnchor(event, true);
     if (event){
-      console.log(event);
+      if (this.state.eventsListWithIdKey[event].end_date < new Date()) {
+        const newList = {past: "on", recurring: "", popular: "", now: ""}
+        this.setState({ mainTagsClicked: newList })
+      }
       scroller.scrollTo(event, {
         // duration: 1500,
         // delay: 100,
@@ -318,6 +322,7 @@ class EventsPageDesktop extends React.Component {
         .orderBy("start_date", 'asc')
         .get();
     let approvedEventsMap = [];
+    let approvedEventsMapWithKey = [];
     if(approvedEvents){
       approvedEventsMap = approvedEvents.docs.map(doc => {
 
@@ -340,8 +345,13 @@ class EventsPageDesktop extends React.Component {
 
       }
       );
+
+      for (let i = 0; i < approvedEventsMap.length; i++) {
+        const event = approvedEventsMap[i]
+        approvedEventsMapWithKey[event["id"]] = event
+      }
     }
-    approvedEventsMap.sort(function(a,b) {
+    approvedEventsMapWithKey.sort(function(a,b) {
       var dateA = a.start_date
       var dateB = b.start_date
       return ((dateA < dateB) ? -1 : 1)
@@ -351,7 +361,8 @@ class EventsPageDesktop extends React.Component {
       organizationList: this.genOrganizationList(approvedEventsMap),
       permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap),
-      loadingEvents: false });
+      loadingEvents: false,
+      eventsListWithIdKey: approvedEventsMapWithKey});
   }
 
   async addActiveTag(n)
@@ -366,7 +377,6 @@ class EventsPageDesktop extends React.Component {
     }
 
     await this.setState({hiddenSearch : this.state.activeTagList.join(" ")})
-    console.log(this.state.activeTagList)
     console.log( this.state.activeTagList.join(" "))
     this.props.onClick(this.state.searchVal, this.state.hiddenSearch)
   }
@@ -475,7 +485,6 @@ class EventsPageDesktop extends React.Component {
     if (ele.displayThisCard === true) {
       Object.keys(this.state.filterTagsClicked).map(x => {
         let found = false
-        console.log(x)
         if (this.state.filterTagsClicked[x] !== undefined) {
           ele.tags.map(y => {
             if (x.toLowerCase() === y.toLowerCase()) {
@@ -504,7 +513,6 @@ class EventsPageDesktop extends React.Component {
     if (this.state.dateFilter !== "All") {
       let d = new Date()
       const daysApart = Math.abs((ele.start_date.getTime() - d.getTime()) / (3600*24*1000))
-      console.log(daysApart)
       switch(this.state.dateFilter) {
         case "This Month Only":
           if (ele.start_date.getMonth() !== d.getMonth() || ele.start_date.getFullYear() !== d.getFullYear())
@@ -550,7 +558,6 @@ class EventsPageDesktop extends React.Component {
     let sizeOfList = 0
     let noSearchResults = ""
     let eventsList = []
-    console.log(this.state.filterTagsClicked)
     this.state.myEventsList.map((ele, ind) => {
       if ((ele.tags !== undefined && ele.tags[0] !== undefined) === false) {
         ele.tags = ['none']

@@ -202,6 +202,7 @@ class EventsPageMobile extends React.Component {
       count: 0,
       myEventsList: [],
       permEventsList: [],
+      eventsListWithIdKey: {},
       displayEvents: [],
       eventSearchMobile: [],
       eventSearchMobileError: '',
@@ -289,6 +290,7 @@ class EventsPageMobile extends React.Component {
         .orderBy("start_date", 'asc')
         .get();
     let approvedEventsMap = [];
+    let approvedEventsMapWithKey = [];
     if(approvedEvents){
       approvedEventsMap = approvedEvents.docs.map(doc => {
 
@@ -311,6 +313,11 @@ class EventsPageMobile extends React.Component {
 
           }
       );
+
+      for (let i = 0; i < approvedEventsMap.length; i++) {
+        const event = approvedEventsMap[i]
+        approvedEventsMapWithKey[event["id"]] = event
+      }
     }
     approvedEventsMap.sort(function(a,b) {
       var dateA = a.start_date
@@ -322,7 +329,8 @@ class EventsPageMobile extends React.Component {
       organizationList: this.genOrganizationList(approvedEventsMap),
       permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap),
-      loadingEvents: false });
+      loadingEvents: false,
+      eventsListWithIdKey: approvedEventsMapWithKey });
   }
 
   searchFunc(val, changeDefaultSearchVal=true) {
@@ -532,13 +540,13 @@ updateCalendarExpandText() {
     let event = this.props.event
     // goToAnchor(event, true);
     if (event){
-      console.log(event);
+      if (this.state.eventsListWithIdKey[event].end_date < new Date()) {
+        const newList = {past: "on", recurring: "", popular: "", now: ""}
+        this.setState({ mainTagsClicked: newList })
+      }
       scroller.scrollTo(event, {
-        // duration: 1500,
-        // delay: 100,
         smooth: true,
-        // containerId: 'ContainerElementID',
-        offset: -100, // Scrolls to element + 50 pixels down the page
+        offset: -100,
       })
     }
   }
