@@ -55,6 +55,7 @@ const initVal = {
   recurring: "",
   entry_link: "",
   invite_link: "",
+  event_link: "",
   link_type: "",
   comments: "",
   tag: "",
@@ -476,6 +477,18 @@ class EventFormDesktop extends React.Component {
       emailData["text"] += "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: " +
         zoomUrl.concat(newEventRef.id);
     }
+    if (data["event_link"] || data["event_link"] === "") {
+      data["event_link"] = "columbiavirtualcampus.com/events?event=" + newEventRef.id
+      console.log("hi")
+      console.log("columbiavirtualcampus.com/events?event=" + newEventRef.id)
+    }
+    if (data["event_link"] === "http://columbiavirtualcampus.com") {
+      data["event_link"] = "columbiavirtualcampus.com/events?event=" + newEventRef.id
+      console.log("ho")
+      console.log("columbiavirtualcampus.com/events?event=" + newEventRef.id)
+    }
+    console.log(data["event_link"])
+    console.log("columbiavirtualcampus.com/events?event=" + newEventRef.id)
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
       .then(ref => {

@@ -410,7 +410,7 @@ class EventsPageDesktop extends React.Component {
 
     if(!eventSearch || eventSearch.length<=0){
       return this.setState({eventSearch:[], activityIndicator:false, eventSearchError:'No Results found',
-        myEventsList: []});
+        myEventsList: [], loadingEvents: false,});
     }
     let itemOn = 0
     const approvedEventsMap = eventSearch.map(doc => (eventSearch[itemOn++]['item']));
