@@ -4,10 +4,7 @@ import HomeEvents from './HomeEvents';
 import { makeStyles } from "@material-ui/core/styles";
 import landingImage from "../../assets/images/home/MainGraphic.png";
 import HostEventPic from "../../assets/images/home/HostEventPic.png";
-import Mentoring1 from "../../assets/images/home/BlueWaveMobile1.png";
-import Mentoring2 from "../../assets/images/home/BlueWaveMobile2.png";
-import Mentoring3 from "../../assets/images/home/BlueWaveMobile3.png";
-import BlmImage from "../../assets/images/home/BlmImageMobile.png";
+import MockCodingInterviews from "../../assets/images/home/MockCodingInterviews.png";
 import Bubbles1 from "../../assets/images/home/BubblesMobile1.png";
 import Bubbles2 from "../../assets/images/home/BubblesMobile2.png";
 import OrangeBlob from "../../assets/images/home/OrangeBlobMobile.png";
@@ -64,11 +61,6 @@ const manualPortrait = makeStyles(() => ({
     color: "#BFD8E9",
     lineHeight: ".2rem",
   },
-  buttonSpan:{
-    paddingLeft: "1px",
-    paddingRight: "1px",
-    color: '#FB750D',
-  },
   landingText:{
     margin: '0',
     float:'left',
@@ -86,16 +78,11 @@ const manualPortrait = makeStyles(() => ({
     width: "95%",
     marginBottom: "-300px"
   },
-  button:{
-    background: "#FFFFFF",
-    border: "1px solid #FB750D",
-    boxSizing: "border-box",
-    borderRadius: "10px",
-  },
   eventsSection: {
     position:'relative',
     left:'0px',
     backgroundColor:'transparent',
+    textAlign: "left",
   },
   eventPic: {
     height: "400px",
@@ -111,12 +98,6 @@ const manualPortrait = makeStyles(() => ({
     lineHeight: '2.5vw',
     marginTop: "15px",
   },
-  resourcesSection: {
-    position: 'relative'
-  },
-  socialSection: {
-    textAlign: "center",
-  },
   upcomingEventsBox: {
     width: "320px",
     height: '162px',
@@ -130,34 +111,57 @@ const manualPortrait = makeStyles(() => ({
     height: "210px",
     marginLeft: "35px"
   },
-  mentoring1: {
-    background: `url(${Mentoring1})`,
-    backgroundRepeat: 'no-repeat',
-    marginTop: "40px",
-    height: "300px",
-    width: "600px",
-    marginBottom: "-165px"
+  hostEventTitle: {
+    color:"#0072CE",
+    fontSize: "24px",
+    textAlign: "center"
   },
-  mentoring2: {
-    background: `url(${Mentoring2})`,
-    backgroundRepeat: 'no-repeat',
-    height: "400px",
-    width: "600px",
-    marginBottom: "-270px"
+  hostEventText: {
+    color:"black",
+    fontSize: "12px",
+    textAlign: "center",
+    maxWidth: "280px",
+    marginLeft: "50px"
   },
-  mentoring3: {
-    background: `url(${Mentoring3})`,
-    backgroundRepeat: 'no-repeat',
-    height: "400px",
-    width: "600px",
-    marginBottom: "-210px"
+  hostEventButton: {
+    marginTop: "-20px",
+    textAlign: "center"
   },
-  blmImage: {
-    background: `url(${BlmImage})`,
-    backgroundRepeat: 'no-repeat',
-    height: "100px",
-    width: "100px",
-    marginLeft: "140px"
+  interviewPicBox: {
+    width: "300px",
+    height: "250px",
+    marginLeft: "35px",
+    marginBottom: "-20px"
+  },
+  dateText: {
+    color:"black",
+    fontSize: "14px",
+    textAlign: "center"
+  },
+  interviewTitle: {
+    color:"#0072CE",
+    fontSize: "24px",
+    textAlign: "center"
+  },
+  interviewText: {
+    color:"black",
+    fontSize: "12px",
+    textAlign: "center",
+    maxWidth: "280px",
+    marginLeft: "50px"
+  },
+  interviewButton: {
+    marginTop: "-20px",
+    textAlign: "center"
+  },
+  resourcesText: {
+    color: "#0072CE",
+    fontSize: "24px",
+    maxWidth: "300px",
+    textAlign: "center",
+    marginLeft: "35px",
+    marginBottom: "-60px",
+    marginTop: "40px"
   },
   bubbles1: {
     marginLeft: "10px",
@@ -185,20 +189,24 @@ const manualPortrait = makeStyles(() => ({
     marginBottom: "-20px"
   },
   insta: {
-    width: "100%",
-    height: "900px",
-    backgroundColor: "#F6C09F",
-    color: "black",
-    padding:"0px",
-    marginTop: "0px",
+    border:"none",
+    marginLeft: "25px",
+    marginTop: "-1490px"
   },
   fabo: {
-    width: "100%",
-    height: "900px",
-    backgroundColor: "#82B7E8",
-    color: "white",
-    padding:"0px",
-    margin: "0px",
+    border:"none",
+    marginLeft: "30px"
+  },
+  instaButton: {
+    marginLeft: "130px",
+    marginTop: "60px",
+    color: "black",
+    borderColor: "black",
+    marginBottom: "150px"
+  },
+  faboButton: {
+    marginTop: "50px",
+    marginLeft: "130px"
   },
   footer: {
     width: "100%",
@@ -206,6 +214,34 @@ const manualPortrait = makeStyles(() => ({
     backgroundColor: "#0072CE",
     color: "white",
     marginTop: "50px"
+  },
+  footerTitle: {
+    color: "white",
+    fontSize: "24px",
+    marginLeft: "30px",
+    marginTop: "-360px"
+  },
+  footerSubTitle: {
+    color: "white",
+    fontSize: "16px",
+    marginTop: "0px",
+    marginLeft: "30px"
+  },
+  firstColumn: {
+    color: "white",
+    fontSize: "14px",
+    marginLeft: "30px",
+    marginTop: "30px"
+  },
+  secondColumn: {
+    color: "white",
+    fontSize: "14px",
+    marginLeft: "200px",
+    marginTop: "-145px"
+  },
+  icon: {
+    color: "white",
+    fontSize: 40,
   }
 }));
 
@@ -230,25 +266,9 @@ const manualLandscape = makeStyles(() => ({
     lineHeight: '18px',
     color:'#000000',
   },
-  toAllSubHeadingUpEvents: {
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '.84rem',
-    marginTop: "1rem",
-    marginBottom: "1.5rem",
-    maxWidth: '93%',
-    margin: "auto",
-    color:'#000000',
-  },
   toAllSecondary: {
     color: "#BFD8E9",
     lineHeight: ".2rem",
-  },
-  buttonSpan:{
-    paddingLeft: "1px",
-    paddingRight: "1px",
-    color: '#FB750D',
   },
   landingText:{
     margin: '0',
@@ -260,22 +280,16 @@ const manualLandscape = makeStyles(() => ({
   },
   landing: {
     background: `url(${landingImage})`,
-    backgroundSize: '40%',
+    backgroundSize: '80% auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '100% bottom',
-    height: "80vh",
-    width: "100%"
-  },
-  button:{
-    background: "#FFFFFF",
-    border: "1px solid #FB750D",
-    boxSizing: "border-box",
-    borderRadius: "10px",
+    backgroundPosition: 'right max(40%, 20px)',
+    height: "max(120vh, 31vw)",
+    width: "95%",
   },
   eventsSection: {
     position:'relative',
-    left:'0px',
     backgroundColor:'transparent',
+    marginLeft: "160px"
   },
   eventPic: {
     height: "400px",
@@ -291,28 +305,161 @@ const manualLandscape = makeStyles(() => ({
     lineHeight: '2.5vw',
     marginTop: "15px",
   },
+  upcomingEventsBox: {
+    width: "320px",
+    height: '162px',
+    borderRadius: '30px',
+    backgroundColor: "#0072CE",
+    marginBottom: "30px",
+    marginLeft: "250px",
+  },
+  hostEventPicBox: {
+    width: "300px",
+    height: "210px",
+    marginLeft: "35px"
+  },
+  hostEventTitle: {
+    color:"#0072CE",
+    fontSize: "24px",
+    textAlign: "center",
+    marginLeft: "270px",
+    marginTop: "-200px"
+  },
+  hostEventText: {
+    color:"black",
+    fontSize: "12px",
+    textAlign: "left",
+    maxWidth: "280px",
+    marginLeft: "405px"
+  },
+  hostEventButton: {
+    marginTop: "-20px",
+    textAlign: "center",
+    marginBottom: "60px",
+    marginLeft: "210px"
+  },
+  interviewPicBox: {
+    width: "300px",
+    height: "250px",
+    marginLeft: "400px",
+    marginBottom: "-20px"
+  },
+  dateText: {
+    color:"black",
+    fontSize: "14px",
+    marginTop: "-180px",
+    textAlign: "center",
+    marginLeft: "-360px"
+  },
+  interviewTitle: {
+    color:"#0072CE",
+    fontSize: "24px",
+    textAlign: "center",
+    marginLeft: "-430px"
+  },
+  interviewText: {
+    color:"black",
+    fontSize: "12px",
+    textAlign: "right",
+    maxWidth: "280px",
+    marginLeft: "50px"
+  },
+  interviewButton: {
+    marginTop: "-20px",
+    textAlign: "left",
+    marginLeft: "55px"
+  },
+  resourcesText: {
+    color: "#0072CE",
+    fontSize: "24px",
+    textAlign: "center",
+    marginLeft: "35px",
+    marginBottom: "-60px",
+    marginTop: "40px"
+  },
+  bubbles1: {
+    marginLeft: "10px",
+    width: "140px",
+    height: "100px"
+  },
+  bubbles2: {
+    marginLeft: "600px",
+    width: "60px",
+    height: "50px"
+  },
+  blueBlob: {
+    width: "100%",
+    height: "1500px",
+    marginTop: "50px"
+  },
+  orangeBlob: {
+    width: "100%",
+    height: "800px",
+    marginTop: "-2360px"
+  },
   resourcesSection: {
     position: 'relative'
   },
-  socialSection: {
-    textAlign: "center",
+  largeIcon: {
+    width: "50px",
+    height: "50px",
+    marginBottom: "-20px"
   },
   insta: {
-    width: "100%",
-    height: "900px",
-    backgroundColor: "#F6C09F",
-    color: "black",
-    padding:"0px",
-    marginTop: "0px",
+    border:"none",
+    marginLeft: "250px",
+    marginTop: "-1490px"
   },
   fabo: {
-    width: "100%",
-    height: "900px",
-    backgroundColor: "#82B7E8",
-    color: "white",
-    padding:"0px",
-    margin: "0px",
+    border:"none",
+    marginLeft: "250px"
   },
+  instaButton: {
+    marginLeft: "320px",
+    marginTop: "60px",
+    color: "black",
+    borderColor: "black",
+    marginBottom: "150px"
+  },
+  faboButton: {
+    marginTop: "50px",
+    marginLeft: "320px"
+  },
+  footer: {
+    width: "100%",
+    height: "400px",
+    backgroundColor: "#0072CE",
+    color: "white",
+    marginTop: "50px"
+  },
+  footerTitle: {
+    color: "white",
+    fontSize: "24px",
+    marginLeft: "30px",
+    marginTop: "-300px"
+  },
+  footerSubTitle: {
+    color: "white",
+    fontSize: "16px",
+    marginTop: "0px",
+    marginLeft: "30px"
+  },
+  firstColumn: {
+    color: "white",
+    fontSize: "14px",
+    marginLeft: "400px",
+    marginTop: "-70px"
+  },
+  secondColumn: {
+    color: "white",
+    fontSize: "14px",
+    marginLeft: "600px",
+    marginTop: "-145px"
+  },
+  icon: {
+    color: "white",
+    fontSize: 40,
+  }
 }));
 export default function HomeMobile({isLandscape}) {
   const classes = useStyles();
@@ -363,42 +510,33 @@ export default function HomeMobile({isLandscape}) {
       </div>
 
       <div style={{marginBottom: "5px", background: "transparent"}}/>
-      <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign:'left',  background: "transparent"}}>
+      <div className={classNames(classes.main, manual.eventsSection)}>
           <div className={classes.container} id="explore">
             <HomeEvents/>
           </div>
       </div>
 
       <img className={manual.hostEventPicBox} src={HostEventPic} />
-      <h2 style={{color:"#0072CE", fontSize: "24px", textAlign: "center"}}>Want to host an event?</h2>
-      <p style={{color:"black", fontSize: "12px", textAlign: "center", maxWidth: "280px", marginLeft: "50px"}}>Looking to host your own event on Columbia Virtual Campus? Answer some questions to <strong>start leading.</strong></p>
+      <h2 className={manual.hostEventTitle}>Want to host an event?</h2>
+      <p className={manual.hostEventText}>Looking to host your own event on Columbia Virtual Campus? Answer some questions to <strong>start leading.</strong></p>
       <br/>
-      <div style={{marginTop: "-20px", textAlign: "center"}}>
+      <div className={manual.hostEventButton}>
         <CustomButton href={'/add-new-event'}  text={'HOST AN EVENT'}
         color={"orange"} size={"large"}/>
       </div>
 
-      <div className={manual.mentoring1}>
-          <br/> <br/>
-          <div className={manual.blmImage}> </div>
-      </div>
-      <div className={manual.mentoring2}>
-          <h1 style={{fontSize: "24px", textAlign: "center", marginLeft: "-230px", marginTop: "20px"}}> #BLM</h1>
-          <h1 style={{fontSize: "24px", textAlign: "center", marginLeft: "-230px", marginTop: "-5px"}}> Our Mentorship Program</h1>
-          <h3 style={{fontSize: "16px", textAlign: "center", marginLeft: "-230px", marginTop: "0px"}}> DONATE WHAT YOU CAN</h3>
-          <h3 style={{fontSize: "16px", textAlign: "center", marginLeft: "-230px", marginTop: "-5px"}}> for 30 minutes with any mentor!</h3>
-
-      </div>
-      <div className={manual.mentoring3}>
-          <p style={{fontSize: "12px", textAlign: "center", marginLeft: "-230px"}}> Columbia Virtual Campus is offering a one-on-one </p>
-
-          <p style={{fontSize: "12px", textAlign: "center", marginLeft: "-230px", marginTop: "-5px"}}> mentoring service in which 100% of fees are donated to </p>
-          <p style={{fontSize: "12px", textAlign: "center", marginLeft: "-230px", marginTop: "-5px"}}> organizations upporting the black community. </p>
-          <CustomButton href={'/coding-interviews'}  text={'SCHEDULE A SESSION'}
-          color={"orange2"} size={"large"} style={{textAlign: "center", marginLeft: "120px", marginTop: "15px"}}/>
+      <img className={manual.interviewPicBox} src={MockCodingInterviews} />
+      <h2 className={manual.dateText}><strong>August 3rd - August 24th, 2020 </strong></h2>
+      <h2 className={manual.interviewTitle}>Mock Coding Interviews</h2>
+      <p className={manual.interviewText}>Practice and network 1-on-1 with students & alumni at Microsoft, Facebook, & Google.</p>
+      <br/>
+      <div className={manual.interviewButton}>
+        <CustomButton href={'/coding-interviews'}  text={'SCHEDULE A SESSION'}
+        color={"orange"} size={"large"} />
       </div>
 
-        <h1 style={{color: "#0072CE", fontSize: "24px", maxWidth: "300px", textAlign: "center", marginLeft: "45px", marginBottom: "-50px"}}> Take a look at our Resources!</h1>
+
+      <h1 className={manual.resourcesText}> Take a look at our Resources!</h1>
 
 
       <div className={manual.resourcesSection}>
@@ -422,7 +560,7 @@ export default function HomeMobile({isLandscape}) {
         <img className={manual.blueBlob} src={BlueBlob}/>
         <img className={manual.orangeBlob} src={OrangeBlob}/>
         <div>
-            <div style={{ border:"none", marginLeft: "25px", marginTop: "-1490px"}}>
+            <div className={manual.insta}>
                 <InstagramEmbed
                     url='https://www.instagram.com/p/CBHN4GMlSkD/'
                     maxWidth={320}
@@ -436,14 +574,14 @@ export default function HomeMobile({isLandscape}) {
                     onFailure={() => {}}
                 />
             </div>
-            <div style={{marginLeft: "130px", marginTop: "60px", color: "black", borderColor: "black", marginBottom: "150px"}}>
+            <div className={manual.instaButton}>
                     <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'INSTAGRAM'}
                           startIcon={<InstaIcon />} color={"black"} size={"large"} />
             </div>
         </div>
         <div>
-            <div style={{ border:"none", marginTop: "400px", marginLeft: "30px"}}
-                     className="fb-page"
+            <div
+                     className={classNames("fb-page", manual.fabo)}
                      data-href="https://www.facebook.com/columbiavirtualcampus/"
                      data-tabs="timeline"
                      data-width="320"
@@ -454,7 +592,7 @@ export default function HomeMobile({isLandscape}) {
                      data-show-facepile="false"
                 >
             </div>
-            <div style={{marginTop: "50px", marginLeft: "130px"}}>
+            <div className={manual.faboButton}>
                 <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'FACEBOOK'}
                     startIcon={<FacebookIcon />} color={"black2"} size={"large"}/>
             </div>
@@ -462,9 +600,9 @@ export default function HomeMobile({isLandscape}) {
       </div>
 
       <div className={manual.footer} />
-          <h2 style={{color: "white", fontSize: "24px", marginLeft: "30px", marginTop: "-360px"}}> Columbia Virtual Campus </h2>
-          <h2 style={{color: "white", fontSize: "16px", marginTop: "0px", marginLeft: "30px"}}> Columbia, <i>virtually</i>.</h2>
-      <div style={{color: "white", fontSize: "14px", marginLeft: "30px", marginTop: "30px"}}>
+          <h2 className={manual.footerTitle}> Columbia Virtual Campus </h2>
+          <h2 className={manual.footerSubTitle}> Columbia, <i>virtually</i>.</h2>
+      <div className={manual.firstColumn}>
           <a href={""} style={{color: "white"}}> Home </a> <br/>
           <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
           <a href={"/events"} style={{color: "white"}}> Socialize </a> <br/>
@@ -473,7 +611,7 @@ export default function HomeMobile({isLandscape}) {
           <a href={"/contact-us"} style={{color: "white"}}> Contact Us </a> <br/>
       </div>
 
-      <div style={{color: "white", fontSize: "14px", marginLeft: "200px", marginTop: "-145px"}}>
+      <div className={manual.secondColumn}>
           <a href={"/events/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
           <a href={"/resources/add-new-resource"} style={{color: "white"}}> Add a Resource </a> <br/>
           <a href={"/coding-interviews/add-interviewer"} style={{color: "white"}}> Be a Mock Interviewer </a> <br/>
@@ -481,16 +619,16 @@ export default function HomeMobile({isLandscape}) {
 
       <div style={{marginRight: "0px"}}>
         <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "20px", marginTop: "90px"}} href={"https://www.instagram.com/columbiavirtualcampus/"}>
-            <InstaIcon style={{color: "white", fontSize: 40}}/>
+            <InstaIcon className={manual.icon}/>
         </IconButton>
         <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "10px", marginTop: "90px"}} href={"https://www.facebook.com/columbiavirtualcampus/"}>
-            <FacebookIcon style={{color: "white", fontSize: 40}}/>
+            <FacebookIcon className={manual.icon}/>
         </IconButton>
         <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "10px", marginTop: "90px"}} href={"https://www.linkedin.com/company/columbia-virtual-campus/"}>
-            <LinkedInIcon style={{color: "white", fontSize: 40}}/>
+            <LinkedInIcon className={manual.icon}/>
         </IconButton>
         <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "10px", marginTop: "90px"}} href={"mailto:columbiavirtualcampus@gmail.com"}>
-            <MailOutlineIcon style={{color: "white", fontSize: 40}}/>
+            <MailOutlineIcon className={manual.icon}/>
         </IconButton>
       </div>
 

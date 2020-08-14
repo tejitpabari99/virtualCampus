@@ -3,9 +3,7 @@ import classNames from "classnames";
 import React from "react";
 import landingImage from "../../assets/images/home/MainGraphic.png";
 import HostEventPic from "../../assets/images/home/HostEventPic.png";
-import Mentoring1 from "../../assets/images/home/BlueWave1.png";
-import Mentoring2 from "../../assets/images/home/BlueWave2.png";
-import BlmImage from "../../assets/images/home/BlmImage.png";
+import MockCodingInterviews from "../../assets/images/home/MockCodingInterviewDesktop.png";
 import Bubbles1 from "../../assets/images/home/Bubbles1.png";
 import Bubbles2 from "../../assets/images/home/Bubbles2.png";
 import Bubbles3 from "../../assets/images/home/Bubbles3.png";
@@ -93,13 +91,13 @@ const manualSt = makeStyles(() => ({
     flexDirection: "column",
     position: "relative",
   },
-    hostsSection: {
-        flexDirection: "column",
-        position: "relative",
-        backgroundImage: `url(${HostEventPic})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "100% auto"
-    },
+  hostsSection: {
+    flexDirection: "column",
+    position: "relative",
+    backgroundImage: `url(${HostEventPic})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "100% auto"
+  },
   eventPic: {
     height: "100%",
     width: "100%",
@@ -161,7 +159,6 @@ const manualSt = makeStyles(() => ({
     marginLeft: '300px',
     backgroundColor: "#D7EEF9",
     marginBottom: "200px",
-
   },
   hostEventPicBox: {
     background: `url(${HostEventPic})`,
@@ -169,34 +166,13 @@ const manualSt = makeStyles(() => ({
     width: "62%",
     height: "149%",
     marginLeft: "120px"
-
   },
-  mentoring1: {
-    background: `url(${Mentoring1})`,
+  mockInterviewPicBox: {
+    background: `url(${MockCodingInterviews})`,
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    marginTop: "200px",
-    height: "300px",
     width: "100%",
-    marginLeft: "8px",
-  },
-  mentoring2: {
-    background: `url(${Mentoring2})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    height: "400px",
-    width: "100%",
-    marginLeft: "8px",
-    marginBottom: "200px"
-  },
-  blmImage: {
-    background: `url(${BlmImage})`,
-    backgroundRepeat: 'no-repeat',
-    height: "100%",
-    width: "100%",
-    marginLeft: "250px",
-    marginBottom: "360px",
-    marginTop: "150px"
+    height: "200%",
+    marginLeft: "120px"
   },
   bubbles1: {
     marginLeft: "10px",
@@ -315,7 +291,7 @@ export default function HomeDesktop() {
       </GridContainer>
       </Container>
 
-      <GridContainer>
+      <GridContainer style={{marginBottom: "160px"}}>
         <GridItem xs={5} sm={5} md={5} lg={5}
           style = {{textAlign: "right"}}>
 
@@ -331,30 +307,24 @@ export default function HomeDesktop() {
         </GridItem>
       </GridContainer>
 
-          <div className={manual.mentoring1}>
-            <GridContainer>
-              <GridItem xs={5} sm={5} md={5} lg={5}>
-                <div className={manual.blmImage}> </div>
-              </GridItem>
-            </GridContainer>
-          </div>
-          <div className={manual.mentoring2}>
-            <GridContainer>
-              <GridItem xs={7} sm={7} md={7} lg={7}
-                style={{marginLeft: "750px", marginTop: "-150px", color: "black"}}>
-                <h1 style={{fontSize: "48px"}}> Or check out</h1>
-                <h1 style={{fontSize: "48px"}}> Our Mentorship Program</h1>
-                <h3> DONATE WHAT YOU CAN</h3>
-                <h3 style={{marginTop: "-10px", marginBottom: "25px"}}> for 30 minutes with any mentor!</h3>
-                <p> Columbia Virtual Campus is offering a one-on-one mentorship </p>
-                <p style={{marginTop: "-10px"}}> service in which 100% of fees are donated to organizations </p>
-                <p style={{marginTop: "-10px"}}> supporting the black community. </p>
-                <CustomButton href={'/coding-interviews'}  text={'SCHEDULE A SESSION'}
-                color={"orange2"} size={"large"} style={{marginTop: "25px"}}/>
-              </GridItem>
-            </GridContainer>
-          </div>
+      <GridContainer style={{marginBottom: "160px"}}>
 
+        <GridItem xs={6} sm={6} md={6} lg={6}>
+          <div className={classNames(manual.mockInterviewPicBox)}> </div>
+        </GridItem>
+
+        <GridItem xs={6} sm={6} md={6} lg={6}
+          style = {{textAlign: "left", marginTop: "40px"}}>
+
+          <h2 style={{color:"black", fontSize: "20px"}}><strong>August 3rd - August 24th, 2020 </strong></h2>
+          <h2 style={{color:"#0072CE", fontSize: "48px"}}>Mock Coding Interviews</h2>
+          <p style={{color:"black", fontSize: "20px", maxWidth: "600px"}}>Practice and network 1-on-1 with students & alumni at Microsoft, Facebook, & Google.</p>
+          <br/>
+          <CustomButton href={'/coding-interviews'}  text={'SCHEDULE A SESSION'}
+          color={"orange"} size={"large"} />
+
+        </GridItem>
+      </GridContainer>
 
       <div style={{display: 'in-line'}}>
         <h1 style={{color: "#0072CE", fontSize: "48px", marginLeft: "100px"}}> Take a look at our Resources!</h1>
