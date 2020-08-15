@@ -45,13 +45,13 @@ const ContactInfo = (props) => {
             required />
         </Grid>
       </Grid>
-      <Field
+      {/* <Field
         component={CheckboxWithLabel}
         name="displayNameToggleOff"
         Label={{ label: "Check this box if you want to list CVC as the host instead of your name / org." }}
         type="checkbox"
         indeterminate={false}
-      />
+      /> */}
     </div>
   )
 }
