@@ -9,6 +9,8 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik"
 import FormTitle from "../form-components/FormTitle"
 
+import RequiredFields from "../form-components/RequiredFields"
+
 import ContactInfo from "../form-components/ContactInfo"
 import EntryDetails from "../form-components/EntryDetails"
 import Tags from '../form-components/Tags'
@@ -68,12 +70,11 @@ const initVal = {
   link_type: "",
   comments: "",
   tag: "",
-  games_tag: "",
   activism_tag: "",
   covid_tag: "",
-  social_tag: "",
-  fitness_tag: "",
   education_tag: "",
+  freshman_tag: "",
+  social_tag: "",
   agree: ""
 
 };
@@ -747,86 +748,14 @@ class EventFormDesktop extends React.Component {
                       {({ dirty, isValid, errors, touched }) => {
                         return (
                           <Form onChange={this.updateEvent}>
-                            <ContactInfo
-                              errorName={errors.name}
-                              touchedName={touched.name}
-                              errorEmail={errors.email}
-                              touchedEmail={touched.email}
-                            />
-                            <EntryDetails
-                              title={"Events"}
-                              entryTitle={"Event Name"}
-                              errorTitle={errors.title}
-                              touchedTitle={touched.title}
-                              errorImgLink={errors.image_link}
-                              touchedImgLink={touched.image_link}
-                              errorDesc={errors.desc}
-                              touchedDesc={touched.desc}
-                              imgUpload={this.imgFileUploadHandler}
-                              fileName={this.getFileName()}
-                              onChange={this.updateEvent}
-                            />
-                            <div>
-                              <Grid container spacing={2}>
-                                <Grid item sm={3}>
-                                  <Field
-                                    component={DateTimePicker}
-                                    name="start_date"
-                                    label="Start Time"
-                                    required
-                                  />
-                                </Grid>
-                                <Grid item sm={3}>
-                                  <Field
-                                    component={DateTimePicker}
-                                    name="end_date"
-                                    label="End Time"
-                                    required
-                                  />
-                                </Grid>
-                                <Grid item sm={3}>
-                                  <Field
-                                    name="timezone"
-                                    label="Select Timezone"
-                                    options={optionsTZ}
-                                    component={Select}
-                                    required
-                                  />
-                                </Grid>
-                                <Grid item sm={3}>
-                                  <FormikField
-                                    label="Attendant Cap"
-                                    name="attendants"
-                                    error={errors.attendants}
-                                    touch={touched.attendants}
-                                    required
-                                  />
-                                </Grid>
-                              </Grid >
-                              <br />
-                              <Field
-                                component={CheckboxWithLabel}
-                                name="allowedToBeFacebookEvent"
-                                Label={{ label: "Allow CVC to make this a facebook event?" }}
-                                type="checkbox"
-                                color="default"
-                                indeterminate={false}
-                              />
-                            </div>
-
-                            <WebsiteAndZoom
-                              touched={touched}
-                              errors={errors} />
-                            <Tags
-                              tags={['Activism', 'COVID', 'Social', 'Health', 'Education']}
-                              touched={touched}
+                            <RequiredFields
+                              title="Event"
+                              entryTitle="Event Name"
                               errors={errors}
+                              touched={touched}
+                              timezones={optionsTZ}
                             />
-                            <AdditionalInfo
-                              errorComments={errors.comments}
-                              touchedComments={touched.comments}
-                            />
-                            <SubmitButton />
+
                           </Form>
                         )
                       }}
