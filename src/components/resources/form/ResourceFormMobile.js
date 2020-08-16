@@ -270,7 +270,6 @@ const ResourceFormMobile = (props) => {
             {
                 new_entry[prop] = values[prop];
             }
-
             // etc.
             if (prop === "desc")
             {
@@ -310,7 +309,6 @@ const ResourceFormMobile = (props) => {
         var db = firebase.firestore();
         var newResourceRef = db.collection("resources");
         newResourceRef.add(values);
-
     }
 
     // now that posting image files isn't an option, this function is obsolete....?
@@ -411,7 +409,6 @@ const ResourceFormMobile = (props) => {
                                                 </Grid>
                                             </Grid>
 
-
                                             <Grid container spacing={2}>
                                                 <Grid item xs={12}>
                                                     <FormikField label="Description" name="desc" multiline rows="4" error={errors.desc} touch={touched.desc} required />
@@ -437,7 +434,6 @@ const ResourceFormMobile = (props) => {
                                                             })} */}
                                                         <Grid item sm={30}>
                                                         <Field id = "unique" component={RadioGroup} row={true} name="category" value={value} onChange={handleChange} required>
-
                                                           {category[0]
                                                           ? <span >
                                                               <FormControlLabel
@@ -552,7 +548,6 @@ const ResourceFormMobile = (props) => {
                                                                   onClick ={()=>{
                                                                       Object.keys(state).forEach(ele => state[ele] = false)
                                                                       state['other'] = true;
-
                                                                   }}
                                                               />
                                                           </Grid>
@@ -617,7 +612,6 @@ const ResourceFormMobile = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-
                                                                     : ""
                                                                     }
                                                                     {tags[category[0]][2]
@@ -653,7 +647,6 @@ const ResourceFormMobile = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-
                                                                     {tags[category[1]][1]
                                                                     ?
                                                                     <Field
@@ -664,7 +657,6 @@ const ResourceFormMobile = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-
                                                                     : ""
                                                                     }
                                                                     {tags[category[1]][2]
@@ -699,7 +691,6 @@ const ResourceFormMobile = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-
                                                                     {tags[category[2]][1]
                                                                     ?
                                                                     <Field
@@ -710,7 +701,6 @@ const ResourceFormMobile = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-
                                                                     : ""
                                                                     }
                                                                     {tags[category[2]][2]
@@ -744,7 +734,6 @@ const ResourceFormMobile = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-
                                                                     {tags[category[3]][1]
                                                                     ?
                                                                     <Field
@@ -755,7 +744,6 @@ const ResourceFormMobile = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-
                                                                     : ""
                                                                     }
                                                                     {tags[category[3]][2]
@@ -789,7 +777,6 @@ const ResourceFormMobile = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-
                                                                     {tags[category[4]][1]
                                                                     ?
                                                                     <Field
@@ -800,7 +787,6 @@ const ResourceFormMobile = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-
                                                                     : ""
                                                                     }
                                                                     {tags[category[4]][2]
@@ -834,7 +820,6 @@ const ResourceFormMobile = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-
                                                                     {tags[category[5]][1]
                                                                     ?
                                                                     <Field
@@ -845,7 +830,6 @@ const ResourceFormMobile = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-
                                                                     : ""
                                                                     }
                                                                     {tags[category[5]][2]
@@ -879,7 +863,6 @@ const ResourceFormMobile = (props) => {
                                                                         />
                                                                     : ""
                                                                     }
-
                                                                     {tags[category[6]][1]
                                                                     ?
                                                                     <Field
@@ -890,7 +873,6 @@ const ResourceFormMobile = (props) => {
                                                                             type="checkbox"
                                                                             indeterminate={false}
                                                                         />
-
                                                                     : ""
                                                                     }
                                                                     {tags[category[6]][2]
@@ -917,17 +899,14 @@ const ResourceFormMobile = (props) => {
                                                                             <div>
                                                                             <Grid item sm={2}>
 
-
                                                                             </Grid>
                                                                                 <FormikField
                                                                                     label="Tag 1"
                                                                                     name={"7tagother1"}
-
                                                                                 />
                                                                                 <FormikField
                                                                                     label="Tag 2"
                                                                                     name={"7tagother2"}
-
                                                                                 />
                                                                                 <FormikField
                                                                                     label="Tag 3"

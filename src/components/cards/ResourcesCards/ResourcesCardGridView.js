@@ -22,7 +22,7 @@ import {primaryColor,
   infoColor,
   roseColor,
   grayColor,
-  vcColor} from '../../assets/material-kit-assets/jss/material-kit-react'
+  vcColor} from '../../../assets/material-kit-assets/jss/material-kit-react'
 
 const colorMapping = {
   'primary': primaryColor,
@@ -156,7 +156,7 @@ const trimDescription = function(description) {
   return description
 };
 
-export default function ResourcesCard(props) {
+export default function ResourcesCardGridView(props) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -257,7 +257,7 @@ export default function ResourcesCard(props) {
   );
 }
 
-ResourcesCard.propTypes = {
+ResourcesCardGridView.propTypes = {
   iosLink: PropTypes.string,
   androidLink: PropTypes.string,
   website: PropTypes.string.isRequired,

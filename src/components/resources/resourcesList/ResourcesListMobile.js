@@ -4,7 +4,7 @@ import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCard, Heading, CustomButton, Search} from "../..";
+import {ResourcesCardGridView, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import { CircularProgress, Select, MenuItem } from '@material-ui/core';
@@ -125,7 +125,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                             md={4}
                             style={{marginBottom: "40px", marginTop: "10px"}}
                   >
-                    <ResourcesCard
+                    <ResourcesCardGridView
                       website={data.links.website}
                       img={data.img}
                       title={data.title}
