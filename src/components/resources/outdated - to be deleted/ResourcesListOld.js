@@ -3,7 +3,7 @@ import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCard, Heading, CustomButton} from "../..";
+import {ResourcesCardGridView, Heading, CustomButton} from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js"
 
@@ -285,7 +285,7 @@ class ResourcesListOld extends React.Component {
                             md={4}
                             style={{marginBottom: "40px", marginTop: "10px"}}
                   >
-                    <ResourcesCard
+                    <ResourcesCardGridView
                       website={data.links.website}
                       img={data.img}
                       title={data.title}

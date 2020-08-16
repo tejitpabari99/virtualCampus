@@ -45,14 +45,15 @@ class ResourcesListFunctionality extends React.Component {
       activityIndicator: true,
       category: "All Resources",
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
+      event: {},
+      gridView: true,
       resourcesDict: {},
       resourcesDisplay: [],
       tagsDict: {},
       tagsDisplay: [],
       tagsResourcesDisplay: {},
       searchError: "",
-      selection: 1,
-      event: {}
+      selection: 1
     };
     this.getResources();
   }

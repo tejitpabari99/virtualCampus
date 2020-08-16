@@ -2,10 +2,12 @@ import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
-import {ResourcesCard, Heading, CustomButton, Search} from "../..";
+import {ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import {CircularProgress, Select, MenuItem} from "@material-ui/core";
+import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core";
+import ViewListIcon from '@material-ui/icons/ViewList';
+import GridOnIcon from '@material-ui/icons/GridOn';
 
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
@@ -16,6 +18,12 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
   handleClick(tagName){
     this.setState({
       activeTags: tagName
+    });
+  }
+
+  handleClickView(isGridView){
+    this.setState({
+      gridView: isGridView
     });
   }
 
@@ -53,7 +61,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'82%', marginTop: '3%', display: 'inline-block', marginLeft: '3%', textAlign: "center", verticalAlign: 'middle'}}>
+        <div style={{width:'70%', marginTop: '3%', display: 'inline-block', marginLeft: '3%', textAlign: "center", verticalAlign: 'middle'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -72,6 +80,16 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
             </Select>
+        </div>
+        <div style={{width:'2%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+            <IconButton onClick={this.handleClickView.bind(this, true)}>
+                <GridOnIcon/>
+            </IconButton>
+        </div>
+        <div style={{width:'2%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+            <IconButton onClick={this.handleClickView.bind(this, false)}>
+                <ViewListIcon/>
+            </IconButton>
         </div>
 
         <div style={{
@@ -147,19 +165,18 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                             style={{marginTop: 10, marginBottom: 25}}
               />
             </div>
-
           </GridItem>
           <GridItem xs={9}>
             <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
               {this.state.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
-              {!this.state.activityIndicator && this.state.resourcesDisplay.map(data => {
+              {!this.state.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}
                             sm={6}
                             md={4}
                             style={{marginBottom: "40px", marginTop: "10px"}}
                   >
-                    <ResourcesCard
+                    <ResourcesCardGridView
                       website={data.links.website}
                       img={data.img}
                       title={data.title}
@@ -168,6 +185,21 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                       androidLink={data.links.androidLink}
                       tags={data.category.tags}
                       share
+                    />
+                  </GridItem>
+                );
+
+              })}
+              {!this.state.activityIndicator && !this.state.gridView && this.state.resourcesDisplay.map(data => {
+                return (
+                  <GridItem xs={12}
+                    sm={6}
+                    md={6}
+                    style={{marginBottom: "20px", marginTop: "5px"}}
+                  >
+                    <ResourcesCardListView
+                      ele = {data}
+                      key={data.id}
                     />
                   </GridItem>
                 );
