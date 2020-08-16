@@ -2,7 +2,7 @@ import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
-import {ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search} from "../..";
+import {ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search, EventCardFeatured} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core";
@@ -61,7 +61,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'70%', marginTop: '3%', display: 'inline-block', marginLeft: '3%', textAlign: "center", verticalAlign: 'middle'}}>
+        <div style={{width:'71%', marginTop: '3%', display: 'inline-block', marginLeft: '3%', textAlign: "center", verticalAlign: 'middle'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -83,12 +83,12 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         </div>
         <div style={{width:'2%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <IconButton onClick={this.handleClickView.bind(this, true)}>
-                <GridOnIcon/>
+                <GridOnIcon style={{fill: "#0072CE"}}/>
             </IconButton>
         </div>
         <div style={{width:'2%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <IconButton onClick={this.handleClickView.bind(this, false)}>
-                <ViewListIcon/>
+                <ViewListIcon style={{fill: "#0072CE"}}/>
             </IconButton>
         </div>
 
@@ -113,20 +113,11 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               paddingRight: '20px'
             }}
         >{this.state.description}</div>
-
-        <GridContainer style={{width: '100%'}}>
-          <GridItem xs={3}>
-            <div style={{
-                    marginLeft: 16,
-                    marginTop: '120px',
-                    marginBottom: '8px',
-                    fontSize:'18px'
-                  }}
-            >Filter by tags: </div>
-
-            {this.state.tagsDisplay.sort().map((tag, idx) => {
-              return (
-                <CoolerButton key={idx} style={{
+        <br/>
+        <div style={{textAlign: 'center'}}>
+          {this.state.tagsDisplay.sort().map((tag, idx) => {
+            return (
+              <CoolerButton key={idx} style={{
                                 marginTop: 5,
                                 marginBottom: 5,
                                 marginLeft: 10,
@@ -136,44 +127,44 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                               otherClickOption={this.deleteTagDisplay.bind(this, tag)}
                               category={this.state.category}
                               val={tag}
-                />
-              );
-            })}
-
-            <Heading color={'blue'}
-                     style={{fontSize: '25px', lineHeight: '42px', textAlign:'left', paddingTop: '60px'}}
-            >{"Want to add your own resource?"}</Heading>
-            <div style={{
-                width: '285px',
-                height: '80px',
-                textAlign: 'left'
-            }}>
-                <span style={{
-                    fontStyle: 'normal',
-                    fontColor: '#000000',
-                    fontSize: '14px',
-                    lineHeight: '10px'}}>
-                    Thank you for your interest in sharing your resource through CVC.
-                    Please click the button below to fill out a short form.
-                </span>
-            </div>
-            <div style={{textAlign:'left', marginTop: '3%'}}>
-              <CustomButton text={"ADD RESOURCE"}
-                            href={"/resources/add-new-resource"}
-                            color={"orange"}
-                            size={"large"}
-                            style={{marginTop: 10, marginBottom: 25}}
               />
-            </div>
-          </GridItem>
-          <GridItem xs={9}>
+            );
+          })}
+        </div>
+        <br/><br/>
+        <div style={{ paddingRight:"10%",
+                        backgroundColor: "#3B5998",
+                        borderRadius: '5px',
+                        borderStyle: "solid",
+                        borderColor: "#3B5998",
+                        borderWidth: "thick",
+                        flexDirection: "row",
+                        display: "flex",
+                        paddingTop: "10px",
+                        paddingBottom: "30px",}}>
+          <div style={{paddingLeft: "4%", marginLeft: "10px", color:"white", textAlign: "left"}}>
+            <h2 style={{fontSize:28}}>Want to add your own resource?</h2>
+            <p style={{fontSize: 14}}>Thank you for your interest in sharing your resource through CVC! Please click the button to fill out a short form.
+            </p>
+          </div>
+          <div style={{marginLeft: "auto", marginRight: "-7%", marginTop: "30px", verticalAlign: "center"}}>
+            <CustomButton text={"ADD RESOURCE"}
+                        href={"/resources/add-new-resource"}
+                        color={"blueInvert2"}
+                        size={"large"}
+           />
+          </div>
+        </div>
+
+        <GridContainer style={{width: '100%'}}>
+          <GridItem>
             <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
               {this.state.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
               {!this.state.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}
                             sm={6}
-                            md={4}
+                            md={3}
                             style={{marginBottom: "40px", marginTop: "10px"}}
                   >
                     <ResourcesCardGridView

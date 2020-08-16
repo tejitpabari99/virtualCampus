@@ -11,36 +11,13 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import GridItem from "../../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
 import EventEmailModal from "../EventEmailModal";
+import ChevronRightIcon from '@material-ui/icons/ChevronRightOutlined';
 import firebase from "../../../firebase";
 import {handleEventClick} from "../eventCardsFeaturedAndCards/commonEventsFuncs"
+import ViewListIcon from "@material-ui/icons/ViewList";
+import {IconButton} from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
-  card: {
-    display: "flex",
-    flexDirection: "row",
-    boxShadow: "none",
-    // marginTop: "0px",
-    // marginBottom: "5px",
-    paddingTop: '15px',
-    paddingBottom:'15px',
-    margin:0
-  },
-  nameHeader: {
-    fontSize: '1.25vw',
-    // position: "absolute",
-    color: "black",
-    // whiteSpace: "nowrap",
-    marginTop: "6px",
-    marginLeft: "14px",
-    // display:'inline-block'
-    fontAlign: "left"
-  },
-  orgHeader: {
-    fontSize: '14px',
-    color: '#0072CE',
-    // display:'inline-block',
-    marginLeft:'5px'
-  },
   cardTitle,
   resourceTitle: {
     color: "black",
@@ -191,10 +168,12 @@ export default function EventCardDesktop({ ele }) {
               <GridItem xs={9} sm={9} md={9}
                         style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 40, paddingRight: 10}}>
                 <div style={{color: "black", display: "block", fontSize: "14px"}}>{ele.description}</div>
-              </GridItem><GridItem xs={3} sm={3} md={3}>
-                {ele.invite_link &&
-                <CustomButton onClick={openModalHandler} text={'JOIN EVENT'} newTab color={"blue"} size={"medium"}
-                              className={classes.joinButton}/>}
+              </GridItem><GridItem xs={3} sm={3} md={3}
+                                   style={{marginTop: 'auto', marginBottom:'0px',
+                                     display: 'inline-block', textAlign: "center", verticalAlign: 'bottom'}}>
+                <IconButton href={ele.links.website}>
+                  <ChevronRightIcon style={{fill: "#0072CE"}}/>
+                </IconButton>
               </GridItem>
             </GridContainer>
             {open && <EventEmailModal open={open} closeDo={closeDo} event={ele} onClick={handlePopularity}/>}

@@ -4,10 +4,12 @@ import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCardGridView, Heading, CustomButton, Search} from "../..";
+import {ResourcesCardGridView, Heading, CustomButton, Search, ResourcesCardListView} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import { CircularProgress, Select, MenuItem } from '@material-ui/core';
+import {CircularProgress, Select, MenuItem, IconButton} from '@material-ui/core';
+import GridOnIcon from "@material-ui/icons/GridOn";
+import ViewListIcon from "@material-ui/icons/ViewList";
 
 class ResourcesListMobile extends ResourcesListFunctionality {
   constructor(props) {
@@ -18,6 +20,12 @@ class ResourcesListMobile extends ResourcesListFunctionality {
   handleClick(tagName){
     this.setState({
       activeTags: tagName
+    });
+  }
+
+  handleClickView(isGridView){
+    this.setState({
+      gridView: isGridView
     });
   }
 
@@ -55,7 +63,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'80%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+        <div style={{width:'64%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -73,6 +81,16 @@ class ResourcesListMobile extends ResourcesListFunctionality {
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
             </Select>
+        </div>
+        <div style={{width:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+            <IconButton onClick={this.handleClickView.bind(this, true)}>
+                <GridOnIcon style={{fill: "#0072CE"}}/>
+            </IconButton>
+        </div>
+        <div style={{width:'2%', marginLeft:'4%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+            <IconButton onClick={this.handleClickView.bind(this, false)}>
+                <ViewListIcon style={{fill: "#0072CE"}}/>
+            </IconButton>
         </div>
 
         <div style={{
@@ -118,7 +136,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           <GridItem>
             <GridContainer style={{paddingLeft: '30px', paddingRight: '5px', marginTop: '20px'}}>
               {this.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
-              {!this.activityIndicator && this.state.resourcesDisplay.map(data => {
+              {!this.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}
                             sm={6}
@@ -134,6 +152,17 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                       androidLink={data.links.androidLink}
                       tags={data.category.tags}
                       share
+                    />
+                  </GridItem>
+                );
+
+              })}
+              {!this.state.activityIndicator && !this.state.gridView && this.state.resourcesDisplay.map(data => {
+                return (
+                  <GridItem style={{marginBottom: "20px", marginTop: "5px"}}>
+                    <ResourcesCardListView
+                      ele = {data}
+                      key={data.id}
                     />
                   </GridItem>
                 );
