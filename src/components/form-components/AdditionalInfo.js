@@ -42,7 +42,7 @@ const AdditionalInfo = (props) => {
           </FormikField>
         </Grid>
       </Grid>
-      <div style={{ margin: '15px 0 0 0' }}>
+      {/* <div style={{ margin: '15px 0 0 0' }}>
         By hosting an event you agree to the <a
           href="https://bit.ly/events-policy-docs"
           target="_blank">Columbia Events Policy</a>.
@@ -55,7 +55,7 @@ const AdditionalInfo = (props) => {
         indeterminate={false}
         color="default"
 
-      />
+      /> */}
     </div>
   )
 }
