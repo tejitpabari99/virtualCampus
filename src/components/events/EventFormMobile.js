@@ -5,9 +5,16 @@ import { CircularProgress } from '@material-ui/core';
 import * as Yup from "yup";
 
 //inputs
-import { Field } from "formik"
+import { Formik, Form, Field } from "formik"
 import FormTitle from "../form-components/FormTitle"
-import FormBody from "../form-components/FormBody"
+
+import ContactInfo from "../form-components/ContactInfo"
+import EntryDetails from "../form-components/EntryDetails"
+import Tags from '../form-components/Tags'
+import AdditionalInfo from '../form-components/AdditionalInfo'
+import SubmitButton from '../form-components/SubmitButton'
+import WebsiteAndZoom from "../form-components/WebsiteAndZoom"
+
 import { Select } from "material-ui-formik-components/Select";
 import FileUploadBtn from '../form-components/FileUploadBtn'
 
@@ -39,7 +46,7 @@ import Axios from "axios";
 import TZ from "countries-and-timezones";
 import * as Events from "../../pages/events";
 import { PhoneCallback } from "@material-ui/icons";
-import {CheckboxWithLabel} from "formik-material-ui";
+import { CheckboxWithLabel } from "formik-material-ui";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -53,6 +60,7 @@ const initVal = {
   start_date: "",
   end_date: "",
   timezone: "",
+  // attendants: 10,
   recurring: "",
   entry_link: "",
   invite_link: "",
@@ -74,31 +82,33 @@ const initVal = {
 // you can also add custom feedback messages in the parameters of each error function
 const validationSchema = Yup.object().shape({
   name: Yup.string()
-      .min(5, "Too Short")
-      .required("Required"),
+    .min(5, "Too Short")
+    .required("Required"),
   email: Yup.string()
-      .email("Please enter a valid email address")
-      .required("Required"),
-  // event_link: Yup.string()
-  //     .url("Please enter a valid URL")
-  //     .required("Required"),
+    .email("Please enter a valid email address")
+    .required("Required"),
   title: Yup.string()
-      .required("Required"),
+    .required("Required"),
   desc: Yup.string()
-      .required("Required")
-      .max("350", "Please less than 350 characters"),
+    .required("Required")
+    .max("350", "Please less than 350 characters"),
   start_date: Yup.string()
-      .required("Required"),
+    .required("Required"),
   end_date: Yup.string()
-      .required("Required"),
+    .required("Required"),
   timezone: Yup.string()
-      .required("Required"),
+    .required("Required"),
+  attendants: Yup.number()
+    .integer("Please enter an integer")
+    .required("Required"),
   agree: Yup.boolean("True")
-      .required(),
+    .required(),
   image_link: Yup.string()
-      .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
-  // invite_link: Yup.string()
-  //     .url("Please enter a valid URL")
+    .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
+  invite_link: Yup.string()
+    .required()
+    .url("Please enter a valid URL"),
+  link_type: Yup.string()
 });
 
 let getCurrentLocationForTimeZone = function () {
@@ -112,7 +122,7 @@ const defaultTimezone = "America/New_York";
 function formatEmailText(jsonText) {
   var newText = "";
   Object.keys(jsonText).map((key, index) => (
-      newText = newText + "\n<br>" + getText(key, jsonText[key])
+    newText = newText + "\n<br>" + getText(key, jsonText[key])
   ));
   return newText;
 }
@@ -158,8 +168,8 @@ function processTags(values) {
   }
 
   Object.keys(values).map((key, index) => (
-      values[defKey] = processATag(values, key, defKey),
-          values = cleanTag(values, key)
+    values[defKey] = processATag(values, key, defKey),
+    values = cleanTag(values, key)
   ));
   values[defKey] = values[defKey].split("; ;").join(";");
   values[defKey] = values[defKey].split(";;").join(";");
@@ -183,12 +193,12 @@ function sendZoomEmail(id, name, from) {
   };
 
   Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-      .then(res => {
-        console.log("Success");
-      })
-      .catch(error => {
-        console.log("error");
-      });
+    .then(res => {
+      console.log("Success");
+    })
+    .catch(error => {
+      console.log("error");
+    });
 }
 
 let dst = function (loc = getCurrentLocationForTimeZone()) {
@@ -429,47 +439,47 @@ class EventFormMobile extends React.Component {
     const db = firebase.firestore();
     const newEventRef = db.collection("events").doc();
     clientEmailData["text"] = "Your New Event Request!\n<br>Here's what we are currently processing:\n <br>" +
-        emailData["text"] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
-        + "Please contact us if any of the above needs corrected or if you have any questions!"
-        + "\n<br>\n<br>Best,\n<br>The CVC Team";
+      emailData["text"] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
+      + "Please contact us if any of the above needs corrected or if you have any questions!"
+      + "\n<br>\n<br>Best,\n<br>The CVC Team";
     emailData["text"] = "New Event Request!\n <br>" +
-        emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
-            + "<br><br>Click here to approve this event: ",
-            approvalUrl.concat(newEventRef.id));
+      emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
+        + "<br><br>Click here to approve this event: ",
+        approvalUrl.concat(newEventRef.id));
     if (data["zoomLink"]) {
       console.log("Zoom link: " + data["zoomLink"])
       emailData["text"] += "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: " +
-          zoomUrl.concat(newEventRef.id);
+        zoomUrl.concat(newEventRef.id);
     }
     if (data["event_link"] || data["event_link"] === "") {
       data["event_link"] = "columbiavirtualcampus.com/events?event=" + newEventRef.id
     }
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
-        .then(ref => {
+      .then(ref => {
 
-          Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
+        Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
+          .then(res => {
+            console.log("Success 1");
+            Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
               .then(res => {
-                console.log("Success 1");
-                Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
-                    .then(res => {
-                      console.log("Success 2");
-                      this.setState({ feedbackSubmit: true, activityIndicatory: false });
-                    })
-                    .catch(error => {
-                      this.setState({ errStatus: 3 });
-                      console.log("Updated error");
-                    });
+                console.log("Success 2");
+                this.setState({ feedbackSubmit: true, activityIndicatory: false });
               })
               .catch(error => {
-                this.setState({ errStatus: 1 });
+                this.setState({ errStatus: 3 });
                 console.log("Updated error");
               });
-        })
-        .catch(function (error) {
-          console.error("Error adding document: ", error);
-          alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
-        });
+          })
+          .catch(error => {
+            this.setState({ errStatus: 1 });
+            console.log("Updated error");
+          });
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+        alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
+      });
 
     if (data["zoomLink"]) {
       //sendZoomEmail(newEventRef.id, data["event"], from);
@@ -534,16 +544,16 @@ class EventFormMobile extends React.Component {
 
     if (this.state.errStatus === 4) {
       return "We were unable to process your request due to an unexpected error. " +
-          "Please try again. If the problem persists please reach out to us:";
+        "Please try again. If the problem persists please reach out to us:";
     } else if (this.state.errStatus === 3 || this.state.errStatus === 1) {
       return "Please contact us about approving your event! We were unable to automatically email our team."
-          + " Please reach out to us at:";
+        + " Please reach out to us at:";
     } else if (this.state.errStatus === 2) {
       return "We were unable to process your request. Please try again. " +
-          "If the problem persists please reach out to us:";
+        "If the problem persists please reach out to us:";
     } else {
       return "We look forward to hosting your event on CVC! " +
-          "If there is anything that needs to be updated, please reach out to us.";
+        "If there is anything that needs to be updated, please reach out to us.";
     }
   }
 
@@ -577,10 +587,10 @@ class EventFormMobile extends React.Component {
       const value = data.target.value
       if (name === "image_link") {
         if (value === "") {
-          this.setState({imgurLink: default_img, imgFileValue: ""})
+          this.setState({ imgurLink: default_img, imgFileValue: "" })
           convertedExampleEvent['image_link'] = default_img
         } else {
-          this.setState({imgurLink: value, imgFileValue: ""})
+          this.setState({ imgurLink: value, imgFileValue: "" })
           convertedExampleEvent['image_link'] = value
         }
       }
@@ -697,64 +707,103 @@ class EventFormMobile extends React.Component {
                 Please fill out the following form so we can provide you with the necessary resources and
                 appropriate platform on our website!"
               />
-              <FormBody
-                submit={this.submitHandler}
+
+              <Formik
+                initialValues={initVal}
+                onSubmit={this.submitHandler}
                 onChange={this.updateEvent}
-                title="Events"
-                entryTitle="Event Name"
-                initVal={initVal}
                 validationSchema={validationSchema}
-                imgUpload={this.imgFileUploadHandler}
-                fileName={this.getFileName()}
               >
-                <Grid container spacing={2}>
-                  <Grid item sm={4} xs={6}>
-                    <div style={{ margin: "16px 0 8px" }}>
-                      <Field
-                        component={DateTimePicker}
-                        name="start_date"
-                        label="Start Time"
-                        required
+                {({ dirty, isValid, errors, touched }) => {
+                  return (
+                    <Form onChange={this.updateEvent}>
+                      <ContactInfo
+                        errorName={errors.name}
+                        touchedName={touched.name}
+                        errorEmail={errors.email}
+                        touchedEmail={touched.email}
                       />
-                    </div>
-                  </Grid>
-                  <Grid item sm={4} xs={6}>
-                    <div style={{ margin: "16px 0 8px" }}>
-                      <Field
-                        component={DateTimePicker}
-                        name="end_date"
-                        label="End Time"
-                        required
+                      <EntryDetails
+                        title={"Event"}
+                        entryTitle={"Event Name"}
+                        errorTitle={errors.title}
+                        touchedTitle={touched.title}
+                        errorImgLink={errors.image_link}
+                        touchedImgLink={touched.image_link}
+                        errorDesc={errors.desc}
+                        touchedDesc={touched.desc}
+                        imgUpload={this.imgFileUploadHandler}
+                        fileName={this.getFileName()}
+                        onChange={this.updateEvent}
                       />
-                    </div>
-                  </Grid>
-                  <Grid item sm={4} xs={12}>
-                    <Field
-                      name="timezone"
-                      label="Select Timezone"
-                      options={optionsTZ}
-                      component={Select}
-                      required
-                    />
-                  </Grid>
-                </Grid>
-                <br />
-                <Field
-                    component={CheckboxWithLabel}
-                    name="allowedToBeFacebookEvent"
-                    Label={{ label: "Allow CVC to make this a facebook event? (Check out our facebook page: www.facebook.com/columbiavirtualcampus)" }}
-                    type="checkbox"
-                    indeterminate={false}
-                />
-              </FormBody>
+                      <div>
+                        <Grid container spacing={2}>
+                          <Grid item sm={4} xs={6}>
+                            <div style={{ margin: "16px 0 8px" }}>
+                              <Field
+                                component={DateTimePicker}
+                                name="start_date"
+                                label="Start Time"
+                                required
+                              />
+                            </div>
+                          </Grid>
+                          <Grid item sm={4} xs={6}>
+                            <div style={{ margin: "16px 0 8px" }}>
+                              <Field
+                                component={DateTimePicker}
+                                name="end_date"
+                                label="End Time"
+                                required
+                              />
+                            </div>
+                          </Grid>
+                          <Grid item sm={4} xs={12}>
+                            <Field
+                              name="timezone"
+                              label="Select Timezone"
+                              options={optionsTZ}
+                              component={Select}
+                              required
+                            />
+                          </Grid>
+                        </Grid>
+                        <br />
+                        <Field
+                          component={CheckboxWithLabel}
+                          name="allowedToBeFacebookEvent"
+                          Label={{ label: "Allow CVC to make this a facebook event? (Check out our facebook page: www.facebook.com/columbiavirtualcampus)" }}
+                          type="checkbox"
+                          indeterminate={false}
+                        />
+                      </div>
+
+                      <WebsiteAndZoom
+                        touched={touched}
+                        errors={errors} />
+                      <Tags
+                        tags={['Activism', 'COVID', 'Social', 'Health', 'Education']}
+                        touched={touched}
+                        errors={errors}
+                      />
+                      <AdditionalInfo
+                        errorComments={errors.comments}
+                        touchedComments={touched.comments}
+                      />
+                      <SubmitButton />
+                    </Form>
+                  )
+                }}
+              </Formik>
+
               <div style={{ marginBottom: "50px" }} />
             </Container>
             {/* </Template > */}
           </MuiPickersUtilsProvider>
           <Container>
             <h3 style={{ color: "#0072CE", display: "inline" }}>
-              <span style={{display: "block"}}>Preview of Your Event</span>
-              <h5 style={{ color: "#0072CE", display: "inline", fontSize: "12px"}}>
+              <span style={{ display: "block" }}>Preview of Your Event</span>
+              <h5 style={{ color: "#0072CE", display: "inline", fontSize: "12px" }}>
                 Date/Time is not updated in previews:
               </h5>
             </h3>

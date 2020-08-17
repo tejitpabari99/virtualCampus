@@ -217,6 +217,7 @@ class EventsPageMobile extends React.Component {
       clubFilter: "All",
       dateFilter: "This Month Only",
       loadingEvents: true,
+      loadingFeaturedEvents: true,
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
@@ -322,7 +323,9 @@ class EventsPageMobile extends React.Component {
       organizationList: this.genOrganizationList(approvedEventsMap),
       permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap),
-      loadingEvents: false });
+      loadingEvents: false,
+      loadingFeaturedEvents: false
+    });
   }
 
   searchFunc(val, changeDefaultSearchVal=true) {
@@ -645,6 +648,7 @@ getCalendarText() {
               </p>
             </div>
             <div style={{align: "center"}}>
+            {this.state.loadingFeaturedEvents && <CircularProgress style={{ marginLeft: '50%', marginTop: '10%', color: 'white' }} />}
             <Carousel>
                 {Object.keys(featuredEvents).map((ele) => {
                     return (
