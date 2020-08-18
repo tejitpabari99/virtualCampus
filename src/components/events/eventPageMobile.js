@@ -510,7 +510,7 @@ class EventsPageMobile extends React.Component {
       searchVal: "",
       defaultSearchInput: '',
       hiddenSearch: '',
-      mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
+      // mainTagsClicked: {past: "", recurring: "", popular: "", now: ""},
       filterTagsClicked: {},
       clubFilter: "All",
       dateFilter: "This Month Only"
