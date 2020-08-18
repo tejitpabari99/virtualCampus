@@ -235,7 +235,6 @@ export default function EventModalMobile({open, closeDo, event}) {
       bottom: false,
     });
 
-
     const toggleDrawer = (anchor, open) => (event) => {
       if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
         return;
