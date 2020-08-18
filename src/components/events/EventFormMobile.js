@@ -64,7 +64,6 @@ const initVal = {
   recurring: "",
   entry_link: "",
   invite_link: "",
-  event_link: "",
   comments: "",
   tag: "",
   games_tag: "",
@@ -450,9 +449,6 @@ class EventFormMobile extends React.Component {
       console.log("Zoom link: " + data["zoomLink"])
       emailData["text"] += "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: " +
         zoomUrl.concat(newEventRef.id);
-    }
-    if (data["event_link"] || data["event_link"] === "") {
-      data["event_link"] = "columbiavirtualcampus.com/events?event=" + newEventRef.id
     }
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
