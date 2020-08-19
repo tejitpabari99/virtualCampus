@@ -171,6 +171,7 @@ class EventsPageDesktop extends React.Component {
       clubFilter: "All",
       dateFilter: "This Month Only",
       loadingEvents: true,
+      loadingFeaturedEvents: true,
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
@@ -350,7 +351,8 @@ class EventsPageDesktop extends React.Component {
       organizationList: this.genOrganizationList(approvedEventsMap),
       permEventsList: approvedEventsMap,
       displayEvents: this.makeDisplayEvents(approvedEventsMap),
-      loadingEvents: false
+      loadingEvents: false,
+      loadingFeaturedEvents: false,
     });
   }
 
@@ -396,11 +398,10 @@ class EventsPageDesktop extends React.Component {
 
     const eventSearch = output
 
-
     if (!eventSearch || eventSearch.length <= 0) {
       return this.setState({
         eventSearch: [], activityIndicator: false, eventSearchError: 'No Results found',
-        myEventsList: []
+        myEventsList: [], loadingEvents: false,
       });
     }
     let itemOn = 0
@@ -565,7 +566,7 @@ class EventsPageDesktop extends React.Component {
       searchVal: "",
       defaultSearchInput: '',
       hiddenSearch: '',
-      mainTagsClicked: { past: "", recurring: "", popular: "", now: "" },
+      // mainTagsClicked: { past: "", recurring: "", popular: "", now: "" },
       filterTagsClicked: {},
       clubFilter: "All",
       dateFilter: "This Month Only"
@@ -613,6 +614,7 @@ class EventsPageDesktop extends React.Component {
               Register ASAP. Limited seats available for some events.
             </p>
           </div>
+          {this.state.loadingFeaturedEvents && <CircularProgress style={{ marginLeft: '30%', marginTop: '8%', color: 'white' }} />}
           <div style={{ flexDirection: "row", display: "flex", marginLeft: "40px" }}>
             {this.state.displayEvents.map((ele, ind) => {
               if (numEventsDisplayed < MAX_EVENTS_DISPLAYED) {
@@ -713,7 +715,7 @@ class EventsPageDesktop extends React.Component {
               {this.state.open && <EventModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} />}
 
 
-              <Title color={"blue"} style={{ textAlign: "left", fontSize: "2rem" }}>Looking for people who share <strong>your</strong> interests?</Title>
+              <Title color={"blue"} style={{ textAlign: "left", fontSize: "2rem", lineHeight: "97%" }}>Looking for people who share <strong>your</strong> interests?</Title>
               <h5>1. Submit a topic and time using our form.</h5>
               <h5>2. Let us host and share the event on our website.</h5>
               <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
