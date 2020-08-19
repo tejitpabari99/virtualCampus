@@ -214,7 +214,7 @@ export default function EventCardMobile({ele}) {
                         <span>
                             <span className={classes.middleDot}/>
                           <p className={classes.tagInfo}>
-                            {ta}
+                            {ta.charAt(0).toUpperCase() + ta.toLowerCase().slice(1)}
                           </p>
                         </span>
                         )

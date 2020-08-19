@@ -70,7 +70,7 @@ export default class EventSearchMobile extends React.Component{
 
     reset() {
         this.setState({activeTagList: [], searchVal: '', hiddenSearch: '',
-            defaultOrganization: 'All clubs / organizations', defaultDate: "All dates", filter: false})
+            defaultOrganization: 'All clubs / organizations', defaultDate: "All dates"})
         this.props.resetFilter()
     }
 
