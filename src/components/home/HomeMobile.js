@@ -199,14 +199,15 @@ const manualPortrait = makeStyles(() => ({
   },
   instaButton: {
     marginLeft: "130px",
-    marginTop: "60px",
+    marginTop: "30px",
     color: "black",
     borderColor: "black",
     marginBottom: "150px"
   },
   faboButton: {
-    marginTop: "50px",
-    marginLeft: "130px"
+    marginTop: "20px",
+    marginLeft: "130px",
+    marginBottom: "110px",
   },
   footer: {
     width: "100%",
@@ -422,7 +423,7 @@ const manualLandscape = makeStyles(() => ({
     marginBottom: "150px"
   },
   faboButton: {
-    marginTop: "50px",
+    marginTop: "30px",
     marginLeft: "320px"
   },
   footer: {
@@ -524,6 +525,8 @@ export default function HomeMobile({isLandscape}) {
         <CustomButton href={'/add-new-event'}  text={'HOST AN EVENT'}
         color={"orange"} size={"large"}/>
       </div>
+
+      <div style={{marginBottom: "30px" }} />
 
       <img className={manual.interviewPicBox} src={MockCodingInterviews} />
       <h2 className={manual.dateText}><strong>August 3rd - August 24th, 2020 </strong></h2>
