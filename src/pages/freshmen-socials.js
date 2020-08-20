@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Template, CustomButton, Title, TutorExpansionMapping, Search, TutorSearchMapping } from "../components";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
+import BLMCard from "../components/cards/BLMCard";
 import Subtitle from "../components/text/Subtitle";
 import Heading from "../components/text/Heading";
 import Group1 from "../assets/images/blm/Group 1.png"
@@ -27,6 +28,10 @@ const useStyles = () => ({
       color: '#1D2C4D',
       cursor: 'pointer'
     }
+  },
+  gridItem:{
+    "&:hover,&:focus":
+    {backgroundColor:'#F2F9FD'}
   }
 })
 
@@ -107,13 +112,14 @@ class freshmenSocials extends React.Component {
 
   fetchData() {
     let that = this;
-    fetch("https://sheets.googleapis.com/v4/spreadsheets/1mHRvPxdTgeQdWzQ3UgJ_5o79ahPl6A_by2-JmTOXsPs?key=" + process.env.GATSBY_GOOGLE_SHEET_KEY)
+    fetch("https://sheets.googleapis.com/v4/spreadsheets/1mHRvPxdTgeQdWzQ3UgJ_5o79ahPl6A_by2-JmTOXsPs/values/Sheet1!A2:F500?key=" + process.env.GATSBY_GOOGLE_SHEET_KEY)
       .then(function (response) {
         response.json().then(function (data) {
           console.log("Success");
           let tutorData = that.processData(data["values"]);
           let allTutors = tutorData[0],
             tutorSearch = tutorData[1];
+          console.log(allTutors);
           that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator: false });
         });
       })
@@ -125,24 +131,30 @@ class freshmenSocials extends React.Component {
 
   processData(data) {
     if (data) {
-      let new_dict = {};
+      let tutors = [];
       let tutorSearch = [];
       for (let i = 0; i < data.length; i += 1) {
         if (data[i] && data[i][1]) {
           let subject = data[i][1];
+          let description = "";
+          if ( data[i][1] ){
+            description = description + "A " + data[i][1] + " major. ";
+          }
+          if ( data[i][2] ){
+            description = description + "At Columbia, in " + data[i][2] + ". ";
+          }
+          if ( data[i][3] ){
+            description = description + "My hobbies are " + data[i][3] + ".";
+          }
           let data_entry = {
             name: data[i][0],
-            desc: data[i][1],
+            desc: description,
           };
-          if (new_dict.hasOwnProperty(subject)) {
-            new_dict[subject].push(data_entry);
-          } else {
-            new_dict[subject] = [data_entry];
-          }
           tutorSearch.push(data_entry);
+          tutors.push(data_entry);
         }
       }
-      return [new_dict, tutorSearch];
+      return [tutors, tutorSearch];
     }
     return [{}, {}];
   }
@@ -162,7 +174,7 @@ class freshmenSocials extends React.Component {
     const options = {
       threshold: 0.2,
       distance: 1000,
-      keys: ['desc', 'subject', 'name']
+      keys: ['desc', 'name']
     };
 
     const fuse = new Fuse(this.state.tutorSearchOrg, options);
@@ -201,9 +213,8 @@ class freshmenSocials extends React.Component {
           <meta property="og:description" content="Hangouts for '24 Columbia affiliated students" />
         </Helmet>
 
-        <div style={{ backgroundColor: "white", paddingTop: "20px", paddingBottom: "20px" }}>
-          <img src={TitleImg} style={{ width:'max(15vw,500px)', height:'auto', display: "block", marginLeft: "auto", marginRight: "auto"}} />
-
+        <div style={{ backgroundColor: "white"}}>
+          <Title color={"blue"}>Freshmen Socials</Title>
           <GridContainer
             style={{
               marginTop: "1.5em",
@@ -215,41 +226,40 @@ class freshmenSocials extends React.Component {
             <div
               style={{
                 color:'white',
-                maxWidth: "85%",
+                maxWidth: "90%",
                 marginLeft: "auto",
                 marginRight: "auto",
                 textAlign: "left",
                 lineHeight: "1.1em",
               }}
             >
-              <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw'  }}>
-                Introducing your upperclassmen hosts for Freshmen Socials! <br/>
+              <div style={{ color: "black", marginBottom: "5px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)', marginTop:'20px' }}>
+                We all know how intimidating freshmen year can be. <br/>
               </div>
-              <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw' }}>
-                These students are excited to answer your questions, ease your worries about adjusting to college life, and welcome you to the Columbia community!
+              <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw'}}>
+                That’s why we’re launching Freshmen Socials to help you hang out, get to know each other and build your Columbia friend web!
               </div>
             </div>
           </GridItem>
           <GridItem xs={12} sm={3} style={{ textAlign: "center" }}>
-            <img src={Sofa} style={{ width:'max(15vw,180px)', height:'auto', marginTop:'20px' , display: "block", marginLeft: "auto", marginRight: "auto"}} />
+            <img src={Sofa} style={{ width:'max(16vw,180px)', height:'auto', marginTop:'20px' , display: "block", marginLeft: "auto", marginRight: "auto"}} />
           </GridItem>
           </GridContainer>
 
           <GridContainer
             style={{
-              marginTop: "1.5em",
               marginLeft:'auto',
               marginRight:'auto'
             }}
           >
-            <GridItem xs={12} sm={3} style={{ textAlign: "center", width:'85%', marginLeft:'auto', marginRight:'auto'}}>
-              <img src={Drinks} style={{ width:'max(15vw,180px)', height:'auto', marginTop:'20px', display: "block", marginLeft: "auto", marginRight: "auto" }} />
+            <GridItem xs={12} sm={3} style={{ textAlign: "center", width:'85%', marginLeft:'auto', marginRight:'auto', marginTop:'auto', marginBottom:'auto'}}>
+              <img src={Drinks} style={{ width:'max(16vw,180px)', height:'auto', marginTop:'20px', display: "block", marginLeft: "auto", marginRight: "auto" }} />
             </GridItem>
             <GridItem xs={12} sm={9}>
               <div
                 style={{
                   color:'white',
-                  maxWidth: "85%",
+                  maxWidth: "90%",
                   marginTop:'20px',
                   marginLeft: "auto",
                   marginRight: "auto",
@@ -258,18 +268,21 @@ class freshmenSocials extends React.Component {
                   lineHeight: "1.1em",
                 }}
               >
-                <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'1vw' }}>
-                  Read about their personal and academic interests here so you can indicate if you have a preference on the <a href={"https://forms.gle/XRFMobSHvnrsm3Y68"}> registration form </a>
+                <Heading color={"blue"} style={{textAlign:"left"}}>
+                  How it works?
+                </Heading>
+                <div style={{ color: "black",  marginBottom: "15px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)'  }}>
+                  To sign up, fill out <a href={"https://forms.gle/XRFMobSHvnrsm3Y68"}> this form </a> and we will match you with a group of friends.
                 </div>
-                <div style={{ color:"gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw'  }}>
-                  <strong> We are excited to meet you soon virtually! </strong><br/>
+                <div style={{ color:"gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'1vw'  }}>
+                  An upperclassmen will join your call to help kickstart the conversation, hangout, and answer your questions. Read about the upperclassmen volunteers below and indicate on the form if you have a preference to pair with one of them. <br/>
                 </div>
               </div>
             </GridItem>
           </GridContainer>
         </div>
 
-        <Heading color={"blue"} style={{ margin: "40px"}}>
+        <Heading color={"blue"} style={{ margin: "10px", marginTop: "30px"}}>
           Upperclassmen Hosts
         </Heading>
         <div style={{maxWidth:"85%", marginLeft: "auto", marginRight: "auto"}} ref={this.myRef}>
@@ -305,28 +318,24 @@ class freshmenSocials extends React.Component {
               <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
                 <div style={{ maxWidth: '85%' }}>
                   <div style={{ marginBottom: '3%' }} >
-                    <Subtitle color={"black"}
-                              style={{
-                                maxWidth: "70%",
-                                marginLeft: "auto",
-                                marginRight: "auto",
-                                fontSize: "18px",
-                                lineHeight: "28px"
-                              }}>
-                      Most Popular
-                    </Subtitle>
-                    <TutorExpansionMapping allTutors={this.state.tutorsPop} /></div>
-                  <Subtitle color={"black"}
-                            style={{
-                              maxWidth: "65%",
-                              marginLeft: "auto",
-                              marginRight: "auto",
-                              fontSize: "18px",
-                              lineHeight: "28px"
-                            }}>
-                    All Sessions
-                  </Subtitle>
-                  <TutorExpansionMapping allTutors={this.state.allTutors} />
+                  {this.state.allTutors &&
+                    <GridContainer style={{marginTop:"10px"}}>
+                      {this.state.allTutors.map((ele,ind)=>{
+                          return (
+                            <GridItem xs={12} sm={12} md={12} className={classes.gridItem}
+                                      style={{paddingTop:10, paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
+                              <BLMCard
+                                website="https://forms.gle/XRFMobSHvnrsm3Y68"
+                                title={ele.name}
+                                description={ele.desc}
+                              />
+                            </GridItem>
+                          )
+                        }
+                      )}
+                    </GridContainer>
+                  }
+                  </div>
                 </div>
               </div>
           }
