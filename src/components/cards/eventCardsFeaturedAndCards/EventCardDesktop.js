@@ -334,7 +334,7 @@ export default function EventCardDesktop({ ele }) {
                   {ele.tags.map((ta, ind) => {
                     if (ta !== "") {
                       return (
-                          <div className={classes.tagBlock}>{ta}</div>
+                          <div className={classes.tagBlock}>{ta.charAt(0).toUpperCase() + ta.toLowerCase().slice(1)}</div>
                       );
                     }
                   })}

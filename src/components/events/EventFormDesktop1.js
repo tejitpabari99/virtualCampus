@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { CircularProgress } from '@material-ui/core';
+import "./test.css";
 
 //form settings
 import * as Yup from "yup";
@@ -8,6 +9,8 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik"
 import FormTitle from "../form-components/FormTitle"
 
+import RequiredFields from "../form-components/RequiredFields"
+
 import ContactInfo from "../form-components/ContactInfo"
 import EntryDetails from "../form-components/EntryDetails"
 import Tags from '../form-components/Tags'
@@ -15,6 +18,8 @@ import AdditionalInfo from '../form-components/AdditionalInfo'
 import SubmitButton from '../form-components/SubmitButton'
 import WebsiteAndZoom from "../form-components/WebsiteAndZoom"
 
+
+import FormikField from "../form-components/FormikField"
 import { Select } from "material-ui-formik-components/Select";
 import FileUploadBtn from '../form-components/FileUploadBtn'
 
@@ -31,9 +36,7 @@ import {
   Template,
   getOffset,
   convertDateToUTC,
-  convertTimestampToDate,
-  convertUTCToLocal,
-  getTimezoneOptions
+  convertTimestampToDate, convertUTCToLocal
 } from "..";
 
 import EventCardDesktop from '../cards/eventCardsFeaturedAndCards/EventCardDesktop'
@@ -45,7 +48,7 @@ import * as firebase from "firebase";
 import Axios from "axios";
 import TZ from "countries-and-timezones";
 import * as Events from "../../pages/events";
-import { PhoneCallback } from "@material-ui/icons";
+import { PhoneCallback, ErrorSharp } from "@material-ui/icons";
 import { CheckboxWithLabel } from "formik-material-ui";
 
 // set an init value first so the input is "controlled" by default
@@ -64,14 +67,14 @@ const initVal = {
   recurring: "",
   entry_link: "",
   invite_link: "",
+  link_type: "",
   comments: "",
   tag: "",
-  games_tag: "",
   activism_tag: "",
   covid_tag: "",
-  social_tag: "",
-  fitness_tag: "",
   education_tag: "",
+  freshman_tag: "",
+  social_tag: "",
   agree: ""
 
 };
@@ -90,7 +93,7 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   desc: Yup.string()
     .required("Required")
-    .max("350", "Please less than 350 characters"),
+    .max("600", "Please less than 600 characters"),
   start_date: Yup.string()
     .required("Required"),
   end_date: Yup.string()
@@ -303,6 +306,36 @@ let getTimezoneName = function (loc = getCurrentLocationForTimeZone(), dstN = nu
   return str;
 }
 
+function getTimezoneOptions() {
+  if (getCurrentLocationForTimeZone() != defaultTimezone) {
+    return [
+      {
+        value: getCurrentLocationForTimeZone()
+          + "$" + dst(),
+        label: "Mine: "
+          + getTimezoneName()
+      },
+      {
+        value: defaultTimezone
+          + "$" + dst(defaultTimezone),
+        label: "Default: "
+          + getTimezoneName(defaultTimezone
+            , dst(defaultTimezone))
+      }
+    ];
+  } else {
+    return [
+      {
+        value: defaultTimezone
+          + "$" + dst(defaultTimezone),
+        label: "Mine: "
+          + getTimezoneName(defaultTimezone
+            , dst(defaultTimezone))
+      }
+    ];
+  }
+}
+
 const optionsTZ = getTimezoneOptions();
 
 let imgurLinkOutside = ""
@@ -358,7 +391,7 @@ function convertEventsTime(event) {
 
 let convertedExampleEvent = convertEventsTime(exampleEvent)
 
-class EventFormMobile extends React.Component {
+class EventFormDesktop extends React.Component {
 
   constructor(props) {
     super(props);
@@ -488,8 +521,6 @@ class EventFormMobile extends React.Component {
     // console.log("congrats, you clicked me.")
     const fileName = fileList[0].name
     const file = fileList[0]
-    console.log("Filename: " + fileName)
-    // console.log("File: " + file)
 
     this.uploadImage(file)
     this.setState({
@@ -629,9 +660,9 @@ class EventFormMobile extends React.Component {
     return this.state.sampleEvent
   }
 
+
   render() {
     const date = new Date();
-
     if (this.state.activityIndicatory) {
       return (
         <div style={{ backgroundColor: "white" }}>
@@ -669,7 +700,7 @@ class EventFormMobile extends React.Component {
             <br />
             <div style={{ color: "black", fontSize: "1rem" }}>
               Questions? Contact us at
-                <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
+              <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
                 href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com.</a>
             </div>
             <br />
@@ -687,7 +718,7 @@ class EventFormMobile extends React.Component {
               }}
               href={"/events/add-new-event"}>
               Add Another Event
-              </Button>
+            </Button>
           </div>
         </Template>);
 
@@ -696,129 +727,70 @@ class EventFormMobile extends React.Component {
         <Template title={'Add New Event'} active={"schedule"}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             {/* <Template active={'schedule'}> */}
-            <Container>
-              <FormTitle
-                title="Add a New Event"
-                desc="Thank you for your interest in creating a virtual event or activity through CVC.
-                Please fill out the following form so we can provide you with the necessary resources and
-                appropriate platform on our website!"
-              />
-
-              <Formik
-                initialValues={initVal}
-                onSubmit={this.submitHandler}
-                onChange={this.updateEvent}
-                validationSchema={validationSchema}
-              >
-                {({ dirty, isValid, errors, touched }) => {
-                  return (
-                    <Form onChange={this.updateEvent}>
-                      <ContactInfo
-                        errorName={errors.name}
-                        touchedName={touched.name}
-                        errorEmail={errors.email}
-                        touchedEmail={touched.email}
-                      />
-                      <EntryDetails
-                        title={"Event"}
-                        entryTitle={"Event Name"}
-                        errorTitle={errors.title}
-                        touchedTitle={touched.title}
-                        errorImgLink={errors.image_link}
-                        touchedImgLink={touched.image_link}
-                        errorDesc={errors.desc}
-                        touchedDesc={touched.desc}
-                        imgUpload={this.imgFileUploadHandler}
-                        fileName={this.getFileName()}
-                        onChange={this.updateEvent}
-                      />
-                      <div>
-                        <Grid container spacing={2}>
-                          <Grid item sm={4} xs={6}>
-                            <div style={{ margin: "16px 0 8px" }}>
-                              <Field
-                                component={DateTimePicker}
-                                name="start_date"
-                                label="Start Time"
-                                required
-                              />
-                            </div>
-                          </Grid>
-                          <Grid item sm={4} xs={6}>
-                            <div style={{ margin: "16px 0 8px" }}>
-                              <Field
-                                component={DateTimePicker}
-                                name="end_date"
-                                label="End Time"
-                                required
-                              />
-                            </div>
-                          </Grid>
-                          <Grid item sm={4} xs={12}>
-                            <Field
-                              name="timezone"
-                              label="Select Timezone"
-                              options={optionsTZ}
-                              component={Select}
-                              required
+            <div style={{ backgroundColor: "white" }}>
+              <Container>
+                {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
+                <Grid container spacing={10}>
+                  <FormTitle
+                    desktop
+                    title="Add a New Event"
+                    desc="Thank you for your interest in creating a virtual event or activity through CVC.
+                     Please fill out the following form so we can provide you with the necessary resources and
+                     appropriate platform on our website!"
+                  />
+                  <Grid item xs={8}>
+                    <Formik
+                      initialValues={initVal}
+                      onSubmit={this.submitHandler}
+                      onChange={this.updateEvent}
+                      validationSchema={validationSchema}
+                    >
+                      {({ dirty, isValid, errors, touched }) => {
+                        return (
+                          <Form onChange={this.updateEvent}>
+                            <RequiredFields
+                              title="Event"
+                              entryTitle="Event Name"
+                              errors={errors}
+                              touched={touched}
+                              timezones={optionsTZ}
                             />
-                          </Grid>
-                        </Grid>
-                        <br />
-                        <Field
-                          component={CheckboxWithLabel}
-                          name="allowedToBeFacebookEvent"
-                          Label={{ label: "Allow CVC to make this a facebook event? (Check out our facebook page: www.facebook.com/columbiavirtualcampus)" }}
-                          type="checkbox"
-                          indeterminate={false}
-                        />
-                      </div>
 
-                      <WebsiteAndZoom
-                        touched={touched}
-                        errors={errors} />
-                      <Tags
-                        tags={['Activism', 'COVID', 'Social', 'Health', 'Education']}
-                        touched={touched}
-                        errors={errors}
-                      />
-                      <AdditionalInfo
-                        errorComments={errors.comments}
-                        touchedComments={touched.comments}
-                      />
-                      <SubmitButton />
-                    </Form>
-                  )
-                }}
-              </Formik>
-
-              <div style={{ marginBottom: "50px" }} />
-            </Container>
+                          </Form>
+                        )
+                      }}
+                    </Formik>
+                  </Grid>
+                </Grid >
+                <div style={{ marginBottom: "50px" }} />
+                {/* </div> */}
+              </Container>
+            </div>
             {/* </Template > */}
           </MuiPickersUtilsProvider>
           <Container>
             <h3 style={{ color: "#0072CE", display: "inline" }}>
               <span style={{ display: "block" }}>Preview of Your Event</span>
-              <h5 style={{ color: "#0072CE", display: "inline", fontSize: "12px" }}>
+              <div style={{ color: "#0072CE", display: "inline", fontSize: "12px" }}>
                 Date/Time is not updated in previews:
-              </h5>
+              </div>
             </h3>
             <br />
-            <Grid>
-              <div>
-                <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}>
-                  {/* {this.getMonthName()} {date.getFullYear()}*/}
-                </h3>
+            <Grid >
+              <div style={{ marginBottom: "5%" }}>
+                <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
                 <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }} />
-                <EventCardMobile ele={this.getSampleEvent()} key={0} />
+                <EventCardDesktop ele={this.getSampleEvent()} key={0} />
               </div>
             </Grid>
           </Container>
-        </Template >
+        </Template>
 
       );
     }
   }
+
+
 }
 
-export default EventFormMobile;
+export default EventFormDesktop;

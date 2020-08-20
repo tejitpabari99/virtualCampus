@@ -6,9 +6,18 @@ import "./test.css";
 import * as Yup from "yup";
 
 //inputs
-import { Field } from "formik"
+import { Formik, Form, Field } from "formik"
 import FormTitle from "../form-components/FormTitle"
-import FormBody from "../form-components/FormBody"
+
+import ContactInfo from "../form-components/ContactInfo"
+import EntryDetails from "../form-components/EntryDetails"
+import Tags from '../form-components/Tags'
+import AdditionalInfo from '../form-components/AdditionalInfo'
+import SubmitButton from '../form-components/SubmitButton'
+import WebsiteAndZoom from "../form-components/WebsiteAndZoom"
+
+
+import FormikField from "../form-components/FormikField"
 import { Select } from "material-ui-formik-components/Select";
 import FileUploadBtn from '../form-components/FileUploadBtn'
 
@@ -37,8 +46,8 @@ import * as firebase from "firebase";
 import Axios from "axios";
 import TZ from "countries-and-timezones";
 import * as Events from "../../pages/events";
-import { PhoneCallback } from "@material-ui/icons";
-import {CheckboxWithLabel} from "formik-material-ui";
+import { PhoneCallback, ErrorSharp } from "@material-ui/icons";
+import { CheckboxWithLabel } from "formik-material-ui";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -52,10 +61,10 @@ const initVal = {
   start_date: "",
   end_date: "",
   timezone: "",
+  // attendants: 10,
   recurring: "",
   entry_link: "",
   invite_link: "",
-  event_link: "",
   link_type: "",
   comments: "",
   tag: "",
@@ -79,8 +88,6 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email address")
     .required("Required"),
-  // event_link: Yup.string()
-  //   .url("Please enter a valid URL"),
   title: Yup.string()
     .required("Required"),
   desc: Yup.string()
@@ -97,14 +104,17 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   timezone: Yup.string()
     .required("Required"),
+  attendants: Yup.number()
+    .integer("Please enter an integer")
+    .required("Required"),
   agree: Yup.boolean("True")
     .required(),
   image_link: Yup.string()
     .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
-  // invite_link: Yup.string()
-  //   .required()
-  //   .url("Please enter a valid URL"),
-  // link_type: Yup.string()
+  invite_link: Yup.string()
+    .required()
+    .url("Please enter a valid URL"),
+  link_type: Yup.string()
 });
 
 let getCurrentLocationForTimeZone = function () {
@@ -477,18 +487,6 @@ class EventFormDesktop extends React.Component {
       emailData["text"] += "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: " +
         zoomUrl.concat(newEventRef.id);
     }
-    if (data["event_link"] || data["event_link"] === "") {
-      data["event_link"] = "columbiavirtualcampus.com/events?event=" + newEventRef.id
-      console.log("hi")
-      console.log("columbiavirtualcampus.com/events?event=" + newEventRef.id)
-    }
-    if (data["event_link"] === "http://columbiavirtualcampus.com") {
-      data["event_link"] = "columbiavirtualcampus.com/events?event=" + newEventRef.id
-      console.log("ho")
-      console.log("columbiavirtualcampus.com/events?event=" + newEventRef.id)
-    }
-    console.log(data["event_link"])
-    console.log("columbiavirtualcampus.com/events?event=" + newEventRef.id)
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
       .then(ref => {
@@ -620,10 +618,10 @@ class EventFormDesktop extends React.Component {
       const value = data.target.value
       if (name === "image_link") {
         if (value === "") {
-          this.setState({imgurLink: default_img, imgFileValue: ""})
+          this.setState({ imgurLink: default_img, imgFileValue: "" })
           convertedExampleEvent['image_link'] = default_img
         } else {
-          this.setState({imgurLink: value, imgFileValue: ""})
+          this.setState({ imgurLink: value, imgFileValue: "" })
           convertedExampleEvent['image_link'] = value
         }
       }
@@ -744,53 +742,101 @@ class EventFormDesktop extends React.Component {
                      Please fill out the following form so we can provide you with the necessary resources and
                      appropriate platform on our website!"
                   />
-                  <FormBody
-                    desktop
-                    submit={this.submitHandler}
-                    onChange={this.updateEvent}
-                    title="Events"
-                    entryTitle="Event Name"
-                    initVal={initVal}
-                    validationSchema={validationSchema}
-                    imgUpload={this.imgFileUploadHandler}
-                    fileName={this.getFileName()}
-                  >
-                    <Grid container spacing={2}>
-                      <Grid item sm={3}>
-                        <Field
-                          component={DateTimePicker}
-                          name="start_date"
-                          label="Start Time"
-                          required
-                        />
-                      </Grid>
-                      <Grid item sm={3}>
-                        <Field
-                          component={DateTimePicker}
-                          name="end_date"
-                          label="End Time"
-                          required
-                        />
-                      </Grid>
-                      <Grid item sm={3}>
-                        <Field
-                          name="timezone"
-                          label="Select Timezone"
-                          options={optionsTZ}
-                          component={Select}
-                          required
-                        />
-                      </Grid>
-                    </Grid >
-                    <br />
-                    <Field
-                        component={CheckboxWithLabel}
-                        name="allowedToBeFacebookEvent"
-                        Label={{ label: "Allow CVC to make this a facebook event? (Check out our facebook page: www.facebook.com/columbiavirtualcampus)" }}
-                        type="checkbox"
-                        indeterminate={false}
-                    />
-                  </FormBody>
+                  <Grid item xs={8}>
+                    <Formik
+                      initialValues={initVal}
+                      onSubmit={this.submitHandler}
+                      onChange={this.updateEvent}
+                      validationSchema={validationSchema}
+                    >
+                      {({ dirty, isValid, errors, touched }) => {
+                        return (
+                          <Form onChange={this.updateEvent}>
+                            <ContactInfo
+                              errorName={errors.name}
+                              touchedName={touched.name}
+                              errorEmail={errors.email}
+                              touchedEmail={touched.email}
+                            />
+                            <EntryDetails
+                              title={"Events"}
+                              entryTitle={"Event Name"}
+                              errorTitle={errors.title}
+                              touchedTitle={touched.title}
+                              errorImgLink={errors.image_link}
+                              touchedImgLink={touched.image_link}
+                              errorDesc={errors.desc}
+                              touchedDesc={touched.desc}
+                              imgUpload={this.imgFileUploadHandler}
+                              fileName={this.getFileName()}
+                              onChange={this.updateEvent}
+                            />
+                            <div>
+                              <Grid container spacing={2}>
+                                <Grid item sm={3}>
+                                  <Field
+                                    component={DateTimePicker}
+                                    name="start_date"
+                                    label="Start Time"
+                                    required
+                                  />
+                                </Grid>
+                                <Grid item sm={3}>
+                                  <Field
+                                    component={DateTimePicker}
+                                    name="end_date"
+                                    label="End Time"
+                                    required
+                                  />
+                                </Grid>
+                                <Grid item sm={3}>
+                                  <Field
+                                    name="timezone"
+                                    label="Select Timezone"
+                                    options={optionsTZ}
+                                    component={Select}
+                                    required
+                                  />
+                                </Grid>
+                                <Grid item sm={3}>
+                                  <FormikField
+                                    label="Attendant Cap"
+                                    name="attendants"
+                                    error={errors.attendants}
+                                    touch={touched.attendants}
+                                    required
+                                  />
+                                </Grid>
+                              </Grid >
+                              <br />
+                              <Field
+                                component={CheckboxWithLabel}
+                                name="allowedToBeFacebookEvent"
+                                Label={{ label: "Allow CVC to make this a facebook event?" }}
+                                type="checkbox"
+                                color="default"
+                                indeterminate={false}
+                              />
+                            </div>
+
+                            <WebsiteAndZoom
+                              touched={touched}
+                              errors={errors} />
+                            <Tags
+                              tags={['Activism', 'COVID', 'Social', 'Health', 'Education']}
+                              touched={touched}
+                              errors={errors}
+                            />
+                            <AdditionalInfo
+                              errorComments={errors.comments}
+                              touchedComments={touched.comments}
+                            />
+                            <SubmitButton />
+                          </Form>
+                        )
+                      }}
+                    </Formik>
+                  </Grid>
                 </Grid >
                 <div style={{ marginBottom: "50px" }} />
                 {/* </div> */}
@@ -800,10 +846,10 @@ class EventFormDesktop extends React.Component {
           </MuiPickersUtilsProvider>
           <Container>
             <h3 style={{ color: "#0072CE", display: "inline" }}>
-              <span style={{display: "block"}}>Preview of Your Event</span>
-              <h5 style={{ color: "#0072CE", display: "inline", fontSize: "12px"}}>
+              <span style={{ display: "block" }}>Preview of Your Event</span>
+              <div style={{ color: "#0072CE", display: "inline", fontSize: "12px" }}>
                 Date/Time is not updated in previews:
-              </h5>
+              </div>
             </h3>
             <br />
             <Grid >
