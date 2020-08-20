@@ -17,6 +17,11 @@ import CustomToolbar from "../events/CalendarToolBar"
 import {CircularProgress} from "@material-ui/core";
 import GridItem from "../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../material-kit-components/Grid/GridContainer.js";
+import IconButton from '@material-ui/core/IconButton';
+import InstaIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import { configureAnchors } from 'react-scrollable-anchor';
 import {eventPropStylesShared} from "./SharedEvents";
@@ -149,7 +154,21 @@ const useStyles = () => ({
     color: "#515151",
     marginLeft: "10px"
   },
-
+  largeIcon: {
+    width: "100px",
+    height: "100px",
+    marginLeft: "50%",
+    marginBottom: "-20px"
+  },
+  footer: {
+    width: "130%",
+    height: "250px",
+    backgroundColor: "#0072CE",
+    color: "white",
+    marginTop: "700px",
+    marginLeft: "-20%",
+    marginBottom: "-200px"
+  }
 });
 class EventsPageDesktop extends React.Component {
   constructor(props) {
@@ -769,6 +788,7 @@ class EventsPageDesktop extends React.Component {
             </div>
           </div>
         </div>
+
       </Template>
     );
   }
