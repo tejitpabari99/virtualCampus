@@ -332,8 +332,7 @@ class EventsPageMobile extends React.Component {
       permEventsList: approvedEventsMap,
       displayEvents:this.makeDisplayEvents(approvedEventsMap),
       loadingEvents: false,
-      eventsListWithIdKey: approvedEventsMapWithKey,
-      loadingFeaturedEvents: false
+      eventsListWithIdKey: approvedEventsMapWithKey
     });
   }
 
@@ -523,6 +522,7 @@ updateCalendarExpandText() {
         offset: -100,
       })
     }
+
   }
 
 getCalendarText() {
@@ -628,18 +628,21 @@ getCalendarText() {
                 Register ASAP. Limited seats available for some events.
               </p>
             </div>
-            <div style={{align: "center"}}>
-            {this.state.loadingFeaturedEvents && <CircularProgress style={{ marginLeft: '50%', marginTop: '10%', color: 'white' }} />}
-            <Carousel>
-                {Object.keys(featuredEvents).map((ele) => {
-                    return (
-                        <a href={"#" + ele}
-                           style={{overflow:'hidden', width: "100%"}}>
-                          <EventCardFeatured ele={featuredEvents[ele]} key={ele}/> <br />
-                      </a>
-                    );
-                })}
-            </Carousel>
+            <div style={{align: "center", position: "relative", height: "320px"}}>
+            {this.state.loadingFeaturedEvents && <CircularProgress style={{zIndex: "0", marginLeft: '45%',
+                                                    marginTop: '10%', color: 'white', position: "absolute" }} />}
+            <div  style={{backgroundColor: "#3B5998", zIndex: "50", position: "relative"}}>
+              <Carousel>
+                  {Object.keys(featuredEvents).map((ele) => {
+                      return (
+                          <a href={"#" + ele}
+                             style={{overflow:'hidden', width: "100%"}}>
+                            <EventCardFeatured ele={featuredEvents[ele]} key={ele}/> <br />
+                        </a>
+                      );
+                  })}
+              </Carousel>
+            </div>
             </div>
           </div>
 
