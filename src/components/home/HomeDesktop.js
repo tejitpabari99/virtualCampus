@@ -13,20 +13,22 @@ import styles from "../../assets/material-kit-assets/jss/material-kit-react/view
 import { CustomButton, CustomHeader, MetaData, Subtitle, Title} from "./../../components";
 import HomeEvents from './HomeEvents';
 import HomeResourcesList from "./HomeResourcesList.js";
+import ResourcesList from "../resources/resourcesList/ResourcesList.js";
 import { Helmet } from 'react-helmet';
 import InstagramEmbed from 'react-instagram-embed';
 import Orange from "./orange.svg";
 import Blue from "./blue.svg";
-import IconButton from '@material-ui/core/IconButton';
 import DownArrow from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import GridContainer from "../material-kit-components/Grid/GridContainer";
 import GridItem from "../material-kit-components/Grid/GridItem";
+import IconButton from '@material-ui/core/IconButton';
 import InstaIcon from '@material-ui/icons/Instagram';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import Element from 'react-scroll';
 
 const useStyles = makeStyles(styles);
 
@@ -83,9 +85,10 @@ const manualSt = makeStyles(() => ({
     // backgroundSize: 'max(min(80vw, 120vh), 250px) auto',
     //backgroundSize: 'max(min(92vw, 132vh), 262px) auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center max(90%, 100px)',
+    backgroundPosition: 'center max(70%, 80px)',
     height: "max(95vh, 31vw)",
     width: "100%",
+    marginLeft: "35px"
   },
   eventsSection: {
     flexDirection: "column",
@@ -165,7 +168,7 @@ const manualSt = makeStyles(() => ({
     backgroundRepeat: 'no-repeat',
     width: "62%",
     height: "149%",
-    marginLeft: "120px"
+    marginLeft: "120px",
   },
   mockInterviewPicBox: {
     background: `url(${MockCodingInterviews})`,
@@ -250,14 +253,17 @@ export default function HomeDesktop() {
       <div style={{ marginBottom: "2.5vh", background: "transparent" }} />
       <div className={classNames(classes.main, manual.eventsSection)} style={{ textAlign: 'left' }}>
         <div id="explore" style={{marginLeft: "7%", marginRight: "7%", width:"86%"}}>
-          <IconButton className={classNames(manual.largeIcon)}>
-              <DownArrow style={{color: "#ACD8F1", fontSize: 70}}/>
-          </IconButton>
+          <a href={"#startEvents"}>
+            <IconButton className={classNames(manual.largeIcon)} style={{marginTop: "-100px"}}>
+                <DownArrow style={{color: "#ACD8F1", fontSize: 70}}/>
+            </IconButton>
+          </a>
         </div>
       </div>
 
+      <div id="startEvents">
       <Container>
-      <GridContainer style={{width: '100%'}}>
+      <GridContainer style={{width: '100%', marginBottom: "40px"}}>
         <GridItem xs={5} sm={5} md={5} lg={5}
         style={{width: '100%', height: '500px',
             borderRadius: '50px',
@@ -290,8 +296,10 @@ export default function HomeDesktop() {
 
       </GridContainer>
       </Container>
+      </div>
 
-      <GridContainer style={{marginBottom: "160px"}}>
+
+      <GridContainer style={{marginBottom: "200px"}}>
         <GridItem xs={5} sm={5} md={5} lg={5}
           style = {{textAlign: "right"}}>
 
@@ -307,7 +315,7 @@ export default function HomeDesktop() {
         </GridItem>
       </GridContainer>
 
-      <GridContainer style={{marginBottom: "160px"}}>
+      <GridContainer style={{marginBottom: "200px"}}>
 
         <GridItem xs={6} sm={6} md={6} lg={6}>
           <div className={classNames(manual.mockInterviewPicBox)}> </div>
@@ -326,15 +334,14 @@ export default function HomeDesktop() {
         </GridItem>
       </GridContainer>
 
-      <div style={{display: 'in-line'}}>
+      <div className={manual.resourcesSection}>
         <h1 style={{color: "#0072CE", fontSize: "48px", marginLeft: "100px"}}> Take a look at our Resources!</h1>
         <CustomButton href={'/resources'}  text={'SEE ALL RESOURCES'}
             color={"orange"} size={"large"} style={{marginLeft: "1300px", marginTop: "-100px"}}/>
         <HomeResourcesList />
       </div>
 
-
-      <div style={{ marginBottom: "200px" }} />
+      <div style={{ marginBottom: "100px" }} />
 
         {/*<div style={{height: "100vh"}}>
           <div className={classNames(manual.insta2, manual.instaBg)}  style={{paddingTop:"50px", zIndex:"1"}} />

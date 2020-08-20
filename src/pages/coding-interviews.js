@@ -13,6 +13,11 @@ import firebase from "../firebase";
 import interview from "../assets/images/technical/interview.png";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
+import InstaIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import IconButton from '@material-ui/core/IconButton';
 
 
 const localizer = momentLocalizer(moment);
@@ -20,8 +25,20 @@ const useStyles = () => ({
   addNewButton: {
     boxShadow: "none",
     fontSize: 20
+  },
+  largeIcon: {
+    width: "100px",
+    height: "100px",
+    marginLeft: "50%",
+    marginBottom: "-20px"
+  },
+  footer: {
+    width: "100%",
+    height: "250px",
+    backgroundColor: "#0072CE",
+    color: "white",
+    marginTop: "100px"
   }
-
 });
 
 
@@ -258,13 +275,13 @@ class Technical extends React.Component {
             count++
           }
         });
-  
+
         // if number is >= max interviewer given, mark all as unavailable
         // note this week not change value in database, but simply marks it in the UI
         if(count >= week[0].week_availability){
           week.forEach(event => {
             event.available = false;
-          });   
+          });
         }
       });
     });
@@ -365,20 +382,20 @@ class Technical extends React.Component {
                     <img src={interview} style={{width: "350px", height: "300px", marginLeft: "-20px"}}></img>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={7} style={{ marginTop:"1.2em", width:"50em"}}>
-                    <p style={{fontSize: "1.4em", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships or full time positons? 
+                    <p style={{fontSize: "1.4em", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships or full time positons?
                     Do you want to practice your coding interview skills?</p>
                     <p style={{fontSize : "1.1em", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity for Columbia University students
                     to participate in one-on-one mock technical coding interviews
-                     with fellow students and alumni who have interned at Microsoft, Facebook, Google and more.  
+                     with fellow students and alumni who have interned at Microsoft, Facebook, Google and more.
                     These 1 hour interview sessions will allow you to pratice real technical interview questions while connecting with a fellow Columbia student.</p>
-                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at 
+                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at
                     <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
                  href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com</a>!</p>
                 </GridItem>
         </GridContainer>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
         <Title color={"blue"} style={{marginBottom:"2%", marginTop: "2%"}} >Sign up here!</Title>
-        { this.state.loadingEvents ? 
+        { this.state.loadingEvents ?
           <CircularProgress/> :
           <Calendar
             views={["month", "week", "day"]}
@@ -401,9 +418,44 @@ class Technical extends React.Component {
             formats={{ eventTimeRangeFormat: () => null }}
           />
         }
-        
-        {this.state.open && 
+
+        {this.state.open &&
           <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>}
+
+
+          <div style={{width: "130%", height: "250px", backgroundColor: "#0072CE", color: "white", marginTop: "100px", marginLeft: "-20%"}} />
+              <h2 style={{color: "white", fontSize: "36px", marginTop: "-180px", marginLeft: "80px"}}> Columbia Virtual Campus </h2>
+              <h2 style={{color: "white", fontSize: "26px", marginTop: "0px", marginLeft: "80px"}}> Columbia, <i>virtually</i>.</h2>
+          <div style={{color: "white", marginTop: "-105px", fontSize: "14px", marginLeft: "780px"}}>
+              <a href={""} style={{color: "white"}}> Home </a> <br/>
+              <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
+              <a href={"/events"} style={{color: "white"}}> Socialize </a> <br/>
+              <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>
+              <a href={"/about-us"} style={{color: "white"}}> About Us </a> <br/>
+              <a href={"/contact-us"} style={{color: "white"}}> Contact Us </a> <br/>
+          </div>
+
+          <div style={{color: "white", marginTop: "-145px", fontSize: "14px", marginLeft: "980px"}}>
+              <a href={"/events/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
+              <a href={"/resources/add-new-resource"} style={{color: "white"}}> Add a Resource </a> <br/>
+              <a href={"/coding-interviews/add-interviewer"} style={{color: "white"}}> Be a Mock Interviewer </a> <br/>
+          </div>
+
+          <div>
+            <IconButton style={{marginLeft: "1200px", marginTop: "-100px", width: "100px", height: "100px", marginBottom: "-20px"}} href={"https://www.instagram.com/columbiavirtualcampus/"}>
+                <InstaIcon style={{color: "white", fontSize: 70}}/>
+            </IconButton>
+            <IconButton style={{marginLeft: "1290px", marginTop: "-150px", width: "100px", height: "100px", marginBottom: "-20px"}} href={"https://www.facebook.com/columbiavirtualcampus/"}>
+                <FacebookIcon style={{color: "white", fontSize: 70}}/>
+            </IconButton>
+            <IconButton style={{marginLeft: "1380px", marginTop: "-200px", width: "100px", height: "100px", marginBottom: "-20px"}} href={"https://www.linkedin.com/company/columbia-virtual-campus/"}>
+                <LinkedInIcon style={{color: "white", fontSize: 70}}/>
+            </IconButton>
+            <IconButton style={{marginLeft: "1470px", marginTop: "-245px", width: "100px", height: "100px", marginBottom: "-20px"}} href={"mailto:columbiavirtualcampus@gmail.com"}>
+                <MailOutlineIcon style={{color: "white", fontSize: 70}}/>
+            </IconButton>
+          </div>
+
       </Template>
     );
   }
