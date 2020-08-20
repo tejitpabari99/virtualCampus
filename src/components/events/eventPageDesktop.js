@@ -19,6 +19,7 @@ import GridItem from "../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../material-kit-components/Grid/GridContainer.js";
 import ScrollableAnchor from 'react-scrollable-anchor';
 import { configureAnchors } from 'react-scrollable-anchor';
+import {eventPropStylesShared} from "./SharedEvents";
 configureAnchors({ offset: -100 });
 
 const localizer = momentLocalizer(moment);
@@ -475,11 +476,16 @@ class EventsPageDesktop extends React.Component {
     }
   }
 
-  EventDisplay = ({ event }) => (
+  EventDisplay = ({ event }) => {
+    return (
     <div style={{ height: "1.2em" }}>
       <div style={{ fontSize: ".7em" }}>{event.event === undefined ? event.title : event.event}</div>
     </div>
-  );
+    )};
+
+  eventPropStyles(event, start, end, isSelected) {
+    return eventPropStylesShared(event, start, end, isSelected)
+  }
 
   handleMainTags(tag) {
     let newList = this.state.mainTagsClicked

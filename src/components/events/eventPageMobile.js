@@ -20,6 +20,7 @@ import EventSearchMobile from "../input/EventSearchMobile";
 import Carousel from 'react-material-ui-carousel';
 import {CircularProgress} from "@material-ui/core";
 import {configureAnchors} from 'react-scrollable-anchor';
+import {eventPropStylesShared} from "./SharedEvents";
 configureAnchors({offset: -120});
 
 //configureAnchors({offset: -2500});
@@ -382,37 +383,7 @@ class EventsPageMobile extends React.Component {
   }
 
   eventPropStyles(event, start, end, isSelected) {
-    let style = {
-      backgroundColor: "#2984ce"
-    };
-    let nowStyle = {
-      backgroundColor: "#F3FFEE"
-    }
-    let pastStyle = {
-      backgroundColor: "#BDBDBD"
-    }
-    let popularStyle = {
-      backgroundColor: "#F2F9FD"
-    }
-    let recurringStyle = {
-      backgroundColor: "#FDEEE5"
-    }
-
-    if (event.displayNow) {
-      return {style: nowStyle};
-    }
-    else if (event.displayPast) {
-      return {style: pastStyle};
-    }
-    else if (event.displayPopular) {
-      return {style: popularStyle};
-    }
-    else if (event.displayRecurring) {
-      return {style: recurringStyle};
-    }
-    else {
-      return {style: style};
-    }
+    return eventPropStylesShared(event, start, end, isSelected)
   }
 
   EventDisplay = ({ event }) => (
