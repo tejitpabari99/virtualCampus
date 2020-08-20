@@ -88,7 +88,7 @@ const manualSt = makeStyles(() => ({
     backgroundPosition: 'center max(70%, 80px)',
     height: "max(95vh, 31vw)",
     width: "100%",
-    marginLeft: "35px"
+    marginLeft: "4%"
   },
   eventsSection: {
     flexDirection: "column",
@@ -303,9 +303,11 @@ export default function HomeDesktop() {
         <GridItem xs={5} sm={5} md={5} lg={5}
           style = {{textAlign: "right"}}>
 
-          <h2 style={{color:"#0072CE", fontSize: "48px"}}>Want to host an event?</h2>
-          <p style={{color:"black", fontSize: "20px", marginLeft: "230px"}}>Looking to host your own event on Columbia Virtual Campus? Answer some questions to <strong>start leading.</strong></p>
-          <br/>
+          <h2 style={{color:"#0072CE", fontSize: "48px"}}>Looking for people who share <strong>your</strong> interests?</h2>
+
+            <h5>1. Submit a topic and time using our form.</h5>
+            <h5>2. Let us host and share the event on our website.</h5>
+            <h5>3. Share your interest with your friends, meet new people, and have fun!</h5><br/>
           <CustomButton href={'/add-new-event'}  text={'HOST AN EVENT'}
           color={"orange"} size={"large"}/>
         </GridItem>
@@ -358,7 +360,7 @@ export default function HomeDesktop() {
         <div>
           <img className={manual.blueBlob} src={BlueBlob}/>
           <img className={manual.orangeBlob} src={OrangeBlob}/>
-          <div style={{marginTop:"-775px", marginLeft: "250px"}}>
+          <div style={{marginTop:"-775px", marginLeft: "16%"}}>
               <div style={{ border:"none"}}>
                   <InstagramEmbed
                       url='https://www.instagram.com/p/CBHN4GMlSkD/'
@@ -379,7 +381,7 @@ export default function HomeDesktop() {
               </div>
           </div>
 
-          <div style={{marginTop: "-650px", marginLeft: "1150px"}}>
+          <div style={{marginTop: "-650px", marginLeft: "67%"}}>
               <div style = {{ border:"none"}}
                        className="fb-page"
                        data-href="https://www.facebook.com/columbiavirtualcampus/"

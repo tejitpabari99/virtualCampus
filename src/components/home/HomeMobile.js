@@ -23,6 +23,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import IconButton from '@material-ui/core/IconButton';
+import GridItem from "../material-kit-components/Grid/GridItem";
 
 const useStyles = makeStyles(styles);
 
@@ -195,7 +196,8 @@ const manualPortrait = makeStyles(() => ({
   },
   fabo: {
     border:"none",
-    marginLeft: "30px"
+    marginLeft: "45px",
+    marginBottom:"-30px"
   },
   instaButton: {
     marginLeft: "130px",
@@ -213,8 +215,7 @@ const manualPortrait = makeStyles(() => ({
     width: "100%",
     height: "400px",
     backgroundColor: "#0072CE",
-    color: "white",
-    marginTop: "50px"
+    color: "white"
   },
   footerTitle: {
     color: "white",
@@ -518,8 +519,11 @@ export default function HomeMobile({isLandscape}) {
       </div>
 
       <img className={manual.hostEventPicBox} src={HostEventPic} />
-      <h2 className={manual.hostEventTitle}>Want to host an event?</h2>
-      <p className={manual.hostEventText}>Looking to host your own event on Columbia Virtual Campus? Answer some questions to <strong>start leading.</strong></p>
+      <h2 className={manual.hostEventTitle}>Looking for people who share <strong>your</strong> interests?</h2>
+      <p className={manual.hostEventText}>
+        1. Submit a topic and time using our form.<br />
+        2. Let us host and share the event on our website.<br />
+        3. Share your interest with your friends, meet new people, and have fun!<br /></p>
       <br/>
       <div className={manual.hostEventButton}>
         <CustomButton href={'/add-new-event'}  text={'HOST AN EVENT'}
