@@ -518,7 +518,9 @@ export default function HomeMobile({isLandscape}) {
           </div>
       </div>
 
-      <img className={manual.hostEventPicBox} src={HostEventPic} />
+      <div style={{marginBottom: "20px" }} />
+
+      <img className={manual.hostEventPicBox} src={HostEventPic}/>
       <h2 className={manual.hostEventTitle}>Looking for people who share <strong>your</strong> interests?</h2>
       <p className={manual.hostEventText}>
         1. Submit a topic and time using our form.<br />
@@ -530,7 +532,7 @@ export default function HomeMobile({isLandscape}) {
         color={"orange"} size={"large"}/>
       </div>
 
-      <div style={{marginBottom: "30px" }} />
+      <div style={{marginBottom: "60px" }} />
 
       <img className={manual.interviewPicBox} src={MockCodingInterviews} />
       <h2 className={manual.dateText}><strong>August 3rd - August 24th, 2020 </strong></h2>
@@ -542,6 +544,8 @@ export default function HomeMobile({isLandscape}) {
         color={"orange"} size={"large"} />
       </div>
 
+
+      <div style={{marginBottom: "80px" }} />
 
       <h1 className={manual.resourcesText}> Take a look at our Resources!</h1>
 

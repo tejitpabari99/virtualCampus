@@ -166,16 +166,15 @@ const manualSt = makeStyles(() => ({
   hostEventPicBox: {
     background: `url(${HostEventPic})`,
     backgroundRepeat: 'no-repeat',
-    width: "62%",
+    width: "100%",
     height: "149%",
     marginLeft: "120px",
   },
   mockInterviewPicBox: {
     background: `url(${MockCodingInterviews})`,
     backgroundRepeat: 'no-repeat',
-    width: "100%",
     height: "200%",
-    marginLeft: "120px"
+    paddingRight:"20px"
   },
   bubbles1: {
     marginLeft: "10px",
@@ -299,41 +298,44 @@ export default function HomeDesktop() {
       </div>
 
 
-      <GridContainer style={{marginBottom: "200px"}}>
-        <GridItem xs={5} sm={5} md={5} lg={5}
-          style = {{textAlign: "right"}}>
+      <GridContainer style={{marginBottom: "100px"}}>
+        <GridItem xs={1} sm={1} md={1} lg={1} />
+        <GridItem xs={4} sm={4} md={4} lg={5}
+          style = {{textAlign: "right", paddingLeft:"5px"}}>
 
           <h2 style={{color:"#0072CE", fontSize: "48px"}}>Looking for people who share <strong>your</strong> interests?</h2>
 
             <h5>1. Submit a topic and time using our form.</h5>
             <h5>2. Let us host and share the event on our website.</h5>
-            <h5>3. Share your interest with your friends, meet new people, and have fun!</h5><br/>
-          <CustomButton href={'/add-new-event'}  text={'HOST AN EVENT'}
+            <h5>3. Share your interest with your friends, meet new<br /> people, and have fun!</h5><br/>
+          <CustomButton href={'/add-new-event'}  text={'START SOCIALIZING'}
           color={"orange"} size={"large"}/>
         </GridItem>
 
-        <GridItem xs={7} sm={7} md={7} lg={7}>
+        <GridItem xs={6} sm={6} md={6} lg={5}>
           <div className={classNames(manual.hostEventPicBox)}> </div>
         </GridItem>
+        <GridItem xs={1} sm={1} md={1} lg={1} />
       </GridContainer>
 
       <GridContainer style={{marginBottom: "200px"}}>
-
-        <GridItem xs={6} sm={6} md={6} lg={6}>
+          <GridItem xs={1} sm={1} md={1} lg={1} />
+        <GridItem xs={6} sm={6} md={7} lg={5}>
           <div className={classNames(manual.mockInterviewPicBox)}> </div>
         </GridItem>
 
-        <GridItem xs={6} sm={6} md={6} lg={6}
+        <GridItem xs={4} sm={4} md={3} lg={5}
           style = {{textAlign: "left", marginTop: "40px"}}>
 
           <h2 style={{color:"black", fontSize: "20px"}}><strong>August 3rd - August 24th, 2020 </strong></h2>
           <h2 style={{color:"#0072CE", fontSize: "48px"}}>Mock Coding Interviews</h2>
-          <p style={{color:"black", fontSize: "20px", maxWidth: "600px"}}>Practice and network 1-on-1 with students & alumni at Microsoft, Facebook, & Google.</p>
+          <p style={{color:"black", fontSize: "20px", maxWidth: "500px"}}>Practice and network 1-on-1 with students & alumni at Microsoft, Facebook, & Google.</p>
           <br/>
           <CustomButton href={'/coding-interviews'}  text={'SCHEDULE A SESSION'}
           color={"orange"} size={"large"} />
 
         </GridItem>
+          <GridItem xs={1} sm={1} md={1} lg={1} />
       </GridContainer>
 
       <div className={manual.resourcesSection}>
