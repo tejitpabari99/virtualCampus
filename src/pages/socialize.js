@@ -2,7 +2,7 @@ import React from "react";
 import { isEdge, isIE, isMobile, isTablet } from "react-device-detect";
 import { EventsPageDesktop, EventsPageMobile } from '../components';
 import queryString from 'query-string';
-class Socalize extends React.Component {
+class Socialize extends React.Component {
     constructor(props) {
         super(props);
         this.state = { width: 0, height: -1, goToEvent: "" };
@@ -72,7 +72,7 @@ class Socalize extends React.Component {
         }
     }
 }
-export default Socalize;
+export default Socialize;
 /*=======
     this.setState({activityIndicator:true});
     const options = {
@@ -141,7 +141,7 @@ export default Socalize;
       <Template active={"schedule"} title={"Events"}>
         <Title color={"blue"}>All Events</Title>
         <div style={{ textAlign: "center" }}>
-          <CustomButton href={"/socalize/add-new-event"} text={"ADD NEW EVENT"}
+          <CustomButton href={"/socialize/add-new-event"} text={"ADD NEW EVENT"}
                         style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"}/>
         </div>
         {Object.keys(this.state.displayEvents).length > 0 &&
