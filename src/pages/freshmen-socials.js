@@ -35,6 +35,10 @@ const useStyles = () => ({
   }
 })
 
+let getLink = (name) => {
+  return "https://docs.google.com/forms/d/e/1FAIpQLSeVA6xJTBy9wQgmA8e2c52hVbjLgoOhE2TDszkGiuBnFhfjmQ/viewform?usp=pp_url&entry.1746742806="+name.replace(' ', '+')+','
+}
+
 const companies={
   "Microsoft":"Microsoft",
   "Facebook":"Facebook",
@@ -119,7 +123,6 @@ class freshmenSocials extends React.Component {
           let tutorData = that.processData(data["values"]);
           let allTutors = tutorData[0],
             tutorSearch = tutorData[1];
-          console.log(allTutors);
           that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator: false });
         });
       })
@@ -176,7 +179,6 @@ class freshmenSocials extends React.Component {
       distance: 1000,
       keys: ['desc', 'name']
     };
-
     const fuse = new Fuse(this.state.tutorSearchOrg, options);
     const output = fuse.search(val);
     const tutorSearch = [],
@@ -310,7 +312,12 @@ class freshmenSocials extends React.Component {
           {this.state.tutorSearch.length > 0 && !this.state.tutorSearchError ?
             <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
               <div style={{ width: '85%' }}>
-                <TutorSearchMapping tutorSearch={this.state.tutorSearch} />
+                <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
+                    <div style={{ marginBottom: '3%' }} >
+                      <TutorSearchMapping tutorSearch={this.state.tutorSearch} />
+                    </div>
+                </div>
+
               </div>
             </div> :
             this.state.tutorSearchError ?
@@ -325,7 +332,7 @@ class freshmenSocials extends React.Component {
                             <GridItem xs={12} sm={12} md={12} className={classes.gridItem}
                                       style={{paddingTop:10, paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
                               <BLMCard
-                                website="https://forms.gle/XRFMobSHvnrsm3Y68"
+                                website={getLink(ele.name)}
                                 title={ele.name}
                                 description={ele.desc}
                               />

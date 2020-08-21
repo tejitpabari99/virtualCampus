@@ -175,7 +175,7 @@ class cvcBlm extends React.Component {
       distance: 1000,
       keys: ['desc', 'subject', 'name']
     };
-
+    console.log(this.state.tutorSearchOrg);
     const fuse = new Fuse(this.state.tutorSearchOrg, options);
     const output = fuse.search(val);
     const tutorSearch = [],
