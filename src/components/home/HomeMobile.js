@@ -24,6 +24,8 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import IconButton from '@material-ui/core/IconButton';
 import GridItem from "../material-kit-components/Grid/GridItem";
+import CustomFooterMobile from "../all/CustomFooterMobile";
+import CustomFooter from "../all/CustomFooter";
 
 const useStyles = makeStyles(styles);
 
@@ -210,24 +212,6 @@ const manualPortrait = makeStyles(() => ({
     marginTop: "20px",
     marginLeft: "130px",
     marginBottom: "110px",
-  },
-  footer: {
-    width: "100%",
-    height: "400px",
-    backgroundColor: "#0072CE",
-    color: "white"
-  },
-  footerTitle: {
-    color: "white",
-    fontSize: "24px",
-    marginLeft: "30px",
-    marginTop: "-360px"
-  },
-  footerSubTitle: {
-    color: "white",
-    fontSize: "16px",
-    marginTop: "0px",
-    marginLeft: "30px"
   },
   firstColumn: {
     color: "white",
@@ -610,40 +594,7 @@ export default function HomeMobile({isLandscape}) {
         </div>
       </div>
 
-      <div className={manual.footer} />
-          <h2 className={manual.footerTitle}> Columbia Virtual Campus </h2>
-          <h2 className={manual.footerSubTitle}> Columbia, <i>virtually</i>.</h2>
-      <div className={manual.firstColumn}>
-          <a href={""} style={{color: "white"}}> Home </a> <br/>
-          <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
-          <a href={"/events"} style={{color: "white"}}> Socialize </a> <br/>
-          <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>
-          <a href={"/about-us"} style={{color: "white"}}> About Us </a> <br/>
-          <a href={"/contact-us"} style={{color: "white"}}> Contact Us </a> <br/>
-      </div>
-
-      <div className={manual.secondColumn}>
-          <a href={"/events/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
-          <a href={"/resources/add-new-resource"} style={{color: "white"}}> Add a Resource </a> <br/>
-          <a href={"/coding-interviews/add-interviewer"} style={{color: "white"}}> Be a Mock Interviewer </a> <br/>
-      </div>
-
-      <div style={{marginRight: "0px"}}>
-        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "20px", marginTop: "90px"}} href={"https://www.instagram.com/columbiavirtualcampus/"}>
-            <InstaIcon className={manual.icon}/>
-        </IconButton>
-        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "10px", marginTop: "90px"}} href={"https://www.facebook.com/columbiavirtualcampus/"}>
-            <FacebookIcon className={manual.icon}/>
-        </IconButton>
-        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "10px", marginTop: "90px"}} href={"https://www.linkedin.com/company/columbia-virtual-campus/"}>
-            <LinkedInIcon className={manual.icon}/>
-        </IconButton>
-        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "10px", marginTop: "90px"}} href={"mailto:columbiavirtualcampus@gmail.com"}>
-            <MailOutlineIcon className={manual.icon}/>
-        </IconButton>
-      </div>
-
-
+    <CustomFooter style={{marginTop:"-50px"}}/>
     </div>
     )
 };

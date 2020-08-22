@@ -29,6 +29,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import Element from 'react-scroll';
+import CustomFooter from "../all/CustomFooter";
 
 const useStyles = makeStyles(styles);
 
@@ -359,7 +360,7 @@ export default function HomeDesktop() {
           <img className={manual.bubbles3} src={Bubbles3}/>
         </div>
 
-        <div>
+        <div style={{marginBottom:"100px"}}>
           <img className={manual.blueBlob} src={BlueBlob}/>
           <img className={manual.orangeBlob} src={OrangeBlob}/>
           <div style={{marginTop:"-775px", marginLeft: "16%"}}>
@@ -403,38 +404,7 @@ export default function HomeDesktop() {
           </div>
         </div>
 
-        <div className={manual.footer} />
-            <h2 style={{color: "white", fontSize: "36px", marginTop: "-180px", marginLeft: "80px"}}> Columbia Virtual Campus </h2>
-            <h2 style={{color: "white", fontSize: "26px", marginTop: "0px", marginLeft: "80px"}}> Columbia, <i>virtually</i>.</h2>
-        <div style={{color: "white", marginTop: "-105px", fontSize: "14px", marginLeft: "780px"}}>
-            <a href={""} style={{color: "white"}}> Home </a> <br/>
-            <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
-            <a href={"/events"} style={{color: "white"}}> Socialize </a> <br/>
-            <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>
-            <a href={"/about-us"} style={{color: "white"}}> About Us </a> <br/>
-            <a href={"/contact-us"} style={{color: "white"}}> Contact Us </a> <br/>
-        </div>
-
-        <div style={{color: "white", marginTop: "-145px", fontSize: "14px", marginLeft: "980px"}}>
-            <a href={"/events/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
-            <a href={"/resources/add-new-resource"} style={{color: "white"}}> Add a Resource </a> <br/>
-            <a href={"/coding-interviews/add-interviewer"} style={{color: "white"}}> Be a Mock Interviewer </a> <br/>
-        </div>
-
-        <div>
-          <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "1200px", marginTop: "-100px"}} href={"https://www.instagram.com/columbiavirtualcampus/"}>
-              <InstaIcon style={{color: "white", fontSize: 70}}/>
-          </IconButton>
-          <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "1290px", marginTop: "-150px"}} href={"https://www.facebook.com/columbiavirtualcampus/"}>
-              <FacebookIcon style={{color: "white", fontSize: 70}}/>
-          </IconButton>
-          <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "1380px", marginTop: "-200px"}} href={"https://www.linkedin.com/company/columbia-virtual-campus/"}>
-              <LinkedInIcon style={{color: "white", fontSize: 70}}/>
-          </IconButton>
-          <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "1470px", marginTop: "-245px"}} href={"mailto:columbiavirtualcampus@gmail.com"}>
-              <MailOutlineIcon style={{color: "white", fontSize: 70}}/>
-          </IconButton>
-        </div>
+        <CustomFooter/>
     </div>
   )
 };

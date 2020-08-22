@@ -4,7 +4,7 @@ import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../events/react-big-calendar.css";
 import { Link, Element, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-import { EventCardFeatured, EventCard, EventModal, Template, CustomButton, Title, EventSearch }
+import {EventCardFeatured, EventCard, EventModal, Template, CustomButton, Title, EventSearch, CustomFooter}
   from "../";
 import firebase from "../../firebase";
 import Fuse from 'fuse.js';
@@ -640,6 +640,7 @@ class EventsPageDesktop extends React.Component {
     let greenBox = this.state.mainTagsClicked.now === "on" ? classes.greenBoxSelected : classes.greenBox
 
     return (
+      <div style={{backgroundColor: "white"}}>
       <Template active={"schedule"} title={"Events"}>
 
         <div className={classes.mainBox} style={{ paddingLeft: "10%", paddingRight: "10%" }}>
@@ -766,7 +767,7 @@ class EventsPageDesktop extends React.Component {
             </div>
             <div style={{
               flexDirection: "column", display: "flex", paddingTop: "1%", paddingLeft: "3%", width: "75%",
-              marginBottom: "3%"
+              marginBottom: "3%", minHeight:"100vh"
             }}>
               <div style={{ paddingBottom: "1%", color: "#828282", fontSize: "18px" }}> {sizeOfList} Events Found </div>
               {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
@@ -790,6 +791,8 @@ class EventsPageDesktop extends React.Component {
         </div>
 
       </Template>
+      <CustomFooter />
+      </div>
     );
   }
 }
