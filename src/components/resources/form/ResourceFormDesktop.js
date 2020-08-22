@@ -18,6 +18,7 @@ import { CustomHeader } from "../.."
 import Container from '@material-ui/core/Container';
 import firebase from "../../../firebase";
 import Categories from "./FormCategories"
+import CustomFooter from "../../all/CustomFooter";
 
 
 const useStyles = makeStyles(styles);
@@ -340,7 +341,7 @@ const ResourceFormDesktop = (props) => {
 
     return (
 
-        <div>
+        <div style={{backgroundColor: "white"}}>
             <CustomHeader active={'resources'} brand={"VIRTUAL CAMPUS"}></CustomHeader>
             <div className={classNames(classes.mainOther, manual.main)}>
                 <Container maxWidth='lg' style={{ paddingTop: '76px' }}>
@@ -980,6 +981,7 @@ const ResourceFormDesktop = (props) => {
                 
                 </Container>
             </div>
+            <CustomFooter />
         </div >
         
     );

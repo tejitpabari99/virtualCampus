@@ -309,7 +309,7 @@ export default function HomeDesktop() {
             <h5>1. Submit a topic and time using our form.</h5>
             <h5>2. Let us host and share the event on our website.</h5>
             <h5>3. Share your interest with your friends, meet new<br /> people, and have fun!</h5><br/>
-          <CustomButton href={'/add-new-event'}  text={'START SOCIALIZING'}
+          <CustomButton href={'socialize/add-new-event'}  text={'START SOCIALIZING'}
           color={"orange"} size={"large"}/>
         </GridItem>
 

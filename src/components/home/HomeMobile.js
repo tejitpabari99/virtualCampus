@@ -512,7 +512,7 @@ export default function HomeMobile({isLandscape}) {
         3. Share your interest with your friends, meet new people, and have fun!<br /></p>
       <br/>
       <div className={manual.hostEventButton}>
-        <CustomButton href={'/add-new-event'}  text={'HOST AN EVENT'}
+        <CustomButton href={'socialize/add-new-event'}  text={'HOST AN EVENT'}
         color={"orange"} size={"large"}/>
       </div>
 

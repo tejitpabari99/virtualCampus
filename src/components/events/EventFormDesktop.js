@@ -48,6 +48,7 @@ import TZ from "countries-and-timezones";
 import * as Events from "../../pages/socialize";
 import { PhoneCallback } from "@material-ui/icons";
 import {CheckboxWithLabel} from "formik-material-ui";
+import CustomFooter from "../all/CustomFooter";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -676,12 +677,14 @@ class EventFormDesktop extends React.Component {
               <CircularProgress />
             </div>
           </div>
+          <CustomFooter />
         </div>
       )
     }
     else if (this.state.feedbackSubmit) {
       return (
-        <Template title={'Add New Event'} active={"schedule"}>
+          <div style={{backgroundColor:"white"}}>
+          <Template title={'Add New Event'} active={"schedule"}>
           <div style={{
             fontFamily: "Poppins",
             fontStyle: "normal",
@@ -724,10 +727,13 @@ class EventFormDesktop extends React.Component {
               Add Another Event
             </Button>
           </div>
-        </Template>);
+        </Template>
+        <CustomFooter/>
+        </div>);
 
     } else {
       return (
+        <div style={{backgroundColor:"white"}}>
         <Template title={'Add New Event'} active={"schedule"}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             {/* <Template active={'schedule'}> */}
@@ -861,6 +867,8 @@ class EventFormDesktop extends React.Component {
             </Grid>
           </Container>
         </Template>
+        <CustomFooter />
+        </div>
 
       );
     }
