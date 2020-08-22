@@ -772,7 +772,7 @@ getCalendarText() {
                             style={{fontSize: "11px"}} color={"blueRound"} size={"large"}/>
           </footer>
         </Template>
-        <CustomFooter />
+        <CustomFooter style={{marginTop: "-100px"}}/>
         </div>
     );
   }
