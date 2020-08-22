@@ -10,6 +10,7 @@ import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress, Select, MenuItem, IconButton} from '@material-ui/core';
 import GridOnIcon from "@material-ui/icons/GridOn";
 import ViewListIcon from "@material-ui/icons/ViewList";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 class ResourcesListMobile extends ResourcesListFunctionality {
   constructor(props) {
@@ -77,6 +78,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
               id="select"
               value={this.state.selection}
               onChange={this.handleChange}
+              variant="outlined"
             >
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>

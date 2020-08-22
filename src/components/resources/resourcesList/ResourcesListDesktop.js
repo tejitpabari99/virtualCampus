@@ -70,12 +70,14 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 style={{height:'70%'}}
             />
         </div>
-        <div style={{width:'12%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+        <div style={{width:'12%', marginLeft:'2%', marginTop: '3%',
+            display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <Select
               labelId="label"
               id="select"
               value={this.state.selection}
               onChange={this.handleChange}
+              style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
             >
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
@@ -83,7 +85,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         </div>
         <div style={{width:'2%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <IconButton onClick={this.handleClickView.bind(this, true)}>
-                <GridOnIcon style={{fill: "#0072CE"}}/>
+                <GridOnIcon style={{fill: "#0072CE", textShadow: "0 0 3px #000"}}/>
             </IconButton>
         </div>
         <div style={{width:'2%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
