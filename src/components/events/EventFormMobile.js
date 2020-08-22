@@ -98,9 +98,9 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   timezone: Yup.string()
     .required("Required"),
-  attendants: Yup.number()
+  /*attendants: Yup.number()
     .integer("Please enter an integer")
-    .required("Required"),
+    .required("Required"),*/
   agree: Yup.boolean("True")
     .required(),
   image_link: Yup.string()

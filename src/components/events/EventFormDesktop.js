@@ -105,9 +105,9 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   timezone: Yup.string()
     .required("Required"),
-  attendants: Yup.number()
+  /*attendants: Yup.number()
     .integer("Please enter an integer")
-    .required("Required"),
+    .required("Required"),*/
   agree: Yup.boolean("True")
     .required(),
   image_link: Yup.string()
@@ -804,7 +804,7 @@ class EventFormDesktop extends React.Component {
                                     required
                                   />
                                 </Grid>
-                                <Grid item sm={3}>
+                                {/*<Grid item sm={3}>
                                   <FormikField
                                     label="Attendant Cap"
                                     name="attendants"
@@ -812,7 +812,7 @@ class EventFormDesktop extends React.Component {
                                     touch={touched.attendants}
                                     required
                                   />
-                                </Grid>
+                                </Grid>*/}
                               </Grid >
                               <br />
                               <Field
