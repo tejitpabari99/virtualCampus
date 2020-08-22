@@ -771,7 +771,7 @@ class EventsPageDesktop extends React.Component {
               <h5>2. Let us host and share the event on our website.</h5>
               <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
               <div style={{ textAlign: "left" }}>
-                <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
+                <CustomButton href={"/socialize/add-new-event"} text={"ADD NEW EVENT"}
                   style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"} />
               </div>
             </div>

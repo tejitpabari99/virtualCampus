@@ -490,7 +490,7 @@ export default function HomeMobile({isLandscape}) {
           <p style={{color: "white", fontSize: "24px", textAlign: "center"}}> Upcoming Events </p>
           <p style={{color: "white", fontSize: "12px", textAlign: "center"}}> Find out what's happening on campus, virtually.</p>
           <div style={{marginTop: "10px", textAlign: "center"}}>
-            <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
+            <CustomButton href={'/socialize'}  text={'SEE ALL EVENTS'}
             color={"white2"} size={"large"} />
           </div>
       </div>

@@ -275,7 +275,7 @@ export default function HomeDesktop() {
             <p style={{color: "white", fontSize: "48px", marginLeft: "110px", marginTop: "80px"}}> Upcoming Events </p>
             <p style={{color: "white", fontSize: "20px", marginLeft: "110px", }}> Find out what's happening on campus, virtually.</p>
             <div style={{marginLeft: "110px", marginTop: "50px"}}>
-              <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
+              <CustomButton href={'/socialize'}  text={'SEE ALL EVENTS'}
               color={"white2"} size={"large"} />
             </div>
 

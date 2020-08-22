@@ -78,14 +78,14 @@ export default function Footer(props) {
         <div className={manual.firstColumn}>
           <a href={""} style={{color: "white"}}> Home </a> <br/>
           <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
-          <a href={"/events"} style={{color: "white"}}> Socialize </a> <br/>
+          <a href={"/socialize"} style={{color: "white"}}> Socialize </a> <br/>
           <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>
           <a href={"/about-us"} style={{color: "white"}}> About Us </a> <br/>
           <a href={"/contact-us"} style={{color: "white"}}> Contact Us </a> <br/>
         </div>
 
         <div className={manual.secondColumn}>
-          <a href={"/events/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
+          <a href={"/socialize/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
           <a href={"/resources/add-new-resource"} style={{color: "white"}}> Add a Resource </a> <br/>
           <a href={"/coding-interviews/add-interviewer"} style={{color: "white"}}> Be a Mock Interviewer </a> <br/>
         </div>
