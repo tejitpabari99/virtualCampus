@@ -246,7 +246,7 @@ export default function HomeDesktop() {
           <h1 className={classNames(manual.toAllSubHeading)}>
               Your one stop-shop for all things social, career, academic, and well-being. Thank us later.
               </h1>
-          <CustomButton href={"/events"} text={'EXPLORE'} color={"orange"} size={"large"} />
+          <CustomButton href={"/socialize"} text={'EXPLORE'} color={"orange"} size={"large"} />
         </div>
       </div>
 

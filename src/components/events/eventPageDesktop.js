@@ -235,7 +235,7 @@ class EventsPageDesktop extends React.Component {
 
   async componentDidMount() {
     await this.getEvents();
-    let event = this.props.event
+    let event = this.props.event;
     // goToAnchor(event, true);
     if (event){
       if (this.state.eventsListWithIdKey[event].end_date < new Date()) {
@@ -253,7 +253,7 @@ class EventsPageDesktop extends React.Component {
   }
 
   // TODO(claire): These are the new functions to use the Google Calendar API instead.
-  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/events#resource
+  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/socialize#resource
   // makeDisplayEvents(events) {
   //   let arr = [];
   //   for (let i = 0; i < events.length; i += 1) {
@@ -324,6 +324,7 @@ class EventsPageDesktop extends React.Component {
     all.push({ "name": "All" })
     sorted.map(x => all.push(x))
     return all
+
   }
 
   updateFilterTags(tag) {
@@ -708,6 +709,16 @@ class EventsPageDesktop extends React.Component {
           </div>
 
         <div style={{margin: "40px"}}/>
+        <div>
+          <strong>From Sept 1th - Sept 14th, CVC socialize will be reserved for freshmen to hangout and get to know each other as their college journey begins!!! </strong>
+          <br/>
+          <br/>
+          If you're a freshmen, fill out this <a href={"https://columbiavirtualcampus.com/socialize/add-new-event"} style={{color:'blue', textDecoration:'underline'}}>form</a>. Add your contact info, an event name so you have a theme for your hangout (eg. anime, games, hangout) with a quick description (eg. anime watch party for weebs, board game night, etc), and the hangout time.
+          <br/><br/>
+          Note: If you want to limit the number of people who can attend, let us know in the additional comments.
+        </div>
+
+        <div style={{margin: "20px"}}/>
 
         <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px"}}>
         <GridItem xs={12} sm={12} md={12}>
@@ -728,7 +739,6 @@ class EventsPageDesktop extends React.Component {
         </GridItem>
         </GridContainer>
 
-        <br />
         <div style={{margin: "40px"}}/>
         <div style={{width: "100%"}}>
           <div style={{width: "25%", float:"left", marginBottom:"3%"}}>

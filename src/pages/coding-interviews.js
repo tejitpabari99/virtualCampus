@@ -243,6 +243,21 @@ class Technical extends React.Component {
     }
     return event;
   }
+  
+  //Note: This function assumes that the dates are all in the same month
+  signUpTimeCheck(events){
+    events.forEach(event => {
+      let currentTime = new Date();
+      let currentDate = currentTime.getDate();
+
+      let eventTime = new Date(event.start_date);
+      let eventDate = eventTime.getDate()
+      
+      if(eventDate - currentDate <= 2 ){
+        event.available = false;
+      }
+    })
+  }
 
   maxWeeklyInterviewsCheck(events) {
 
@@ -305,6 +320,7 @@ class Technical extends React.Component {
           approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
       }
       this.maxWeeklyInterviewsCheck(approvedEventsMap);
+      this.signUpTimeCheck(approvedEventsMap);
       this.setState({ myEventsList: approvedEventsMap, loadingEvents: false });
     });
   }
@@ -327,6 +343,7 @@ class Technical extends React.Component {
 
   eventPropStyles(event, start, end, isSelected) {
     let style;
+
     if(event.available === true){
       style = {
         backgroundColor: "#2984ce"
@@ -376,6 +393,9 @@ class Technical extends React.Component {
         { this.state.submitStatus === 'max' &&
           <Alert severity="error">Interviewer has already reached their limit for the week! Reload sessions...</Alert>
         }
+        { this.state.submitStatus === 'tooSoon' &&
+          <Alert severity="error">You can't sign up for this session because it is too soon! Reloading sessions...</Alert>
+        }
         <Title color={"blue"} style={{  padding: '20px', marginTop: 0}}>Mock Coding Interviews</Title>
         <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "1.3em", fontWeight: 100 }}> August 3rd - August 24th, 2020</h3>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
@@ -391,9 +411,9 @@ class Technical extends React.Component {
                     to participate in one-on-one mock technical coding interviews
                      with fellow students and alumni who have interned at Microsoft, Facebook, Google and more.
                     These 1 hour interview sessions will allow you to pratice real technical interview questions while connecting with a fellow Columbia student.</p>
-                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at
-                    <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
-                 href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com</a>!</p>
+                    <p style={{fontSize : "18px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Please fill out this 
+                    <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }} target="_blank"
+                 href={"https://docs.google.com/forms/d/e/1FAIpQLSfc5yiAoceGTiaKIvqYNTw5kXCfn_wwgAP3C27DJpgqpnvaSQ/viewform"}>form</a>!</p>
                 </GridItem>
         </GridContainer>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
@@ -403,7 +423,6 @@ class Technical extends React.Component {
           <Calendar
             views={["month", "week", "day"]}
             localizer={localizer}
-            defaultDate={new Date('August 3, 2020 0:00:00')}
             events={this.state.myEventsList}
             defaultView={"week"}
             startAccessor="start_date"

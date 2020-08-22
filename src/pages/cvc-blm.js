@@ -81,7 +81,7 @@ class cvcBlm extends React.Component {
 
     // this.fetchDonationCompletedData();
     this.fetchData();
-    this.myRef = React.createRef()  
+    this.myRef = React.createRef()
   };
 
   async fetchDonationCompletedData() {
@@ -175,7 +175,7 @@ class cvcBlm extends React.Component {
       distance: 1000,
       keys: ['desc', 'subject', 'name']
     };
-
+    console.log(this.state.tutorSearchOrg);
     const fuse = new Fuse(this.state.tutorSearchOrg, options);
     const output = fuse.search(val);
     const tutorSearch = [],
@@ -295,7 +295,7 @@ class cvcBlm extends React.Component {
             </GridItem>
           </GridContainer>
         </div>
-        <div style={{background:`url(${Group66}) no-repeat`, width:"100%", backgroundSize:"100%",}}> 
+        <div style={{background:`url(${Group66}) no-repeat`, width:"100%", backgroundSize:"100%",}}>
           <GridContainer style={{marginTop: 0, marginBottom: 0}}>
             <GridItem xs={2}></GridItem>
             <GridItem xs={2} style={{paddingLeft: 0, paddingRight: 0}}>

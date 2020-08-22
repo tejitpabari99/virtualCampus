@@ -15,7 +15,7 @@ import styles from "../../assets/material-kit-assets/jss/material-kit-react/view
 import Button from "./../material-kit-components/CustomButtons/Button.js";
 import {MetaData, CustomHeader, CustomButton, Title, Subtitle} from "../";
 import HomeResourcesList from "./HomeResourcesList.js";
-import * as Events from './../../pages/events.js';
+import * as Events from './../../pages/socialize';
 import InstagramEmbed from 'react-instagram-embed';
 import { Helmet } from 'react-helmet';
 import InstaIcon from '@material-ui/icons/Instagram';
@@ -481,7 +481,7 @@ export default function HomeMobile({isLandscape}) {
             <span style={{display:"block"}}>Your one stop-shop for all things social, career, academic, and well-being.</span>
             <span>Thank us later.</span>
           </h1>
-          <CustomButton href={"/events"} text={'EXPLORE'} color={"orange"} size={"large"}/>
+          <CustomButton href={"/socialize"} text={'EXPLORE'} color={"orange"} size={"large"}/>
         </div>
       </div>
 
