@@ -1,14 +1,14 @@
 import React from "react";
+import ResourcesListFunctionality from "../resourcesList/ResourcesListFunctionality";
 import {MuiThemeProvider} from "@material-ui/core/styles";
-import Carousel from 'react-material-ui-carousel'
 import Button from "../../material-kit-components/CustomButtons/Button.js";
 
 import {makeStyles} from "@material-ui/core/styles";
 import Data from "../../../assets/ResourcesData";
-import {CustomTheme, CustomButton} from "../..";
+import {CustomTheme, CustomButton, Search} from "../..";
+import FeaturedResourcesCardDesktop from "../../cards/FeaturedResourcesCardDesktop.js";
 const FeaturedData = Data.FeaturedData;
 const theme = CustomTheme;
-
 
 const containerStyles = makeStyles(() => ({
   container: {
@@ -19,7 +19,7 @@ const containerStyles = makeStyles(() => ({
   },
   img: {
     position: 'absolute',
-    left: '37.26%',
+    left: '0%',
     top: '7.91%',
     objectFit: 'cover',
   },
@@ -78,66 +78,83 @@ const containerStyles = makeStyles(() => ({
   },
 }));
 
-function Item(props) {
-  const contStyle = containerStyles();
-  return (
-      <div>props</div>
-  )
+class ResourcesFeaturedDesktop extends ResourcesListFunctionality {
+constructor(props){
+  super(props);
+  this.state = {
+    displayResources: []
+  };
 }
+render() {
+  const MAX_EVENTS_DISPLAYED = 3;
+  let value = 0;
 
-export default function ResourcesFeaturedDesktop() {
-  const contStyle = containerStyles();
-  return (
-    <MuiThemeProvider theme={theme}>
-    <Carousel>
-        {
-            Object.keys(FeaturedData).map(key => {
-              let data = FeaturedData[key];
-              // console.log(data);
-              return (
-                  <div style={{overflow:'hidden'}}>
-                    <img src={data.img} alt={data.img} height='410px' width='100%' className={contStyle.container}/>
-                    <img src={data.img} alt={data.img} height='77.5%' width={'59.4%'} className={contStyle.img}/>
-                    <div className={contStyle.card} >
-                      <p className={contStyle.category}>
-                        {data.category.category
-                          .split(' ')
-                          .map(function(word) {
-                              return word[0].toUpperCase() + word.substr(1);
-                          })
-                          .join(' ')
-                        }
-
-                        <p className={contStyle.title}>
-                        {data.title}
-                        </p>
-
-                        <p>
-                          {data.category.tags.map(ele => {
-                            return (
-                              <CustomButton text={ele} size={'small'} color={"blue"} disabled className={contStyle.button}/>
-                            )
-                          })}
-                        </p>
-
-                        <p className={contStyle.description}>
-                          {data.description}
-                        </p>
-
-                        <p>
-                          <CustomButton text={"Explore"} href={data.links.website}
-                            color={"orange"} size={"2.3vw"} style={{marginTop: 25, marginBottom: 25, position:'relative'}}/>
-                        </p>
-
-                      </p>
-
-                    </div>
+    return (
+      <MuiThemeProvider theme={theme}>
+      <div style={{backgroundColor: "#3B5998",
+          height: "600px",
+          width: "104.2%",
+          borderStyle: "solid",
+          borderColor: "#3B5998",
+          borderWidth: "thick",
+          flexDirection: "row",
+          display: "flex",
+          marginLeft: "-4%"}}
+          >
+          <div style={{marginLeft: "6%", color:"white", textAlign: "left"}}>
+            <h2 style={{fontSize:40}}>Featured Resources</h2>
+            <p style={{fontSize: 20}}>blah blah blah.
+              <br /><br />
+            </p>
+            <div style={{width:'82%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+                <Search data={this.state.myResourcesDisplay}
+                    ref={input => this.inputElement = input}
+                    onClick={(val) => { this.searchFunc(val) }}
+                    onCancel={() => { this.searchFunc('') }}
+                    placeholder={"Search all resources"}
+                    style={{height:'70%'}}
+                />
+                </div>
+          </div>
+          <div style={{backgroundColor: "#FB750D",
+            marginTop: "-5px",
+            height: "550px",
+            width: "57.8%",
+            marginLeft: "20%",
+            marginRight: "-0.25%",
+            borderColor: "#FB750D",
+            borderRadius: "0px 0px 0px 102px"
+          }}>
+          <div style={{flexDirection: "column", display: "flex", marginLeft: "-150px", marginTop: "25px"}}>
+          { Object.keys(FeaturedData).map(key => {
+              if(value < MAX_EVENTS_DISPLAYED){
+                let data = FeaturedData[key];
+                value = value + 1;
+                console.log(value);
+                return(<div style={{flexDirection: "column", display: "flex", marginLeft: "40px", marginTop: "10px"}}>
+                  <FeaturedResourcesCardDesktop
+                  website={data.links.website}
+                  img={data.img}
+                  title={data.title}
+                  description={data.description}
+                  iosLink={data.links.iosLink}
+                  androidLink={data.links.androidLink}
+                  tags={data.category.tags}
+                  category={data.category.category}
+                  share/>
                   </div>
-              )
+                );
+              }
+          })}
+          </div>
+          </div>
+      </div>
 
-            })
-        }
-    </Carousel>
-    </MuiThemeProvider>
-  )
+
+
+      </MuiThemeProvider>
+    )
+  }
+
 }
+export default ResourcesFeaturedDesktop;

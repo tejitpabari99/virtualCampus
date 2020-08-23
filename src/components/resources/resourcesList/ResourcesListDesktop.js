@@ -53,15 +53,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
 
-        <div style={{width:'82%', marginTop: '3%', display: 'inline-block', marginLeft: '3%', textAlign: "center", verticalAlign: 'middle'}}>
-            <Search data={this.state.myResourcesDisplay}
-                ref={input => this.inputElement = input}
-                onClick={(val) => { this.searchFunc(val) }}
-                onCancel={() => { this.searchFunc('') }}
-                placeholder={"Search resources"}
-                style={{height:'70%'}}
-            />
-        </div>
         <div style={{width:'12%', marginLeft:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <Select
               labelId="label"
@@ -106,7 +97,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   }}
             >Filter by tags: </div>
 
-            {this.state.tagsDisplay.sort().map((data, idx) => {
+            {this.state.tagsDisplay.sort().map((tag, idx) => {
               return (
                 <CoolerButton key={idx} style={{
                                 marginTop: 5,
@@ -114,10 +105,10 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
-                              onClick={this.setTagDisplay.bind(this, this.state.category, data)}
-                              otherClickOption={this.deleteTagDisplay.bind(this, this.state.category, data)}
+                              onClick={this.setTagDisplay.bind(this, tag)}
+                              otherClickOption={this.deleteTagDisplay.bind(this, tag)}
                               category={this.state.category}
-                              val={data}
+                              val={tag}
                 />
               );
             })}

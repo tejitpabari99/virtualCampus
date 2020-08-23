@@ -25,32 +25,6 @@ const FeaturedData = {
       tags: ['BLM']
     }
   },
-  'social': {
-    title: 'Sentiment',
-    description: 'Sentiment is an SMS messaging service to keep you connected with both yourself and the ones you love.',
-    img: 'https://www.joinsentiment.com/static/media/bg_new.825f5d29.png',
-    links: {
-      website: 'https://www.joinsentiment.com'
-    },
-    reviewed: true,
-    category: {
-      category: 'Social',
-      tags: ['Connected']
-    }
-  },
-  'needs': {
-    title: 'Supportiv',
-    description: 'A support network that matches users going through similar struggles, in small groups moderated by qualified individuals.',
-    img: 'https://mk0supportivcomd7q1r.kinstacdn.com/wp-content/uploads/2019/07/2019_07_SocialImage.png',
-    links: {
-      website: 'https://www.supportiv.com'
-    },
-    reviewed: true,
-    category: {
-      category: 'Basic Needs',
-      tags: ['Mental Health']
-    }
-  },
   'events': {
     title: 'U.S. ICE News Releases',
     description: 'All official statements and news released by the United States Immigration and Customs Enforcement.',

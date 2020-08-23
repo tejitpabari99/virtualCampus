@@ -106,8 +106,8 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                                 marginLeft: 10,
                                 fontSize: 'min(1.5vw, 9px)',
                               }}
-                              onClick={this.setTagDisplay.bind(this, this.state.category, data)}
-                              otherClickOption={this.deleteTagDisplay.bind(this, this.state.category, data)}
+                              onClick={this.setTagDisplay.bind(this, data)}
+                              otherClickOption={this.deleteTagDisplay.bind(this, data)}
                               category={this.state.category}
                               val={data}
                 />
