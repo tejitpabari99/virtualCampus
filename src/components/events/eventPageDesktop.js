@@ -198,6 +198,7 @@ class EventsPageDesktop extends React.Component {
     this.updateOrganization = this.updateOrganization.bind(this);
     this.updateDateFilter = this.updateDateFilter.bind(this);
     this.resetFilter = this.resetFilter.bind(this);
+    this.handleClickFeaturedEvent = this.handleClickFeaturedEvent.bind(this);
   }
 
   async componentDidMount() {
@@ -411,6 +412,15 @@ class EventsPageDesktop extends React.Component {
     this.setState({ open: false, count: 0 });
   }
 
+  handleClickFeaturedEvent() {
+    let newList = this.state.mainTagsClicked
+    newList["past"] = ""
+    newList["recurring"] = ""
+    newList["now"] = ""
+    newList["popular"] = ""
+    this.setState({ mainTagsClicked: newList })
+  }
+
   EventDisplay = ({ event }) => {
     return (
     <div style={{ height: "1.2em" }}>
@@ -503,7 +513,7 @@ class EventsPageDesktop extends React.Component {
                   ele.tags = ['none']
                 }
                 numEventsDisplayed = numEventsDisplayed + 1
-                return (<a href={"#" + ele.id} >
+                return (<a href={"#" + ele.id} onClick={this.handleClickFeaturedEvent}>
                   <EventCardFeatured ele={ele} key={ind} />
                 </a>);
               }

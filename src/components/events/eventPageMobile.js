@@ -226,6 +226,8 @@ class EventsPageMobile extends React.Component {
     this.updateOrganization = this.updateOrganization.bind(this);
     this.updateDateFilter = this.updateDateFilter.bind(this);
     this.resetFilter = this.resetFilter.bind(this);
+    this.handleClickFeaturedEvent = this.handleClickFeaturedEvent.bind(this);
+
   }
 
 //scrollToEvent(el) {
@@ -352,6 +354,15 @@ class EventsPageMobile extends React.Component {
       newList[tag] = "on"
     }
     this.setState({mainTagsClicked: newList})
+  }
+
+  handleClickFeaturedEvent() {
+    let newList = this.state.mainTagsClicked
+    newList["past"] = ""
+    newList["recurring"] = ""
+    newList["now"] = ""
+    newList["popular"] = ""
+    this.setState({ mainTagsClicked: newList })
   }
 
   updateOrganization(club) {
@@ -514,7 +525,7 @@ getCalendarText() {
               <Carousel>
                   {Object.keys(featuredEvents).map((ele) => {
                       return (
-                          <a href={"#" + ele}
+                          <a href={"#" + ele} onClick={this.handleClickFeaturedEvent}
                              style={{overflow:'hidden', width: "100%"}}>
                             <EventCardFeatured ele={featuredEvents[ele]} key={ele}/> <br />
                         </a>
