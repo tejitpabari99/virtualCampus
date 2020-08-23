@@ -18,6 +18,7 @@ import Carousel from 'react-material-ui-carousel';
 import {CircularProgress} from "@material-ui/core";
 import {configureAnchors} from 'react-scrollable-anchor';
 import {eventPropStylesShared, convertEventsTime, makeDisplayEvents, isEventShowable} from "./SharedEvents";
+import CustomFooter from "../all/CustomFooter";
 configureAnchors({offset: -120});
 
 //configureAnchors({offset: -2500});
@@ -495,6 +496,7 @@ getCalendarText() {
     let greenBox = this.state.mainTagsClicked.now === "on" ? classes.greenBoxSelected : classes.greenBox
 
     return (
+        <div style={{backgroundColor:"white"}}>
         <Template active={"schedule"} title={"Events"}>
 
           <div className={classes.mainBox}>
@@ -643,10 +645,12 @@ getCalendarText() {
               <div>{!this.state.loadingEvents && noSearchResults}</div>
           </div>
           <footer className={classes.footerStyle}>
-              <CustomButton href={"/events/add-new-event"} text={"Want to add an event?"}
+              <CustomButton href={"/socialize/add-new-event"} text={"Want to add an event?"}
                             style={{fontSize: "11px"}} color={"blueRound"} size={"large"}/>
           </footer>
         </Template>
+        <CustomFooter style={{marginTop: "-100px"}}/>
+        </div>
     );
   }
 }

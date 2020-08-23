@@ -7,7 +7,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import Button from "@material-ui/core/Button";
 import { CircularProgress } from '@material-ui/core';
 
-import { MockInterviewModal, Template, Title, Subtitle, } from "../components";
+import {MockInterviewModal, Template, Title, Subtitle, CustomFooter,} from "../components";
 import TZ from "countries-and-timezones";
 import firebase from "../firebase";
 import interview from "../assets/images/technical/interview.png";
@@ -18,6 +18,8 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import IconButton from '@material-ui/core/IconButton';
+import { isEdge, isIE, isMobile, isTablet, isBrowser } from "react-device-detect";
+import CustomFooterMobile from "../components/all/CustomFooterMobile";
 
 
 const localizer = momentLocalizer(moment);
@@ -241,6 +243,21 @@ class Technical extends React.Component {
     }
     return event;
   }
+  
+  //Note: This function assumes that the dates are all in the same month
+  signUpTimeCheck(events){
+    events.forEach(event => {
+      let currentTime = new Date();
+      let currentDate = currentTime.getDate();
+
+      let eventTime = new Date(event.start_date);
+      let eventDate = eventTime.getDate()
+      
+      if(eventDate - currentDate <= 2 ){
+        event.available = false;
+      }
+    })
+  }
 
   maxWeeklyInterviewsCheck(events) {
 
@@ -303,6 +320,7 @@ class Technical extends React.Component {
           approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
       }
       this.maxWeeklyInterviewsCheck(approvedEventsMap);
+      this.signUpTimeCheck(approvedEventsMap);
       this.setState({ myEventsList: approvedEventsMap, loadingEvents: false });
     });
   }
@@ -325,6 +343,7 @@ class Technical extends React.Component {
 
   eventPropStyles(event, start, end, isSelected) {
     let style;
+
     if(event.available === true){
       style = {
         backgroundColor: "#2984ce"
@@ -357,6 +376,7 @@ class Technical extends React.Component {
 
   render() {
     return (
+      <div style={{backgroundColor: "white"}} >
       <Template active={"technical"} title={"Coding interviews"}>
         { this.state.submitStatus === 'success' &&
           <Alert severity="success">Signup form submitted successfully, please check your email to confirm attendance!</Alert>
@@ -373,6 +393,9 @@ class Technical extends React.Component {
         { this.state.submitStatus === 'max' &&
           <Alert severity="error">Interviewer has already reached their limit for the week! Reload sessions...</Alert>
         }
+        { this.state.submitStatus === 'tooSoon' &&
+          <Alert severity="error">You can't sign up for this session because it is too soon! Reloading sessions...</Alert>
+        }
         <Title color={"blue"} style={{  padding: '20px', marginTop: 0}}>Mock Coding Interviews</Title>
         <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "1.3em", fontWeight: 100 }}> August 3rd - August 24th, 2020</h3>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
@@ -388,9 +411,9 @@ class Technical extends React.Component {
                     to participate in one-on-one mock technical coding interviews
                      with fellow students and alumni who have interned at Microsoft, Facebook, Google and more.
                     These 1 hour interview sessions will allow you to pratice real technical interview questions while connecting with a fellow Columbia student.</p>
-                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at
-                    <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
-                 href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com</a>!</p>
+                    <p style={{fontSize : "18px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Please fill out this 
+                    <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }} target="_blank"
+                 href={"https://docs.google.com/forms/d/e/1FAIpQLSfc5yiAoceGTiaKIvqYNTw5kXCfn_wwgAP3C27DJpgqpnvaSQ/viewform"}>form</a>!</p>
                 </GridItem>
         </GridContainer>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
@@ -400,7 +423,6 @@ class Technical extends React.Component {
           <Calendar
             views={["month", "week", "day"]}
             localizer={localizer}
-            defaultDate={new Date('August 3, 2020 0:00:00')}
             events={this.state.myEventsList}
             defaultView={"week"}
             startAccessor="start_date"
@@ -423,40 +445,11 @@ class Technical extends React.Component {
           <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>}
 
 
-          <div style={{width: "130%", height: "250px", backgroundColor: "#0072CE", color: "white", marginTop: "100px", marginLeft: "-20%"}} />
-              <h2 style={{color: "white", fontSize: "36px", marginTop: "-180px", marginLeft: "80px"}}> Columbia Virtual Campus </h2>
-              <h2 style={{color: "white", fontSize: "26px", marginTop: "0px", marginLeft: "80px"}}> Columbia, <i>virtually</i>.</h2>
-          <div style={{color: "white", marginTop: "-105px", fontSize: "14px", marginLeft: "780px"}}>
-              <a href={""} style={{color: "white"}}> Home </a> <br/>
-              <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
-              <a href={"/events"} style={{color: "white"}}> Socialize </a> <br/>
-              <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>
-              <a href={"/about-us"} style={{color: "white"}}> About Us </a> <br/>
-              <a href={"/contact-us"} style={{color: "white"}}> Contact Us </a> <br/>
-          </div>
 
-          <div style={{color: "white", marginTop: "-145px", fontSize: "14px", marginLeft: "980px"}}>
-              <a href={"/events/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
-              <a href={"/resources/add-new-resource"} style={{color: "white"}}> Add a Resource </a> <br/>
-              <a href={"/coding-interviews/add-interviewer"} style={{color: "white"}}> Be a Mock Interviewer </a> <br/>
-          </div>
-
-          <div>
-            <IconButton style={{marginLeft: "1200px", marginTop: "-100px", width: "100px", height: "100px", marginBottom: "-20px"}} href={"https://www.instagram.com/columbiavirtualcampus/"}>
-                <InstaIcon style={{color: "white", fontSize: 70}}/>
-            </IconButton>
-            <IconButton style={{marginLeft: "1290px", marginTop: "-150px", width: "100px", height: "100px", marginBottom: "-20px"}} href={"https://www.facebook.com/columbiavirtualcampus/"}>
-                <FacebookIcon style={{color: "white", fontSize: 70}}/>
-            </IconButton>
-            <IconButton style={{marginLeft: "1380px", marginTop: "-200px", width: "100px", height: "100px", marginBottom: "-20px"}} href={"https://www.linkedin.com/company/columbia-virtual-campus/"}>
-                <LinkedInIcon style={{color: "white", fontSize: 70}}/>
-            </IconButton>
-            <IconButton style={{marginLeft: "1470px", marginTop: "-245px", width: "100px", height: "100px", marginBottom: "-20px"}} href={"mailto:columbiavirtualcampus@gmail.com"}>
-                <MailOutlineIcon style={{color: "white", fontSize: 70}}/>
-            </IconButton>
-          </div>
 
       </Template>
+        <CustomFooter />
+      </div>
     );
   }
 }

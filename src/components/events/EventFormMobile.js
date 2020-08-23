@@ -44,9 +44,10 @@ import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import Axios from "axios";
 import TZ from "countries-and-timezones";
-import * as Events from "../../pages/events";
+import * as Events from "../../pages/socialize";
 import { PhoneCallback } from "@material-ui/icons";
 import { CheckboxWithLabel } from "formik-material-ui";
+import CustomFooter from "../all/CustomFooter";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
@@ -97,9 +98,9 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   timezone: Yup.string()
     .required("Required"),
-  attendants: Yup.number()
+  /*attendants: Yup.number()
     .integer("Please enter an integer")
-    .required("Required"),
+    .required("Required"),*/
   agree: Yup.boolean("True")
     .required(),
   image_link: Yup.string()
@@ -641,11 +642,13 @@ class EventFormMobile extends React.Component {
               <CircularProgress />
             </div>
           </div>
+          <CustomFooter />
         </div>
       )
     }
     else if (this.state.feedbackSubmit) {
       return (
+        <div style={{backgroundColor: "white"}} >
         <Template title={'Add New Event'} active={"schedule"}>
           <div style={{
             fontFamily: "Poppins",
@@ -685,14 +688,18 @@ class EventFormMobile extends React.Component {
                 paddingLeft: "10px",
                 paddingRight: "10px"
               }}
-              href={"/events/add-new-event"}>
+              href={"/socialize/add-new-event"}>
               Add Another Event
               </Button>
           </div>
-        </Template>);
+        </Template>
+        <CustomFooter />
+        </div>
+          );
 
     } else {
       return (
+        <div style={{backgroundColor: "white"}} >
         <Template title={'Add New Event'} active={"schedule"}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             {/* <Template active={'schedule'}> */}
@@ -815,8 +822,10 @@ class EventFormMobile extends React.Component {
             </Grid>
           </Container>
         </Template >
+        <CustomFooter />
+        </div>
 
-      );
+          );
     }
   }
 }

@@ -4,7 +4,7 @@ import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../events/react-big-calendar.css";
 import { Link, Element, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-import { EventCardFeatured, EventCard, EventModal, Template, CustomButton, Title, EventSearch }
+import {EventCardFeatured, EventCard, EventModal, Template, CustomButton, Title, EventSearch, CustomFooter}
   from "../";
 import firebase from "../../firebase";
 import Fuse from 'fuse.js';
@@ -202,7 +202,7 @@ class EventsPageDesktop extends React.Component {
 
   async componentDidMount() {
     await this.getEvents();
-    let event = this.props.event
+    let event = this.props.event;
     // goToAnchor(event, true);
     if (event){
       if (this.state.eventsListWithIdKey[event].end_date < new Date()) {
@@ -220,7 +220,7 @@ class EventsPageDesktop extends React.Component {
   }
 
   // TODO(claire): These are the new functions to use the Google Calendar API instead.
-  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/events#resource
+  // TODO (claire): The new event attributes: https://developers.google.com/calendar/v3/reference/socialize#resource
   // makeDisplayEvents(events) {
   //   let arr = [];
   //   for (let i = 0; i < events.length; i += 1) {
@@ -273,6 +273,7 @@ class EventsPageDesktop extends React.Component {
     all.push({ "name": "All" })
     sorted.map(x => all.push(x))
     return all
+
   }
 
   updateFilterTags(tag) {
@@ -482,6 +483,7 @@ class EventsPageDesktop extends React.Component {
     let greenBox = this.state.mainTagsClicked.now === "on" ? classes.greenBoxSelected : classes.greenBox
 
     return (
+      <div style={{backgroundColor: "white"}}>
       <Template active={"schedule"} title={"Events"}>
 
         <div className={classes.mainBox} style={{ paddingLeft: "10%", paddingRight: "10%" }}>
@@ -549,6 +551,16 @@ class EventsPageDesktop extends React.Component {
           </div>
 
         <div style={{margin: "40px"}}/>
+        <div>
+          <strong>From Sept 1th - Sept 14th, CVC socialize will be reserved for freshmen to hangout and get to know each other as their college journey begins!!! </strong>
+          <br/>
+          <br/>
+          If you're a freshmen, fill out this <a href={"https://columbiavirtualcampus.com/socialize/add-new-event"} style={{color:'blue', textDecoration:'underline'}}>form</a>. Add your contact info, an event name so you have a theme for your hangout (eg. anime, games, hangout) with a quick description (eg. anime watch party for weebs, board game night, etc), and the hangout time.
+          <br/><br/>
+          Note: If you want to limit the number of people who can attend, let us know in the additional comments.
+        </div>
+
+        <div style={{margin: "20px"}}/>
 
         <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px"}}>
         <GridItem xs={12} sm={12} md={12}>
@@ -569,7 +581,6 @@ class EventsPageDesktop extends React.Component {
         </GridItem>
         </GridContainer>
 
-        <br />
         <div style={{margin: "40px"}}/>
         <div style={{width: "100%"}}>
           <div style={{width: "25%", float:"left", marginBottom:"3%"}}>
@@ -602,13 +613,13 @@ class EventsPageDesktop extends React.Component {
               <h5>2. Let us host and share the event on our website.</h5>
               <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
               <div style={{ textAlign: "left" }}>
-                <CustomButton href={"/events/add-new-event"} text={"ADD NEW EVENT"}
+                <CustomButton href={"/socialize/add-new-event"} text={"ADD NEW EVENT"}
                   style={{ marginTop: 20, marginBottom: 25 }} color={"orange"} size={"large"} />
               </div>
             </div>
             <div style={{
               flexDirection: "column", display: "flex", paddingTop: "1%", paddingLeft: "3%", width: "75%",
-              marginBottom: "3%"
+              marginBottom: "3%", minHeight:"100vh"
             }}>
               <div style={{ paddingBottom: "1%", color: "#828282", fontSize: "18px" }}> {sizeOfList} Events Found </div>
               {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
@@ -632,6 +643,8 @@ class EventsPageDesktop extends React.Component {
         </div>
 
       </Template>
+      <CustomFooter />
+      </div>
     );
   }
 }
