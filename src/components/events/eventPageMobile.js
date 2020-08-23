@@ -8,9 +8,6 @@ import { EventCardFeatured, EventCard, EventModal, Template, CustomButton, Title
   from "../";
 import firebase from "../../firebase";
 import Fuse from 'fuse.js';
-import {getTimezoneName, convertUTCToLocal, convertDateToUTC,
-  getOffset, getCurrentLocationForTimeZone, dst, convertTimestampToDate}
-  from "../all/TimeFunctions"
 import CustomToolbar from "../events/CalendarToolBarMobile"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -20,7 +17,7 @@ import EventSearchMobile from "../input/EventSearchMobile";
 import Carousel from 'react-material-ui-carousel';
 import {CircularProgress} from "@material-ui/core";
 import {configureAnchors} from 'react-scrollable-anchor';
-import {eventPropStylesShared} from "./SharedEvents";
+import {eventPropStylesShared, convertEventsTime, makeDisplayEvents, isEventShowable} from "./SharedEvents";
 configureAnchors({offset: -120});
 
 //configureAnchors({offset: -2500});
@@ -234,51 +231,6 @@ class EventsPageMobile extends React.Component {
     //goToAnchor(el, true);
 //}
 
-  convertEventsTime(event) {
-    const tzString = event.timezone;
-
-    // Remove redudancy (AKA remove the evidence -.0)
-    event.start_date = event.start_date.split("GMT")[0];
-    event.end_date = event.end_date.split("GMT")[0];
-
-    if (event.timezone !== undefined && event.timezone.includes("$")) {
-      // $ splits time and timezone in the event.timezone field in firebase!
-      const tz = tzString.split("$")[0];
-      const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
-      const offset = getOffset(tz, daylightSavings);
-
-      // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
-      // America/New_York should be changed to the user's time zone who created the event, if they
-      // Choose to use their time zone rather than EST.
-      const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
-      const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
-
-      // Second, convert those consts above to user's local time
-      event.start_date = convertUTCToLocal(UTCStart);
-      event.end_date = convertUTCToLocal(UTCEnd);
-      // get timezone to display
-      event.timeZoneGMT = getTimezoneName(getCurrentLocationForTimeZone(), dst());
-    }
-    return event;
-  }
-
-  makeDisplayEvents(events) {
-    let arr = [];
-    for (let i = 0; i < events.length; i += 1) {
-      let ele = events[i];
-
-      ele.title = ele.event === undefined ? ele.title : ele.event
-      ele.event = ele.title
-
-      if (ele.end_date > new Date()) {
-        arr.push(ele);
-      }
-      if (arr.length === 5) {
-        break;
-      }
-    }
-    return arr;
-  }
 
   makeEventsList(events) {
     return events;
@@ -296,7 +248,7 @@ class EventsPageMobile extends React.Component {
     if(approvedEvents){
       approvedEventsMap = approvedEvents.docs.map(doc => {
 
-            let event = this.convertEventsTime(doc.data())
+            let event = convertEventsTime(doc.data())
             event["id"] = doc.id
             let today = new Date()
             if ((new Date(event.start_date)) < today && (new Date(event.end_date)) > today) {
@@ -330,7 +282,7 @@ class EventsPageMobile extends React.Component {
     this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap),
       organizationList: this.genOrganizationList(approvedEventsMap),
       permEventsList: approvedEventsMap,
-      displayEvents:this.makeDisplayEvents(approvedEventsMap),
+      displayEvents:makeDisplayEvents(approvedEventsMap),
       loadingEvents: false,
       eventsListWithIdKey: approvedEventsMapWithKey
     });
@@ -399,81 +351,6 @@ class EventsPageMobile extends React.Component {
       newList[tag] = "on"
     }
     this.setState({mainTagsClicked: newList})
-  }
-
-  isEventShowable(ele) {
-    ele.tagsForFilter = this.state.mainTagsClicked
-    // Handle main tags filter
-    let shouldDisplayRecurring = ele["tagsForFilter"].recurring === "on" ? true : false
-    let shouldDisplayPopular = ele["tagsForFilter"].popular === "on" ? true : false
-    let shouldDisplayPast = ele["tagsForFilter"].past === "on" ? true : false
-    let shouldDisplayNow = ele["tagsForFilter"].now === "on" ? true : false
-
-    ele.displayThisCard = true
-    if (!ele.displayPopular && shouldDisplayPopular)
-      ele.displayThisCard = false
-    if (!ele.displayNow && shouldDisplayNow)
-      ele.displayThisCard = false
-    if (!ele.displayRecurring && shouldDisplayRecurring)
-      ele.displayThisCard = false
-    if (!ele.displayRecurring && shouldDisplayRecurring)
-      ele.displayThisCard = false
-    if (!ele.displayPast && shouldDisplayPast)
-      ele.displayThisCard = false
-    if (ele.displayThisCard && ele.displayPast && !shouldDisplayPast)
-      ele.displayThisCard = false
-
-    // Process regular tag filter
-    let filterPass = true
-    if (ele.displayThisCard === true) {
-      Object.keys(this.state.filterTagsClicked).map(x => {
-        let found = false
-        console.log(x)
-        if (this.state.filterTagsClicked[x] !== undefined) {
-          ele.tags.map(y => {
-            if (x.toLowerCase() === y.toLowerCase()) {
-              found = true
-            }
-          })
-
-          if (found === false) {
-            filterPass = false
-          }
-        }
-      })
-    }
-
-    if (filterPass === false) {
-      ele.displayThisCard = false
-    }
-
-    // Handle Organization
-    if (this.state.clubFilter !== "All") {
-      if (this.state.clubFilter !== ele.name)
-        ele.displayThisCard = false
-    }
-
-    // Handle date
-    if (this.state.dateFilter !== "All") {
-      let d = new Date()
-      const daysApart = Math.abs((ele.start_date.getTime() - d.getTime()) / (3600*24*1000))
-      console.log(daysApart)
-      switch(this.state.dateFilter) {
-        case "This Month Only":
-          if (ele.start_date.getMonth() !== d.getMonth() || ele.start_date.getFullYear() !== d.getFullYear())
-            ele.displayThisCard = false
-        case "Within a Week":
-          if (daysApart > 7)
-            ele.displayThisCard = false
-        case "Within a Month":
-          if (daysApart > 30)
-            ele.displayThisCard = false
-        case "Within 3 Months":
-          if (daysApart > 90)
-            ele.displayThisCard = false
-      }
-    }
-    return ele.displayThisCard
   }
 
   updateOrganization(club) {
@@ -598,7 +475,7 @@ getCalendarText() {
         ele.tags = ['none']
       }
 
-      if (this.isEventShowable(ele)) {
+      if (isEventShowable(ele, this.state.mainTagsClicked, this.state.filterTagsClicked, this.state.clubFilter, this.state.dateFilter)) {
         sizeOfList = sizeOfList + 1
         if (ele.displayNameToggleOff)
           ele.name = "Columbia Virtual Campus"

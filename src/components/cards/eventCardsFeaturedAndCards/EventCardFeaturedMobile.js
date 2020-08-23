@@ -14,40 +14,9 @@ import { CustomButton, AddCalendar, CustomTheme } from "../../";
 import EventEmailModal from "./../EventEmailModal"
 import Heading1 from "../../text/Heading1";
 import Heading2 from "../../text/Heading2";
+import {months, days, formatTime} from "./commonEventsFuncs";
 
 const theme = CustomTheme;
-
-const months = {
-    0: 'Jan',
-    1: 'Feb',
-    2: 'Mar',
-    3: 'Apr',
-    4: 'May',
-    5: 'Jun',
-    6: 'Jul',
-    7: 'Aug',
-    8: 'Sept',
-    9: 'Oct',
-    10: 'Nov',
-    11: 'Dec'
-}
-
-const days = {
-    0: "SUN",
-    1: "MON",
-    2: "TUE",
-    3: "WED",
-    4: "THU",
-    5: "FRI",
-    6: "SAT"
-};
-
-const formatTime = function(hours, min) {
-    let h = hours>12?hours-12:hours;
-    let m = min<10?'0'+min.toString():min.toString();
-    let add = hours>12?'PM':'AM';
-    return h + ':' + m + add
-};
 
 const useStyles = makeStyles(() => ({
     root: {
