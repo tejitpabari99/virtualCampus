@@ -10,7 +10,7 @@ import styles from "../../assets/material-kit-assets/jss/material-kit-react/view
 import Button from "./../material-kit-components/CustomButtons/Button.js";
 import {MetaData, CustomHeader, CustomButton, Title, Subtitle} from "../";
 import HomeResourcesList from "./HomeResourcesList.js";
-import * as Events from './../../pages/events.js';
+import * as Events from './../../pages/socalize';
 import InstagramEmbed from 'react-instagram-embed';
 import { Helmet } from 'react-helmet';
 
@@ -269,7 +269,7 @@ export default function HomeMobile({isLandscape}) {
             <span style={{display:"block"}}>Your one stop-shop for all things social, career, academic, and well-being.</span>
             <span>Thank us later.</span>
           </h1>
-          <CustomButton href={"/events"} text={'EXPLORE'} color={"orange"} size={"large"}/>
+          <CustomButton href={"/socalize"} text={'EXPLORE'} color={"orange"} size={"large"}/>
         </div>
       </div>
 
@@ -284,7 +284,7 @@ export default function HomeMobile({isLandscape}) {
             </div>
             <HomeEvents/>
             <div style={{textAlign:'center'}}>
-              <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
+              <CustomButton href={'/socalize'}  text={'SEE ALL EVENTS'}
                             color={"orange"} size={"large"}/>
               <div style={{marginBottom: "10px"}}/>
             </div>
@@ -298,7 +298,7 @@ export default function HomeMobile({isLandscape}) {
             <h5 style={{fontSize: "14px"}}>1. Submit a topic and time using our form.</h5>
             <h5 style={{fontSize: "14px"}}>2. Let us host and share the event on our website.</h5>
             <h5 style={{fontSize: "14px"}}>3. Share your interest with your friends, meet new people, and have fun!</h5>
-            <CustomButton href={'/events/add-new-event'}  text={'HOST A NEW EVENT'}
+            <CustomButton href={'/socalize/add-new-event'}  text={'HOST A NEW EVENT'}
                           color={"white2"} size={"large"}/>
             <div style={{paddingBottom:"22px"}} />
           </div>

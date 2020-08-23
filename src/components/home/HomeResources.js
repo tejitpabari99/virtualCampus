@@ -80,7 +80,7 @@ class Events extends React.Component{
                     })}
                 </div>
                 {this.state.displayEvents.length>0 && <div style={{textAlign:"center", marginTop: 20}}>
-                    <CustomButton text={'SEE ALL EVENTS'} href={'/events'} size={"small"} color={"orange"} rounded/>
+                    <CustomButton text={'SEE ALL EVENTS'} href={'/socalize'} size={"small"} color={"orange"} rounded/>
                 </div>}
             </div>
         )

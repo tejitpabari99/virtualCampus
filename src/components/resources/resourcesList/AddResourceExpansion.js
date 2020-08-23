@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '15px',
   },
   panel:{
-    background: 'rgba(242, 249, 253, 0.75)',
+    background: '#3B5998',
     width: '100vw',
   },
   heading: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     lineHeight: '25px',
-    color: '#0072CE',
+    color: 'white',
     textAlign:'left'
   },
   desc: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     lineHeight: '21px',
-    color: '#000000'
+    color: 'white'
   },
 }));
 
@@ -45,7 +45,7 @@ export default function AddResourcesMobile() {
       <ExpansionPanel elevation={0} className={classes.panel}>
         <ExpansionPanelSummary
           style={{ width: '95%' }}
-          expandIcon={<ExpandMoreIcon style={{ color: "#0072CE" }} />}
+          expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}
           aria-controls="panel1a-content"
         >
           <Typography style={{ width:"240px", height:"58px", marginLeft:'30px', marginTop:'6px' }} className={classes.heading}>
@@ -58,7 +58,7 @@ export default function AddResourcesMobile() {
               Please click the button below to fill out a short form.
             <br />
             <CustomButton text={"ADD RESOURCE"} href={"/resources/add-new-resource"}
-                          color={"orange"} size={"large"} style={{marginTop: 25, marginBottom: 15}}/>
+                          color={"blueInvert2"} size={"large"} style={{marginTop: 25, marginBottom: 15}}/>
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
