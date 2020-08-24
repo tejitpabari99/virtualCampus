@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
   },
   panel:{
     background: '#3B5998',
-    width: '100vw',
+    width: '109.6%',
+    marginLeft: '-4%'
   },
   heading: {
     fontSize: theme.typography.pxToRem(20),
@@ -25,7 +26,11 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: 'normal',
     lineHeight: '25px',
     color: 'white',
-    textAlign:'left'
+    textAlign:'left',
+    width:"240px",
+    height:"58px",
+    marginLeft:'30px',
+    marginTop:'6px'
   },
   desc: {
     fontSize: theme.typography.pxToRem(14),
@@ -33,7 +38,10 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     lineHeight: '21px',
-    color: 'white'
+    color: 'white',
+    marginLeft: '30px',
+    marginRight: '20px',
+    textAlign:"left"
   },
 }));
 
@@ -44,16 +52,15 @@ export default function AddResourcesMobile() {
     <div className={classes.root}>
       <ExpansionPanel elevation={0} className={classes.panel}>
         <ExpansionPanelSummary
-          style={{ width: '95%' }}
           expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}
           aria-controls="panel1a-content"
         >
-          <Typography style={{ width:"240px", height:"58px", marginLeft:'30px', marginTop:'6px' }} className={classes.heading}>
+          <Typography className={classes.heading}>
               Want to add your own resource?
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ height: '170px' }}>
-          <Typography className={classes.desc} style={{marginLeft: '30px', marginRight: '20px', textAlign:"left"}}>
+          <Typography className={classes.desc}>
               Thank you for your interest in sharing your resource through CVC.
               Please click the button below to fill out a short form.
             <br />

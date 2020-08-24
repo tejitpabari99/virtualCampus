@@ -67,7 +67,7 @@ render() {
         <div className={classes.mainBox}
           >
           <div className={classes.text}>
-            <h2 style={{fontSize:40}}>Featured Resources</h2>
+            <h2 style={{fontSize:40}}>Resources</h2>
             <p style={{fontSize: 20}}>Some of our most popular resources to help you tackle recent events, be mindful of your health, improve your job search, and more.
               <br /><br />
             </p>

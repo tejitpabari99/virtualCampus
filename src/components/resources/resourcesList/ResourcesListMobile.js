@@ -33,6 +33,16 @@ class ResourcesListMobile extends ResourcesListFunctionality {
   render() {
     return (
       <div>
+        <div style={{marginLeft: '5%', width:'80%', marginTop: '-1100px', display: 'inline-block', verticalAlign: 'middle'}}>
+            <Search data={this.state.myResourcesDisplay}
+                ref={input => this.inputElement = input}
+                onClick={(val) => { this.searchFunc(val) }}
+                onCancel={() => { this.searchFunc('') }}
+                placeholder={"Search resources"}
+                iconColor={"white"}
+            />
+        </div>
+        <br/><br/>
         <div style={{textAlign:'center'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
@@ -63,16 +73,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
             );
           })}
         </div>
-
-        <div style={{width:'64%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
-            <Search data={this.state.myResourcesDisplay}
-                ref={input => this.inputElement = input}
-                onClick={(val) => { this.searchFunc(val) }}
-                onCancel={() => { this.searchFunc('') }}
-                placeholder={"Search resources"}
-            />
-        </div>
-        <div style={{width:'17%', marginLeft:'3%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+        <div style={{width:'27%', marginLeft:'65%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <Select
               labelId="label"
               id="select"
@@ -89,7 +90,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                 <GridOnIcon style={{fill: "#0072CE"}}/>
             </IconButton>
         </div>
-        <div style={{width:'2%', marginLeft:'4%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
+        <div style={{width:'2%', marginLeft:'3%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <IconButton onClick={this.handleClickView.bind(this, false)}>
                 <ViewListIcon style={{fill: "#0072CE"}}/>
             </IconButton>

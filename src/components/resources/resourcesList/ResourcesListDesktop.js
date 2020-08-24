@@ -13,10 +13,9 @@ import {withStyles} from "@material-ui/core/styles";
 const useStyles = () => ({
   searchBar: {
     width:'30%',
-    marginTop: '-450px',
+    marginTop: '-600px',
     display: 'inline-block',
     marginLeft: '3%',
-    textAlign: "center",
     verticalAlign: 'middle'
   },
   dropdownMenu: {
@@ -129,7 +128,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             onClick={(val) => { this.searchFunc(val) }}
             onCancel={() => { this.searchFunc('') }}
             placeholder={"Search resources"}
-            style={{height:'70%'}}
             iconColor={"white"}
           />
           <div className={classes.searchError}>{this.state.searchError}</div>

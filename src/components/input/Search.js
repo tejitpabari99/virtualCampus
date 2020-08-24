@@ -34,7 +34,7 @@ class Search extends React.Component{
 
   render(){
    // height of the TextField
-   const height = 44;
+   const height = 47;
    // magic number which must be set appropriately for height
    const labelOffset = -6;
    const { classes } = this.props;
@@ -71,7 +71,7 @@ class Search extends React.Component{
           onKeyDown={this.keyPress}
           InputProps={{
             classes: { notchedOutline: this.props.iconColor === undefined ? classes.blackOutline : classes.whiteOutline },
-            endAdornment: (
+            startAdornment: (
               <div>
                 <InputAdornment position="end">
                   <IconButton onClick={() => {this.props.onClick(this.state.searchVal)}}>
