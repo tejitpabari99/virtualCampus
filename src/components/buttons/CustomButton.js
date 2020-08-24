@@ -64,6 +64,15 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
   },
+  paleblue:{
+    color: '#0072CE !important',
+    backgroundColor: '#F2F9FD',
+    "&:hover": {
+      color: 'white !important',
+      backgroundColor: '#0072CE',
+      boxShadow: "0 14px 26px -12px #0072CE50"
+    },
+  },
   blue2: {
     color: 'white !important',
     paddingLeft: "00px",

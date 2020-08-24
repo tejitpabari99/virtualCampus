@@ -49,6 +49,8 @@ class ResourcesListFunctionality extends React.Component {
       gridView: true,
       resourcesDict: {},
       resourcesDisplay: [],
+      allResourcesDict: {},
+      allTagsDict: {},
       tagsDict: {},
       tagsDisplay: [],
       tagsResourcesDisplay: {},
@@ -99,6 +101,8 @@ class ResourcesListFunctionality extends React.Component {
       this.setState({
         activityIndicator: false,
         resourcesDict: approvedResourcesDict,
+        allResourcesDict: approvedResourcesDict,
+        allTagsDict: this.makeTags(approvedResourcesDict,)
       });
       this.setDisplay('All Resources');
     }
@@ -141,6 +145,26 @@ class ResourcesListFunctionality extends React.Component {
     });
   }
 
+  /**
+  * Renders resources when a tag is deselected
+  * @param  {String} tag: Deselected tag
+  */
+ deleteDisplay() {
+    let resources = this.state.allResourcesDict;
+    let tagsDict = this.state.allTagsDict;
+    this.setState({
+      resourcesDisplay: resources,
+      description: Descriptions["All Resources"],
+      category: "All Resources",
+      tagsDict: tagsDict,
+      tagsDisplay: Object.keys(tagsDict),
+      tagsResourcesDisplay: {},
+      selection: 1
+    });
+
+  }
+
+  
   /**
   * Make tag buttons based on the resources that are currently displayed
   * @param  {[]} resources: Category name

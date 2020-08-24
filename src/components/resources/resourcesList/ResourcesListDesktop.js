@@ -104,6 +104,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
     this.state = {...this.state, activeTags: ""}
+    this.category = "All Resources";
   }
 
   handleClick(tagName){
@@ -132,20 +133,49 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        <div style={{textAlign:'center'}}>
+        
+        <div style={{flexDirection: 'row', display: 'flex'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
-              <Button size="medium"
+              <CustomButton size="medium"
                       active={(this.state.activeTags === category)}
                       simple
-                      style={{backgroundColor: (this.state.activeTags === category) ? "#F2F2F2" : "white",}}
-                      className={classes.button}
+                      style={category != "All Resources" ?{
+                          width: '16%',
+                          height: '120px',
+                          boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
+                          marginRight: '20px',
+                          marginTop: '2%',
+                          fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
+                          fontStyle: 'normal',
+                          fontWeight: '900',
+                          fontSize: '14px',                      
+                      }
+                      :{
+                        display: 'None'
+                      }
+                      }
                       onClick={() =>{
+                        if (this.category==category)
+                        {
+                          this.category = "All Resources";
+                          category = "All Resources";
+                        }
+                        else
+                        {
+                          this.category = category;
+                        }  
+                        this.deleteDisplay.bind(this, category);
                         this.setDisplay.bind(this, category)();
-                        this.handleClick.bind(this)(category);
+                        
                       }}
-                      value={{category}}
-              >{category}</Button>
+                      
+                      val={category}
+                      color={
+                        (this.category == category) ? "blue" : 'paleblue'
+                      }
+                      text={category}
+              />
             );
           })}
         </div>
@@ -159,6 +189,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             >
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
+              <MenuItem value={3}>Popularity</MenuItem>
             </Select>
         </div>
         <div className={classes.viewIcon}>
