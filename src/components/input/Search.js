@@ -7,7 +7,7 @@ import { withStyles } from "@material-ui/core/styles";
 import {CustomButton} from "../";
 import ClearIcon from '@material-ui/icons/Clear';
 
-const styles = theme => ({
+const styles = () => ({
   whiteOutline: {
     borderColor: 'white',
   },

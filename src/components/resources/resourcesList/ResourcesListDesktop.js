@@ -71,7 +71,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             );
           })}
         </div>
-        <div style={{width:'12%', marginLeft:'2%', marginTop: '3%',
+        <div style={{width:'12%', marginLeft:'75%', marginTop: '3%',
             display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
             <Select
               labelId="label"
