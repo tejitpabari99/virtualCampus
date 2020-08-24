@@ -5,7 +5,6 @@ import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Button from "@material-ui/core/Button";
-import { CircularProgress } from '@material-ui/core';
 
 import { MockInterviewModal, Template, Title, Subtitle, } from "../components";
 import TZ from "countries-and-timezones";
@@ -201,7 +200,6 @@ class Technical extends React.Component {
       open: false,
       event: null,
       myEventsList: [],
-      loadingEvents: true,
     };
     this.getEvents();
     this.closeDo = this.closeDo.bind(this);
@@ -216,7 +214,18 @@ class Technical extends React.Component {
     event.end_date = event.end_date.split("GMT")[0];
 
     if (event.timezone !== undefined && event.timezone.includes("$")) {
-      // Convert those consts above to user's local time
+      // $ splits time and timezone in the event.timezone field in firebase!
+      // const tz = tzString.split("$")[0];
+      // const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
+      // const offset = getOffset(tz, daylightSavings);
+
+      // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
+      // America/New_York should be changed to the user's time zone who created the event, if they
+      // Choose to use their time zone rather than EST.
+      //const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
+      //const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
+
+      // Second, convert those consts above to user's local time
       event.start_date = convertUTCToLocal(event.start_date);
       event.end_date = convertUTCToLocal(event.end_date);
       // get timezone to display
@@ -224,86 +233,22 @@ class Technical extends React.Component {
     }
     return event;
   }
-  
-  //Note: This function assumes that the dates are all in the same month
-  signUpTimeCheck(events){
-    events.forEach(event => {
-      let currentTime = new Date();
-      let currentDate = currentTime.getDate();
 
-      let eventTime = new Date(event.start_date);
-      let eventDate = eventTime.getDate()
-      
-      if(eventDate - currentDate <= 2 ){
-        event.available = false;
-      }
-    })
-  }
 
-  maxWeeklyInterviewsCheck(events) {
-
-    // create a interviewer email to events for this week map
-    let interviewerEventsMap = new Map()
-    events.forEach(event => {
-      const startOfWeek = new Date(event.start_date);
-      startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()); // subtract to get earlier sunday
-      startOfWeek.setHours(0,0,0,0); // set to midnight
-
-      // { interviewer email : { first day of week : [events] } }
-      if (interviewerEventsMap.has(event.host_email)){
-        if (interviewerEventsMap.get(event.host_email).has(startOfWeek.toString())){
-          interviewerEventsMap.get(event.host_email).get(startOfWeek.toString()).push(event);
-        }
-        else {
-          interviewerEventsMap.get(event.host_email).set(startOfWeek.toString(), [event]);
-        }
-      } else {
-        interviewerEventsMap.set(event.host_email, new Map([[startOfWeek.toString(), [event]]]));
-      }
-    });
-
-    // for each interviewer
-    interviewerEventsMap.forEach(interviewer => {
-      // for each week
-      interviewer.forEach(week => {
-        // get number of taken sessions
-        let count = 0;
-        week.forEach(event => {
-          if(!event.available){
-            count++
-          }
-        });
-  
-        // if number is >= max interviewer given, mark all as unavailable
-        // note this week not change value in database, but simply marks it in the UI
-        if(count >= week[0].week_availability){
-          week.forEach(event => {
-            event.available = false;
-          });   
-        }
-      });
-    });
-  }
-
-  getEvents() {
-    const db = firebase.firestore();
-    db.collection("technical")
-    .where("approved", "==", true)
-    .get().then(approvedEvents => {
-      let approvedEventsMap = [];
-      if(approvedEvents){
-          // TODO
-          // MAY NEED TO CHANGE:
-          // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
-          // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
-          // However, convertEventsTime should be run on every event, converting the time and timezone of the event
-          // To the current user's local time!
-          approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
-      }
-      this.maxWeeklyInterviewsCheck(approvedEventsMap);
-      this.signUpTimeCheck(approvedEventsMap);
-      this.setState({ myEventsList: approvedEventsMap, loadingEvents: false });
-    });
+  async getEvents() {
+    var db = firebase.firestore();
+    var approvedEvents = await db.collection("technical").get();
+    let approvedEventsMap = [];
+    if(approvedEvents){
+        // TODO
+        // MAY NEED TO CHANGE:
+        // the function this.convertEventsTime takes in an event's data, and uses the event.timezone
+        // and event.startTime or event.endTime (may need to change these names) to convert to user's local time
+        // However, convertEventsTime should be run on every event, converting the time and timezone of the event
+        // To the current user's local time!
+        approvedEventsMap = approvedEvents.docs.map(doc => this.convertEventsTime(doc.data()));
+    }
+    this.setState({ myEventsList: approvedEventsMap });
   }
 
 
@@ -324,7 +269,6 @@ class Technical extends React.Component {
 
   eventPropStyles(event, start, end, isSelected) {
     let style;
-
     if(event.available === true){
       style = {
         backgroundColor: "#2984ce"
@@ -357,8 +301,30 @@ class Technical extends React.Component {
 
   render() {
     return (
-      <Template active={"technical"} title={"Coding interviews"}>
-        { this.state.submitStatus === 'success' &&
+      <Template active={"technical"} title={"Technical"}>
+        <center>
+        <Title color={"blue"} style={{ marginBottom: '20px', marginTop: '9%'}}>MOCK CODING INTERVIEWS: COMING SOON</Title>
+        <div style={{width:"60%"}}>
+          <Subtitle  style={{ padding: '10px', marginBottom: '10px', fontSize:'calc(12px + 1vw)', lineHeight:'calc(12px + 1.5vw)'}}>
+            CVC is starting a new initiative to allow current computer science students at Columbia and Barnard
+            to sign up for virtual mock technical coding interviews with a more experienced student or alum.
+          </Subtitle>
+          <Button
+            style={{
+              background: "white",
+              border: "1px solid #FB750D",
+              borderRadius: "10px",
+              boxSizing: "border-box",
+              color: "#FB750D",
+              boxShadow: "none",
+            }}
+            href={"/coding-interviews/add-interviewer"}>
+            Sign up to be a mock interviewer
+          </Button>
+        </div>
+        </center>
+
+        {/* { this.state.submitStatus === 'success' &&
           <Alert severity="success">Signup form submitted successfully, please check your email to confirm attendance!</Alert>
         }
         { this.state.submitStatus === 'failure' &&
@@ -370,59 +336,49 @@ class Technical extends React.Component {
         { this.state.submitStatus === 'booked' &&
           <Alert severity="error">Interview session already booked! Reload sessions...</Alert>
         }
-        { this.state.submitStatus === 'max' &&
-          <Alert severity="error">Interviewer has already reached their limit for the week! Reload sessions...</Alert>
-        }
-        { this.state.submitStatus === 'tooSoon' &&
-          <Alert severity="error">You can't sign up for this session because it is too soon! Reloading sessions...</Alert>
-        }
-        <Title color={"blue"} style={{  padding: '20px', marginTop: 0}}>Mock Coding Interviews</Title>
-        <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "1.3em", fontWeight: 100 }}> August 3rd - August 24th, 2020</h3>
+        <Title color={"blue"} style={{ padding: '20px', marginTop: 0}}>Mock Tech Interview</Title>
+        <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> July 2020</h3>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
         <GridContainer
             style={{marginTop:"2em", marginBottom:"2em", marginLeft: 0, marginRight: 0, textAlign:'center'}}>
-                <GridItem xs={12} sm={12} md={5}>
+                <GridItem xs={12} sm={12} md={4}>
                     <img src={interview} style={{width: "350px", height: "300px", marginLeft: "-20px"}}></img>
                 </GridItem>
-                <GridItem xs={12} sm={12} md={7} style={{ marginTop:"1.2em", width:"50em"}}>
-                    <p style={{fontSize: "1.4em", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships or full time positons? 
-                    Do you want to practice your coding interview skills?</p>
-                    <p style={{fontSize : "1.1em", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity for Columbia University students
-                    to participate in one-on-one mock technical coding interviews
-                     with fellow students and alumni who have interned at Microsoft, Facebook, Google and more.  
-                    These 1 hour interview sessions will allow you to pratice real technical interview questions while connecting with a fellow Columbia student.</p>
-                    <p style={{fontSize : "18px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Please fill out this 
-                    <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }} target="_blank"
-                 href={"https://docs.google.com/forms/d/e/1FAIpQLSfc5yiAoceGTiaKIvqYNTw5kXCfn_wwgAP3C27DJpgqpnvaSQ/viewform"}>form</a>!</p>
+                <GridItem xs={12} sm={12} md={8}>
+                    <p style={{fontSize: "25px", fontWeight: "bold", textAlign: "left", marginRight: "10px"}}>Are you preparing for tech internships and full time positons?
+                    Do you want to practice your technical interview skills?</p>
+                    <p style={{fontSize : "20px", textAlign: "left",  marginRight: "10px"}}> Columbia Virtual Campus is offerring the opportunity to particiapte in one-on-one mock technical interviews with Columbia Univeristy students who have interned at Company1, Company2, Company3, and more.
+                    These 1 hour tutoring sessions will allow you to pratice real technical interview questions in a setting that resembles a real interview.</p>
+                    <p style={{fontSize : "15px", textAlign: "left",  marginRight: "10px"}}><strong>Interested in giving mock interviews?</strong> Email us at
+                    <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
+                 href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com</a>!</p>
                 </GridItem>
         </GridContainer>
         <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3}}/>
-        <Title color={"blue"} style={{marginBottom:"2%", marginTop: "2%"}} >Sign up here!</Title>
-        { this.state.loadingEvents ? 
-          <CircularProgress/> :
-          <Calendar
-            views={["month", "week", "day"]}
-            localizer={localizer}
-            events={this.state.myEventsList}
-            defaultView={"week"}
-            startAccessor="start_date"
-            endAccessor="end_date"
-            allDayAccessor="allDay"
-            showMultiDayTimes
-            style={{ height: 550 }}
-            onSelectEvent={(event) => {
-              this.setState({ open: true, event });
-            }}
-            eventPropGetter={this.eventPropStyles}
-            components={{
-              event: this.EventDisplay
-            }}
-            formats={{ eventTimeRangeFormat: () => null }}
-          />
-        }
-        
-        {this.state.open && 
-          <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>}
+        <Calendar
+          views={["month", "week", "day"]}
+          localizer={localizer}
+          scrollToTime={new Date()}
+          defaultDate={new Date('July 27, 2020 0:00:00')}
+          events={this.state.myEventsList}
+          defaultView={"week"}
+          startAccessor="start_date"
+          endAccessor="end_date"
+          allDayAccessor="allDay"
+          showMultiDayTimes
+          style={{ height: 550 }}
+          onSelectEvent={(event) => {
+            this.setState({ open: true, event });
+          }}
+          eventPropGetter={this.eventPropStyles}
+          components={{
+            event: this.EventDisplay
+          }}
+          formats={{ eventTimeRangeFormat: () => null }}
+        />
+
+        {this.state.open &&
+          <MockInterviewModal open={this.state.open} closeDo={this.closeDo} event={this.state.event} setSubmitStatus={this.setSubmitStatus}/>} */}
       </Template>
     );
   }

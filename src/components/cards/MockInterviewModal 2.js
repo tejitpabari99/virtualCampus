@@ -90,7 +90,6 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
 
     const submitHandler = async values => {
         setLoading(true);
-
         const name = values.name;
         const email = values.email;
         const comments = values.comments;
@@ -101,66 +100,16 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             .where("start_date", "==", event.start_date_original)
             .get();
         if (lookUpEvent.size === 0){
-            // if event cannot be found
             setLoading(false);
             setSubmitStatus('notFound');
             closeDo();
             window.scrollTo({ top: 0 });
-            setTimeout(() => { window.location.reload(); }, 4000);
+            setTimeout(() => { window.location.reload(); }, 4500);
+
             return;
         } else if (!lookUpEvent.docs[0].data().available){
-            // if event is not available
             setLoading(false);
             setSubmitStatus('booked');
-            closeDo();
-            window.scrollTo({ top: 0 });
-            setTimeout(() => { window.location.reload(); }, 4000);
-            return;
-        }
-        
-        let time = new Date(lookUpEvent.docs[0].data().start_date);
-        let timeDate = time.getDate();
-        let currentTime = new Date();
-        let currentDate = currentTime.getDate();
-
-        if(timeDate - currentDate <= 2){
-            setLoading(false);
-            setSubmitStatus('tooSoon');
-            closeDo();
-            window.scrollTo({top: 0});
-            setTimeout(() => { window.location.reload(); }, 4000);
-            return;
-        }
-
-        let lookUpHostEvent = await db.collection("technical")
-            .where("host_email", "==", event.host_email)
-            .get();
-            
-        const startOfWeek = new Date(event.start_date);
-        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()) // subtract to get earlier sunday
-        startOfWeek.setHours(0,0,0,0); // set to midnight
-    
-        const endOfWeek = new Date(event.start_date);
-        endOfWeek.setDate(startOfWeek.getDate() + 6) // add to get next saturday
-        endOfWeek.setHours(23, 59, 59, 59)
-
-        let count = 0
-        let start;
-        let end;
-        let tempEvent;
-        for(let i = 0; i < lookUpHostEvent.size; i++){
-            tempEvent = lookUpHostEvent.docs[i].data();
-            start = new Date(tempEvent.start_date);
-            end = new Date(tempEvent.end_date);
-            if(start > startOfWeek && end < endOfWeek && !tempEvent.available){
-                count++;
-            }
-        }
-
-        if (count >= tempEvent.week_availability){
-            // if host is past limit
-            setLoading(false);
-            setSubmitStatus('max');
             closeDo();
             window.scrollTo({ top: 0 });
             setTimeout(() => { window.location.reload(); }, 4500);
@@ -186,7 +135,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
             text: `Dear ${name},<br/><br/>
             Confirm your interview with ${event.host_name} at ${localIntervieweeStartTime}
             by clicking the link below. It will expire in 24 hours.<br/>
-            <a href=${URL}?token=${token}>Click this link to confirm<a/><br/><br/>
+            ${URL}?token=${token}<br/><br/>
             If you do not wish to confirm, no action is required.<br/><br/>
             Thanks,<br/>
             CVC`
@@ -238,7 +187,6 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                     </GridContainer>
                     <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3, marginBottom: "0.7em"}}/>
                     <p>{event.host_bio}</p> 
-                    <a href={event.resume} target="_blank"><p style={{overflowWrap: "break-word"}}>{event.resume}</p></a> 
                     <Formik
                         validationSchema={validationSchema}
                         onSubmit={submitHandler}
@@ -256,7 +204,7 @@ export default function MockInterviewModal({open, closeDo, event, setSubmitStatu
                                     lineHeight: "30px",
                                     color: "#0072CE"
                                     }}>
-                                    Sign up for this session:
+                                    Signup for a mock interview here!
                                     </div>
                                     <FormikField label="Name" name="name"
                                                     error={errors.name}

@@ -205,7 +205,7 @@ export default function HomeDesktop() {
           <h1 className={classNames(manual.toAllSubHeading)}>
               Your one stop-shop for all things social, career, academic, and well-being. Thank us later.
               </h1>
-          <CustomButton href={"/events"} text={'EXPLORE'} color={"orange"} size={"large"} />
+          <CustomButton href={"/socalize"} text={'EXPLORE'} color={"orange"} size={"large"} />
         </div>
       </div>
 
@@ -220,7 +220,7 @@ export default function HomeDesktop() {
           </div>
           <HomeEvents />
           <div className={manual.button} style={{marginLeft:"45%"}}>
-              <CustomButton href={'/events'}  text={'SEE ALL EVENTS'}
+              <CustomButton href={'/socalize'}  text={'SEE ALL EVENTS'}
               color={"orange"} size={"large"} />
           </div>
           <div style={{ marginBottom: "40px" }} />
@@ -234,7 +234,7 @@ export default function HomeDesktop() {
             <h5>1. Submit a topic and time using our form.</h5>
             <h5>2. Let us host and share the event on our website.</h5>
             <h5>3. Share your interest with your friends, meet new people, and have fun!</h5>
-            <CustomButton href={'/events/add-new-event'}  text={'Start Socializing'}
+            <CustomButton href={'/socalize/add-new-event'}  text={'Start Socializing'}
             color={"white2"} size={"large"} />
             <br /><br /><br /><br />
         </div>

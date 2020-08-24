@@ -3,6 +3,7 @@ import { CustomButton } from "../..";
 import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js";
 import Fuse from 'fuse.js';
+import { Dvr } from "@material-ui/icons";
 
 /**
 * Custom tag button for selection/deselection
@@ -44,14 +45,15 @@ class ResourcesListFunctionality extends React.Component {
       activityIndicator: true,
       category: "All Resources",
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
+      event: {},
+      gridView: true,
       resourcesDict: {},
       resourcesDisplay: [],
       tagsDict: {},
       tagsDisplay: [],
       tagsResourcesDisplay: {},
       searchError: "",
-      selection: 1,
-      event: {}
+      selection: 1
     };
     this.getResources();
   }
@@ -64,6 +66,7 @@ class ResourcesListFunctionality extends React.Component {
     let approvedResourcesDict = {"All Resources":[]};
     let allResources = [];
     try{
+      
       let db = firebase.firestore();
       // let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
       let arr = [];
@@ -209,6 +212,8 @@ class ResourcesListFunctionality extends React.Component {
   * @param  {String} val: Query that's typed into the search bar
   */
   searchFunc(val) {
+    console.log("VAL: ")
+    console.log(val)
     let resources = [];
     let category = this.state.category;
     let allResources = this.state.resourcesDict[category];
@@ -245,40 +250,42 @@ class ResourcesListFunctionality extends React.Component {
     }, function () {
       this.handleChange(this.state.event);
     });
+    console.log(this.state.resourcesDisplay)
   }
 
   /**
   * Function that sorts the filter based on dropdown menu selection
   * @param  event: Received from <Search> element that has the value of the filter sort
   */
-  handleChange = (event, index, value) => { 
-    // alphabetical sort
-    if (event.target!== undefined && event.target.value === 2){
-      let array = this.state.resourcesDisplay;
-      array.sort(function(a, b){
-        let titleA=a.title.toLowerCase(), titleB=b.title.toLowerCase();
-        if(titleA < titleB){
-          return -1;
-        }
-        if(titleA > titleB){
-          return 1;
-        }
-        return 0;
-      });
-      this.setState({
-        event: event,
-        resourcesDisplay: array,
-        selection: event.target.value
-      });
-    }
+  handleChange = (event, index, value) => {
+    if (event!== undefined){
+      // alphabetical sort
+      if (event.target!== undefined && event.target.value === 2){
+        let array = this.state.resourcesDisplay;
+        array.sort(function(a, b){
+          let titleA=a.title.toLowerCase(), titleB=b.title.toLowerCase();
+          if(titleA < titleB){
+            return -1;
+          }
+          if(titleA > titleB){
+            return 1;
+          }
+          return 0;
+        });
+        this.setState({
+          event: event,
+          resourcesDisplay: array,
+          selection: event.target.value
+        });
+      }
 
-    else if(event.target!==undefined && event.target.value === 1){
-      this.setState({
-        event: event,
-        selection: event.target.value
-      });
+      else if(event.target!==undefined && event.target.value === 1){
+        this.setState({
+          event: event,
+          selection: event.target.value
+        });
+      }
     }
-
   }
 }
 
