@@ -18,9 +18,18 @@ const useStyles = () => ({
     marginLeft: '3%',
     verticalAlign: 'middle'
   },
+  resourcesFound: {
+    marginLeft:'2%',
+    marginTop: '3%',
+    display: 'inline-block',
+    textAlign: "center",
+    verticalAlign: 'middle',
+    color: "#828282",
+    fontSize: "18px"
+  },
   dropdownMenu: {
     width:'12%',
-    marginLeft:'75%',
+    marginLeft:'57%',
     marginTop: '3%',
     display: 'inline-block',
     textAlign: "center",
@@ -170,8 +179,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             );
           })}
         </div>
+        <div className={classes.resourcesFound}> {this.state.resourcesDisplay.length} Resources Found </div>
         <div className={classes.dropdownMenu}>
-
             <Select
               labelId="label"
               id="select"
@@ -194,27 +203,29 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 <ViewListIcon style={{fill: "#0072CE"}}/>
             </IconButton>
         </div>
-        <br/><br/>
-        {!this.state.gridView && <div className={classes.addResourceBox}>
-          <div className={classes.addResourceText}>
-            <h2 style={{fontSize:28}}>Want to add your own resource?</h2>
-            <p style={{fontSize: 14}}>Thank you for your interest in sharing your resource through CVC! Please click the button to fill out a short form.
-            </p>
-          </div>
-          <div className={classes.addResourceButton}>
-            <CustomButton text={"ADD RESOURCE"}
-                        href={"/resources/add-new-resource"}
-                        color={"blueInvert2"}
-                        size={"large"}
-           />
-          </div>
+        {!this.state.gridView && <div>
+          <br/><br/>
+          <div className={classes.addResourceBox}>
+              <div className={classes.addResourceText}>
+                <h2 style={{fontSize:28}}>Want to add your own resource?</h2>
+                <p style={{fontSize: 14}}>Thank you for your interest in sharing your resource through CVC! Please click the button to fill out a short form.
+                </p>
+              </div>
+              <div className={classes.addResourceButton}>
+                <CustomButton text={"ADD RESOURCE"}
+                            href={"/resources/add-new-resource"}
+                            color={"blueInvert2"}
+                            size={"large"}
+               />
+              </div>
+            </div>
         </div>}
 
         <GridContainer style={{width: '100%'}}>
           <GridItem>
             <GridContainer className={classes.resourcesList}>
               {this.state.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
-              {this.state.gridView && <GridItem xs={12}
+              {!this.state.activityIndicator && this.state.gridView && <GridItem xs={12}
                         sm={6}
                         md={3}
                         style={{marginBottom: "40px", marginTop: "10px"}}
