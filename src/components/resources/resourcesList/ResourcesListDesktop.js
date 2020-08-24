@@ -30,6 +30,17 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
   render() {
     return (
       <div>
+        <div style={{width:'30%', marginTop: '-580px', display: 'inline-block', marginLeft: '3%', textAlign: "center", verticalAlign: 'middle'}}>
+          <Search data={this.state.myResourcesDisplay}
+            ref={input => this.inputElement = input}
+            onClick={(val) => { this.searchFunc(val) }}
+            onCancel={() => { this.searchFunc('') }}
+            placeholder={"Search resources"}
+            style={{height:'70%'}}
+            iconColor={"white"}
+
+          />
+        </div>
         <div style={{textAlign:'center'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
@@ -59,16 +70,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               >{category}</Button>
             );
           })}
-        </div>
-
-        <div style={{width:'71%', marginTop: '3%', display: 'inline-block', marginLeft: '3%', textAlign: "center", verticalAlign: 'middle'}}>
-            <Search data={this.state.myResourcesDisplay}
-                ref={input => this.inputElement = input}
-                onClick={(val) => { this.searchFunc(val) }}
-                onCancel={() => { this.searchFunc('') }}
-                placeholder={"Search resources"}
-                style={{height:'70%'}}
-            />
         </div>
         <div style={{width:'12%', marginLeft:'2%', marginTop: '3%',
             display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>

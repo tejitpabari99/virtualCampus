@@ -55,7 +55,7 @@ export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMe
         Title, Subtitle, Heading, Search, ResourcesList, ResourceFormDesktop, ResourceFormMobile,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCardGridView, ResourcesCardListView,
-        BLMCard, TutorExpansionMapping, TutorSearchMapping, 
+        BLMCard, TutorExpansionMapping, TutorSearchMapping,
         convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset,
         dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent,
         EventCardFeatured, EventSearch}

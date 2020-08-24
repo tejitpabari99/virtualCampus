@@ -3,10 +3,20 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
+import { withStyles } from "@material-ui/core/styles";
 import {CustomButton} from "../";
 import ClearIcon from '@material-ui/icons/Clear';
 
-export default class Search extends React.Component{
+const styles = theme => ({
+  whiteOutline: {
+    borderColor: 'white',
+  },
+  blackOutline: {
+    borderColor: 'black',
+  }
+});
+
+class Search extends React.Component{
   constructor(props) {
     super(props);
     this.state={
@@ -27,6 +37,7 @@ export default class Search extends React.Component{
    const height = 44;
    // magic number which must be set appropriately for height
    const labelOffset = -6;
+   const { classes } = this.props;
 
    let iconCol = this.props.iconColor === undefined ? 'black' : this.props.iconColor
     return(
@@ -48,6 +59,7 @@ export default class Search extends React.Component{
               style: {
                 height,
                 padding: '0 14px',
+                color: this.props.iconColor === undefined ? 'black' : this.props.iconColor
               },
           }}
 
@@ -58,6 +70,7 @@ export default class Search extends React.Component{
           variant="outlined"
           onKeyDown={this.keyPress}
           InputProps={{
+            classes: { notchedOutline: this.props.iconColor === undefined ? classes.blackOutline : classes.whiteOutline },
             endAdornment: (
               <div>
                 <InputAdornment position="end">
@@ -74,3 +87,5 @@ export default class Search extends React.Component{
     )
   }
 }
+
+export default withStyles(styles)(Search);

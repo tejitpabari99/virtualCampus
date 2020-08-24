@@ -7,8 +7,7 @@ import ResourcesFeatured from "../components/resources/featured/ResourcesFeature
 export default function Resources() {
     return (
         <TemplateResources active={'resources'} title={'Resources'}>
-          <Title color={'blue'}>Resources</Title>
-            <div style={{paddingTop: '3%'}}>
+            <div style={{paddingLeft: '3%'}}>
                 <ResourcesFeatured />
             </div>
             <div style={{paddingLeft: '3%', paddingRight: '3%'}}>
