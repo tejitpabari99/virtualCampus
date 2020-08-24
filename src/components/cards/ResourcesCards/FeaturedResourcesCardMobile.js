@@ -22,7 +22,7 @@ import {primaryColor,
   infoColor,
   roseColor,
   grayColor,
-  vcColor} from '../../assets/material-kit-assets/jss/material-kit-react'
+  vcColor} from '../../../assets/material-kit-assets/jss/material-kit-react'
 
 const colorMapping = {
   'primary': primaryColor,
@@ -38,10 +38,8 @@ const colorMapping = {
 
 const useStyles = makeStyles({
   root: {
-    height: '145px',
-    display: 'flex',
-    width: '638px',
-    align: 'left',
+    height: '386px',
+    align: 'center',
     position: 'relative',
     boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
     transition: 'all 0.3s',
@@ -52,28 +50,28 @@ const useStyles = makeStyles({
   },
   imgOverlay: {
     position:'absolute',
-    background: '#FFFFFF',
+    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 71%)',
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    height: '100%',
-    opacity:'0%'
+    height: '50.26%',
+    opacity:'50%'
   },
   media: {
     position: 'absolute',
     left: '0%',
     right: '0%',
     top: '0%',
-    bottom: '100%',
-    paddingRight: "70%",
+    bottom: '50.26%',
+
     borderRadius: '5px 5px 0px 0px'
   },
   title: {
     position: 'absolute',
-    left: '35%',
+    left: '8.28%',
     right: '8.28%',
-    top: '25%',
+    top: '29.02%',
     bottom: '51.04%',
 
     /* Desktop/Body */
@@ -84,15 +82,15 @@ const useStyles = makeStyles({
     fontSize: '25px',
     lineHeight: '30px',
 
-    color: '#000000'
+    color: '#FFFFFF'
   },
   description: {
     // display: 'none',
     // height: 60,
     position: 'absolute',
-    left: '35%',
+    left: '8.28%',
     right: '8.28%',
-    top: '50%',
+    top: '55.44%',
     bottom: '9.59%',
 
     /* Desktop/Details */
@@ -105,19 +103,6 @@ const useStyles = makeStyles({
 
     color: '#000000',
     // overflow: 'hidden'
-  },
-  category: {
-    position: 'absolute',
-    left: '35%',
-    top: '10%',
-
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '11px',
-    lineHeight: '16px',
-
-    color: "#636363",
   },
   cardHeader:{
     textTransform: 'capitalize',
@@ -171,7 +156,7 @@ const trimDescription = function(description) {
   return description
 };
 
-export default function ResourcesCard(props) {
+export default function FeaturedResourcesCard(props) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -182,7 +167,7 @@ export default function ResourcesCard(props) {
 
 
   let {iosLink, androidLink, website, share, img, title, description, tags,
-    headerTitle, headerColor, category} = props;
+    headerTitle, headerColor} = props;
   if(headerColor && colorMapping.hasOwnProperty(headerColor)){
     headerColor = colorMapping[headerColor.toLowerCase()]
   }
@@ -193,24 +178,23 @@ export default function ResourcesCard(props) {
   return (
     <Card className={classes.root}>
       <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
-      <div className={classes.mediaContainer}>
-        <CardMedia
-          component="img"
-          height="100%"
-          className={classes.media}
-          image={img}
-          title={title}
-        />
-        <div className={classes.imgOverlay}/>
-      </div>
+        <div className={classes.mediaContainer}>
+          {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
+          <CardMedia
+            component="img"
+            height="50.26%"
+            className={classes.media}
+            image={img}
+            title={title}
+          />
+          <div className={classes.imgOverlay}/>
+
+        </div>
 
         <CardContent style={{marginBottom: 0}}>
-        <Typography variant="body2" color="textSecondary" component="p" className={classes.category} >
-        {category}
-        </Typography>
-        <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
-          {title}
-        </Typography>
+          <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
+            {title}
+          </Typography>
           <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
             {trimDescription(description)}
           </Typography>
@@ -221,8 +205,8 @@ export default function ResourcesCard(props) {
               </Button>
             )
           })}
-        </CardContent>
 
+        </CardContent>
         <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
           <div style={{float: 'left'}}>
             {share &&
@@ -273,7 +257,7 @@ export default function ResourcesCard(props) {
   );
 }
 
-ResourcesCard.propTypes = {
+FeaturedResourcesCard.propTypes = {
   iosLink: PropTypes.string,
   androidLink: PropTypes.string,
   website: PropTypes.string.isRequired,
@@ -283,6 +267,5 @@ ResourcesCard.propTypes = {
   title: PropTypes.string.isRequired,
   tags: PropTypes.string.isRequired,
   headerTitle: PropTypes.string,
-  headerColor: PropTypes.string,
-  category: PropTypes.string.isRequired
+  headerColor: PropTypes.string
 };

@@ -11,7 +11,7 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import GridItem from "../../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
 import EventEmailModal from "../EventEmailModal";
-import ChevronRightIcon from '@material-ui/icons/ChevronRightOutlined';
+import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import firebase from "../../../firebase";
 import {handleEventClick} from "../eventCardsFeaturedAndCards/commonEventsFuncs"
 import ViewListIcon from "@material-ui/icons/ViewList";
@@ -172,7 +172,7 @@ export default function EventCardDesktop({ ele }) {
                                    style={{marginTop: 'auto', marginBottom:'0px',
                                      display: 'inline-block', textAlign: "center", verticalAlign: 'bottom'}}>
                 <IconButton href={ele.links.website}>
-                  <ChevronRightIcon style={{fill: "#0072CE"}}/>
+                  <ChevronRightOutlinedIcon style={{fill: "#0072CE", border:1}}/>
                 </IconButton>
               </GridItem>
             </GridContainer>
