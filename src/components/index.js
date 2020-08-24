@@ -18,7 +18,8 @@ import ResourcesFeaturedDesktop from "./resources/featured/ResourcesFeaturedDesk
 import ResourcesFeaturedMobile from "./resources/featured/ResourcesFeaturedMobile";
 import ResourceFormDesktop from "./resources/form/ResourceFormDesktop";
 import ResourceFormMobile from "./resources/form/ResourceFormMobile";
-import ResourcesCard from "./cards/ResourcesCard";
+import ResourcesCardGridView from "./cards/ResourcesCards/ResourcesCardGridView";
+import ResourcesCardListView from "./cards/ResourcesCards/ResourcesCardListView";
 import AddCalendar from "./events/AddCalendar";
 import CustomButton from "./buttons/CustomButton";
 import HomeEvents from "./home/HomeEvents";
@@ -53,8 +54,8 @@ export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMe
         CustomButton, DesktopMobile,
         Title, Subtitle, Heading, Search, ResourcesList, ResourceFormDesktop, ResourceFormMobile,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
-        ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCard,
-        BLMCard, TutorExpansionMapping, TutorSearchMapping, 
+        ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCardGridView, ResourcesCardListView,
+        BLMCard, TutorExpansionMapping, TutorSearchMapping,
         convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset,
         dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent,
         EventCardFeatured, EventSearch}
