@@ -137,9 +137,13 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         <div style={{flexDirection: 'row', display: 'flex'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
+
+              // added new custom buttons that toggle on/off based on click status
               <CustomButton size="medium"
                       active={(this.state.activeTags === category)}
                       simple
+                      
+                      // if category is "All Resources", do not display
                       style={category != "All Resources" ?{
                           width: '16%',
                           height: '120px',

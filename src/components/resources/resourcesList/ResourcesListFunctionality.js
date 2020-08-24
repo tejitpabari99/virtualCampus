@@ -63,6 +63,7 @@ class ResourcesListFunctionality extends React.Component {
   /**
   * Get resources from Firestore
   * Set initial resources/tags and display on website
+  * Save All Resources and All Tags in separate dictionaries allResourcesDict and allTagsDict
   */
   async getResources() {
     let approvedResourcesDict = {"All Resources":[]};
@@ -146,8 +147,7 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   /**
-  * Renders resources when a tag is deselected
-  * @param  {String} tag: Deselected tag
+  * Renders resources when a category is deselected
   */
  deleteDisplay() {
     let resources = this.state.allResourcesDict;
