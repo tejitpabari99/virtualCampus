@@ -149,30 +149,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             );
           })}
         </div>
-        <div className={classes.dropdownMenu}>
-            <Select
-              labelId="label"
-              id="select"
-              value={this.state.selection}
-              onChange={this.handleChange}
-              style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
-            >
-              <MenuItem value={1}>Sort by</MenuItem>
-              <MenuItem value={2}>Alphabetical</MenuItem>
-            </Select>
-        </div>
-        <div className={classes.viewIcon}>
-            <IconButton onClick={this.handleClickView.bind(this, true)}>
-                <GridOnIcon style={{fill: "#0072CE", textShadow: "0 0 3px #000"}}/>
-            </IconButton>
-        </div>
-        <div className={classes.viewIcon}>
-            <IconButton onClick={this.handleClickView.bind(this, false)}>
-                <ViewListIcon style={{fill: "#0072CE"}}/>
-            </IconButton>
-        </div>
-
-        <hr style={{border: "1px solid #0072CE", marginTop: '20px'}} />
 
         <Heading color={'blue'}
                  className={classes.category}
@@ -194,6 +170,30 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             );
           })}
         </div>
+        <div className={classes.dropdownMenu}>
+
+            <Select
+              labelId="label"
+              id="select"
+              value={this.state.selection}
+              onChange={this.handleChange}
+              style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
+              variant={"outlined"}
+            >
+              <MenuItem value={1}>Sort by</MenuItem>
+              <MenuItem value={2}>Alphabetical</MenuItem>
+            </Select>
+        </div>
+        <div className={classes.viewIcon}>
+            <IconButton onClick={this.handleClickView.bind(this, true)}>
+                <GridOnIcon style={{fill: "#0072CE", textShadow: "0 0 3px #000"}}/>
+            </IconButton>
+        </div>
+        <div className={classes.viewIcon}>
+            <IconButton onClick={this.handleClickView.bind(this, false)}>
+                <ViewListIcon style={{fill: "#0072CE"}}/>
+            </IconButton>
+        </div>
         <br/><br/>
         {!this.state.gridView && <div className={classes.addResourceBox}>
           <div className={classes.addResourceText}>
@@ -214,13 +214,13 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           <GridItem>
             <GridContainer className={classes.resourcesList}>
               {this.state.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
-              <GridItem xs={12}
-                            sm={6}
-                            md={3}
-                            style={{marginBottom: "40px", marginTop: "10px"}}
-                  >
-                    <AddResourceCardDesktop/>
-              </GridItem>
+              {this.state.gridView && <GridItem xs={12}
+                        sm={6}
+                        md={3}
+                        style={{marginBottom: "40px", marginTop: "10px"}}
+                >
+                <AddResourceCardDesktop/>
+              </GridItem>}
               {!this.state.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map((data) => {
                 return (
                   <GridItem xs={12}
