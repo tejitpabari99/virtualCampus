@@ -1,7 +1,6 @@
 import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
-import Button from "../../material-kit-components/CustomButtons/Button";
 import {AddResourceCardDesktop, ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search, EventCardFeatured} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
@@ -48,20 +47,6 @@ const useStyles = () => ({
     color: 'red',
     marginTop: '5px'
   },
-  button: {
-    position: 'relative',
-    marginLeft:"2%",
-    marginRight:"2%",
-    marginTop: '2%',
-    borderRadius: '10px',
-
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '13px',
-    lineHeight: '20px',
-    color: '#0072CE'
-  },
   category: {
     textAlign:'center',
     marginTop: '30px'
@@ -71,12 +56,6 @@ const useStyles = () => ({
     marginTop: '15px',
     paddingLeft: '20px',
     paddingRight: '20px'
-  },
-  tags: {
-    marginTop: 5,
-    marginBottom: 5,
-    marginLeft: 10,
-    fontSize: 'min(1.5vw, 9px)',
   },
   addResourceBox: {
     paddingRight:"10%",
@@ -113,6 +92,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
     this.state = {...this.state, activeTags: ""}
+    this.category = "All Resources";
   }
 
   handleClick(tagName){
@@ -141,24 +121,59 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        <div style={{textAlign:'center'}}>
+        
+        <div style={{flexDirection: 'row', display: 'flex', marginTop: '-7%'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
-              <Button size="medium"
-                      active={(this.state.activeTags === category)}
-                      simple
-                      style={{backgroundColor: (this.state.activeTags === category) ? "#F2F2F2" : "white",}}
-                      className={classes.button}
-                      onClick={() =>{
-                        this.setDisplay.bind(this, category)();
-                        this.handleClick.bind(this)(category);
-                      }}
-                      value={{category}}
-              >{category}</Button>
+
+              // added new custom buttons that toggle on/off based on click status
+              <CustomButton size="medium"
+                  active={(this.state.activeTags === category)}
+                  simple
+
+                  // if category is "All Resources", do not display
+                  style={category !== "All Resources" ?{
+                      width: '16%',
+                      height: '120px',
+                      boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
+                      marginRight: '20px',
+                      marginTop: '2%',
+                      fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
+                      fontStyle: 'normal',
+                      fontWeight: '900',
+                      fontSize: '14px',
+                      whiteSpace: 'nowrap'
+                  }
+                  :{
+                    display: 'None'
+                  }
+                  }
+                  onClick={() =>{
+                    if (this.category===category)
+                    {
+                      this.category = "All Resources";
+                      category = "All Resources";
+                    }
+                    else
+                    {
+                      this.category = category;
+                    }
+                    this.deleteDisplay.bind(this, category);
+                    this.setDisplay.bind(this, category)();
+
+                  }}
+
+                  val={category}
+                  color={
+                    (this.category === category) ? "blue" : 'paleblue'
+                  }
+                  text={category}
+              />
             );
           })}
         </div>
 
+        <br/>
         <Heading color={'blue'}
                  className={classes.category}
         >{this.state.category}</Heading>
@@ -170,7 +185,11 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           {this.state.tagsDisplay.sort().map((tag, idx) => {
             return (
               <CoolerButton key={idx}
-                            className={classes.tags}
+                            style={{marginTop: 5,
+                                    marginBottom: 5,
+                                    marginLeft: 10,
+                                    fontSize: 'min(1.5vw, 9px)',
+                            }}
                             onClick={this.setTagDisplay.bind(this, tag)}
                             otherClickOption={this.deleteTagDisplay.bind(this, tag)}
                             category={this.state.category}
