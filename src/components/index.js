@@ -16,6 +16,7 @@ import ResourcesListMobile from "./resources/resourcesList/ResourcesListMobile";
 import ResourcesFeatured from "./resources/featured/ResourcesFeatured";
 import ResourcesFeaturedDesktop from "./resources/featured/ResourcesFeaturedDesktop";
 import ResourcesFeaturedMobile from "./resources/featured/ResourcesFeaturedMobile";
+import AddResourceCardDesktop from "./cards/ResourcesCards/AddResourceCardDesktop";
 import ResourceFormDesktop from "./resources/form/ResourceFormDesktop";
 import ResourceFormMobile from "./resources/form/ResourceFormMobile";
 import ResourcesCardGridView from "./cards/ResourcesCards/ResourcesCardGridView";
@@ -51,7 +52,7 @@ export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMe
         EventCard, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         EventsPageMobile, EventsPageDesktop,
-        CustomButton, DesktopMobile,
+        CustomButton, DesktopMobile, AddResourceCardDesktop,
         Title, Subtitle, Heading, Search, ResourcesList, ResourceFormDesktop, ResourceFormMobile,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCardGridView, ResourcesCardListView,

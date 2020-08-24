@@ -2,7 +2,7 @@ import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../../material-kit-components/CustomButtons/Button";
-import {ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search, EventCardFeatured} from "../..";
+import {AddResourceCardDesktop, ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search, EventCardFeatured} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core";
@@ -41,7 +41,7 @@ const useStyles = () => ({
   },
   button: {
     position: 'relative',
-    marginLeft:"1%",
+    marginLeft:"2%",
     marginRight:"2%",
     marginTop: '2%',
     borderRadius: '10px',
@@ -195,7 +195,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           })}
         </div>
         <br/><br/>
-        <div className={classes.addResourceBox}>
+        {!this.state.gridView && <div className={classes.addResourceBox}>
           <div className={classes.addResourceText}>
             <h2 style={{fontSize:28}}>Want to add your own resource?</h2>
             <p style={{fontSize: 14}}>Thank you for your interest in sharing your resource through CVC! Please click the button to fill out a short form.
@@ -208,13 +208,20 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                         size={"large"}
            />
           </div>
-        </div>
+        </div>}
 
         <GridContainer style={{width: '100%'}}>
           <GridItem>
             <GridContainer className={classes.resourcesList}>
               {this.state.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
-              {!this.state.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map(data => {
+              <GridItem xs={12}
+                            sm={6}
+                            md={3}
+                            style={{marginBottom: "40px", marginTop: "10px"}}
+                  >
+                    <AddResourceCardDesktop/>
+              </GridItem>
+              {!this.state.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map((data) => {
                 return (
                   <GridItem xs={12}
                             sm={6}
@@ -231,6 +238,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                       tags={data.category.tags}
                       share
                     />
+
                   </GridItem>
                 );
 
