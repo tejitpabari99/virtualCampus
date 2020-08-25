@@ -780,7 +780,7 @@ getCalendarText() {
               <div>{!this.state.loadingEvents && noSearchResults}</div>
           </div>
           <footer className={classes.footerStyle}>
-              <CustomButton href={"/socalize/add-new-event"} text={"Want to add an event?"}
+              <CustomButton href={"/socialize/add-new-event"} text={"Want to add an event?"}
                             style={{fontSize: "11px"}} color={"blueRound"} size={"large"}/>
           </footer>
         </Template>
