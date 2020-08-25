@@ -14,7 +14,7 @@ import { CustomButton, AddCalendar, CustomTheme } from "../../";
 import EventEmailModal from "./../EventEmailModal"
 import Heading1 from "../../text/Heading1";
 import Heading2 from "../../text/Heading2";
-import {months, days, formatTime} from "./commonEventsFuncs";
+import {months, days, formatTime} from "../../events/SharedEvents"
 
 const theme = CustomTheme;
 

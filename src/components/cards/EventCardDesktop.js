@@ -9,7 +9,7 @@ import Heading1 from "../text/Heading1";
 import Heading2 from "../text/Heading2";
 import Circle from "react-simple-shapes";
 import EventEmailModal from "./EventEmailModal"
-import {months, formatTime} from "./eventCardsFeaturedAndCards/commonEventsFuncs"
+import {months, formatTime} from "../events/SharedEvents"
 
 const theme = CustomTheme;
 

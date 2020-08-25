@@ -8,7 +8,7 @@ import CustomButton from '../buttons/CustomButton';
 import Heading1Mobile from "../text/Heading1Mobile";
 import Heading2Mobile from "../text/Heading2Mobile";
 import EventEmailModal from "./EventEmailModal"
-import {months, formatTime} from "./eventCardsFeaturedAndCards/commonEventsFuncs"
+import {months, formatTime} from "../events/SharedEvents"
 
 const theme = CustomTheme;
 
