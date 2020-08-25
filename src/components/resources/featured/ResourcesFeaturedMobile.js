@@ -35,7 +35,7 @@ const useStyles = () => ({
     marginTop: "-5px",
     height: "733px",
     marginLeft: "80%",
-    width: "20.6%",
+    width: "21.4%",
     marginRight: "-0.25%",
     borderColor: "#FB750D",
     borderRadius: "0px 0px 0px 102px"
