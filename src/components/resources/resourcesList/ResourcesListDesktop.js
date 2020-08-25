@@ -85,6 +85,14 @@ const useStyles = () => ({
     paddingLeft: '20px',
     paddingRight: '20px',
     paddingTop: '50px'
+  },
+  gridCard: {
+    marginBottom: "40px",
+    marginTop: "10px"
+  },
+  listCard: {
+    marginBottom: "20px",
+    marginTop: "5px"
   }
 });
 
@@ -93,12 +101,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     super(props);
     this.state = {...this.state, activeTags: ""}
     this.category = "All Resources";
-  }
-
-  handleClick(tagName){
-    this.setState({
-      activeTags: tagName
-    });
   }
 
   handleClickView(isGridView){
@@ -142,7 +144,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                       fontStyle: 'normal',
                       fontWeight: '900',
                       fontSize: '14px',
-                      whiteSpace: 'nowrap'
+                      wordWrap: 'breakWord'
                   }
                   :{
                     display: 'None'
@@ -247,7 +249,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               {!this.state.activityIndicator && this.state.gridView && <GridItem xs={12}
                         sm={6}
                         md={3}
-                        style={{marginBottom: "40px", marginTop: "10px"}}
+                        className={classes.gridCard}
                 >
                 <AddResourceCardDesktop/>
               </GridItem>}
@@ -256,7 +258,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   <GridItem xs={12}
                             sm={6}
                             md={3}
-                            style={{marginBottom: "40px", marginTop: "10px"}}
+                            className={classes.gridCard}
                   >
                     <ResourcesCardGridView
                       website={data.links.website}
@@ -278,7 +280,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   <GridItem xs={12}
                     sm={6}
                     md={6}
-                    style={{marginBottom: "20px", marginTop: "5px"}}
+                    className={classes.listCard}
                   >
                     <ResourcesCardListView
                       ele = {data}

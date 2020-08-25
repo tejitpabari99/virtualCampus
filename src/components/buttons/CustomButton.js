@@ -63,6 +63,7 @@ const manualSt = makeStyles(() => ({
       backgroundColor: '#0072CE',
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
+    wordWrap: 'breakWord'
   },
 
   // new color scheme for resource page buttons
@@ -74,6 +75,7 @@ const manualSt = makeStyles(() => ({
       backgroundColor: '#0072CE',
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
+    wordWrap: 'breakWord'
   },
   blue2: {
     color: 'white !important',
@@ -191,7 +193,7 @@ CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
   color: PropTypes.oneOf(["white", "white2", "black", "orange", "blue",
-    "blueInvert", "blueInvert2", "orangeInvert", "whiteNoHover"]),
+    "blueInvert", "blueInvert2", "orangeInvert", "whiteNoHover", "paleblue"]),
   size: PropTypes.oneOf(["large","small", "medium"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,

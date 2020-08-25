@@ -41,7 +41,7 @@ const useStyles = () => ({
     borderRadius: "0px 0px 0px 102px"
   },
   cardList: {
-    marginTop: "-500px",
+    marginTop: "-450px",
     marginLeft: "10%",
     width: "300px",
   },
@@ -71,7 +71,7 @@ render() {
         <div className={classes.subBox}>
           <div className={classes.text}>
             <h2 style={{fontSize:"2.5em", color:"white", lineHeight:"1.3"}}>Resources</h2>
-            <p style={{fontSize: "1em", color:"white"}}>Some of our most popular resources to help you tackle recent events, be mindful of your health, improve your job search, and more.
+            <p style={{fontSize: "1em", color:"white", width:"70%"}}>Some of our most popular resources to help you tackle recent events, be mindful of your health, improve your job search, and more.
               <br /><br />
             </p>
           </div>
