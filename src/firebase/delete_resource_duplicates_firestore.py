@@ -37,7 +37,7 @@ def remove_duplicates(category_docs):
     for category_doc in category_docs:
         category_doc.reference.update({"resource_list": set(category_doc.get("resource_list"))})
         category_doc.reference.update({"tag_list": set(category_doc.get("tag_list"))})
-        for doc in category_doc.reference.collection(category_doc.id).stream():
+        for doc in category_doc.reference.collection("resources").stream():
             try:
                 resource = Resource.from_dict(doc.to_dict())
                 if resource in seen:
