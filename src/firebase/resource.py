@@ -1,4 +1,5 @@
 from typing import List, Dict
+import datetime
 
 class Links(object):
 
@@ -37,7 +38,7 @@ class Links(object):
 
 class Resource(object):
     
-    def __init__(self, title:str, reviewed:bool, description:str, img:str, category:str, tags:List[str], links:Links):
+    def __init__(self, title:str, reviewed:bool, description:str, img:str, category:str, tags:List[str], links:Links, date_created:datetime.datetime, ranking:int):
         self._title = title
         self._reviewed = reviewed
         self._description = description
@@ -45,6 +46,8 @@ class Resource(object):
         self._category = category
         self._tags = tags
         self._links = links
+        self._date_created = date_created
+        self._ranking = ranking
 
     @staticmethod
     def from_dict(resource_dict: Dict):
@@ -55,7 +58,9 @@ class Resource(object):
         img=resource_dict["img"], 
         category=resource_dict["category"]["category"], 
         tags=resource_dict["category"]["tags"], 
-        links=Links.from_dict(resource_dict["links"])
+        links=Links.from_dict(resource_dict["links"]),
+        date_created=resource_dict["dateCreated"],
+        ranking=resource_dict["ranking"]
         )
 
     def to_dict(self) -> Dict:
@@ -69,6 +74,8 @@ class Resource(object):
             "img": self.img,
             "links": self.links.to_dict(),
             "title": self.title,
+            "dateCreated": self.date_created,
+            "ranking": self.ranking
         }
 
     def __eq__(self, other) -> bool:
@@ -106,3 +113,11 @@ class Resource(object):
     @property
     def links(self) -> Dict[str,str]:
         return self._links
+
+    @property
+    def date_created(self) -> datetime.datetime:
+        return self._date_created
+
+    @property
+    def ranking(self) -> int:
+        return self._ranking
