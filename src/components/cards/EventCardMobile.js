@@ -223,11 +223,16 @@ export default function EventCardMobile({ele}) {
                 : ele.invite_link !== '' ?
                     <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                             style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
+
+                : ele.event_link === '' ?
+                    <CustomButton href={"columbiavirtualcampus.com/events?event=" + ele.eventID} text={'WEBSITE'} newTab
+                                style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
+
                 : null}
                 {/* Uncomment the button below for testing */}
                 {/* <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                             style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/> */}
-                {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>} 
+                {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>}
 
             </div>
 

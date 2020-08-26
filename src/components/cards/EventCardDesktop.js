@@ -206,23 +206,29 @@ export default function EventCardDesktop({ ele }) {
                                 style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"medium"}/>
                 </div>
                 </div>
-                : ele.invite_link === '' && ele.event_link !== '' ?
+                : ele.invite_link === '' && (ele.event_link !== '' || ele.link_type === "meeting_link")?
                   <div style={{textAlign:'left'}}>
                   <CustomButton href={ele.event_link} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
                                 style={{ position: "relative", width: "90%", height: "10%" }} />
                                 <div style={{height:"15px"}} />
                   </div>
-                  : ele.invite_link !== '' ?
+                  : ele.invite_link !== '' && (ele.link_type === "registration" || ele.link_type === "") ?
                     <div style={{textAlign:'left'}}>
                       <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                                   style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"small"}/>
                       <div style={{height:"15px"}} />
                     </div>
-                    : null}
-                    {/* Uncomment the button below for testing */}
-                    {/* <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
-                                  style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"small"}/> */}
-                    {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>} 
+                  : ele.event_link === '' || ele.link_type === "meeting_link"?
+                    <div style={{textAlign:'left'}}>
+                    <CustomButton href={"columbiavirtualcampus.com/events?event=" + ele.eventID} text={"WEBSITE"} newTab color={"blue"} size={"medium"}
+                                  style={{ position: "relative", width: "90%", height: "10%" }} />
+                                  <div style={{height:"15px"}} />
+                    </div>
+                  : null}
+                  {/* Uncomment the button below for testing */}
+                  {/* <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
+                                style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"small"}/> */}
+                  {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>}
 
             </div>
           </CardBody>
