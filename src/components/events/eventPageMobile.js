@@ -497,7 +497,7 @@ getCalendarText() {
       }
     });
     if (sizeOfList === 0) {
-      noSearchResults = "No events found for that search"
+      noSearchResults = "No hangouts found for that search"
     }
     console.log("Size: " + sizeOfList)
 
@@ -512,8 +512,8 @@ getCalendarText() {
 
           <div className={classes.mainBox}>
             <div className={classes.mainText} style={{paddingLeft: "20%", paddingRight: "20%"}}>
-              <h2 style={{fontSize:26}}>Featured Events</h2>
-              <p style={{fontSize: 14}}>Some of our most popular upcoming events, activities, and discussions, to keep on your radar.
+              <h2 style={{fontSize:26}}>Featured Hangouts</h2>
+              <p style={{fontSize: 14}}>Some of our most popular theme-based hangouts to keep on your radar.
                 <br /> <br />
                 Register ASAP. Limited seats available for some events.
               </p>
@@ -577,7 +577,7 @@ getCalendarText() {
 
           <div style={{margin: "40px"}}/>
 
-          <EventSearchMobile placeholder="Search all virtual events."
+          <EventSearchMobile placeholder="Search all virtual hangouts."
              iconColor="#2984CE"
              data={this.state.data}
              ref={input => this.inputElement = input}
@@ -595,7 +595,7 @@ getCalendarText() {
           <div style={{margin: "20px"}}/>
           <hr style={{border:"1px solid #0072CE", marginTop: "20px"}} />
           <center>
-            <h2 style={{color:"#0072CE"}}>All Socials</h2>
+            <h2 style={{color:"#0072CE"}}>All Hangouts</h2>
             <h4>A hub for theme based hangouts! Join one that matches your interest or add your own suggestion for
               a theme and time <strong><a style={{color: "#3c4858"}} href={"/add-new-event"}>here</a></strong>.
             </h4>
@@ -607,7 +607,7 @@ getCalendarText() {
               expandIcon={<ExpandMoreIcon style={{color: "#0072CE"}}/>}
             >
                 <h5 style={{textAlign: "left", display: "inline", width: "53%", marginTop: "13px",
-                  color: "#828282", fontSize: "14px", lineHeight: "21px"}}> {sizeOfList} events found</h5>
+                  color: "#828282", fontSize: "14px", lineHeight: "21px"}}> {sizeOfList} hangouts found</h5>
                 <h5 style={{textAlign: "right", color: "#0072CE"}}>{this.getCalendarText()} Calendar</h5>
 
             </ExpansionPanelSummary>

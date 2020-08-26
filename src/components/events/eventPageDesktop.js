@@ -484,7 +484,7 @@ class EventsPageDesktop extends React.Component {
       }
     });
     if (sizeOfList === 0) {
-      noSearchResults = "No socials found. Please refine your search."
+      noSearchResults = "No hangouts found. Please refine your search."
     }
 
     let grayBox = this.state.mainTagsClicked.past === "on" ? classes.grayBoxSelected : classes.grayBox
@@ -498,8 +498,8 @@ class EventsPageDesktop extends React.Component {
 
         <div className={classes.mainBox} style={{ paddingLeft: "10%", paddingRight: "10%" }}>
           <div className={classes.mainText} style={{ paddingLeft: "4%", width: 500 }}>
-            <h2 style={{ fontSize: 40 }}>Featured Events</h2>
-            <p style={{ fontSize: 20 }}>Some of our most popular upcoming events, activities, and discussions, to keep on your radar.
+            <h2 style={{ fontSize: 40 }}>Featured Hangouts</h2>
+            <p style={{ fontSize: 20 }}>Some of our most popular theme-based hangouts to keep on your radar.
               <br /> <br />
               Register ASAP. Limited seats available for some events.
             </p>
@@ -576,7 +576,7 @@ class EventsPageDesktop extends React.Component {
 
         <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px"}}>
         <GridItem xs={12} sm={12} md={12}>
-        <EventSearch placeholder="Search all virtual events."
+        <EventSearch placeholder="Search all virtual hangouts."
                 iconColor="#2984CE"
                 data={this.state.data}
                 ref={input => this.inputElement = input}
@@ -595,7 +595,7 @@ class EventsPageDesktop extends React.Component {
 
          <hr style={{border:"1px solid #0072CE", marginTop: "20px"}} />
          <center>
-           <h2 style={{color:"#0072CE"}}>All Socials</h2>
+           <h2 style={{color:"#0072CE"}}>All Hangouts</h2>
            <h4>A hub for theme based hangouts! Join one that matches your interest or add your own suggestion for
             a theme and time <strong><a style={{color: "#3c4858"}} href={"/add-new-event"}>here</a></strong>.
            </h4>
@@ -640,7 +640,7 @@ class EventsPageDesktop extends React.Component {
               flexDirection: "column", display: "flex", paddingTop: "1%", paddingLeft: "3%", width: "75%",
               marginBottom: "3%", minHeight:"100vh"
             }}>
-              <div style={{ paddingBottom: "1%", color: "#828282", fontSize: "18px" }}> {sizeOfList} Socials Found </div>
+              <div style={{ paddingBottom: "1%", color: "#828282", fontSize: "18px" }}> {sizeOfList} Hangouts Found </div>
               {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
               {!this.state.loadingEvents && eventsList.map((ele) => {
 
