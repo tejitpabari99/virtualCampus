@@ -561,20 +561,8 @@ class EventsPageDesktop extends React.Component {
           </div>
 
         <div style={{margin: "40px"}}/>
-        <div style={{margin: "40px"}}/>
-        <div>
-          <strong>From Sept 1th - Sept 14th, CVC socialize will be reserved for freshmen to hangout and get to know each other as their college journey begins!!! </strong>
-          <br/>
-          <br/>
-          If you're a freshmen, fill out this <a href={"https://columbiavirtualcampus.com/socialize/add-new-event"} style={{color:'blue', textDecoration:'underline'}}>form</a>. Add your contact info, an event name so you have a theme for your hangout (eg. anime, games, hangout) with a quick description (eg. anime watch party for weebs, board game night, etc), and the hangout time.
-          <br/><br/>
-          Note: If you want to limit the number of people who can attend, let us know in the additional comments.
-        </div>
 
-        <div style={{margin: "20px"}}/>
-        <div style={{margin: "40px"}}/>
-
-        <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px"}}>
+        <GridContainer style={{ width: "100%", margin: '0', marginLeft: "-30px", marginTop: "10px", marginBottom: "10px"}}>
         <GridItem xs={12} sm={12} md={12}>
         <EventSearch placeholder="Search all virtual hangouts."
                 iconColor="#2984CE"
@@ -597,7 +585,7 @@ class EventsPageDesktop extends React.Component {
          <center>
            <h2 style={{color:"#0072CE"}}>All Hangouts</h2>
            <h4>A hub for theme based hangouts! Join one that matches your interest or add your own suggestion for
-            a theme and time <strong><a style={{color: "#3c4858"}} href={"/add-new-event"}>here</a></strong>.
+            a theme and time <strong><a style={{color: "#3c4858"}} href={"/socialize/add-new-event"}>here</a></strong>.
            </h4>
          </center>
         <div style={{margin: "40px"}}/>

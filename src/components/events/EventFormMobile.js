@@ -701,6 +701,21 @@ class EventFormMobile extends React.Component {
       return (
         <div style={{backgroundColor: "white"}} >
         <Template title={'Add New Event'} active={"schedule"}>
+
+
+          <div style={{ backgroundColor: "white" }}>
+            <div style={{margin: "40px"}}/>
+            <Container style={{width: "90%"}}>
+              <Grid container spacing={8} style={{marginLeft:"-10px", paddingRight: "50px"}}>
+                <strong>From Sept 1st - Sept 14th, CVC socialize will be reserved for new students to hangout and get to
+                  know each other as their college journey begins!!!
+                </strong>
+                If you are not new, please feel free to add an event now, scheduled for after Sept 14
+              </Grid>
+            </Container>
+          </div>
+
+          <div style={{margin: "60px"}}/>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             {/* <Template active={'schedule'}> */}
             <Container>

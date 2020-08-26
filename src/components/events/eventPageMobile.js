@@ -597,7 +597,7 @@ getCalendarText() {
           <center>
             <h2 style={{color:"#0072CE"}}>All Hangouts</h2>
             <h4>A hub for theme based hangouts! Join one that matches your interest or add your own suggestion for
-              a theme and time <strong><a style={{color: "#3c4858"}} href={"/add-new-event"}>here</a></strong>.
+              a theme and time <strong><a style={{color: "#3c4858"}} href={"/socialize/add-new-event"}>here</a></strong>.
             </h4>
           </center>
           <ExpansionPanel style={{boxShadow: "none", border: "none", borderBottom: "solid 1px rgba(185, 217, 235, 0.5)",
