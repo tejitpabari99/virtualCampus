@@ -20,6 +20,8 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import landingImage from "../../../assets/images/home/MainGraphic.png";
 import HostEventPic from "../../../assets/images/home/HostEventPic.png";
 import MockCodingInterviews from "../../../assets/images/home/MockCodingInterviewDesktop.png";
+import GridContainer from "../Grid/GridContainer";
+import GridItem from "../Grid/GridItem";
 
 const useStyles = makeStyles(styles);
 
@@ -27,8 +29,6 @@ const manualSt = makeStyles(() => ({
   largeIcon: {
     width: "100px",
     height: "100px",
-    marginLeft: "50%",
-    marginBottom: "-20px"
   },
   footer: {
     width: "100%",
@@ -55,37 +55,49 @@ export default function Footer(props) {
   return (
     <footer className={classNames(manual.footer)} style={{zIndex:"50"}}>
 
-      <div className={manual.footer} />
-      <h2 style={{color: "white", fontSize: "36px", marginTop: "-180px", marginLeft: "80px"}}> Columbia Virtual Campus </h2>
-      <h2 style={{color: "white", fontSize: "26px", marginTop: "0px", marginLeft: "80px"}}> Columbia, <i>virtually</i>.</h2>
-      <div style={{color: "white", marginTop: "-105px", fontSize: "14px", marginLeft: "780px"}}>
-        <a href={""} style={{color: "white"}}> Home </a> <br/>
-        <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
-        <a href={"/socialize"} style={{color: "white"}}> Socialize </a> <br/>
-        <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>
-        <a href={"/about-us"} style={{color: "white"}}> About Us </a> <br/>
-        <a href={"/contact-us"} style={{color: "white"}}> Contact Us </a> <br/>
-      </div>
+      <div className={manual.footer} >
+      <GridContainer style={{width:"100vw"}}>
+        <GridItem xs={1} sm={1} md={1} lg={1} />
+        <GridItem xs={4} sm={4} md={4} lg={4} >
+          <h2 style={{color: "white", fontSize: "36px", paddingTop:"50px"}}> Columbia Virtual Campus </h2>
+          <h2 style={{color: "white", fontSize: "26px"}}> Columbia, <i>virtually</i>.</h2>
+        </GridItem>
 
-      <div style={{color: "white", marginTop: "-145px", fontSize: "14px", marginLeft: "980px"}}>
-        <a href={"/socialize/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
-        <a href={"/resources/add-new-resource"} style={{color: "white"}}> Add a Resource </a> <br/>
-        <a href={"/coding-interviews/add-interviewer"} style={{color: "white"}}> Be a Mock Interviewer </a> <br/>
-      </div>
+        <GridItem xs={1} sm={1} md={1} lg={1} >
+          <div style={{color: "white", fontSize: "14px", paddingTop:"70px"}}>
+            <a href={""} style={{color: "white"}}> Home </a> <br/>
+            <a href={"/socialize"} style={{color: "white"}}> Socialize </a> <br/>
+            <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>
+            <a href={"/about-us"} style={{color: "white"}}> About Us </a> <br/>
+            <a href={"/contact-us"} style={{color: "white"}}> Contact Us </a> <br/>
+          </div>
+        </GridItem>
 
-      <div>
-        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "1200px", marginTop: "-100px"}} href={"https://www.instagram.com/columbiavirtualcampus/"}>
-          <InstaIcon style={{color: "white", fontSize: 70}}/>
-        </IconButton>
-        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "1290px", marginTop: "-150px"}} href={"https://www.facebook.com/columbiavirtualcampus/"}>
-          <FacebookIcon style={{color: "white", fontSize: 70}}/>
-        </IconButton>
-        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "1380px", marginTop: "-200px"}} href={"https://www.linkedin.com/company/columbia-virtual-campus/"}>
-          <LinkedInIcon style={{color: "white", fontSize: 70}}/>
-        </IconButton>
-        <IconButton className={classNames(manual.largeIcon)} style={{marginLeft: "1470px", marginTop: "-245px"}} href={"mailto:columbiavirtualcampus@gmail.com"}>
-          <MailOutlineIcon style={{color: "white", fontSize: 70}}/>
-        </IconButton>
+        <GridItem xs={2} sm={2} md={2} lg={2} >
+          <div style={{color: "white", fontSize: "14px", paddingTop:"70px"}}>
+            <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
+            <a href={"/socialize/add-new-event"} style={{color: "white"}}> Host an Event </a> <br/>
+            <a href={"/resources/add-new-resource"} style={{color: "white"}}> Add a Resource </a> <br/>
+            <a href={"/coding-interviews/add-interviewer"} style={{color: "white"}}> Be a Mock Interviewer </a> <br/>
+          </div>
+        </GridItem>
+
+        <GridItem xs={4} sm={4} md={4} lg={4} style={{ paddingTop:"40px"}}>
+          <div style={{paddingTop:"20px"}} />
+          <IconButton className={classNames(manual.largeIcon)}  href={"https://www.instagram.com/columbiavirtualcampus/"}>
+            <InstaIcon style={{color: "white", fontSize: "3vw"}}/>
+          </IconButton>
+          <IconButton className={classNames(manual.largeIcon)} href={"https://www.facebook.com/columbiavirtualcampus/"}>
+            <FacebookIcon style={{color: "white", fontSize: "3vw"}}/>
+          </IconButton>
+          <IconButton className={classNames(manual.largeIcon)} href={"https://www.linkedin.com/company/columbia-virtual-campus/"}>
+            <LinkedInIcon style={{color: "white", fontSize: "3vw"}}/>
+          </IconButton>
+          <IconButton className={classNames(manual.largeIcon)} href={"mailto:columbiavirtualcampus@gmail.com"}>
+            <MailOutlineIcon style={{color: "white", fontSize: "3vw"}}/>
+          </IconButton>
+        </GridItem>
+      </GridContainer>
       </div>
     </footer>
   );

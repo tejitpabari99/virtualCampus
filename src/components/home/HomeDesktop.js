@@ -88,7 +88,7 @@ const manualSt = makeStyles(() => ({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center max(70%, 80px)',
     height: "max(95vh, 31vw)",
-    width: "100%",
+    width: "95%",
     marginLeft: "4%"
   },
   eventsSection: {
@@ -168,8 +168,8 @@ const manualSt = makeStyles(() => ({
     background: `url(${HostEventPic})`,
     backgroundRepeat: 'no-repeat',
     width: "100%",
-    height: "149%",
-    marginLeft: "120px",
+    height: "105%",
+    float:"left"
   },
   mockInterviewPicBox: {
     background: `url(${MockCodingInterviews})`,
@@ -262,47 +262,44 @@ export default function HomeDesktop() {
       </div>
 
       <div id="startEvents">
-      <Container>
-      <GridContainer style={{width: '100%', marginBottom: "40px"}}>
-        <GridItem xs={5} sm={5} md={5} lg={5}
-        style={{width: '100%', height: '500px',
+      <GridContainer style={{marginBottom: "40px"}}>
+        <GridItem xs={1} sm={1} md={1} lg={1} />
+        <GridItem xs={3} sm={3} md={3} lg={3}
+        style={{height: '500px',
             borderRadius: '50px',
             backgroundColor: "#0072CE",
-            marginLeft: "-255px",
             marginBottom: "200px",
-            marginTop: "200px",}}>
+            marginTop: "200px", textAlign:"left", paddingLeft:"3vw", paddingRight:"3vw"}}>
 
-            <p style={{color: "white", fontSize: "48px", marginLeft: "110px", marginTop: "80px"}}> Upcoming Events </p>
-            <p style={{color: "white", fontSize: "20px", marginLeft: "110px", }}> Find out what's happening on campus, virtually.</p>
-            <div style={{marginLeft: "110px", marginTop: "50px"}}>
+            <p style={{color: "white", fontSize: "40px", marginTop: "80px"}}> Upcoming Events </p>
+            <p style={{color: "white", fontSize: "18px"}}> Find out what's happening on campus, virtually.</p>
+
+            <div style={{marginTop: "50px"}}>
               <CustomButton href={'/socialize'}  text={'SEE ALL EVENTS'}
               color={"white2"} size={"large"} />
             </div>
 
         </GridItem>
 
-        <GridItem xs={11} sm={11} md={11} lg={11}
-        style={{width: "100%",
-            height: '724px',
+        <GridItem xs={1} sm={1} md={1} lg={1} />
+        <GridItem xs={6} sm={6} md={6} lg={6}
+        style={{ height: '724px',
             borderRadius: '50px',
-            marginLeft: "170px",
-            marginRight: "-500px",
             marginTop: "90px",
             backgroundColor: "#D7EEF9"}}>
             <div style={{marginLeft: "100px", marginTop: "100px"}}>
               <HomeEvents />
             </div>
         </GridItem>
-
+        <GridItem xs={1} sm={1} md={1} lg={1} />
       </GridContainer>
-      </Container>
       </div>
 
 
-      <GridContainer style={{marginBottom: "100px"}}>
+      <GridContainer style={{marginBottom: "100px", width:"100vw"}}>
         <GridItem xs={1} sm={1} md={1} lg={1} />
         <GridItem xs={4} sm={4} md={4} lg={5}
-          style = {{textAlign: "right", paddingLeft:"5px"}}>
+          style = {{textAlign: "right"}}>
 
           <h2 style={{color:"#0072CE", fontSize: "48px"}}>Looking for people who share <strong>your</strong> interests?</h2>
 
@@ -312,17 +309,15 @@ export default function HomeDesktop() {
           <CustomButton href={'socialize/add-new-event'}  text={'START SOCIALIZING'}
           color={"orange"} size={"large"}/>
         </GridItem>
-
+        <GridItem xs={1} sm={1} md={1} lg={1} />
         <GridItem xs={6} sm={6} md={6} lg={5}>
           <div className={classNames(manual.hostEventPicBox)}> </div>
         </GridItem>
-        <GridItem xs={1} sm={1} md={1} lg={1} />
       </GridContainer>
 
-      <GridContainer style={{marginBottom: "200px"}}>
-          <GridItem xs={1} sm={1} md={1} lg={1} />
-        <GridItem xs={6} sm={6} md={7} lg={5}>
-          <div className={classNames(manual.mockInterviewPicBox)}> </div>
+      <GridContainer style={{marginBottom: "200px", width: "80vw", marginLeft:"10vw"}}>
+        <GridItem xs={6} sm={6} md={7} lg={6}>
+            <div className={classNames(manual.mockInterviewPicBox)}/>
         </GridItem>
 
         <GridItem xs={4} sm={4} md={3} lg={5}
@@ -339,12 +334,25 @@ export default function HomeDesktop() {
           <GridItem xs={1} sm={1} md={1} lg={1} />
       </GridContainer>
 
-      <div className={manual.resourcesSection}>
-        <h1 style={{color: "#0072CE", fontSize: "48px", marginLeft: "100px"}}> Take a look at our Resources!</h1>
-        <CustomButton href={'/resources'}  text={'SEE ALL RESOURCES'}
-            color={"orange"} size={"large"} style={{marginLeft: "1300px", marginTop: "-100px"}}/>
-        <HomeResourcesList />
-      </div>
+      <GridContainer style={{width:"100vw"}}>
+          <GridItem xs={1} sm={1} md={1} lg={1} />
+          <GridItem xs={7} sm={7} md={7} lg={7} >
+            <h1 style={{color: "#0072CE", fontSize: "48px"}}> Take a look at our Resources!</h1>
+          </GridItem>
+          <GridItem xs={3} sm={3} md={3} lg={3} >
+            <CustomButton href={'/resources'}  text={'SEE ALL RESOURCES'}
+                color={"orange"} size={"large"} style={{textAlign:"right", marginTop: "30px"}}/>
+          </GridItem>
+          <GridItem xs={1} sm={1} md={1} lg={1} />
+      </GridContainer>
+
+      <GridContainer style={{width:"99vw"}}>
+        <GridItem xs={1} sm={1} md={1} lg={1} />
+        <GridItem xs={10} sm={10} md={10} lg={10} >
+          <HomeResourcesList />
+        </GridItem>
+        <GridItem xs={1} sm={1} md={1} lg={1} />
+      </GridContainer>
 
       <div style={{ marginBottom: "100px" }} />
 
@@ -384,7 +392,7 @@ export default function HomeDesktop() {
               </div>
           </div>
 
-          <div style={{marginTop: "-650px", marginLeft: "67%"}}>
+          <div style={{marginTop: "-650px", marginLeft: "67%", marginRight:2}}>
               <div style = {{ border:"none"}}
                        className="fb-page"
                        data-href="https://www.facebook.com/columbiavirtualcampus/"
@@ -403,7 +411,6 @@ export default function HomeDesktop() {
               </div>
           </div>
         </div>
-
         <CustomFooter/>
     </div>
   )
