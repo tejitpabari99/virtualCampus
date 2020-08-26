@@ -484,7 +484,7 @@ class EventsPageDesktop extends React.Component {
       }
     });
     if (sizeOfList === 0) {
-      noSearchResults = "No events found for that search"
+      noSearchResults = "No socials found. Please refine your search."
     }
 
     let grayBox = this.state.mainTagsClicked.past === "on" ? classes.grayBoxSelected : classes.grayBox
@@ -561,6 +561,7 @@ class EventsPageDesktop extends React.Component {
           </div>
 
         <div style={{margin: "40px"}}/>
+        <div style={{margin: "40px"}}/>
         <div>
           <strong>From Sept 1th - Sept 14th, CVC socialize will be reserved for freshmen to hangout and get to know each other as their college journey begins!!! </strong>
           <br/>
@@ -571,6 +572,7 @@ class EventsPageDesktop extends React.Component {
         </div>
 
         <div style={{margin: "20px"}}/>
+        <div style={{margin: "40px"}}/>
 
         <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px"}}>
         <GridItem xs={12} sm={12} md={12}>
@@ -591,8 +593,13 @@ class EventsPageDesktop extends React.Component {
         </GridItem>
         </GridContainer>
 
-         <hr style="border:1px solid #0072CE;margin-top:20px" />
-
+         <hr style={{border:"1px solid #0072CE", marginTop: "20px"}} />
+         <center>
+           <h2 style={{color:"#0072CE"}}>All Socials</h2>
+           <h4>A hub for theme based hangouts! Join one that matches your interest or add your own suggestion for
+            a theme and time <strong><a style={{color: "#3c4858"}} href={"/add-new-event"}>here</a></strong>.
+           </h4>
+         </center>
         <div style={{margin: "40px"}}/>
         <div style={{width: "100%"}}>
           <div style={{width: "25%", float:"left", marginBottom:"3%"}}>
@@ -633,7 +640,7 @@ class EventsPageDesktop extends React.Component {
               flexDirection: "column", display: "flex", paddingTop: "1%", paddingLeft: "3%", width: "75%",
               marginBottom: "3%", minHeight:"100vh"
             }}>
-              <div style={{ paddingBottom: "1%", color: "#828282", fontSize: "18px" }}> {sizeOfList} Events Found </div>
+              <div style={{ paddingBottom: "1%", color: "#828282", fontSize: "18px" }}> {sizeOfList} Socials Found </div>
               {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
               {!this.state.loadingEvents && eventsList.map((ele) => {
 

@@ -593,6 +593,13 @@ getCalendarText() {
           />
           <br />
           <div style={{margin: "20px"}}/>
+          <hr style={{border:"1px solid #0072CE", marginTop: "20px"}} />
+          <center>
+            <h2 style={{color:"#0072CE"}}>All Socials</h2>
+            <h4>A hub for theme based hangouts! Join one that matches your interest or add your own suggestion for
+              a theme and time <strong><a style={{color: "#3c4858"}} href={"/add-new-event"}>here</a></strong>.
+            </h4>
+          </center>
           <ExpansionPanel style={{boxShadow: "none", border: "none", borderBottom: "solid 1px rgba(185, 217, 235, 0.5)",
            display: "inline-block", width: "100%", textAlign: "right"}}>
             <ExpansionPanelSummary
