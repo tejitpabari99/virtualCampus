@@ -14,6 +14,8 @@ import Popover from "@material-ui/core/Popover";
 import {FacebookShareButton, TwitterShareButton, LinkedinShareButton, EmailShareButton, WhatsappShareButton,
   FacebookIcon, TwitterIcon, LinkedinIcon, EmailIcon, WhatsappIcon
 } from "react-share";
+import ResourcesListDesktop from "../../resources/resourcesList/ResourcesListDesktop";
+import ResourcesListMobile from "../../resources/resourcesList/ResourcesListMobile";
 import PropTypes from "prop-types";
 import {primaryColor,
   warningColor,
@@ -167,7 +169,7 @@ export default function ResourcesCardGridView(props) {
 
 
   let {iosLink, androidLink, website, share, img, title, description, tags,
-    headerTitle, headerColor} = props;
+    headerTitle, headerColor, func, obj} = props;
   if(headerColor && colorMapping.hasOwnProperty(headerColor)){
     headerColor = colorMapping[headerColor.toLowerCase()]
   }
@@ -177,7 +179,7 @@ export default function ResourcesCardGridView(props) {
 
   return (
     <Card className={classes.root}>
-      <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
+      <a target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
         <div className={classes.mediaContainer}>
           {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
           <CardMedia
@@ -200,58 +202,13 @@ export default function ResourcesCardGridView(props) {
           </Typography>
           {tags && tags.sort().reverse().map(ele => {
             return (
-              <Button disabled style={{'color':'black'}} className={classes.button}>
+              <Button style={{'color':'black'}} className={classes.button}>
                   {ele}
               </Button>
             )
           })}
 
         </CardContent>
-        <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
-          <div style={{float: 'left'}}>
-            {share &&
-            <div style={{display:'inline-block'}} className={classes.icons}>
-              <IconButton aria-describedby={id} onClick={handleClick} size={'small'}>
-                <ShareIcon fontSize={'small'}/>
-              </IconButton>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}>
-                <div style={{display: 'inline-block', paddingLeft: 5, paddingTop: 5, width: '100%'}}>
-                  <FacebookShareButton url={website} children={<FacebookIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <TwitterShareButton url={website} children={<TwitterIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <WhatsappShareButton url={website} children={<WhatsappIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <LinkedinShareButton url={website} children={<LinkedinIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <EmailShareButton url={website} children={<EmailIcon round size={24} style={{marginRight: 5}}/>}/>
-                </div>
-              </Popover>
-            </div>
-            }
-            {iosLink &&
-            <IconButton href={iosLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-              <AppleIcon fontSize={'small'}/>
-            </IconButton>}
-            {androidLink &&
-            <IconButton href={androidLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-              <AndroidIcon fontSize={'small'}/>
-            </IconButton>}
-          </div>
-          <div style={{float: 'right', marginLeft: 'auto'}}>
-            <Button size="small" color="primary" href={website} target='_blank' rel="noopener noreferrer">
-              View
-            </Button>
-          </div>
-        </CardActions>
       </a>
     </Card>
   );
@@ -267,5 +224,7 @@ ResourcesCardGridView.propTypes = {
   title: PropTypes.string.isRequired,
   tags: PropTypes.string.isRequired,
   headerTitle: PropTypes.string,
-  headerColor: PropTypes.string
+  headerColor: PropTypes.string,
+  func: PropTypes.func,
+  obj: PropTypes.oneOf(ResourcesListDesktop, ResourcesListMobile)
 };

@@ -8,6 +8,7 @@ import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core"
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
 const useStyles = () => ({
   searchBar: {
@@ -102,6 +103,10 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     this.state = {...this.state, activeTags: ""}
     this.category = "All Resources";
   }
+
+  handleClickTag(categories){
+    return this.setTagDisplay.bind(this, "recreation")
+  };
 
   handleClickView(isGridView){
     this.setState({
@@ -254,6 +259,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 <AddResourceCardDesktop/>
               </GridItem>}
               {!this.state.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map((data) => {
+                console.log(this.state.resourcesDisplay)
                 return (
                   <GridItem xs={12}
                             sm={6}
@@ -269,7 +275,9 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                       androidLink={data.links.androidLink}
                       tags={data.category.tags}
                       share
-                    />
+                    >
+                        <AddResourceCardDesktop/>
+                    </ResourcesCardGridView>
 
                   </GridItem>
                 );

@@ -21,7 +21,7 @@ const useStyles = () => ({
     verticalAlign: 'middle'
   },
   resourcesFound: {
-    marginLeft:'6.5%',
+    marginLeft:'13%',
     marginTop: '3%',
     textAlign: "center",
     verticalAlign: 'middle',
@@ -29,15 +29,14 @@ const useStyles = () => ({
     fontSize: "18px"
   },
   dropdownMenu: {
-    width:'21%',
-    marginLeft:'55%',
+    width:'60%',
+    marginLeft:'13%',
     marginTop: '3%',
     display: 'inline-block',
-    textAlign: "center",
     verticalAlign: 'middle'
   },
   viewIcon: {
-    width:'2%',
+    width:'5%',
     marginLeft: '4%',
     marginTop: '3%',
     display: 'inline-block',
