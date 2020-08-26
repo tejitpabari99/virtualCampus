@@ -120,7 +120,7 @@ export default function EventModal({open, closeDo, event, isModal}) {
         emailData["to"] = email
         setSubmitLoading(true)
 
-        if (event.emailsSignedUp !== undefined && event.attendants !== undefined && event.attendants !== -1 &&
+        if (event.emailsSignedUp !== undefined && event.attendants !== undefined && event.attendants !== -1
             && event.emailsSignedUp.length > event.attendants) {
             setMaxExceeded(true)
         } else {

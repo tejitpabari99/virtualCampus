@@ -591,6 +591,8 @@ class EventsPageDesktop extends React.Component {
         </GridItem>
         </GridContainer>
 
+         <hr style="border:1px solid #0072CE;margin-top:20px" />
+
         <div style={{margin: "40px"}}/>
         <div style={{width: "100%"}}>
           <div style={{width: "25%", float:"left", marginBottom:"3%"}}>
