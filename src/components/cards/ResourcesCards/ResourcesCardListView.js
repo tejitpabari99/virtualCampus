@@ -13,7 +13,7 @@ import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
 import EventEmailModal from "../EventEmailModal";
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import firebase from "../../../firebase";
-import {handleEventClick} from "../eventCardsFeaturedAndCards/commonEventsFuncs"
+import {handleEventClick} from "../../events/SharedEvents"
 import ViewListIcon from "@material-ui/icons/ViewList";
 import {IconButton} from "@material-ui/core";
 
