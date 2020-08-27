@@ -70,7 +70,7 @@ const WebsiteAndZoom = (props) => {
             options={linkOptions}
             component={Select}
             error={props.errors.link_type}
-            touch={props.touched.link_type}
+            touch={Boolean(props.touched.link_type)}
             required
           />
         </Grid>

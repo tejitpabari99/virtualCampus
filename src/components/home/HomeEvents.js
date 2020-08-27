@@ -153,7 +153,7 @@ class Events extends React.Component{
         const { classes } = this.props;
         const date = new Date();
         return (
-            <div style={{width: "85%"}}>
+            <div style={{width: "95%"}}>
             {this.state.displayEvents.length > 0 &&
                     <div style={{ marginBottom: "5%" }}>
                         {this.state.displayEvents.map((ele, ind) => {

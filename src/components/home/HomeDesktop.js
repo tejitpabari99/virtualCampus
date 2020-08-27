@@ -287,7 +287,7 @@ export default function HomeDesktop() {
             borderRadius: '50px',
             marginTop: "90px",
             backgroundColor: "#D7EEF9"}}>
-            <div style={{marginLeft: "100px", marginTop: "100px"}}>
+            <div style={{marginLeft: "30px", marginTop: "100px"}}>
               <HomeEvents />
             </div>
         </GridItem>

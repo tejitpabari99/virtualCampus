@@ -2,7 +2,15 @@ import React from "react";
 import { Helmet } from "react-helmet";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Template, CustomButton, Title, TutorExpansionMapping, Search, TutorSearchMapping } from "../components";
+import {
+  Template,
+  CustomButton,
+  Title,
+  TutorExpansionMapping,
+  Search,
+  TutorSearchMapping,
+  CustomFooter
+} from "../components";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 import BLMCard from "../components/cards/BLMCard";
@@ -31,7 +39,7 @@ const useStyles = () => ({
   },
   gridItem:{
     "&:hover,&:focus":
-        {backgroundColor:'#F2F9FD'}
+    {backgroundColor:'#F2F9FD'}
   }
 })
 
@@ -117,19 +125,19 @@ class freshmenSocials extends React.Component {
   fetchData() {
     let that = this;
     fetch("https://sheets.googleapis.com/v4/spreadsheets/1mHRvPxdTgeQdWzQ3UgJ_5o79ahPl6A_by2-JmTOXsPs/values/Sheet1!A2:F500?key=" + process.env.GATSBY_GOOGLE_SHEET_KEY)
-        .then(function (response) {
-          response.json().then(function (data) {
-            console.log("Success");
-            let tutorData = that.processData(data["values"]);
-            let allTutors = tutorData[0],
-                tutorSearch = tutorData[1];
-            that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator: false });
-          });
-        })
-        .catch(error => {
-          this.setState({ activityIndicator: false });
-          console.error("There was an error!", error);
+      .then(function (response) {
+        response.json().then(function (data) {
+          console.log("Success");
+          let tutorData = that.processData(data["values"]);
+          let allTutors = tutorData[0],
+            tutorSearch = tutorData[1];
+          that.setState({ allTutors: allTutors, tutorSearchOrg: tutorSearch, activityIndicator: false });
         });
+      })
+      .catch(error => {
+        this.setState({ activityIndicator: false });
+        console.error("There was an error!", error);
+      });
   };
 
   processData(data) {
@@ -182,7 +190,7 @@ class freshmenSocials extends React.Component {
     const fuse = new Fuse(this.state.tutorSearchOrg, options);
     const output = fuse.search(val);
     const tutorSearch = [],
-        tutorSearchTab = {};
+      tutorSearchTab = {};
     for (let i = 0; i < output.length; i += 1) {
       if (output[i].item.name && !tutorSearchTab.hasOwnProperty(output[i].item.name)) {
         tutorSearch.push(output[i]);
@@ -208,147 +216,150 @@ class freshmenSocials extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-        <Template active={"freshmen-socials"} title={""} styleContainer={{paddingLeft:0, paddingRight:0}}>
-          <Helmet>
-            <meta property="og:title" content="CVC Freshmen Socials" />
-            <meta property="og:url" content="http://columbiavirtualcampus.com/freshmen-socials" />
-            <meta property="og:description" content="Hangouts for '24 Columbia affiliated students" />
-          </Helmet>
+      <div style={{backgroundColor: "white"}}>
+      <Template active={"freshmen-socials"} title={""} styleContainer={{paddingLeft:0, paddingRight:0}}>
+        <Helmet>
+          <meta property="og:title" content="CVC Freshmen Socials" />
+          <meta property="og:url" content="http://columbiavirtualcampus.com/freshmen-socials" />
+          <meta property="og:description" content="Hangouts for '24 Columbia affiliated students" />
+        </Helmet>
 
-          <div style={{ backgroundColor: "white"}}>
-            <Title color={"blue"}>Freshmen Socials</Title>
-            <GridContainer
-                style={{
-                  marginTop: "1.5em",
-                  marginLeft:'auto',
-                  marginRight:'auto'
-                }}
+        <div style={{ backgroundColor: "white"}}>
+          <Title color={"blue"}>Freshmen Socials</Title>
+          <GridContainer
+            style={{
+              marginTop: "1.5em",
+              marginLeft:'auto',
+              marginRight:'auto'
+            }}
+          >
+          <GridItem xs={12} sm={9}>
+            <div
+              style={{
+                color:'white',
+                maxWidth: "90%",
+                marginLeft: "auto",
+                marginRight: "auto",
+                textAlign: "left",
+                lineHeight: "1.1em",
+              }}
             >
-              <GridItem xs={12} sm={9}>
-                <div
+              <div style={{ color: "black", marginBottom: "5px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)', marginTop:'20px' }}>
+                We all know how intimidating freshmen year can be. <br/>
+              </div>
+              <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw'}}>
+                That’s why we’re launching Freshmen Socials to help you hang out, get to know each other and build your Columbia friend web!
+              </div>
+            </div>
+          </GridItem>
+          <GridItem xs={12} sm={3} style={{ textAlign: "center" }}>
+            <img src={Sofa} style={{ width:'max(16vw,180px)', height:'auto', marginTop:'20px' , display: "block", marginLeft: "auto", marginRight: "auto"}} />
+          </GridItem>
+          </GridContainer>
+
+          <GridContainer
+            style={{
+              marginLeft:'auto',
+              marginRight:'auto'
+            }}
+          >
+            <GridItem xs={12} sm={3} style={{ textAlign: "center", width:'85%', marginLeft:'auto', marginRight:'auto', marginTop:'auto', marginBottom:'auto'}}>
+              <img src={Drinks} style={{ width:'max(16vw,180px)', height:'auto', marginTop:'20px', display: "block", marginLeft: "auto", marginRight: "auto" }} />
+            </GridItem>
+            <GridItem xs={12} sm={9}>
+              <div
+                style={{
+                  color:'white',
+                  maxWidth: "90%",
+                  marginTop:'20px',
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  textAlign: "left",
+                  fontSize: "calc(12px + 1vw)",
+                  lineHeight: "1.1em",
+                }}
+              >
+                <Heading color={"blue"} style={{textAlign:"left"}}>
+                  How it works?
+                </Heading>
+                <div style={{ color: "black",  marginBottom: "15px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)'  }}>
+                  To sign up, fill out <a href={"https://forms.gle/XRFMobSHvnrsm3Y68"}> this form </a> and we will match you with a group of friends.
+                </div>
+                <div style={{ color:"gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'1vw'  }}>
+                  An upperclassmen will join your call to help kickstart the conversation, hangout, and answer your questions. Read about the upperclassmen volunteers below and indicate on the form if you have a preference to pair with one of them. <br/>
+                </div>
+              </div>
+            </GridItem>
+          </GridContainer>
+        </div>
+
+        <Heading color={"blue"} style={{ margin: "10px", marginTop: "30px"}}>
+          Upperclassmen Hosts
+        </Heading>
+        <div style={{maxWidth:"85%", marginLeft: "auto", marginRight: "auto"}} ref={this.myRef}>
+          <Subtitle color={"black"}
                     style={{
-                      color:'white',
-                      maxWidth: "90%",
                       marginLeft: "auto",
                       marginRight: "auto",
+                      fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,16px)',
                       textAlign: "left",
-                      lineHeight: "1.1em",
-                    }}
-                >
-                  <div style={{ color: "black", marginBottom: "5px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)', marginTop:'20px' }}>
-                    We all know how intimidating freshmen year can be. <br/>
-                  </div>
-                  <div style={{ color: "gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'2vw'}}>
-                    That’s why we’re launching Freshmen Socials to help you hang out, get to know each other and build your Columbia friend web!
-                  </div>
-                </div>
-              </GridItem>
-              <GridItem xs={12} sm={3} style={{ textAlign: "center" }}>
-                <img src={Sofa} style={{ width:'max(16vw,180px)', height:'auto', marginTop:'20px' , display: "block", marginLeft: "auto", marginRight: "auto"}} />
-              </GridItem>
-            </GridContainer>
+                    }}>
+          </Subtitle>
+          <Search data={this.state.data}
+                  ref={input => this.inputElement = input}
+                  onClick={(val) => { this.searchFunc(val) }}
+                  onCancel={() => { this.searchFunc('') }}
+          />
+          <br/>
+        </div>
 
-            <GridContainer
-                style={{
-                  marginLeft:'auto',
-                  marginRight:'auto'
-                }}
-            >
-              <GridItem xs={12} sm={3} style={{ textAlign: "center", width:'85%', marginLeft:'auto', marginRight:'auto', marginTop:'auto', marginBottom:'auto'}}>
-                <img src={Drinks} style={{ width:'max(16vw,180px)', height:'auto', marginTop:'20px', display: "block", marginLeft: "auto", marginRight: "auto" }} />
-              </GridItem>
-              <GridItem xs={12} sm={9}>
-                <div
-                    style={{
-                      color:'white',
-                      maxWidth: "90%",
-                      marginTop:'20px',
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      textAlign: "left",
-                      fontSize: "calc(12px + 1vw)",
-                      lineHeight: "1.1em",
-                    }}
-                >
-                  <Heading color={"blue"} style={{textAlign:"left"}}>
-                    How it works?
-                  </Heading>
-                  <div style={{ color: "black",  marginBottom: "15px", fontSize:'max(14px,2vw)', lineHeight:'max(15px,2.4vw)'  }}>
-                    To sign up, fill out <a href={"https://forms.gle/XRFMobSHvnrsm3Y68"}> this form </a> and we will match you with a group of friends.
-                  </div>
-                  <div style={{ color:"gray", fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,12px)', marginTop:'1vw'  }}>
-                    An upperclassmen will join your call to help kickstart the conversation, hangout, and answer your questions. Read about the upperclassmen volunteers below and indicate on the form if you have a preference to pair with one of them. <br/>
-                  </div>
-                </div>
-              </GridItem>
-            </GridContainer>
-          </div>
-
-          <Heading color={"blue"} style={{ margin: "10px", marginTop: "30px"}}>
-            Upperclassmen Hosts
-          </Heading>
-          <div style={{maxWidth:"85%", marginLeft: "auto", marginRight: "auto"}} ref={this.myRef}>
-            <Subtitle color={"black"}
-                      style={{
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        fontSize:'max(1.5vw,12px)', lineHeight:'max(1.9vw,16px)',
-                        textAlign: "left",
-                      }}>
-            </Subtitle>
-            <Search data={this.state.data}
-                    ref={input => this.inputElement = input}
-                    onClick={(val) => { this.searchFunc(val) }}
-                    onCancel={() => { this.searchFunc('') }}
-            />
-            <br/>
-          </div>
-
-          {this.state.activityIndicator &&
-          <CircularProgress style={{ marginLeft: '50%' }} />
-          }
-          {!this.state.activityIndicator &&
-          <div>
-            {this.state.tutorSearch.length > 0 && !this.state.tutorSearchError ?
+        {this.state.activityIndicator &&
+        <CircularProgress style={{ marginLeft: '50%' }} />
+        }
+        {!this.state.activityIndicator &&
+        <div>
+          {this.state.tutorSearch.length > 0 && !this.state.tutorSearchError ?
+            <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
+              <div style={{ width: '85%' }}>
                 <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
-                  <div style={{ width: '85%' }}>
-                    <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
-                      <div style={{ marginBottom: '3%' }} >
-                        <TutorSearchMapping tutorSearch={this.state.tutorSearch} />
-                      </div>
+                    <div style={{ marginBottom: '3%' }} >
+                      <TutorSearchMapping tutorSearch={this.state.tutorSearch} />
                     </div>
+                </div>
 
+              </div>
+            </div> :
+            this.state.tutorSearchError ?
+              <div style={{ width: '100%', textAlign: 'center', color: 'red' }}>{this.state.tutorSearchError}</div> :
+              <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
+                <div style={{ maxWidth: '85%' }}>
+                  <div style={{ marginBottom: '3%' }} >
+                  {this.state.allTutors &&
+                    <GridContainer style={{marginTop:"10px"}}>
+                      {this.state.allTutors.map((ele,ind)=>{
+                          return (
+                            <GridItem xs={12} sm={12} md={12} className={classes.gridItem}
+                                      style={{paddingTop:10, paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
+                              <BLMCard
+                                website={getLink(ele.name)}
+                                title={ele.name}
+                                description={ele.desc}
+                              />
+                            </GridItem>
+                          )
+                        }
+                      )}
+                    </GridContainer>
+                  }
                   </div>
-                </div> :
-                this.state.tutorSearchError ?
-                    <div style={{ width: '100%', textAlign: 'center', color: 'red' }}>{this.state.tutorSearchError}</div> :
-                    <div style={{ display: 'flex', flexDirection: 'horizontal', justifyContent: 'center' }}>
-                      <div style={{ maxWidth: '85%' }}>
-                        <div style={{ marginBottom: '3%' }} >
-                          {this.state.allTutors &&
-                          <GridContainer style={{marginTop:"10px"}}>
-                            {this.state.allTutors.map((ele,ind)=>{
-                                  return (
-                                      <GridItem xs={12} sm={12} md={12} className={classes.gridItem}
-                                                style={{paddingTop:10, paddingBottom: 10, paddingLeft:25, paddingRight:25}}>
-                                        <BLMCard
-                                            website={getLink(ele.name)}
-                                            title={ele.name}
-                                            description={ele.desc}
-                                        />
-                                      </GridItem>
-                                  )
-                                }
-                            )}
-                          </GridContainer>
-                          }
-                        </div>
-                      </div>
-                    </div>
-            }
-          </div>
+                </div>
+              </div>
           }
-        </Template>
+        </div>
+        }
+      </Template>
+        <CustomFooter />
+      </div>
     );
   }
 }
