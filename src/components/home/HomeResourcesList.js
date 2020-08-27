@@ -3,7 +3,7 @@ import GridContainer from "../material-kit-components/Grid/GridContainer";
 import React from "react";
 import Button from "../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCard, Heading} from "..";
+import {ResourcesCardGridView, Heading} from "..";
 import firebase from "../../firebase";
 import {Descriptions} from "../../assets/ResourcesData.js"
 
@@ -17,21 +17,58 @@ class HomeResourcesList extends React.Component {
   };
     this.getResources();
   }
-
+  /**
+   * Get resources from Firestore
+   * Set initial resources/tags and display on website
+   */
   async getResources() {
-    let db = firebase.firestore();
-    let approvedResources = await db.collection("resources").where("reviewed", "==", true).limit(4).get();
+    let MAX = 4;
     let approvedResourcesDict = {};
-    let approvedResourcesDisplay = [];
-    if(approvedResources){
-      approvedResourcesDict = this.makeDisplayResources(approvedResources.docs.map(doc => doc.data()));
-      approvedResourcesDisplay = approvedResources.docs.map(doc => doc.data());
+    let allResources = [];
+    let approvedResources = [];
+    try{
+      let db = firebase.firestore();
+      // let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
+      let arr = [];
+
+      // had to reference the existing category names
+      let category_ref = await db.collection('/resource_reference_docs').doc('Resource Tags by Categories').get();
+
+      Object.keys(category_ref.data()).forEach(function(key){
+        arr.push(key);
+      });
+
+      for (let i = 0; i < arr.length; i++)
+      {
+        if (MAX === 0)
+          break;
+
+        // changed the loop to retrieve from resource by iterating through each category
+        let name = arr[i];
+        let template = "/resource/" + name + "/" + name;
+        let all_reviewed = await db.collection(template).where("reviewed", "==", true).limit(MAX).get();
+
+        all_reviewed.forEach(doc =>
+        {
+          MAX--;
+          approvedResources.push(doc.data());
+        });
+
+      }
+
+      if(approvedResources){
+        allResources = approvedResources;
+        approvedResourcesDict = this.makeDisplayResources(allResources);
+      }
+      this.setState({
+        activityIndicator: false,
+        myResourcesDict: approvedResourcesDict,
+        myResourcesDisplay: allResources
+      });
     }
-
-
-     console.log(approvedResourcesDict);
-    this.setState({ myResourcesDict: approvedResourcesDict});
-    this.setState({ myResourcesDisplay: approvedResourcesDisplay});
+    catch (e) {
+      console.log('Progress Error', e)
+    }
   }
 
   makeDisplayResources(resources) {
@@ -71,7 +108,7 @@ class HomeResourcesList extends React.Component {
           {this.state.myResourcesDisplay.map(data => {
             return (
               <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>
-                <ResourcesCard
+                <ResourcesCardGridView
                   website={data.links.website}
                   img={data.img}
                   title={data.title}

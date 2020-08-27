@@ -6,7 +6,7 @@ import {CustomTheme} from "../";
 import {makeStyles} from "@material-ui/core/styles";
 import {cardTitle} from "../../assets/material-kit-assets/jss/material-kit-react";
 
-import {handleEventClick} from "../cards/eventCardsFeaturedAndCards/commonEventsFuncs";
+import {handleSignupForEvent} from "./SharedEvents";
 const theme = CustomTheme;
 
 
@@ -79,19 +79,35 @@ export default function EventModal({open, closeDo, event, isModal}) {
 
     const [email, setEmail] = useState(0);
     const [emailNotSubmitted, setEmailNotSubmitted] = useState(true);
+    const [maxExceeded, setMaxExceeded] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
 
-    const subject = "Event Link and Website for " + event.event
-    const text = event.name + " welcomes you to join " + event.event + "<br/><br/>" +
-        "Start Date: " + months[event.start_date.getMonth()] + " " + event.start_date.getDate() + "<br/>" +
-        "End Date: " + months[event.end_date.getMonth()] + " " + event.end_date.getDate() + "<br/>" +
+    let dateString = ""
+    if (months[event.start_date.getMonth()] != months[event.end_date.getMonth()] || event.start_date.getDate() != event.end_date.getDate()) {
+        dateString = "Date: " + months[event.start_date.getMonth()] + " " + event.start_date.getDate() + " - " + months[event.end_date.getMonth()] + " " + event.end_date.getDate() + "<br/>"
+    } else {
+        dateString = "Date: " + months[event.start_date.getMonth()] + " " + event.start_date.getDate() + "<br/>"
+    }
+
+    let websiteString = ""
+    if (event.event_link != "") {
+        websiteString = "Event Website: " + event.event_link + "<br/>"
+    }
+
+    const subject = "Event Link and Website for " + event.event + "!!"
+    const text = "<html><div style='font-family: Arial, Helvetica, sans-serif;'><div style='font-size: 22px;color:lightskyblue;font-weight: bold;'>" + event.name + " welcomes you to join " + event.event + "!" +
+        " <img src='https://images.emojiterra.com/mozilla/512px/1f389.png' width='30' height='30'></div><br/>" +
+        "<div style='font-size: 18px;color:cornflowerblue;font-weight: bold;'>WHEN <img src='https://hotemoji.com/images/dl/h/ten-o-clock-emoji-by-twitter.png' width='20' height='20'></div>" +
+        "<div style='font-size: 15px;margin-left:20px;'>" + dateString +
         "Time: " + formatTime(event.start_date.getHours(), event.start_date.getMinutes()) +
-        " - " + formatTime(event.end_date.getHours(), event.end_date.getMinutes()) + " " + event.timeZoneGMT + "<br/><br/>" +
-        "Event Link: " + event.invite_link + "<br/>" +
-        "Event Website: " + event.event_link + "<br/><br/>" +
-        "For more events like this check out Columbia Virtual Campus at http://columbiavirtualcampus.com/"
+        " - " + formatTime(event.end_date.getHours(), event.end_date.getMinutes()) + " " + event.timeZoneGMT + "</div><br/><br/>" +
+        "<div style='font-size: 18px;color:cornflowerblue;font-weight: bold;'>WHERE <img src='https://images.emojiterra.com/mozilla/512px/1f4cd.png' width='22' height='22'></div>" +
+        "<div style='font-size: 15px;margin-left:20px;'>Event Link: " + event.invite_link + "<br/>" +
+        websiteString + "</div><br/>" +
+        "<div style='font-size: 15px;'>We hope to see you there! <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emoji_Grinning_Face_Smiling_Eyes.svg/1024px-Emoji_Grinning_Face_Smiling_Eyes.svg.png' width='20' height='20'></div><br/><br/>" +
+        "<div style='font-size: 15px;font-weight: bold;'>For more events like this check out Columbia Virtual Campus at http://columbiavirtualcampus.com/ </div></div></html>"
 
     const emailData = {
         to: "",
@@ -104,17 +120,24 @@ export default function EventModal({open, closeDo, event, isModal}) {
         emailData["to"] = email
         setSubmitLoading(true)
 
-        Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-            .then(res => {
-                handleEventClick(event, 5)
-                setEmailNotSubmitted(false)
-                console.log(res)
-            })
-            .catch(error => {
-                console.log(error)
-            });
+        if (event.emailsSignedUp !== undefined && event.attendants !== undefined && event.attendants !== -1
+            && event.emailsSignedUp.length > event.attendants) {
+            setMaxExceeded(true)
+        } else {
 
+            Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
+                .then(res => {
+
+                    handleSignupForEvent(event, email)
+                    setEmailNotSubmitted(false)
+                    console.log(res)
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        }
     }
+
 
     const handleCheckEmail = (val) => {
         setEmail(val.target.value)
@@ -132,15 +155,27 @@ export default function EventModal({open, closeDo, event, isModal}) {
 
     let styles = {}
     if (isModal) {
-        styles = {backgroundColor: theme.palette.background.paper,
+        styles = {
+            backgroundColor: theme.palette.background.paper,
             border: '2px solid #000',
             boxShadow: theme.shadows[5],
             padding: theme.spacing(2, 4, 3),
             maxWidth: 500,
-            margin: 25}
+            margin: 25
+        }
     }
-
-    if (emailNotSubmitted) {
+    if (maxExceeded) {
+        emailSubmissionModal = (
+            <div style={styles}>
+                <p style={{color: "#4284C8", marginBottom: 5, marginTop: 15}}>
+                    <strong>We Are Sorry:</strong>
+                </p>
+                <p style={{color: "#4284C8", marginBottom: 5, marginTop: 15, fontSize: 12}}>
+                    Unfortunately, this event has reached maximum capacity. Please check out the other awesome events we have on our website!
+                </p>
+            </div>
+        )
+    } else if (emailNotSubmitted) {
         emailSubmissionModal = (
             <div style={styles}>
                 <p style={{color: "#4284C8", marginBottom: 5, marginTop: 20}}>

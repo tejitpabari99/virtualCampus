@@ -65,7 +65,7 @@ export default class EventSearch extends React.Component{
 
     reset() {
         this.setState({activeTagList: [], searchVal: '', hiddenSearch: '',
-            defaultOrganization: 'All clubs / organizations', defaultDate: "All dates", filter: false})
+            defaultOrganization: 'All clubs / organizations', defaultDate: "All dates"})
         this.props.resetFilter()
     }
 
@@ -74,16 +74,10 @@ export default class EventSearch extends React.Component{
         let iconCol = this.props.iconColor === undefined ? 'black' : this.props.iconColor
         if (this.state.filter) {
             return(
-                // <div style={{display:'inline', backgroundColor: '#F2F9FD', padding: '18px', height: "100%", width: "100%"}}>
-                //<div style={{backgroundColor: "#F2F9FD", paddingTop: "20px", paddingBottom: "20px"}}>
-                //<div style={{display:'inline'}}>
-                <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px",
-                    backgroundColor: "#F2F9FD", paddingTop: "20px", paddingBottom: "20px"}}>
-
-                    <GridItem xs={8} sm={8} md={8}>
+                <div style={{display:'inline', padding: '18px'}}>
                     <TextField
                         style={{
-                            width: "105%",
+                            width: "70%",
                             borderColor: "#0072CE",
                             backgroundColor: "white",
                             marginBottom: "20px",
@@ -139,15 +133,11 @@ export default class EventSearch extends React.Component{
                             }
                         }}
                     />
-                    </GridItem>
-
-                    <GridItem xs={4} sm={4} md={4}>
                     <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal, this.state.hiddenSearch)}}
                                    text={"Search"}
                                    style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "139px"}}
                                    color={"blue"} size={"large"}
                     />
-                    </GridItem>
                     <br/>
 
                     <span style={{marginLeft: "20px", marginTop: "27px"}}>Tags</span>
@@ -185,20 +175,15 @@ export default class EventSearch extends React.Component{
                              display: "inline-block", verticalAlign: "middle"}}>
                         Reset
                     </div>
-                </GridContainer>
-                //</div>
-                //</div>
+                </div>
 
             )
         } else {
             return(
-                // <div style={{display:'inline', backgroundColor: '#F2F9FD', padding: '18px', height: "100%", width: "100%"}}>
-                //<div style={{display:'inline', padding: '18px'}}>
-                <GridContainer style={{ width: "100%", margin: '0', marginTop: "10px", marginBottom: "10px", paddingRight: "10px"}}>
-                    <GridItem xs={8} sm={8} md={8}>
+                <div style={{display:'inline', padding: '18px'}}>
                     <TextField
                         style={{
-                            width: "115%",
+                            width: "70%",
                             borderColor: "#0072CE",
                             backgroundColor: "white",
                             marginBottom: "20px",
@@ -254,18 +239,15 @@ export default class EventSearch extends React.Component{
                             }
                         }}
                     />
-                    </GridItem>
 
-                    <GridItem xs={4} sm={4} md={4}>
                     <CustomButton  onClick={() => {this.props.onClick(this.state.searchVal)}}
                                    text={"Search"}
-                                   style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "130px", marginTop: "1px", width: "139px"}}
+                                   style={{ fontSize: "20px", borderRadius: "5px", marginLeft: "34px", marginTop: "0px", width: "139px"}}
                                    color={"blue"} size={"large"}
                     />
-                    </GridItem>
 
 
-                </GridContainer>
+                </div>
             )
         }
     }

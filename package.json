@@ -24,6 +24,7 @@
     "formik-material-ui-pickers": "0.0.8",
     "fuse.js": "^6.0.3",
     "gatsby": "^2.21.33",
+    "gatsby-awesome-pagination": "^0.3.6",
     "gatsby-image": "^2.2.44",
     "gatsby-plugin-google-analytics": "^2.2.2",
     "gatsby-plugin-google-gapi": "0.0.10",

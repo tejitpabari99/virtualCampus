@@ -2,7 +2,15 @@ import React from "react";
 import { Helmet } from "react-helmet";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Template, CustomButton, Title, TutorExpansionMapping, Search, TutorSearchMapping } from "../components";
+import {
+  Template,
+  CustomButton,
+  Title,
+  TutorExpansionMapping,
+  Search,
+  TutorSearchMapping,
+  CustomFooter
+} from "../components";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 import BLMCard from "../components/cards/BLMCard";
@@ -208,6 +216,7 @@ class freshmenSocials extends React.Component {
   render() {
     const { classes } = this.props;
     return (
+      <div style={{backgroundColor: "white"}}>
       <Template active={"freshmen-socials"} title={""} styleContainer={{paddingLeft:0, paddingRight:0}}>
         <Helmet>
           <meta property="og:title" content="CVC Freshmen Socials" />
@@ -349,6 +358,8 @@ class freshmenSocials extends React.Component {
         </div>
         }
       </Template>
+        <CustomFooter />
+      </div>
     );
   }
 }

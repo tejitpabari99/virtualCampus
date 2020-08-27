@@ -13,7 +13,7 @@ import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
 //import EventModal from "./../EventModal";
 import EventModalMobile from "./../EventModalMobile";
 //import EventEmailModal from "./../EventEmailModal";
-import {handleEventClick} from "./commonEventsFuncs"
+import {handleEventClick} from "../../events/SharedEvents"
 
 const theme = CustomTheme;
 
@@ -249,7 +249,7 @@ export default function EventCardDesktopBottom({ ele }) {
   }
 
   const handlePopularity = () => {
-    handleEventClick(ele, 1)
+    //handleEventClick(ele, 1)
   }
 
   const closeDo = () => {

@@ -55,6 +55,16 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px #FB750D50"
     },
   },
+  orange2:{
+    color: '#FB750D !important',
+    border: "1px solid #FB750D",
+    backgroundColor: "#DEEEFA",
+    "&:hover": {
+      color: 'white !important',
+      backgroundColor: '#F1945B',
+      boxShadow: "0 14px 26px -12px #FB750D50"
+    },
+  },
   blue:{
     color: '#0072CE !important',
     border: "1px solid #0072CE",
@@ -63,6 +73,19 @@ const manualSt = makeStyles(() => ({
       backgroundColor: '#0072CE',
       boxShadow: "0 14px 26px -12px #0072CE50"
     },
+    wordWrap: 'breakWord'
+  },
+
+  // new color scheme for resource page buttons
+  paleblue:{
+    color: '#0072CE !important',
+    backgroundColor: '#F2F9FD',
+    "&:hover": {
+      color: 'white !important',
+      backgroundColor: '#0072CE',
+      boxShadow: "0 14px 26px -12px #0072CE50"
+    },
+    wordWrap: 'breakWord'
   },
   blue2: {
     color: 'white !important',
@@ -78,6 +101,16 @@ const manualSt = makeStyles(() => ({
     backgroundColor: '#F6C09F',
     "&:hover": {
       color: '#F6C09F !important',
+      backgroundColor: 'black',
+      boxShadow: "0 14px 26px -12px #F6C09F50"
+    },
+  },
+  black2:{
+    color: 'black !important',
+    border: "1px solid black",
+    backgroundColor: '#ACD8F1',
+    "&:hover": {
+      color: '#ACD8F1 !important',
       backgroundColor: 'black',
       boxShadow: "0 14px 26px -12px #F6C09F50"
     },
@@ -106,6 +139,16 @@ const manualSt = makeStyles(() => ({
     color: 'white !important',
     backgroundColor: '#0072CE',
     border: "1px solid #FB750D",
+    "&:hover": {
+      color: '#0072CE !important',
+      backgroundColor: 'white',
+      boxShadow: "0 14px 26px -12px #0072CE50"
+    },
+  },
+  blueInvert2:{
+    color: 'white !important',
+    backgroundColor: '#3B5998',
+    border: "1px solid white",
     "&:hover": {
       color: '#0072CE !important',
       backgroundColor: 'white',
@@ -170,7 +213,7 @@ CustomButton.propTypes = {
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
   color: PropTypes.oneOf(["white", "white2", "black", "orange", "blue",
-    "blueInvert", "orangeInvert", "whiteNoHover"]),
+    "blueInvert", "blueInvert2", "orangeInvert", "whiteNoHover", "paleblue"]),
   size: PropTypes.oneOf(["large","small", "medium"]),
   rounded: PropTypes.bool,
   onClick: PropTypes.func,
