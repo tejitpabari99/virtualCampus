@@ -12,7 +12,7 @@ import GridItem from "../../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
 import EventEmailModal from "../EventEmailModal";
 import firebase from "../../../firebase";
-import {handleEventClick} from "./commonEventsFuncs"
+import {handleEventClick} from "../../events/SharedEvents"
 
 const theme = CustomTheme;
 
@@ -285,7 +285,7 @@ export default function EventCardDesktop({ ele }) {
   }
 
   const handlePopularity = () => {
-    handleEventClick(ele, 1)
+    //handleEventClick(ele, 1)
   }
 
   const TITLE_MAX = 120
@@ -334,7 +334,7 @@ export default function EventCardDesktop({ ele }) {
                   {ele.tags.map((ta, ind) => {
                     if (ta !== "") {
                       return (
-                          <div className={classes.tagBlock}>{ta}</div>
+                          <div className={classes.tagBlock}>{ta.charAt(0).toUpperCase() + ta.toLowerCase().slice(1)}</div>
                       );
                     }
                   })}

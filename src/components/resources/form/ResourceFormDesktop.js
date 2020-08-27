@@ -18,6 +18,7 @@ import Container from '@material-ui/core/Container';
 import firebase from "../../../firebase";
 import Categories from "./FormCategories"
 import {CustomButton} from "../../index";
+import CustomFooter from "../../all/CustomFooter";
 
 const useStyles = makeStyles(styles);
 const manualSt = makeStyles(() => ({
@@ -1018,6 +1019,7 @@ const ResourceFormDesktop = (props) => {
                     </Container>
                 </div>
             </Template>
+            <CustomFooter />
         </div >
     );
 };
