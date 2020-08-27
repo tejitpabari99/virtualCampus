@@ -14,41 +14,9 @@ import { CustomButton, AddCalendar, CustomTheme } from "../../";
 import EventEmailModal from "./../EventEmailModal"
 import Heading1 from "../../text/Heading1";
 import Heading2 from "../../text/Heading2";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import {months, days, formatTime} from "../../events/SharedEvents"
 
 const theme = CustomTheme;
-
-const months = {
-  0: "January",
-  1: "February",
-  2: "March",
-  3: "April",
-  4: "May",
-  5: "June",
-  6: "July",
-  7: "August",
-  8: "September",
-  9: "October",
-  10: "November",
-  11: "December"
-};
-
-const days = {
-  0: "SUN",
-  1: "MON",
-  2: "TUE",
-  3: "WED",
-  4: "THU",
-  5: "FRI",
-  6: "SAT"
-};
-
-const formatTime = function(hours, min) {
-  let h = hours > 12 ? hours - 12 : hours;
-  let m = min < 10 ? "0" + min.toString() : min.toString();
-  let add = hours > 12 ? "PM" : "AM";
-  return h + ":" + m + add;
-};
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -198,11 +166,6 @@ export default function EventCardFeaturedDesktop({ ele }) {
             className={classes.media}
             image={ele.image_link}
           />
-          {/* <LazyLoadImage
-            height="50.26%"
-            className={classes.media}
-            src={ele.image_link}
-          /> */}
           <div className={classes.imgOverlay}/>
 
           {ele.tags.map((ta, ind) => {

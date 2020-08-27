@@ -16,6 +16,7 @@ import {CustomHeader, Template} from "../.."
 import Container from '@material-ui/core/Container';
 import firebase from "../../../firebase";
 import Categories from "./FormCategories"
+import CustomFooter from "../../all/CustomFooter";
 
 
 const MainCategories = Categories.FormCategories;
@@ -341,6 +342,7 @@ const ResourceFormMobile = (props) => {
     }
 
     return (
+        <div style={{backgroundColor: "white"}} >
         <Template title={'Add New Resource'} active={"resources"} brand={"VIRTUAL CAMPUS"}>
             <div>
                 <div className={classNames(classes.mainOther, manual.main)}>
@@ -986,6 +988,8 @@ const ResourceFormMobile = (props) => {
                 </div>
             </div >
         </Template>
+        <CustomFooter />
+        </div>
     );
 };
 

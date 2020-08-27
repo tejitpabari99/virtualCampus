@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomButton, CustomHeader, Template, Title } from "../components";
+import {CustomButton, CustomFooter, CustomHeader, Template, Title} from "../components";
 import CustomInput from "../components/material-kit-components/CustomInput/CustomInput.js";
 import GridContainer from "../components/material-kit-components/Grid/GridContainer.js";
 import GridItem from "../components/material-kit-components/Grid/GridItem.js";
@@ -9,6 +9,11 @@ import MessageIcon from "@material-ui/icons/Message";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { CircularProgress } from '@material-ui/core';
 import Axios from "axios";
+import IconButton from '@material-ui/core/IconButton';
+import InstaIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 class contactUs extends React.Component {
     constructor(props) {
@@ -48,6 +53,7 @@ class contactUs extends React.Component {
 
     render() {
         return (
+            <div style={{backgroundColor: "white"}}>
             <Template active={"contact-us"} title={"Contact Us"}>
                 <Title color={'blue'}>Contact Us</Title>
                 <div style={{ textAlign: "center" }}>
@@ -145,7 +151,11 @@ class contactUs extends React.Component {
                     <div style={{ height: "300px" }} />
                 </div>
                 }
+
             </Template>
+
+            <CustomFooter />
+            </div>
         );
     }
 }
