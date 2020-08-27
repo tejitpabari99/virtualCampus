@@ -49,6 +49,8 @@ class ResourcesListFunctionality extends React.Component {
       gridView: true,
       resourcesDict: {},
       resourcesDisplay: [],
+      allResourcesDict: {},
+      allTagsDict: {},
       tagsDict: {},
       tagsDisplay: [],
       tagsResourcesDisplay: {},
@@ -61,6 +63,7 @@ class ResourcesListFunctionality extends React.Component {
   /**
   * Get resources from Firestore
   * Set initial resources/tags and display on website
+  * Save All Resources and All Tags in separate dictionaries allResourcesDict and allTagsDict
   */
   async getResources() {
     let approvedResourcesDict = {"All Resources":[]};
@@ -99,6 +102,8 @@ class ResourcesListFunctionality extends React.Component {
       this.setState({
         activityIndicator: false,
         resourcesDict: approvedResourcesDict,
+        allResourcesDict: approvedResourcesDict,
+        allTagsDict: this.makeTags(approvedResourcesDict,)
       });
       this.setDisplay('All Resources');
     }
@@ -141,6 +146,25 @@ class ResourcesListFunctionality extends React.Component {
     });
   }
 
+  /**
+  * Renders resources when a category is deselected
+  */
+ deleteDisplay() {
+    let resources = this.state.allResourcesDict;
+    let tagsDict = this.state.allTagsDict;
+    this.setState({
+      resourcesDisplay: resources,
+      description: Descriptions["All Resources"],
+      category: "All Resources",
+      tagsDict: tagsDict,
+      tagsDisplay: Object.keys(tagsDict),
+      tagsResourcesDisplay: {},
+      selection: 1
+    });
+
+  }
+
+  
   /**
   * Make tag buttons based on the resources that are currently displayed
   * @param  {[]} resources: Category name
@@ -205,6 +229,7 @@ class ResourcesListFunctionality extends React.Component {
         this.handleChange(this.state.event);
       });
     }
+    console.log(this.state.resourcesDisplay)
   }
 
   /**

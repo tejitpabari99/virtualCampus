@@ -1,9 +1,6 @@
-
 import React, { useState } from "react";
-import classNames from "classnames";
 import { cardTitle } from "../../../assets/material-kit-assets/jss/material-kit-react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CustomButton, AddCalendar, CustomTheme } from "../../";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -12,10 +9,10 @@ import GridItem from "../../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
 import EventEmailModal from "../EventEmailModal";
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
-import firebase from "../../../firebase";
-import {handleEventClick} from "../eventCardsFeaturedAndCards/commonEventsFuncs"
-import ViewListIcon from "@material-ui/icons/ViewList";
+import {handleEventClick} from "../../events/SharedEvents"
 import {IconButton} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+
 
 const useStyles = makeStyles(() => ({
   cardTitle,
@@ -105,10 +102,43 @@ const useStyles = makeStyles(() => ({
     width: "155px",
     height: "35px",
     marginTop: "6px"
-  }
+  },
+  subBox1: {
+    backgroundColor: "rgba(253, 100, 100, 0.1)",
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    height: "auto",
+    width: "50%",
+    borderColor: "#FB750D",
+    borderRadius: "5px",
+  },
+  subBox2: {
+    backgroundColor: "#F2F9FD",
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    height: "auto",
+    width: "50%",
+    borderColor: "#FB750D",
+    borderRadius: "5px",
+  },
+  description: {
+    /* Desktop/Details */
+
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '12px',
+    lineHeight: '18px',
+    flexDirection: "row",
+    display: "flex",
+  },
 }));
 
-export default function EventCardDesktop({ ele }) {
+export default function ResourcesCardListView({ ele }) {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -164,11 +194,25 @@ export default function EventCardDesktop({ ele }) {
               <GridItem xs={12} sm={12} md={12} style={{paddingBottom: 10, paddingLeft: 25, paddingRight: 25}}>
                 <div className={classes.blueLine}/>
               </GridItem>
-
+              <GridItem xs={12} sm={12} md={12}
+                        style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 40, paddingRight:40, width: "100%"}}>
+                <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
+                  <div className={classes.subBox1}>
+                    <span style={{"color":"#FD6464"}}>Want support with:  </span>
+                    <span style={{"color":"black"}}>Blah blah blah</span>
+                  </div>
+                  <div style={{paddingLeft: '10px'}} />
+                  <div className={classes.subBox2}>
+                    <span style={{"color":"#0072CE"}}>This resource offers:  </span>
+                    <span style={{"color":"black"}}>Long ago, the four nations lived together in harmony. Then, everything changed when the Fire Nation attacked.</span>
+                  </div>
+                </Typography>
+              </GridItem>
               <GridItem xs={9} sm={9} md={9}
                         style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 40, paddingRight: 10}}>
                 <div style={{color: "black", display: "block", fontSize: "14px"}}>{ele.description}</div>
-              </GridItem><GridItem xs={3} sm={3} md={3}
+              </GridItem>
+              <GridItem xs={3} sm={3} md={3}
                                    style={{marginTop: 'auto', marginBottom:'0px',
                                      display: 'inline-block', textAlign: "center", verticalAlign: 'bottom'}}>
                 <IconButton href={ele.links.website}>

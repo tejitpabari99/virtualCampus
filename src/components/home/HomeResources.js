@@ -6,7 +6,7 @@ import {EventCardHighlight, EventModal, CustomButton} from '../'
 import firebase from "../../firebase";
 
 
-class Events extends React.Component{
+class HomeResources extends React.Component{
     constructor(props) {
         super(props);
         this.state={
@@ -80,9 +80,11 @@ class Events extends React.Component{
                     })}
                 </div>
                 {this.state.displayEvents.length>0 && <div style={{textAlign:"center", marginTop: 20}}>
-                    <CustomButton text={'SEE ALL EVENTS'} href={'/socalize'} size={"small"} color={"orange"} rounded/>
+                    <CustomButton text={'SEE ALL EVENTS'} href={'/socialize'} size={"small"} color={"orange"} rounded/>
                 </div>}
             </div>
         )
     }
 }
+
+export default HomeResources;
