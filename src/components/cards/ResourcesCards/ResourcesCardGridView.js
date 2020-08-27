@@ -1,34 +1,15 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import IconButton from "@material-ui/core/IconButton";
-import ShareIcon from "@material-ui/icons/Share";
-import AppleIcon from '@material-ui/icons/Apple';
-import AndroidIcon from '@material-ui/icons/Android';
-import Popover from "@material-ui/core/Popover";
-import {FacebookShareButton, TwitterShareButton, LinkedinShareButton, EmailShareButton, WhatsappShareButton,
-  FacebookIcon, TwitterIcon, LinkedinIcon, EmailIcon, WhatsappIcon
-} from "react-share";
-import ResourcesListDesktop from "../../resources/resourcesList/ResourcesListDesktop";
-import ResourcesListMobile from "../../resources/resourcesList/ResourcesListMobile";
 import PropTypes from "prop-types";
-import {primaryColor,
-  warningColor,
-  dangerColor,
-  successColor,
-  infoColor,
-  roseColor,
-  grayColor,
-  vcColor} from '../../../assets/material-kit-assets/jss/material-kit-react'
-import FeaturedResourcesCardDesktop from "./FeaturedResourcesCardDesktop";
+import {vcColor} from '../../../assets/material-kit-assets/jss/material-kit-react'
 
 import styled from "@emotion/styled/macro";
-import {AddResourceCardDesktop, CustomButton} from "../../index";
+import {CustomButton} from "../../index";
 
 const Hover = styled.div({
   opacity: 0,
@@ -43,17 +24,6 @@ const Background = styled.div({
     opacity: 1,
   },
 });
-
-const colorMapping = {
-  'primary': primaryColor,
-  'warning': warningColor,
-  'danger': dangerColor,
-  'success': successColor,
-  'info': infoColor,
-  'rose': roseColor,
-  'gray': grayColor,
-  'vc': vcColor
-};
 
 
 const useStyles = makeStyles({
@@ -145,7 +115,7 @@ const useStyles = makeStyles({
     border: "0",
     marginBottom: "0",
     textAlign: 'right',
-    backgroundColor: colorMapping['vc'],
+    backgroundColor: vcColor,
     position: 'absolute',
     width:'75%',
     right: 10
@@ -218,28 +188,13 @@ const trimDescription = function(description) {
 export default function ResourcesCardGridView(props) {
   const classes = useStyles();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = (event) => { setAnchorEl(event.currentTarget);};
-  const handleClose = () => {setAnchorEl(null);};
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-
-  let {iosLink, androidLink, website, share, img, title, description, tags,
-    headerTitle, headerColor, func, obj} = props;
-  if(headerColor && colorMapping.hasOwnProperty(headerColor)){
-    headerColor = colorMapping[headerColor.toLowerCase()]
-  }
-  else if(!headerColor || headerColor===''){
-    headerColor = colorMapping['vc']
-  }
-
+  let {website, img, title, description, tags} = props;
   return (
     <Background>
       <Card className={classes.root}>
         <a target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
           <div className={classes.mediaContainer}>
-            {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
+            {title && <div className={classes.cardHeader} style={{backgroundColor: vcColor, fontWeight:'bold'}}>{title}</div>}
             <CardMedia
               component="img"
               height="40.26%"
@@ -265,12 +220,12 @@ export default function ResourcesCardGridView(props) {
             <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
               <div className={classes.subBox1}>
                 <span style={{"color":"#FD6464"}}>Want support with:  </span>
-                <span style={{"color":"black"}}>Finances and Wifi</span>
+                <span style={{"color":"black"}}>Boop blop blorp</span>
               </div>
               <div style={{paddingTop: '10px'}} />
               <div className={classes.subBox2}>
                 <span style={{"color":"#0072CE"}}>This resource offers:  </span>
-                <span style={{"color":"black"}}>Low-priced wifi, discount for students (SpectrumU), one-time payment, automatic payments, online TV streaming</span>
+                <span style={{"color":"black"}}>Long ago, the four nations lived together in harmony. Then, everything changed when the Fire Nation attacked.</span>
               </div>
             </Typography>
           </CardContent>
@@ -305,16 +260,9 @@ export default function ResourcesCardGridView(props) {
 }
 
 ResourcesCardGridView.propTypes = {
-  iosLink: PropTypes.string,
-  androidLink: PropTypes.string,
   website: PropTypes.string.isRequired,
-  share: PropTypes.bool,
   img: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  tags: PropTypes.string.isRequired,
-  headerTitle: PropTypes.string,
-  headerColor: PropTypes.string,
-  func: PropTypes.func,
-  obj: PropTypes.oneOf(ResourcesListDesktop, ResourcesListMobile)
+  tags: PropTypes.string.isRequired
 };

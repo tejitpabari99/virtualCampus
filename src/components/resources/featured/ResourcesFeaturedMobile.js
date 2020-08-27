@@ -1,11 +1,8 @@
 import React from "react";
 import ResourcesListFunctionality from "../resourcesList/ResourcesListFunctionality";
 import {MuiThemeProvider, withStyles} from "@material-ui/core/styles";
-import Button from "../../material-kit-components/CustomButtons/Button.js";
-
-import {makeStyles} from "@material-ui/core/styles";
 import Data from "../../../assets/ResourcesData";
-import {CustomTheme, EventCardFeatured, Template} from "../..";
+import {CustomTheme} from "../..";
 import ResourcesCardGridView from "../../cards/ResourcesCards/ResourcesCardGridView.js";
 import Carousel from "react-material-ui-carousel";
 const FeaturedData = Data.FeaturedData;

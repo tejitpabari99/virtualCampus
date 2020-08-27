@@ -1,39 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import IconButton from "@material-ui/core/IconButton";
-import ShareIcon from "@material-ui/icons/Share";
-import AppleIcon from '@material-ui/icons/Apple';
-import AndroidIcon from '@material-ui/icons/Android';
-import Popover from "@material-ui/core/Popover";
-import {FacebookShareButton, TwitterShareButton, LinkedinShareButton, EmailShareButton, WhatsappShareButton,
-  FacebookIcon, TwitterIcon, LinkedinIcon, EmailIcon, WhatsappIcon
-} from "react-share";
-import PropTypes from "prop-types";
-import {primaryColor,
-  warningColor,
-  dangerColor,
-  successColor,
-  infoColor,
-  roseColor,
-  grayColor,
-  vcColor} from '../../../assets/material-kit-assets/jss/material-kit-react'
 
-const colorMapping = {
-  'primary': primaryColor,
-  'warning': warningColor,
-  'danger': dangerColor,
-  'success': successColor,
-  'info': infoColor,
-  'rose': roseColor,
-  'gray': grayColor,
-  'vc': vcColor
-};
+import PropTypes from "prop-types";
+import {vcColor} from '../../../assets/material-kit-assets/jss/material-kit-react'
 
 
 const useStyles = makeStyles({
@@ -131,7 +105,7 @@ const useStyles = makeStyles({
     border: "0",
     marginBottom: "0",
     textAlign: 'right',
-    backgroundColor: colorMapping['vc'],
+    backgroundColor: vcColor,
     position: 'absolute',
     width:'75%',
     right: 10
@@ -171,24 +145,11 @@ const trimDescription = function(description) {
   return description
 };
 
-export default function ResourcesCard(props) {
+export default function FeaturedResourcesCardDesktop(props) {
   const classes = useStyles();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = (event) => { setAnchorEl(event.currentTarget);};
-  const handleClose = () => {setAnchorEl(null);};
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
-
-  let {iosLink, androidLink, website, share, img, title, description, tags,
-    headerTitle, headerColor, category} = props;
-  if(headerColor && colorMapping.hasOwnProperty(headerColor)){
-    headerColor = colorMapping[headerColor.toLowerCase()]
-  }
-  else if(!headerColor || headerColor===''){
-    headerColor = colorMapping['vc']
-  }
+  let {website, img, title, description, tags, category} = props;
 
   return (
     <Card className={classes.root}>
@@ -222,67 +183,16 @@ export default function ResourcesCard(props) {
             )
           })}
         </CardContent>
-
-        <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
-          <div style={{float: 'left'}}>
-            {share &&
-            <div style={{display:'inline-block'}} className={classes.icons}>
-              <IconButton aria-describedby={id} onClick={handleClick} size={'small'}>
-                <ShareIcon fontSize={'small'}/>
-              </IconButton>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}>
-                <div style={{display: 'inline-block', paddingLeft: 5, paddingTop: 5, width: '100%'}}>
-                  <FacebookShareButton url={website} children={<FacebookIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <TwitterShareButton url={website} children={<TwitterIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <WhatsappShareButton url={website} children={<WhatsappIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <LinkedinShareButton url={website} children={<LinkedinIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <EmailShareButton url={website} children={<EmailIcon round size={24} style={{marginRight: 5}}/>}/>
-                </div>
-              </Popover>
-            </div>
-            }
-            {iosLink &&
-            <IconButton href={iosLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-              <AppleIcon fontSize={'small'}/>
-            </IconButton>}
-            {androidLink &&
-            <IconButton href={androidLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-              <AndroidIcon fontSize={'small'}/>
-            </IconButton>}
-          </div>
-          <div style={{float: 'right', marginLeft: 'auto'}}>
-            <Button size="small" color="primary" href={website} target='_blank' rel="noopener noreferrer">
-              View
-            </Button>
-          </div>
-        </CardActions>
       </a>
     </Card>
   );
 }
 
-ResourcesCard.propTypes = {
-  iosLink: PropTypes.string,
-  androidLink: PropTypes.string,
+FeaturedResourcesCardDesktop.propTypes = {
   website: PropTypes.string.isRequired,
-  share: PropTypes.bool,
   img: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   tags: PropTypes.string.isRequired,
-  headerTitle: PropTypes.string,
-  headerColor: PropTypes.string,
   category: PropTypes.string.isRequired
 };

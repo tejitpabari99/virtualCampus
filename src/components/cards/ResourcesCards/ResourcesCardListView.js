@@ -208,7 +208,7 @@ export default function EventCardDesktop({ ele }) {
                   <div style={{paddingLeft: '10px'}} />
                   <div className={classes.subBox2}>
                     <span style={{"color":"#0072CE"}}>This resource offers:  </span>
-                    <span style={{"color":"black"}}>Low-priced wifi, discount for students (SpectrumU), one-time payment, automatic payments, online TV streaming</span>
+                    <span style={{"color":"black"}}>Long ago, the four nations lived together in harmony. Then, everything changed when the Fire Nation attacked.</span>
                   </div>
                 </Typography>
               </GridItem>
