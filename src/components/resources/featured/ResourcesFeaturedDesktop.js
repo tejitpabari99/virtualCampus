@@ -53,9 +53,6 @@ const useStyles = () => ({
 class ResourcesFeaturedDesktop extends ResourcesListFunctionality {
 constructor(props){
   super(props);
-  this.state = {
-    displayResources: []
-  };
 }
 render() {
   const MAX_RESOURCES_DISPLAYED = 3;

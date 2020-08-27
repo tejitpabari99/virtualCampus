@@ -5,7 +5,7 @@ import Button from "../../material-kit-components/CustomButtons/Button";
 import {ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search, EventCardFeatured} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core";
+import {CircularProgress, Select, MenuItem, IconButton, AppBar, Toolbar} from "@material-ui/core";
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
@@ -17,7 +17,21 @@ const useStyles = () => ({
     display: 'inline-block',
     marginLeft: '3%',
     textAlign: "center",
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
+  },
+  appBar: {
+    top: '60px',
+  },
+  toolbar: {
+    minHeight: '157px'
+  },
+  topSearchBar: {
+    width:'30%',
+    marginTop: '-50px',
+    display: 'inline-block',
+    marginLeft: '3%',
+    textAlign: "center",
+    verticalAlign: 'middle',
   },
   dropdownMenu: {
     width:'12%',
@@ -123,6 +137,47 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     const { classes } = this.props;
     return (
       <div>
+        <React.Fragment>
+        <AppBar position="fixed" color="white" className={classes.appBar}>
+          <Toolbar className={classes.toolbar}>
+            <div className={classes.topSearchBar}>
+            <Search data={this.state.myResourcesDisplay}
+              ref={input => this.inputElement = input}
+              onClick={(val) => { this.searchFunc(val) }}
+              onCancel={() => { this.searchFunc('') }}
+              placeholder={"Search resources"}
+              style={{height:'70%'}}
+            />
+            <br /><br />
+            </div>
+            <div style={{textAlign: 'center'}}>
+              {this.state.tagsDisplay.sort().map((tag, idx) => {
+                return (
+                  <CoolerButton key={idx}
+                                className={classes.tags}
+                                onClick={this.setTagDisplay.bind(this, tag)}
+                                otherClickOption={this.deleteTagDisplay.bind(this, tag)}
+                                category={this.state.category}
+                                val={tag}
+                  />
+                );
+              })}
+            </div>
+            <Select
+              labelId="label"
+              id="select"
+              value={this.state.selection}
+              onChange={this.handleChange}
+              style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
+            >
+              <MenuItem value={1}>Sort by</MenuItem>
+              <MenuItem value={2}>Alphabetical</MenuItem>
+            </Select>
+
+          </Toolbar>
+          </AppBar>
+        </React.Fragment>
+
         <div className={classes.searchBar}>
           <Search data={this.state.myResourcesDisplay}
             ref={input => this.inputElement = input}
