@@ -58,7 +58,9 @@ const WebsiteAndZoom = (props) => {
             label="Video/Media Link"
             name="invite_link"
             error={props.errors.invite_link}
-            touch={props.touched.invite_link} />
+            touch={props.touched.invite_link}
+            required
+          />
         </Grid>
 
         <Grid item sm={4} xs={12}>
@@ -68,7 +70,8 @@ const WebsiteAndZoom = (props) => {
             options={linkOptions}
             component={Select}
             error={props.errors.link_type}
-            touch={props.touched.link_type}
+            touch={Boolean(props.touched.link_type)}
+            required
           />
         </Grid>
       </Grid >

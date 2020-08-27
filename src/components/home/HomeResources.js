@@ -6,7 +6,7 @@ import {EventCardHighlight, EventModal, CustomButton} from '../'
 import firebase from "../../firebase";
 
 
-class Events extends React.Component{
+class HomeResources extends React.Component{
     constructor(props) {
         super(props);
         this.state={
@@ -86,3 +86,5 @@ class Events extends React.Component{
         )
     }
 }
+
+export default HomeResources;
