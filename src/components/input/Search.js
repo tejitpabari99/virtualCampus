@@ -7,13 +7,17 @@ import { withStyles } from "@material-ui/core/styles";
 import {CustomButton} from "../";
 import ClearIcon from '@material-ui/icons/Clear';
 
+
 const styles = () => ({
   whiteOutline: {
     borderColor: 'white',
   },
   blackOutline: {
     borderColor: 'black',
-  }
+  },
+  blueOutline: {
+    borderColor: '#0072CE',
+  },
 });
 
 class Search extends React.Component{
@@ -70,7 +74,9 @@ class Search extends React.Component{
           variant="outlined"
           onKeyDown={this.keyPress}
           InputProps={{
-            classes: { notchedOutline: this.props.iconColor === undefined ? classes.blackOutline : classes.whiteOutline },
+            classes: { notchedOutline: this.props.iconColor === undefined ? classes.blackOutline :
+                    this.props.iconColor === "white" ? classes.whiteOutline :
+                    classes.blueOutline},
             startAdornment: (
               <div>
                 <InputAdornment position="end">
