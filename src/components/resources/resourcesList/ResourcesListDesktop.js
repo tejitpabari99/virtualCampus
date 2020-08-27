@@ -21,6 +21,9 @@ const useStyles = () => ({
   appBar: {
     top: '60px',
   },
+  appBarTwo: {
+    top: '160px'
+  },
   toolbar: {
     minHeight: '157px'
   },
@@ -145,11 +148,15 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             />
             <br /><br />
             </div>
-            <div style={{textAlign: 'center'}}>
+            <div style={{textAlign: 'left'}}>
               {this.state.tagsDisplay.sort().map((tag, idx) => {
                 return (
                   <CoolerButton key={idx}
-                                className={classes.tags}
+                                style={{marginTop: 5,
+                                        marginBottom: 5,
+                                        marginLeft: 10,
+                                        fontSize: 'min(1.5vw, 9px)',
+                                }}
                                 onClick={this.setTagDisplay.bind(this, tag)}
                                 otherClickOption={this.deleteTagDisplay.bind(this, tag)}
                                 category={this.state.category}
@@ -158,17 +165,19 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 );
               })}
             </div>
+            <div style={{textAlign: 'right'}} className={classes.dropdownMenu}>
             <Select
               labelId="label"
               id="select"
               value={this.state.selection}
               onChange={this.handleChange}
               style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
+              variant={"outlined"}
             >
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
             </Select>
-
+            </div>
           </Toolbar>
           </AppBar>
         </React.Fragment>
