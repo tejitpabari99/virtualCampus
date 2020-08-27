@@ -8,14 +8,30 @@ import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core"
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import Slide from '@material-ui/core/Slide';
+import PropTypes from 'prop-types';
 
 
 const useStyles = () => ({
-  searchBar: {
+  search: {
     width:'30%',
     marginTop: '-600px',
     display: 'inline-block',
     marginLeft: '3%',
+    verticalAlign: 'middle'
+  },
+  searchAppBar: {
+    marginTop: '-70px',
+    display: 'inline-block',
+    marginLeft: '3%',
+    marginBottom: '1.5%',
     verticalAlign: 'middle'
   },
   resourcesFound: {
@@ -118,7 +134,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     const { classes } = this.props;
     return (
       <div>
-        <div className={classes.searchBar}>
+        <div className={classes.search}>
           <Search data={this.state.myResourcesDisplay}
             ref={input => this.inputElement = input}
             onClick={(val) => { this.searchFunc(val) }}
@@ -128,10 +144,40 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
+        {<AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white"}} elevation={0}>
+            <div className={classes.searchAppBar}>
+              <div style={{width:"30%", marginBottom:"0.8%"}}>
+                <Search data={this.state.myResourcesDisplay}
+                    ref={input => this.inputElement = input}
+                    onClick={(val) => { this.searchFunc(val) }}
+                    onCancel={() => { this.searchFunc('') }}
+                    placeholder={"Search resources"}
+                    iconColor={"#0072CE"}
+                  />
+              </div>
+              <div className={classes.searchError}>{this.state.searchError}</div>
+              <div style={{width:"70%"}}>
+                {this.state.tagsDisplay.sort().map((tag, idx) => {
+                    return (
+                      <CoolerButton key={idx}
+                                    style={{marginTop: 5,
+                                            marginBottom: 5,
+                                            marginLeft: 10,
+                                            fontSize: 'min(1.5vw, 9px)',
+                                    }}
+                                    onClick={this.setTagDisplay.bind(this, tag)}
+                                    otherClickOption={this.deleteTagDisplay.bind(this, tag)}
+                                    category={this.state.category}
+                                    val={tag}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+          </AppBar>}
         <div style={{flexDirection: 'row', display: 'flex', marginTop: '-7%'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
-
               // added new custom buttons that toggle on/off based on click status
               <CustomButton size="medium"
                   active={(this.state.activeTags === category)}
