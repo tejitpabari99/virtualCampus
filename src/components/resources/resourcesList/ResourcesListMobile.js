@@ -13,6 +13,8 @@ import {CircularProgress, Select, MenuItem, IconButton} from '@material-ui/core'
 import GridOnIcon from "@material-ui/icons/GridOn";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import {withStyles} from "@material-ui/core/styles";
+import {Element} from "react-scroll";
+import ScrollableAnchor from "react-scrollable-anchor";
 
 const useStyles = () => ({
   searchBar: {
@@ -213,16 +215,20 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                             md={4}
                             className={classes.gridCard}
                   >
-                    <ResourcesCardGridView
-                      website={data.links.website}
-                      img={data.img}
-                      title={data.title}
-                      description={data.description}
-                      iosLink={data.links.iosLink}
-                      androidLink={data.links.androidLink}
-                      tags={data.category.tags}
-                      share
-                    />
+                    <ScrollableAnchor >
+                      <Element name={encodeURI(data.title)}>
+                        <div id={encodeURI(data.title)}>
+                          <ResourcesCardGridView
+                            website={data.links.website}
+                            img={data.img}
+                            title={data.title}
+                            description={data.description}
+                            tags={data.category.tags}
+                            share
+                          />
+                        </div>
+                      </Element>
+                    </ScrollableAnchor>
                   </GridItem>
                 );
 
@@ -230,13 +236,18 @@ class ResourcesListMobile extends ResourcesListFunctionality {
               {!this.state.activityIndicator && !this.state.gridView && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem className={classes.listCard}>
-                    <ResourcesCardListView
-                      ele = {data}
-                      key={data.id}
-                    />
+                    <ScrollableAnchor >
+                      <Element name={encodeURI(data.title)}>
+                        <div id={encodeURI(data.title)}>
+                          <ResourcesCardListView
+                            ele = {data}
+                            key={data.id}
+                          />
+                        </div>
+                      </Element>
+                    </ScrollableAnchor>
                   </GridItem>
                 );
-
               })}
             </GridContainer>
           </GridItem>

@@ -1,7 +1,15 @@
 import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
-import {AddResourceCardDesktop, ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search} from "../..";
+import {
+    AddResourceCardDesktop,
+    ResourcesCardListView,
+    ResourcesCardGridView,
+    Heading,
+    CustomButton,
+    Search,
+    EventCard
+} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core";
@@ -17,6 +25,8 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Slide from '@material-ui/core/Slide';
 import PropTypes from 'prop-types';
+import {Element} from "react-scroll";
+import ScrollableAnchor from "react-scrollable-anchor";
 
 
 const useStyles = () => ({
@@ -304,23 +314,27 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 <AddResourceCardDesktop/>
               </GridItem>}
               {!this.state.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map((data) => {
+                console.log(encodeURI(data.title));
                 return (
                   <GridItem xs={12}
                             sm={6}
                             md={3}
                             className={classes.gridCard}
                   >
-                    <ResourcesCardGridView
-                      website={data.links.website}
-                      img={data.img}
-                      title={data.title}
-                      description={data.description}
-                      iosLink={data.links.iosLink}
-                      androidLink={data.links.androidLink}
-                      tags={data.category.tags}
-                      share
-                    />
-
+                    <ScrollableAnchor >
+                      <Element name={encodeURI(data.title)}>
+                        <div id={encodeURI(data.title)}>
+                          <ResourcesCardGridView
+                            website={data.links.website}
+                            img={data.img}
+                            title={data.title}
+                            description={data.description}
+                            tags={data.category.tags}
+                            share
+                          />
+                        </div>
+                      </Element>
+                    </ScrollableAnchor>
                   </GridItem>
                 );
 
@@ -332,10 +346,16 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                     md={6}
                     className={classes.listCard}
                   >
-                    <ResourcesCardListView
-                      ele = {data}
-                      key={data.id}
-                    />
+                    <ScrollableAnchor >
+                      <Element name={encodeURI(data.title)}>
+                        <div id={encodeURI(data.title)}>
+                          <ResourcesCardListView
+                            ele = {data}
+                            key={data.id}
+                          />
+                        </div>
+                      </Element>
+                    </ScrollableAnchor>
                   </GridItem>
                 );
 
