@@ -8,7 +8,7 @@ import {CircularProgress, Select, MenuItem, IconButton, AppBar, Toolbar} from "@
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
-
+import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 const useStyles = () => ({
   searchBar: {
@@ -30,10 +30,12 @@ const useStyles = () => ({
   topSearchBar: {
     width:'30%',
     marginTop: '-50px',
-    display: 'inline-block',
     marginLeft: '3%',
-    textAlign: "center",
-    verticalAlign: 'middle',
+  },
+  tagButtons: {
+    marginTop: '50px',
+    marginLeft: '-10%',
+    width: '70%'
   },
   resourcesFound: {
     marginLeft:'2%',
@@ -138,7 +140,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         <React.Fragment>
         <AppBar position="fixed" color="white" className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
-            <div className={classes.topSearchBar}>
+            <div className={classes.topSearchBar} style={{display: 'flex', flexDirection: 'column'}}>
             <Search data={this.state.myResourcesDisplay}
               ref={input => this.inputElement = input}
               onClick={(val) => { this.searchFunc(val) }}
@@ -146,9 +148,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               placeholder={"Search resources"}
               style={{height:'70%'}}
             />
-            <br /><br />
             </div>
-            <div style={{textAlign: 'left'}}>
+            <div className={classes.tagButtons} style={{display: 'flex', flexDirection: 'row'}}>
               {this.state.tagsDisplay.sort().map((tag, idx) => {
                 return (
                   <CoolerButton key={idx}
@@ -177,6 +178,16 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
             </Select>
+            </div>
+            <div className={classes.viewIcon}>
+                <IconButton onClick={this.handleClickView.bind(this, true)}>
+                    <GridOnIcon style={{fill: "#0072CE", textShadow: "0 0 3px #000"}}/>
+                </IconButton>
+            </div>
+            <div className={classes.viewIcon}>
+                <IconButton onClick={this.handleClickView.bind(this, false)}>
+                    <ViewListIcon style={{fill: "#0072CE"}}/>
+                </IconButton>
             </div>
           </Toolbar>
           </AppBar>
