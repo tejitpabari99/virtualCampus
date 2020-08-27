@@ -11,18 +11,13 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 export default function Resources() {
     return (
-        <div style={{backgroundColor: "white"}}>
-            <TemplateResources active={'resources'} title={'Resources'}>
-              <Title color={'blue'}>Resources</Title>
-                <div style={{paddingTop: '3%'}}>
-                    <ResourcesFeatured />
-                </div>
-                <div style={{paddingLeft: '3%', paddingRight: '3%'}}>
-                    <ResourcesList />
-                </div>
-
-            </TemplateResources>
-            <CustomFooter />
-        </div>
+        <TemplateResources active={'resources'} title={'Resources'}>
+            <div style={{paddingLeft: '3%'}}>
+                <ResourcesFeatured />
+            </div>
+            <div style={{paddingLeft: '3%', paddingRight: '3%'}}>
+                <ResourcesList />
+            </div>
+        </TemplateResources>
     );
 }
