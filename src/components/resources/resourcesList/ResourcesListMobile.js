@@ -2,15 +2,78 @@ import AddResourceMobile from "./AddResourceExpansion.js";
 import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Button from "../../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCardGridView, Heading, CustomButton, Search, ResourcesCardListView} from "../..";
+import {ResourcesCardGridView, Heading, Search, ResourcesCardListView, CustomButton} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress, Select, MenuItem, IconButton} from '@material-ui/core';
 import GridOnIcon from "@material-ui/icons/GridOn";
 import ViewListIcon from "@material-ui/icons/ViewList";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import {withStyles} from "@material-ui/core/styles";
+
+const useStyles = () => ({
+  searchBar: {
+    marginLeft: '5%',
+    width:'80%',
+    marginTop: '-1090px',
+    display: 'inline-block',
+    verticalAlign: 'middle'
+  },
+  resourcesFound: {
+    marginLeft:'13%',
+    marginTop: '3%',
+    textAlign: "center",
+    verticalAlign: 'middle',
+    color: "#828282",
+    fontSize: "18px"
+  },
+  dropdownMenu: {
+    width:'60%',
+    marginLeft:'13%',
+    marginTop: '3%',
+    display: 'inline-block',
+    verticalAlign: 'middle'
+  },
+  viewIcon: {
+    width:'5%',
+    marginLeft: '4%',
+    marginTop: '3%',
+    display: 'inline-block',
+    textAlign: "center",
+    verticalAlign: 'middle'
+  },
+  searchError: {
+    textAlign:'center',
+    color: 'red',
+    marginTop: '3px'
+  },
+  category: {
+    textAlign:'center',
+    marginTop: '30px'
+  },
+  description: {
+    textAlign: 'center',
+    marginTop: '15px',
+    paddingLeft: '20px',
+    paddingRight: '20px'
+  },
+  resourcesList: {
+    paddingLeft: '30px',
+    paddingRight: '5px',
+    marginTop: '20px'
+  },
+  gridCard: {
+    marginBottom: "40px",
+    marginTop: "10px"
+  },
+  listCard: {
+    marginBottom: "20px",
+    marginTop: "5px"
+  }
+});
 
 class ResourcesListMobile extends ResourcesListFunctionality {
   constructor(props) {
@@ -31,9 +94,10 @@ class ResourcesListMobile extends ResourcesListFunctionality {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <div style={{marginLeft: '5%', width:'80%', marginTop: '-1100px', display: 'inline-block', verticalAlign: 'middle'}}>
+        <div className={classes.searchBar}>
             <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -42,80 +106,60 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                 iconColor={"white"}
             />
         </div>
-        <br/><br/>
         <div style={{textAlign:'center'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
-              <Button size="small"
-                      active={(this.state.activeTags === category)}
-                      simple
-                      style={{
-                        backgroundColor: (this.state.activeTags === category) ? "#F2F2F2" : "white",
-                        position: 'relative',
-                        marginLeft:"2%",
-                        marginRight:"2%",
-                        marginTop: '3%',
-                        borderRadius: '10px',
+              <CustomButton size="medium"
+                  active={(this.state.activeTags === category)}
+                  simple
 
-                        fontFamily: 'Poppins',
-                        fontStyle: 'normal',
-                        fontWeight: 'normal',
-                        fontSize: '11px',
-                        lineHeight: '14px',
-                        color: '#0072CE'
-                      }}
-                      onClick={() =>{
-                        this.setDisplay.bind(this, category)();
-                        this.handleClick.bind(this)(category);
-                      }}
-                      value={{category}}
-              >{category}</Button>
+                  // if category is "All Resources", do not display
+                  style={category !== "All Resources" ?{
+                      width: '20%',
+                      height: '60px',
+                      boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
+                      marginRight: '20px',
+                      marginTop: '2%',
+                      fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
+                      fontStyle: 'normal',
+                      fontWeight: '900',
+                      fontSize: '9px',
+                      wordWrap: 'breakWord'
+                  }
+                  :{
+                    display: 'None'
+                  }
+                  }
+                  onClick={() =>{
+                    if (this.category===category)
+                    {
+                      this.category = "All Resources";
+                      category = "All Resources";
+                    }
+                    else
+                    {
+                      this.category = category;
+                    }
+                    this.deleteDisplay.bind(this, category);
+                    this.setDisplay.bind(this, category)();
+
+                  }}
+
+                  val={category}
+                  color={
+                    (this.category === category) ? "blue" : 'paleblue'
+                  }
+                  text={category}
+              />
             );
           })}
         </div>
-        <div style={{width:'27%', marginLeft:'65%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
-            <Select
-              labelId="label"
-              id="select"
-              value={this.state.selection}
-              onChange={this.handleChange}
-              variant="outlined"
-            >
-              <MenuItem value={1}>Sort by</MenuItem>
-              <MenuItem value={2}>Alphabetical</MenuItem>
-            </Select>
-        </div>
-        <div style={{width:'2%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
-            <IconButton onClick={this.handleClickView.bind(this, true)}>
-                <GridOnIcon style={{fill: "#0072CE"}}/>
-            </IconButton>
-        </div>
-        <div style={{width:'2%', marginLeft:'3%', marginTop: '3%', display: 'inline-block', textAlign: "center", verticalAlign: 'middle'}}>
-            <IconButton onClick={this.handleClickView.bind(this, false)}>
-                <ViewListIcon style={{fill: "#0072CE"}}/>
-            </IconButton>
-        </div>
 
-        <div style={{
-              textAlign:'center',
-              color: 'red',
-              marginTop: '3%',
-            }}
-        >{this.state.searchError}</div>
+        <div className={classes.searchError}>{this.state.searchError}</div>
 
-        <hr style={{border: "1px solid #0072CE", marginTop: '6%'}} />
+        <Heading color={'blue'} className={classes.category}>{this.state.category}</Heading>
 
-        <Heading color={'blue'}
-                 style={{textAlign:'center', marginTop: '30px'}}
-        >{this.state.category}</Heading>
-
-        <div style={{
-              textAlign:'center',
-              marginTop: '15px',
-              paddingLeft: '20px',
-              paddingRight: '20px'
-            }}
-        >{this.state.description}</div>
+        <div className={classes.description}>{this.state.description}</div>
 
         <GridContainer style={{width: '100%'}}>
           <GridItem style={{marginLeft: '3%', marginRight: '3%', marginBottom:'20px'}}>
@@ -136,15 +180,38 @@ class ResourcesListMobile extends ResourcesListFunctionality {
             })}
           </GridItem>
           <AddResourceMobile />
+          <div className={classes.dropdownMenu}>
+            <Select
+              labelId="label"
+              id="select"
+              value={this.state.selection}
+              onChange={this.handleChange}
+              variant="outlined"
+            >
+              <MenuItem value={1}>Sort by</MenuItem>
+              <MenuItem value={2}>Alphabetical</MenuItem>
+            </Select>
+          </div>
+          <div className={classes.viewIcon}>
+            <IconButton onClick={this.handleClickView.bind(this, true)}>
+              <GridOnIcon style={{fill: "#0072CE"}}/>
+            </IconButton>
+          </div>
+          <div className={classes.viewIcon}>
+            <IconButton onClick={this.handleClickView.bind(this, false)}>
+              <ViewListIcon style={{fill: "#0072CE"}}/>
+            </IconButton>
+          </div>
+          <div className={classes.resourcesFound}> {this.state.resourcesDisplay.length} Resources Found </div>
           <GridItem>
-            <GridContainer style={{paddingLeft: '30px', paddingRight: '5px', marginTop: '20px'}}>
+            <GridContainer className={classes.resourcesList}>
               {this.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
               {!this.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}
                             sm={6}
                             md={4}
-                            style={{marginBottom: "40px", marginTop: "10px"}}
+                            className={classes.gridCard}
                   >
                     <ResourcesCardGridView
                       website={data.links.website}
@@ -162,7 +229,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
               })}
               {!this.state.activityIndicator && !this.state.gridView && this.state.resourcesDisplay.map(data => {
                 return (
-                  <GridItem style={{marginBottom: "20px", marginTop: "5px"}}>
+                  <GridItem className={classes.listCard}>
                     <ResourcesCardListView
                       ele = {data}
                       key={data.id}
@@ -179,4 +246,4 @@ class ResourcesListMobile extends ResourcesListFunctionality {
   }
 }
 
-export default ResourcesListMobile;
+export default withStyles(useStyles)(ResourcesListMobile);

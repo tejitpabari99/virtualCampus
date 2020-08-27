@@ -1,6 +1,8 @@
 import MetaData from "./all/MetaData";
 import CustomTheme from "./all/CustomTheme";
 import CustomHeader from "./all/CustomHeader";
+import CustomFooter from "./all/CustomFooter";
+import CustomFooterMobile from "./all/CustomFooterMobile";
 import Template from "./all/Template";
 import TemplateResources from "./all/TemplateResources";
 import TeamMember from "./about-us/TeamMember";
@@ -16,6 +18,7 @@ import ResourcesListMobile from "./resources/resourcesList/ResourcesListMobile";
 import ResourcesFeatured from "./resources/featured/ResourcesFeatured";
 import ResourcesFeaturedDesktop from "./resources/featured/ResourcesFeaturedDesktop";
 import ResourcesFeaturedMobile from "./resources/featured/ResourcesFeaturedMobile";
+import AddResourceCardDesktop from "./cards/ResourcesCards/AddResourceCardDesktop";
 import ResourceFormDesktop from "./resources/form/ResourceFormDesktop";
 import ResourceFormMobile from "./resources/form/ResourceFormMobile";
 import ResourcesCardGridView from "./cards/ResourcesCards/ResourcesCardGridView";
@@ -47,11 +50,11 @@ import {convertUTCToLocal,
 import EventsPageDesktop from "./events/eventPageDesktop";
 import EventsPageMobile from "./events/eventPageMobile";
 
-export {MetaData, CustomTheme, CustomHeader, Template, TemplateResources, TeamMember, TeamSection,
+export {MetaData, CustomTheme, CustomHeader, CustomFooter, CustomFooterMobile, Template, TemplateResources, TeamMember, TeamSection,
         EventCard, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
         HomeEvents, HomeMobile, HomeDesktop,
         EventsPageMobile, EventsPageDesktop,
-        CustomButton, DesktopMobile,
+        CustomButton, DesktopMobile, AddResourceCardDesktop,
         Title, Subtitle, Heading, Search, ResourcesList, ResourceFormDesktop, ResourceFormMobile,
         ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCardGridView, ResourcesCardListView,

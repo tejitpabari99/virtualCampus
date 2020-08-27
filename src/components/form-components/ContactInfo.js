@@ -4,8 +4,8 @@ import classNames from "classnames";
 
 import Grid from '@material-ui/core/Grid';
 import FormikField from "../form-components/FormikField"
-import {Field} from "formik";
-import {CheckboxWithLabel} from "formik-material-ui";
+import { Field } from "formik";
+import { CheckboxWithLabel } from "formik-material-ui";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -45,13 +45,13 @@ const ContactInfo = (props) => {
             required />
         </Grid>
       </Grid>
-      <Field
-          component={CheckboxWithLabel}
-          name="displayNameToggleOff"
-          Label={{ label: "Check this box if you do not want your name/organization listed on our website and instead we will put CVC as the host." }}
-          type="checkbox"
-          indeterminate={false}
-      />
+      {/* <Field
+        component={CheckboxWithLabel}
+        name="displayNameToggleOff"
+        Label={{ label: "Check this box if you want to list CVC as the host instead of your name / org." }}
+        type="checkbox"
+        indeterminate={false}
+      /> */}
     </div>
   )
 }

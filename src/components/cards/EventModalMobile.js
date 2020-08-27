@@ -331,6 +331,7 @@ export default function EventModalMobile({open, closeDo, event}) {
             anchor={anchor}
             open={open}
             onClose={closeDo}
+            transitionDuration={{enter: 2000}}
             //open={state[anchor]}
             //onClose={toggleDrawer(anchor, false)}
             onOpen={toggleDrawer(anchor, true)}

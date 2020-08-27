@@ -1,11 +1,8 @@
 import React from "react";
 import ResourcesListFunctionality from "../resourcesList/ResourcesListFunctionality";
 import {MuiThemeProvider, withStyles} from "@material-ui/core/styles";
-import Button from "../../material-kit-components/CustomButtons/Button.js";
-
-import {makeStyles} from "@material-ui/core/styles";
 import Data from "../../../assets/ResourcesData";
-import {CustomTheme, EventCardFeatured, Template} from "../..";
+import {CustomTheme} from "../..";
 import ResourcesCardGridView from "../../cards/ResourcesCards/ResourcesCardGridView.js";
 import Carousel from "react-material-ui-carousel";
 const FeaturedData = Data.FeaturedData;
@@ -35,13 +32,13 @@ const useStyles = () => ({
     marginTop: "-5px",
     height: "733px",
     marginLeft: "80%",
-    width: "20.6%",
+    width: "21.4%",
     marginRight: "-0.25%",
     borderColor: "#FB750D",
     borderRadius: "0px 0px 0px 102px"
   },
   cardList: {
-    marginTop: "-500px",
+    marginTop: "-450px",
     marginLeft: "10%",
     width: "300px",
   },
@@ -71,7 +68,7 @@ render() {
         <div className={classes.subBox}>
           <div className={classes.text}>
             <h2 style={{fontSize:"2.5em", color:"white", lineHeight:"1.3"}}>Resources</h2>
-            <p style={{fontSize: "1em", color:"white"}}>Some of our most popular resources to help you tackle recent events, be mindful of your health, improve your job search, and more.
+            <p style={{fontSize: "1em", color:"white", width:"70%"}}>Some of our most popular resources to help you tackle recent events, be mindful of your health, improve your job search, and more.
               <br /><br />
             </p>
           </div>

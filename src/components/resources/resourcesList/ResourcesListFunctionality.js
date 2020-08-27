@@ -229,6 +229,7 @@ class ResourcesListFunctionality extends React.Component {
         this.handleChange(this.state.event);
       });
     }
+    console.log(this.state.resourcesDisplay)
   }
 
   /**

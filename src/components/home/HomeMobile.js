@@ -2,17 +2,30 @@ import React from "react"
 import classNames from "classnames";
 import HomeEvents from './HomeEvents';
 import { makeStyles } from "@material-ui/core/styles";
-import landingImage from "../../assets/images/home/graphic.png";
-import hostEventPic from "../../assets/images/home/hostAnEvent.png";
+import landingImage from "../../assets/images/home/MainGraphic.png";
+import HostEventPic from "../../assets/images/home/HostEventPic.png";
+import MockCodingInterviews from "../../assets/images/home/MockCodingInterviews.png";
+import Bubbles1 from "../../assets/images/home/BubblesMobile1.png";
+import Bubbles2 from "../../assets/images/home/BubblesMobile2.png";
+import OrangeBlob from "../../assets/images/home/OrangeBlobMobile.png";
+import BlueBlob from "../../assets/images/home/BlueBlobMobile.png";
 import facebookPic from "../../assets/images/home/facebook.png";
 import instagramPic from "../../assets/images/home/instagram.png";
 import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
 import Button from "./../material-kit-components/CustomButtons/Button.js";
 import {MetaData, CustomHeader, CustomButton, Title, Subtitle} from "../";
 import HomeResourcesList from "./HomeResourcesList.js";
-import * as Events from './../../pages/socalize';
+import * as Events from './../../pages/socialize';
 import InstagramEmbed from 'react-instagram-embed';
 import { Helmet } from 'react-helmet';
+import InstaIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import IconButton from '@material-ui/core/IconButton';
+import GridItem from "../material-kit-components/Grid/GridItem";
+import CustomFooterMobile from "../all/CustomFooterMobile";
+import CustomFooter from "../all/CustomFooter";
 
 const useStyles = makeStyles(styles);
 
@@ -51,11 +64,6 @@ const manualPortrait = makeStyles(() => ({
     color: "#BFD8E9",
     lineHeight: ".2rem",
   },
-  buttonSpan:{
-    paddingLeft: "1px",
-    paddingRight: "1px",
-    color: '#FB750D',
-  },
   landingText:{
     margin: '0',
     float:'left',
@@ -68,20 +76,16 @@ const manualPortrait = makeStyles(() => ({
     background: `url(${landingImage})`,
     backgroundSize: '110% auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '97% bottom',
-    height: "70vh",
-    width: "100%"
-  },
-  button:{
-    background: "#FFFFFF",
-    border: "1px solid #FB750D",
-    boxSizing: "border-box",
-    borderRadius: "10px",
+    backgroundPosition: 'center max(40%, 20px)',
+    height: "max(100vh, 31vw)",
+    width: "95%",
+    marginBottom: "-300px"
   },
   eventsSection: {
     position:'relative',
     left:'0px',
     backgroundColor:'transparent',
+    textAlign: "left",
   },
   eventPic: {
     height: "400px",
@@ -97,28 +101,134 @@ const manualPortrait = makeStyles(() => ({
     lineHeight: '2.5vw',
     marginTop: "15px",
   },
-  resourcesSection: {
-    position: 'relative'
+  upcomingEventsBox: {
+    width: "320px",
+    height: '162px',
+    borderRadius: '30px',
+    backgroundColor: "#0072CE",
+    marginBottom: "10px",
+    marginLeft: "25px",
   },
-  socialSection: {
+  hostEventPicBox: {
+    width: "300px",
+    height: "210px",
+    marginLeft: "35px"
+  },
+  hostEventTitle: {
+    color:"#0072CE",
+    fontSize: "24px",
+    textAlign: "center"
+  },
+  hostEventText: {
+    color:"black",
+    fontSize: "12px",
     textAlign: "center",
+    maxWidth: "280px",
+    marginLeft: "50px"
+  },
+  hostEventButton: {
+    marginTop: "-20px",
+    textAlign: "center"
+  },
+  interviewPicBox: {
+    width: "300px",
+    height: "250px",
+    marginLeft: "35px",
+    marginBottom: "-20px"
+  },
+  dateText: {
+    color:"black",
+    fontSize: "14px",
+    textAlign: "center"
+  },
+  interviewTitle: {
+    color:"#0072CE",
+    fontSize: "24px",
+    textAlign: "center"
+  },
+  interviewText: {
+    color:"black",
+    fontSize: "12px",
+    textAlign: "center",
+    maxWidth: "280px",
+    marginLeft: "50px"
+  },
+  interviewButton: {
+    marginTop: "-20px",
+    textAlign: "center"
+  },
+  resourcesText: {
+    color: "#0072CE",
+    fontSize: "24px",
+    maxWidth: "300px",
+    textAlign: "center",
+    marginLeft: "35px",
+    marginBottom: "-60px",
+    marginTop: "40px"
+  },
+  bubbles1: {
+    marginLeft: "10px",
+    width: "140px",
+    height: "100px"
+  },
+  bubbles2: {
+    marginLeft: "120px",
+    width: "60px",
+    height: "50px"
+  },
+  blueBlob: {
+    width: "100%",
+    height: "1500px",
+    marginTop: "50px"
+  },
+  orangeBlob: {
+    width: "100%",
+    height: "800px",
+    marginTop: "-2360px"
+  },
+  largeIcon: {
+    width: "50px",
+    height: "50px",
+    marginBottom: "-20px"
   },
   insta: {
-    width: "100%",
-    height: "900px",
-    backgroundColor: "#F6C09F",
-    color: "black",
-    padding:"0px",
-    marginTop: "0px",
+    border:"none",
+    marginLeft: "25px",
+    marginTop: "-1490px"
   },
   fabo: {
-    width: "100%",
-    height: "900px",
-    backgroundColor: "#82B7E8",
-    color: "white",
-    padding:"0px",
-    margin: "0px",
+    border:"none",
+    marginLeft: "45px",
+    marginBottom:"-30px"
   },
+  instaButton: {
+    marginLeft: "130px",
+    marginTop: "30px",
+    color: "black",
+    borderColor: "black",
+    marginBottom: "150px"
+  },
+  faboButton: {
+    marginTop: "20px",
+    marginLeft: "130px",
+    marginBottom: "110px",
+  },
+  firstColumn: {
+    color: "white",
+    fontSize: "14px",
+    marginLeft: "30px",
+    marginTop: "30px"
+  },
+  secondColumn: {
+    color: "white",
+    fontSize: "14px",
+    marginLeft: "200px",
+    marginTop: "-145px"
+  },
+  icon: {
+    color: "white",
+    fontSize: 40,
+  }
 }));
 
 
@@ -142,25 +252,9 @@ const manualLandscape = makeStyles(() => ({
     lineHeight: '18px',
     color:'#000000',
   },
-  toAllSubHeadingUpEvents: {
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '.84rem',
-    marginTop: "1rem",
-    marginBottom: "1.5rem",
-    maxWidth: '93%',
-    margin: "auto",
-    color:'#000000',
-  },
   toAllSecondary: {
     color: "#BFD8E9",
     lineHeight: ".2rem",
-  },
-  buttonSpan:{
-    paddingLeft: "1px",
-    paddingRight: "1px",
-    color: '#FB750D',
   },
   landingText:{
     margin: '0',
@@ -172,30 +266,16 @@ const manualLandscape = makeStyles(() => ({
   },
   landing: {
     background: `url(${landingImage})`,
-    backgroundSize: '52% auto',
+    backgroundSize: '80% auto',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '100% bottom',
-    height: "80vh",
-    width: "100%"
-  },
-  button:{
-    background: "#FFFFFF",
-    border: "1px solid #FB750D",
-    boxSizing: "border-box",
-    borderRadius: "10px",
-  },
-  hostsSection: {
-    height: "70vh",
-    flexDirection: "column",
-    position: "relative",
-    backgroundImage: `url(${hostEventPic})`,
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "100% auto"
+    backgroundPosition: 'right max(40%, 20px)',
+    height: "max(120vh, 31vw)",
+    width: "95%",
   },
   eventsSection: {
     position:'relative',
-    left:'0px',
     backgroundColor:'transparent',
+    marginLeft: "160px"
   },
   eventPic: {
     height: "400px",
@@ -211,29 +291,161 @@ const manualLandscape = makeStyles(() => ({
     lineHeight: '2.5vw',
     marginTop: "15px",
   },
+  upcomingEventsBox: {
+    width: "320px",
+    height: '162px',
+    borderRadius: '30px',
+    backgroundColor: "#0072CE",
+    marginBottom: "30px",
+    marginLeft: "250px",
+  },
+  hostEventPicBox: {
+    width: "300px",
+    height: "210px",
+    marginLeft: "35px"
+  },
+  hostEventTitle: {
+    color:"#0072CE",
+    fontSize: "24px",
+    textAlign: "center",
+    marginLeft: "270px",
+    marginTop: "-200px"
+  },
+  hostEventText: {
+    color:"black",
+    fontSize: "12px",
+    textAlign: "left",
+    maxWidth: "280px",
+    marginLeft: "405px"
+  },
+  hostEventButton: {
+    marginTop: "-20px",
+    textAlign: "center",
+    marginBottom: "60px",
+    marginLeft: "210px"
+  },
+  interviewPicBox: {
+    width: "300px",
+    height: "250px",
+    marginLeft: "400px",
+    marginBottom: "-20px"
+  },
+  dateText: {
+    color:"black",
+    fontSize: "14px",
+    marginTop: "-180px",
+    textAlign: "center",
+    marginLeft: "-360px"
+  },
+  interviewTitle: {
+    color:"#0072CE",
+    fontSize: "24px",
+    textAlign: "center",
+    marginLeft: "-430px"
+  },
+  interviewText: {
+    color:"black",
+    fontSize: "12px",
+    textAlign: "right",
+    maxWidth: "280px",
+    marginLeft: "50px"
+  },
+  interviewButton: {
+    marginTop: "-20px",
+    textAlign: "left",
+    marginLeft: "55px"
+  },
+  resourcesText: {
+    color: "#0072CE",
+    fontSize: "24px",
+    textAlign: "center",
+    marginLeft: "35px",
+    marginBottom: "-60px",
+    marginTop: "40px"
+  },
+  bubbles1: {
+    marginLeft: "10px",
+    width: "140px",
+    height: "100px"
+  },
+  bubbles2: {
+    marginLeft: "600px",
+    width: "60px",
+    height: "50px"
+  },
+  blueBlob: {
+    width: "100%",
+    height: "1500px",
+    marginTop: "50px"
+  },
+  orangeBlob: {
+    width: "100%",
+    height: "800px",
+    marginTop: "-2360px"
+  },
   resourcesSection: {
     position: 'relative'
   },
-  socialSection: {
-    textAlign: "center",
+  largeIcon: {
+    width: "50px",
+    height: "50px",
+    marginBottom: "-20px"
   },
   insta: {
-    width: "100%",
-    height: "900px",
-    backgroundColor: "#F6C09F",
-    color: "black",
-    padding:"0px",
-    marginTop: "0px",
+    border:"none",
+    marginLeft: "250px",
+    marginTop: "-1490px"
   },
   fabo: {
-    width: "100%",
-    height: "900px",
-    backgroundColor: "#82B7E8",
-    color: "white",
-    padding:"0px",
-    margin: "0px",
+    border:"none",
+    marginLeft: "250px"
   },
-
+  instaButton: {
+    marginLeft: "320px",
+    marginTop: "60px",
+    color: "black",
+    borderColor: "black",
+    marginBottom: "150px"
+  },
+  faboButton: {
+    marginTop: "30px",
+    marginLeft: "320px"
+  },
+  footer: {
+    width: "100%",
+    height: "400px",
+    backgroundColor: "#0072CE",
+    color: "white",
+    marginTop: "50px"
+  },
+  footerTitle: {
+    color: "white",
+    fontSize: "24px",
+    marginLeft: "30px",
+    marginTop: "-300px"
+  },
+  footerSubTitle: {
+    color: "white",
+    fontSize: "16px",
+    marginTop: "0px",
+    marginLeft: "30px"
+  },
+  firstColumn: {
+    color: "white",
+    fontSize: "14px",
+    marginLeft: "400px",
+    marginTop: "-70px"
+  },
+  secondColumn: {
+    color: "white",
+    fontSize: "14px",
+    marginLeft: "600px",
+    marginTop: "-145px"
+  },
+  icon: {
+    color: "white",
+    fontSize: 40,
+  }
 }));
 export default function HomeMobile({isLandscape}) {
   const classes = useStyles();
@@ -269,46 +481,61 @@ export default function HomeMobile({isLandscape}) {
             <span style={{display:"block"}}>Your one stop-shop for all things social, career, academic, and well-being.</span>
             <span>Thank us later.</span>
           </h1>
-          <CustomButton href={"/socalize"} text={'EXPLORE'} color={"orange"} size={"large"}/>
+          <CustomButton href={"/socialize"} text={'EXPLORE'} color={"orange"} size={"large"}/>
         </div>
       </div>
 
+      <div className={manual.upcomingEventsBox}>
+          <br/>
+          <p style={{color: "white", fontSize: "24px", textAlign: "center"}}> Upcoming Events </p>
+          <p style={{color: "white", fontSize: "12px", textAlign: "center"}}> Find out what's happening on campus, virtually.</p>
+          <div style={{marginTop: "10px", textAlign: "center"}}>
+            <CustomButton href={'/socialize'}  text={'SEE ALL EVENTS'}
+            color={"white2"} size={"large"} />
+          </div>
+      </div>
+
       <div style={{marginBottom: "5px", background: "transparent"}}/>
-      <div className={classNames(classes.main, manual.eventsSection)} style={{textAlign:'left',  background: "transparent"}}>
+      <div className={classNames(classes.main, manual.eventsSection)}>
           <div className={classes.container} id="explore">
-            <Title color={"blue"}>What’s happening?</Title>
-            <div style={{textAlign: "center"}}>
-              <h1 className={classNames(manual.toAllSubHeadingUpEvents)}>
-                Here to cancel the 100 sq foot floor lounge. Hang out, talk, and meet new friends.
-              </h1>
-            </div>
             <HomeEvents/>
-            <div style={{textAlign:'center'}}>
-              <CustomButton href={'/socalize'}  text={'SEE ALL EVENTS'}
-                            color={"orange"} size={"large"}/>
-              <div style={{marginBottom: "10px"}}/>
-            </div>
           </div>
       </div>
 
-      <div className={manual.hostsSection}>
-        <img className={manual.eventPic} src={hostEventPic} alt="HostEventPic"/>
-          <div className={manual.eventText}>
-            <h3 style={{paddingTop:"22px"}}>Looking for people who share <strong>your</strong> interests?</h3>
-            <h5 style={{fontSize: "14px"}}>1. Submit a topic and time using our form.</h5>
-            <h5 style={{fontSize: "14px"}}>2. Let us host and share the event on our website.</h5>
-            <h5 style={{fontSize: "14px"}}>3. Share your interest with your friends, meet new people, and have fun!</h5>
-            <CustomButton href={'/socalize/add-new-event'}  text={'HOST A NEW EVENT'}
-                          color={"white2"} size={"large"}/>
-            <div style={{paddingBottom:"22px"}} />
-          </div>
+      <div style={{marginBottom: "20px" }} />
+
+      <img className={manual.hostEventPicBox} src={HostEventPic}/>
+      <h2 className={manual.hostEventTitle}>Looking for people who share <strong>your</strong> interests?</h2>
+      <p className={manual.hostEventText}>
+        1. Submit a topic and time using our form.<br />
+        2. Let us host and share the event on our website.<br />
+        3. Share your interest with your friends, meet new people, and have fun!<br /></p>
+      <br/>
+      <div className={manual.hostEventButton}>
+        <CustomButton href={'socialize/add-new-event'}  text={'HOST AN EVENT'}
+        color={"orange"} size={"large"}/>
       </div>
 
-      <div style={{marginBottom: "50px" }} />
+      <div style={{marginBottom: "60px" }} />
+
+      <img className={manual.interviewPicBox} src={MockCodingInterviews} />
+      <h2 className={manual.dateText}><strong>August 3rd - August 24th, 2020 </strong></h2>
+      <h2 className={manual.interviewTitle}>Mock Coding Interviews</h2>
+      <p className={manual.interviewText}>Practice and network 1-on-1 with students & alumni at Microsoft, Facebook, & Google.</p>
+      <br/>
+      <div className={manual.interviewButton}>
+        <CustomButton href={'/coding-interviews'}  text={'SCHEDULE A SESSION'}
+        color={"orange"} size={"large"} />
+      </div>
+
+
+      <div style={{marginBottom: "80px" }} />
+
+      <h1 className={manual.resourcesText}> Take a look at our Resources!</h1>
+
 
       <div className={manual.resourcesSection}>
         <div className={classes.container} id="resources">
-          <Title color={"blue"}>Top Resources</Title>
           <HomeResourcesList />
         </div>
         <div style={{marginBottom: "-20px" }} />
@@ -319,15 +546,16 @@ export default function HomeMobile({isLandscape}) {
       </div>
       <div style={{marginBottom: "50px" }} />
 
-      <div className={manual.socialSection}>
-          <div className={manual.insta}>
-              <br/>
-              <br/>
-              <h2 style={{marginTop: "50px"}}></h2>
-              <h4 style={{marginTop: "20px"}}>
-              </h4>
-              <br/>
-              <div align="center"  style = {{marginTop: "30px", border:"none"}}>
+      <div>
+        <img className={manual.bubbles1} src={Bubbles1}/>
+        <img className={manual.bubbles2} src={Bubbles2}/>
+      </div>
+
+      <div>
+        <img className={manual.blueBlob} src={BlueBlob}/>
+        <img className={manual.orangeBlob} src={OrangeBlob}/>
+        <div>
+            <div className={manual.insta}>
                 <InstagramEmbed
                     url='https://www.instagram.com/p/CBHN4GMlSkD/'
                     maxWidth={320}
@@ -340,36 +568,33 @@ export default function HomeMobile({isLandscape}) {
                     onAfterRender={() => {}}
                     onFailure={() => {}}
                 />
-              </div>
-              <div style={{marginTop: "30px"}}>
-                  <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'VISIT INSTAGRAM'} color={"black"} size={"large"} />
-              </div>
-          </div>
-          <div className={manual.fabo}>
-              <br/>
-              <br/>
-              <h2 style={{marginTop: "0px"}}></h2>
-              <h4 style={{marginTop: "20px"}}>
-              </h4>
-              <br/>
-              <div style = {{marginTop: "52px", border:"none"}}
-                   className="fb-page"
-                   data-href="https://www.facebook.com/columbiavirtualcampus/"
-                   data-tabs="timeline"
-                   data-width="320"
-                   data-height="527"
-                   data-small-header="true"
-                   data-adapt-container-width="true"
-                   data-hide-cover="false"
-                   data-show-facepile="false"
-              >
-              </div>
-              <div style={{marginTop: "50px"}}>
-                  <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'VISIT FACEBOOK'} color={"white"} size={"large"} newTab/>
-              </div>
-          </div>
+            </div>
+            <div className={manual.instaButton}>
+                    <CustomButton href={"https://www.instagram.com/columbiavirtualcampus/"} text={'INSTAGRAM'}
+                          startIcon={<InstaIcon />} color={"black"} size={"large"} />
+            </div>
+        </div>
+        <div>
+            <div
+                     className={classNames("fb-page", manual.fabo)}
+                     data-href="https://www.facebook.com/columbiavirtualcampus/"
+                     data-tabs="timeline"
+                     data-width="320"
+                     data-height="527"
+                     data-small-header="true"
+                     data-adapt-container-width="true"
+                     data-hide-cover="false"
+                     data-show-facepile="false"
+                >
+            </div>
+            <div className={manual.faboButton}>
+                <CustomButton href={"https://www.facebook.com/columbiavirtualcampus/"} text={'FACEBOOK'}
+                    startIcon={<FacebookIcon />} color={"black2"} size={"large"}/>
+            </div>
+        </div>
       </div>
 
+    <CustomFooter style={{marginTop:"-50px"}}/>
     </div>
     )
 };
