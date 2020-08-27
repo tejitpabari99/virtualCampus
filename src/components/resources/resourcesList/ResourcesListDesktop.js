@@ -8,7 +8,6 @@ import {CircularProgress, Select, MenuItem, IconButton, AppBar, Toolbar} from "@
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
-import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 const useStyles = () => ({
   searchBar: {
