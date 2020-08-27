@@ -134,46 +134,47 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
 
               // added new custom buttons that toggle on/off based on click status
               <CustomButton size="medium"
-                  active={(this.state.activeTags === category)}
-                  simple
-
-                  // if category is "All Resources", do not display
-                  style={category !== "All Resources" ?{
-                      width: '16%',
-                      height: '120px',
-                      boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
-                      marginRight: '20px',
-                      marginTop: '2%',
-                      fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
-                      fontStyle: 'normal',
-                      fontWeight: '900',
-                      fontSize: '14px',
-                      wordWrap: 'breakWord'
-                  }
-                  :{
-                    display: 'None'
-                  }
-                  }
-                  onClick={() =>{
-                    if (this.category===category)
-                    {
-                      this.category = "All Resources";
-                      category = "All Resources";
-                    }
-                    else
-                    {
-                      this.category = category;
-                    }
-                    this.deleteDisplay.bind(this, category);
-                    this.setDisplay.bind(this, category)();
-
-                  }}
-
-                  val={category}
-                  color={
-                    (this.category === category) ? "blue" : 'paleblue'
-                  }
-                  text={category}
+                      active={(this.state.activeTags === category)}
+                      simple
+                      
+                      // if category is "All Resources", do not display
+                      style={category !== "All Resources" ?{
+                          width: '16%',
+                          height: '120px',
+                          boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
+                          marginRight: '20px',
+                          marginTop: '2%',
+                          fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
+                          fontStyle: 'normal',
+                          fontWeight: '900',
+                          fontSize: '14px',
+                          whiteSpace: 'normal',
+                          
+                      }
+                      :{
+                        display: 'None'
+                      }
+                      }
+                      onClick={() =>{
+                        if (this.category === category)
+                        {
+                          this.category = "All Resources";
+                          category = "All Resources";
+                        }
+                        else
+                        {
+                          this.category = category;
+                        }  
+                        this.deleteDisplay.bind(this, category);
+                        this.setDisplay.bind(this, category)();
+                        
+                      }}
+                      
+                      val={category}
+                      color={
+                        (this.category === category) ? "blue" : 'paleblue'
+                      }
+                      text={category}
               />
             );
           })}
@@ -265,12 +266,13 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                             className={classes.gridCard}
                   >
                     <ResourcesCardGridView
-                      website={data.links.website}
+                      // website={data.links.website}
                       img={data.img}
                       title={data.title}
-                      description={data.description}
-                      iosLink={data.links.iosLink}
-                      androidLink={data.links.androidLink}
+                      // description={data.description}
+                      description={"hello"}
+                      // iosLink={data.links.iosLink}
+                      // androidLink={data.links.androidLink}
                       tags={data.category.tags}
                       share
                     />
