@@ -25,7 +25,7 @@ const useStyles = () => ({
     marginTop: '-600px',
     display: 'inline-block',
     marginLeft: '3%',
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
   },
   searchAppBar: {
     marginTop: '-70px',
@@ -144,7 +144,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        {<AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white"}} elevation={0}>
+        {<AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white", boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.1)"}} elevation={0}>
             <div className={classes.searchAppBar}>
               <div style={{width:"30%", marginBottom:"0.8%"}}>
                 <Search data={this.state.myResourcesDisplay}
