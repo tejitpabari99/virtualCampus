@@ -266,13 +266,13 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                             className={classes.gridCard}
                   >
                     <ResourcesCardGridView
-                      // website={data.links.website}
+                      website={data.links.website}
                       img={data.img}
                       title={data.title}
-                      // description={data.description}
+                      description={data.description}
                       description={"hello"}
-                      // iosLink={data.links.iosLink}
-                      // androidLink={data.links.androidLink}
+                      iosLink={data.links.iosLink}
+                      androidLink={data.links.androidLink}
                       tags={data.category.tags}
                       share
                     />

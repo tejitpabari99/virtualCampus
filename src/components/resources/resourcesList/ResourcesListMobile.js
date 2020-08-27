@@ -117,7 +117,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                       
                       // if category is "All Resources", do not display
                       style={category !== "All Resources" ?{
-                          width: '16%',
+                          width: '5%',
                           height: '50px',
                           boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
                           marginRight: '2%',
@@ -217,12 +217,12 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                             className={classes.gridCard}
                   >
                     <ResourcesCardGridView
-                      // website={data.links.website}
-                      // img={data.img}
+                      website={data.links.website}
+                      img={data.img}
                       title={data.title}
                       description={"hello"}
-                      // iosLink={data.links.iosLink}
-                      // androidLink={data.links.androidLink}
+                      iosLink={data.links.iosLink}
+                      androidLink={data.links.androidLink}
                       tags={data.category.tags}
                       share
                     />
