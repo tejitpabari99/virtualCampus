@@ -128,7 +128,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        
+
         <div style={{flexDirection: 'row', display: 'flex', marginTop: '-7%'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
@@ -275,9 +275,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                       androidLink={data.links.androidLink}
                       tags={data.category.tags}
                       share
-                    >
-                        <AddResourceCardDesktop/>
-                    </ResourcesCardGridView>
+                    />
 
                   </GridItem>
                 );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -25,6 +25,24 @@ import {primaryColor,
   roseColor,
   grayColor,
   vcColor} from '../../../assets/material-kit-assets/jss/material-kit-react'
+import FeaturedResourcesCardDesktop from "./FeaturedResourcesCardDesktop";
+
+import styled from "@emotion/styled/macro";
+import {AddResourceCardDesktop, CustomButton} from "../../index";
+
+const Hover = styled.div({
+  opacity: 0,
+  transition: "opacity 350ms ease",
+});
+
+const Background = styled.div({
+  color: "#FFF",
+  position: "relative",
+  cursor: "pointer",
+  [`:hover ${Hover}`]: {
+    opacity: 1,
+  },
+});
 
 const colorMapping = {
   'primary': primaryColor,
@@ -57,7 +75,7 @@ const useStyles = makeStyles({
     right: 0,
     top: 0,
     bottom: 0,
-    height: '50.26%',
+    height: '40.26%',
     opacity:'50%'
   },
   media: {
@@ -65,46 +83,55 @@ const useStyles = makeStyles({
     left: '0%',
     right: '0%',
     top: '0%',
-    bottom: '50.26%',
-
+    bottom: '60.26%',
     borderRadius: '5px 5px 0px 0px'
   },
   title: {
     position: 'absolute',
     left: '8.28%',
     right: '8.28%',
-    top: '29.02%',
+    top: '45.02%',
     bottom: '51.04%',
-
-    /* Desktop/Body */
-
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '25px',
     lineHeight: '30px',
-
-    color: '#FFFFFF'
+    color: 'black'
+  },
+  title2: {
+    paddingLeft: '7.8%',
+    paddingRight: '7.8%',
+    paddingTop: '8.2%',
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '25px',
+    lineHeight: '1.56',
+    color: 'black'
   },
   description: {
-    // display: 'none',
-    // height: 60,
     position: 'absolute',
     left: '8.28%',
     right: '8.28%',
-    top: '55.44%',
+    top: '57.44%',
     bottom: '9.59%',
-
-    /* Desktop/Details */
-
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '12px',
     lineHeight: '18px',
-
     color: '#000000',
-    // overflow: 'hidden'
+  },
+  description2: {
+    paddingLeft: '7.8%',
+    paddingRight: '7.8%',
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '12px',
+    lineHeight: '1.7',
+    color: '#000000',
   },
   cardHeader:{
     textTransform: 'capitalize',
@@ -141,14 +168,44 @@ const useStyles = makeStyles({
     marginTop: "2%",
     marginBottom: 0,
     borderRadius: '5px',
-    zIndex: 10,
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '10px',
     lineHeight: '15px',
     textAlign: 'center'
-  }
+  },
+  subBox1: {
+    backgroundColor: "rgba(253, 100, 100, 0.1)",
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    height: "auto",
+    width: "100%",
+    borderColor: "#FB750D",
+    borderRadius: "5px"
+  },
+  subBox2: {
+    backgroundColor: "#F2F9FD",
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    height: "auto",
+    width: "100%",
+    borderColor: "#FB750D",
+    borderRadius: "5px"
+  },
+  addResourceButton: {
+    position: "absolute",
+    bottom: "10%",
+    textAlign: "center",
+    marginLeft: "auto",
+    marginRight: "auto",
+    left: 0,
+    right: 0,
+  },
 });
 
 const trimDescription = function(description) {
@@ -178,39 +235,72 @@ export default function ResourcesCardGridView(props) {
   }
 
   return (
-    <Card className={classes.root}>
-      <a target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
-        <div className={classes.mediaContainer}>
-          {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
-          <CardMedia
-            component="img"
-            height="50.26%"
-            className={classes.media}
-            image={img}
-            title={title}
-          />
-          <div className={classes.imgOverlay}/>
+    <Background>
+      <Card className={classes.root}>
+        <a target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
+          <div className={classes.mediaContainer}>
+            {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
+            <CardMedia
+              component="img"
+              height="40.26%"
+              className={classes.media}
+              image={img}
+              title={title}
+            />
+            <div className={classes.imgOverlay}/>
 
+          </div>
+
+          <CardContent style={{marginBottom: 0}}>
+            {tags && tags.sort().reverse().map(ele => {
+              return (
+                <Button style={{'color':'black'}} className={classes.button}>
+                    {ele}
+                </Button>
+              )
+            })}
+            <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
+              {title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
+              <div className={classes.subBox1}>
+                <span style={{"color":"#FD6464"}}>Want support with:  </span>
+                <span style={{"color":"black"}}>Finances and Wifi</span>
+              </div>
+              <div style={{paddingTop: '10px'}} />
+              <div className={classes.subBox2}>
+                <span style={{"color":"#0072CE"}}>This resource offers:  </span>
+                <span style={{"color":"black"}}>Low-priced wifi, discount for students (SpectrumU), one-time payment, automatic payments, online TV streaming</span>
+              </div>
+            </Typography>
+          </CardContent>
+        </a>
+      </Card>
+      <Hover>
+        <div style={{marginTop:'-386px'}}>
+          <Card className={classes.root}>
+            <a target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
+              <CardContent style={{marginBottom: 0}}>
+                <Typography gutterBottom variant="h5" component="h2" className={classes.title2} >
+                  {title}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" className={classes.description2}>
+                  {description}
+                </Typography>
+                <div className={classes.addResourceButton}>
+                  <CustomButton text={"GO TO RESOURCE"}
+                              href={website}
+                              color={"blue"}
+                              size={"large"}
+                              target={"_blank"}
+                 />
+                </div>
+              </CardContent>
+            </a>
+          </Card>
         </div>
-
-        <CardContent style={{marginBottom: 0}}>
-          <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
-            {title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
-            {trimDescription(description)}
-          </Typography>
-          {tags && tags.sort().reverse().map(ele => {
-            return (
-              <Button style={{'color':'black'}} className={classes.button}>
-                  {ele}
-              </Button>
-            )
-          })}
-
-        </CardContent>
-      </a>
-    </Card>
+      </Hover>
+    </Background>
   );
 }
 

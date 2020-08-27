@@ -52,7 +52,7 @@ export default function AddResourceCardDesktop() {
                         color={"blueInvert2"}
                         size={"large"}
            />
-          </div>
+        </div>
     </Card>
   );
 }
