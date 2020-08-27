@@ -1,9 +1,6 @@
-
 import React, { useState } from "react";
-import classNames from "classnames";
 import { cardTitle } from "../../../assets/material-kit-assets/jss/material-kit-react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CustomButton, AddCalendar, CustomTheme } from "../../";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -12,9 +9,7 @@ import GridItem from "../../material-kit-components/Grid/GridItem.js";
 import GridContainer from "../../material-kit-components/Grid/GridContainer.js";
 import EventEmailModal from "../EventEmailModal";
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
-import firebase from "../../../firebase";
-import {handleEventClick} from "../eventCardsFeaturedAndCards/commonEventsFuncs"
-import ViewListIcon from "@material-ui/icons/ViewList";
+import {handleEventClick} from "../../events/SharedEvents"
 import {IconButton} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
@@ -142,7 +137,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function EventCardDesktop({ ele }) {
+export default function ResourcesCardListView({ ele }) {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
