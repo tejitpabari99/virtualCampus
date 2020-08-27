@@ -148,7 +148,6 @@ const trimDescription = function(description) {
 export default function FeaturedResourcesCardDesktop(props) {
   const classes = useStyles();
 
-
   let {website, img, title, description, tags, category} = props;
 
   return (

@@ -11,6 +11,7 @@ import {vcColor} from '../../../assets/material-kit-assets/jss/material-kit-reac
 import styled from "@emotion/styled/macro";
 import {CustomButton} from "../../index";
 
+
 const Hover = styled.div({
   opacity: 0,
   transition: "opacity 350ms ease",
@@ -187,7 +188,6 @@ const trimDescription = function(description) {
 
 export default function ResourcesCardGridView(props) {
   const classes = useStyles();
-
   let {website, img, title, description, tags} = props;
   return (
     <Background>

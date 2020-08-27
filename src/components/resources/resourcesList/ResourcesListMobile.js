@@ -106,60 +106,54 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                 iconColor={"white"}
             />
         </div>
-        <Tabs
-          indicatorColor="primary"
-          textColor="primary"
-          variant="scrollable"
-          scrollButtons="auto"
-          aria-label="scrollable auto tabs example"
-        >
+        <div style={{textAlign:'center'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
               <CustomButton size="medium"
-                active={(this.state.activeTags === category)}
-                simple
+                  active={(this.state.activeTags === category)}
+                  simple
 
-                // if category is "All Resources", do not display
-                style={category !== "All Resources" ?{
-                    width: '20%',
-                    height: '60px',
-                    boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
-                    marginRight: '20px',
-                    marginTop: '2%',
-                    fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
-                    fontStyle: 'normal',
-                    fontWeight: '900',
-                    fontSize: '9px',
-                    wordWrap: 'breakWord'
-                }
-                :{
-                  display: 'None'
-                }
-                }
-                onClick={() =>{
-                  if (this.category===category)
-                  {
-                    this.category = "All Resources";
-                    category = "All Resources";
+                  // if category is "All Resources", do not display
+                  style={category !== "All Resources" ?{
+                      width: '20%',
+                      height: '60px',
+                      boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
+                      marginRight: '20px',
+                      marginTop: '2%',
+                      fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
+                      fontStyle: 'normal',
+                      fontWeight: '900',
+                      fontSize: '9px',
+                      wordWrap: 'breakWord'
                   }
-                  else
-                  {
-                    this.category = category;
+                  :{
+                    display: 'None'
                   }
-                  this.deleteDisplay.bind(this, category);
-                  this.setDisplay.bind(this, category)();
+                  }
+                  onClick={() =>{
+                    if (this.category===category)
+                    {
+                      this.category = "All Resources";
+                      category = "All Resources";
+                    }
+                    else
+                    {
+                      this.category = category;
+                    }
+                    this.deleteDisplay.bind(this, category);
+                    this.setDisplay.bind(this, category)();
 
-                }}
+                  }}
 
-                val={category}
-                color={
-                  (this.category === category) ? "blue" : 'paleblue'
-                }
-                text={category}
+                  val={category}
+                  color={
+                    (this.category === category) ? "blue" : 'paleblue'
+                  }
+                  text={category}
               />
             );
           })}
-        </Tabs>
+        </div>
 
         <div className={classes.searchError}>{this.state.searchError}</div>
 

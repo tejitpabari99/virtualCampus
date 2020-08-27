@@ -13,6 +13,7 @@ import {handleEventClick} from "../../events/SharedEvents"
 import {IconButton} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
+
 const useStyles = makeStyles(() => ({
   cardTitle,
   resourceTitle: {
@@ -207,7 +208,6 @@ export default function ResourcesCardListView({ ele }) {
                   </div>
                 </Typography>
               </GridItem>
-
               <GridItem xs={9} sm={9} md={9}
                         style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 40, paddingRight: 10}}>
                 <div style={{color: "black", display: "block", fontSize: "14px"}}>{ele.description}</div>

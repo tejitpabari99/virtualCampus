@@ -1,14 +1,14 @@
 import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
-import {AddResourceCardDesktop, ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search, EventCardFeatured} from "../..";
+import {AddResourceCardDesktop, ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core";
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+
 
 const useStyles = () => ({
   searchBar: {
@@ -92,7 +92,7 @@ const useStyles = () => ({
     marginTop: "10px"
   },
   listCard: {
-    marginBottom: "20px",
+    marginBottom: "10px",
     marginTop: "5px"
   }
 });
@@ -128,7 +128,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-
         <div style={{flexDirection: 'row', display: 'flex', marginTop: '-7%'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
@@ -259,7 +258,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 <AddResourceCardDesktop/>
               </GridItem>}
               {!this.state.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map((data) => {
-                console.log(this.state.resourcesDisplay)
                 return (
                   <GridItem xs={12}
                             sm={6}
