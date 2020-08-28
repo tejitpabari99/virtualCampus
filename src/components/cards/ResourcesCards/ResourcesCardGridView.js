@@ -188,7 +188,7 @@ const trimDescription = function(description) {
 
 export default function ResourcesCardGridView(props) {
   const classes = useStyles();
-  let {website, img, title, description, tags} = props;
+  let {website, img, title, description, tags, wantSupportWith, resourceOffers} = props;
   return (
     <Background>
       <Card className={classes.root}>
@@ -220,12 +220,12 @@ export default function ResourcesCardGridView(props) {
             <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
               <div className={classes.subBox1}>
                 <span style={{"color":"#FD6464"}}>Want support with:  </span>
-                <span style={{"color":"black"}}>Boop blop blorp</span>
+                <span style={{"color":"black"}}>{wantSupportWith}</span>
               </div>
               <div style={{paddingTop: '10px'}} />
               <div className={classes.subBox2}>
                 <span style={{"color":"#0072CE"}}>This resource offers:  </span>
-                <span style={{"color":"black"}}>Long ago, the four nations lived together in harmony. Then, everything changed when the Fire Nation attacked.</span>
+                <span style={{"color":"black"}}>{resourceOffers}</span>
               </div>
             </Typography>
           </CardContent>
@@ -264,5 +264,7 @@ ResourcesCardGridView.propTypes = {
   img: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  tags: PropTypes.string.isRequired
+  tags: PropTypes.string.isRequired,
+  wantSupportWith: PropTypes.string.isRequired,
+  resourceOffers: PropTypes.string.isRequired,
 };
