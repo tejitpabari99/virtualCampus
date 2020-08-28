@@ -16,7 +16,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 SPREADSHEET_NAME = "List of Resources"
 WORKSHEET_NAME = "resources"
-UPLOADED_COLUMN = 9
+UPLOADED_COLUMN = 12
 FIREBASE_COLLECTION = "resource" 
 
 def main():
