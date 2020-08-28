@@ -122,7 +122,17 @@ def upload_new_resources(new_resources_df:pd.DataFrame, firestore_resources:Dict
     for index, row in new_resources_df.iterrows():
         links = Links(row["card link"], row["website"])
         date_created = datetime.now()
-        resource = Resource(row["resource name"], True, row["description"], row["image link"], row["category"], row["tags"].split(", "), links, date_created, row["ranking"])
+        resource = Resource(title=row["resource name"], 
+                            reviewed=True, 
+                            want_support_with=row["want support with"],
+                            this_resource_offers=row["this resource offers"],
+                            description=row["description"],
+                            img=row["image link"],
+                            category=row["category"],
+                            tags=row["tags"].split(", "),
+                            links=links, 
+                            date_created=date_created,
+                            ranking=row["ranking"])
         try:
             category_document = db.collection(FIREBASE_COLLECTION).document(resource.category.replace("/ ", "_"))
             if resource not in firestore_resources:
