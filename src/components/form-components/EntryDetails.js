@@ -39,7 +39,7 @@ const EntryDetails = (props) => {
           />
         </Grid>
 
-        {/* <Grid item sm={4} xs={12}>
+        <Grid item sm={4} xs={12}>
           <FormikField
             label={props.fileName === "" ? "Logo / Image Link" : props.fileName}
             error={props.errorImgLink}
@@ -48,8 +48,8 @@ const EntryDetails = (props) => {
             value={props.fileName}
             popover={"300 x 175 px preferred. If no picture is chosen, a stock photo based on category will be chosen for you."}
           />
-        </Grid> */}
-        {/* <Grid item sm={2} xs={12}>
+        </Grid>
+        <Grid item sm={2} xs={12}>
           <FileUploadBtn
             text="Upload"
             name='image_file'
@@ -57,9 +57,9 @@ const EntryDetails = (props) => {
             id="fileUpload"
             onChange={props.imgUpload}
           />
-        </Grid> */}
+        </Grid>
       </Grid >
-      {/* <Grid container spacing={2}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <FormikField label="Event Description"
             name="desc"
@@ -69,7 +69,7 @@ const EntryDetails = (props) => {
             required
           />
         </Grid>
-      </Grid > */}
+      </Grid >
     </div>
   )
 }
