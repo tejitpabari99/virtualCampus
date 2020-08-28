@@ -6,7 +6,14 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from "../../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCardGridView, Heading, Search, ResourcesCardListView, CustomButton} from "../..";
+import {
+  ResourcesCardGridView,
+  Heading,
+  Search,
+  ResourcesCardListView,
+  CustomButton,
+  LazyLoadingCardGridView
+} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress, Select, MenuItem, IconButton} from '@material-ui/core';
@@ -207,7 +214,15 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           <div className={classes.resourcesFound}> {this.state.resourcesDisplay.length} Resources Found </div>
           <GridItem>
             <GridContainer className={classes.resourcesList}>
-              {this.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
+              {this.state.activityIndicator &&
+                <GridItem xs={12}
+                          sm={6}
+                          md={3}
+                          className={classes.gridCard}
+                  >
+                  <LazyLoadingCardGridView/>
+                </GridItem>
+              }
               {!this.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}

@@ -5,10 +5,10 @@ import {
     AddResourceCardDesktop,
     ResourcesCardListView,
     ResourcesCardGridView,
+    LazyLoadingCardGridView,
     Heading,
     CustomButton,
     Search,
-    EventCard
 } from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
@@ -17,16 +17,9 @@ import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Slide from '@material-ui/core/Slide';
-import PropTypes from 'prop-types';
 import {Element} from "react-scroll";
 import ScrollableAnchor from "react-scrollable-anchor";
+import Card from "@material-ui/core/Card";
 
 
 const useStyles = () => ({
@@ -184,7 +177,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   })}
               </div>
             </div>
-          </AppBar>}
+        </AppBar>}
+        {this.state.activityIndicator && <div style={{paddingTop:"160px"}}/>}
         <div style={{flexDirection: 'row', display: 'flex', marginTop: '-7%'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
@@ -305,7 +299,15 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         <GridContainer style={{width: '100%'}}>
           <GridItem>
             <GridContainer className={classes.resourcesList}>
-              {this.state.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
+              {this.state.activityIndicator && [...Array(4)].map((x, i) =>
+                <GridItem xs={12}
+                          sm={6}
+                          md={3}
+                          className={classes.gridCard}
+                  >
+                  <LazyLoadingCardGridView/>
+                </GridItem>
+              )}
               {!this.state.activityIndicator && this.state.gridView && <GridItem xs={12}
                         sm={6}
                         md={3}
