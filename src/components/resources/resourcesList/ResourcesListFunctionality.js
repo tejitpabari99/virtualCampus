@@ -49,8 +49,6 @@ class ResourcesListFunctionality extends React.Component {
       gridView: true,
       resourcesDict: {},
       resourcesDisplay: [],
-      allResourcesDict: {},
-      allTagsDict: {},
       tagsDict: {},
       tagsDisplay: [],
       tagsResourcesDisplay: {},
@@ -63,13 +61,11 @@ class ResourcesListFunctionality extends React.Component {
   /**
   * Get resources from Firestore
   * Set initial resources/tags and display on website
-  * Save All Resources and All Tags in separate dictionaries allResourcesDict and allTagsDict
   */
   async getResources() {
     let approvedResourcesDict = {"All Resources":[]};
-    let allResources = [];
     try{
-      
+
       let db = firebase.firestore();
       // let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
       let arr = [];
@@ -101,9 +97,7 @@ class ResourcesListFunctionality extends React.Component {
 
       this.setState({
         activityIndicator: false,
-        resourcesDict: approvedResourcesDict,
-        allResourcesDict: approvedResourcesDict,
-        allTagsDict: this.makeTags(approvedResourcesDict,)
+        resourcesDict: approvedResourcesDict
       });
       this.setDisplay('All Resources');
     }
@@ -150,8 +144,8 @@ class ResourcesListFunctionality extends React.Component {
   * Renders resources when a category is deselected
   */
  deleteDisplay() {
-    let resources = this.state.allResourcesDict;
-    let tagsDict = this.state.allTagsDict;
+    let resources = this.state.resourcesDict["All Resources"];
+    let tagsDict = this.makeTags(resources);
     this.setState({
       resourcesDisplay: resources,
       description: Descriptions["All Resources"],

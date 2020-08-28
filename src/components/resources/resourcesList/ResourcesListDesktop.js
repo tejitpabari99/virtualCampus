@@ -316,7 +316,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 <AddResourceCardDesktop/>
               </GridItem>}
               {!this.state.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map((data) => {
-                console.log(encodeURI(data.title));
                 return (
                   <GridItem xs={12}
                             sm={6}
