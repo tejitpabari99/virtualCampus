@@ -147,83 +147,53 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        {<AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white", boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.1)"}} elevation={0}>
-          <div className={classes.searchAppBar}>
-            <div style={{width:"30%", marginBottom:"0.8%"}}>
-              <Search data={this.state.myResourcesDisplay}
-                ref={input => this.inputElement = input}
-                onClick={(val) => { this.searchFunc(val) }}
-                onCancel={() => { this.searchFunc('') }}
-                placeholder={"Search resources"}
-                iconColor={"#0072CE"}
-              />
-            </div>
-            <div className={classes.searchError}>{this.state.searchError}</div>
-            <div style={{width:"70%"}}>
-              {this.state.tagsDisplay.sort().map((tag, idx) => {
-                return (
-                  <CoolerButton key={idx}
-                                style={{marginTop: 5,
-                                    marginBottom: 5,
-                                    marginLeft: 10,
-                                    fontSize: 'min(1.5vw, 9px)',
-                                }}
-                                onClick={this.setTagDisplay.bind(this, tag)}
-                                otherClickOption={this.deleteTagDisplay.bind(this, tag)}
-                                category={this.state.category}
-                                val={tag}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        </AppBar>}
         {this.state.activityIndicator && <div style={{paddingTop:"160px"}}/>}
         <div style={{flexDirection: 'row', display: 'flex', marginTop: '-7%'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
               // added new custom buttons that toggle on/off based on click status
               <CustomButton size="medium"
-                  active={(this.state.activeTags === category)}
-                  simple
-
-                  // if category is "All Resources", do not display
-                  style={category !== "All Resources" ?{
-                      width: '16%',
-                      height: '120px',
-                      boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
-                      marginRight: '20px',
-                      marginTop: '2%',
-                      fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
-                      fontStyle: 'normal',
-                      fontWeight: '900',
-                      fontSize: '14px',
-                      wordWrap: 'breakWord'
-                  }
-                  :{
-                    display: 'None'
-                  }
-                  }
-                  onClick={() =>{
-                    if (this.category===category)
-                    {
-                      this.category = "All Resources";
-                      category = "All Resources";
-                    }
-                    else
-                    {
-                      this.category = category;
-                    }
-                    this.deleteDisplay.bind(this, category);
-                    this.setDisplay.bind(this, category)();
-
-                  }}
-
-                  val={category}
-                  color={
-                    (this.category === category) ? "blue" : 'paleblue'
-                  }
-                  text={category}
+                      active={(this.state.activeTags === category)}
+                      simple
+                      
+                      // if category is "All Resources", do not display
+                      style={category !== "All Resources" ?{
+                          width: '16%',
+                          height: '120px',
+                          boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
+                          marginRight: '20px',
+                          marginTop: '2%',
+                          fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
+                          fontStyle: 'normal',
+                          fontWeight: '900',
+                          fontSize: '14px',
+                          whiteSpace: 'normal',
+                          
+                      }
+                      :{
+                        display: 'None'
+                      }
+                      }
+                      onClick={() =>{
+                        if (this.category === category)
+                        {
+                          this.category = "All Resources";
+                          category = "All Resources";
+                        }
+                        else
+                        {
+                          this.category = category;
+                        }  
+                        this.deleteDisplay.bind(this, category);
+                        this.setDisplay.bind(this, category)();
+                        
+                      }}
+                      
+                      val={category}
+                      color={
+                        (this.category === category) ? "blue" : 'paleblue'
+                      }
+                      text={category}
               />
             );
           })}
