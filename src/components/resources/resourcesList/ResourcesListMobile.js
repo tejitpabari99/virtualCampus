@@ -2,9 +2,7 @@ import AddResourceMobile from "./AddResourceExpansion.js";
 import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Button from "../../material-kit-components/CustomButtons/Button";
+
 
 import {
   ResourcesCardGridView,
@@ -199,6 +197,8 @@ class ResourcesListMobile extends ResourcesListFunctionality {
             >
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
+              <MenuItem value={3}>Popularity</MenuItem>
+              <MenuItem value={4}>Date Added</MenuItem>
             </Select>
           </div>
           <div className={classes.viewIcon}>
@@ -239,6 +239,8 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                             title={data.title}
                             description={data.description}
                             tags={data.category.tags}
+                            wantSupportWith={data.descriptions.wantSupportWith}
+                            resourceOffers={data.descriptions.thisResourceOffers}
                             share
                           />
                         </div>
