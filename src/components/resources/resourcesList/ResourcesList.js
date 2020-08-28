@@ -24,24 +24,17 @@ class ResourcesList extends React.Component {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
-  // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
   render() {
-
-    if (this.state.height === -1) {
-      return (
-        <div>
-          <ResourcesListDesktop />
-        </div>
-      );
-    }
     {/* For mobile's screen orientation update */}
     const isLandscape = this.state.width > this.state.height;
-
-    {/* If Tablet:
-            If in portrait, do mobile component
-            else render desktop
-            */}
-    if (isTablet) {
+    if (this.state.height === -1) {
+      return (
+          <div>
+            <ResourcesListDesktop/>
+          </div>
+      );
+      {/* If Tablet: If in portrait, do mobile component else render desktop */}
+    } else if (isTablet) {
       if (isLandscape) {
         return (
           <div>
