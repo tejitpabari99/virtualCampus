@@ -1,39 +1,30 @@
-import React from 'react';
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import IconButton from "@material-ui/core/IconButton";
-import ShareIcon from "@material-ui/icons/Share";
-import AppleIcon from '@material-ui/icons/Apple';
-import AndroidIcon from '@material-ui/icons/Android';
-import Popover from "@material-ui/core/Popover";
-import {FacebookShareButton, TwitterShareButton, LinkedinShareButton, EmailShareButton, WhatsappShareButton,
-  FacebookIcon, TwitterIcon, LinkedinIcon, EmailIcon, WhatsappIcon
-} from "react-share";
 import PropTypes from "prop-types";
-import {primaryColor,
-  warningColor,
-  dangerColor,
-  successColor,
-  infoColor,
-  roseColor,
-  grayColor,
-  vcColor} from '../../../assets/material-kit-assets/jss/material-kit-react'
+import {vcColor} from '../../../assets/material-kit-assets/jss/material-kit-react'
 
-const colorMapping = {
-  'primary': primaryColor,
-  'warning': warningColor,
-  'danger': dangerColor,
-  'success': successColor,
-  'info': infoColor,
-  'rose': roseColor,
-  'gray': grayColor,
-  'vc': vcColor
-};
+import styled from "@emotion/styled/macro";
+import {CustomButton} from "../../index";
+
+
+const Hover = styled.div({
+  opacity: 0,
+  transition: "opacity 350ms ease",
+});
+
+const Background = styled.div({
+  color: "#FFF",
+  position: "relative",
+  cursor: "pointer",
+  [`:hover ${Hover}`]: {
+    opacity: 1,
+  },
+});
 
 
 const useStyles = makeStyles({
@@ -55,7 +46,7 @@ const useStyles = makeStyles({
     right: 0,
     top: 0,
     bottom: 0,
-    height: '50.26%',
+    height: '40.26%',
     opacity:'50%'
   },
   media: {
@@ -63,46 +54,52 @@ const useStyles = makeStyles({
     left: '0%',
     right: '0%',
     top: '0%',
-    bottom: '50.26%',
-
+    bottom: '60.26%',
     borderRadius: '5px 5px 0px 0px'
   },
-  title: {
+  frontPositioning: {
     position: 'absolute',
     left: '8.28%',
     right: '8.28%',
-    top: '29.02%',
-    bottom: '51.04%',
-
-    /* Desktop/Body */
-
+    top: '45.02%',
+    bottom: '51.04%'
+  },
+  title: {
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '25px',
     lineHeight: '30px',
-
-    color: '#FFFFFF'
+    color: 'black'
+  },
+  title2: {
+    paddingLeft: '7.8%',
+    paddingRight: '7.8%',
+    paddingTop: '8.2%',
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '25px',
+    lineHeight: '1.56',
+    color: 'black'
   },
   description: {
-    // display: 'none',
-    // height: 60,
-    position: 'absolute',
-    left: '8.28%',
-    right: '8.28%',
-    top: '55.44%',
-    bottom: '9.59%',
-
-    /* Desktop/Details */
-
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '12px',
     lineHeight: '18px',
-
     color: '#000000',
-    // overflow: 'hidden'
+  },
+  description2: {
+    paddingLeft: '7.8%',
+    paddingRight: '7.8%',
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '12px',
+    lineHeight: '1.7',
+    color: '#000000',
   },
   cardHeader:{
     textTransform: 'capitalize',
@@ -116,7 +113,7 @@ const useStyles = makeStyles({
     border: "0",
     marginBottom: "0",
     textAlign: 'right',
-    backgroundColor: colorMapping['vc'],
+    backgroundColor: vcColor,
     position: 'absolute',
     width:'75%',
     right: 10
@@ -139,14 +136,44 @@ const useStyles = makeStyles({
     marginTop: "2%",
     marginBottom: 0,
     borderRadius: '5px',
-    zIndex: 10,
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '10px',
     lineHeight: '15px',
     textAlign: 'center'
-  }
+  },
+  subBox1: {
+    backgroundColor: "rgba(253, 100, 100, 0.1)",
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    height: "auto",
+    width: "100%",
+    borderColor: "#FB750D",
+    borderRadius: "5px"
+  },
+  subBox2: {
+    backgroundColor: "#F2F9FD",
+    paddingTop: "8px",
+    paddingBottom: "8px",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    height: "auto",
+    width: "100%",
+    borderColor: "#FB750D",
+    borderRadius: "5px"
+  },
+  addResourceButton: {
+    position: "absolute",
+    bottom: "10%",
+    textAlign: "center",
+    marginLeft: "auto",
+    marginRight: "auto",
+    left: 0,
+    right: 0,
+  },
 });
 
 const trimDescription = function(description) {
@@ -158,114 +185,85 @@ const trimDescription = function(description) {
 
 export default function ResourcesCardGridView(props) {
   const classes = useStyles();
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = (event) => { setAnchorEl(event.currentTarget);};
-  const handleClose = () => {setAnchorEl(null);};
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-
-  let {iosLink, androidLink, website, share, img, title, description, tags,
-    headerTitle, headerColor} = props;
-  if(headerColor && colorMapping.hasOwnProperty(headerColor)){
-    headerColor = colorMapping[headerColor.toLowerCase()]
-  }
-  else if(!headerColor || headerColor===''){
-    headerColor = colorMapping['vc']
-  }
-
+  let {website, img, title, description, tags, wantSupportWith, resourceOffers} = props;
   return (
-    <Card className={classes.root}>
-      <a href={website} target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
-        <div className={classes.mediaContainer}>
-          {headerTitle && <div className={classes.cardHeader} style={{backgroundColor: headerColor, fontWeight:'bold'}}>{headerTitle}</div>}
-          <CardMedia
-            component="img"
-            height="50.26%"
-            className={classes.media}
-            image={img}
-            title={title}
-          />
-          <div className={classes.imgOverlay}/>
+    <Background>
+      <Card className={classes.root}>
+        <a target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
+          <div className={classes.mediaContainer}>
+            {title && <div className={classes.cardHeader} style={{backgroundColor: vcColor, fontWeight:'bold'}}>{title}</div>}
+            <CardMedia
+              component="img"
+              height="40.26%"
+              className={classes.media}
+              image={img}
+              title={title}
+            />
+            <div className={classes.imgOverlay}/>
 
-        </div>
+          </div>
 
-        <CardContent style={{marginBottom: 0}}>
-          <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
-            {title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
-            {trimDescription(description)}
-          </Typography>
-          {tags && tags.sort().reverse().map(ele => {
-            return (
-              <Button disabled style={{'color':'black'}} className={classes.button}>
-                  {ele}
-              </Button>
-            )
-          })}
-
-        </CardContent>
-        <CardActions disableSpacing style={{marginTop: 0, paddingTop: 0, display: 'none',}}>
-          <div style={{float: 'left'}}>
-            {share &&
-            <div style={{display:'inline-block'}} className={classes.icons}>
-              <IconButton aria-describedby={id} onClick={handleClick} size={'small'}>
-                <ShareIcon fontSize={'small'}/>
-              </IconButton>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}>
-                <div style={{display: 'inline-block', paddingLeft: 5, paddingTop: 5, width: '100%'}}>
-                  <FacebookShareButton url={website} children={<FacebookIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <TwitterShareButton url={website} children={<TwitterIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <WhatsappShareButton url={website} children={<WhatsappIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <LinkedinShareButton url={website} children={<LinkedinIcon round size={24} style={{marginRight: 5}}/>}/>
-                  <EmailShareButton url={website} children={<EmailIcon round size={24} style={{marginRight: 5}}/>}/>
+          <CardContent style={{marginBottom: 0}}>
+            {tags && tags.sort().reverse().map(ele => {
+              return (
+                <Button style={{'color':'black'}} className={classes.button}>
+                    {ele}
+                </Button>
+              )
+            })}
+            <div className={classes.frontPositioning}>
+              <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
+                {title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
+                <div className={classes.subBox1}>
+                  <span style={{"color":"#FD6464"}}>Want support with:  </span>
+                  <span style={{"color":"black"}}>{wantSupportWith}</span>
                 </div>
-              </Popover>
+                <div style={{paddingTop: '10px'}} />
+                <div className={classes.subBox2}>
+                  <span style={{"color":"#0072CE"}}>This resource offers:  </span>
+                  <span style={{"color":"black"}}>{resourceOffers}</span>
+                </div>
+              </Typography>
             </div>
-            }
-            {iosLink &&
-            <IconButton href={iosLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-              <AppleIcon fontSize={'small'}/>
-            </IconButton>}
-            {androidLink &&
-            <IconButton href={androidLink} target={'_blank'} rel="noopener noreferrer" className={classes.icons} size={'small'}>
-              <AndroidIcon fontSize={'small'}/>
-            </IconButton>}
-          </div>
-          <div style={{float: 'right', marginLeft: 'auto'}}>
-            <Button size="small" color="primary" href={website} target='_blank' rel="noopener noreferrer">
-              View
-            </Button>
-          </div>
-        </CardActions>
-      </a>
-    </Card>
+          </CardContent>
+        </a>
+      </Card>
+      <Hover>
+        <div style={{marginTop:'-386px'}}>
+          <Card className={classes.root}>
+            <a target='_blank' rel="noopener noreferrer" style={{color: 'black'}}>
+              <CardContent style={{marginBottom: 0}}>
+                <Typography gutterBottom variant="h5" component="h2" className={classes.title2} >
+                  {title}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" className={classes.description2}>
+                  {description}
+                </Typography>
+                <div className={classes.addResourceButton}>
+                  <CustomButton text={"GO TO RESOURCE"}
+                              href={website}
+                              color={"blue"}
+                              size={"large"}
+                              target={"_blank"}
+                 />
+                </div>
+              </CardContent>
+            </a>
+          </Card>
+        </div>
+      </Hover>
+    </Background>
   );
 }
 
 ResourcesCardGridView.propTypes = {
-  iosLink: PropTypes.string,
-  androidLink: PropTypes.string,
   website: PropTypes.string.isRequired,
-  share: PropTypes.bool,
   img: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   tags: PropTypes.string.isRequired,
-  headerTitle: PropTypes.string,
-  headerColor: PropTypes.string
+  wantSupportWith: PropTypes.string.isRequired,
+  resourceOffers: PropTypes.string.isRequired,
 };

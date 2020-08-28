@@ -1,11 +1,8 @@
 import React from "react";
 import ResourcesListFunctionality from "../resourcesList/ResourcesListFunctionality";
 import {MuiThemeProvider, withStyles} from "@material-ui/core/styles";
-import Button from "../../material-kit-components/CustomButtons/Button.js";
-
-import {makeStyles} from "@material-ui/core/styles";
 import Data from "../../../assets/ResourcesData";
-import {CustomTheme, EventCardFeatured, Template} from "../..";
+import {CustomTheme} from "../..";
 import ResourcesCardGridView from "../../cards/ResourcesCards/ResourcesCardGridView.js";
 import Carousel from "react-material-ui-carousel";
 const FeaturedData = Data.FeaturedData;
@@ -86,16 +83,16 @@ render() {
                 return(
                   <div style={{overflow:'hidden', width: "100%"}}>
                     <ResourcesCardGridView
-                  website={data.links.website}
-                  img={data.img}
-                  title={data.title}
-                  description={data.description}
-                  iosLink={data.links.iosLink}
-                  androidLink={data.links.androidLink}
-                  tags={data.category.tags}
-                  category={data.category.category}
-                  carousel={true}
-                  share/>
+                      website={data.links.website}
+                      img={data.img}
+                      title={data.title}
+                      description={data.descriptions.description}
+                      tags={data.category.tags}
+                      wantSupportWith={data.descriptions.wantSupportWith}
+                      resourceOffers={data.descriptions.thisResourceOffers}
+                      carousel={true}
+                      share
+                    />
                   </div>
 
                 );
