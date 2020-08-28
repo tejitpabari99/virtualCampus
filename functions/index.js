@@ -43,6 +43,25 @@ exports.sendEmail = functions.https.onRequest((req, res) => {
 
 });
 
+exports.approveEvent = functions.https.onRequest((req, res) => {
+    cors(req,
+        res, () => {
+            if (req.method !== 'GET') {
+                return;
+            }
+            if (!req.query.tok || req.query.tok !== process.env.ADMIN_EVENTS_TOKEN) {
+                return;
+            }
+            var db = admin.firestore();
+            db.collection('events').doc(req.query.eventId).update({ approved: true })
+                .then(() => {
+                    return res.status(200).send("Event " + req.query.eventId + " approved.");
+                }).catch((err) => {
+                return res.status(500).send(err);
+            });
+        });
+});
+
 exports.approveEvent2 = functions.https.onRequest((req, res) => {
     cors(req,
         res, () => {
