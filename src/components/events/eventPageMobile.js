@@ -574,15 +574,6 @@ getCalendarText() {
               </div>
             </a>
           </div>
-          <div style={{margin: "20px"}}/>
-          <div>
-            <strong>From Sept 1th - Sept 14th, CVC socialize will be reserved for freshmen to hangout and get to know each other as their college journey begins!!! </strong>
-            <br/>
-            <br/>
-            If you're a freshmen, fill out this <a href={"https://columbiavirtualcampus.com/socialize/add-new-event"} style={{color:'blue', textDecoration:'underline'}}>form</a>. Add your contact info, an event name so you have a theme for your hangout (eg. anime, games, hangout) with a quick description (eg. anime watch party for weebs, board game night, etc), and the hangout time.
-            <br/><br/>
-            Note: If you want to limit the number of people who can attend, let us know in the additional comments.
-          </div>
 
           <div style={{margin: "40px"}}/>
 
