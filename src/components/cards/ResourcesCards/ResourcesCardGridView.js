@@ -57,12 +57,14 @@ const useStyles = makeStyles({
     bottom: '60.26%',
     borderRadius: '5px 5px 0px 0px'
   },
-  title: {
+  frontPositioning: {
     position: 'absolute',
     left: '8.28%',
     right: '8.28%',
     top: '45.02%',
-    bottom: '51.04%',
+    bottom: '51.04%'
+  },
+  title: {
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
@@ -82,11 +84,6 @@ const useStyles = makeStyles({
     color: 'black'
   },
   description: {
-    position: 'absolute',
-    left: '8.28%',
-    right: '8.28%',
-    top: '57.44%',
-    bottom: '9.59%',
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: 'normal',
@@ -214,20 +211,22 @@ export default function ResourcesCardGridView(props) {
                 </Button>
               )
             })}
-            <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
-              {title}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
-              <div className={classes.subBox1}>
-                <span style={{"color":"#FD6464"}}>Want support with:  </span>
-                <span style={{"color":"black"}}>{wantSupportWith}</span>
-              </div>
-              <div style={{paddingTop: '10px'}} />
-              <div className={classes.subBox2}>
-                <span style={{"color":"#0072CE"}}>This resource offers:  </span>
-                <span style={{"color":"black"}}>{resourceOffers}</span>
-              </div>
-            </Typography>
+            <div className={classes.frontPositioning}>
+              <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
+                {title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
+                <div className={classes.subBox1}>
+                  <span style={{"color":"#FD6464"}}>Want support with:  </span>
+                  <span style={{"color":"black"}}>{wantSupportWith}</span>
+                </div>
+                <div style={{paddingTop: '10px'}} />
+                <div className={classes.subBox2}>
+                  <span style={{"color":"#0072CE"}}>This resource offers:  </span>
+                  <span style={{"color":"black"}}>{resourceOffers}</span>
+                </div>
+              </Typography>
+            </div>
           </CardContent>
         </a>
       </Card>
