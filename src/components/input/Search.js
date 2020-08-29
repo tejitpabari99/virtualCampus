@@ -44,7 +44,8 @@ class Search extends React.Component{
    const { classes } = this.props;
 
    let iconCol = this.props.iconColor === undefined ? 'black' : this.props.iconColor
-    return(
+   console.log(this.state.searchVal)
+   return(
       <div style={{display:'inline'}}>
         <TextField
           style={{ width: "100%", height}}
@@ -88,6 +89,12 @@ class Search extends React.Component{
             )
           }}
         />
+        {this.props.searchButtonColor && <CustomButton text={"SEARCH"}
+                    color={this.props.searchButtonColor}
+                    size={"medium"}
+                    onClick={() => {this.props.onClick(this.state.searchVal)}}
+                    style={{height: '47px', display: "inline-block", marginLeft: "12px", marginTop: "0px"}}
+        />}
       </div>
 
     )

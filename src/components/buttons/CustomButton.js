@@ -135,6 +135,18 @@ const manualSt = makeStyles(() => ({
       boxShadow: "0 14px 26px -12px gray"
     }
   },
+  white3:{
+    color: '#3B5998 !important',
+    border: "1px solid white",
+    backgroundColor: 'white',
+    borderRadius: "4px",
+    "&:hover": {
+      color: 'white !important',
+      backgroundColor: '#0072CE',
+      boxShadow: "0 14px 26px -12px #82B7E850",
+      border: "1px solid #0072CE",
+    },
+  },
   blueInvert:{
     color: 'white !important',
     backgroundColor: '#0072CE',

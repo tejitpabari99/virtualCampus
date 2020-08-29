@@ -88,9 +88,6 @@ class ResourcesListFunctionality extends React.Component {
 
         all_reviewed.forEach(doc =>
         {
-          if (doc.data()["title"] === "Duolingo"){
-            console.log(doc.data())
-          }
           categoryResources.push(doc.data());
           approvedResourcesDict["All Resources"].push(doc.data());
         });
@@ -226,7 +223,6 @@ class ResourcesListFunctionality extends React.Component {
         this.handleChange(this.state.event);
       });
     }
-    console.log(this.state.resourcesDisplay)
   }
 
   /**
@@ -234,8 +230,6 @@ class ResourcesListFunctionality extends React.Component {
   * @param  {String} val: Query that's typed into the search bar
   */
   searchFunc(val) {
-    console.log("VAL: ")
-    console.log(val)
     let resources = [];
     let category = this.state.category;
     let allResources = this.state.resourcesDict[category];
@@ -272,7 +266,6 @@ class ResourcesListFunctionality extends React.Component {
     }, function () {
       this.handleChange(this.state.event);
     });
-    console.log(this.state.resourcesDisplay)
   }
 
   /**
@@ -304,7 +297,6 @@ class ResourcesListFunctionality extends React.Component {
         }
         // popularity sort
         else if (event.target.value === 3){
-          console.log("popular sort")
           array.sort(function(a, b){
             if (a.ranking > b.ranking){
               return -1;
