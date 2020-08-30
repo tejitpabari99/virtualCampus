@@ -649,7 +649,7 @@ class EventsPageDesktop extends React.Component {
         </div>
 
       </Template>
-      {/*<CustomFooter />*/}
+      <CustomFooter />
       </div>
     );
   }
