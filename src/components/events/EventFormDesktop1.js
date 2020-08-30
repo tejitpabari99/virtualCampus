@@ -10,18 +10,13 @@ import { Formik, Form, Field } from "formik"
 import FormTitle from "../form-components/FormTitle"
 
 import RequiredFields from "../form-components/RequiredFields"
-
-import ContactInfo from "../form-components/ContactInfo"
-import EntryDetails from "../form-components/EntryDetails"
-import Tags from '../form-components/Tags'
-import AdditionalInfo from '../form-components/AdditionalInfo'
+import AdvancedFields from "../form-components/AdvancedFields"
 import SubmitButton from '../form-components/SubmitButton'
-import WebsiteAndZoom from "../form-components/WebsiteAndZoom"
 
-
-import FormikField from "../form-components/FormikField"
-import { Select } from "material-ui-formik-components/Select";
-import FileUploadBtn from '../form-components/FileUploadBtn'
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 
 //Date and time input
 import { DateTimePicker } from "formik-material-ui-pickers";
@@ -56,14 +51,14 @@ const initVal = {
   name: "",
   email: "",
   title: "",
-  desc: "",
+  // desc: "",
   other_tags: "",
   image_file: "",
   image_link: "",
   start_date: "",
   end_date: "",
   timezone: "",
-  // attendants: 10,
+  attendants: 10,
   recurring: "",
   entry_link: "",
   invite_link: "",
@@ -91,9 +86,9 @@ const validationSchema = Yup.object().shape({
     .required("Required"),
   title: Yup.string()
     .required("Required"),
-  desc: Yup.string()
-    .required("Required")
-    .max("600", "Please less than 600 characters"),
+  // desc: Yup.string()
+  //   .required("Required")
+  //   .max("600", "Please less than 600 characters"),
   start_date: Yup.string()
     .required("Required"),
   end_date: Yup.string()
@@ -101,16 +96,16 @@ const validationSchema = Yup.object().shape({
   timezone: Yup.string()
     .required("Required"),
   attendants: Yup.number()
-    .integer("Please enter an integer")
-    .required("Required"),
+    // .required("Required")
+    .integer("Please enter an integer"),
   agree: Yup.boolean("True")
     .required(),
   image_link: Yup.string()
     .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
   invite_link: Yup.string()
-    .required()
+    // .required()
     .url("Please enter a valid URL"),
-  link_type: Yup.string()
+  // link_type: Yup.string()
 });
 
 let getCurrentLocationForTimeZone = function () {
@@ -755,6 +750,35 @@ class EventFormDesktop extends React.Component {
                               touched={touched}
                               timezones={optionsTZ}
                             />
+                            {/* <div style={{ height: "30px" }} /> */}
+                            <ExpansionPanel>
+                              <ExpansionPanelSummary>
+                                <div>Advanced Options</div>
+                              </ExpansionPanelSummary>
+                              <ExpansionPanelDetails>
+                                <AdvancedFields
+                                  errors={errors}
+                                  touched={touched}
+                                  fileName={this.getFileName()}
+                                  imgUpload={this.imgFileUploadHandler}
+                                />
+                              </ExpansionPanelDetails>
+                            </ExpansionPanel>
+
+                            <div style={{ margin: '15px 0 0 0' }}>
+                              By hosting an event you agree to the <a
+                                href="https://bit.ly/events-policy-docs"
+                                target="_blank">Columbia Events Policy</a>.
+                            </div>
+                            <Field
+                              component={CheckboxWithLabel}
+                              name="agree"
+                              Label={{ label: "I agree to the Columbia Events Policy." }}
+                              type="checkbox"
+                              indeterminate={false}
+                              color="default"
+                            />
+                            <SubmitButton />
 
                           </Form>
                         )

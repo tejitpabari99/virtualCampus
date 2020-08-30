@@ -42,7 +42,6 @@ const TimeAndCapacity = (props) => {
             name="attendants"
             error={props.errorsAttendants}
             touch={props.touchedAttendants}
-            required
           />
         </Grid>
       </Grid >
