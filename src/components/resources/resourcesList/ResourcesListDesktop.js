@@ -8,8 +8,6 @@ import {CircularProgress, Select, MenuItem, IconButton, AppBar, Toolbar} from "@
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
@@ -17,6 +15,17 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Slide from '@material-ui/core/Slide';
 import PropTypes from 'prop-types';
+
+function HideOnScroll(props) {
+  const { children, window } = props;
+  const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
 
 const useStyles = () => ({
   search: {
@@ -148,6 +157,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     });
   }
 
+
+
   render() {
     const { classes } = this.props;
     return (
@@ -162,7 +173,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        {<AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white"}} elevation={0}>
+        {<HideOnScroll {...this.props}>
+          <AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white", boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.1)"}} elevation={0}>
             <div className={classes.searchAppBar}>
               <div style={{width:"30%", marginBottom:"0.8%"}}>
                 <Search data={this.state.myResourcesDisplay}
@@ -192,7 +204,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   })}
               </div>
             </div>
-          </AppBar>}
+          </AppBar>
+        </HideOnScroll>}
         <div style={{flexDirection: 'row', display: 'flex', marginTop: '-7%'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
