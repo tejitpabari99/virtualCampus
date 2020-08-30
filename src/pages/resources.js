@@ -43,6 +43,8 @@ export const query = graphql`
                 website
               }
               img
+              ranking
+              dateCreated
               reviewed
             }
           }

@@ -42,6 +42,7 @@ class ResourcesListFunctionality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: this.props.data,
       activityIndicator: true,
       category: "All Resources",
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
@@ -58,17 +59,17 @@ class ResourcesListFunctionality extends React.Component {
   }
 
   componentDidMount() {
-    this.getResources(this.props.data);
+    this.getResources();
   }
 
   /**
   * Get resources from Firestore
   * Set initial resources/tags and display on website
   */
-  async getResources(data) {
+  async getResources() {
     let approvedResourcesDict = {"All Resources":[]};
     try{
-      let categoryDocsArray = this.formatFirestoreQueriedData(data);
+      let categoryDocsArray = this.formatFirestoreQueriedData(this.state.data);
       console.log("categoryDocsArray " + JSON.stringify(categoryDocsArray));
       console.log("categoryDocsArray type " + typeof(approvedResourcesDict));
       let allReviewedByCategory = this.getAllReviewedByCategory(categoryDocsArray);
@@ -86,13 +87,15 @@ class ResourcesListFunctionality extends React.Component {
         approvedResourcesDict["All Resources"] = approvedResourcesDict["All Resources"].concat(allReviewed);
         approvedResourcesDict[this.toTitleCase(category)] = allReviewed;
       }
-      
-      this.state.activityIndicator = false;
-      this.state.resourcesDict = approvedResourcesDict;
+    
 
-      console.log("Here " + JSON.stringify(approvedResourcesDict));
+      this.setState({
+        activityIndicator: false,
+        resourcesDict: approvedResourcesDict,
+      }, function () {
+        this.setDisplay('All Resources');
+      });
 
-      this.setDisplay('All Resources');
     } catch (e) {
       console.log('Progress Error', e)
     }
