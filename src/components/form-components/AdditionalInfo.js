@@ -26,12 +26,12 @@ const AdditionalInfo = (props) => {
   return (
     <div style={{ margin: '15px 0 15px 0' }}>
       <div className={classNames(classes.root, classes.title)}>
-        Additional Information
+        Event Details
             </div>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <FormikField
-            label="Comments"
+            label=""
             name="comments"
             rows="5"
             multiline
