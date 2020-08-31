@@ -212,7 +212,7 @@ export default function EventCardDesktop({ ele }) {
                                 style={{ position: "relative", width: "90%", height: "10%" }} />
                                 <div style={{height:"15px"}} />
                   </div>
-                  : ele.invite_link !== '' && (ele.link_type === "registration" || ele.link_type === "") ?
+                  : ele.invite_link !== '' && (ele.link_type === "registration" || ele.link_type === "" || ele.link_type === undefined) ?
                     <div style={{textAlign:'left'}}>
                       <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                                   style={{ position: "relative", width: "90%", height: "10%" }} color={"blue"} size={"small"}/>
