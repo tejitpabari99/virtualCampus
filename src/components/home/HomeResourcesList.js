@@ -5,7 +5,8 @@ import Button from "../material-kit-components/CustomButtons/Button";
 
 import {ResourcesCard, Heading} from "..";
 import firebase from "../../firebase";
-import {Descriptions} from "../../assets/ResourcesData.js"
+import {Descriptions} from "../../assets/ResourcesData.js";
+import {CircularProgress} from "@material-ui/core";
 
 
 class HomeResourcesList extends React.Component {
@@ -14,6 +15,7 @@ class HomeResourcesList extends React.Component {
     this.state = {
       myResourcesDict: {},
       myResourcesDisplay: [],
+      loadingResources: true,
   };
     this.getResources();
   }
@@ -63,7 +65,8 @@ class HomeResourcesList extends React.Component {
       this.setState({
         activityIndicator: false,
         myResourcesDict: approvedResourcesDict,
-        myResourcesDisplay: allResources
+        myResourcesDisplay: allResources,
+        loadingResources: false,
       });
     }
     catch (e) {
@@ -105,6 +108,7 @@ class HomeResourcesList extends React.Component {
     return (
       <div>
         <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
+        {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
           {this.state.myResourcesDisplay.map(data => {
             return (
               <GridItem xs={12} sm={6} md={3} style={{marginBottom: "40px", marginTop: "10px"}}>

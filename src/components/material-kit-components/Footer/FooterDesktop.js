@@ -72,7 +72,7 @@ export default function Footer(props) {
 
         <GridItem xs={2} sm={2} md={2} lg={2}
           style={{color: "white", marginTop: "-165px", fontSize: "14px"}}>
-              <a href={""} style={{color: "white"}}> Home </a> <br/>
+              <a href={"/"} style={{color: "white"}}> Home </a> <br/>
               <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
               <a href={"/socialize"} style={{color: "white"}}> Socialize </a> <br/>
               <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>
