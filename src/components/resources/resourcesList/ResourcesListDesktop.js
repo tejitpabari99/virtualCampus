@@ -12,7 +12,7 @@ import {
 } from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core";
+import {Select, MenuItem, IconButton} from "@material-ui/core";
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
@@ -122,10 +122,6 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     this.state = {...this.state, activeTags: ""}
     this.category = "All Resources";
   }
-
-  handleClickTag(categories){
-    return this.setTagDisplay.bind(this, "recreation")
-  };
 
   handleClickView(isGridView){
     this.setState({

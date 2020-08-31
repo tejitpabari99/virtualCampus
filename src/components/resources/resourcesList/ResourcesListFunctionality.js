@@ -1,9 +1,7 @@
 import React from "react";
 import { CustomButton } from "../..";
-import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js";
 import Fuse from 'fuse.js';
-import { Dvr } from "@material-ui/icons";
 
 /**
 * Custom tag button for selection/deselection
