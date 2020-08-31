@@ -44,8 +44,6 @@ class ResourcesListFunctionality extends React.Component {
     this.state = {
       data: this.props.data,
       activityIndicator: true,
-      appBarView: false,
-      appBarTagsView: false,
       category: "All Resources",
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
       event: {},
@@ -77,7 +75,7 @@ class ResourcesListFunctionality extends React.Component {
       let allReviewedByCategory = this.getAllReviewedByCategory(categoryDocsArray);
       let categoryNameArray = [];
 
-      categoryDocsArray.forEach(categoryDoc => 
+      categoryDocsArray.forEach(categoryDoc =>
         categoryNameArray.push(categoryDoc.category
           ));
 
@@ -89,7 +87,7 @@ class ResourcesListFunctionality extends React.Component {
         approvedResourcesDict["All Resources"] = approvedResourcesDict["All Resources"].concat(allReviewed);
         approvedResourcesDict[this.toTitleCase(category)] = allReviewed;
       }
-    
+
 
       this.setState({
         activityIndicator: false,
@@ -114,7 +112,7 @@ class ResourcesListFunctionality extends React.Component {
     }
     return categoryDocsArray;
   }
-  
+
   getAllReviewedByCategory(categoryDocsArray) {
     let allReviewedbyCategory = {};
     for (let i = 0; i < categoryDocsArray.length; i++) {
@@ -187,7 +185,7 @@ class ResourcesListFunctionality extends React.Component {
 
   }
 
-  
+
   /**
   * Make tag buttons based on the resources that are currently displayed
   * @param  {[]} resources: Category name
