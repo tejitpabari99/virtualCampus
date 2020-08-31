@@ -38,7 +38,7 @@ class Links(object):
 
 class Resource(object):
     
-    def __init__(self, title:str, reviewed:bool, want_support_with:str, this_resource_offers:str, description:str, img:str, category:str, tags:List[str], links:Links, date_created:str, ranking:int):
+    def __init__(self, title:str, reviewed:bool, want_support_with:str, this_resource_offers:str, description:str, img:str, category:str, tags:List[str], links:Links, date_created:datetime.datetime, ranking:int):
         self._title = title
         self._reviewed = reviewed
         self._want_support_with = want_support_with
