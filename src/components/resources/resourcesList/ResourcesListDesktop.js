@@ -19,6 +19,7 @@ import {withStyles} from "@material-ui/core/styles";
 import AppBar from '@material-ui/core/AppBar';
 import {Element} from "react-scroll";
 import ScrollableAnchor from "react-scrollable-anchor";
+import ReactDOM from 'react-dom';
 import Card from "@material-ui/core/Card";
 
 
@@ -117,16 +118,26 @@ const useStyles = () => ({
   }
 });
 
+
+
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
-    this.state = {...this.state, activeTags: ""}
+    this.state = {...this.state, activeTags: ""};
     this.category = "All Resources";
+    window.addEventListener("scroll", function() {
+      let elementTarget = document.getElementById("searchBar");
+      this.setState({
+        appBarView: window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)
+      });
+    });
+    window.addEventListener("scroll", function() {
+      let elementTarget = document.getElementById("tags");
+      this.setState({
+        appBarView: window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)
+      });
+    });
   }
-
-  handleClickTag(categories){
-    return this.setTagDisplay.bind(this, "recreation")
-  };
 
   handleClickView(isGridView){
     this.setState({
@@ -138,7 +149,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     const { classes } = this.props;
     return (
       <div>
-        <div className={classes.search}>
+        <div id="searchBar" className={classes.search}>
           <Search data={this.state.myResourcesDisplay}
             ref={input => this.inputElement = input}
             onClick={(val) => { this.searchFunc(val) }}
@@ -150,7 +161,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        {<AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white", boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.1)"}} elevation={0}>
+        {this.state.appBarView && <AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white", boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.1)"}}
+                 elevation={0}>
           <div className={classes.searchAppBar}>
             <div style={{width:"30%", marginBottom:"0.8%"}}>
               <Search data={this.state.myResourcesDisplay}
@@ -162,7 +174,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               />
             </div>
             <div className={classes.searchError}>{this.state.searchError}</div>
-            <div style={{width:"70%"}}>
+            {this.state.appBarTagsView && <div style={{width:"70%"}}>
               {this.state.tagsDisplay.sort().map((tag, idx) => {
                 return (
                   <CoolerButton key={idx}
@@ -178,7 +190,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   />
                 );
               })}
-            </div>
+            </div>}
           </div>
         </AppBar>}
         {this.state.activityIndicator && <div style={{paddingTop:"160px"}}/>}
@@ -241,7 +253,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         <div className={classes.description}
         >{this.state.description}</div>
         <br/>
-        <div style={{textAlign: 'center'}}>
+        <div style={{textAlign: 'center'}} id="tags">
           {this.state.tagsDisplay.sort().map((tag, idx) => {
             return (
               <CoolerButton key={idx}

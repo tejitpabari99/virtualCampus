@@ -44,7 +44,6 @@ class Search extends React.Component{
    const { classes } = this.props;
 
    let iconCol = this.props.iconColor === undefined ? 'black' : this.props.iconColor
-   console.log(this.state.searchVal)
    return(
       <div style={{display:'inline'}}>
         <TextField

@@ -43,6 +43,8 @@ class ResourcesListFunctionality extends React.Component {
     super(props);
     this.state = {
       activityIndicator: true,
+      appBarView: false,
+      appBarTagsView: false,
       category: "All Resources",
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
       event: {},
