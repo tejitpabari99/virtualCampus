@@ -30,7 +30,7 @@ class ResourcesList extends React.Component {
     if (this.state.height === -1) {
       return (
           <div>
-            <ResourcesListDesktop/>
+            <ResourcesListDesktop data={this.props.data}/>
           </div>
       );
       {/* If Tablet: If in portrait, do mobile component else render desktop */}
@@ -38,13 +38,13 @@ class ResourcesList extends React.Component {
       if (isLandscape) {
         return (
           <div>
-            <ResourcesListDesktop />
+            <ResourcesListDesktop data={this.props.data}/>
           </div>
         );
       } else {
         return (
           <div>
-            <ResourcesListMobile />
+            <ResourcesListMobile data={this.props.data}/>
           </div>
         );
       }
@@ -54,7 +54,7 @@ class ResourcesList extends React.Component {
     } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
       return (
         <div>
-          <ResourcesListMobile />
+          <ResourcesListMobile data={this.props.data}/>
         </div>
       );
 
@@ -66,7 +66,7 @@ class ResourcesList extends React.Component {
     } else {
       return (
         <div>
-          <ResourcesListDesktop />
+          <ResourcesListDesktop data={this.props.data}/>
         </div>
       );
     }
@@ -74,3 +74,5 @@ class ResourcesList extends React.Component {
 }
 
 export default ResourcesList;
+
+
