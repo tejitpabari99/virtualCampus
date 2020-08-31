@@ -357,3 +357,4 @@ class ResourcesListFunctionality extends React.Component {
 }
 
 export default ResourcesListFunctionality;
+
