@@ -421,8 +421,15 @@ class EventFormMobile extends React.Component {
     const clientSubject = "Your CVC Event Details: " + data["title"];
     data = processTags(data);
     const text = formatEmailText(data);
-    if (data['title'] !== undefined)
-      data['event'] = data['title']
+    if (data['title'] !== undefined) {
+      data['event'] = data['title'];
+    }
+    if (data['event_link'] === undefined) {
+      const url = "columbiavirtualcampus.com/events?event=";
+      const id = newEventRef.id;
+      const fullUrl = url + id;
+      data['event_link'] = fullUrl;
+    }
     const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
     const zoomUrl = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=https%3A%2F%2Fcolumbiavirtualcampus.com%2Fevents%2Fhandle-approve&state="
     const clientEmailData = {

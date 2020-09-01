@@ -216,18 +216,23 @@ export default function EventCardMobile({ele}) {
                         <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                             style={{width: "45%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
                     </div>
-                : ele.invite_link === '' && ele.event_link !== '' ?
+                : ele.invite_link === '' && (ele.event_link !== '' || ele.link_type === "meeting_link") ?
                     <CustomButton href={ele.event_link} text={'WEBSITE'} newTab
                                 style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
 
-                : ele.invite_link !== '' ?
+                : ele.invite_link !== '' && (ele.link_type === "registration" || ele.link_type === "" || ele.link_type === undefined) ?
                     <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                             style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
+
+                : ele.event_link === '' || ele.link_type === "meeting_link" ?
+                    <CustomButton href={"columbiavirtualcampus.com/events?event=" + ele.eventID} text={'WEBSITE'} newTab
+                                style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/>
+
                 : null}
                 {/* Uncomment the button below for testing */}
                 {/* <CustomButton onClick={openModalHandler} text={'ATTEND'} newTab
                             style={{width: "100%", height: 42, fontSize: 14, marginBottom: 20, marginTop: 5}} color={'blue'}/> */}
-                {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>} 
+                {open && <EventEmailModal open={open} closeDo={closeDo} event={ele}/>}
 
             </div>
 

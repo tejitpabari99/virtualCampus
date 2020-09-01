@@ -198,7 +198,7 @@ const manualPortrait = makeStyles(() => ({
   },
   fabo: {
     border:"none",
-    marginLeft: "45px",
+    marginLeft: "25px",
     marginBottom:"-30px"
   },
   instaButton: {

@@ -6,7 +6,8 @@ import {EventCardHighlight, EventModal, CustomButton, EventCard,
         getTimezoneName, convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate} from '../'
 import TZ from "countries-and-timezones";
 import firebase from "../../firebase";
-import {} from "../../components/all/TimeFunctions"
+import {} from "../../components/all/TimeFunctions";
+import {CircularProgress} from "@material-ui/core";
 
 const useStyles = () => ({
     button4: {
@@ -34,7 +35,8 @@ class Events extends React.Component{
             open:false,
             event:null,
             myEventsList: [],
-            displayEvents: []
+            displayEvents: [],
+            loadingEvents: true,
         };
         this.getEvents();
         this.closeDo = this.closeDo.bind(this);
@@ -130,7 +132,8 @@ class Events extends React.Component{
         })
 
         this.setState({ myEventsList: approvedEventsMap,
-                             displayEvents: this.makeDisplayEvents(approvedEventsMap) });
+                        displayEvents: this.makeDisplayEvents(approvedEventsMap),
+                        loadingEvents: false, });
     }
 
 
@@ -153,7 +156,8 @@ class Events extends React.Component{
         const { classes } = this.props;
         const date = new Date();
         return (
-            <div style={{width: "95%"}}>
+            <div style={{width: "90%"}}>
+            {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
             {this.state.displayEvents.length > 0 &&
                     <div style={{ marginBottom: "5%" }}>
                         {this.state.displayEvents.map((ele, ind) => {
