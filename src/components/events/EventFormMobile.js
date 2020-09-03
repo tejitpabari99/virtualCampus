@@ -413,6 +413,8 @@ class EventFormMobile extends React.Component {
 
   // upload to firebase here
   uploadData(data) {
+    const db = firebase.firestore();
+    const newEventRef = db.collection("events").doc();
     data["approved"] = false;
     data["start_date"] = data["start_date"].toString();
     data["end_date"] = data["end_date"].toString();
@@ -446,8 +448,6 @@ class EventFormMobile extends React.Component {
     };
 
 
-    const db = firebase.firestore();
-    const newEventRef = db.collection("events").doc();
     clientEmailData["text"] = "Your New Event Request!\n<br>Here's what we are currently processing:\n <br>" +
       emailData["text"] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
       + "Please contact us if any of the above needs corrected or if you have any questions!"
