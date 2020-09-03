@@ -83,16 +83,16 @@ render() {
                 return(
                   <div style={{overflow:'hidden', width: "100%"}}>
                     <ResourcesCardGridView
-                  website={data.links.website}
-                  img={data.img}
-                  title={data.title}
-                  description={data.description}
-                  iosLink={data.links.iosLink}
-                  androidLink={data.links.androidLink}
-                  tags={data.category.tags}
-                  category={data.category.category}
-                  carousel={true}
-                  share/>
+                      website={data.links.website}
+                      img={data.img}
+                      title={data.title}
+                      description={data.descriptions.description}
+                      tags={data.category.tags}
+                      wantSupportWith={data.descriptions.wantSupportWith}
+                      resourceOffers={data.descriptions.thisResourceOffers}
+                      carousel={true}
+                      share
+                    />
                   </div>
 
                 );

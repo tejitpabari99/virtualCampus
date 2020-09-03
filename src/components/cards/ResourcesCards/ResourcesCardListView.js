@@ -199,18 +199,18 @@ export default function ResourcesCardListView({ ele }) {
                 <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
                   <div className={classes.subBox1}>
                     <span style={{"color":"#FD6464"}}>Want support with:  </span>
-                    <span style={{"color":"black"}}>Blah blah blah</span>
+                    <span style={{"color":"black"}}>{ele.descriptions.wantSupportWith}</span>
                   </div>
                   <div style={{paddingLeft: '10px'}} />
                   <div className={classes.subBox2}>
                     <span style={{"color":"#0072CE"}}>This resource offers:  </span>
-                    <span style={{"color":"black"}}>Long ago, the four nations lived together in harmony. Then, everything changed when the Fire Nation attacked.</span>
+                    <span style={{"color":"black"}}>{ele.descriptions.thisResourceOffers}</span>
                   </div>
                 </Typography>
               </GridItem>
               <GridItem xs={9} sm={9} md={9}
                         style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 40, paddingRight: 10}}>
-                <div style={{color: "black", display: "block", fontSize: "14px"}}>{ele.description}</div>
+                <div style={{color: "black", display: "block", fontSize: "14px"}}>{ele.descriptions.description}</div>
               </GridItem>
               <GridItem xs={3} sm={3} md={3}
                                    style={{marginTop: 'auto', marginBottom:'0px',

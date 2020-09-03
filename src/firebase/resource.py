@@ -38,9 +38,11 @@ class Links(object):
 
 class Resource(object):
     
-    def __init__(self, title:str, reviewed:bool, description:str, img:str, category:str, tags:List[str], links:Links, date_created:datetime.datetime, ranking:int):
+    def __init__(self, title:str, reviewed:bool, want_support_with:str, this_resource_offers:str, description:str, img:str, category:str, tags:List[str], links:Links, date_created:str, ranking:int):
         self._title = title
         self._reviewed = reviewed
+        self._want_support_with = want_support_with
+        self._this_resource_offers = this_resource_offers
         self._description = description
         self._img = img
         self._category = category
@@ -54,7 +56,9 @@ class Resource(object):
         return Resource(
         title=resource_dict["title"], 
         reviewed=resource_dict["reviewed"], 
-        description=resource_dict["description"], 
+        want_support_with=resource_dict["descriptions"]["wantSupportWith"],
+        this_resource_offers=resource_dict["descriptions"]["thisResourceOffers"],
+        description=resource_dict["descriptions"]["description"], 
         img=resource_dict["img"], 
         category=resource_dict["category"]["category"], 
         tags=resource_dict["category"]["tags"], 
@@ -68,6 +72,11 @@ class Resource(object):
             "category": {
                 "category": self.category,
                 "tags": self.tags
+            },
+            "descriptions": {
+                "description": self.description,
+                "wantSupportWith": self.want_support_with,
+                "thisResourceOffers": self.this_resource_offers
             },
             "description": self.description,
             "reviewed": self.reviewed,
@@ -94,6 +103,14 @@ class Resource(object):
     def reviewed(self) -> bool:
         return self._reviewed
 
+    @property
+    def want_support_with(self) -> str:
+        return self._want_support_with
+
+    @property
+    def this_resource_offers(self) -> str:
+        return self._this_resource_offers
+    
     @property
     def description(self) -> str:
         return self._description

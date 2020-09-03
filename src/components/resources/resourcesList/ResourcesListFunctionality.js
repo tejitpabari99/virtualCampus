@@ -1,9 +1,7 @@
 import React from "react";
 import { CustomButton } from "../..";
-import firebase from "../../../firebase";
 import {Descriptions} from "../../../assets/ResourcesData.js";
 import Fuse from 'fuse.js';
-import { Dvr } from "@material-ui/icons";
 
 /**
 * Custom tag button for selection/deselection
@@ -42,6 +40,7 @@ class ResourcesListFunctionality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: this.props.data,
       activityIndicator: true,
       appBarView: false,
       appBarTagsView: false,
@@ -57,6 +56,9 @@ class ResourcesListFunctionality extends React.Component {
       searchError: "",
       selection: 1
     };
+  }
+
+  componentDidMount() {
     this.getResources();
   }
 
@@ -67,19 +69,25 @@ class ResourcesListFunctionality extends React.Component {
   async getResources() {
     let approvedResourcesDict = {"All Resources":[]};
     try{
+<<<<<<< HEAD
 
       let db = firebase.firestore();
       // let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
       let arr = [];
+=======
+      let categoryDocsArray = this.formatFirestoreQueriedData(this.state.data);
+      console.log("categoryDocsArray " + JSON.stringify(categoryDocsArray));
+      console.log("categoryDocsArray type " + typeof(approvedResourcesDict));
+      let allReviewedByCategory = this.getAllReviewedByCategory(categoryDocsArray);
+      let categoryNameArray = [];
+>>>>>>> 51b5d49391d14cb5ae647491ee2b6de81458a188
 
-      // had to reference the existing category names
-      let category_ref = await db.collection('/resource_reference_docs').doc('Resource Tags by Categories').get();
-
-      Object.keys(category_ref.data()).forEach(function(key){
-        arr.push(key);
-      });
+      categoryDocsArray.forEach(categoryDoc =>
+        categoryNameArray.push(categoryDoc.category
+          ));
 
       // make dictionary of category -> list of corresponding resources
+<<<<<<< HEAD
       for (let i = 0; i < arr.length; i++)
       {
         let categoryResources = [];
@@ -87,26 +95,64 @@ class ResourcesListFunctionality extends React.Component {
         let name = arr[i];
         let template = "/resource/" + name + "/resources";
         let all_reviewed = await db.collection(template).where("reviewed", "==", true).get();
+=======
+      for (let i = 0; i < categoryNameArray.length; i++) {
+        let category = categoryNameArray[i];
+        let allReviewed = allReviewedByCategory[category];
+>>>>>>> 51b5d49391d14cb5ae647491ee2b6de81458a188
 
-        all_reviewed.forEach(doc =>
-        {
-          categoryResources.push(doc.data());
-          approvedResourcesDict["All Resources"].push(doc.data());
-        });
-
-        approvedResourcesDict[this.toTitleCase(name)] = categoryResources;
+        approvedResourcesDict["All Resources"] = approvedResourcesDict["All Resources"].concat(allReviewed);
+        approvedResourcesDict[this.toTitleCase(category)] = allReviewed;
       }
+
 
       this.setState({
         activityIndicator: false,
+<<<<<<< HEAD
         resourcesDict: approvedResourcesDict
+=======
+        resourcesDict: approvedResourcesDict,
+      }, function () {
+        this.setDisplay('All Resources');
+>>>>>>> 51b5d49391d14cb5ae647491ee2b6de81458a188
       });
-      this.setDisplay('All Resources');
-    }
-    catch (e) {
+
+    } catch (e) {
       console.log('Progress Error', e)
     }
   }
+
+  formatFirestoreQueriedData(data) {
+    let categoryDocsArray = data["allCategory"].edges;
+    for (let i = 0; i < categoryDocsArray.length; i++) {
+      categoryDocsArray[i].category = categoryDocsArray[i].node.id.replace("_", "/ ");
+      categoryDocsArray[i].resource_list = categoryDocsArray[i].node.resource_list;
+      categoryDocsArray[i].tag_list = categoryDocsArray[i].node.tag_list;
+      categoryDocsArray[i].resources = categoryDocsArray[i].node.childrenResource;
+      delete categoryDocsArray[i].node;
+    }
+    return categoryDocsArray;
+  }
+
+  getAllReviewedByCategory(categoryDocsArray) {
+    let allReviewedbyCategory = {};
+    for (let i = 0; i < categoryDocsArray.length; i++) {
+      let categoryDoc = categoryDocsArray[i];
+      let category = categoryDoc.category;
+      let resourceDocsArray = categoryDoc.resources;
+      for (let j = 0; j < resourceDocsArray.length; j++) {
+        let resourceDoc = resourceDocsArray[j];
+        if (resourceDoc.reviewed) {
+          if (!(category in allReviewedbyCategory)) {
+            allReviewedbyCategory[category] = [];
+          }
+          allReviewedbyCategory[category].push(resourceDoc);
+        }
+      }
+    }
+    return allReviewedbyCategory;
+  }
+
 
   /**
   * Make first letter of each word in each category uppercase (e.g. jobs/ internships -> Jobs/ Internships)
@@ -332,3 +378,4 @@ class ResourcesListFunctionality extends React.Component {
 }
 
 export default ResourcesListFunctionality;
+

@@ -12,15 +12,13 @@ import {
 } from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
-import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core";
+import {Select, MenuItem, IconButton} from "@material-ui/core";
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
 import AppBar from '@material-ui/core/AppBar';
 import {Element} from "react-scroll";
 import ScrollableAnchor from "react-scrollable-anchor";
-import ReactDOM from 'react-dom';
-import Card from "@material-ui/core/Card";
 
 
 const useStyles = () => ({
@@ -161,8 +159,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        {this.state.appBarView && <AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white", boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.1)"}}
-                 elevation={0}>
+        {<AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white", boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.1)"}} elevation={0}>
           <div className={classes.searchAppBar}>
             <div style={{width:"30%", marginBottom:"0.8%"}}>
               <Search data={this.state.myResourcesDisplay}
@@ -174,7 +171,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               />
             </div>
             <div className={classes.searchError}>{this.state.searchError}</div>
-            {this.state.appBarTagsView && <div style={{width:"70%"}}>
+            <div style={{width:"70%"}}>
               {this.state.tagsDisplay.sort().map((tag, idx) => {
                 return (
                   <CoolerButton key={idx}
@@ -190,7 +187,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   />
                 );
               })}
-            </div>}
+            </div>
           </div>
         </AppBar>}
         {this.state.activityIndicator && <div style={{paddingTop:"160px"}}/>}
