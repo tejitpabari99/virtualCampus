@@ -40,10 +40,10 @@ class ResourcesListFunctionality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      appBarView: false,
+      appVarTagsView: false,
       data: this.props.data,
       activityIndicator: true,
-      appBarView: false,
-      appBarTagsView: false,
       category: "All Resources",
       description: "Resources that promote career, foster health, encourage social connection, support basic needs, and raise awareness of COVID.",
       event: {},
@@ -69,37 +69,20 @@ class ResourcesListFunctionality extends React.Component {
   async getResources() {
     let approvedResourcesDict = {"All Resources":[]};
     try{
-<<<<<<< HEAD
-
-      let db = firebase.firestore();
-      // let approvedResources = await db.collection("resources").where("reviewed", "==", true).get();
-      let arr = [];
-=======
       let categoryDocsArray = this.formatFirestoreQueriedData(this.state.data);
-      console.log("categoryDocsArray " + JSON.stringify(categoryDocsArray));
-      console.log("categoryDocsArray type " + typeof(approvedResourcesDict));
+      //console.log("categoryDocsArray " + JSON.stringify(categoryDocsArray));
+      //console.log("categoryDocsArray type " + typeof(approvedResourcesDict));
       let allReviewedByCategory = this.getAllReviewedByCategory(categoryDocsArray);
       let categoryNameArray = [];
->>>>>>> 51b5d49391d14cb5ae647491ee2b6de81458a188
 
       categoryDocsArray.forEach(categoryDoc =>
         categoryNameArray.push(categoryDoc.category
           ));
 
       // make dictionary of category -> list of corresponding resources
-<<<<<<< HEAD
-      for (let i = 0; i < arr.length; i++)
-      {
-        let categoryResources = [];
-        // changed the loop to retrieve from resource by iterating through each category
-        let name = arr[i];
-        let template = "/resource/" + name + "/resources";
-        let all_reviewed = await db.collection(template).where("reviewed", "==", true).get();
-=======
       for (let i = 0; i < categoryNameArray.length; i++) {
         let category = categoryNameArray[i];
         let allReviewed = allReviewedByCategory[category];
->>>>>>> 51b5d49391d14cb5ae647491ee2b6de81458a188
 
         approvedResourcesDict["All Resources"] = approvedResourcesDict["All Resources"].concat(allReviewed);
         approvedResourcesDict[this.toTitleCase(category)] = allReviewed;
@@ -108,13 +91,9 @@ class ResourcesListFunctionality extends React.Component {
 
       this.setState({
         activityIndicator: false,
-<<<<<<< HEAD
-        resourcesDict: approvedResourcesDict
-=======
         resourcesDict: approvedResourcesDict,
       }, function () {
         this.setDisplay('All Resources');
->>>>>>> 51b5d49391d14cb5ae647491ee2b6de81458a188
       });
 
     } catch (e) {
@@ -378,4 +357,3 @@ class ResourcesListFunctionality extends React.Component {
 }
 
 export default ResourcesListFunctionality;
-
