@@ -178,7 +178,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               />
             </div>
             <div className={classes.searchError}>{this.state.searchError}</div>
-            {this.state.appBarTagsView && <div style={{width:"70%"}}>
+            {this.state.appBarTagsView && <div>
+              <div style={{width:"70%", marginLeft: '2%', float: 'left'}}>
               {this.state.tagsDisplay.sort().map((tag, idx) => {
                 return (
                   <CoolerButton key={idx}
@@ -194,6 +195,29 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   />
                 );
               })}
+            </div>
+            <div style={{width: '30%', float: 'right'}} className={classes.dropdownMenu} />
+            <Select
+              labelId="label"
+              id="select"
+              value={this.state.selection}
+              onChange={this.handleChange}
+              style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
+              variant={"outlined"}
+            >
+              <MenuItem value={1}>Sort by</MenuItem>
+              <MenuItem value={2}>Alphabetical</MenuItem>
+            </Select>
+            <div className={classes.viewIcon}>
+                <IconButton onClick={this.handleClickView.bind(this, true)}>
+                    <GridOnIcon style={{fill: "#0072CE", textShadow: "0 0 3px #000"}}/>
+                </IconButton>
+            </div>
+            <div className={classes.viewIcon}>
+                <IconButton onClick={this.handleClickView.bind(this, false)}>
+                    <ViewListIcon style={{fill: "#0072CE"}}/>
+                </IconButton>
+            </div>
             </div>}
         </AppBar>}
         {this.state.activityIndicator && <div style={{paddingTop:"160px"}}/>}
