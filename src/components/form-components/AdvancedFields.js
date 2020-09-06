@@ -23,7 +23,6 @@ const useStyles = makeStyles(() => ({
 const AdvancedFields = (props) => {
   let errors = props.errors
   let touched = props.touched
-  let classes = useStyles()
 
   const content = (
     <div style={{ width: "100%" }}>
@@ -31,7 +30,7 @@ const AdvancedFields = (props) => {
         errors={errors}
         touched={touched}
         fileName={props.fileName}
-        imgUpload={props.imgUplaod}
+        imgUpload={props.imgUpload}
       />
       <WebsiteAndZoom
         errors={errors}
