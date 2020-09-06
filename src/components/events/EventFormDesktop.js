@@ -702,7 +702,7 @@ class EventFormDesktop extends React.Component {
                       paddingLeft: "10px",
                       paddingRight: "10px"
                     }}
-                    href={"/events/add-new-event"}>
+                    href={"/socialize/add-new-event"}>
                   Add Another Event
                 </Button>
               </div>
