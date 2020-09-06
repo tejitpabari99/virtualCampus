@@ -31,7 +31,7 @@ const AdditionalInfo = (props) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <FormikField
-            label=""
+            label="Additional comments or information for admin to note..."
             name="comments"
             rows="5"
             multiline

@@ -761,6 +761,7 @@ class EventFormDesktop extends React.Component {
                                   touched={touched}
                                   fileName={this.getFileName()}
                                   imgUpload={this.imgFileUploadHandler}
+                                  onChange={this.updateEvent}
                                 />
                               </ExpansionPanelDetails>
                             </ExpansionPanel>
