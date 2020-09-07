@@ -26,13 +26,12 @@ const AdditionalInfo = (props) => {
   return (
     <div style={{ margin: '15px 0 15px 0' }}>
       <div className={classNames(classes.root, classes.title)}>
-        Additional Information <span style={{fontSize:"14px"}}>(If you want to limit the number of people,
-        add that here)</span>
+        Event Details
             </div>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <FormikField
-            label="Comments - example: I would like to limit my event to 10 people"
+            label="Additional comments or information for admin to note..."
             name="comments"
             rows="5"
             multiline
@@ -43,20 +42,6 @@ const AdditionalInfo = (props) => {
           </FormikField>
         </Grid>
       </Grid>
-      {/* <div style={{ margin: '15px 0 0 0' }}>
-        By hosting an event you agree to the <a
-          href="https://bit.ly/events-policy-docs"
-          target="_blank">Columbia Events Policy</a>.
-      </div>
-      <Field
-        component={CheckboxWithLabel}
-        name="agree"
-        Label={{ label: "I agree to the Columbia Events Policy." }}
-        type="checkbox"
-        indeterminate={false}
-        color="default"
-
-      /> */}
     </div>
   )
 }

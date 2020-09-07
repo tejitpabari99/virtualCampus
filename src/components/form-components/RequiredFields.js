@@ -44,22 +44,7 @@ const RequiredFields = (props) => {
         errors={props.errors}
       />
 
-      <div style={{ height: "100px" }} />
 
-      <div style={{ margin: '15px 0 0 0' }}>
-        By hosting an event you agree to the <a
-          href="https://bit.ly/events-policy-docs"
-          target="_blank">Columbia Events Policy</a>.
-      </div>
-      <Field
-        component={CheckboxWithLabel}
-        name="agree"
-        Label={{ label: "I agree to the Columbia Events Policy." }}
-        type="checkbox"
-        indeterminate={false}
-        color="default"
-
-      />
     </div>
   )
 
