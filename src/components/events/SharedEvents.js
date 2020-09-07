@@ -134,75 +134,177 @@ export function makeDisplayEvents(events) {
     return arr;
   }
 
- export function isEventShowable(ele, mainTagsClicked, filterTagsClicked, clubFilter, dateFilter) {
-    ele.tagsForFilter = mainTagsClicked
-    // Handle main tags filter
-    let shouldDisplayRecurring = ele["tagsForFilter"].recurring === "on" ? true : false
-    let shouldDisplayPopular = ele["tagsForFilter"].popular === "on" ? true : false
-    let shouldDisplayPast = ele["tagsForFilter"].past === "on" ? true : false
-    let shouldDisplayNow = ele["tagsForFilter"].now === "on" ? true : false
+export function isEventShowable(ele, mainTagsClicked, filterTagsClicked, clubFilter, dateFilter) {
+  ele.tagsForFilter = mainTagsClicked
+  // Handle main tags filter
+  let shouldDisplayRecurring = ele["tagsForFilter"].recurring === "on" ? true : false
+  let shouldDisplayPopular = ele["tagsForFilter"].popular === "on" ? true : false
+  let shouldDisplayPast = ele["tagsForFilter"].past === "on" ? true : false
+  let shouldDisplayNow = ele["tagsForFilter"].now === "on" ? true : false
 
-    ele.displayThisCard = true
-    if (!ele.displayPopular && shouldDisplayPopular)
-      ele.displayThisCard = false
-    if (!ele.displayNow && shouldDisplayNow)
-      ele.displayThisCard = false
-    if (!ele.displayRecurring && shouldDisplayRecurring)
-      ele.displayThisCard = false
-    if (!ele.displayRecurring && shouldDisplayRecurring)
-      ele.displayThisCard = false
-    if (!ele.displayPast && shouldDisplayPast)
-      ele.displayThisCard = false
-    if (ele.displayThisCard && ele.displayPast && !shouldDisplayPast)
-      ele.displayThisCard = false
+  ele.displayThisCard = true
+  if (!ele.displayPopular && shouldDisplayPopular)
+    ele.displayThisCard = false
+  if (!ele.displayNow && shouldDisplayNow)
+    ele.displayThisCard = false
+  if (!ele.displayRecurring && shouldDisplayRecurring)
+    ele.displayThisCard = false
+  if (!ele.displayRecurring && shouldDisplayRecurring)
+    ele.displayThisCard = false
+  if (!ele.displayPast && shouldDisplayPast)
+    ele.displayThisCard = false
+  if (ele.displayThisCard && ele.displayPast && !shouldDisplayPast)
+    ele.displayThisCard = false
 
-    // Process regular tag filter
-    let filterPass = true
-    if (ele.displayThisCard === true) {
-      Object.keys(filterTagsClicked).map(x => {
-        let found = false
-        if (filterTagsClicked[x] !== undefined) {
-          ele.tags.map(y => {
-            if (x.toLowerCase() === y.toLowerCase()) {
-              found = true
-            }
-          })
-
-          if (found === false) {
-            filterPass = false
+  // Process regular tag filter
+  let filterPass = true
+  if (ele.displayThisCard === true) {
+    Object.keys(filterTagsClicked).map(x => {
+      let found = false
+      if (filterTagsClicked[x] !== undefined) {
+        ele.tags.map(y => {
+          if (x.toLowerCase() === y.toLowerCase()) {
+            found = true
           }
+        })
+
+        if (found === false) {
+          filterPass = false
         }
-      })
-    }
-
-    if (filterPass === false) {
-      ele.displayThisCard = false
-    }
-
-    // Handle Organization
-    if (clubFilter !== "All") {
-      if (clubFilter !== ele.name)
-        ele.displayThisCard = false
-    }
-
-    // Handle date
-    if (dateFilter !== "All") {
-      let d = new Date()
-      const daysApart = Math.abs((ele.start_date.getTime() - d.getTime()) / (3600*24*1000))
-      switch(dateFilter) {
-        case "This Month Only":
-          if (ele.start_date.getMonth() !== d.getMonth() || ele.start_date.getFullYear() !== d.getFullYear())
-            ele.displayThisCard = false
-        case "Within a Week":
-          if (daysApart > 7)
-            ele.displayThisCard = false
-        case "Within a Month":
-          if (daysApart > 30)
-            ele.displayThisCard = false
-        case "Within 3 Months":
-          if (daysApart > 90)
-            ele.displayThisCard = false
       }
-    }
-    return ele.displayThisCard
+    })
   }
+
+  if (filterPass === false) {
+    ele.displayThisCard = false
+  }
+
+  // Handle Organization
+  if (clubFilter !== "All") {
+    if (clubFilter !== ele.name)
+      ele.displayThisCard = false
+  }
+
+  // Handle date
+  if (dateFilter !== "All") {
+    let d = new Date()
+    const daysApart = Math.abs((ele.start_date.getTime() - d.getTime()) / (3600*24*1000))
+    switch(dateFilter) {
+      case "This Month Only":
+        if (ele.start_date.getMonth() !== d.getMonth() || ele.start_date.getFullYear() !== d.getFullYear())
+          ele.displayThisCard = false
+      case "Within a Week":
+        if (daysApart > 7)
+          ele.displayThisCard = false
+      case "Within a Month":
+        if (daysApart > 30)
+          ele.displayThisCard = false
+      case "Within 3 Months":
+        if (daysApart > 90)
+          ele.displayThisCard = false
+    }
+  }
+  return ele.displayThisCard
+}
+
+export function genOrganizationList(eventsMap) {
+  let organizations = []
+  eventsMap.map(x => {
+    if (x.displayNameToggleOff === undefined)
+      organizations.push({ "name": x.name.trim()})
+  })
+  let sorted = organizations.sort(function (a, b) {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  })
+  let all = []
+  all.push({ "name": "All" })
+  sorted.map(x => all.push(x))
+  return all
+
+}
+
+export function updateFilterTags(tag, x) {
+  if (x[tag] === undefined) {
+    x[tag] = tag
+  } else {
+    x[tag] = undefined
+  }
+  return x
+}
+
+export async function getEvents() {
+  var db = firebase.firestore();
+  var approvedEvents = await db.collection("events")
+      .where("approved", "==", true)
+      .orderBy("start_date", 'asc')
+      .get();
+  let approvedEventsMap = [];
+  let approvedEventsMapWithKey = [];
+  if(approvedEvents){
+    approvedEventsMap = approvedEvents.docs.map(doc => {
+
+          let event = convertEventsTime(doc.data())
+          event["id"] = doc.id
+          let today = new Date()
+          if ((new Date(event.start_date)) < today && (new Date(event.end_date)) > today) {
+            event["displayNow"] = true
+          } else
+          if ((new Date(event.end_date)) < today) {
+            event["displayPast"] = true
+          }
+          if (event.recurring !== "") {
+            event["displayRecurring"] = true
+          }
+          if (event.popularity > 50) {
+            event["displayPopular"] = true
+          }
+          return event
+
+        }
+    );
+
+    for (let i = 0; i < approvedEventsMap.length; i++) {
+      const event = approvedEventsMap[i]
+      approvedEventsMapWithKey[event["id"]] = event
+    }
+  }
+  approvedEventsMap.sort(function(a,b) {
+    var dateA = a.start_date
+    var dateB = b.start_date
+    return ((dateA < dateB) ? -1 : 1)
+  })
+
+  return { approvedEventsMap, approvedEventsMapWithKey }
+}
+
+export function handleClickFeaturedEvent(newList) {
+  newList["past"] = ""
+  newList["recurring"] = ""
+  newList["now"] = ""
+  newList["popular"] = ""
+  return newList
+}
+
+export function genTagsList(eventsMap) {
+  let tagsList = new Set()
+  eventsMap.map(x => (x.tags.map(y =>
+    tagsList.add(y.toUpperCase().trim())
+  )))
+  tagsList.delete("")
+  return Array.from(tagsList).sort(function (a, b) {
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
+  })
+}
+
+export function handleMainTags(tag, newList) {
+  if (newList[tag] === "on") {
+    newList[tag] = ""
+  } else {
+    newList[tag] = "on"
+  }
+  return newList
+}
