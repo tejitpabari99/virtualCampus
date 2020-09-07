@@ -19,7 +19,8 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import { configureAnchors } from 'react-scrollable-anchor';
-import {eventPropStylesShared, convertEventsTime, makeDisplayEvents, isEventShowable} from "./SharedEvents";
+import {eventPropStylesShared, convertEventsTime, makeDisplayEvents, isEventShowable, genOrganizationList, 
+  updateFilterTags, getEvents, handleClickFeaturedEvent, genTagsList, handleMainTags} from "./SharedEvents";
 configureAnchors({ offset: -100 });
 
 const localizer = momentLocalizer(moment);
@@ -191,18 +192,24 @@ class EventsPageDesktop extends React.Component {
       loadingEvents: true,
       loadingFeaturedEvents: true,
     };
-    this.getEvents();
     this.closeDo = this.closeDo.bind(this);
-    this.handleMainTags = this.handleMainTags.bind(this);
-    this.updateFilterTags = this.updateFilterTags.bind(this);
     this.updateOrganization = this.updateOrganization.bind(this);
     this.updateDateFilter = this.updateDateFilter.bind(this);
     this.resetFilter = this.resetFilter.bind(this);
-    this.handleClickFeaturedEvent = this.handleClickFeaturedEvent.bind(this);
   }
 
   async componentDidMount() {
-    await this.getEvents();
+    let {approvedEventsMap, approvedEventsMapWithKey} = await getEvents();
+    this.setState({ 
+      myEventsList: this.makeEventsList(approvedEventsMap), 
+      tagList: genTagsList(approvedEventsMap),
+      organizationList: genOrganizationList(approvedEventsMap),
+      permEventsList: approvedEventsMap,
+      displayEvents: makeDisplayEvents(approvedEventsMap),
+      loadingEvents: false,
+      loadingFeaturedEvents: false
+    });
+    
     let event = this.props.event;
     // goToAnchor(event, true);
     if (event){
@@ -244,99 +251,6 @@ class EventsPageDesktop extends React.Component {
 
   makeEventsList(events) {
     return events;
-  }
-
-  genTagsList(eventsMap) {
-    let tagsList = new Set()
-    eventsMap.map(x => (x.tags.map(y =>
-      tagsList.add(y.toUpperCase().trim())
-    )))
-    tagsList.delete("")
-    return Array.from(tagsList).sort(function (a, b) {
-      if (a < b) return -1;
-      if (a > b) return 1;
-      return 0;
-    })
-  }
-
-  genOrganizationList(eventsMap) {
-    let organizations = []
-    eventsMap.map(x => {
-      if (x.displayNameToggleOff === undefined)
-        organizations.push({ "name": x.name.trim() })
-    })
-    let sorted = organizations.sort(function (a, b) {
-      if (a.name < b.name) return -1;
-      if (a.name > b.name) return 1;
-      return 0;
-    })
-    let all = []
-    all.push({ "name": "All" })
-    sorted.map(x => all.push(x))
-    return all
-
-  }
-
-  updateFilterTags(tag) {
-    let x = this.state.filterTagsClicked
-    if (x[tag] === undefined) {
-      x[tag] = tag
-    } else {
-      x[tag] = undefined
-    }
-    this.setState({ filterTagsClicked: x })
-  }
-
-  async getEvents() {
-    var db = firebase.firestore();
-    var approvedEvents = await db.collection("events")
-      .where("approved", "==", true)
-      .orderBy("start_date", 'asc')
-      .get();
-    let approvedEventsMap = [];
-    let approvedEventsMapWithKey = [];
-    if(approvedEvents){
-      approvedEventsMap = approvedEvents.docs.map(doc => {
-
-        let event = convertEventsTime(doc.data())
-        event["id"] = doc.id
-        let today = new Date()
-        if ((new Date(event.start_date)) < today && (new Date(event.end_date)) > today) {
-          event["displayNow"] = true
-        } else
-          if ((new Date(event.end_date)) < today) {
-            event["displayPast"] = true
-          }
-        if (event.recurring !== "") {
-          event["displayRecurring"] = true
-        }
-        if (event.popularity > 50) {
-          event["displayPopular"] = true
-        }
-        return event
-
-      }
-      );
-
-      for (let i = 0; i < approvedEventsMap.length; i++) {
-        const event = approvedEventsMap[i]
-        approvedEventsMapWithKey[event["id"]] = event
-      }
-    }
-    approvedEventsMapWithKey.sort(function(a,b) {
-      var dateA = a.start_date
-      var dateB = b.start_date
-      return ((dateA < dateB) ? -1 : 1)
-    })
-
-    this.setState({
-      myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap),
-      organizationList: this.genOrganizationList(approvedEventsMap),
-      permEventsList: approvedEventsMap,
-      displayEvents: makeDisplayEvents(approvedEventsMap),
-      loadingEvents: false,
-      loadingFeaturedEvents: false
-    });
   }
 
   async addActiveTag(n) {
@@ -397,28 +311,12 @@ class EventsPageDesktop extends React.Component {
     });
   }
 
-  formatTime(hours, min) {
-    let h = hours > 12 ? hours - 12 : hours;
-    let m = min < 10 ? "0" + min.toString() : min.toString();
-    let add = hours > 12 ? "PM" : "AM";
-    return h + ":" + m + add;
-  }
-
   attendEvent(ele) {
     this.setState({ open: true, event: ele });
   }
 
   closeDo() {
     this.setState({ open: false, count: 0 });
-  }
-
-  handleClickFeaturedEvent() {
-    let newList = this.state.mainTagsClicked
-    newList["past"] = ""
-    newList["recurring"] = ""
-    newList["now"] = ""
-    newList["popular"] = ""
-    this.setState({ mainTagsClicked: newList })
   }
 
   EventDisplay = ({ event }) => {
@@ -430,16 +328,6 @@ class EventsPageDesktop extends React.Component {
 
   eventPropStyles(event, start, end, isSelected) {
     return eventPropStylesShared(event, start, end, isSelected)
-  }
-
-  handleMainTags(tag) {
-    let newList = this.state.mainTagsClicked
-    if (newList[tag] === "on") {
-      newList[tag] = ""
-    } else {
-      newList[tag] = "on"
-    }
-    this.setState({ mainTagsClicked: newList })
   }
 
   updateOrganization(club) {
@@ -513,7 +401,7 @@ class EventsPageDesktop extends React.Component {
                   ele.tags = ['none']
                 }
                 numEventsDisplayed = numEventsDisplayed + 1
-                return (<a href={"#" + ele.id} onClick={this.handleClickFeaturedEvent}>
+                return (<a href={"#" + ele.id} onClick={this.setState({mainTagsClicked: handleClickFeaturedEvent(this.state.mainTagsClicked)})}>
                   <EventCardFeatured ele={ele} key={ind} />
                 </a>);
               }
@@ -528,7 +416,7 @@ class EventsPageDesktop extends React.Component {
 
           <div style={{ flexDirection: "row", display: "flex" }}>
             <a href={"#startEvents"} className={greenBox}
-              onClick={(tag) => { this.handleMainTags("now") }}
+              onClick={(tag) => { this.setState({mainTagsClicked: handleMainTags("now", this.state.mainTagsClicked) }) }}
               style={{ cursor: "pointer" }}>
               <div className={classes.greenText}>
                 <h4>Happening Now</h4>
@@ -536,7 +424,7 @@ class EventsPageDesktop extends React.Component {
             </a>
 
             <a href={"#startEvents"} className={blueBox}
-              onClick={(tag) => { this.handleMainTags("popular") }}
+              onClick={(tag) => { this.setState({mainTagsClicked: handleMainTags("popular", this.state.mainTagsClicked) }) }}
               style={{ cursor: "pointer" }}>
               <div className={classes.blueText}>
                 <h4>Popular</h4>
@@ -544,7 +432,7 @@ class EventsPageDesktop extends React.Component {
             </a>
 
             <a href={"#startEvents"} className={orangeBox}
-              onClick={(tag) => { this.handleMainTags("recurring") }}
+              onClick={(tag) => { this.setState({mainTagsClicked: handleMainTags("recurring", this.state.mainTagsClicked) }) }}
               style={{ cursor: "pointer" }}>
               <div className={classes.orangeText}>
                 <h4>Recurring</h4>
@@ -552,7 +440,7 @@ class EventsPageDesktop extends React.Component {
             </a>
 
             <a href={"#startEvents"} className={grayBox}
-              onClick={(tag) => { this.handleMainTags("past") }}
+              onClick={(tag) => { this.setState({mainTagsClicked: handleMainTags("past", this.state.mainTagsClicked) }) }}
               style={{ cursor: "pointer" }}>
               <div className={classes.grayText}>
                 <h4>Past</h4>
@@ -570,7 +458,7 @@ class EventsPageDesktop extends React.Component {
                 tagList = {this.state.tagList}
                 organizationList = {this.state.organizationList}
                 dateList = {this.state.dateList}
-                updateTags={(tag) => { this.updateFilterTags(tag) }}
+                updateTags={(tag) => { this.setState({ filterTagsClicked: updateFilterTags(tag, this.state.filterTagsClicked) })}}
                 updateClub={(club) => { this.updateOrganization(club) }}
                 updateDate={(date) => { this.updateDateFilter(date) }}
                 resetFilter={() => { this.resetFilter() }}
