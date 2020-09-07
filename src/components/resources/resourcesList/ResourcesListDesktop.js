@@ -178,8 +178,10 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               />
             </div>
             <div className={classes.searchError}>{this.state.searchError}</div>
-            {this.state.appBarTagsView && <div>
-              <div style={{width:"70%", marginLeft: '2%', float: 'left'}}>
+            {this.state.appBarTagsView && <div style={{width: '100%'}}>
+              <GridContainer style={{width: "100%"}}>
+              <GridItem xs={8} sm={8} md={8}
+                style={{marginLeft: '2%', paddingBottom: "2%"}}>
               {this.state.tagsDisplay.sort().map((tag, idx) => {
                 return (
                   <CoolerButton key={idx}
@@ -195,8 +197,9 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   />
                 );
               })}
-            </div>
-            <div style={{width: '30%', float: 'right'}} className={classes.dropdownMenu} />
+              </GridItem>
+            <GridItem xs={3} sm={3} md={3}
+              style={{display: 'inline-block', marginLeft: '6%'}}>
             <Select
               labelId="label"
               id="select"
@@ -208,16 +211,14 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
             </Select>
-            <div className={classes.viewIcon}>
                 <IconButton onClick={this.handleClickView.bind(this, true)}>
                     <GridOnIcon style={{fill: "#0072CE", textShadow: "0 0 3px #000"}}/>
                 </IconButton>
-            </div>
-            <div className={classes.viewIcon}>
                 <IconButton onClick={this.handleClickView.bind(this, false)}>
                     <ViewListIcon style={{fill: "#0072CE"}}/>
                 </IconButton>
-            </div>
+            </GridItem>
+            </GridContainer>
             </div>}
         </AppBar>}
         {this.state.activityIndicator && <div style={{paddingTop:"160px"}}/>}
