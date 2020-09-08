@@ -200,18 +200,19 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               </GridItem>
             <GridItem xs={3} sm={3} md={3}
               style={{display: 'inline-block', marginLeft: '6%'}}>
-            <Select
-              labelId="label"
-              id="select"
-              value={this.state.selection}
-              onChange={this.handleChange}
-              style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
-              variant={"outlined"}
-            >
-              <MenuItem value={1}>Sort by</MenuItem>
-              <MenuItem value={2}>Alphabetical</MenuItem>
-            </Select>
-                <IconButton onClick={this.handleClickView.bind(this, true)}>
+                <Select
+                  labelId="label"
+                  id="select"
+                  value={this.state.selection}
+                  onChange={this.handleChange}
+                  style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
+                  variant={"outlined"}
+                >
+                  <MenuItem value={1}>Sort by</MenuItem>
+                  <MenuItem value={2}>Alphabetical</MenuItem>
+                </Select>
+                <IconButton style={{display: 'inline-block', marginLeft: '8%'}}
+                            onClick={this.handleClickView.bind(this, true)}>
                     <GridOnIcon style={{fill: "#0072CE", textShadow: "0 0 3px #000"}}/>
                 </IconButton>
                 <IconButton onClick={this.handleClickView.bind(this, false)}>
