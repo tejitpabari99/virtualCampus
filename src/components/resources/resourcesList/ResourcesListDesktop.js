@@ -121,6 +121,28 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     super(props);
     this.state = {...this.state, activeTags: ""}
     this.category = "All Resources";
+    window.addEventListener("scroll", function() {
+      let elementTarget = document.getElementById("searchBar");
+      if (window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)){
+          console.log("Scrolled past search bar!");
+      }
+      this.setState({
+        appBarView: window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight), function() {
+          console.log(this.state.appBarView);
+        }
+      });
+    }.bind(this));
+    window.addEventListener("scroll", function() {
+      let elementTarget = document.getElementById("tags");
+      if (window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)){
+          console.log("Scrolled past tags!");
+      }
+      this.setState({
+        appBarTagsView: window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight), function() {
+          console.log(this.state.appBarTagsView);
+        }
+      });
+    }.bind(this));
   }
 
   handleClickView(isGridView){
@@ -133,7 +155,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     const { classes } = this.props;
     return (
       <div>
-        <div className={classes.search}>
+        <div id="searchBar" className={classes.search}>
           <Search data={this.state.myResourcesDisplay}
             ref={input => this.inputElement = input}
             onClick={(val) => { this.searchFunc(val) }}
@@ -145,9 +167,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        {<AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white", boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.1)"}} elevation={0}>
-          <div className={classes.searchAppBar}>
-            <div style={{width:"30%", marginBottom:"0.8%"}}>
+        {this.state.appBarView && <AppBar style={{paddingTop:"90px", marginTop:"60px", backgroundColor:"white", boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.1)"}} elevation={0}>
+            <div className={classes.searchAppBar} style={{width:"30%", marginBottom:"0.8%"}}>
               <Search data={this.state.myResourcesDisplay}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.searchFunc(val) }}
@@ -157,7 +178,10 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
               />
             </div>
             <div className={classes.searchError}>{this.state.searchError}</div>
-            <div style={{width:"70%"}}>
+            {this.state.appBarTagsView && <div style={{width: '100%'}}>
+              <GridContainer style={{width: "100%"}}>
+              <GridItem xs={8} sm={8} md={8}
+                style={{marginLeft: '2%', paddingBottom: "2%"}}>
               {this.state.tagsDisplay.sort().map((tag, idx) => {
                 return (
                   <CoolerButton key={idx}
@@ -173,8 +197,30 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   />
                 );
               })}
-            </div>
-          </div>
+              </GridItem>
+            <GridItem xs={3} sm={3} md={3}
+              style={{display: 'inline-block', marginLeft: '6%'}}>
+                <Select
+                  labelId="label"
+                  id="select"
+                  value={this.state.selection}
+                  onChange={this.handleChange}
+                  style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
+                  variant={"outlined"}
+                >
+                  <MenuItem value={1}>Sort by</MenuItem>
+                  <MenuItem value={2}>Alphabetical</MenuItem>
+                </Select>
+                <IconButton style={{display: 'inline-block', marginLeft: '8%'}}
+                            onClick={this.handleClickView.bind(this, true)}>
+                    <GridOnIcon style={{fill: "#0072CE", textShadow: "0 0 3px #000"}}/>
+                </IconButton>
+                <IconButton onClick={this.handleClickView.bind(this, false)}>
+                    <ViewListIcon style={{fill: "#0072CE"}}/>
+                </IconButton>
+            </GridItem>
+            </GridContainer>
+            </div>}
         </AppBar>}
         {this.state.activityIndicator && <div style={{paddingTop:"160px"}}/>}
         <div style={{flexDirection: 'row', display: 'flex', marginTop: '-7%'}}>
@@ -236,7 +282,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         <div className={classes.description}
         >{this.state.description}</div>
         <br/>
-        <div style={{textAlign: 'center'}}>
+        <div id="tags" style={{textAlign: 'center'}}>
           {this.state.tagsDisplay.sort().map((tag, idx) => {
             return (
               <CoolerButton key={idx}

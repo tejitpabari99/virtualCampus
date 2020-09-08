@@ -40,6 +40,8 @@ class ResourcesListFunctionality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      appBarView: false,
+      appVarTagsView: false,
       data: this.props.data,
       activityIndicator: true,
       category: "All Resources",
@@ -68,8 +70,8 @@ class ResourcesListFunctionality extends React.Component {
     let approvedResourcesDict = {"All Resources":[]};
     try{
       let categoryDocsArray = this.formatFirestoreQueriedData(this.state.data);
-      console.log("categoryDocsArray " + JSON.stringify(categoryDocsArray));
-      console.log("categoryDocsArray type " + typeof(approvedResourcesDict));
+      //console.log("categoryDocsArray " + JSON.stringify(categoryDocsArray));
+      //console.log("categoryDocsArray type " + typeof(approvedResourcesDict));
       let allReviewedByCategory = this.getAllReviewedByCategory(categoryDocsArray);
       let categoryNameArray = [];
 
@@ -355,4 +357,3 @@ class ResourcesListFunctionality extends React.Component {
 }
 
 export default ResourcesListFunctionality;
-
