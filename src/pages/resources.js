@@ -8,9 +8,7 @@ import { graphql } from "gatsby";
 export default function Resources({data}) {
     return (
         <TemplateResources active={'resources'} title={'Resources'}>
-            <div style={{paddingTop: '3%'}}>
-                <ResourcesFeatured />
-            </div>
+            <ResourcesFeatured />
             <div style={{paddingLeft: '3%', paddingRight: '3%'}}>
                 <ResourcesList data={data}/>
             </div>
