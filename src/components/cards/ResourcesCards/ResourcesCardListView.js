@@ -216,7 +216,8 @@ export default function ResourcesCardListView({ ele }) {
                                    style={{marginTop: 'auto', marginBottom:'0px',
                                      display: 'inline-block', textAlign: "center", verticalAlign: 'bottom'}}>
                 <IconButton href={ele.links.website}>
-                  <ChevronRightOutlinedIcon style={{fill: "#0072CE", border:1}}/>
+                  <ChevronRightOutlinedIcon style={{fill: "#0072CE", border:"1px solid #0072CE", borderRadius: "8px",
+                    width: "40px", height:"35px"}}/>
                 </IconButton>
               </GridItem>
             </GridContainer>
