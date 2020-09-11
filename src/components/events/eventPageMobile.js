@@ -224,6 +224,8 @@ class EventsPageMobile extends React.Component {
     this.updateOrganization = this.updateOrganization.bind(this);
     this.updateDateFilter = this.updateDateFilter.bind(this);
     this.resetFilter = this.resetFilter.bind(this);
+    this.handleFeaturedEventClicked = this.handleFeaturedEventClicked.bind(this);
+
   }
 
 //scrollToEvent(el) {
@@ -347,6 +349,11 @@ updateCalendarExpandText() {
 
   }
 
+
+  handleFeaturedEventClicked() {
+    this.setState({mainTagsClicked: handleClickFeaturedEvent(this.state.mainTagsClicked)})
+  }
+
 getCalendarText() {
   return this.state.calendarExpandText;
 }
@@ -416,7 +423,7 @@ getCalendarText() {
               <Carousel>
                   {Object.keys(featuredEvents).map((ele) => {
                       return (
-                          <a href={"#" + ele} onClick={this.setState({mainTagsClicked: handleClickFeaturedEvent(this.state.mainTagsClicked)})}
+                          <a href={"#" + ele} onClick={this.handleFeaturedEventClicked}
                              style={{overflow:'hidden', width: "100%"}}>
                             <EventCardFeatured ele={featuredEvents[ele]} key={ele}/> <br />
                         </a>

@@ -196,6 +196,7 @@ class EventsPageDesktop extends React.Component {
     this.updateOrganization = this.updateOrganization.bind(this);
     this.updateDateFilter = this.updateDateFilter.bind(this);
     this.resetFilter = this.resetFilter.bind(this);
+    this.handleFeaturedEventClicked = this.handleFeaturedEventClicked.bind(this);
   }
 
   async componentDidMount() {
@@ -350,6 +351,10 @@ class EventsPageDesktop extends React.Component {
     this.searchFunc('')
   }
 
+  handleFeaturedEventClicked() {
+    this.setState({mainTagsClicked: handleClickFeaturedEvent(this.state.mainTagsClicked)})
+  }
+
   render() {
     const { classes } = this.props;
     let numEventsDisplayed = 0
@@ -401,7 +406,7 @@ class EventsPageDesktop extends React.Component {
                   ele.tags = ['none']
                 }
                 numEventsDisplayed = numEventsDisplayed + 1
-                return (<a href={"#" + ele.id} onClick={this.setState({mainTagsClicked: handleClickFeaturedEvent(this.state.mainTagsClicked)})}>
+                return (<a href={"#" + ele.id} onClick={this.handleFeaturedEventClicked}>
                   <EventCardFeatured ele={ele} key={ind} />
                 </a>);
               }
