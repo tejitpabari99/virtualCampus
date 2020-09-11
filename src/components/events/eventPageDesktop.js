@@ -208,7 +208,8 @@ class EventsPageDesktop extends React.Component {
       permEventsList: approvedEventsMap,
       displayEvents: makeDisplayEvents(approvedEventsMap),
       loadingEvents: false,
-      loadingFeaturedEvents: false
+      loadingFeaturedEvents: false,
+      eventsListWithIdKey: approvedEventsMapWithKey
     });
     
     let event = this.props.event;
