@@ -88,6 +88,7 @@ def clean_resources_dataframe(resources_df:pd.DataFrame) -> pd.DataFrame:
     resources_df = resources_df.applymap(str)
     resources_df["category"] = resources_df["category"].str.lower()
     resources_df["tags"] = resources_df["tags"].str.lower()
+    resources_df["ranking"] = pd.to_numeric(resources_df["ranking"])
     resources_df["ready for upload"] = resources_df["ready for upload"].str.lower()
     resources_df["ready for upload"] = resources_df["ready for upload"].map({"true": True, "false": False})
     resources_df["uploaded"] = resources_df["uploaded"].str.lower()
@@ -121,7 +122,7 @@ def upload_new_resources(new_resources_df:pd.DataFrame, firestore_resources:Dict
     uploaded_rows = list()
     for index, row in new_resources_df.iterrows():
         links = Links(row["card link"], row["website"])
-        date_created = datetime.now()
+        date_created = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
         resource = Resource(title=row["resource name"], 
                             reviewed=True, 
                             want_support_with=row["want support with"],
@@ -141,6 +142,7 @@ def upload_new_resources(new_resources_df:pd.DataFrame, firestore_resources:Dict
                 category_document.collection("resources").add(resource.to_dict()) # Add new document to collection
                 log(f"\tAdded {row['resource name']} to {FIREBASE_COLLECTION}/{category_document.id}")
             else:
+                resource._date_created = category_document.collection("resources").document(firestore_resources[resource]).get().to_dict()["dateCreated"]
                 category_document.collection("resources").document(firestore_resources[resource]).set(resource.to_dict()) # Update old document in collection
                 log(f"\tUpdated {row['resource name']} in {FIREBASE_COLLECTION}/{category_document.id}")
         except Exception as e:

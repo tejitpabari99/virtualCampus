@@ -63,13 +63,44 @@ module.exports = {
     {
       resolve: `gatsby-plugin-offline`,
       options: {
-        precachePages: [`/`,`/socalize`, `/resources`, `/about-us`, `/contact-us`, `/technical`],
+        precachePages: [`/`,`/events/`, `/resources/*`, `/about-us`, `/contact-us`, `/technical`],
       },
     },
     {
       resolve: 'gatsby-plugin-html-attributes',
       options: {
         lang: 'en'
+      }
+    },
+    {
+      resolve: '@martinreiche/gatsby-firestore',
+      options: {
+        credential: require("./src/firebase/FirestoreKey.json"),
+        types: [
+          {
+          type: 'Category',
+          collection: "resource",
+          map: doc => ({
+            resource_list: doc.resource_list,
+            tag_list: doc.tag_list,
+          }),
+          subCollections: [
+            {
+              type: "Resource",
+              collection: "resources",
+              map: doc => ({
+                title: doc.title,
+                category: doc.category,
+                descriptions: doc.descriptions,
+                links: doc.links,
+                img: doc.img,
+                ranking: doc.ranking,
+                dateCreated: doc.dateCreated,
+                reviewed: doc.reviewed,
+              })
+            }
+          ]
+        }]
       }
     }
   ],
