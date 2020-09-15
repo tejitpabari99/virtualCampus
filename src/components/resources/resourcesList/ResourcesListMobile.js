@@ -2,15 +2,24 @@ import AddResourceMobile from "./AddResourceExpansion.js";
 import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
-import Button from "../../material-kit-components/CustomButtons/Button";
 
-import {ResourcesCardGridView, Heading, Search, ResourcesCardListView, CustomButton} from "../..";
+
+import {
+  ResourcesCardGridView,
+  Heading,
+  Search,
+  ResourcesCardListView,
+  CustomButton,
+  LazyLoadingCardGridView
+} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress, Select, MenuItem, IconButton} from '@material-ui/core';
 import GridOnIcon from "@material-ui/icons/GridOn";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import {withStyles} from "@material-ui/core/styles";
+import {Element} from "react-scroll";
+import ScrollableAnchor from "react-scrollable-anchor";
 
 const useStyles = () => ({
   searchBar: {
@@ -21,7 +30,7 @@ const useStyles = () => ({
     verticalAlign: 'middle'
   },
   resourcesFound: {
-    marginLeft:'6.5%',
+    marginLeft:'13%',
     marginTop: '3%',
     textAlign: "center",
     verticalAlign: 'middle',
@@ -29,15 +38,14 @@ const useStyles = () => ({
     fontSize: "18px"
   },
   dropdownMenu: {
-    width:'21%',
-    marginLeft:'55%',
+    width:'60%',
+    marginLeft:'13%',
     marginTop: '3%',
     display: 'inline-block',
-    textAlign: "center",
     verticalAlign: 'middle'
   },
   viewIcon: {
-    width:'2%',
+    width:'5%',
     marginLeft: '4%',
     marginTop: '3%',
     display: 'inline-block',
@@ -105,50 +113,52 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                 iconColor={"white"}
             />
         </div>
-        <div style={{textAlign:'center'}}>
+        <br/>
+        <div style={{flexDirection: 'row', display: 'flex'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
+              // added new custom buttons that toggle on/off based on click status
               <CustomButton size="medium"
-                  active={(this.state.activeTags === category)}
-                  simple
-
-                  // if category is "All Resources", do not display
-                  style={category !== "All Resources" ?{
-                      width: '20%',
-                      height: '60px',
-                      boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
-                      marginRight: '20px',
-                      marginTop: '2%',
-                      fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
-                      fontStyle: 'normal',
-                      fontWeight: '900',
-                      fontSize: '9px',
-                      wordWrap: 'breakWord'
-                  }
-                  :{
-                    display: 'None'
-                  }
-                  }
-                  onClick={() =>{
-                    if (this.category===category)
-                    {
-                      this.category = "All Resources";
-                      category = "All Resources";
-                    }
-                    else
-                    {
-                      this.category = category;
-                    }
-                    this.deleteDisplay.bind(this, category);
-                    this.setDisplay.bind(this, category)();
-
-                  }}
-
-                  val={category}
-                  color={
-                    (this.category === category) ? "blue" : 'paleblue'
-                  }
-                  text={category}
+                      active={(this.state.activeTags === category)}
+                      simple
+                      
+                      // if category is "All Resources", do not display
+                      style={category !== "All Resources" ?{
+                          width: '16.66%',
+                          height: '50px',
+                          boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
+                          marginRight: '2%',
+                          fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
+                          fontStyle: 'normal',
+                          fontWeight: '900',
+                          fontSize: '8px',
+                          whiteSpace: 'normal',
+                          
+                      }
+                      :{
+                        display: 'None'
+                      }
+                      }
+                      onClick={() =>{
+                        if (this.category===category)
+                        {
+                          this.category = "All Resources";
+                          category = "All Resources";
+                        }
+                        else
+                        {
+                          this.category = category;
+                        }  
+                        this.deleteDisplay.bind(this, category);
+                        this.setDisplay.bind(this, category)();
+                        
+                      }}
+                      
+                      val={category}
+                      color={
+                        (this.category == category) ? "blue" : 'paleblue'
+                      }
+                      text={category}
               />
             );
           })}
@@ -189,6 +199,8 @@ class ResourcesListMobile extends ResourcesListFunctionality {
             >
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
+              <MenuItem value={3}>Popularity</MenuItem>
+              <MenuItem value={4}>Date Added</MenuItem>
             </Select>
           </div>
           <div className={classes.viewIcon}>
@@ -204,7 +216,15 @@ class ResourcesListMobile extends ResourcesListFunctionality {
           <div className={classes.resourcesFound}> {this.state.resourcesDisplay.length} Resources Found </div>
           <GridItem>
             <GridContainer className={classes.resourcesList}>
-              {this.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
+              {this.state.activityIndicator &&
+                <GridItem xs={12}
+                          sm={6}
+                          md={3}
+                          className={classes.gridCard}
+                  >
+                  <LazyLoadingCardGridView/>
+                </GridItem>
+              }
               {!this.activityIndicator && this.state.gridView && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem xs={12}
@@ -212,16 +232,22 @@ class ResourcesListMobile extends ResourcesListFunctionality {
                             md={4}
                             className={classes.gridCard}
                   >
-                    <ResourcesCardGridView
-                      website={data.links.website}
-                      img={data.img}
-                      title={data.title}
-                      description={data.description}
-                      iosLink={data.links.iosLink}
-                      androidLink={data.links.androidLink}
-                      tags={data.category.tags}
-                      share
-                    />
+                    <ScrollableAnchor >
+                      <Element name={encodeURI(data.title)}>
+                        <div id={encodeURI(data.title)}>
+                          <ResourcesCardGridView
+                            website={data.links.website}
+                            img={data.img}
+                            title={data.title}
+                            description={data.description}
+                            tags={data.category.tags}
+                            wantSupportWith={data.descriptions.wantSupportWith}
+                            resourceOffers={data.descriptions.thisResourceOffers}
+                            share
+                          />
+                        </div>
+                      </Element>
+                    </ScrollableAnchor>
                   </GridItem>
                 );
 
@@ -229,13 +255,18 @@ class ResourcesListMobile extends ResourcesListFunctionality {
               {!this.state.activityIndicator && !this.state.gridView && this.state.resourcesDisplay.map(data => {
                 return (
                   <GridItem className={classes.listCard}>
-                    <ResourcesCardListView
-                      ele = {data}
-                      key={data.id}
-                    />
+                    <ScrollableAnchor >
+                      <Element name={encodeURI(data.title)}>
+                        <div id={encodeURI(data.title)}>
+                          <ResourcesCardListView
+                            ele = {data}
+                            key={data.id}
+                          />
+                        </div>
+                      </Element>
+                    </ScrollableAnchor>
                   </GridItem>
                 );
-
               })}
             </GridContainer>
           </GridItem>

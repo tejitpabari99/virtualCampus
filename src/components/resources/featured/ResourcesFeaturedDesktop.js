@@ -53,9 +53,6 @@ const useStyles = () => ({
 class ResourcesFeaturedDesktop extends ResourcesListFunctionality {
 constructor(props){
   super(props);
-  this.state = {
-    displayResources: []
-  };
 }
 render() {
   const MAX_RESOURCES_DISPLAYED = 3;
@@ -83,9 +80,7 @@ render() {
                       website={data.links.website}
                       img={data.img}
                       title={data.title}
-                      description={data.description}
-                      iosLink={data.links.iosLink}
-                      androidLink={data.links.androidLink}
+                      description={data.descriptions.description}
                       tags={data.category.tags}
                       category={data.category.category}
                       share/>

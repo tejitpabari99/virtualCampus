@@ -24,34 +24,27 @@ class ResourcesList extends React.Component {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
-  // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
   render() {
-
-    if (this.state.height === -1) {
-      return (
-        <div>
-          <ResourcesListDesktop />
-        </div>
-      );
-    }
     {/* For mobile's screen orientation update */}
     const isLandscape = this.state.width > this.state.height;
-
-    {/* If Tablet:
-            If in portrait, do mobile component
-            else render desktop
-            */}
-    if (isTablet) {
+    if (this.state.height === -1) {
+      return (
+          <div>
+            <ResourcesListDesktop data={this.props.data}/>
+          </div>
+      );
+      {/* If Tablet: If in portrait, do mobile component else render desktop */}
+    } else if (isTablet) {
       if (isLandscape) {
         return (
           <div>
-            <ResourcesListDesktop />
+            <ResourcesListDesktop data={this.props.data}/>
           </div>
         );
       } else {
         return (
           <div>
-            <ResourcesListMobile />
+            <ResourcesListMobile data={this.props.data}/>
           </div>
         );
       }
@@ -61,7 +54,7 @@ class ResourcesList extends React.Component {
     } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
       return (
         <div>
-          <ResourcesListMobile />
+          <ResourcesListMobile data={this.props.data}/>
         </div>
       );
 
@@ -73,7 +66,7 @@ class ResourcesList extends React.Component {
     } else {
       return (
         <div>
-          <ResourcesListDesktop />
+          <ResourcesListDesktop data={this.props.data}/>
         </div>
       );
     }
@@ -81,3 +74,5 @@ class ResourcesList extends React.Component {
 }
 
 export default ResourcesList;
+
+

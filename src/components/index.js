@@ -23,6 +23,7 @@ import ResourceFormDesktop from "./resources/form/ResourceFormDesktop";
 import ResourceFormMobile from "./resources/form/ResourceFormMobile";
 import ResourcesCardGridView from "./cards/ResourcesCards/ResourcesCardGridView";
 import ResourcesCardListView from "./cards/ResourcesCards/ResourcesCardListView";
+import LazyLoadingCardGridView from "./cards/ResourcesCards/LazyLoadingCardGridView";
 import AddCalendar from "./events/AddCalendar";
 import CustomButton from "./buttons/CustomButton";
 import HomeEvents from "./home/HomeEvents";
@@ -56,7 +57,7 @@ export {MetaData, CustomTheme, CustomHeader, CustomFooter, CustomFooterMobile, T
         EventsPageMobile, EventsPageDesktop,
         CustomButton, DesktopMobile, AddResourceCardDesktop,
         Title, Subtitle, Heading, Search, ResourcesList, ResourceFormDesktop, ResourceFormMobile,
-        ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured,
+        ResourcesListDesktop, ResourcesListMobile, ResourcesFeatured, LazyLoadingCardGridView,
         ResourcesFeaturedDesktop, ResourcesFeaturedMobile, ResourcesCardGridView, ResourcesCardListView,
         BLMCard, TutorExpansionMapping, TutorSearchMapping,
         convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset,

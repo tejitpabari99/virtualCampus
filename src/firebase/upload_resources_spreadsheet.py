@@ -16,7 +16,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 SPREADSHEET_NAME = "List of Resources"
 WORKSHEET_NAME = "resources"
-UPLOADED_COLUMN = 9
+UPLOADED_COLUMN = 12
 FIREBASE_COLLECTION = "resource" 
 
 def main():
@@ -88,6 +88,7 @@ def clean_resources_dataframe(resources_df:pd.DataFrame) -> pd.DataFrame:
     resources_df = resources_df.applymap(str)
     resources_df["category"] = resources_df["category"].str.lower()
     resources_df["tags"] = resources_df["tags"].str.lower()
+    resources_df["ranking"] = pd.to_numeric(resources_df["ranking"])
     resources_df["ready for upload"] = resources_df["ready for upload"].str.lower()
     resources_df["ready for upload"] = resources_df["ready for upload"].map({"true": True, "false": False})
     resources_df["uploaded"] = resources_df["uploaded"].str.lower()
@@ -121,8 +122,18 @@ def upload_new_resources(new_resources_df:pd.DataFrame, firestore_resources:Dict
     uploaded_rows = list()
     for index, row in new_resources_df.iterrows():
         links = Links(row["card link"], row["website"])
-        date_created = datetime.now()
-        resource = Resource(row["resource name"], True, row["description"], row["image link"], row["category"], row["tags"].split(", "), links, date_created, row["ranking"])
+        date_created = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+        resource = Resource(title=row["resource name"], 
+                            reviewed=True, 
+                            want_support_with=row["want support with"],
+                            this_resource_offers=row["this resource offers"],
+                            description=row["description"],
+                            img=row["image link"],
+                            category=row["category"],
+                            tags=row["tags"].split(", "),
+                            links=links, 
+                            date_created=date_created,
+                            ranking=row["ranking"])
         try:
             category_document = db.collection(FIREBASE_COLLECTION).document(resource.category.replace("/ ", "_"))
             if resource not in firestore_resources:
@@ -131,6 +142,7 @@ def upload_new_resources(new_resources_df:pd.DataFrame, firestore_resources:Dict
                 category_document.collection("resources").add(resource.to_dict()) # Add new document to collection
                 log(f"\tAdded {row['resource name']} to {FIREBASE_COLLECTION}/{category_document.id}")
             else:
+                resource._date_created = category_document.collection("resources").document(firestore_resources[resource]).get().to_dict()["dateCreated"]
                 category_document.collection("resources").document(firestore_resources[resource]).set(resource.to_dict()) # Update old document in collection
                 log(f"\tUpdated {row['resource name']} in {FIREBASE_COLLECTION}/{category_document.id}")
         except Exception as e:
