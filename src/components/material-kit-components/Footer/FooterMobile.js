@@ -76,7 +76,7 @@ export default function Footer(props) {
         <h2 className={manual.footerTitle}> Columbia Virtual Campus </h2>
         <h2 className={manual.footerSubTitle}> Columbia, <i>virtually</i>.</h2>
         <div className={manual.firstColumn}>
-          <a href={""} style={{color: "white"}}> Home </a> <br/>
+          <a href={"/"} style={{color: "white"}}> Home </a> <br/>
           <a href={"/coding-interviews"} style={{color: "white"}}> Coding Interviews </a> <br/>
           <a href={"/socialize"} style={{color: "white"}}> Socialize </a> <br/>
           <a href={"/resources"} style={{color: "white"}}> Resources </a> <br/>

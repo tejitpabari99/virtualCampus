@@ -34,7 +34,9 @@ const manualSt = makeStyles(() => ({
     width: "100%",
     height: "250px",
     backgroundColor: "#0072CE",
-    color: "white"
+    color: "white",
+    position: "relative",
+    marginBottom: "-30px"
   }
 
 }));
@@ -54,7 +56,6 @@ export default function Footer(props) {
   });
   return (
     <footer className={classNames(manual.footer)} style={{zIndex:"50"}}>
-
       <div className={manual.footer} >
       <GridContainer style={{width:"100vw"}}>
         <GridItem xs={1} sm={1} md={1} lg={1} />
@@ -99,6 +100,7 @@ export default function Footer(props) {
         </GridItem>
       </GridContainer>
       </div>
+
     </footer>
   );
 }

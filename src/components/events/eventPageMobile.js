@@ -17,7 +17,8 @@ import EventSearchMobile from "../input/EventSearchMobile";
 import Carousel from 'react-material-ui-carousel';
 import {CircularProgress} from "@material-ui/core";
 import {configureAnchors} from 'react-scrollable-anchor';
-import {eventPropStylesShared, convertEventsTime, makeDisplayEvents, isEventShowable} from "./SharedEvents";
+import {eventPropStylesShared, convertEventsTime, makeDisplayEvents, isEventShowable, genOrganizationList, 
+  updateFilterTags, getEvents, handleClickFeaturedEvent, genTagsList, handleMainTags} from "./SharedEvents";
 import CustomFooter from "../all/CustomFooter";
 configureAnchors({offset: -120});
 
@@ -219,14 +220,11 @@ class EventsPageMobile extends React.Component {
       loadingEvents: true,
       loadingFeaturedEvents: true,
     };
-    this.getEvents();
     this.closeDo = this.closeDo.bind(this);
-    this.handleMainTags = this.handleMainTags.bind(this);
-    this.updateFilterTags = this.updateFilterTags.bind(this);
     this.updateOrganization = this.updateOrganization.bind(this);
     this.updateDateFilter = this.updateDateFilter.bind(this);
     this.resetFilter = this.resetFilter.bind(this);
-    this.handleClickFeaturedEvent = this.handleClickFeaturedEvent.bind(this);
+    this.handleFeaturedEventClicked = this.handleFeaturedEventClicked.bind(this);
 
   }
 
@@ -237,58 +235,6 @@ class EventsPageMobile extends React.Component {
 
   makeEventsList(events) {
     return events;
-  }
-
-
-  async getEvents() {
-    var db = firebase.firestore();
-    var approvedEvents = await db.collection("events")
-        .where("approved", "==", true)
-        .orderBy("start_date", 'asc')
-        .get();
-    let approvedEventsMap = [];
-    let approvedEventsMapWithKey = [];
-    if(approvedEvents){
-      approvedEventsMap = approvedEvents.docs.map(doc => {
-
-            let event = convertEventsTime(doc.data())
-            event["id"] = doc.id
-            let today = new Date()
-            if ((new Date(event.start_date)) < today && (new Date(event.end_date)) > today) {
-              event["displayNow"] = true
-            } else
-            if ((new Date(event.end_date)) < today) {
-              event["displayPast"] = true
-            }
-            if (event.recurring !== "") {
-              event["displayRecurring"] = true
-            }
-            if (event.popularity > 50) {
-              event["displayPopular"] = true
-            }
-            return event
-
-          }
-      );
-
-      for (let i = 0; i < approvedEventsMap.length; i++) {
-        const event = approvedEventsMap[i]
-        approvedEventsMapWithKey[event["id"]] = event
-      }
-    }
-    approvedEventsMap.sort(function(a,b) {
-      var dateA = a.start_date
-      var dateB = b.start_date
-      return ((dateA < dateB) ? -1 : 1)
-    })
-
-    this.setState({ myEventsList: this.makeEventsList(approvedEventsMap), tagList: this.genTagsList(approvedEventsMap),
-      organizationList: this.genOrganizationList(approvedEventsMap),
-      permEventsList: approvedEventsMap,
-      displayEvents:makeDisplayEvents(approvedEventsMap),
-      loadingEvents: false,
-      eventsListWithIdKey: approvedEventsMapWithKey
-    });
   }
 
   searchFunc(val, changeDefaultSearchVal=true) {
@@ -346,25 +292,6 @@ class EventsPageMobile extends React.Component {
       </div>
   );
 
-  handleMainTags(tag) {
-    let newList = this.state.mainTagsClicked
-    if (newList[tag] === "on") {
-      newList[tag] = ""
-    } else {
-      newList[tag] = "on"
-    }
-    this.setState({mainTagsClicked: newList})
-  }
-
-  handleClickFeaturedEvent() {
-    let newList = this.state.mainTagsClicked
-    newList["past"] = ""
-    newList["recurring"] = ""
-    newList["now"] = ""
-    newList["popular"] = ""
-    this.setState({ mainTagsClicked: newList })
-  }
-
   updateOrganization(club) {
     this.setState({clubFilter: club})
   }
@@ -398,7 +325,15 @@ updateCalendarExpandText() {
 
 
   async componentDidMount() {
-    await this.getEvents();
+    let {approvedEventsMap, approvedEventsMapWithKey} = await getEvents();
+    this.setState({ 
+      myEventsList: this.makeEventsList(approvedEventsMap), tagList: genTagsList(approvedEventsMap),
+      organizationList: genOrganizationList(approvedEventsMap),
+      permEventsList: approvedEventsMap,
+      displayEvents:makeDisplayEvents(approvedEventsMap),
+      loadingEvents: false,
+      eventsListWithIdKey: approvedEventsMapWithKey
+    });
     let event = this.props.event
     // goToAnchor(event, true);
     if (event){
@@ -414,51 +349,14 @@ updateCalendarExpandText() {
 
   }
 
+
+  handleFeaturedEventClicked() {
+    this.setState({mainTagsClicked: handleClickFeaturedEvent(this.state.mainTagsClicked)})
+  }
+
 getCalendarText() {
   return this.state.calendarExpandText;
 }
-
-  genTagsList(eventsMap)
-  {
-    let tagsList = new Set()
-    eventsMap.map(x => (x.tags.map(y =>
-        tagsList.add(y.toUpperCase().trim())
-    )))
-    tagsList.delete("")
-    return Array.from(tagsList).sort(function(a, b) {
-      if(a < b) return -1;
-      if(a > b) return 1;
-      return 0;
-    })
-  }
-
-  genOrganizationList(eventsMap)
-  {
-    let organizations = []
-    eventsMap.map(x => {
-      if (x.displayNameToggleOff === undefined)
-        organizations.push({"name": x.name.trim()})
-    })
-    let sorted = organizations.sort(function(a, b) {
-      if(a.name < b.name) return -1;
-      if(a.name > b.name) return 1;
-      return 0;
-    })
-    let all = []
-    all.push({"name": "All"})
-    sorted.map(x => all.push(x))
-    return all
-  }
-
-  updateFilterTags(tag) {
-    let x = this.state.filterTagsClicked
-    if (x[tag] === undefined) {
-      x[tag] = tag
-    } else {
-      x[tag] = undefined
-    }
-    this.setState({filterTagsClicked: x})
-  }
 
   render() {
     const { classes } = this.props;
@@ -525,7 +423,7 @@ getCalendarText() {
               <Carousel>
                   {Object.keys(featuredEvents).map((ele) => {
                       return (
-                          <a href={"#" + ele} onClick={this.handleClickFeaturedEvent}
+                          <a href={"#" + ele} onClick={this.handleFeaturedEventClicked}
                              style={{overflow:'hidden', width: "100%"}}>
                             <EventCardFeatured ele={featuredEvents[ele]} key={ele}/> <br />
                         </a>
@@ -540,7 +438,7 @@ getCalendarText() {
           <Element name= "startEvents" id={"startEvents"} />
           <div style={{flexDirection: "row", display: "flex"}}>
             <a href={"#startEvents"} className={greenBox}
-               onClick={(tag) => { this.handleMainTags("now") }}
+               onClick={(tag) => { this.setState({mainTagsClicked: handleMainTags("now", this.state.mainTagsClicked) }) }}
                style={{cursor: "pointer"}}>
               <div className={classes.greenText}>
                 <h4>Happening<br />Now</h4>
@@ -548,7 +446,7 @@ getCalendarText() {
             </a>
 
             <a href={"#startEvents"} className={blueBox}
-               onClick={(tag) => { this.handleMainTags("popular") }}
+               onClick={(tag) => { this.setState({mainTagsClicked: handleMainTags("popular", this.state.mainTagsClicked) }) }}
                style={{cursor: "pointer"}}>
               <div className={classes.blueText}>
                 <h4>Popular</h4>
@@ -559,7 +457,7 @@ getCalendarText() {
           <div style={{margin: "20px"}}/>
           <div style={{flexDirection: "row", display: "flex"}}>
             <a href={"#startEvents"} className={orangeBox}
-               onClick={(tag) => { this.handleMainTags("recurring") }}
+               onClick={(tag) => { this.setState({mainTagsClicked: handleMainTags("recurring", this.state.mainTagsClicked) }) }}
                style={{cursor: "pointer"}}>
               <div className={classes.orangeText}>
                 <h4>Recurring</h4>
@@ -567,7 +465,7 @@ getCalendarText() {
             </a>
 
             <a href={"#startEvents"} className={grayBox}
-               onClick={(tag) => { this.handleMainTags("past") }}
+               onClick={(tag) => { this.setState({mainTagsClicked: handleMainTags("past", this.state.mainTagsClicked) }) }}
                style={{cursor: "pointer"}}>
               <div className={classes.grayText}>
                 <h4>Past</h4>
@@ -584,7 +482,7 @@ getCalendarText() {
              tagList = {this.state.tagList}
              organizationList = {this.state.organizationList}
              dateList = {this.state.dateList}
-             updateTags={(tag) => { this.updateFilterTags(tag) }}
+             updateTags={(tag) => { this.setState({ filterTagsClicked: updateFilterTags(tag, this.state.filterTagsClicked) })}}
              updateClub={(club) => { this.updateOrganization(club) }}
              updateDate={(date) => { this.updateDateFilter(date) }}
              resetFilter={() => { this.resetFilter() }}

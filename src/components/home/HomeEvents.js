@@ -6,7 +6,8 @@ import {EventCardHighlight, EventModal, CustomButton, EventCard,
         getTimezoneName, convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset, dst, convertTimestampToDate} from '../'
 import TZ from "countries-and-timezones";
 import firebase from "../../firebase";
-import {} from "../../components/all/TimeFunctions"
+import {} from "../../components/all/TimeFunctions";
+import {CircularProgress} from "@material-ui/core";
 
 const useStyles = () => ({
     button4: {
@@ -34,11 +35,29 @@ class Events extends React.Component{
             open:false,
             event:null,
             myEventsList: [],
-            displayEvents: []
+            displayEvents: [],
+            loadingEvents: true,
+            width: 0, height: 0
         };
         this.getEvents();
         this.closeDo = this.closeDo.bind(this);
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
+
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    }
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
     getMonthName() {
         var d = new Date();
         var month = new Array();
@@ -80,12 +99,16 @@ class Events extends React.Component{
 
     makeDisplayEvents(events) {
         let arr = [];
+        let divisor = 500
+        if (this.state.width > 1750)
+            divisor = 350
+        let MAX = Math.min(Math.floor(.8 * this.state.width/divisor), 5)
         for (let i = 0; i < events.length; i += 1) {
             let ele = events[i];
             if (ele.end_date > new Date()) {
                 arr.push(ele);
             }
-            if (arr.length === 5) {
+            if (arr.length >= MAX) {
                 break;
             }
         }
@@ -130,7 +153,8 @@ class Events extends React.Component{
         })
 
         this.setState({ myEventsList: approvedEventsMap,
-                             displayEvents: this.makeDisplayEvents(approvedEventsMap) });
+                        displayEvents: this.makeDisplayEvents(approvedEventsMap),
+                        loadingEvents: false, });
     }
 
 
@@ -147,15 +171,16 @@ class Events extends React.Component{
 
     closeDo() {
         this.setState({ open: false, count: 0 });
-    }
+    }s
 
     render() {
         const { classes } = this.props;
         const date = new Date();
         return (
-            <div style={{width: "95%"}}>
+            <div style={{width: "90%", maxHeight:"70vh", maxWidth:"100vw", overflowY:"auto", overflowX:"hidden"}}>
+            {this.state.loadingEvents && <CircularProgress style={{ marginLeft: '50%' }} />}
             {this.state.displayEvents.length > 0 &&
-                    <div style={{ marginBottom: "5%" }}>
+                    <div style={{ marginBottom: "5%" }} >
                         {this.state.displayEvents.map((ele, ind) => {
                             return (<EventCard ele={ele} key={ind}/>);
                         })}

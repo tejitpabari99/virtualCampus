@@ -132,9 +132,21 @@ function formatEmailText(jsonText) {
 
 function getText(key, val) {
   key = key.replace("_", " ");
-  if (val !== undefined && val !== "")
-    return key + ": " + val;
-  return key + ": not provided";
+  key =  key.split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');
+
+  if (val !== undefined && val !== "") {
+    if (key === "Start Date" || key === "End Date")
+      val = val.split(' ').slice(0,5).join(' ')
+    if (key === "Timezone") 
+      val = val.split('$')[0]
+    if (key === "Desc") 
+      key = "Description"
+
+    key = "<strong>" + key + ":</strong>"
+    return key + " " + val;
+  }
+  key = "<strong>" + key + ":</strong>"
+  return key + " not provided";
 }
 
 function processATag(values, key, defKey) {
@@ -413,6 +425,8 @@ class EventFormMobile extends React.Component {
 
   // upload to firebase here
   uploadData(data) {
+    const db = firebase.firestore();
+    const newEventRef = db.collection("events").doc();
     data["approved"] = false;
     data["start_date"] = data["start_date"].toString();
     data["end_date"] = data["end_date"].toString();
@@ -421,8 +435,15 @@ class EventFormMobile extends React.Component {
     const clientSubject = "Your CVC Event Details: " + data["title"];
     data = processTags(data);
     const text = formatEmailText(data);
-    if (data['title'] !== undefined)
-      data['event'] = data['title']
+    if (data['title'] !== undefined) {
+      data['event'] = data['title'];
+    }
+    if (data['event_link'] === undefined) {
+      const url = "columbiavirtualcampus.com/events?event=";
+      const id = newEventRef.id;
+      const fullUrl = url + id;
+      data['event_link'] = fullUrl;
+    }
     const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
     const zoomUrl = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=https%3A%2F%2Fcolumbiavirtualcampus.com%2Fevents%2Fhandle-approve&state="
     const clientEmailData = {
@@ -439,16 +460,17 @@ class EventFormMobile extends React.Component {
     };
 
 
-    const db = firebase.firestore();
-    const newEventRef = db.collection("events").doc();
-    clientEmailData["text"] = "Your New Event Request!\n<br>Here's what we are currently processing:\n <br>" +
-      emailData["text"] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
-      + "Please contact us if any of the above needs corrected or if you have any questions!"
-      + "\n<br>\n<br>Best,\n<br>The CVC Team";
-    emailData["text"] = "New Event Request!\n <br>" +
-      emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
-        + "<br><br>Click here to approve this event: ",
-        approvalUrl.concat(newEventRef.id));
+    clientEmailData["text"] = "<html><div style='font-family: Arial, Helvetica, sans-serif;'><div style='font-size: 22px;color:orchid;font-weight: bold;'>" + 
+      "Your New Event Request! <img src='https://images.emojiterra.com/mozilla/512px/1f389.png' width='30' height='30'>\n</div><br>" + 
+      "<div style='font-size: 18px;color:darkorchid;font-weight: bold;'>Thank you so much for filling out the form! Here's your confirmation details:\n </div><br>" +
+      "<div style='font-size: 15px;margin-left:20px;'>" + emailData["text"] + "</div><br><br><br>"
+      + "<div style='font-size: 18px;color:darkorchid;font-weight: bold;'>Please contact us if any of the above needs corrected or if you have any questions! " +
+      "\n<br>Note that it will take a little bit of time before it is displayed on our website.</div>"
+      + "\n<br>\n<br><div style='font-size: 18px;color:darkorchid;font-weight: bold;'>Best,\n<br>The CVC Team <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emoji_Grinning_Face_Smiling_Eyes.svg/1024px-Emoji_Grinning_Face_Smiling_Eyes.svg.png' width='20' height='20'></div></html>";
+    emailData["text"] = "<html><div style='font-family: Arial, Helvetica, sans-serif;'><div style='font-size: 22px;color:#FF9933;font-weight: bold;'>New Event Request! <img src='https://images.emojiterra.com/mozilla/512px/1f389.png' width='30' height='30'>\n </div><br>" +
+      emailData["text"].concat("\n<br> <div style='font-size: 18px;color:#CC6600;font-weight: bold;'>"
+        + "<br><br>Click here to approve this event: <br>",
+        approvalUrl.concat(newEventRef.id), "</div></div></html>");
     if (data["zoomLink"]) {
       console.log("Zoom link: " + data["zoomLink"])
       emailData["text"] += "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: " +
