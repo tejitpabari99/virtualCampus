@@ -78,7 +78,7 @@ class freshmenSocials extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allTutors: {},
+      allTutors: [],
       tutorSearch: [],
       tutorSearchOrg: [],
       searchVal: "",
