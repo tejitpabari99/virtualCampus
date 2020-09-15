@@ -1,20 +1,40 @@
 import GridItem from "../../material-kit-components/Grid/GridItem";
 import GridContainer from "../../material-kit-components/Grid/GridContainer";
 import React from "react";
-import {AddResourceCardDesktop, ResourcesCardListView, ResourcesCardGridView, Heading, CustomButton, Search, EventCardFeatured} from "../..";
+import {
+    AddResourceCardDesktop,
+    ResourcesCardListView,
+    ResourcesCardGridView,
+    LazyLoadingCardGridView,
+    Heading,
+    CustomButton,
+    Search,
+} from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
 import {CircularProgress, Select, MenuItem, IconButton} from "@material-ui/core";
 import ViewListIcon from '@material-ui/icons/ViewList';
 import GridOnIcon from '@material-ui/icons/GridOn';
 import {withStyles} from "@material-ui/core/styles";
+import AppBar from '@material-ui/core/AppBar';
+import {Element} from "react-scroll";
+import ScrollableAnchor from "react-scrollable-anchor";
+import Card from "@material-ui/core/Card";
+
 
 const useStyles = () => ({
-  searchBar: {
+  search: {
     width:'30%',
     marginTop: '-600px',
     display: 'inline-block',
     marginLeft: '3%',
+    verticalAlign: 'middle',
+  },
+  searchAppBar: {
+    marginTop: '-70px',
+    display: 'inline-block',
+    marginLeft: '3%',
+    marginBottom: '1.5%',
     verticalAlign: 'middle'
   },
   resourcesFound: {
@@ -91,7 +111,7 @@ const useStyles = () => ({
     marginTop: "10px"
   },
   listCard: {
-    marginBottom: "20px",
+    marginBottom: "10px",
     marginTop: "5px"
   }
 });
@@ -103,6 +123,10 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     this.category = "All Resources";
   }
 
+  handleClickTag(categories){
+    return this.setTagDisplay.bind(this, "recreation")
+  };
+
   handleClickView(isGridView){
     this.setState({
       gridView: isGridView
@@ -113,7 +137,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     const { classes } = this.props;
     return (
       <div>
-        <div className={classes.searchBar}>
+        <div className={classes.search}>
           <Search data={this.state.myResourcesDisplay}
             ref={input => this.inputElement = input}
             onClick={(val) => { this.searchFunc(val) }}
@@ -123,53 +147,53 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
           />
           <div className={classes.searchError}>{this.state.searchError}</div>
         </div>
-        
+        {this.state.activityIndicator && <div style={{paddingTop:"160px"}}/>}
         <div style={{flexDirection: 'row', display: 'flex', marginTop: '-7%'}}>
           {Object.keys(this.state.resourcesDict).sort().map(category => {
             return (
-
               // added new custom buttons that toggle on/off based on click status
               <CustomButton size="medium"
-                  active={(this.state.activeTags === category)}
-                  simple
-
-                  // if category is "All Resources", do not display
-                  style={category !== "All Resources" ?{
-                      width: '16%',
-                      height: '120px',
-                      boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
-                      marginRight: '20px',
-                      marginTop: '2%',
-                      fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
-                      fontStyle: 'normal',
-                      fontWeight: '900',
-                      fontSize: '14px',
-                      wordWrap: 'breakWord'
-                  }
-                  :{
-                    display: 'None'
-                  }
-                  }
-                  onClick={() =>{
-                    if (this.category===category)
-                    {
-                      this.category = "All Resources";
-                      category = "All Resources";
-                    }
-                    else
-                    {
-                      this.category = category;
-                    }
-                    this.deleteDisplay.bind(this, category);
-                    this.setDisplay.bind(this, category)();
-
-                  }}
-
-                  val={category}
-                  color={
-                    (this.category === category) ? "blue" : 'paleblue'
-                  }
-                  text={category}
+                      active={(this.state.activeTags === category)}
+                      simple
+                      
+                      // if category is "All Resources", do not display
+                      style={category !== "All Resources" ?{
+                          width: '16%',
+                          height: '120px',
+                          boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
+                          marginRight: '20px',
+                          marginTop: '2%',
+                          fontFamily: 'Poppins, Roboto, Helvetica, Arial, sans-serif',
+                          fontStyle: 'normal',
+                          fontWeight: '900',
+                          fontSize: '14px',
+                          whiteSpace: 'normal',
+                          
+                      }
+                      :{
+                        display: 'None'
+                      }
+                      }
+                      onClick={() =>{
+                        if (this.category === category)
+                        {
+                          this.category = "All Resources";
+                          category = "All Resources";
+                        }
+                        else
+                        {
+                          this.category = category;
+                        }  
+                        this.deleteDisplay.bind(this, category);
+                        this.setDisplay.bind(this, category)();
+                        
+                      }}
+                      
+                      val={category}
+                      color={
+                        (this.category === category) ? "blue" : 'paleblue'
+                      }
+                      text={category}
               />
             );
           })}
@@ -212,6 +236,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
             >
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
+              <MenuItem value={3}>Popularity</MenuItem>
+              <MenuItem value={4}>Date Added</MenuItem>
             </Select>
         </div>
         <div className={classes.viewIcon}>
@@ -245,7 +271,15 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
         <GridContainer style={{width: '100%'}}>
           <GridItem>
             <GridContainer className={classes.resourcesList}>
-              {this.state.activityIndicator && <CircularProgress style={{ marginLeft: '50%' }} /> }
+              {this.state.activityIndicator && [...Array(4)].map((x, i) =>
+                <GridItem xs={12}
+                          sm={6}
+                          md={3}
+                          className={classes.gridCard}
+                  >
+                  <LazyLoadingCardGridView/>
+                </GridItem>
+              )}
               {!this.state.activityIndicator && this.state.gridView && <GridItem xs={12}
                         sm={6}
                         md={3}
@@ -260,17 +294,22 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                             md={3}
                             className={classes.gridCard}
                   >
-                    <ResourcesCardGridView
-                      website={data.links.website}
-                      img={data.img}
-                      title={data.title}
-                      description={data.description}
-                      iosLink={data.links.iosLink}
-                      androidLink={data.links.androidLink}
-                      tags={data.category.tags}
-                      share
-                    />
-
+                    <ScrollableAnchor >
+                      <Element name={encodeURI(data.title)}>
+                        <div id={encodeURI(data.title)}>
+                          <ResourcesCardGridView
+                            website={data.links.website}
+                            img={data.img}
+                            title={data.title}
+                            description={data.descriptions.description}
+                            tags={data.category.tags}
+                            wantSupportWith={data.descriptions.wantSupportWith}
+                            resourceOffers={data.descriptions.thisResourceOffers}
+                            share
+                          />
+                        </div>
+                      </Element>
+                    </ScrollableAnchor>
                   </GridItem>
                 );
 
@@ -282,10 +321,16 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                     md={6}
                     className={classes.listCard}
                   >
-                    <ResourcesCardListView
-                      ele = {data}
-                      key={data.id}
-                    />
+                    <ScrollableAnchor >
+                      <Element name={encodeURI(data.title)}>
+                        <div id={encodeURI(data.title)}>
+                          <ResourcesCardListView
+                            ele = {data}
+                            key={data.id}
+                          />
+                        </div>
+                      </Element>
+                    </ScrollableAnchor>
                   </GridItem>
                 );
 

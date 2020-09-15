@@ -1,20 +1,28 @@
 const FeaturedData = {
-  'jobs-internships': {
+  'learning-academics': {
     title: 'Brain.fm',
-    description: 'Music that helps you be more productive! Designed to enhance your mood, focus, relaxation, sleep, and more!',
+    descriptions: {
+      description: 'Music that helps you be more productive! Designed to enhance your mood, focus, relaxation, sleep, and more!',
+      wantSupportWith: 'Staying productive during COVID-19',
+      thisResourceOffers: 'Curated music designed to enhance your mood, focus, relaxtion, sleep, and stay more productive'
+    },
     img: 'https://www.brain.fm/assets/img/focus-animation_bcba3d519ff8406664b93fe49a8fa2e8.gif',
     links: {
       website: 'https://www.brain.fm/'
     },
     reviewed: true,
     category: {
-      category: 'Jobs/ Internships',
+      category: 'Learning/ Academics',
       tags: ['Productivity']
     }
   },
   'progress': {
     title: 'ActBlue',
-    description: 'Act Blue allows you to split up your donations across various bail funds, mutual aid funds, and activist organizations.',
+    descriptions: {
+      description: 'ActBlue allows you to split up your donations across various bail funds, mutual aid funds, and activist organizations.',
+      wantSupportWith: 'Seeking new ways to be an ally to the BLM Movement',
+      thisResourceOffers: 'A platform that lets you split up your donations across various bail funds, mutual aid funds, and activist organizations'
+    },
     img: 'https://support.actblue.com/wp-content/uploads/2018/10/support-twitter-social-card_TWITSAFE.png',
     links: {
       website: 'https://secure.actblue.com/donate/bail_funds_george_floyd'
@@ -26,16 +34,20 @@ const FeaturedData = {
     }
   },
   'events': {
-    title: 'U.S. ICE News Releases',
-    description: 'All official statements and news released by the United States Immigration and Customs Enforcement.',
-    img: 'https://www.felhaber.com/wp-content/uploads/ICE.jpg',
+    title: 'Middle East Readings',
+    descriptions: {
+      description: 'If you are looking for educational material regarding the Middle East, check out this curated list of readings by the Washington Institute.',
+      wantSupportWith: 'Beirut Explosion relief efforts',
+      thisResourceOffers: 'Reading list to learn more about the Middle East'
+    },
+    img: 'https://yt3.ggpht.com/a/AATXAJw6RiledZpFbXt0bPDGlLslyEnPBGezJqTENg=s900-c-k-c0xffffffff-no-rj-mo',
     links: {
-      website: 'https://www.ice.gov/news/releases/sevp-modifies-temporary-exemptions-nonimmigrant-students-taking-online-courses-during'
+      website: 'https://www.washingtoninstitute.org/support/reading_list'
     },
     reviewed: true,
     category: {
       category: 'Current Events',
-      tags: ['International Students']
+      tags: ['Lebanon']
     }
   },
 };
