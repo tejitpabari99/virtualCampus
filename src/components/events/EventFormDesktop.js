@@ -438,7 +438,7 @@ class EventFormDesktop extends React.Component {
     if (this.state.imgurLink !== "") {
       values['image_link'] = this.state.imgurLink
     }
-    console.log(values);
+    console.log(values)
     this.setState({ activityIndicatory: true });
     const b = this.uploadData(values);
   }
@@ -767,7 +767,7 @@ class EventFormDesktop extends React.Component {
                     >
                       {({ dirty, isValid, errors, touched }) => {
                         return (
-                          <Form onChange={this.updateEvent} onSubmit={this.submitHandler}>
+                          <Form onChange={this.updateEvent}>
                             <ContactInfo
                               errorName={errors.name}
                               touchedName={touched.name}
