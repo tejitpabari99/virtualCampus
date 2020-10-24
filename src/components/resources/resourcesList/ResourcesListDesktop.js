@@ -119,31 +119,68 @@ const useStyles = () => ({
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
-    this.state = {...this.state, activeTags: ""}
+    this.state = {...this.state, activeTags: "", windowSize: window.innerWidth}
     this.category = "All Resources";
+   
+   
     window.addEventListener("scroll", function() {
-      let elementTarget = document.getElementById("searchBar");
-      if (window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)){
-          console.log("Scrolled past search bar!");
-      }
-      this.setState({
-        appBarView: window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight), function() {
-          console.log(this.state.appBarView);
-        }
-      });
-    }.bind(this));
-    window.addEventListener("scroll", function() {
+      
       let elementTarget = document.getElementById("tags");
+     
       if (window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)){
-          console.log("Scrolled past tags!");
+          //console.log("Scrolled past tags!");
       }
       this.setState({
         appBarTagsView: window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight), function() {
-          console.log(this.state.appBarTagsView);
+          //console.log(this.state.appBarTagsView);
         }
       });
+   
     }.bind(this));
+
+    window.addEventListener("scroll", function() {
+      
+      let elementTarget = document.getElementById("searchBar");
+     
+      if (window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)){
+         // console.log("Scrolled past search bar!");
+      }
+      this.setState({
+        appBarView: window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight), function() {
+         // console.log(this.state.appBarView);
+        }
+      });
+   
+    }.bind(this));
+  
+    let debounce = function (func, wait) {
+      let timeout;
+      return function resize() {
+        const later = function() {
+          timeout = null;
+          func();
+        };
+        
+       
+       clearTimeout(timeout);
+       timeout = setTimeout(later, wait);
+      };
+
+    };
+    
+    let resizeFunc = function () {
+      this.setState({windowSize: window.innerWidth});
+    }.bind(this); 
+    
+    window.addEventListener("resize", debounce(resizeFunc, 1500));
+       
+      
+
   }
+
+
+  
+ 
 
   handleClickView(isGridView){
     this.setState({
@@ -380,9 +417,12 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                             tags={data.category.tags}
                             wantSupportWith={data.descriptions.wantSupportWith}
                             resourceOffers={data.descriptions.thisResourceOffers}
+                            id={data.links.website}
+                            windowSize = {this.state.windowSize}
                             share
                           />
                         </div>
+                        
                       </Element>
                     </ScrollableAnchor>
                   </GridItem>
