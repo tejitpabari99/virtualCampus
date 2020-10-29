@@ -205,7 +205,7 @@ export default function ResourcesCardGridView(props) {
     if (count <= 25) //make sure it runs after fonts are loaded in
     setCount(count + 1);
 
-    if (resourceOffersB!= null && resourceOffersB.length !== 0)
+    if (resourceOffersB != null && resourceOffersB.length !== 0)
   { 
     if (document.getElementById(id).scrollHeight -  document.getElementById(id).clientHeight > 0)
     {
