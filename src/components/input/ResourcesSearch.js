@@ -3,24 +3,40 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {CustomButton} from "../";
-import ClearIcon from '@material-ui/icons/Clear';
+//import ClearIcon from '@material-ui/icons/Clear';
 
 
 const styles = () => ({
   whiteOutline: {
-    borderColor: 'white',
-  },
-  blackOutline: {
-    borderColor: 'black',
-  },
-  blueOutline: {
-    borderColor: '#0072CE',
-  },
+    borderColor: 'white'
+  }
 });
 
-class Search extends React.Component{
+
+
+  const WhiteTextField = withStyles({
+    root: {
+      '& label.Mui-focused': {
+        color: 'white',
+      },
+     
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: 'white',
+        },
+        '&:hover fieldset': {
+          borderColor: 'white',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: 'white',
+        },
+      }
+    },
+  })(TextField);
+  
+class ResourcesSearch extends React.Component{
   constructor(props) {
     super(props);
     this.state={
@@ -42,11 +58,13 @@ class Search extends React.Component{
    // magic number which must be set appropriately for height
    const labelOffset = -6;
    const { classes } = this.props;
+  
+ 
 
-   let iconCol = this.props.iconColor === undefined ? 'black' : this.props.iconColor
+   let iconCol = this.props.iconColor === undefined ? 'white' : this.props.iconColor
    return(
       <div style={{display:'inline'}}>
-        <TextField
+        <WhiteTextField
           style={{ width: "100%", height}}
           id="input-with-icon-textfield"
           
@@ -66,7 +84,7 @@ class Search extends React.Component{
               style: {
                 height,
                 padding: '0 14px',
-                color: this.props.iconColor === undefined ? 'black' : this.props.iconColor
+                color: iconCol
               },
           }}
 
@@ -77,9 +95,8 @@ class Search extends React.Component{
           variant="outlined"
           onKeyDown={this.keyPress}
           InputProps={{
-            classes: { notchedOutline: this.props.iconColor === undefined ? classes.blackOutline :
-                    this.props.iconColor === "white" ? classes.whiteOutline :
-                    classes.blueOutline},
+            
+          
             startAdornment: (
               <div>
                 <InputAdornment position="end">
@@ -103,5 +120,4 @@ class Search extends React.Component{
   }
 }
 
-
-export default withStyles(styles)(Search);
+export default withStyles(styles)(ResourcesSearch);

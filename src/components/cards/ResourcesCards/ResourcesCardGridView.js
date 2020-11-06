@@ -201,7 +201,26 @@ export default function ResourcesCardGridView(props) {
   
   let [count, setCount] = useState(0);
   let [resourceOffersB, setResourceOffersB] = useState(resourceOffers);
+  let [isVisible, setIsVisible] = useState(false);
+
+//detects whether a card is visible or close to being visible 
+  useEffect(() => {
+    if (document.getElementById(id) != null)
+    {
+    let rect = document.getElementById(id).getBoundingClientRect();
+    if (rect.top >= -100 && rect.bottom <= (window.innerHeight) + 100 )
+    setIsVisible(true);
+    else
+    setIsVisible(false);
+
+       
+    }
+  }, [props.scrollCount]);
+
+  //actually cuts down the text - if there's a convenient breakpoint
+  //it uses the last period or comma, if not it just adds ...
    useEffect (() => {
+     if(isVisible) {
     if (count <= 25) //make sure it runs after fonts are loaded in
     setCount(count + 1);
 
@@ -240,8 +259,9 @@ export default function ResourcesCardGridView(props) {
         }
     }
     }
-    }
-  }, [count, id, resourceOffersB]);  
+    } 
+  }
+  }, [count, id, resourceOffersB, isVisible]);  
 
 
    useEffect(() => {
@@ -250,7 +270,7 @@ export default function ResourcesCardGridView(props) {
       setCount(0);
       setResourceOffersB(resourceOffers);
      }
-   }, [props.windowSize]); 
+   }, [props.windowSize]);  
 
   return (
     <Background>
@@ -296,12 +316,12 @@ export default function ResourcesCardGridView(props) {
                 
 
               
-                    <div  className={classes.subBox2}>
+                  <div  className={classes.subBox2}>
                     <div style={{"height": '8px'}}></div>
                     <span style={{"color":"#0072CE"}}>This resource offers: </span>
                     <span style={{"color":"black"}}>{resourceOffersB}</span>
                     <div style={{"height": '8px', "padding": "0"}}></div>
-                    </div>
+                  </div>
                  
                       
                     

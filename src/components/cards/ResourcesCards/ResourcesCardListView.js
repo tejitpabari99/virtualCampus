@@ -22,12 +22,13 @@ const useStyles = makeStyles(() => ({
     fontSize: 20,
     paddingLeft: "24px",
     paddingTop: "10px",
+    //marginRight: "20px"
   },
   category: {
     color: "gray",
     display:'inline-block',
     marginTop: "1px",
-    marginLeft: "20px",
+  // marginLeft: "20px",
     fontSize: 15,
   },
   tagInfo: {
@@ -183,9 +184,12 @@ export default function ResourcesCardListView({ ele }) {
                 </GridContainer>
               </div>
               <div className={classes.resourceTitle}>
-                {ele.title}
+                <span style={{marginRight: "25px"}}>{ele.title}</span>
+                 
                 <span className={classes.category}>{ele.category.category}</span>
               </div>
+              
+              
             </div>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails style={{paddingLeft: 0, paddingRight: 0}}>
@@ -208,18 +212,20 @@ export default function ResourcesCardListView({ ele }) {
                   </div>
                 </Typography>
               </GridItem>
+              <GridContainer style={{width: "100%", marginLeft: 0, marginRight: 0}} alignItems="center">
               <GridItem xs={9} sm={9} md={9}
                         style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 40, paddingRight: 10}}>
-                <div style={{color: "black", display: "block", fontSize: "14px"}}>{ele.descriptions.description}</div>
+                <div style={{color: "black", fontSize: "14px"}}>{ele.descriptions.description}</div>
               </GridItem>
+
               <GridItem xs={3} sm={3} md={3}
-                                   style={{marginTop: 'auto', marginBottom:'0px',
-                                     display: 'inline-block', textAlign: "center", verticalAlign: 'bottom'}}>
-                <IconButton href={ele.links.website}>
+                                   style={{textAlign: "center"}}>
+                <IconButton href={ele.links.website} >
                   <ChevronRightOutlinedIcon style={{fill: "#0072CE", border:"1px solid #0072CE", borderRadius: "8px",
                     width: "40px", height:"35px"}}/>
                 </IconButton>
               </GridItem>
+              </GridContainer>
             </GridContainer>
             {open && <EventEmailModal open={open} closeDo={closeDo} event={ele} onClick={handlePopularity}/>}
           </ExpansionPanelDetails>

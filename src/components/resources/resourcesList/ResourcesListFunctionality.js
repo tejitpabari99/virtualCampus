@@ -28,7 +28,8 @@ export const CoolerButton = ({children, otherClickOption, category, key, val, ..
     <CustomButton
       onClick={() => {handleClick()}}
       color={
-        (isPushed) ? "blue" : "whiteNoHover"
+       (isPushed) ? "blue" : "whiteNoHover"
+       
       }
       {...other}
       text={val}
@@ -242,12 +243,12 @@ class ResourcesListFunctionality extends React.Component {
       allResources = [].concat.apply([], tags);
       allResources = Array.from(new Set(allResources));
       this.setState({ resourcesDisplay: allResources}, function () {
-        this.handleChange(this.state.event);
+        this.handleChange(this.state.selection);
       });
     }
     else{
       this.setState({ resourcesDisplay: allResources}, function () {
-        this.handleChange(this.state.event);
+        this.handleChange(this.state.selection);
       });
     }
   }
@@ -291,7 +292,7 @@ class ResourcesListFunctionality extends React.Component {
       tagsDict: tagsDict,
       tagsDisplay: Object.keys(tagsDict)
     }, function () {
-      this.handleChange(this.state.event);
+      this.handleChange(this.state.selection);
     });
   }
 
@@ -299,7 +300,7 @@ class ResourcesListFunctionality extends React.Component {
   * Function that sorts the filter based on dropdown menu selection
   * @param  event: Received from <Search> element that has the value of the filter sort
   */
-  handleChange = (event, index, value) => {
+  /*handleChange = (event, index, value) => {
     if (event!== undefined && event.target!== undefined){
       if(event.target.value === 1){
         this.setState({
@@ -353,7 +354,64 @@ class ResourcesListFunctionality extends React.Component {
         });
       }
     }
-  }
-}
+  } */
+  //reworked handleChange to be compatible with SortByMenu component
+  handleChange = (value) => {
+  
+      if(value == 1){
+        this.setState({
+          
+          selection: value
+        });
+      }
+      else {
+        let array = this.state.resourcesDisplay;
+        // alphabetical sort
+        if (value == 2){
+          array.sort(function(a, b){
+            let titleA=a.title.toLowerCase(), titleB=b.title.toLowerCase();
+            if(titleA < titleB){
+              return -1;
+            }
+            if(titleA > titleB){
+              return 1;
+            }
+            return 0;
+          });
+        }
+        // popularity sort
+        else if (value == 3){
+          array.sort(function(a, b){
+            if (a.ranking > b.ranking){
+              return -1;
+            }
+            if (a.ranking < b.ranking){
+              return 1;
+            }
+            return 0;
+          });
+        }
+        // time added sort
+        else if (value == 4){
+          array.sort(function(a, b){
+            if (a.dateCreated > b.dateCreated){
+              return -1;
+            }
+            if (a.dateCreated < b.dateCreated){
+              return 1;
+            }
+            return 0;
+          });
+        }
+        this.setState({
+          
+          resourcesDisplay: array,
+          selection: value
+        });
+      }
+    }
+    }
+   
+
 
 export default ResourcesListFunctionality;

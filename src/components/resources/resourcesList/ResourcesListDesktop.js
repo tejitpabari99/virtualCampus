@@ -9,6 +9,9 @@ import {
     Heading,
     CustomButton,
     Search,
+    ResourcesSearch,
+    SortByMenu
+    
 } from "../..";
 import ResourcesListFunctionality from "./ResourcesListFunctionality"
 import {CoolerButton} from "./ResourcesListFunctionality"
@@ -19,6 +22,8 @@ import {withStyles} from "@material-ui/core/styles";
 import AppBar from '@material-ui/core/AppBar';
 import {Element} from "react-scroll";
 import ScrollableAnchor from "react-scrollable-anchor";
+
+
 
 
 const useStyles = () => ({
@@ -47,11 +52,15 @@ const useStyles = () => ({
     fontSize: "18px"
   },
   dropdownMenu: {
-    width:'12%',
-    marginLeft:'57%',
+   // width:'12%',
+   // marginLeft:'57%',
+   marginLeft: "54%",
+   width: "15%",
+   //backgroundColor: "green",
     marginTop: '3%',
     display: 'inline-block',
-    textAlign: "center",
+    //textTransform: "capitalize",
+   //textAlign: "left",
     verticalAlign: 'middle'
   },
   viewIcon: {
@@ -119,20 +128,20 @@ const useStyles = () => ({
 class ResourcesListDesktop extends ResourcesListFunctionality {
   constructor(props) {
     super(props);
-    this.state = {...this.state, activeTags: "", windowSize: window.innerWidth}
+    this.state = {...this.state, activeTags: "", windowSize: window.innerWidth, scrollCount: 0}
     this.category = "All Resources";
    
-   
+   /*
     window.addEventListener("scroll", function() {
       
       let elementTarget = document.getElementById("tags");
      
       if (window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)){
-          //console.log("Scrolled past tags!");
+          console.log("Scrolled past tags!");
       }
       this.setState({
         appBarTagsView: window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight), function() {
-          //console.log(this.state.appBarTagsView);
+          console.log(this.state.appBarTagsView);
         }
       });
    
@@ -143,16 +152,16 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
       let elementTarget = document.getElementById("searchBar");
      
       if (window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)){
-         // console.log("Scrolled past search bar!");
+          console.log("Scrolled past search bar!");
       }
       this.setState({
         appBarView: window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight), function() {
-         // console.log(this.state.appBarView);
+          console.log(this.state.appBarView);
         }
       });
    
     }.bind(this));
-  
+  */
     let debounce = function (func, wait) {
       let timeout;
       return function resize() {
@@ -173,7 +182,13 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     }.bind(this); 
     
     window.addEventListener("resize", debounce(resizeFunc, 1500));
-       
+    
+    window.addEventListener("scroll", function() { //allows other components to update when scroll event fires
+      
+      this.setState((state) => ({
+        scrollCount: state.scrollCount + 1
+      }));
+    }.bind(this));
       
 
   }
@@ -193,7 +208,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
     return (
       <div>
         <div id="searchBar" className={classes.search}>
-          <Search data={this.state.myResourcesDisplay}
+          <ResourcesSearch data={this.state.myResourcesDisplay}
             ref={input => this.inputElement = input}
             onClick={(val) => { this.searchFunc(val) }}
             onCancel={() => { this.searchFunc('') }}
@@ -212,6 +227,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                 onCancel={() => { this.searchFunc('') }}
                 placeholder={"Search resources"}
                 iconColor={"#0072CE"}
+               
               />
             </div>
             <div className={classes.searchError}>{this.state.searchError}</div>
@@ -225,7 +241,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                                 style={{marginTop: 5,
                                     marginBottom: 5,
                                     marginLeft: 10,
-                                    fontSize: 'min(1.5vw, 9px)',
+                                    fontSize: 'min(1.5vw, 9px)'
+                                    
                                 }}
                                 onClick={this.setTagDisplay.bind(this, tag)}
                                 otherClickOption={this.deleteTagDisplay.bind(this, tag)}
@@ -234,6 +251,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                   />
                 );
               })}
+              
               </GridItem>
             <GridItem xs={3} sm={3} md={3}
               style={{display: 'inline-block', marginLeft: '6%'}}>
@@ -271,7 +289,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                       // if category is "All Resources", do not display
                       style={category !== "All Resources" ?{
                           width: '16%',
-                          height: '120px',
+                          height: '80px',
                           boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',
                           marginRight: '20px',
                           marginTop: '2%',
@@ -279,8 +297,8 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                           fontStyle: 'normal',
                           fontWeight: '900',
                           fontSize: '14px',
-                          whiteSpace: 'normal',
-
+                          whiteSpace: 'normal'
+         
                       }
                       :{
                         display: 'None'
@@ -326,32 +344,27 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                             style={{marginTop: 5,
                                     marginBottom: 5,
                                     marginLeft: 10,
-                                    fontSize: 'min(1.5vw, 9px)',
+                                    fontSize: 'min(2vw, 12px)', //used to be 1.5vw
+                                    
+                                    
                             }}
                             onClick={this.setTagDisplay.bind(this, tag)}
                             otherClickOption={this.deleteTagDisplay.bind(this, tag)}
                             category={this.state.category}
                             val={tag}
+                            
               />
             );
           })}
         </div>
         <div className={classes.resourcesFound}> {this.state.resourcesDisplay.length} Resources Found </div>
         <div className={classes.dropdownMenu}>
-            <Select
-              labelId="label"
-              id="select"
-              value={this.state.selection}
-              onChange={this.handleChange}
-              style={{'&:before': {borderColor: '#0072CE'}, fill: 'white'}}
-              variant={"outlined"}
-            >
-              <MenuItem value={1}>Sort by</MenuItem>
-              <MenuItem value={2}>Alphabetical</MenuItem>
-              <MenuItem value={3}>Popularity</MenuItem>
-              <MenuItem value={4}>Date Added</MenuItem>
-            </Select>
+            
+           <SortByMenu onChange={this.handleChange} />
+            
+         
         </div>
+       
         <div className={classes.viewIcon}>
             <IconButton onClick={this.handleClickView.bind(this, true)}>
                 <GridOnIcon style={{fill: "#0072CE", textShadow: "0 0 3px #000"}}/>
@@ -419,6 +432,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                             resourceOffers={data.descriptions.thisResourceOffers}
                             id={data.links.website}
                             windowSize = {this.state.windowSize}
+                            scrollCount = {this.state.scrollCount}
                             share
                           />
                         </div>
