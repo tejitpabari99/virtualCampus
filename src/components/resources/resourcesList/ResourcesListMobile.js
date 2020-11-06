@@ -200,7 +200,7 @@ class ResourcesListMobile extends ResourcesListFunctionality {
               <MenuItem value={1}>Sort by</MenuItem>
               <MenuItem value={2}>Alphabetical</MenuItem>
               <MenuItem value={3}>Popularity</MenuItem>
-              <MenuItem value={4}>Date Added</MenuItem>
+              <MenuItem value={4}>Recently Added</MenuItem>
             </Select>
           </div>
           <div className={classes.viewIcon}>
