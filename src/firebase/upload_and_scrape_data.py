@@ -3,8 +3,6 @@ from selenium import webdriver
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from login import uni, password
-import time
 
 cred = credentials.Certificate("./FirestoreKey.json")
 firebase_admin.initialize_app(cred)
@@ -28,8 +26,8 @@ def more_subcategories():
 
 
 # for scraping table once table is identified
-def scrape_table(people):
-    for p in people:
+def scrape_table(people_list):
+    for p in people_list:
         global count
         global batch
         inner_content = p.contents
@@ -78,17 +76,17 @@ options.add_argument('--ignore-certificate-errors')
 options.add_argument('--incognito')
 # options.add_argument('--headless') to run without opening a window
 # filepath is filepath to downloaded chrome driver
-filepath = ""
+filepath = "" # filepath of chromedriver
 driver = webdriver.Chrome(filepath, chrome_options=options)
 # "https://cas.columbia.edu/cas/login?TARGET=https%3A%2F%2Fdirectory.columbia.edu%2Fpeople%2Fbrowse%2Fstudents%3Ffilter.lnameFname%3D2%26filter.initialLetter%3DA"
 # "https://cas.columbia.edu/cas/login?TARGET=https%3A%2F%2Fdirectory.columbia.edu%2Fpeople%2Fbrowse%2Ffacultyandstaff%3Ffilter.lnameFname%3D2%26filter.initialLetter%3DA"
 driver.get("https://cas.columbia.edu/cas/login?TARGET=https%3A%2F%2Fdirectory.columbia.edu%2Fpeople%2Fbrowse%2Ffacultyandstaff%3Ffilter.lnameFname%3D2%26filter.initialLetter%3DA")
 
 # get past login page
-uni = uni  # your uni
-password = password  # your password
+user = ""  # your uni
+password = ""  # your password
 username_element = driver.find_element_by_id("username")
-username_element.send_keys(uni)
+username_element.send_keys(user)
 password_element = driver.find_element_by_id("password")
 password_element.send_keys(password)
 driver.find_element_by_name("submit").click()
@@ -101,7 +99,7 @@ people = table.contents  # tbody is where all individual entries are contained a
 people.pop(0)  # remove first row of titles
 
 # retrieve data from first subcategory page on first category page
-scrape_table(people)
+scrape_table(people)  # something causes duplication here?
 # loop through rest of subcategories in first category
 # driver.find_element_by_class_name("page_number_result") div contains all the links
 more_subcategories()
@@ -111,6 +109,7 @@ current_letter = "B"
 current_href = "?filter.initialLetter=" + current_letter
 while len(driver.find_elements_by_xpath('//a[@href="' + current_href + '"]')) > 0:  # links to letter subcategories
     driver.find_element_by_xpath('//a[@href="' + current_href + '"]').click()
+    page_source = driver.page_source
     soup = BeautifulSoup(page_source, 'html.parser')
     table = soup.body.div.a.form.table.tbody.contents[4].contents[1].div.table.tbody
     people = table.contents
@@ -121,5 +120,4 @@ while len(driver.find_elements_by_xpath('//a[@href="' + current_href + '"]')) > 
     more_subcategories()
     current_letter = chr(ord(current_letter) + 1)
     current_href = "?filter.initialLetter=" + current_letter
-
 batch.commit()
