@@ -9,6 +9,7 @@ import {Descriptions} from "../../assets/ResourcesData.js";
 import {CircularProgress} from "@material-ui/core";
 
 
+
 class HomeResourcesList extends React.Component {
   constructor(props) {
     super(props);
@@ -105,6 +106,7 @@ class HomeResourcesList extends React.Component {
   }
 
   render() {
+   
     return (
       <div>
         <GridContainer style={{paddingLeft: '20px', paddingRight: '20px', paddingTop: '50px'}}>
@@ -120,6 +122,8 @@ class HomeResourcesList extends React.Component {
                   iosLink={data.links.iosLink}
                   androidLink={data.links.androidLink}
                   tags={data.category.tags}
+                  id={data.links.website}
+                  windowSize = {this.state.windowSize}
                   share
                 />
               </GridItem>

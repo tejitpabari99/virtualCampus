@@ -50,6 +50,11 @@ import {convertUTCToLocal,
         getTimezoneOptions} from './all/TimeFunctions'
 import EventsPageDesktop from "./events/eventPageDesktop";
 import EventsPageMobile from "./events/eventPageMobile";
+import ResourcesSearch from "./input/ResourcesSearch";
+import SortByMenu from "./input/SortByMenu";
+import CustomRadioButtonSet from "./form-components/CustomRadioButtonSet";
+import CustomRadioButton from "./form-components/CustomRadioButton";
+import SearchLionbook from "../pages/LionbookDemo";
 
 export {MetaData, CustomTheme, CustomHeader, CustomFooter, CustomFooterMobile, Template, TemplateResources, TeamMember, TeamSection,
         EventCard, EventModal, EventEmailModal, MockInterviewModal, AddCalendar,
@@ -62,4 +67,4 @@ export {MetaData, CustomTheme, CustomHeader, CustomFooter, CustomFooterMobile, T
         BLMCard, TutorExpansionMapping, TutorSearchMapping,
         convertUTCToLocal, convertDateToUTC, getOffset, getCurrentLocationForTimeZone, stdTimezoneOffset,
         dst, getTimezoneName, convertTimestampToDate, getTimezoneOptions, EmailEvent,
-        EventCardFeatured, EventSearch}
+        EventCardFeatured, EventSearch, ResourcesSearch, SortByMenu, CustomRadioButtonSet, CustomRadioButton, SearchLionbook}

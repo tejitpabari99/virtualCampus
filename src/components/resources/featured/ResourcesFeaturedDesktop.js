@@ -46,14 +46,18 @@ const useStyles = () => ({
     flexDirection: "column",
     display: "flex",
     marginLeft: "40px",
-    marginTop: "10px"
+    marginTop: "10px",
+    justifyContent: "center"
   }
 });
 
 class ResourcesFeaturedDesktop extends ResourcesListFunctionality {
 constructor(props){
   super(props);
+ 
 }
+
+
 render() {
   const MAX_RESOURCES_DISPLAYED = 3;
   let value = 0;
@@ -83,6 +87,7 @@ render() {
                       description={data.descriptions.description}
                       tags={data.category.tags}
                       category={data.category.category}
+                     
                       share/>
                       </div>
                     );

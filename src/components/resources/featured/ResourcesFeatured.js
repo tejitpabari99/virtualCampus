@@ -2,7 +2,7 @@ import React from "react"
 import {isMobile, isTablet, isEdge, isIE} from "react-device-detect";
 import ResourcesFeaturedDesktop from "./ResourcesFeaturedDesktop";
 import ResourcesFeaturedMobile from "./ResourcesFeaturedMobile";
-
+//first commit
 class ResourcesFeatured extends React.Component {
 
   constructor(props) {

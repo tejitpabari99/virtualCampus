@@ -10,7 +10,7 @@ import {vcColor} from '../../../assets/material-kit-assets/jss/material-kit-reac
 
 import styled from "@emotion/styled/macro";
 import {CustomButton} from "../../index";
-
+import { useEffect, useState } from "react"; //added to manage size of description
 
 const Hover = styled.div({
   opacity: 0,
@@ -33,8 +33,7 @@ const useStyles = makeStyles({
     align: 'center',
     position: 'relative',
     boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
-    transition: 'all 0.3s',
-
+    transition: 'all 0.3s', 
     "&:hover": {
       boxShadow: "0 10px 10px 0 rgba(0, 0, 0, 0.14), 0 15px 5px -10px rgba(0, 0, 0, 0.2), 0 5px 25px 0 rgba(0, 0, 0, 0.12)"
     }
@@ -46,8 +45,9 @@ const useStyles = makeStyles({
     right: 0,
     top: 0,
     bottom: 0,
-    height: '40.26%',
-    opacity:'50%'
+    height: "155px",
+    opacity:'50%',
+   
   },
   media: {
     position: 'absolute',
@@ -62,7 +62,7 @@ const useStyles = makeStyles({
     left: '8.28%',
     right: '8.28%',
     top: '45.02%',
-    bottom: '51.04%'
+    bottom: '51.04%',
   },
   title: {
     fontFamily: 'Poppins',
@@ -70,7 +70,11 @@ const useStyles = makeStyles({
     fontWeight: 'normal',
     fontSize: '25px',
     lineHeight: '30px',
-    color: 'black'
+    color: 'black',
+    paddingTop: "0",
+    paddingBottom: "0"
+    
+    
   },
   title2: {
     paddingLeft: '7.8%',
@@ -89,7 +93,7 @@ const useStyles = makeStyles({
     fontWeight: 'normal',
     fontSize: '12px',
     lineHeight: '18px',
-    color: '#000000',
+    color: '#000000'
   },
   description2: {
     paddingLeft: '7.8%',
@@ -145,25 +149,30 @@ const useStyles = makeStyles({
   },
   subBox1: {
     backgroundColor: "rgba(253, 100, 100, 0.1)",
-    paddingTop: "8px",
-    paddingBottom: "8px",
+    //for some reason, scrollheight doesn't count internal padding, so overflowed divs end up being undercounted
+   paddingBottom: "0",
+   paddingTop: "0",
+   
     paddingLeft: "10px",
     paddingRight: "10px",
-    height: "auto",
     width: "100%",
     borderColor: "#FB750D",
-    borderRadius: "5px"
+    borderRadius: "5px",
   },
   subBox2: {
     backgroundColor: "#F2F9FD",
-    paddingTop: "8px",
-    paddingBottom: "8px",
+    paddingBottom: "0",
+    paddingTop: "0",
     paddingLeft: "10px",
     paddingRight: "10px",
-    height: "auto",
-    width: "100%",
+    width: "100%", 
     borderColor: "#FB750D",
-    borderRadius: "5px"
+    borderRadius: "5px",
+  },
+  subContainer: {
+    height: "195px",
+    padding: "0",
+  overflow: "hidden"
   },
   addResourceButton: {
     position: "absolute",
@@ -176,16 +185,93 @@ const useStyles = makeStyles({
   },
 });
 
-const trimDescription = function(description) {
+/* const trimDescription = function(description) {
   if(description.length > 250) {
-    description = description.substr(0, description.lastIndexOf(' ', 250)) + ' ...'
+    description = description.substr(0, description.lastIndexOf(' ', 250)) + ' ...';
   }
   return description
-};
+}; */
+
+
 
 export default function ResourcesCardGridView(props) {
   const classes = useStyles();
-  let {website, img, title, description, tags, wantSupportWith, resourceOffers} = props;
+  
+  let {website, img, title, description, tags, wantSupportWith, resourceOffers, id} = props;
+  
+  let [count, setCount] = useState(0);
+  let [resourceOffersB, setResourceOffersB] = useState(resourceOffers);
+  let [isVisible, setIsVisible] = useState(false);
+
+//detects whether a card is visible or close to being visible 
+  useEffect(() => {
+    if (document.getElementById(id) != null)
+    {
+    let rect = document.getElementById(id).getBoundingClientRect();
+    if (rect.top >= -100 && rect.bottom <= (window.innerHeight) + 100 )
+    setIsVisible(true);
+    else
+    setIsVisible(false);
+
+       
+    }
+  }, [props.scrollCount]);
+
+  //actually cuts down the text - if there's a convenient breakpoint
+  //it uses the last period or comma, if not it just adds ...
+   useEffect (() => {
+     if(isVisible) {
+    if (count <= 25) //make sure it runs after fonts are loaded in
+    setCount(count + 1);
+
+    if (resourceOffersB != null && resourceOffersB.length !== 0)
+  { 
+    if (document.getElementById(id).scrollHeight -  document.getElementById(id).clientHeight > 0)
+    {
+      setCount(count + 1);
+      /* used for ellipsis
+      if (resourceOffersB.charAt(resourceOffersB.lastIndexOf(" ") - 1) == "," || resourceOffersB.charAt(resourceOffersB.lastIndexOf(" ") - 1) == ".")
+      {
+         //doesn't put a ... after a comma or period
+        setResourceOffersB(resourceOffersB.substring(0, resourceOffersB.lastIndexOf(" ") - 1) + "...");
+        
+      }
+      else {
+      setResourceOffersB(resourceOffersB.substring(0, resourceOffersB.lastIndexOf(" ")) + "...");
+      
+      } */
+     if (resourceOffersB.slice(-3) == "...")
+     { //so that the period check doesn't pick up old ellipsis
+      setResourceOffersB(resourceOffersB.substring(0, resourceOffersB.lastIndexOf(" "))+ "...");
+     }
+     else {
+       let lastPeriod = resourceOffersB.lastIndexOf(".");
+       let lastComma = resourceOffersB.lastIndexOf(",");
+        if (lastPeriod == -1 && lastComma == -1)
+        { //if no period, just cut off words
+          setResourceOffersB(resourceOffersB.substring(0, resourceOffersB.lastIndexOf(" "))+ "...");
+        }
+        else if (lastPeriod > lastComma) {
+          setResourceOffersB(resourceOffersB.substring(0, lastPeriod));
+        }
+        else {
+          setResourceOffersB(resourceOffersB.substring(0, lastComma));
+        }
+    }
+    }
+    } 
+  }
+  }, [count, id, resourceOffersB, isVisible]);  
+
+
+   useEffect(() => {
+     if (count > 0)
+     {
+      setCount(0);
+      setResourceOffersB(resourceOffers);
+     }
+   }, [props.windowSize]);  
+
   return (
     <Background>
       <Card className={classes.root}>
@@ -194,7 +280,7 @@ export default function ResourcesCardGridView(props) {
             {title && <div className={classes.cardHeader} style={{backgroundColor: vcColor, fontWeight:'bold'}}>{title}</div>}
             <CardMedia
               component="img"
-              height="40.26%"
+              height="155px" //changed from 40.26% to 155
               className={classes.media}
               image={img}
               title={title}
@@ -203,7 +289,7 @@ export default function ResourcesCardGridView(props) {
 
           </div>
 
-          <CardContent style={{marginBottom: 0}}>
+          <CardContent style={{"marginBottom": "0"}}>
             {tags && tags.sort().reverse().map(ele => {
               return (
                 <Button style={{'color':'black'}} className={classes.button}>
@@ -212,20 +298,37 @@ export default function ResourcesCardGridView(props) {
               )
             })}
             <div className={classes.frontPositioning}>
-              <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
-                {title}
+            <div id={id} className={classes.subContainer}> {/*new div for overflow tracking*/}
+              <Typography style={{"minHeight":"0","padding": "0"}} gutterBottom variant="h5" component="h2">
+              <div className={classes.title}>{title}</div> 
+                
               </Typography>
-              <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
+              <Typography style={{"minHeight":"0", "padding": "0"}} variant="body2" color="textSecondary" component="p" className={classes.description}>
+                
                 <div className={classes.subBox1}>
-                  <span style={{"color":"#FD6464"}}>Want support with:  </span>
-                  <span style={{"color":"black"}}>{wantSupportWith}</span>
+                      <div style={{"height": '8px'}}></div>
+                   <span style={{"color":"#FD6464"}}>Want support with: </span>
+                   <span style={{"color":"black"}}>{wantSupportWith}</span>
+                      <div style={{"height": '8px', "padding": "0"}}></div> 
                 </div>
-                <div style={{paddingTop: '10px'}} />
-                <div className={classes.subBox2}>
-                  <span style={{"color":"#0072CE"}}>This resource offers:  </span>
-                  <span style={{"color":"black"}}>{resourceOffers}</span>
-                </div>
+                <div style={{"height": '10px', "padding":"0"}}> </div>
+                
+                
+
+              
+                  <div  className={classes.subBox2}>
+                    <div style={{"height": '8px'}}></div>
+                    <span style={{"color":"#0072CE"}}>This resource offers: </span>
+                    <span style={{"color":"black"}}>{resourceOffersB}</span>
+                    <div style={{"height": '8px', "padding": "0"}}></div>
+                  </div>
+                 
+                      
+                    
+                
+                
               </Typography>
+              </div>
             </div>
           </CardContent>
         </a>
