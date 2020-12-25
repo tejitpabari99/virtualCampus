@@ -3,6 +3,7 @@ import Search from "../components/input/Search";
 import firebase from "../firebase";
 import Fuse from 'fuse.js';
 import {withStyles} from "@material-ui/core/styles";
+import { SubdirectoryArrowLeftTwoTone, TransferWithinAStationTwoTone } from "@material-ui/icons";
 //can be found under http://localhost:8000/LionbookDemo/
 
 
@@ -58,7 +59,8 @@ constructor(props){
       people: [],
       done: "",
       output: [],
-      flag: ""
+      flag: "",
+      count: 0
     };
     this.getResources = this.getResources.bind(this);
     this.searchFunc = this.searchFunc.bind(this);
@@ -144,13 +146,16 @@ async getResources() {
   try {
         const self = this;
         const db = firebase.firestore();
-        var docRef = db.collection("lionbook").where("name", "==", "Abad, Abdul Bryant");
+        var docRef = db.collection("lionbook");//.where("name", "==", "Abad, Abdul Bryant");
         docRef.get().then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
             // doc.data() is never undefined for query doc snapshots
             //console.log(doc.id, " => ", doc.data());
             self.formatData(doc);
+            self.setState((state) => ({count: state.count + 1}));
+            console.log(self.state.count);
         });
+        
         self.setState({done: "downloaded"});
       });
     } catch (e) {
