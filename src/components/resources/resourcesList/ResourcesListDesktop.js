@@ -344,7 +344,7 @@ class ResourcesListDesktop extends ResourcesListFunctionality {
                             style={{marginTop: 5,
                                     marginBottom: 5,
                                     marginLeft: 10,
-                                    fontSize: 'min(2vw, 12px)', //used to be 1.5vw
+                                    fontSize: 'min(2vw, 12px)' //used to be 1.5vw
                                     
                                     
                             }}

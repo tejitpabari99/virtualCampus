@@ -30,6 +30,7 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import Element from 'react-scroll';
 import CustomFooter from "../all/CustomFooter";
+import { Link } from "gatsby";
 
 const useStyles = makeStyles(styles);
 
@@ -411,6 +412,8 @@ export default function HomeDesktop() {
               </div>
           </div>
         </div>
+   
+       
         <CustomFooter/>
     </div>
   )

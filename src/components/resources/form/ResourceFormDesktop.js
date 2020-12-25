@@ -17,8 +17,11 @@ import {CustomHeader, Template} from "../.."
 import Container from '@material-ui/core/Container';
 import firebase from "../../../firebase";
 import Categories from "./FormCategories"
-import {CustomButton} from "../../index";
+//import {CustomButton} from "../../index";
 import CustomFooter from "../../all/CustomFooter";
+//import CustomRadioButtonSet from "../../form-components/CustomRadioButtonSet";
+import CustomRadioButton from "../../form-components/CustomRadioButton";
+import { STAND_ALONE_MONTH_LETTERS } from "timezonecomplete";
 
 const useStyles = makeStyles(styles);
 const manualSt = makeStyles(() => ({
@@ -107,7 +110,7 @@ const manualSt = makeStyles(() => ({
     },
     categoryBtn: {
         right: '25px',
-        borderRadius: '10px',
+        borderRadius: '100px',
         color: '#0072CE !important',
         border: "1px solid #0072CE",
         "&:hover,&:focus": {
@@ -172,22 +175,31 @@ const validationSchema = Yup.object().shape({
 const ResourceFormDesktop = (props) => {
     const classes = useStyles();
     const manual = manualSt();
-    const [value, setValue] = React.useState('');
+    //const [value, setValue] = React.useState(''); //current category on
     const [error, setError] = React.useState(false);
-    const handleChange = (event) => {
+    var category = Object.keys(Categories);
+    const [states, setStates] = React.useState( //states of buttons for category
+        () => {
+        let setup = {};
+        category.forEach(ele => setup[ele] = false);
+        setup['other']=false;
+        return setup;
+        }
+    ); 
+    /*const handleChange = (event) => {
         setValue(event.target.value);
         
-      };
+      }; */
     
-    // console.log(Categories)
-    var category = Object.keys(Categories)
+   
 
     
     // added state variable to keep track of current category
-    var state = {}
-    category.forEach(ele => state[ele] = false);
+    //var state = {};
+    //category.forEach(ele => state[ele] = false);
     var tags = Categories;
-    state['other']=false;
+    //state['other']=false; 
+    //setState(state);
 
 
     const submitHandler = (values, {resetForm}) => {
@@ -407,12 +419,14 @@ const ResourceFormDesktop = (props) => {
                               </div>
                             </Grid>
                             <Grid item xs={8}>
-                                <Formik initialValues={initVal} onSubmit={submitHandler} validationSchema={validationSchema}>
-                                    {({ dirty, isValid, errors, touched }) => {
+                                <Formik initialValues={initVal} onSubmit={(values) => {submitHandler(values);}} validationSchema={validationSchema}>
+                                    {({ dirty, isValid, errors, touched, values, setFieldValue }) => {
                                         return (
+                                            
                                             <Form>
 
                                                 <div className={manual.section}>
+                                                    
                                                     <div className={classNames(manual.toAll, manual.subtitle)}>Contact</div>
                                                     <Grid container spacing={2}>
                                                         <Grid item sm={6}>
@@ -464,133 +478,54 @@ const ResourceFormDesktop = (props) => {
                                                         </Grid>
                                                         <Grid item sm={10}>
 
-
+                                                        <Field id = "unique" component={RadioGroup} row={true} name="category" /*value={value} */ required>
                                                             <div className="buttons">
-
+                                                            {/*Radio buttons replaced by buttons that function like radio buttons*/}
                                                                 <Grid item sm={20}>
-
-                                                                    <Field id = "unique" component={RadioGroup} row={true} name="category" value={value} onChange={handleChange} required>
-
-                                                                    {category[0]
-                                                                    ? <span >
-                                                                        <FormControlLabel
-                                                                            value={'0'+category[0]}
-                                                                            control={<Radio row/>}                                                                        
-                                                                            label = {category[0].replace('_','/')}
-                                                                            onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state[category[0]] = true;  
-                                                                            }}
-                                                                        />
-                                                                    </span>
-                                                                    : ""  
-                                                                    }
-
-                                                                    {category[1]
-                                                                    ? <span >
-                                                                        <FormControlLabel
-                                                                        value={'1'+category[1]}
-                                                                        control={<Radio row/>}
-                                                                        label = {category[1].replace('_','/')}
-                                                                        onClick ={()=>{    
-                                                                            Object.keys(state).forEach(ele => state[ele] = false)                                                                       
-                                                                            state[category[1]] = true;            
+                                                                <div >
+                                                                   {category.map((cat, idx) => {
+                                                                        return (
+                                                                        <CustomRadioButton 
+                                                                                        idx={idx}
+                                                                                        style={{marginTop: 5,
+                                                                                            marginBottom: 5,
+                                                                                            marginLeft: 10
+                                                                                        }}
+                                                                                       
+                                                                                        onClick={(idx)=>{
+                                                                                            let update = {...states};
+                                                                                            Object.keys(update).forEach(ele => update[ele] = false);          
+                                                                                            update[category[idx]] = true; 
+                                                                                            setStates(update);
+                                                                                            setFieldValue("category", idx + category[idx]);
+                                                                                        }}
+                                                                                        isPressed={states[cat]}
+                                                                                        val={cat.replace('_','/')}
+                                                                        />)})}
+                                                                      <CustomRadioButton 
+                                                                        idx="other"
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10
                                                                         }}
-                                                                        
-                                                                    />
-                                                                    </span>
-                                                                    : ""  
-                                                                    }
+                                                                        onClick={(idx)=>{
+                                                                            let update = {...states};
+                                                                            Object.keys(update).forEach(ele => update[ele] = false); 
+                                                                            update["other"] = true;
+                                                                            setStates(update);
+                                                                            setFieldValue("category", "7"+idx);
+                                                                        }}
+                                                                       
+                                                                        isPressed={states["other"]} 
+                                                                        val={"Other"}
+                                                        />
+                                                                    </div>
 
-                                                                    {category[2]
-                                                                    ? <span >
-                                                                        <FormControlLabel
-                                                                            value={'2'+category[2]}
-                                                                            control={<Radio row/>}                                                                        
-                                                                            label = {category[2].replace('_','/')}
-                                                                            onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state[category[2]] = true;  
-                                                                            }}
-                                                                        />
-                                                                    </span>
-                                                                    : ""  
-                                                                    }
-
-                                                                    {category[3]
-                                                                    ? <span >
-                                                                        <FormControlLabel
-                                                                            value={'3'+category[3]}
-                                                                            control={<Radio row/>}                                                                        
-                                                                            label = {category[3].replace('_','/')}
-                                                                            onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state[category[3]] = true;  
-                                                                            }}
-                                                                        />
-                                                                    </span>
-                                                                    : ""  
-                                                                    }
-                                                                    {category[4]
-                                                                    ? <span >
-                                                                        <FormControlLabel
-                                                                            value={'4'+category[4]}
-                                                                            control={<Radio row/>}
-                                                                            label = {category[4].replace('_','/')}
-                                                                            onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)                                                                            
-                                                                                state[category[4]] = true;  
-                                                                            }}
-                                                                        />
-                                                                    </span>
-                                                                    : ""  
-                                                                    }
-                                                                    {category[5]
-                                                                    ? <span >
-                                                                        <FormControlLabel
-                                                                            value={'5'+category[5]}
-                                                                            control={<Radio row/>}                                                                        
-                                                                            label = {category[5].replace('_','/')}
-                                                                            onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)                                                                            
-                                                                                state[category[5]] = true;  
-
-                                                                            }}
-                                                                        />
-                                                                    </span>
-                                                                    : ""  
-                                                                    }
-
-                                                                    {category[6]
-                                                                    ? <span >
-                                                                        <FormControlLabel
-                                                                            value={'6'+ category[6]}
-                                                                            control={<Radio row/>}                                                                        
-                                                                            label = {category[6].replace('_','/')}
-                                                                            onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)                                                                            
-                                                                                state[category[6]] = true;  
-                                                                            }}
-                                                                        />
-                                                                    </span>
-                                                                    : ""  
-                                                                    }
-                                                                    <span >
-                                                                    <Grid container spacing={10}>
-                                                                    <Grid item sm={2}>
-                                                                        <FormControlLabel
-                                                                            value="7other"
-                                                                            control={<Radio row/>}
-                                                                            label = "other"
-                                                                            onClick ={()=>{
-                                                                                Object.keys(state).forEach(ele => state[ele] = false)
-                                                                                state['other'] = true;
-                                                                                
-                                                                            }}
-                                                                        />
-                                                                    </Grid>
-
-                                                                        {state['other']
+                                                                    
+                                                                  
+                                                                    
+                                                                   
+                                                                        {states['other']
                                                                         ?
 
 
@@ -603,14 +538,12 @@ const ResourceFormDesktop = (props) => {
                                                                         </Grid>
                                                                         : ""
                                                                         }
-                                                                    </Grid>
-
-                                                                    </span>
-
-                                                                    </Field>
+                                                                          
+                                                                    
 
                                                                 </Grid>
                                                             </div>
+                                                            </Field>
                                                         </Grid>
                                                         </Grid>
 
@@ -625,48 +558,73 @@ const ResourceFormDesktop = (props) => {
                                                             <div className="buttons">
 
                                                                 <Grid item sm={11}>
-
-                                                                {/* 1st category's tags */}
-                                                                {state[category[0]]
+                                                                {/*1st category */}
+                                                                {states[category[0]]
                                                                     ? <span >
                                                                     {tags[category[0]][0]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"0tag" + tags[category[0]][0]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[0]][0] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-
+                                                                        <CustomRadioButton 
+                                                                                            idx={"00"}
+                                                                                            style={{marginTop: 5,
+                                                                                                marginBottom: 5,
+                                                                                                marginLeft: 10,
+                                                                                                fontSize: 'min(1.5vw, 9px)'
+                                                                                            }}
+                                                                                            onClick={(idx)=>{
+                                                                                                if (values[0 + "tag" + tags[category[0]][0]] === true)
+                                                                                                setFieldValue(0 + "tag" + tags[category[0]][0], false);
+                                                                                                else
+                                                                                                setFieldValue(0 + "tag" + tags[category[0]][0], true);
+                                                                                                
+                                                                                            }}
+                                                                                            isPressed={values[0 + "tag" + tags[category[0]][0]]}
+                                                                                            val={tags[category[0]][0]}
                                                                             />
+                                                                        
                                                                         : ""
                                                                         }
 
                                                                         {tags[category[0]][1]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"0tag" + tags[category[0]][1]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[0]][1] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
+                                                                        
+                                                                            <CustomRadioButton 
+                                                                                            idx={"01"}
+                                                                                            style={{marginTop: 5,
+                                                                                                marginBottom: 5,
+                                                                                                marginLeft: 10,
+                                                                                                fontSize: 'min(1.5vw, 9px)'
+                                                                                            }}
+                                                                                            onClick={(idx)=>{
+                                                                                                if (values[0 + "tag" + tags[category[0]][1]] === true)
+                                                                                                setFieldValue(0 + "tag" + tags[category[0]][1], false);
+                                                                                                else
+                                                                                                setFieldValue(0 + "tag" + tags[category[0]][1], true);
+                                                                                                
+                                                                                            }}
+                                                                                            isPressed={values[0 + "tag" + tags[category[0]][1]]}
+                                                                                            val={tags[category[0]][1]}
                                                                             />
-
                                                                         : ""
                                                                         }
                                                                         {tags[category[0]][2]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"0tag" + tags[category[0]][2]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[0]][2] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"02"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[0 + "tag" + tags[category[0]][2]] === true)
+                                                                            setFieldValue(0 + "tag" + tags[category[0]][2], false);
+                                                                            else
+                                                                            setFieldValue(0 + "tag" + tags[category[0]][2], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[0 + "tag" + tags[category[0]][2]]}
+                                                                        val={tags[category[0]][2]}
+                                                        />
 
                                                                         : ""
                                                                         }
@@ -674,45 +632,75 @@ const ResourceFormDesktop = (props) => {
                                                                     : <span></span>
                                                                     }
 
+                                                                
+
                                                                 {/* 2nd category's tags */}
-                                                                {state[category[1]]
+                                                                
+                                                                {states[category[1]]
                                                                     ?   <span >
                                                                         {tags[category[1]][0]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"1tag" + tags[category[1]][0]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[1]][0] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"10"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[1 + "tag" + tags[category[1]][0]] === true)
+                                                                            setFieldValue(1 + "tag" + tags[category[1]][0], false);
+                                                                            else
+                                                                            setFieldValue(1 + "tag" + tags[category[1]][0], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[1 + "tag" + tags[category[1]][0]]}
+                                                                        val={tags[category[1]][0]}
+                                                        />
                                                                         : ""
                                                                         }
 
                                                                         {tags[category[1]][1]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"1tag" + tags[category[1]][1]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[1]][1] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"11"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[1 + "tag" + tags[category[1]][1]] === true)
+                                                                            setFieldValue(1 + "tag" + tags[category[1]][1], false);
+                                                                            else
+                                                                            setFieldValue(1 + "tag" + tags[category[1]][1], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[1 + "tag" + tags[category[1]][1]]}
+                                                                        val={tags[category[1]][1]}
+                                                        />
 
                                                                         : ""
                                                                         }
                                                                         {tags[category[1]][2]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"1tag" + tags[category[1]][2]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[1]][2] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"12"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[1 + "tag" + tags[category[1]][2]] === true)
+                                                                            setFieldValue(1 + "tag" + tags[category[1]][2], false);
+                                                                            else
+                                                                            setFieldValue(1 + "tag" + tags[category[1]][2], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[1 + "tag" + tags[category[1]][2]]}
+                                                                        val={tags[category[1]][2]}
+                                                        />
 
                                                                         : ""
                                                                         }
@@ -721,89 +709,148 @@ const ResourceFormDesktop = (props) => {
                                                                     }
 
                                                                 {/* 3rd category's tags */}
-                                                                {state[category[2]]
+                                                            
+                                                                {states[category[2]]
                                                                     ?   <span >
                                                                         {tags[category[2]][0]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"2tag" + tags[category[2]][0]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[2]][0] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                       
+                                                                            <CustomRadioButton 
+                                                                        idx={"20"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[2 + "tag" + tags[category[2]][0]] === true)
+                                                                            setFieldValue(2 + "tag" + tags[category[2]][0], false);
+                                                                            else
+                                                                            setFieldValue(2 + "tag" + tags[category[2]][0], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[2 + "tag" + tags[category[2]][0]]}
+                                                                        val={tags[category[2]][0]}
+                                                        />
                                                                         : ""
                                                                         }
-
+                                                                             
                                                                         {tags[category[2]][1]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"2tag"+tags[category[2]][1]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[2]][1] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
-
+                                                                        
+                                                                        
+                                                                            <CustomRadioButton 
+                                                                        idx={"21"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[2 + "tag" + tags[category[2]][1]] === true)
+                                                                            setFieldValue(2 + "tag" + tags[category[2]][1], false);
+                                                                            else
+                                                                            setFieldValue(2 + "tag" + tags[category[2]][1], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[2 + "tag" + tags[category[2]][1]]}
+                                                                        val={tags[category[2]][1]}
+                                                                    />   
                                                                         : ""
                                                                         }
                                                                         {tags[category[2]][2]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel }
-                                                                                name={"2tag" + tags[category[2]][2]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[2]][2] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"22"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[2 + "tag" + tags[category[2]][2]] === true)
+                                                                            setFieldValue(2 + "tag" + tags[category[2]][2], false);
+                                                                            else
+                                                                            setFieldValue(2 + "tag" + tags[category[2]][2], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[2 + "tag" + tags[category[2]][2]]}
+                                                                        val={tags[category[2]][2]}
+                                                                    />   
 
                                                                         : ""
                                                                         }
                                                                     </span>
                                                                     : <span></span>
-                                                                    }
+                                                                    }   
                                                                 {/* 4th category's tags */}
-                                                                {state[category[3]]
+                                                                
+                                                                {states[category[3]]
                                                                     ?   <span >
                                                                         {tags[category[3]][0]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"3tag" + tags[category[3]][0]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[3]][0] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"30"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[3 + "tag" + tags[category[3]][0]] === true)
+                                                                            setFieldValue(3 + "tag" + tags[category[3]][0], false);
+                                                                            else
+                                                                            setFieldValue(3 + "tag" + tags[category[3]][0], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[3 + "tag" + tags[category[3]][0]]}
+                                                                        val={tags[category[3]][0]}
+                                                                    />   
                                                                         : ""
                                                                         }
 
                                                                         {tags[category[3]][1]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"3tag" + tags[category[3]][1]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[3]][1] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"31"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[3 + "tag" + tags[category[3]][1]] === true)
+                                                                            setFieldValue(3 + "tag" + tags[category[3]][1], false);
+                                                                            else
+                                                                            setFieldValue(3 + "tag" + tags[category[3]][1], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[3 + "tag" + tags[category[3]][1]]}
+                                                                        val={tags[category[3]][1]}
+                                                                    />   
 
                                                                         : ""
                                                                         }
                                                                         {tags[category[3]][2]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"3tag" + tags[category[3]][2]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[3]][2] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"32"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[3 + "tag" + tags[category[3]][2]] === true)
+                                                                            setFieldValue(3 + "tag" + tags[category[3]][2], false);
+                                                                            else
+                                                                            setFieldValue(3 + "tag" + tags[category[3]][2], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[3 + "tag" + tags[category[3]][2]]}
+                                                                        val={tags[category[3]][2]}
+                                                                    />   
+
 
                                                                         : ""
                                                                         }
@@ -811,44 +858,73 @@ const ResourceFormDesktop = (props) => {
                                                                     : ""
                                                                     }
                                                                 {/* 5th category's tags */}
-                                                                {state[category[4]]
+                                                                
+                                                                {states[category[4]]
                                                                     ?   <span >
                                                                         {tags[category[4]][0]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"4tag" + tags[category[4]][0]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[4]][0] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"40"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[4 + "tag" + tags[category[4]][0]] === true)
+                                                                            setFieldValue(4 + "tag" + tags[category[4]][0], false);
+                                                                            else
+                                                                            setFieldValue(4 + "tag" + tags[category[4]][0], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[4 + "tag" + tags[category[4]][0]]}
+                                                                        val={tags[category[4]][0]}
+                                                                    />   
+
                                                                         : ""
                                                                         }
 
                                                                         {tags[category[4]][1]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"4tag" + tags[category[4]][1]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[4]][1] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"41"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[4 + "tag" + tags[category[4]][1]] === true)
+                                                                            setFieldValue(4 + "tag" + tags[category[4]][1], false);
+                                                                            else
+                                                                            setFieldValue(4 + "tag" + tags[category[4]][1], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[4 + "tag" + tags[category[4]][1]]}
+                                                                        val={tags[category[4]][1]}
+                                                                    />   
 
                                                                         : ""
                                                                         }
                                                                         {tags[category[4]][2]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"4tag" + tags[category[4]][2]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[4]][2] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"42"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[4 + "tag" + tags[category[4]][2]] === true)
+                                                                            setFieldValue(4 + "tag" + tags[category[4]][2], false);
+                                                                            else
+                                                                            setFieldValue(4 + "tag" + tags[category[4]][2], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[4 + "tag" + tags[category[4]][2]]}
+                                                                        val={tags[category[4]][2]}
+                                                                    />   
 
                                                                         : ""
                                                                         }
@@ -856,44 +932,71 @@ const ResourceFormDesktop = (props) => {
                                                                     : ""
                                                                 }
                                                                 {/* 6th category's tags */}
-                                                                {state[category[5]]
+                                                                
+                                                                {states[category[5]]
                                                                     ?   <span >
                                                                         {tags[category[5]][0]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"5tag" + tags[category[5]][0]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[5]][0] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"50"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[5 + "tag" + tags[category[5]][0]] === true)
+                                                                            setFieldValue(5 + "tag" + tags[category[5]][0], false);
+                                                                            else
+                                                                            setFieldValue(5 + "tag" + tags[category[5]][0], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[5 + "tag" + tags[category[5]][0]]}
+                                                                        val={tags[category[5]][0]}
+                                                                    />   
                                                                         : ""
                                                                         }
 
                                                                         {tags[category[5]][1]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"5tag"+tags[category[5]][1]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[5]][1] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
-
+                                                                        <CustomRadioButton 
+                                                                        idx={"51"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[5 + "tag" + tags[category[5]][1]] === true)
+                                                                            setFieldValue(5 + "tag" + tags[category[5]][1], false);
+                                                                            else
+                                                                            setFieldValue(5 + "tag" + tags[category[5]][1], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[5 + "tag" + tags[category[5]][1]]}
+                                                                        val={tags[category[5]][1]}
+                                                                    />   
                                                                         : ""
                                                                         }
                                                                         {tags[category[5]][2]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"5tag"+tags[category[5]][2]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[5]][2] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"52"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[5 + "tag" + tags[category[5]][2]] === true)
+                                                                            setFieldValue(5 + "tag" + tags[category[5]][2], false);
+                                                                            else
+                                                                            setFieldValue(5 + "tag" + tags[category[5]][2], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[5 + "tag" + tags[category[5]][2]]}
+                                                                        val={tags[category[5]][2]}
+                                                                    />   
 
                                                                         : ""
                                                                         }
@@ -901,51 +1004,79 @@ const ResourceFormDesktop = (props) => {
                                                                     : ""
                                                                     }
                                                                 {/* 7th category's tags */}
-                                                                {state[category[6]]
+                                                                
+                                                                {states[category[6]]
                                                                     ?   <span >
                                                                         {tags[category[6]][0]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"6tag" + tags[category[6]][0]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[6]][0] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"60"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[6 + "tag" + tags[category[6]][0]] === true)
+                                                                            setFieldValue(6 + "tag" + tags[category[6]][0], false);
+                                                                            else
+                                                                            setFieldValue(6 + "tag" + tags[category[6]][0], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[6 + "tag" + tags[category[6]][0]]}
+                                                                        val={tags[category[6]][0]}
+                                                                    />   
                                                                         : ""
                                                                         }
 
                                                                         {tags[category[6]][1]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"6tag" + tags[category[6]][1]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[6]][1] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"61"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[6 + "tag" + tags[category[6]][1]] === true)
+                                                                            setFieldValue(6 + "tag" + tags[category[6]][1], false);
+                                                                            else
+                                                                            setFieldValue(6 + "tag" + tags[category[6]][1], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[6 + "tag" + tags[category[6]][1]]}
+                                                                        val={tags[category[6]][1]}
+                                                                    />   
 
                                                                         : ""
                                                                         }
                                                                         {tags[category[6]][2]
                                                                         ?
-                                                                        <Field
-                                                                                component={CheckboxWithLabel}
-                                                                                name={"6tag" + tags[category[6]][2]}
-                                                                                checked = {false}
-                                                                                Label={{ label: tags[category[6]][2] }}
-                                                                                type="checkbox"
-                                                                                indeterminate={false}
-                                                                            />
+                                                                        <CustomRadioButton 
+                                                                        idx={"62"}
+                                                                        style={{marginTop: 5,
+                                                                            marginBottom: 5,
+                                                                            marginLeft: 10,
+                                                                            fontSize: 'min(1.5vw, 9px)'
+                                                                        }}
+                                                                        onClick={(idx)=>{
+                                                                            if (values[6 + "tag" + tags[category[6]][2]] === true)
+                                                                            setFieldValue(6 + "tag" + tags[category[6]][2], false);
+                                                                            else
+                                                                            setFieldValue(6 + "tag" + tags[category[6]][2], true);
+                                                                            
+                                                                        }}
+                                                                        isPressed={values[6 + "tag" + tags[category[6]][2]]}
+                                                                        val={tags[category[6]][2]}
+                                                                    />   
 
                                                                         : ""
                                                                         }
                                                                     </span>
                                                                     : ""
                                                                     }
-                                                                {state['other']
+                                                                {states['other']
                                                                     ? <span >
                                                                         <Grid container spacing={4} >
 
@@ -974,7 +1105,7 @@ const ResourceFormDesktop = (props) => {
                                                                     </span>
                                                                     : ""
                                                                     }
-
+                                                            
                                                                 </Grid>
                                                             </div>
                                                         </Grid>
@@ -1008,10 +1139,10 @@ const ResourceFormDesktop = (props) => {
                                                         </Button>
                                                     </Grid>
                                                 </Grid>
-                                            </Form>
-                                        )
-                                    }}
-                                </Formik>
+                                            </Form>)
+                                        
+                                     }} 
+                                </Formik> 
                             </Grid>
                         </Grid>
                         <div style={{ marginBottom: "50px" }} />
