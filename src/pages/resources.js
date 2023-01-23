@@ -1,28 +1,51 @@
 import React from "react"
-import Template from "../components/all/Template";
-import AddIcon from "@material-ui/icons/Add";
-import Button from "../components/material-kit-components/CustomButtons/Button.js";
-import {MetaData, ResourcesList, CustomButton, Title} from "../components";
+import TemplateResources from "../components/all/TemplateResources";
+import {Title} from "../components";
+import ResourcesList from "../components/resources/resourcesList/ResourcesList";
+import ResourcesFeatured from "../components/resources/featured/ResourcesFeatured";
+import { graphql } from "gatsby";
 
-const useStyles = () => ({
-    addNewButton:{
-        boxShadow:"none",
-        fontSize: 15,
-        marginLeft:'auto',
-        marginRight:'auto'
-    }
-});
-
-export default function Resources() {
-    const classes = useStyles();
+export default function Resources({data}) {
     return (
-        <Template active={'resources'} title={'Resources'}>
-          <Title color={'blue'}>Resources</Title>
-            <div style={{textAlign:'center'}}>
-              <CustomButton text={"ADD NEW RESOURCES"} href={"https://forms.gle/WWjyroMcnMsyp7Lv9"}
-                            color={"orange"} size={"large"} style={{marginTop: 10, marginBottom: 25}}/>
+        <TemplateResources active={'resources'} title={'Resources'}>
+            <ResourcesFeatured />
+            <div style={{paddingLeft: '3%', paddingRight: '3%'}}>
+                <ResourcesList data={data}/>
             </div>
-            <ResourcesList />
-        </Template>
+        </TemplateResources>
     );
 }
+
+export const query = graphql`
+    {
+      allCategory {
+        edges {
+          node {
+            resource_list
+            tag_list
+            id
+            childrenResource {
+              title
+              category {
+                  category
+                  tags
+              }
+              descriptions {
+                description
+                thisResourceOffers
+                wantSupportWith
+              }
+              links {
+                cardLink
+                website
+              }
+              img
+              ranking
+              dateCreated
+              reviewed
+            }
+          }
+        }
+      }
+    }
+    `

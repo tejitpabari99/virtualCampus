@@ -1,100 +1,106 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React, { useCallback } from "react";
 import { CircularProgress } from '@material-ui/core';
-
+import "./test.css";
+//form settings
+import * as Yup from "yup";
 //inputs
-import FormikField from "../FormikField/FormikField";
-import CustomCheckBox from "../FormikField/CustomCheckBox"
-import { CheckboxWithLabel, SimpleFileUpload } from "formik-material-ui";
-import { Select } from "material-ui-formik-components/Select";
+import { Formik, Form, Field } from "formik"
+import FormTitle from "../form-components/FormTitle"
+import RequiredFields from "../form-components/RequiredFields"
+import AdvancedFields from "../form-components/AdvancedFields"
+import SubmitButton from '../form-components/SubmitButton'
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 
 //Date and time input
-import { DateTimePicker } from "formik-material-ui-pickers";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
-
+// utils
 import Button from "@material-ui/core/Button";
-import FileUploadBtn from "../FormikField/FileUploadBtn"
-
 import Grid from '@material-ui/core/Grid';
-// import GridContainer from "../material-kit-components/Grid/GridContainer";
-// import GridItem from "../material-kit-components/Grid/GridItem";
-
-
-import classNames from "classnames";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-// import styles from "../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { MetaData, CustomHeader, CustomButton, Title, Subtitle, Template } from "../";
+import {
+  CustomHeader,
+  Template,
+  getOffset,
+  convertDateToUTC,
+  convertTimestampToDate, convertUTCToLocal
+} from "..";
+import EventCardDesktop from '../cards/eventCardsFeaturedAndCards/EventCardDesktop'
 import Container from "@material-ui/core/Container";
+// backend
 import * as firebase from "firebase";
 import Axios from "axios";
 import TZ from "countries-and-timezones";
-import * as Events from "../../pages/events";
+import { CheckboxWithLabel } from "formik-material-ui";
+import CustomFooter from "../all/CustomFooter";
 
 // set an init value first so the input is "controlled" by default
 const initVal = {
   name: "",
   email: "",
-  event: "",
-  desc: "",
+  title: "",
+  // desc: "",
   other_tags: "",
   image_file: "",
   image_link: "",
   start_date: "",
   end_date: "",
   timezone: "",
+  attendants: 10,
   recurring: "",
-  event_link: "",
+  entry_link: "",
   invite_link: "",
+  link_type: "",
   comments: "",
   tag: "",
-  games_tag: "",
   activism_tag: "",
   covid_tag: "",
-  social_tag: "",
-  fitness_tag: "",
   education_tag: "",
+  freshman_tag: "",
+  social_tag: "",
   agree: ""
 
 };
-
-let getCurrentLocationForTimeZone = function () {
-  return Intl.DateTimeFormat().resolvedOptions().timeZone;
-}
 
 // here you can add make custom requirements for specific input fields
 // you can add multiple rules as seen with the "name" scheme
 // you can also add custom feedback messages in the parameters of each error function
 const validationSchema = Yup.object().shape({
   name: Yup.string()
-    .min(5, "Too Short")
-    .required("Required"),
+      .min(5, "Too Short")
+      .required("Required"),
   email: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Required"),
-  event_link: Yup.string()
-    .url("Please enter a valid URL")
-    .required("Required"),
-  event: Yup.string()
-    .required("Required"),
-  desc: Yup.string()
-    .required("Required")
-    .max("250", "Please less than 250 characters"),
+      .email("Please enter a valid email address")
+      .required("Required"),
+  title: Yup.string()
+      .required("Required"),
+  // desc: Yup.string()
+  //   .required("Required")
+  //   .max("600", "Please less than 600 characters"),
   start_date: Yup.string()
-    .required("Required"),
+      .required("Required"),
   end_date: Yup.string()
-    .required("Required"),
+      .required("Required"),
   timezone: Yup.string()
-    .required("Required"),
+      .required("Required"),
+  attendants: Yup.number()
+      // .required("Required")
+      .integer("Please enter an integer"),
   agree: Yup.boolean("True")
-    .required(),
+      .required(),
   image_link: Yup.string()
-    .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
+      .trim().matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/, 'Enter valid image url (Ends with .jpg, .png)'),
   invite_link: Yup.string()
-    .url("Please enter a valid URL")
+      // .required()
+      .url("Please enter a valid URL"),
+  // link_type: Yup.string()
 });
+
+let getCurrentLocationForTimeZone = function () {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
 
 const TITLE = "ADD EVENT";
 const defaultTimezone = "America/New_York";
@@ -103,16 +109,28 @@ const defaultTimezone = "America/New_York";
 function formatEmailText(jsonText) {
   var newText = "";
   Object.keys(jsonText).map((key, index) => (
-    newText = newText + "\n<br>" + getText(key, jsonText[key])
+      newText = newText + "\n<br>" + getText(key, jsonText[key])
   ));
   return newText;
 }
 
 function getText(key, val) {
   key = key.replace("_", " ");
-  if (val !== undefined && val !== "")
-    return key + ": " + val;
-  return key + ": not provided";
+  key =  key.split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');
+
+  if (val !== undefined && val !== "") {
+    if (key === "Start Date" || key === "End Date")
+      val = val.split(' ').slice(0,5).join(' ')
+    if (key === "Timezone") 
+      val = val.split('$')[0]
+    if (key === "Desc") 
+      key = "Description"
+
+    key = "<strong>" + key + ":</strong>"
+    return key + " " + val;
+  }
+  key = "<strong>" + key + ":</strong>"
+  return key + " not provided";
 }
 
 function processATag(values, key, defKey) {
@@ -136,17 +154,24 @@ function cleanTag(values, key) {
 function processTags(values) {
 
   const defKey = "other_tags";
+  if (defKey in values === false)
+    return values;
+
+  // Because we want commas and semicolons to be separated upon, let's make them equivalent:
+  console.log(values[defKey])
+  values[defKey] = values[defKey].split(",").join(";")
+  console.log("after: " + values[defKey])
 
   if (values[defKey].endsWith(";") === false && values[defKey] !== "") {
     values[defKey] = values[defKey] + ";";
   }
 
   Object.keys(values).map((key, index) => (
-    values[defKey] = processATag(values, key, defKey),
-    values = cleanTag(values, key)
+      values[defKey] = processATag(values, key, defKey),
+          values = cleanTag(values, key)
   ));
-  values[defKey] = values[defKey].replace("; ;", ";");
-  values[defKey] = values[defKey].replace(";;", ";");
+  values[defKey] = values[defKey].split("; ;").join(";");
+  values[defKey] = values[defKey].split(";;").join(";");
   if (values[defKey].endsWith(";")) {
     values[defKey] = values[defKey].substring(0, values[defKey].length - 1);
   }
@@ -167,12 +192,12 @@ function sendZoomEmail(id, name, from) {
   };
 
   Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-    .then(res => {
-      console.log("Success");
-    })
-    .catch(error => {
-      console.log("error");
-    });
+      .then(res => {
+        console.log("Success");
+      })
+      .catch(error => {
+        console.log("error");
+      });
 }
 
 let dst = function (loc = getCurrentLocationForTimeZone()) {
@@ -197,10 +222,10 @@ let dst = function (loc = getCurrentLocationForTimeZone()) {
         break;
     }
     if (today.getTime() >= DSTDateStart.getTime() && today.getTime() < DSTDateEnd.getTime()) {
-      console.log("true");
+      // console.log("true");
       return true;
     }
-    console.log("false");
+    // console.log("false");
     return false;
   }
 
@@ -209,7 +234,8 @@ let dst = function (loc = getCurrentLocationForTimeZone()) {
     return false;
   }
   const date = new Date();
-  return date.getTimezoneOffset() < Events.stdTimezoneOffset();
+  return date.getTimezoneOffset()
+  // < Events.stdTimezoneOffset();
 }
 
 let getTimezoneName = function (loc = getCurrentLocationForTimeZone(), dstN = null) {
@@ -282,32 +308,85 @@ function getTimezoneOptions() {
     return [
       {
         value: getCurrentLocationForTimeZone()
-          + "$" + dst(),
+            + "$" + dst(),
         label: "Mine: "
-          + getTimezoneName()
+            + getTimezoneName()
       },
       {
         value: defaultTimezone
-          + "$" + dst(defaultTimezone),
+            + "$" + dst(defaultTimezone),
         label: "Default: "
-          + getTimezoneName(defaultTimezone
-            , dst(defaultTimezone))
+            + getTimezoneName(defaultTimezone
+                , dst(defaultTimezone))
       }
     ];
   } else {
     return [
       {
         value: defaultTimezone
-          + "$" + dst(defaultTimezone),
+            + "$" + dst(defaultTimezone),
         label: "Mine: "
-          + getTimezoneName(defaultTimezone
-            , dst(defaultTimezone))
+            + getTimezoneName(defaultTimezone
+                , dst(defaultTimezone))
       }
     ];
   }
 }
 
 const optionsTZ = getTimezoneOptions();
+
+let imgurLinkOutside = ""
+const default_img = "https://i.imgur.com/GP66BiO.png"
+let exampleEvent = {
+  agree: true,
+  approved: false,
+  comments: "",
+  desc: "CVC Example Description",
+  email: "columbiavirtualcampus@gmail.com",
+  end_date: "Sun Jul 05 2020 23:59:00 GMT-0400 (Eastern Daylight Time)",
+  entry_link: "",
+  event: "CVC Example",
+  event_link: "http://columbiavirtualcampus.com",
+  image_file: "",
+  image_link: default_img,
+  invite_link: "",
+  name: "Columbia Virtual Campus",
+  recurring: "",
+  start_date: "Sat Jul 04 2020 23:59:00 GMT-0400 (Eastern Daylight Time)",
+  tags: [],
+  timezone: "America/New_York$true",
+  title: "CVC Example"
+}
+
+
+function convertEventsTime(event) {
+  const tzString = event.timezone;
+
+  event.start_date = event.start_date.split("GMT")[0];
+  event.end_date = event.end_date.split("GMT")[0];
+
+  if (event.timezone !== undefined && event.timezone.includes("$")) {
+    // $ splits time and timezone in the event.timezone field in firebase!
+    const tz = tzString.split("$")[0];
+    const daylightSavings = tzString.split("$")[1] === "true" ? true : false;
+    const offset = getOffset(tz, daylightSavings);
+
+    // First convert the event's time to UTC, assuming the event is in EST time (America/New_York)
+    // America/New_York should be changed to the user's time zone who created the event, if they
+    // Choose to use their time zone rather than EST.
+    const UTCStart = convertDateToUTC(convertTimestampToDate(event.start_date), offset);
+    const UTCEnd = convertDateToUTC(convertTimestampToDate(event.end_date), offset);
+
+    // Second, convert those consts above to user's local time
+    event.start_date = convertUTCToLocal(UTCStart);
+    event.end_date = convertUTCToLocal(UTCEnd);
+    // get timezone to display
+    event.timeZoneGMT = getTimezoneName(getCurrentLocationForTimeZone(), dst());
+  }
+  return event;
+}
+
+let convertedExampleEvent = convertEventsTime(exampleEvent)
 
 class EventFormDesktop extends React.Component {
 
@@ -318,34 +397,60 @@ class EventFormDesktop extends React.Component {
       feedbackSubmit: false,
       errStatus: 0,
       activityIndicatory: false,
+      imgFileValue: "",
+      imgurLink: "",
+      sampleEvent: convertedExampleEvent
     };
 
     this.submitHandler = this.submitHandler.bind(this);
     this.uploadData = this.uploadData.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
+    this.updateEvent = this.updateEvent.bind(this);
+
+  }
+
+  getMonthName() {
+    var d = new Date();
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    return month[d.getMonth()];
   }
 
   submitHandler(values) {
-    if (values["file"] !== "" && values["file"] !== undefined) {
-      this.uploadImage(values);
-    } else {
-      this.setState({ activityIndicatory: true });
-      const b = this.uploadData(values);
+    if (this.state.imgurLink !== "") {
+      values['image_link'] = this.state.imgurLink
     }
+    console.log(values)
+    this.setState({ activityIndicatory: true });
+    const b = this.uploadData(values);
   }
-
 
   // upload to firebase here
   uploadData(data) {
-
+    const db = firebase.firestore();
+    const newEventRef = db.collection("events").doc();
     data["approved"] = false;
     data["start_date"] = data["start_date"].toString();
     data["end_date"] = data["end_date"].toString();
     const from = data["email"];
-    const subject = "NEW EVENT: " + data["event"];
-    const clientSubject = "Your CVC Event Details: " + data["event"];
+    const subject = "NEW EVENT: " + data["title"];
+    const clientSubject = "Your CVC Event Details: " + data["title"];
     data = processTags(data);
     const text = formatEmailText(data);
+    if (data['title'] !== undefined)
+      data['event'] = data['title']
     const approvalUrl = "https://us-central1-columbia-virtual-campus.cloudfunctions.net/approveEvent?eventId=";
     const zoomUrl = "https://zoom.us/oauth/authorize?response_type=code&client_id=OApwkWCTsaV3C4afMpHhQ&redirect_uri=https%3A%2F%2Fcolumbiavirtualcampus.com%2Fevents%2Fhandle-approve&state="
     const clientEmailData = {
@@ -362,48 +467,49 @@ class EventFormDesktop extends React.Component {
     };
 
 
-    const db = firebase.firestore();
-    const newEventRef = db.collection("events").doc();
-    clientEmailData["text"] = "Your New Event Request!\n<br>Here's what we are currently processing:\n <br>" +
-      emailData["text"] + "\n<br>NOTE: The correct timezone is in the \'timezone\': field!\n<br><br>"
-      + "Please contact us if any of the above needs corrected or if you have any questions!"
-      + "\n<br>\n<br>Best,\n<br>The CVC Team";
-    emailData["text"] = "New Event Request!\n <br>" +
-      emailData["text"].concat("\n<br> NOTE: The correct timezone is in the 'timezone': field!"
-        + "<br><br>Click here to approve this event: ",
-        approvalUrl.concat(newEventRef.id))
-        + "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: "
-          + zoomUrl.concat(newEventRef.id) ;
+    clientEmailData["text"] = "<html><div style='font-family: Arial, Helvetica, sans-serif;'><div style='font-size: 22px;color:orchid;font-weight: bold;'>" + 
+      "Your New Event Request! <img src='https://images.emojiterra.com/mozilla/512px/1f389.png' width='30' height='30'>\n</div><br>" + 
+      "<div style='font-size: 18px;color:darkorchid;font-weight: bold;'>Thank you so much for filling out the form! Here's your confirmation details:\n </div><br>" +
+      "<div style='font-size: 15px;margin-left:20px;'>" + emailData["text"] + "</div><br><br><br>"
+      + "<div style='font-size: 18px;color:darkorchid;font-weight: bold;'>Please contact us if any of the above needs corrected or if you have any questions! " +
+      "\n<br>Note that it will take a little bit of time before it is displayed on our website.</div>"
+      + "\n<br>\n<br><div style='font-size: 18px;color:darkorchid;font-weight: bold;'>Best,\n<br>The CVC Team <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emoji_Grinning_Face_Smiling_Eyes.svg/1024px-Emoji_Grinning_Face_Smiling_Eyes.svg.png' width='20' height='20'></div></html>";
+    emailData["text"] = "<html><div style='font-family: Arial, Helvetica, sans-serif;'><div style='font-size: 22px;color:#FF9933;font-weight: bold;'>New Event Request! <img src='https://images.emojiterra.com/mozilla/512px/1f389.png' width='30' height='30'>\n </div><br>" +
+      emailData["text"].concat("\n<br> <div style='font-size: 18px;color:#CC6600;font-weight: bold;'>"
+        + "<br><br>Click here to approve this event: <br>",
+        approvalUrl.concat(newEventRef.id), "</div></div></html>");
+    
     if (data["zoomLink"]) {
-      emailData["text"].concat("\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: ",
-          zoomUrl.concat(newEventRef.id));
+      console.log("Zoom link: " + data["zoomLink"])
+      emailData["text"] += "\n<br> USER REQUESTED ZOOM LINK, click here to create zoom meeting: " +
+          zoomUrl.concat(newEventRef.id);
     }
     emailData["subject"] += ". ID: " + newEventRef.id;
     newEventRef.set(data)
-      .then(ref => {
+        .then(ref => {
 
-        Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
-          .then(res => {
-            console.log("Success 1");
-            Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
+          Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", emailData)
               .then(res => {
-                console.log("Success 2");
-                this.setState({ feedbackSubmit: true, activityIndicatory: false });
+                console.log("Success 1");
+                Axios.post("https://us-central1-columbia-virtual-campus.cloudfunctions.net/sendEmail", clientEmailData)
+                    .then(res => {
+                      console.log("Success 2");
+                      this.setState({ feedbackSubmit: true, activityIndicatory: false });
+                    })
+                    .catch(error => {
+                      this.setState({ errStatus: 3 });
+                      console.log("Updated error");
+                    });
               })
               .catch(error => {
-                this.setState({ errStatus: 3 });
+                this.setState({ errStatus: 1 });
                 console.log("Updated error");
               });
-          })
-          .catch(error => {
-            this.setState({ errStatus: 1 });
-            console.log("Updated error");
-          });
-      })
-      .catch(function (error) {
-        console.error("Error adding document: ", error);
-        alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
-      });
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+          alert("Failed to properly request your event. Please try adding the event again. If the problem persists please contact us!");
+        });
 
     if (data["zoomLink"]) {
       //sendZoomEmail(newEventRef.id, data["event"], from);
@@ -412,34 +518,41 @@ class EventFormDesktop extends React.Component {
     return emailData["text"];
   }
 
-  uploadImage(values) {
+  imgFileUploadHandler = (fileList) => {
+    // console.log("congrats, you clicked me.")
+    const fileName = fileList[0].name
+    const file = fileList[0]
 
+    this.uploadImage(file)
+    this.setState({
+      imgFileValue: fileName
+    })
+  }
+
+  uploadImage = (file) => {
+    let imgur = ""
     const r = new XMLHttpRequest();
     const d = new FormData();
-    // const e = document.getElementsByClassName('input-image')[0].files[0]
-    // var u
     const clientID = "df36f9db0218771";
 
-    d.append("image", values["file"]);
+    d.append("image", file);
 
     // Boilerplate for POST request to Imgur
     r.open("POST", "https://api.imgur.com/3/image/");
     r.setRequestHeader("Authorization", `Client-ID ${clientID}`);
-    r.onreadystatechange = function () {
+    r.onreadystatechange = () => {
       if (r.status === 200 && r.readyState === 4) {
         let res = JSON.parse(r.responseText);
         // this is the link to the uploaded image
-        let imgur = `https://i.imgur.com/${res.data.id}.png`;
+        imgur = `https://i.imgur.com/${res.data.id}.png`;
 
-        values["file"] = imgur;
-        this.uploadData(values);
+        this.setState({ imgurLink: imgur })
 
+        this.updateEvent(undefined)
       }
     };
     // send POST request to Imgur API
     r.send(d);
-
-    return true;
   }
 
   getHeadMessage() {
@@ -459,393 +572,256 @@ class EventFormDesktop extends React.Component {
 
     if (this.state.errStatus === 4) {
       return "We were unable to process your request due to an unexpected error. " +
-        "Please try again. If the problem persists please reach out to us:";
+          "Please try again. If the problem persists please reach out to us:";
     } else if (this.state.errStatus === 3 || this.state.errStatus === 1) {
       return "Please contact us about approving your event! We were unable to automatically email our team."
-        + " Please reach out to us at:";
+          + " Please reach out to us at:";
     } else if (this.state.errStatus === 2) {
       return "We were unable to process your request. Please try again. " +
-        "If the problem persists please reach out to us:";
+          "If the problem persists please reach out to us:";
     } else {
       return "We look forward to hosting your event on CVC! " +
-        "If there is anything that needs to be updated, please reach out to us.";
+          "If there is anything that needs to be updated, please reach out to us.";
     }
   }
 
-  handleImageUpload(){
+  getFileName() {
+    if (this.state.imgFileValue !== "") {
+      return this.state.imgFileValue;
+    }
+    return ""
+  }
+
+  handleImageUpload() {
     console.log(this.inputElement);
-    this.inputElement.props.label="Image Uploaded";
+    this.inputElement.props.label = "Image Uploaded";
     this.inputElement.touch = true;
+  }
+
+  updateEvent(data) {
+
+    console.log("Sensed update")
+
+    // First, update image
+    if (this.state.imgurLink !== "")
+      convertedExampleEvent['image_link'] = this.state.imgurLink === "" ? default_img : this.state.imgurLink
+
+    // Data will be undefined if the user pastes an url for the image.
+    // We still want to update the state so it will render image
+
+
+    if (data !== undefined) {
+      const name = data.target.name
+      const value = data.target.value
+      if (name === "image_link") {
+        if (value === "") {
+          this.setState({ imgurLink: default_img, imgFileValue: "" })
+          convertedExampleEvent['image_link'] = default_img
+        } else {
+          this.setState({ imgurLink: value, imgFileValue: "" })
+          convertedExampleEvent['image_link'] = value
+        }
+      }
+      if (name.substr(-3) === "tag") {
+        // Process button tags
+        this.pushToTags(convertedExampleEvent, value, true);
+
+      } else if (name.substr(-10) === "other_tags") {
+        // Process typed tags
+        convertedExampleEvent[name] = value
+        const prev_tags = convertedExampleEvent['tags']
+        convertedExampleEvent = processTags(convertedExampleEvent)
+        prev_tags.map((object, i) => {
+          if (object.substr(-4) === "_tag")
+            this.pushToTags(convertedExampleEvent, object);
+        })
+
+      } else {
+        // Just simply update the dictionary if other values
+        convertedExampleEvent[name] = value
+      }
+
+      // Just to make sure we have an event and title, they are equivalent
+      convertedExampleEvent['event'] = convertedExampleEvent['title']
+    }
+
+    this.setState({ sampleEvent: convertedExampleEvent })
+  }
+
+  pushToTags(event, tag, remove = false) {
+    if (event['tags'].includes(tag) === false) {
+      event['tags'].push(tag)
+    } else if (remove) {
+      // Remove if toggle button turned off
+      event['tags'] = event['tags'].filter(x => x !== tag)
+    }
+  }
+
+  getSampleEvent() {
+    return this.state.sampleEvent
   }
 
 
   render() {
+    const date = new Date();
     if (this.state.activityIndicatory) {
       return (
-        <div style={{ backgroundColor: "white" }}>
           <div style={{ backgroundColor: "white" }}>
-            <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"} />
-            <div style={{ marginTop: '25%', marginLeft: '50%' }}>
-              <CircularProgress />
+            <div style={{ backgroundColor: "white" }}>
+              <CustomHeader active={"schedule"} brand={"VIRTUAL CAMPUS"} />
+              <div style={{ marginTop: '25%', marginLeft: '50%' }}>
+                <CircularProgress />
+              </div>
             </div>
           </div>
-        </div>
       )
     }
     else if (this.state.feedbackSubmit) {
       return (
-        <Template title={'Add New Event'} active={"schedule"}>
-          <div style={{
-            fontFamily: "Poppins",
-            fontStyle: "normal",
-            fontWeight: "normal",
-            fontSize: "1.5rem",
-            lineHeight: "30px",
-            color: "#0072CE",
-            margin: "10px",
-            textAlign: "center",
-            paddingTop: "16%"
-          }}>
-            <div style={{ fontSize: "2.5rem" }}> {this.getHeadMessage()} </div>
-            <br />
-            <br />
-            <div style={{
-              color: "black",
-              paddingLeft: "20%", paddingRight: "20%"
-            }}> {this.getBodyMessage()}</div>
-            <br />
-            <br />
-            <div style={{ color: "black", fontSize: "1rem" }}>
-              Questions? Contact us at
-              <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
-                href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com.</a>
-            </div>
-            <br />
-            <br />
-            <Button
-              style={{
-                background: "white",
-                border: "1px solid #FB750D",
-                borderRadius: "10px",
-                boxSizing: "border-box",
-                color: "#FB750D",
-                boxShadow: "none",
-                paddingLeft: "10px",
-                paddingRight: "10px"
-              }}
-              href={"/events/add-new-event"}>
-              Add Another Event
-            </Button>
-          </div>
-        </Template>);
+          <div style={{background: "white"}}>
+            <Template title={'Add New Event'} active={"schedule"}>
+              <div style={{
+                fontFamily: "Poppins",
+                fontStyle: "normal",
+                fontWeight: "normal",
+                fontSize: "1.5rem",
+                lineHeight: "30px",
+                color: "#0072CE",
+                margin: "10px",
+                textAlign: "center",
+                paddingTop: "16%"
+              }}>
+                <div style={{ fontSize: "2.5rem" }}> {this.getHeadMessage()} </div>
+                <br />
+                <br />
+                <div style={{
+                  color: "black",
+                  paddingLeft: "20%", paddingRight: "20%"
+                }}> {this.getBodyMessage()}</div>
+                <br />
+                <br />
+                <div style={{ color: "black", fontSize: "1rem" }}>
+                  Questions? Contact us at
+                  <a style={{ color: "#0072CE", display: "inline-block", paddingLeft: "0.3%" }}
+                     href={"mailto:columbiavirtualcampus@gmail.com"}> columbiavirtualcampus@gmail.com.</a>
+                </div>
+                <br />
+                <br />
+                <Button
+                    style={{
+                      background: "white",
+                      border: "1px solid #FB750D",
+                      borderRadius: "10px",
+                      boxSizing: "border-box",
+                      color: "#FB750D",
+                      boxShadow: "none",
+                      paddingLeft: "10px",
+                      paddingRight: "10px"
+                    }}
+                    href={"/socialize/add-new-event"}>
+                  Add Another Event
+                </Button>
+              </div>
+            </Template>
+            <CustomFooter />
+          </div>);
 
     } else {
       return (
-        <Template title={'Add New Event'} active={"schedule"}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            {/* <Template active={'schedule'}> */}
-            <div>
+          <div style={{background: "white"}}>
+          <Template title={'Add New Event'} active={"schedule"}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              {/* <Template active={'schedule'}> */}
               <div style={{ backgroundColor: "white" }}>
                 <Container>
                   {/* <div className={classes.container} style={{ paddingTop: '85px' }}> */}
                   <Grid container spacing={10}>
-                    <Grid item xs={4}>
-                      <div style={{
-                        fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                        fontSize: "36px", lineHeight: "54px", color: "#0072CE"
-                      }}>
-                        Host a New Event
-                      </div>
-                      <div style={{
-                        fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                        fontSize: "14px", lineHeight: "21px"
-                      }}>
-                        Thank you for your interest in leading a virtual event or activity
-                        through
-                        CVC.
-                        Please fill out the following form so we can provide you with the
-                        necessary
-                        resources and appropriate platform on our website!
-                      </div>
-                      <div style={{
-                        fontFamily: "Poppins", fontStyle: "normal", fontWeight: "normal",
-                        fontSize: "14px", lineHeight: "21px", paddingTop: "66px"
-                      }}>
-                        Questions? Contact us at <br />
-                        <a href='mailto:columbiavirtualcampus@gmail.com'>columbiavirtualcampus@gmail.com</a>.
-                      </div>
-                    </Grid>
+                    <FormTitle
+                        desktop
+                        title="Add a New Event"
+                        desc="Thank you for your interest in creating a virtual event or activity through CVC.
+                     Please fill out the following form so we can provide you with the necessary resources and
+                     appropriate platform on our website!"
+                    />
                     <Grid item xs={8}>
                       <Formik
-                        initialValues={initVal}
-                        onSubmit={this.submitHandler}
-                        validationSchema={validationSchema}
+                          initialValues={initVal}
+                          onSubmit={this.submitHandler}
+                          onChange={this.updateEvent}
+                          validationSchema={validationSchema}
                       >
                         {({ dirty, isValid, errors, touched }) => {
                           return (
-                            <Form>
-                              <div style={{ margin: "15px 0" }}>
-                                <div style={{
-                                  fontFamily: "Poppins",
-                                  fontStyle: "normal",
-                                  fontWeight: "normal",
-                                  fontSize: "20px",
-                                  lineHeight: "30px",
-                                  color: "#0072CE"
-                                }}>
-                                  Contact
-                                </div>
-                                <Grid container spacing={2}>
-                                  <Grid item sm={6}>
-                                    <FormikField label="Name / Organization"
-                                      name="name"
-                                      error={errors.name}
-                                      touch={touched.name}
-                                      required/>
-                                  </Grid>
-                                  <Grid item sm={6}>
-                                    <FormikField label="Email" name="email"
-                                      error={errors.email}
-                                      touch={touched.email}
-                                      required/>
-                                  </Grid>
-                                </Grid>
-                              </div>
-
-
-                              <div style={{ margin: "15px 0" }}>
-                                <div style={{
-                                  fontFamily: "Poppins",
-                                  fontStyle: "normal",
-                                  fontWeight: "normal",
-                                  fontSize: "20px",
-                                  lineHeight: "30px",
-                                  color: "#0072CE"
-                                }}>
-                                  Event
-                                </div>
-                                <Grid container spacing={2}>
-                                  <Grid item sm={6}>
-                                    <FormikField label="Event Name" name="event"
-                                      error={errors.event}
-                                      touch={touched.event}
-                                      required/>
-                                  </Grid>
-                                  <Grid item sm={6}>
-                                    <FormikField label="Logo / Image Link (Preferred: Imgur URL)"
-                                                 name="image_link"
-                                                 error={errors.image_link}
-                                                 ref={input => this.inputElement = input}
-                                                 touch={touched.image_link}/>
-                                  </Grid>
-                                  {/*<Grid item sm={2}>*/}
-                                  {/*  /!* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> *!/*/}
-                                  {/*  /!*<FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload"/>*!/*/}
-                                  {/*</Grid>*/}
-                                </Grid>
-
-                                <Grid container spacing={2}>
-                                  <Grid item sm={12}>
-                                    <FormikField label="Event Description"
-                                      name="desc"
-                                      multiline rows="5"
-                                      error={errors.desc}
-                                      touch={touched.desc} required />
-                                  </Grid>
-                                </Grid>
-                                <Grid container spacing={2}>
-                                  <Grid item sm={3}>
-                                    <div style={{ margin: "16px 0 8px" }}>
-                                      <Field
-                                        component={DateTimePicker}
-                                        name="start_date"
-                                        label="Start Time"
-                                        required
-                                      />
-                                    </div>
-                                  </Grid>
-                                  <Grid item sm={3}>
-                                    <div style={{ margin: "16px 0 8px" }}>
-                                      <Field
-                                        component={DateTimePicker}
-                                        name="end_date"
-                                        label="End Time"
-                                        required
-                                      />
-                                    </div>
-                                  </Grid>
-                                  <Grid item sm={3}>
-
-                                    <Field
-                                      name="timezone"
-                                      label="Select Timezone"
-                                      options={optionsTZ}
-                                      component={Select}
-                                      required
-                                    />
-
-                                  </Grid>
-                                  {/*<GridItem sm={3}>*/}
-                                  {/*  <Field*/}
-                                  {/*    name="recurring"*/}
-                                  {/*    label="Select Recurring"*/}
-                                  {/*    options={[*/}
-                                  {/*      { value: "never", label: "Never" },*/}
-                                  {/*      { value: "daily", label: "Daily" },*/}
-                                  {/*      { value: "weekly", label: "Weekly" },*/}
-                                  {/*      { value: "monthly", label: "Monthly" },*/}
-                                  {/*      {*/}
-                                  {/*        value: "other_recurring",*/}
-                                  {/*        label: "Other"*/}
-                                  {/*      }*/}
-                                  {/*    ]}*/}
-                                  {/*    component={Select}*/}
-                                  {/*  />*/}
-                                  {/*</GridItem>*/}
-                                </Grid>
-                                <Grid container spacing={2}>
-                                  <Grid item sm={6}>
-                                    <FormikField label="Website / Event Link"
-                                      name="event_link"
-                                      error={errors.event_link}
-                                      touch={touched.event_link}
-                                      required />
-                                  </Grid>
-                                  <Grid item sm={6}>
-                                    <FormikField
-                                      label="Video Call / Media Link (Zoom, Twitch, etc.)"
-                                      name="invite_link" />
-                                  </Grid>
-                                </Grid>
-                                <Field
-                                  component={CheckboxWithLabel}
-                                  name="zoomLink"
-                                  Label={{ label: "Request a Zoom Pro link (Only valid if no Video Call link given)" }}
-                                  type="checkbox"
-                                  indeterminate={false}
+                              <Form onChange={this.updateEvent}>
+                                <RequiredFields
+                                    title="Event"
+                                    entryTitle="Event Name"
+                                    errors={errors}
+                                    touched={touched}
+                                    timezones={optionsTZ}
                                 />
-                                <br />
-                                <Grid container spacing={2}>
-                                  <Grid item sm={1}>
-                                    <div style={{ paddingTop: "9px" }}>Tags</div>
-                                  </Grid>
-                                  <Grid item>
-                                    <Field
-                                      component={CheckboxWithLabel}
-                                      name="activism_tag"
-                                      Label={{ label: "Activism" }}
-                                      type="checkbox"
-                                      indeterminate={false}
+                                {/* <div style={{ height: "30px" }} /> */}
+                                <ExpansionPanel>
+                                  <ExpansionPanelSummary>
+                                    <div>Advanced Options</div>
+                                  </ExpansionPanelSummary>
+                                  <ExpansionPanelDetails>
+                                    <AdvancedFields
+                                        errors={errors}
+                                        touched={touched}
+                                        fileName={this.getFileName()}
+                                        imgUpload={this.imgFileUploadHandler}
+                                        onChange={this.updateEvent}
                                     />
-                                    <Field
-                                      component={CheckboxWithLabel}
-                                      name="covid_tag"
-                                      Label={{ label: "COVID" }}
-                                      type="checkbox"
-                                      indeterminate={false}
-                                    />
-                                    <Field
-                                      component={CheckboxWithLabel}
-                                      name="social_tag"
-                                      Label={{ label: "Social" }}
-                                      type="checkbox"
-                                      indeterminate={false}
-                                    />
-                                    <Field
-                                      component={CheckboxWithLabel}
-                                      name="health_tag"
-                                      Label={{ label: "Health" }}
-                                      type="checkbox"
-                                      indeterminate={false}
-                                    />
-                                    <Field
-                                      component={CheckboxWithLabel}
-                                      name="education_tag"
-                                      Label={{ label: "Education" }}
-                                      type="checkbox"
-                                      indeterminate={false}
-                                    />
-                                  </Grid>
-                                </Grid>
-                                <Grid container spacing={2} >
-                                  <Grid item sm={12}>
-                                    <FormikField label="Other Tags (Seperate each by semicolon)"
-                                      placeholder="Separate Each Tag by Semicolon"
-                                      name="other_tags" />
-                                  </Grid>
-                                </Grid>
-                              </div>
+                                  </ExpansionPanelDetails>
+                                </ExpansionPanel>
 
-
-                              <div style={{ margin: "15px 0" }}>
-                                <div style={{
-                                  fontFamily: "Poppins",
-                                  fontStyle: "normal",
-                                  fontWeight: "normal",
-                                  fontSize: "20px",
-                                  lineHeight: "30px",
-                                  color: "#0072CE"
-                                }}>
-                                  Additional
-                                  Information
-                                </div>
-                                <Grid container spacing={2}>
-                                  <Grid item sm={12}>
-                                    <FormikField label="Comments" name="comments"
-                                      multiline
-                                      rows="5" error={errors.comments}
-                                      touch={touched.comments} />
-                                  </Grid>
-                                </Grid>
-                                <div>
+                                <div style={{ margin: '15px 0 0 0' }}>
                                   By hosting an event you agree to the <a
                                     href="https://bit.ly/events-policy-docs"
                                     target="_blank">Columbia Events Policy</a>.
                                 </div>
                                 <Field
-                                  component={CheckboxWithLabel}
-                                  name="agree"
-                                  Label={{ label: "I agree to the Columbia Events Policy" }}
-                                  type="checkbox"
-                                  indeterminate={false}
-                                  required
+                                    component={CheckboxWithLabel}
+                                    name="agree"
+                                    Label={{ label: "I agree to the Columbia Events Policy." }}
+                                    type="checkbox"
+                                    indeterminate={false}
+                                    color="default"
                                 />
-                              </div>
+                                <SubmitButton />
 
-                              <Grid container spacing={2}>
-                                <Grid item sm={3}>
-                                  <Button
-                                    style={{
-                                      background: "white",
-                                      border: "1px solid #FB750D",
-                                      borderRadius: "10px",
-                                      boxSizing: "border-box",
-                                      color: "#FB750D",
-                                      boxShadow: "none",
-                                      width: "100%"
-                                    }}
-                                    type="submit">
-                                    Submit
-                                  </Button>
-                                </Grid>
-                              </Grid>
-                            </Form>
-                          );
+                              </Form>
+                          )
                         }}
                       </Formik>
                     </Grid>
-                  </Grid>
+                  </Grid >
                   <div style={{ marginBottom: "50px" }} />
                   {/* </div> */}
                 </Container>
               </div>
-
-
-            </div>
-
-            {/* </Template > */}
-          </MuiPickersUtilsProvider>
-        </Template>
+              {/* </Template > */}
+            </MuiPickersUtilsProvider>
+            <Container>
+              <h3 style={{ color: "#0072CE", display: "inline" }}>
+                <span style={{ display: "block" }}>Preview of Your Event</span>
+                <div style={{ color: "#0072CE", display: "inline", fontSize: "12px" }}>
+                  Date/Time is not updated in previews:
+                </div>
+              </h3>
+              <br />
+              <Grid >
+                <div style={{ marginBottom: "5%" }}>
+                  <h3 style={{ textAlign: "left", color: "#F1945B", fontSize: "20px", fontWeight: 100 }}> {this.getMonthName()} {date.getFullYear()}</h3>
+                  <div style={{ color: "#F1945B", backgroundColor: "#F1945B", height: 3 }} />
+                  <EventCardDesktop ele={this.getSampleEvent()} key={0} />
+                </div>
+              </Grid>
+            </Container>
+          </Template>
+          <CustomFooter />
+          </div>
 
       );
     }

@@ -4,9 +4,9 @@ import Fade from "@material-ui/core/Fade";
 import classNames from "classnames";
 import Button from "../material-kit-components/CustomButtons/Button";
 import Modal from "@material-ui/core/Modal";
-import React from "react";
+import React, { useState } from "react";
 import { cardTitle } from "../../assets/material-kit-assets/jss/material-kit-react";
-import {CustomTheme, AddCalendar} from "../";
+import {CustomTheme, AddCalendar, EmailEvent} from "../";
 const theme = CustomTheme;
 
 const formatTime = function(hours, min) {
@@ -140,22 +140,30 @@ export default function EventModal({open, closeDo, event}) {
                         }
                         {!event.event_link && <div style={{marginLeft:5}}/>}
                     </div>
-                    <div style={{ color: "#4284C8", marginBottom: 5, flexDirection: 'row', display:'flex' }}>
+                    {/* <div style={{ color: "#4284C8", marginBottom: 5, flexDirection: 'row', display:'flex' }}>
                         <div style={{fontSize:15}}><strong>Event Link: </strong></div>
                         {event.invite_link &&
                         <div style={{marginLeft:5}}>
                             <a href={event.invite_link} target={'_blank'} rel="noopener noreferrer"
                                style={{ color: "#4284C8", textDecoration: 'underline' }}>Attend</a>
-                        </div>
+                        </div> 
                         }
                         {!event.invite_link && <div style={{marginLeft:5}}>TBA</div>}
-                    </div>
+                    </div> */}
                     <p style={{color:"#4284C8"}}>{event.desc}</p>
                     <p style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
                         <strong>Hosted By: </strong> {event.name}
                     </p>
+
+                    {/* <p style={{color:"#4284C8", marginBottom: 5, marginTop: 20}}>
+                        <strong>Submit your .edu email to receive event link and details: </strong>
+                    </p>
+                    <CustomInput labelText="Email"/>
+                    <CustomButton text="Send" style={{marginTop: 20, marginLeft: 10, width: 80, height: 40}} size={"small"}/> */}
+                    <EmailEvent event={event} isModal={false} />
+
                     <div style={{color:"#4284C8", marginBottom: 5, marginTop: 10}}>
-                        <strong><AddCalendar info={event}/> </strong>
+                        <strong><AddCalendar info={event} /> </strong>
                     </div>
                 </div>
             </Fade>

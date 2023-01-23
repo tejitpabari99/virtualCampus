@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "columbia-virtual-campus",
+  "private_key_id": "d233d8915eba38e8474a75ae06b8e7f5bfab7e83",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDFFUS+LxFyqq8R\nPF2Vj7hDunvijEh4pOqa1AHh7T5KVEMO2OPzZyp0gYtge8Qf/c2zPvegNb9/cOpP\nT6vlCbcUParsZZObGY4/0hGK8WdwBXtk9CZBT2ATkcLSf01UMBbaZrcwsQB8iwEA\nVRh8Scwqxwn/AsGjSC+qtOXEDq3vRmc3MWGgpE+3+qf/Pa0kH9qhBtdYbKoSsqDa\nIf7OZoFeWnjj0N/7yWJ9FDnbeMSc+kHnn1I+O56KSkuyUZqPEeOrHsHmPa+5XDMY\n6GJqDGTvdXAdAhFz99/7+zfj4CEJAUje+QEi409nb1pN9tx6DwR6P1YJIPtAFqPE\nRtooiD9LAgMBAAECggEARxr2U1uuAt38Dc7mwNg6lg0JN2J/ny95CWVmTHoJGE4w\nZ4HvNFlLYv9+JtBgoV4zwfD87IuXzMYTc4v+K8OGj0H0khfP2oys2u/SrnuMY0lH\nDNRdnQCjXEwhq0qMvswe4qteeq3RzB1mvhT1oZoKlIB9Zck7zcp0kDV2FHdrX8E2\niPVd8s9NcozpO4TYuOIBv5uOrXlsBEco3cx/aEy8VbUyev0VtYjPOwipmu6NJ/IF\nYpnyfNryMQAAsFwmcXy1f1Fjo2wWyv1cFPD6tidJB5MJ6a++gBsu5aaH/QzBvnaU\nf1mHm5DkR1ZJohOKlreuQAWKU+/62KGnBfjbLPGk2QKBgQD+5fan76i2MM9fzKL3\nEPWAO7EVMC1l10KlT21ptIN0aPoEJWyrN8b+mY+tLtWMWCK3EhvtGPvOWLTEq5JO\n6ierqKCgnIR0UfNhAN3c8sGpus6q3eHxHg3PsCURGBoh/MVBJBgmT2lReDoZJs0q\n9EnuGQ4+q8rbn70MyZTajVdHRQKBgQDF71Wb/dFno797VsEULzh8cIQKOyDF3WeX\nGhd+dCB5n1dWexM0AwxaeJqpacI3TMlz+5OlKqWr4ZJkGyADdzwlPFo3zIk8BS0W\nn9dV//Kvhmowb1zXT3RBzx4qIpty+prc2ILTCmJ9FP+QjYoRCKyIVchWi3HJ0/0L\nwCJmnVvNTwKBgQDglKDDygZtr4emslgLMuf6+ZzGPFJjXkub9uVBswf3Mt7FdGvQ\nVy5+97F9Nrx0ENtVTSFJvy9s2P88IKah3PDi74nGuOCC1AmJOAhCOaij8LFSHniJ\nxp8Ik/u0mfW8aEcrY6/bYTA71Z/qtSMja2UP4QeJ9DahVpZsg9cg0FNLuQKBgQC1\nDtpDyCk+YaZtv4z81rkX86CE71NqS75PlRl6neV6+4vb2tdVE5jARWRMpiZ3iXEZ\n/D4xrtI/aScNFVbydKZ69TsdoabDVYTKFkrXKzqm3xDR33yQo+iXrktMhb2mrqDs\ndc0uGWjAPG4On7p1HHcee0G4EPR0h8sIbafKMBVitwKBgGZ4VMwzChSuqI2Fl14D\nHXfJ4YLsI/KMOkiVolZ2BqQjamT0x9eJ8L/0xtfLtSR1079rOgmg5b0D6HSQcdXq\noQ9VVIOtY2W/5mAR/9Q//QZiIprZkFnUeGBnQhy2Osb1ZcDf7rN8x8MTw4liHnPk\nrTwC/38QAXU5Mx81jS/YTAlw\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-xtnyd@columbia-virtual-campus.iam.gserviceaccount.com",
+  "client_id": "111024455205946411291",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-xtnyd%40columbia-virtual-campus.iam.gserviceaccount.com"
+}

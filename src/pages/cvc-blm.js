@@ -81,7 +81,7 @@ class cvcBlm extends React.Component {
 
     // this.fetchDonationCompletedData();
     this.fetchData();
-    this.myRef = React.createRef()  
+    this.myRef = React.createRef()
   };
 
   async fetchDonationCompletedData() {
@@ -175,7 +175,7 @@ class cvcBlm extends React.Component {
       distance: 1000,
       keys: ['desc', 'subject', 'name']
     };
-
+    console.log(this.state.tutorSearchOrg);
     const fuse = new Fuse(this.state.tutorSearchOrg, options);
     const output = fuse.search(val);
     const tutorSearch = [],
@@ -205,28 +205,12 @@ class cvcBlm extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <Template active={"cvc-blm"} title={"#BLM"} style={{padding:0}}>
+      <Template active={"cvc-blm"} title={"#BLM"} styleContainer={{paddingLeft:0, paddingRight:0}}>
         <Helmet>
           <meta property="og:title" content="Columbia Virtual Campus #BLM" />
           <meta property="og:url" content="http://columbiavirtualcampus.com/cvc-blm" />
           <meta property="og:description" content="Support the Black Community" />
         </Helmet>
-        <div style={{ marginBottom: 20, width: '100%' }}>
-          {
-            this.state.donationCompleted !== 0 &&
-            <div style={{ maxWidth: "70%", marginLeft: "auto", marginRight: "auto", }}>
-              <Heading color={"blue"} style={{ marginTop: "10px" }}>
-                Donation Received
-              </Heading>
-              <div style={{ display: 'inline' }}>
-                <LinearProgress variant="determinate" value={this.state.donationCompleted}
-                                style={{ width: '90%', display: 'inline-block', marginRight: 10, verticalAlign: 'middle' }} />
-                <span>${this.state.donationReceived} of {this.state.donationGoal}</span>
-              </div>
-
-            </div>
-          }
-        </div>
 
         <div style={{ backgroundColor: "black", paddingTop: "40px", paddingBottom: "60px" }}>
           <Title color={"blue"}>#BLM</Title>
@@ -311,14 +295,14 @@ class cvcBlm extends React.Component {
             </GridItem>
           </GridContainer>
         </div>
-        <div style={{background:`url(${Group66}) no-repeat`, width:"100%", backgroundSize:"100%",}}> 
+        <div style={{background:`url(${Group66}) no-repeat`, width:"100%", backgroundSize:"100%",}}>
           <GridContainer style={{marginTop: 0, marginBottom: 0}}>
             <GridItem xs={2}></GridItem>
             <GridItem xs={2} style={{paddingLeft: 0, paddingRight: 0}}>
               <Subtitle color={"black"} style={{fontSize:'max(1.5vw,12px)'}}>total donations</Subtitle>
             </GridItem>
             <GridItem xs={3} style={{paddingLeft: 0, paddingRight: 0}}>
-              <Title color={"black"} style={{marginBottom:"20px", fontSize:'max(4vw,28x)'}}>$600</Title>
+              <Title color={"black"} style={{marginBottom:"20px", fontSize:'max(4vw,28x)'}}>$1100</Title>
             </GridItem>
             <GridItem xs={2} style={{paddingLeft: 0, paddingRight: 0}}>
               <Subtitle color={"black"}  style={{fontSize:'max(1.5vw,12px)'}}>and counting!</Subtitle>

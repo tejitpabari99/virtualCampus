@@ -1,357 +1,83 @@
-// TODO: Add link to this form
+import React from "react"
+import { isMobile, isTablet, isEdge, isIE } from "react-device-detect";
+import ResourceFormDesktop from "../../components/resources/form/ResourceFormDesktop";
+import ResourceFormMobile from "../../components/resources/form/ResourceFormMobile";
 
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
+class Index extends React.Component {
 
-import FormikField from "../../components/FormikField/FormikField"
-// import "../components/form.css"
-import { CheckboxWithLabel } from 'formik-material-ui';
-//import { CheckboxWithLabel, SimpleFileUpload } from 'formik-material-ui';
-import FileUploadBtn from "../../components/FormikField/FileUploadBtn"
-import Button from '@material-ui/core/Button';
+  constructor(props) {
+    super(props);
+    this.state = { width: 0, height: -1 };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
 
-import Grid from '@material-ui/core/Grid';
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
 
-import classNames from "classnames";
-import { makeStyles } from "@material-ui/core/styles";
-import styles from "../../assets/material-kit-assets/jss/material-kit-react/views/landingPage.js";
-import { CustomHeader } from "../../components"
-import Container from '@material-ui/core/Container';
-import firebase from "../../firebase";
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
 
-import Categories from "../../components/resources/FormCategories"
-const MainCategories = Categories.FormCategories;
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
 
-const useStyles = makeStyles(styles);
-const manualSt = makeStyles(() => ({
-    toAll: {
-        fontFamily: 'Poppins',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        // marginBottom: '12px'
-    },
-    title: {
-        fontSize: '36px',
-        lineHeight: '54px',
-        color: '#0072CE',
-        width: '435px',
-        height: '66px',
-        left: '55px',
-        top: '101px',
-    },
-    subtitle: {
-        fontSize: '20px',
-        lineHeight: '30px',
-        color: '#0072CE',
-        width: '243px',
-        height: '30px',
-        left: '584px',
-        top: '114px',
-    },
-    detail: {
-        width: '400px',
-        height: '63px',
-        left: '55px',
-        color: '#000000',
-        fontSize: '14px',
-        lineHeight: '21px',
-    },
-    section: {
-        margin: '15px 0'
-    },
-    uploadBtn: {
-        right: '5.42%',
-        top: '25.72%',
-        bottom: '70.59%',
-        borderRadius: '10px',
-        boxSizing: "border-box",
-        color: '#0072CE !important',
-        border: "1px solid #0072CE",
-        "&:hover,&:focus": {
-            color: 'white !important',
-            backgroundColor: '#0072CE',
-            boxShadow: "0 14px 26px -12px #0072CE50"
-        },
-        fontSize: 'min(2vw, 15px)',
-        padding: "1vh min(2vw,20px)",
-        margin: "1vh 0 0 0",
-        willChange: "box-shadow, transform",
-        transition:
-            "box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
-        textAlign: "center",
-        whiteSpace: "nowrap",
-        verticalAlign: "middle",
-        touchAction: "manipulation",
-        cursor: "pointer",
-        background: "#FFFFFF",
-        width: "121px",
-        height: "36px",
-        marginLeft: '-10px',
-        marginTop: '16px'
-    },
-    formField: {
-        fontSize: '14px',
-        lineHeight: '21px',
-    },
-    submitBtn: {
-        borderRadius: '10px',
-        width: "100%",
-        color: '#FB750D !important',
-        boxSizing: "border-box",
-        border: "1px solid #FB750D",
-        "&:hover,&:focus": {
-            color: 'white !important',
-            backgroundColor: '#F1945B',
-            boxShadow: "0 14px 26px -12px #FB750D50"
-        },
-        fontSize: 'min(2vw, 15px)',
-        padding: "1vh min(2vw,15px)"
-    },
-    categoryBtn: {
-        right: '25px',
-        borderRadius: '10px',
-        color: '#0072CE !important',
-        border: "1px solid #0072CE",
-        "&:hover,&:focus": {
-            color: 'white !important',
-            backgroundColor: '#0072CE',
-            boxShadow: "0 14px 26px -12px #0072CE50"
-        },
-        fontSize: 'min(1vw, 12px)',
-        textTransform: 'none',
-        marginLeft: '12px'
-    },
-    dot: {
-        fontSize: '16pt',
-        color: '#FD6464',
-        borderRadius: '50%',
-        position: 'absolute',
-        width: '5px',
-        height: '5px',
-        marginLeft: '16px',
-        paddingTop: '5px'
-    },
-}));
+  // TODO: Remove duplicate code in HomeDesktop.js and HomeMobile.js
+  render() {
 
-// set an init value first so the input is "controlled" by default
-const initVal = {
-    name: '',
-    email: '',
-    project_name: '',
-    desc: '',
-    image_file: '',
-    image_link: '',
-    project_link: '',
-    comments: '',
-    category: '',
-    needs: '',
-    career: '',
-    covid: '',
-    health: '',
-    social: '',
-    other_tag: '',
-    agree: '',
-};
-
-const validationSchema = Yup.object().shape({
-    name: Yup.string()
-        .min(5, 'Too Short')
-        .required('Required'),
-    email: Yup.string()
-        .email('Please enter a valid email address')
-        .required('Required'),
-    project_link: Yup.string()
-        .url('Please enter a valid URL')
-        .required('Required'),
-    project_name: Yup.string()
-        .required('Required'),
-    desc: Yup.string()
-        .required('Required')
-        .max('250', "Please enter less than 250 characters"),
-    agree: Yup.boolean('True')
-        .required()
-
-});
-
-const AddResource = (props) => {
-    const classes = useStyles();
-    const manual = manualSt();
-
-    const submitHandler = (values) => {
-        let vals = JSON.stringify(values);
-        console.log(vals);
-        console.log(values);
-        alert(vals);
-
-        if (values['file'] != '') {
-            uploadImage(values);
-        }
-        else {
-            uploadData(values);
-        }
-    };
-
-    // upload to firebase here
-    function uploadData(values) {
-        var db = firebase.firestore();
-        var path = values["valueHash"];
-        var newResourceRef = db.collection("resources");
-        console.log(values);
-    }
-
-    function uploadImage(values) {
-        const r = new XMLHttpRequest();
-        const d = new FormData();
-        // const e = document.getElementsByClassName('input-image')[0].files[0]
-        // var u
-        const clientID = 'df36f9db0218771';
-
-        d.append('image', values["file"]);
-
-        // Boilerplate for POST request to Imgur
-        r.open('POST', 'https://api.imgur.com/3/image/');
-        r.setRequestHeader('Authorization', `Client-ID ${clientID}`);
-        r.onreadystatechange = function () {
-            if (r.status === 200 && r.readyState === 4) {
-                let res = JSON.parse(r.responseText);
-                // this is the link to the uploaded image
-                let imgur = `https://i.imgur.com/${res.data.id}.png`;
-
-                values["file"] = imgur;
-                uploadData(values);
-            }
-        };
-        // send POST request to Imgur API
-        r.send(d);
-    }
-
-    return (
+    if (this.state.height === -1) {
+      return (
         <div>
-            <CustomHeader active={'resources'} brand={"VIRTUAL CAMPUS"}></CustomHeader>
-            <div className={classNames(classes.mainOther, manual.main)}>
-                <Container maxWidth='lg' style={{ paddingTop: '76px' }}>
-                    <Grid container spacing={10}>
-                        <Grid item xs={4}>
-                            <div className={classNames(manual.toAll, manual.title)}>Add a New Resource</div>
-                            <div className={classNames(manual.toAll, manual.detail)}>
-                                Thank you for your interest in sharing your project through CVC.
-                                Please fill out the following form so we can thoroughly promote your resource on our website!
-                            </div>
-                            <div className={classNames(manual.toAll, manual.detail)} style={{ paddingTop: '87px' }}>
-                                Questions? Contact us at: <a style={{ textAlign: "center", color: "#4284C8" }}
-                                    href={"mailto:columbiavirtualcampus@gmail.com"}>columbiavirtualcampus@gmail.com</a>.
-                            </div>
-                        </Grid>
+          <ResourceFormDesktop />
+        </div>
+      );
+    }
+    {/* For mobile's screen orientation update */ }
+    const isLandscape = this.state.width > this.state.height;
 
-                        <Grid item xs={8}>
-                            <Formik initialValues={initVal} onSubmit={submitHandler} validationSchema={validationSchema}>
-                                {({ dirty, isValid, errors, touched }) => {
-                                    return (
-                                        <Form>
-                                            <div className={manual.section}>
-                                                <div className={classNames(manual.toAll, manual.subtitle)}>Contact</div>
-                                                <Grid container spacing={2}>
-                                                    <Grid item sm={6}>
-                                                        <FormikField label="Name / Organization" name="name" error={errors.name} touch={touched.name} required ></FormikField>
-                                                    </Grid>
-                                                    <Grid item sm={6}>
-                                                        <div>
-                                                            <FormikField label="Email" name="email" error={errors.email} touch={touched.email} required ></FormikField>
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                            </div>
+    {/* If Tablet:
+            If in portrait, do mobile component
+            else render desktop
+            */}
+    if (isTablet) {
+      if (isLandscape) {
+        return (
+          <div>
+            <ResourceFormDesktop />
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <ResourceFormMobile />
+          </div>
+        );
+      }
 
-                                            <div className={manual.section}>
-                                                <div className={classNames(manual.toAll, manual.subtitle)} style={{ marginTop: '30px' }}>Resource</div>
-                                                <Grid container spacing={2}>
-                                                    <Grid item sm={6}>
-                                                        <FormikField label="Project Name" name="project_name" error={errors.project_name} touch={touched.project_name} required ></FormikField>
-                                                    </Grid>
-                                                    <Grid item sm={4}>
-                                                        <div>
-                                                            <FormikField label="Logo / Image Link" name="image_link" error={errors.image_link} touch={touched.image_link}></FormikField>
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item sm={2}>
-                                                        {/* <Field component={SimpleFileUpload} name="file" className="input-image" label="Image Upload" /> */}
-                                                        <FileUploadBtn text="Upload" name='file' label='Image Upload' id="fileUpload" />
-                                                    </Grid>
-                                                </Grid>
 
-                                                <Grid container>
-                                                    <Grid item sm={12}>
-                                                        <FormikField label="Description" name="desc" multiline rows="4" error={errors.desc} touch={touched.desc} required />
-                                                    </Grid>
-                                                </Grid>
-                                                <Grid container>
-                                                    <Grid item sm={12}>
-                                                        <FormikField label="Project Link" name="project_link" error={errors.project_link} touch={touched.project_link} required />
-                                                    </Grid>
-                                                </Grid>
-                                                <br />
+      {/* For mobile component : IE or Edge must go to mobile since they do not support all css */ }
+    } else if (isMobile || (isLandscape === false && this.state.height > 700) || isIE || isEdge) {
+      return (
+        <div>
+          <ResourceFormMobile />
+        </div>
+      );
 
-                                                <Grid container>
-                                                    <Grid item sm={2}>
-                                                        <div className={manual.dot}>•</div>
-                                                        <div style={{ marginLeft: '35px', paddingTop: '5px', height: '15px', width: '70px' }}>Category</div>
-                                                    </Grid>
-                                                    <Grid item sm={7}>
-                                                        <div className="buttons">
-                                                            {Object.keys(MainCategories).map(category => {
-                                                                return (
-                                                                    <Button name="category" className={classNames(manual.toAll, manual.categoryBtn)}>{MainCategories[category]['title']}</Button>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item sm={3}>
-                                                        <div style={{ marginTop: '-20px' }}>
-                                                            <FormikField label="Other" name="other_tag"></FormikField>
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                            </div>
 
-                                            <div className={manual.section} style={{ marginTop: '30px' }}>
-                                                <div>
-                                                    By adding a resource, you agree to the <a style={{ textAlign: "center", color: "#4284C8" }}
-                                                        href="https://policylibrary.columbia.edu/acceptable-usage-information-resources-policy" target="_blank">
-                                                        Columbia Resources Policy</a>.
-                                                </div>
-                                                <Field
-                                                    component={CheckboxWithLabel}
-                                                    name="agree"
-                                                    Label={{ label: 'I agree to the Columbia Resources Policy.' }}
-                                                    type="checkbox"
-                                                    indeterminate={false}
-                                                    required
-                                                />
-                                            </div>
+      {/* Else: desktop: isBrowser
+            If screen is full size and not weirdly shape: render desktop version
+            Else render mobile version (see above)
+            */}
+    } else {
+      return (
+        <div>
+          <ResourceFormDesktop />
+        </div>
+      );
+    }
+  }
+}
 
-                                            <Grid container>
-                                                <Grid item sm={3}>
-                                                    <Button
-                                                        className={manual.submitBtn}
-                                                        disabled={!isValid}
-                                                        type="submit">
-                                                        Submit
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </Grid>
-                    </Grid>
-                    <div style={{ marginBottom: "50px" }} />
-                    {/* </div> */}
-                </Container>
-            </div>
-        </div >
-    );
-};
-
-export default AddResource;
+export default Index;
